@@ -1,0 +1,32 @@
+[
+  {
+    "id": 0,
+    "name": "sydney",
+    "address": "24/32-38 Belmore Road, Punchbowl NSW 2196",
+    "openHours": {
+      "warehouse": ["07:00 am - 05:00 pm"],
+      "offieceHours": ["08:30 am - 05:00 pm"]
+    },
+    "locationUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3310.2458662967265!2d151.0539136765568!3d-33.93480392248197!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b12b95706417523%3A0x2917ff2f4fc0857a!2s24%2F32%20Belmore%20Rd%2C%20Punchbowl%20NSW%202210%2C%20Australia!5e0!3m2!1sen!2sph!4v1725347371045!5m2!1sen!2sph"
+  },
+  {
+    "id": 0,
+    "name": "melbourne",
+    "address": "34/49 McArthurs Rd Altona North VIC 3025",
+    "openHours": {
+      "warehouse": ["07:00 am - 05:00 pm"],
+      "offieceHours": ["08:30 am - 05:00 pm"]
+    },
+    "locationUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.0037429959953!2d144.83616617660223!3d-37.83679823535605!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad6610fbff858c7%3A0x401e773a13ef5442!2sUnit%2034%2F49%20McArthurs%20Rd%2C%20Altona%20North%20VIC%203025%2C%20Australia!5e0!3m2!1sen!2sph!4v1725606203120!5m2!1sen!2sph"
+  },
+  {
+    "id": 0,
+    "name": "brisbane",
+    "address": "3/22 Spine St Sumner QLD 4074",
+    "openHours": {
+      "warehouse": ["07:00 am - 05:00 pm"],
+      "offieceHours": ["08:30 am - 05:00 pm"]
+    },
+    "locationUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3310.2458662967265!2d151.0539136765568!3d-33.93480392248197!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b12b95706417523%3A0x2917ff2f4fc0857a!2s24%2F32%20Belmore%20Rd%2C%20Punchbowl%20NSW%202210%2C%20Australia!5e0!3m2!1sen!2sph!4v1725347371045!5m2!1sen!2sph"
+  }
+]
