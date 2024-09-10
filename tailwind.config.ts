@@ -46,10 +46,9 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        homeArealShot:
-          "url('http://localhost:1337/uploads/Solar_Home_Aerial_Shot_44d9532c89.jpg')",
+        homeArealShot: "url('/images/background/Solar-Home-Aerial-Shot.jpg')",
         customerChatSolPlanet:
-          "url('http://localhost:1337/uploads/AES_Customer_Chat_w_Solplanet_fca8217c14.jpg')",
+          "url('/images/background/AES-Customer-Chat-w-Solplanet.jpg')",
       },
       clipPath: {
         "left-10": "polygon(0 0, 100% 0, 100% 100%, 10% 100%);",
