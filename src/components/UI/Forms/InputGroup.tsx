@@ -6,19 +6,21 @@ interface InputGroupProps {
   required?: boolean;
   placeholder?: string;
   inputType: "TEXT" | "TEXTAREA" | "NUMBER" | "TEL" | "EMAIL";
+  className?: string;
 }
 
 const InputGroup: React.FC<InputGroupProps> = (props) => {
   return (
-    <div className="input-group flex flex-col gap-1">
+    <div className={`input-group flex flex-col gap-1 ${props.className}`}>
       <label htmlFor={props.name} id={props.name} className="text-white">
         {props.label}
         {props.required && <span className="text-red-500">*</span>}
       </label>
+
       {props.inputType === "TEXT" && (
         <input
           type="text"
-          className="text-sm p-2 rounded-sm overflow-hidden"
+          className="text-sm p-2 rounded-sm overflow-hidden w-full"
           placeholder={props.placeholder}
           name={props.name}
           required={props.required}
@@ -35,7 +37,7 @@ const InputGroup: React.FC<InputGroupProps> = (props) => {
       {props.inputType === "NUMBER" && (
         <input
           type="number"
-          className="text-sm p-2 rounded-sm overflow-hidden"
+          className="text-sm p-2 rounded-sm overflow-hidden w-full"
           placeholder={props.placeholder}
           name={props.name}
           required={props.required}
@@ -45,7 +47,7 @@ const InputGroup: React.FC<InputGroupProps> = (props) => {
       {props.inputType === "EMAIL" && (
         <input
           type="email"
-          className="text-sm p-2 rounded-sm overflow-hidden"
+          className="text-sm p-2 rounded-sm overflow-hidden w-full"
           placeholder={props.placeholder}
           name={props.name}
           required={props.required}
@@ -55,7 +57,7 @@ const InputGroup: React.FC<InputGroupProps> = (props) => {
       {props.inputType === "TEL" && (
         <input
           type="tel"
-          className="text-sm p-2 rounded-sm overflow-hidden"
+          className="text-sm p-2 rounded-sm overflow-hidden w-full"
           placeholder={props.placeholder}
           name={props.name}
           required={props.required}

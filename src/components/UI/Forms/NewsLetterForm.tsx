@@ -15,8 +15,8 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = (props) => {
           <h1
             style={firaSansFont.style}
             className="
-            font-bold
-            text-[18px] 
+            font-bold text-base 
+            md:text-[18px] 
           "
           >
             Newsletter Sign Up
@@ -32,7 +32,7 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = (props) => {
         </div>
         <div
           className="
-            right w-[54%] h-full clip-path-left-20
+            right w-[54%] h-full clip-path-left-30
             md:w-[60%] md:clip-path-left-20
             lg:clip-path-left-10
           "
@@ -53,13 +53,28 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = (props) => {
       >
         <div className="inputs-container grid gap-5 grid-cols-4 md:p-10">
           <div className="col-span-2">
-            <InputGroup name="name" label="Name" inputType="TEXT" />
+            <InputGroup
+              name="name"
+              label="Name"
+              inputType="TEXT"
+              className="lg:flex-row items-center gap-3"
+            />
           </div>
           <div className="col-span-2">
-            <InputGroup name="company" label="Company" inputType="TEXT" />
+            <InputGroup
+              name="company"
+              label="Company"
+              inputType="TEXT"
+              className="lg:flex-row items-center gap-3"
+            />
           </div>
           <div className="col-span-4 md:col-start-2 md:col-span-2">
-            <InputGroup name="email" label="E-mail" inputType="TEXT" />
+            <InputGroup
+              name="email"
+              label="E-mail"
+              inputType="TEXT"
+              className="lg:flex-row items-center gap-3 text-nowrap"
+            />
           </div>
         </div>
 
@@ -71,7 +86,7 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = (props) => {
           </Link>
           .
         </p>
-        <button className="min-w-[50%] m-auto font-bold py-1 px-5 bg-yellow-aes-yellow rounded-sm overflow-hidden">
+        <button className="min-w-[30%] m-auto font-bold py-1 px-5 bg-yellow-aes-yellow rounded-sm overflow-hidden">
           Register Now
         </button>
       </form>
