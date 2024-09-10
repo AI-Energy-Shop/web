@@ -52,7 +52,14 @@ const config: Config = {
       },
       clipPath: {
         "left-10": "polygon(0 0, 100% 0, 100% 100%, 10% 100%);",
-        "left-25": "polygon(0 0, 100% 0, 100% 100%, 24% 100%);",
+        "left-20": "polygon(0 0, 100% 0, 100% 100%, 20% 100%);",
+        "left-30": "polygon(0 0, 100% 0, 100% 100%, 30% 100%);",
+        "left-40": "polygon(0 0, 100% 0, 100% 100%, 40% 100%);",
+        "left-50": "polygon(0 0, 100% 0, 100% 100%, 50% 100%);",
+        "left-60": "polygon(0 0, 100% 0, 100% 100%, 60% 100%);",
+        "left-70": "polygon(0 0, 100% 0, 100% 100%, 70% 100%);",
+        "left-80": "polygon(0 0, 100% 0, 100% 100%, 80% 100%);",
+        "left-90": "polygon(0 0, 100% 0, 100% 100%, 90% 100%);",
 
         "right-30": "polygon(0 0, 100% 0, 30% 100%, 0% 100%)",
         "right-40": "polygon(0 0, 100% 0, 40% 100%, 0% 100%)",
@@ -96,9 +103,31 @@ const config: Config = {
         ".clip-path-left-10": {
           clipPath: "polygon(0 0, 100% 0, 100% 100%, 10% 100%)",
         },
-        ".clip-path-left-25": {
-          clipPath: "polygon(0 0, 100% 0, 100% 100%, 24% 100%)",
+        ".clip-path-left-20": {
+          clipPath: "polygon(0 0, 100% 0, 100% 100%, 20% 100%)",
         },
+        ".clip-path-left-30": {
+          clipPath: "polygon(0 0, 100% 0, 100% 100%, 30% 100%)",
+        },
+        ".clip-path-left-40": {
+          clipPath: "polygon(0 0, 100% 0, 100% 100%, 40% 100%)",
+        },
+        ".clip-path-left-50": {
+          clipPath: "polygon(0 0, 100% 0, 100% 100%, 50% 100%)",
+        },
+        ".clip-path-left-60": {
+          clipPath: "polygon(0 0, 100% 0, 100% 100%, 60% 100%)",
+        },
+        ".clip-path-left-70": {
+          clipPath: "polygon(0 0, 100% 0, 100% 100%, 70% 100%)",
+        },
+        ".clip-path-left-80": {
+          clipPath: "polygon(0 0, 100% 0, 100% 100%, 80% 100%)",
+        },
+        ".clip-path-left-90": {
+          clipPath: "polygon(0 0, 100% 0, 100% 100%, 90% 100%)",
+        },
+
         ".clip-path-right-30": {
           clipPath: "polygon(0 0, 100% 0, 30% 100%, 0% 100%)",
         },
