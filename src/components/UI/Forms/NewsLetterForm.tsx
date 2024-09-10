@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import InputGroup from "./InputGroup";
 import { subscribeToNews } from "@/app/actions/mail";
+import { firaSansFont } from "@/assets/fonts/fonts";
 
 interface NewsLetterFormProps {}
 
@@ -11,25 +12,37 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = (props) => {
     <div className="w-full h-auto rounded-xl overflow-hidden">
       <div className="w-full h-[80px] flex items-center bg-gradient-to-b from-[#f9ac0a] to-[#f06039]">
         <div className="left w-[50%] md:lg:w-[40%] pl-5">
-          <h1 className="font-bold">Newsletter Sign Up</h1>
-          <p className="font-semibold text-xs">
+          <h1
+            style={firaSansFont.style}
+            className="
+            font-bold
+            text-[18px] 
+          "
+          >
+            Newsletter Sign Up
+          </h1>
+          <p
+            className="
+            font-semibold text-xs
+            md:text-base md:font-normal
+          "
+          >
             Keep up to date with our latest news and offers
           </p>
         </div>
         <div
-          style={{ clipPath: "polygon(0% 0, 100% 0, 100% 100%, 5% 100%)" }}
           className="
-            // right w-[54%] h-full clip-path-left-25
-            // md:lg:w-[60%] md:clip-path-polygon10
+            right w-[54%] h-full clip-path-left-20
+            md:w-[60%] md:clip-path-left-20
+            lg:clip-path-left-10
           "
         >
           <div className="w-full h-full relative overflow-hidden">
             <Image
-              width={1000}
-              height={1000}
+              fill
               alt="keyboard-typing"
               src="/images/keyboard-typing-closeup.jpg"
-              className="w-full h-full absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] object-cover"
+              className="w-auto h-auto object-cover"
             />
           </div>
         </div>
