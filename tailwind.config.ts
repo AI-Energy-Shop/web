@@ -54,6 +54,8 @@ const config: Config = {
         "left-10": "polygon(0 0, 100% 0, 100% 100%, 10% 100%);",
         "left-25": "polygon(0 0, 100% 0, 100% 100%, 24% 100%);",
 
+        "right-30": "polygon(0 0, 100% 0, 30% 100%, 0% 100%)",
+        "right-40": "polygon(0 0, 100% 0, 40% 100%, 0% 100%)",
         "right-50": "polygon(0 0, 100% 0, 50% 100%, 0% 100%)",
         "right-60": "polygon(0 0, 100% 0, 60% 100%, 0% 100%)",
         "right-70": "polygon(0 0, 100% 0, 70% 100%, 0% 100%)",
@@ -96,6 +98,12 @@ const config: Config = {
         },
         ".clip-path-left-25": {
           clipPath: "polygon(0 0, 100% 0, 100% 100%, 24% 100%)",
+        },
+        ".clip-path-right-30": {
+          clipPath: "polygon(0 0, 100% 0, 30% 100%, 0% 100%)",
+        },
+        ".clip-path-right-40": {
+          clipPath: "polygon(0 0, 100% 0, 40% 100%, 0% 100%)",
         },
         ".clip-path-right-50": {
           clipPath: "polygon(0 0, 100% 0, 50% 100%, 0% 100%)",

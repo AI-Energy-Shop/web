@@ -1,17 +1,40 @@
 import { firaSansFont, muktaVaani } from "@/assets/fonts/fonts";
 import React from "react";
 import Spacer from "../Spacer";
-
+import Image from "next/image";
+// bg-customerChatSolPlanet  bg-center bg-cover flex justify-end
 const ContactusSection = () => {
   return (
     <section className="about-section w-full h-auto">
-      <div className="lg:max-w-[1200px] lg:h-[320px] lg:m-auto">
-        <div className="w-full h-full bg-customerChatSolPlanet bg-center bg-cover flex justify-end">
+      <div
+        className="
+        h-[200px] w-full
+        md:h-[300px] 
+        lg:max-w-[1200px] lg:h-[320px] lg:m-auto"
+      >
+        <div
+          className="
+            bg-blue-dark-blue w-full h-full relative
+
+          "
+        >
           <div
-            style={{ clipPath: "polygon(30% 0, 100% 0, 100% 100%, 0% 100%)" }}
             className="
-              w-[65%] bg-blue-dark-blue p-5 flex flex-col justify-center gap-1 items-end
-              lg:w-[50%]          
+              w-[50%] h-full clip-path-right-40
+              lg:w-[65%] lg:clip-path-right-70
+            "
+          >
+            <Image
+              alt=""
+              fill
+              quality={100}
+              className="object-cover"
+              src="/images/background/AES-Customer-Chat-w-Solplanet.jpg"
+            />
+          </div>
+          <div
+            className="absolute top-0 right-0 -z-1
+              w-full h-full p-5 flex flex-col justify-center gap-1 items-end          
             "
           >
             <h2
@@ -44,7 +67,6 @@ const ContactusSection = () => {
             </button>
           </div>
         </div>
-        {/* <Spacer classStyle="h-[5px] lg:h-[10px] gradient-effect" /> */}
       </div>
     </section>
   );
