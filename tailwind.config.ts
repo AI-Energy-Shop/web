@@ -47,8 +47,6 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         homeArealShot: "url('/images/background/Solar-Home-Aerial-Shot.jpg')",
-        customerChatSolPlanet:
-          "url('/images/background/AES-Customer-Chat-w-Solplanet.jpg')",
       },
       clipPath: {
         "left-10": "polygon(0 0, 100% 0, 100% 100%, 10% 100%);",

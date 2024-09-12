@@ -27,11 +27,11 @@ export default function RootLayout({
       className={`${firaSansFont.className} ${muktaVaani.className}`}
     >
       <body>
-        {/* <Components.ApolloProviderComponent> */}
-        <Components.NavigationBar />
-        <div className="h-[calc(100vh - 6rem)]">{children}</div>
-        <Components.Footer />
-        {/* </Components.ApolloProviderComponent> */}
+        <Components.ApolloProviderComponent>
+          <Components.NavigationBar />
+          <div className="h-[calc(100vh - 6rem)]">{children}</div>
+          <Components.Footer />
+        </Components.ApolloProviderComponent>
       </body>
     </html>
   );

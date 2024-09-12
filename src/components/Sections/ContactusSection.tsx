@@ -1,8 +1,8 @@
+"use client";
 import { firaSansFont, muktaVaani } from "@/assets/fonts/fonts";
 import React from "react";
-import Spacer from "../Spacer";
 import Image from "next/image";
-// bg-customerChatSolPlanet  bg-center bg-cover flex justify-end
+
 const ContactusSection = () => {
   return (
     <section className="about-section w-full h-auto">
@@ -15,18 +15,18 @@ const ContactusSection = () => {
         <div
           className="
             bg-blue-dark-blue w-full h-full relative
-
           "
         >
           <div
             className="
-              w-[50%] h-full clip-path-right-40
+              relative w-[50%] h-full clip-path-right-40
               lg:w-[65%] lg:clip-path-right-70
             "
           >
             <Image
               alt=""
               fill
+              sizes="100vh"
               quality={100}
               className="object-cover"
               src="/images/background/AES-Customer-Chat-w-Solplanet.jpg"
@@ -50,8 +50,8 @@ const ContactusSection = () => {
             <p
               style={muktaVaani.style}
               className="
-                max-w-[90%] text-xs text-wrap text-white text-right ml-auto
-                md:text-base
+                max-w-[50%] text-xs text-wrap text-white text-right ml-auto
+                md:max-w-[50%] md:text-base
                 lg:max-w-[30%] lg:text-end
               "
             >
@@ -61,7 +61,10 @@ const ContactusSection = () => {
             </p>
             <button
               style={firaSansFont.style}
-              className="max-w-[120px] min-w-[120px] h-[32px] uppercase bg-yellow-aes-yellow flex items-center justify-center mt-3 leading-5"
+              className="
+                bg-yellow-aes-yellow max-w-[120px] min-w-[120px] uppercase leading-5 text-lg p-1
+                md:max-w-[150px] md:min-w-[140px]
+              "
             >
               contact us
             </button>

@@ -101,16 +101,17 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ data }) => {
         dotListClass="py-5 bottom-[5rem]"
         customDot={<CustomDot />}
       >
-        {imageData.map((item, index) => (
+        {/* {imageData.map((item, index) => ( */}
+        {data.map((item, index) => (
           <Image
             priority
-            alt={""}
             key={index}
             width={1000}
             height={1000}
+            alt=""
             className="block w-full m-auto"
-            // src={`${item.attributes.url}`}
-            src={item.img}
+            src={`${item.attributes.url}`}
+            // src={item.img}
           />
         ))}
       </Carousel>

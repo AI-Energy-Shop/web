@@ -132,7 +132,7 @@ const HeaderSection = () => {
                    grid-cols-manual-2"
         >
           {/* IMAGE 3 CONTAINER  */}
-          <figure className="row-start-1 row-end-3 col-start-1 col-end-5">
+          <figure className="row-start-1 row-end-3 col-start-1 col-end-5 relative">
             <Image
               src="/images/background/AES-Customer-Chat-w-Solplanet.jpg"
               alt="customer chat"

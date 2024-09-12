@@ -40,6 +40,7 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = (props) => {
           <div className="w-full h-full relative overflow-hidden">
             <Image
               fill
+              sizes="100vh"
               alt="keyboard-typing"
               src="/images/keyboard-typing-closeup.jpg"
               className="w-auto h-auto object-cover"
@@ -81,9 +82,11 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = (props) => {
         <p className="text-white text-xs text-center italic">
           By registering for our newsletter, you agree to recieve email from us
           and to our{" "}
-          <Link href="" className=" underline">
-            privacy policy
-          </Link>
+          <span>
+            <Link href="/privacy-policy" className=" underline">
+              privacy policy
+            </Link>
+          </span>
           .
         </p>
         <button className="min-w-[30%] m-auto font-bold py-1 px-5 bg-yellow-aes-yellow rounded-sm overflow-hidden">
