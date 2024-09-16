@@ -2,29 +2,26 @@ import { gql } from "@apollo/client";
 
 const schema = {
   Queries: {
-    getBannerImages: gql(`
+    getContactSection: gql(`
      	query {
-				bannerImages {
+				contactusSection {
 					data {
 						attributes {
-							title
-							url
-							publishedAt
-							updatedAt
-							createdAt
+							heading
+							paragraph
+							button_title
 							image {
 								data {
 									attributes {
-										url
-										name
 										alternativeText
+										url
 									}
 								}
 							}
 						}
 					}
 				}
-    	}
+			}
     `),
   },
 };
