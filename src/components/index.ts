@@ -6,6 +6,7 @@ import NavigationBar from "./Navigation/Navigation";
 import Sections from "./Sections";
 import Accordion from "./UI/Accordion/Accordion";
 import Forms from "./UI/Forms";
+import LoadingAnimation from "./UI/LoadingAnimation";
 import Sliders from "./UI/Sliders";
 
 const Components = {
@@ -18,6 +19,7 @@ const Components = {
   Forms,
   Sliders,
   ApolloProviderComponent,
+  LoadingAnimation,
 };
 
 export default Components;
