@@ -40,9 +40,10 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = (props) => {
           <div className="w-full h-full relative overflow-hidden">
             <Image
               fill
+              priority
               sizes="100vh"
               alt="keyboard-typing"
-              src="/images/keyboard-typing-closeup.jpg"
+              src={`${process.env.BASE_PROTOCOL}://${process.env.BASE_URL_HOST}/uploads/Keyboard_Typing_Closeup_c9a01fb92f.jpg`}
               className="w-auto h-auto object-cover"
             />
           </div>
