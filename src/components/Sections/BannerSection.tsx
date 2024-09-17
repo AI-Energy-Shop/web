@@ -12,11 +12,10 @@ const BannerSection = () => {
       <div className="inner-container max-w-[1200px] h-full m-auto">
         {!loading && (
           <Carousel.ImageCarousel
-            data={data?.bannerImages?.data}
+            data={data?.bannerImage?.data?.attributes.images}
             loading={loading}
           />
         )}
-
         <Spacer classStyle="h-[5px] lg:h-[10px] gradient-effect" />
       </div>
     </section>
