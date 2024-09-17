@@ -123,6 +123,7 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
                   alt="logo image"
                   src="/images/logo/AES-Logomark_750px-M.png"
                   className="w-auto h-auto"
+                  priority
                 />
               </div>
               <p
