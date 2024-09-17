@@ -7,7 +7,7 @@ import { firaSansFont } from "@/assets/fonts/fonts";
 
 interface NewsLetterFormProps {}
 
-const NewsLetterForm: React.FC<NewsLetterFormProps> = (props) => {
+const NewsLetterForm: React.FC<NewsLetterFormProps> = ({}) => {
   return (
     <div className="w-full h-auto rounded-xl overflow-hidden">
       <div className="w-full h-[80px] flex items-center bg-gradient-to-b from-[#f9ac0a] to-[#f06039]">
@@ -43,7 +43,7 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = (props) => {
               priority
               sizes="100vh"
               alt="keyboard-typing"
-              src={`${process.env.BASE_PROTOCOL}://${process.env.BASE_URL_HOST}/uploads/Keyboard_Typing_Closeup_c9a01fb92f.jpg`}
+              src={`${process.env.BASE_PROTOCOL}://${process.env.BASE_URL_HOST}/uploads/keyboard_typing_closeup_1951cba360.jpg`}
               className="w-auto h-auto object-cover"
             />
           </div>

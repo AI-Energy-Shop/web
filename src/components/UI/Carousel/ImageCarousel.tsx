@@ -3,7 +3,7 @@ import Image from "next/image";
 import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import imageData from "@/data/banner_images.json";
+
 const CustomDot = ({ onClick, ...rest }: any) => {
   const {
     onMove,
@@ -44,9 +44,10 @@ type ImageCarouselData = {
 
 interface ImageCarouselProps {
   data: ImageCarouselData[];
+  loading: boolean;
 }
 
-const ImageCarousel: React.FC<ImageCarouselProps> = ({ data }) => {
+const ImageCarousel: React.FC<ImageCarouselProps> = ({ data, loading }) => {
   return (
     <div className="h-full w-full relative overflow-hidden">
       <Carousel
@@ -101,19 +102,21 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ data }) => {
         dotListClass="py-5 bottom-[5rem]"
         customDot={<CustomDot />}
       >
-        {/* {imageData.map((item, index) => ( */}
-        {data.map((item, index) => (
-          <Image
-            priority
-            key={index}
-            width={1000}
-            height={1000}
-            alt=""
-            className="block w-full m-auto"
-            src={`${item.attributes.url}`}
-            // src={item.img}
-          />
-        ))}
+        {data.map((item, index) => {
+          if (item.attributes.image) {
+            return (
+              <Image
+                priority
+                key={index}
+                width={1000}
+                height={1000}
+                alt=""
+                className="block w-full m-auto"
+                src={`${process.env.BASE_PROTOCOL}://${process.env.BASE_URL_HOST}${item.attributes.image.data.attributes.url}`}
+              />
+            );
+          }
+        })}
       </Carousel>
     </div>
   );
