@@ -1,23 +1,34 @@
+"use client";
 import { firaSansFont, muktaVaani } from "@/assets/fonts/fonts";
 import React from "react";
 import Spacer from "../Spacer";
-import Image from "next/image";
+import { useQuery } from "@apollo/client";
+import ABOUT_SECTION from "@/graphql/about-section";
 
 const AboutusSection = () => {
+  const { data, loading } = useQuery(ABOUT_SECTION.Queries.getAboutSection);
+
   return (
-    <div className="about-section w-full h-auto">
+    <section className="about-section w-full h-auto">
       <div className="lg:max-w-[1200px] lg:m-auto pt-5">
         <h1
           style={firaSansFont.style}
           className="text-blue-dark-blue flex items-center lg:h-[100px] uppercase text-center font-extrabold lg:text-[28px] lg:leading-[1.25] max-w-[85%] mx-auto md:max-w-[50%] md:mx-auto "
         >
-          BEST PRICE. TOP BRANDS. FAST SHIPPING. LET&apos;S GROW YOUR BUSINESS
-          TOGETHER.
+          {!loading && data.aboutSection.data.attributes.heading}
         </h1>
         <div
-          style={{ backgroundPositionX: "30%", backgroundPositionY: "60%" }}
+          style={{
+            backgroundPositionX: "30%",
+            backgroundPositionY: "60%",
+            backgroundImage:
+              !loading &&
+              data?.aboutSection?.data?.attributes?.baground_image?.data
+                ?.attributes?.url &&
+              `url('${process.env.BASE_PROTOCOL}://${process.env.BASE_URL_HOST}${data.aboutSection.data.attributes.baground_image.data.attributes.url}')`,
+          }}
           className="
-            w-full bg-homeArealShot bg-center bg-cover
+            w-full bg-center bg-cover
             lg:h-[320px]
           "
         >
@@ -30,12 +41,12 @@ const AboutusSection = () => {
             <h2
               style={firaSansFont.style}
               className="
-                flex flex-col font-bold text-purple-purp-aes 
-                md:text-xl
-                lg:text-[28px] leading-[1.25]
+                w-[200px] font-bold text-purple-purp-aes text-wrap
+                md:w-[250px] md:text-xl
+                lg:w-[300px] lg:text-[28px] leading-[1.25]
               "
             >
-              <span>Export In Renewable</span> <span>Energy And Storage</span>
+              {!loading && data.aboutSection.data.attributes.sub_heading}
             </h2>
             <p
               style={muktaVaani.style}
@@ -45,17 +56,16 @@ const AboutusSection = () => {
                 lg:text-base lg:leading-[1.25]
               "
             >
-              AI Energy Shop is a trusted national wholesaler of PV inverters,
-              energy storage solar racking, and other renewable energy and
-              electrical
-              <span className="font-bold">products in Australia</span>
+              {!loading && data.aboutSection.data.attributes.paragraph}
             </p>
-            <button
-              style={firaSansFont.style}
-              className="max-w-[120px] h-[32px] uppercase bg-blue-navy-blue text-white flex items-center justify-center mt-3 leading-5"
-            >
-              about us
-            </button>
+            {!loading && (
+              <button
+                style={firaSansFont.style}
+                className="max-w-[120px] h-[32px] uppercase bg-blue-navy-blue text-white flex items-center justify-center mt-3 leading-5"
+              >
+                {data.aboutSection.data.attributes.button_title}
+              </button>
+            )}
           </div>
         </div>
         <Spacer
@@ -65,7 +75,7 @@ const AboutusSection = () => {
           "
         />
       </div>
-    </div>
+    </section>
   );
 };
 
