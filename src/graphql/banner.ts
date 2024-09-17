@@ -4,20 +4,18 @@ const schema = {
   Queries: {
     getBannerImages: gql(`
      	query {
-				bannerImages {
+				bannerImage {
 					data {
 						attributes {
 							title
-							url
-							publishedAt
-							updatedAt
-							createdAt
-							image {
-								data {
-									attributes {
-										url
-										name
-										alternativeText
+							images {
+								image {
+									data {
+										attributes {
+											url
+											alternativeText
+											name
+										}
 									}
 								}
 							}
