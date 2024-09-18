@@ -3,6 +3,7 @@ import ContactusSection from "./ContactusSection";
 import ContactFormSection from "./ContactFormSection/ContactFormSection";
 import HeaderSection from "./HeaderSection";
 import BannerSection from "./BannerSection";
+import NewsletterSection from "./NewsletterSection";
 
 const Sections = {
   BannerSection,
@@ -10,6 +11,7 @@ const Sections = {
   ContactusSection,
   HeaderSection,
   ContactFormSection,
+  NewsletterSection,
 };
 
 export default Sections;
