@@ -43,7 +43,7 @@ type ImageCarouselData = {
 };
 
 interface ImageCarouselProps {
-  data: ImageCarouselData[];
+  data?: ImageCarouselData[]; //Optional
   loading: boolean;
 }
 
@@ -102,7 +102,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ data, loading }) => {
         dotListClass="py-5 bottom-[5rem]"
         customDot={<CustomDot />}
       >
-        {data.map((item: any, index: any) => {
+        {data?.map((item: any, index: any) => {
           if (item.image) {
             return (
               <Image
@@ -110,7 +110,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ data, loading }) => {
                 key={index}
                 width={1000}
                 height={1000}
-                alt=""
+                alt={`banner-image-${item.name}` || ""}
                 className="block w-full m-auto"
                 src={`${process.env.BASE_PROTOCOL}://${process.env.BASE_URL_HOST}${item.image.data.attributes.url}`}
               />

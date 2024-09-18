@@ -5,9 +5,26 @@ import InputGroup from "./InputGroup";
 import { subscribeToNews } from "@/app/actions/mail";
 import { firaSansFont } from "@/assets/fonts/fonts";
 
-interface NewsLetterFormProps {}
+interface NewsLetterFormProps {
+  data?: {
+    heading?: string;
+    button_title?: string;
+    paragraph?: string;
+    sub_text?: string;
+    privacy_link?: string;
+    background_image?: {
+      data?: {
+        attributes: {
+          url: string;
+          name: string;
+          alternativeText: string;
+        };
+      };
+    };
+  };
+}
 
-const NewsLetterForm: React.FC<NewsLetterFormProps> = ({}) => {
+const NewsLetterForm: React.FC<NewsLetterFormProps> = ({ data }) => {
   return (
     <div className="w-full h-auto rounded-xl overflow-hidden">
       <div className="w-full h-[80px] flex items-center bg-gradient-to-b from-[#f9ac0a] to-[#f06039]">
@@ -19,7 +36,7 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = ({}) => {
             md:text-[18px] 
           "
           >
-            Newsletter Sign Up
+            {data?.heading}
           </h1>
           <p
             className="
@@ -27,7 +44,7 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = ({}) => {
             md:text-base md:font-normal
           "
           >
-            Keep up to date with our latest news and offers
+            {data?.paragraph}
           </p>
         </div>
         <div
@@ -38,14 +55,19 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = ({}) => {
           "
         >
           <div className="w-full h-full relative overflow-hidden">
-            <Image
-              fill
-              priority
-              sizes="100vh"
-              alt="keyboard-typing"
-              src={`${process.env.BASE_PROTOCOL}://${process.env.BASE_URL_HOST}/uploads/keyboard_typing_closeup_1951cba360.jpg`}
-              className="w-auto h-auto object-cover"
-            />
+            {data?.background_image?.data && (
+              <Image
+                fill
+                priority
+                sizes="100vh"
+                alt={
+                  data.background_image.data.attributes.url ||
+                  `newsletter-bg-image${data.background_image.data.attributes.alternativeText}`
+                }
+                src={`${process.env.BASE_PROTOCOL}://${process.env.BASE_URL_HOST}${data.background_image.data.attributes.url}`}
+                className="w-auto h-auto object-cover"
+              />
+            )}
           </div>
         </div>
       </div>
@@ -81,17 +103,16 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = ({}) => {
         </div>
 
         <p className="text-white text-xs text-center italic">
-          By registering for our newsletter, you agree to recieve email from us
-          and to our{" "}
+          {data?.sub_text}{" "}
           <span>
-            <Link href="/privacy-policy" className=" underline">
-              privacy policy
+            <Link href={data?.privacy_link || "/"} className=" underline">
+              {"privacy policy"}
             </Link>
           </span>
           .
         </p>
         <button className="min-w-[30%] m-auto font-bold py-1 px-5 bg-yellow-aes-yellow rounded-sm overflow-hidden">
-          Register Now
+          {data?.button_title || "Button Title"}
         </button>
       </form>
     </div>
