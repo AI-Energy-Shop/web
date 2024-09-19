@@ -3,7 +3,7 @@ import { gql } from "@apollo/client";
 const schema = {
   Queries: {
     getContactSection: gql(`
-     	query {
+     	query ContactusSection {
 				contactusSection {
 					data {
 						attributes {
@@ -13,8 +13,9 @@ const schema = {
 							image {
 								data {
 									attributes {
-										alternativeText
 										url
+										alternativeText
+										name
 									}
 								}
 							}

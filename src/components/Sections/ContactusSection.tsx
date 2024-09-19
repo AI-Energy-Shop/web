@@ -9,6 +9,10 @@ const ContactusSection = () => {
     CONTACT_SECTION_OPERATION.Queries.getContactSection
   );
 
+  if (loading || !data?.contactusSection?.data) {
+    return null;
+  }
+
   return (
     <section className="about-section w-full h-auto">
       <div
