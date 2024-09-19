@@ -6,8 +6,8 @@ import { subscribeToNews } from "@/app/actions/mail";
 import { firaSansFont } from "@/assets/fonts/fonts";
 
 interface NewsLetterFormProps {
-  data?: {
-    heading?: string;
+  data: {
+    heading: string;
     button_title?: string;
     paragraph?: string;
     sub_text?: string;
@@ -36,7 +36,7 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = ({ data }) => {
             md:text-[18px] 
           "
           >
-            {data?.heading}
+            {data.heading}
           </h1>
           <p
             className="
