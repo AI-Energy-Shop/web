@@ -8,6 +8,10 @@ import ABOUT_SECTION from "@/graphql/about-section";
 const AboutusSection = () => {
   const { data, loading } = useQuery(ABOUT_SECTION.Queries.getAboutSection);
 
+  if (loading || !data?.aboutSection?.data) {
+    return null;
+  }
+
   return (
     <section className="about-section w-full h-auto">
       <div className="lg:max-w-[1200px] lg:m-auto pt-5">
