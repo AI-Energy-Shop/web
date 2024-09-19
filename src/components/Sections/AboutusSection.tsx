@@ -25,7 +25,7 @@ const AboutusSection = () => {
               !loading &&
               data?.aboutSection?.data?.attributes?.baground_image?.data
                 ?.attributes?.url &&
-              `url('${process.env.BASE_PROTOCOL}://${process.env.BASE_URL_HOST}${data.aboutSection.data.attributes.baground_image.data.attributes.url}')`,
+              `url('${data.aboutSection.data.attributes.baground_image.data.attributes.url}')`,
           }}
           className="
             w-full bg-center bg-cover

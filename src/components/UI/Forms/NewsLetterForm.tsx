@@ -64,7 +64,7 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = ({ data }) => {
                   data.background_image.data.attributes.url ||
                   `newsletter-bg-image${data.background_image.data.attributes.alternativeText}`
                 }
-                src={`${process.env.BASE_PROTOCOL}://${process.env.BASE_URL_HOST}${data.background_image.data.attributes.url}`}
+                src={data.background_image.data.attributes.url}
                 className="w-auto h-auto object-cover"
               />
             )}

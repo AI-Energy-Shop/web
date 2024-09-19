@@ -112,7 +112,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ data, loading }) => {
                 height={1000}
                 alt={`banner-image-${item.name}` || ""}
                 className="block w-full m-auto"
-                src={`${process.env.BASE_PROTOCOL}://${process.env.BASE_URL_HOST}${item.image.data.attributes.url}`}
+                src={item.image.data.attributes.url}
               />
             );
           }

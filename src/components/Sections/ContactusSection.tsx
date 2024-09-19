@@ -29,7 +29,7 @@ const ContactusSection = () => {
               lg:w-[65%] lg:clip-path-right-70
             "
           >
-            {!loading && (
+            {!loading && data.contactusSection.data.attributes.image.data && (
               <Image
                 fill
                 alt=""
@@ -37,7 +37,10 @@ const ContactusSection = () => {
                 sizes="100vh"
                 quality={100}
                 className="object-cover"
-                src={`${process.env.BASE_PROTOCOL}://${process.env.BASE_URL_HOST}${data.contactusSection.data.attributes.image.data.attributes.url}`}
+                src={
+                  data.contactusSection.data.attributes.image.data.attributes
+                    .url
+                }
               />
             )}
           </div>
