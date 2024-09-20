@@ -9,24 +9,89 @@ export type AccordionData = {
   content: string[];
 };
 
-// ABOUT SECTION QUERY TYPES
-// export type AboutSectionQueryType = {
-//   aboutSection: {
-//     data: {
-//       attributes: {
-//         heading: string;
-//         sub_heading: string;
-//         paragraph: string;
-//         button_title: string;
-//         baground_image: {
-//           data: {
-//             attributes: {
-//               url: string;
-//               alternativeText: string;
-//             };
-//           };
-//         };
-//       };
-//     };
-//   };
-// };
+type ImageAttributes = {
+  url: string;
+  name: string;
+  alternativeText: string;
+};
+
+export type AboutSection = {
+  heading: string;
+  sub_heading: string;
+  description: string;
+  button_title: string;
+  background_image: {
+    data?: {
+      attributes: ImageAttributes;
+    };
+  };
+};
+
+export type ContactusSection = {
+  heading: string;
+  description: string;
+  button_title: string;
+  image: {
+    data: {
+      attributes: ImageAttributes;
+    };
+  };
+};
+
+export type BannerImages = {
+  id: string;
+  link: string;
+  image: {
+    data: {
+      attributes: ImageAttributes;
+    };
+  };
+};
+
+export type WarehouseLocation = {
+  heading: string;
+  sub_heading: string;
+  locations: Locations[];
+};
+
+export type Locations = {
+  id: string;
+  name: string;
+  address: string;
+  warehouse_time: string;
+  office_time: string;
+  link: string;
+};
+
+export type ContactDetails = {
+  id: string;
+  left_subheading: string;
+  left_description: string;
+  right_subheading: string;
+  right_description: string;
+};
+
+// HOME PAGE
+export type HomePageRes = {
+  homePage: {
+    data: {
+      attributes: {
+        page_title: string;
+        banner_images: BannerImages[];
+        about_section: AboutSection;
+        contactus_section: ContactusSection;
+      };
+    };
+  };
+};
+
+export type ContactPageRes = {
+  contactPage: {
+    data: {
+      attributes: {
+        contact_details_section: ContactDetails;
+        warehouse_location: WarehouseLocation;
+      };
+    };
+  };
+};

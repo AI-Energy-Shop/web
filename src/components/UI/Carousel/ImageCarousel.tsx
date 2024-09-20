@@ -1,4 +1,5 @@
 "use client";
+import { BannerImages } from "@/libs/types";
 import Image from "next/image";
 import React from "react";
 import Carousel from "react-multi-carousel";
@@ -43,11 +44,10 @@ type ImageCarouselData = {
 };
 
 interface ImageCarouselProps {
-  data?: ImageCarouselData[]; //Optional
-  loading: boolean;
+  data: BannerImages[]; //Optional
 }
 
-const ImageCarousel: React.FC<ImageCarouselProps> = ({ data, loading }) => {
+const ImageCarousel: React.FC<ImageCarouselProps> = ({ data }) => {
   return (
     <div className="h-full w-full relative overflow-hidden">
       <Carousel
@@ -102,20 +102,18 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ data, loading }) => {
         dotListClass="py-5 bottom-[5rem]"
         customDot={<CustomDot />}
       >
-        {data?.map((item: any, index: any) => {
-          if (item.image) {
-            return (
-              <Image
-                priority
-                key={index}
-                width={1000}
-                height={1000}
-                alt={`banner-image-${item.name}` || ""}
-                className="block w-full m-auto"
-                src={item.image.data.attributes.url}
-              />
-            );
-          }
+        {data?.map((item) => {
+          return (
+            <Image
+              priority
+              width={1000}
+              height={1000}
+              key={item.id}
+              className="block w-full m-auto"
+              src={item.image.data.attributes.url}
+              alt={item.image.data.attributes.alternativeText || ""}
+            />
+          );
         })}
       </Carousel>
     </div>
