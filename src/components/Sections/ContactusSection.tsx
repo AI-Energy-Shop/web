@@ -1,18 +1,12 @@
-"use client";
 import { firaSansFont, muktaVaani } from "@/assets/fonts/fonts";
 import React from "react";
 import Image from "next/image";
-import { useQuery } from "@apollo/client";
-import CONTACT_SECTION_OPERATION from "@/graphql/contact-section";
-const ContactusSection = () => {
-  const { data, loading } = useQuery(
-    CONTACT_SECTION_OPERATION.Queries.getContactSection
-  );
+import type { ContactusSection } from "@/libs/types";
 
-  if (loading || !data?.contactusSection?.data) {
-    return null;
-  }
-
+interface ContactusSectionProps {
+  data: ContactusSection;
+}
+const ContactusSection: React.FC<ContactusSectionProps> = ({ data }) => {
   return (
     <section className="about-section w-full h-auto">
       <div
@@ -33,23 +27,24 @@ const ContactusSection = () => {
               lg:w-[65%] lg:clip-path-right-70
             "
           >
-            {!loading && data.contactusSection.data.attributes.image.data && (
+            {data?.image?.data && (
               <Image
                 fill
-                alt=""
                 priority
                 sizes="100vh"
                 quality={100}
                 className="object-cover"
-                src={
-                  data.contactusSection.data.attributes.image.data.attributes
-                    .url
+                src={data.image.data.attributes.url}
+                alt={
+                  data.image.data.attributes.alternativeText ||
+                  data.image.data.attributes.name
                 }
               />
             )}
           </div>
           <div
-            className="absolute top-0 right-0 -z-1
+            className="
+              absolute top-0 right-0 -z-1
               w-full h-full p-5 flex flex-col justify-center gap-1 items-end          
             "
           >
@@ -61,7 +56,7 @@ const ContactusSection = () => {
                 lg:text-[28px]
               "
             >
-              {!loading && data.contactusSection.data.attributes.heading}
+              {data.heading}
             </h2>
             <p
               style={muktaVaani.style}
@@ -71,19 +66,17 @@ const ContactusSection = () => {
                 lg:max-w-[30%] lg:text-end
               "
             >
-              {!loading && data.contactusSection.data.attributes.paragraph}
+              {data.description}
             </p>
-            {!loading && (
-              <button
-                style={firaSansFont.style}
-                className="
+            <button
+              style={firaSansFont.style}
+              className="
                     bg-yellow-aes-yellow max-w-[120px] min-w-[120px] uppercase leading-5 text-lg p-1
                     md:max-w-[150px] md:min-w-[140px]
                   "
-              >
-                {data.contactusSection.data.attributes.button_title}
-              </button>
-            )}
+            >
+              {data.button_title}
+            </button>
           </div>
         </div>
       </div>
