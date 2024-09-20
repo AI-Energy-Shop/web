@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import Forms from "../UI/Forms";
 import Slider from "../UI/Sliders/Slider";
 
 const clipPathContainer = {
@@ -209,7 +208,7 @@ const HeaderSection = () => {
       {/* ROW 5 */}
 
       {/* NEWSLETTER CONTAINER */}
-      <Forms.NewsLetterForm />
+      {/* <Forms.NewsLetterForm /> */}
     </header>
   );
 };
