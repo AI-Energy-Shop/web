@@ -1,26 +1,16 @@
-"use client";
 import React from "react";
 import Spacer from "../Spacer";
 import Carousel from "../UI/Carousel";
-import BANNER_OPERATION from "@/graphql/banner";
-import { useQuery } from "@apollo/client";
+import { BannerImages } from "@/libs/types";
 
-const BannerSection = () => {
-  const { data, loading } = useQuery(BANNER_OPERATION.Queries.getBannerImages);
-
-  if (loading || !data?.bannerImage?.data) {
-    return null;
-  }
-
+interface BannerSectionProps {
+  data: BannerImages[];
+}
+const BannerSection: React.FC<BannerSectionProps> = ({ data }) => {
   return (
-    <section className="banner-section w-full h-auto md:h-[40.4vh]  lg:max-h-[33.3vh]">
+    <section className="banner-section w-full h-auto md:h-[40.4vh] lg:max-h-[33.3vh]">
       <div className="inner-container max-w-[1200px] h-full m-auto">
-        {!loading && (
-          <Carousel.ImageCarousel
-            data={data?.bannerImage?.data?.attributes.images}
-            loading={loading}
-          />
-        )}
+        <Carousel.ImageCarousel data={data} />
         <Spacer classStyle="h-[5px] lg:h-[10px] gradient-effect" />
       </div>
     </section>
