@@ -11,11 +11,11 @@ const WarehouseSection: React.FC<WarehouseSectionProps> = ({ data }) => {
     <section className="w-full h-auto">
       {/* DETAILS */}
       <div className="w-full md:w-[50%] lg:w-[25%] md:mx-auto h-auto p-5 rounded-[10px] overflow-hidden my-5 flex flex-col justify-center items-center">
-        <h1 className="uppercase text-lg font-bold">{data.heading}</h1>
+        <h1 className="uppercase text-lg font-bold">{data?.heading}</h1>
         <p className="text-sm text-center">{data?.sub_heading}</p>
       </div>
 
-      <LocationTab data={data.locations} />
+      <LocationTab data={data?.locations} />
     </section>
   );
 };
