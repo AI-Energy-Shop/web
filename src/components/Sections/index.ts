@@ -1,17 +1,23 @@
 import AboutusSection from "./AboutusSection";
 import ContactusSection from "./ContactusSection";
-import ContactFormSection from "./ContactFormSection/ContactFormSection";
 import HeaderSection from "./HeaderSection";
 import BannerSection from "./BannerSection";
 import NewsletterSection from "./NewsletterSection";
+import ContactDetails from "./ContactPageSections/ContactDetails";
+import WarehouseSection from "./ContactPageSections/WarehouseSection";
+import InquerySection from "./ContactPageSections/InquerySection";
 
 const Sections = {
   BannerSection,
   AboutusSection,
   ContactusSection,
   HeaderSection,
-  ContactFormSection,
   NewsletterSection,
+
+  // CONTACT-PAGE
+  ContactDetails,
+  WarehouseSection,
+  InquerySection,
 };
 
 export default Sections;
