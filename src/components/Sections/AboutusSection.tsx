@@ -1,17 +1,13 @@
-"use client";
 import { firaSansFont, muktaVaani } from "@/assets/fonts/fonts";
 import React from "react";
 import Spacer from "../Spacer";
-import { useQuery } from "@apollo/client";
-import ABOUT_SECTION from "@/graphql/about-section";
+import { AboutSection } from "@/libs/types";
 
-const AboutusSection = () => {
-  const { data, loading } = useQuery(ABOUT_SECTION.Queries.getAboutSection);
+interface AboutusSectionProps {
+  data: AboutSection;
+}
 
-  if (loading || !data?.aboutSection?.data) {
-    return null;
-  }
-
+const AboutusSection: React.FC<AboutusSectionProps> = ({ data }) => {
   return (
     <section className="about-section w-full h-auto">
       <div className="lg:max-w-[1200px] lg:m-auto pt-5">
@@ -19,17 +15,15 @@ const AboutusSection = () => {
           style={firaSansFont.style}
           className="text-blue-dark-blue flex items-center lg:h-[100px] uppercase text-center font-extrabold lg:text-[28px] lg:leading-[1.25] max-w-[85%] mx-auto md:max-w-[50%] md:mx-auto "
         >
-          {!loading && data.aboutSection.data.attributes.heading}
+          {data.heading}
         </h1>
         <div
           style={{
             backgroundPositionX: "30%",
             backgroundPositionY: "60%",
-            backgroundImage:
-              !loading &&
-              data?.aboutSection?.data?.attributes?.baground_image?.data
-                ?.attributes?.url &&
-              `url('${data.aboutSection.data.attributes.baground_image.data.attributes.url}')`,
+            backgroundImage: data?.background_image?.data
+              ? `url('${data.background_image.data.attributes.url}')`
+              : "",
           }}
           className="
             w-full bg-center bg-cover
@@ -50,7 +44,7 @@ const AboutusSection = () => {
                 lg:w-[300px] lg:text-[28px] leading-[1.25]
               "
             >
-              {!loading && data.aboutSection.data.attributes.sub_heading}
+              {data.sub_heading}
             </h2>
             <p
               style={muktaVaani.style}
@@ -60,16 +54,14 @@ const AboutusSection = () => {
                 lg:text-base lg:leading-[1.25]
               "
             >
-              {!loading && data.aboutSection.data.attributes.paragraph}
+              {data.description}
             </p>
-            {!loading && (
-              <button
-                style={firaSansFont.style}
-                className="max-w-[120px] h-[32px] uppercase bg-blue-navy-blue text-white flex items-center justify-center mt-3 leading-5"
-              >
-                {data.aboutSection.data.attributes.button_title}
-              </button>
-            )}
+            <button
+              style={firaSansFont.style}
+              className="max-w-[120px] h-[32px] uppercase bg-blue-navy-blue text-white flex items-center justify-center mt-3 leading-5"
+            >
+              {data.button_title}
+            </button>
           </div>
         </div>
         <Spacer
