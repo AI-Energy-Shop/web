@@ -20,7 +20,12 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@/components/*": ["components/*"]
+      "@/components/*": ["components/*"],
+      "@/apollo/*": ["apollo/*"],
+      "@/assets/*": ["assets/*"],
+      "@/data/*": ["data/*"],
+      "@/graphql/*": ["graphql/*"],
+      "@/libs/*": ["libs/*"]
     }
   },
   "include": [
