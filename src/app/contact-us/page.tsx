@@ -2,7 +2,11 @@ import Components from "@/components";
 import React from "react";
 import { getContactPage } from "../actions/contact-page";
 const ContactPage = async () => {
-  // const data = await getContactPage();
+  const data = await getContactPage();
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <main className="min-h-[100vh] w-full h-auto p-5 bg-yellow-light-yellow">
@@ -11,13 +15,13 @@ const ContactPage = async () => {
           Contact Us
         </h1>
 
-        {/* <Components.Sections.ContactDetails
+        <Components.Sections.ContactDetails
           data={data?.contactPage?.data?.attributes?.contact_details_section}
         />
 
         <Components.Sections.WarehouseSection
           data={data?.contactPage?.data?.attributes?.warehouse_location}
-        /> */}
+        />
 
         <Components.Sections.InquerySection />
 

@@ -5,9 +5,7 @@ export default async function HomePage() {
   const res = await homePage();
 
   if (!res) {
-    return {
-      notFound: true,
-    };
+    return null;
   }
 
   return (
