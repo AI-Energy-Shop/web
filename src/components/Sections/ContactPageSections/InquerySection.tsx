@@ -1,10 +1,10 @@
-import InquiryForm from "@/components/UI/Forms/InquiryForm";
+import Forms from "../../UI/Forms";
 import React from "react";
 
 const InquerySection = () => {
   return (
     <section className="w-full h-auto">
-      <InquiryForm />
+      <Forms.InquiryForm />
     </section>
   );
 };
