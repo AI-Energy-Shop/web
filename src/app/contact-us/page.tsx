@@ -11,13 +11,13 @@ const ContactPage = async () => {
           Contact Us
         </h1>
 
-        <Components.Sections.ContactDetails
+        {/* <Components.Sections.ContactDetails
           data={data?.contactPage?.data?.attributes?.contact_details_section}
         />
 
         <Components.Sections.WarehouseSection
           data={data?.contactPage?.data?.attributes?.warehouse_location}
-        />
+        /> */}
 
         <Components.Sections.InquerySection />
 
