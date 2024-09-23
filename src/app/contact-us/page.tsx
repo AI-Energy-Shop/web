@@ -1,4 +1,4 @@
-import Components from "../../components";
+import Components from "@/components";
 import React from "react";
 import { getContactPage } from "../actions/contact-page";
 const ContactPage = async () => {
