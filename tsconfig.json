@@ -17,13 +17,9 @@
         "name": "next"
       }
     ],
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"],
-      "@/apollo/*": ["./src/apollo/*"],
-      "@/graphql/*": ["./src/graphql/*"],
-      "@/libs/*": ["./src/libs/*"],
-      "@/assets/*": ["./src/assets/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": [
