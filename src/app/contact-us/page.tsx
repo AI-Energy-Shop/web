@@ -2,7 +2,7 @@ import Components from "@/components";
 import React from "react";
 import { getContactPage } from "../actions/contact-page";
 const ContactPage = async () => {
-  const data = await getContactPage();
+  // const data = await getContactPage();
 
   return (
     <main className="min-h-[100vh] w-full h-auto p-5 bg-yellow-light-yellow">
