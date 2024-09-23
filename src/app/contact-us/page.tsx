@@ -4,7 +4,7 @@ import { getContactPage } from "../actions/contact-page";
 const ContactPage = async () => {
   const data = await getContactPage();
 
-  if (!data) {
+  if (data && !data.contactPage) {
     return null;
   }
 
