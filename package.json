@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "engines": {
-    "npm": "10.0.0"
+    "npm": "10.8.0"
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",
