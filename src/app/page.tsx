@@ -3,6 +3,13 @@ import { homePage } from "./actions/home-page";
 
 export default async function HomePage() {
   const res = await homePage();
+
+  if (!res) {
+    return {
+      notFound: true,
+    };
+  }
+
   return (
     <main className="w-full min-h-screen bg-yellow-light-yellow-50 ">
       <Components.Sections.BannerSection
