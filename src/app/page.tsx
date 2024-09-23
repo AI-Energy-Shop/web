@@ -1,4 +1,4 @@
-import Components from "@/components";
+import Components from "../components";
 import { homePage } from "./actions/home-page";
 
 export default async function HomePage() {

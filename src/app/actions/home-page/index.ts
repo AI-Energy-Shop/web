@@ -1,8 +1,8 @@
 "use server";
 
-import { client } from "@/apollo/client";
-import HOMEPAGE_OPERATIONS from "@/graphql/home-page";
-import { HomePageRes } from "@/libs/types";
+import { client } from "../../../apollo/client";
+import { HomePageRes } from "../../../libs/types";
+import HOMEPAGE_OPERATIONS from "../../../graphql/home-page";
 
 export const homePage = async (): Promise<HomePageRes> => {
   try {

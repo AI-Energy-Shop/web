@@ -1,6 +1,6 @@
 import "./globals.css";
 import React from "react";
-import Components from "@/components";
+import Components from "../components";
 import { firaSansFont, muktaVaani } from "@/assets/fonts/fonts";
 
 // Assuming Metadata type needs to be defined or imported.
