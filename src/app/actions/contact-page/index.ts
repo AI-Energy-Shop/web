@@ -1,8 +1,8 @@
 "use server";
 
 import { client } from "@/apollo/client";
-import { ContactPageRes } from "@/libs/types";
 import CONTACTPAGE_OPERAIONS from "@/graphql/contact-page";
+import { ContactPageRes } from "@/libs/types";
 
 export const getContactPage = async (): Promise<ContactPageRes> => {
   try {
