@@ -92,51 +92,59 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
         dotListClass="py-5 bottom-[5rem]"
         customDot={<CustomDot />}
       >
-        <div className="w-full h-full md:hidden lg:hidden">
-          {mobileImages?.map((item) => {
-            return (
-              <Image
-                priority
-                width={1000}
-                height={1000}
-                key={item.id}
-                className="block w-full m-auto"
-                src={item.image.data.attributes.url}
-                alt={item.image.data.attributes.alternativeText || ""}
-              />
-            );
-          })}
-        </div>
-        <div className="w-full h-full hidden md:block lg:hidden">
-          {tabletImages?.map((item) => {
-            return (
-              <Image
-                priority
-                width={1000}
-                height={1000}
-                key={item.id}
-                className="block w-full m-auto"
-                src={item.image.data.attributes.url}
-                alt={item.image.data.attributes.alternativeText || ""}
-              />
-            );
-          })}
-        </div>
-        <div className="w-full h-full hidden md:hidden lg:block">
-          {desktopImages?.map((item) => {
-            return (
-              <Image
-                priority
-                width={1000}
-                height={1000}
-                key={item.id}
-                className="block w-full m-auto"
-                src={item.image.data.attributes.url}
-                alt={item.image.data.attributes.alternativeText || ""}
-              />
-            );
-          })}
-        </div>
+        {mobileImages && mobileImages.length > 0 && (
+          <div className="w-full h-full md:hidden lg:hidden">
+            {mobileImages.map((item) => {
+              return (
+                <Image
+                  priority
+                  width={1000}
+                  height={1000}
+                  key={item.id}
+                  className="block w-full m-auto"
+                  src={item.image.data.attributes.url}
+                  alt={item.image.data.attributes.alternativeText || ""}
+                />
+              );
+            })}
+          </div>
+        )}
+
+        {tabletImages && tabletImages.length > 0 && (
+          <div className="w-full h-full hidden md:block lg:hidden">
+            {tabletImages.map((item) => {
+              return (
+                <Image
+                  priority
+                  width={1000}
+                  height={1000}
+                  key={item.id}
+                  className="block w-full m-auto"
+                  src={item.image.data.attributes.url}
+                  alt={item.image.data.attributes.alternativeText || ""}
+                />
+              );
+            })}
+          </div>
+        )}
+
+        {desktopImages && desktopImages.length > 0 && (
+          <div className="w-full h-full hidden md:hidden lg:block">
+            {desktopImages.map((item) => {
+              return (
+                <Image
+                  priority
+                  width={1000}
+                  height={1000}
+                  key={item.id}
+                  className="block w-full m-auto"
+                  src={item.image.data.attributes.url}
+                  alt={item.image.data.attributes.alternativeText || ""}
+                />
+              );
+            })}
+          </div>
+        )}
       </Carousel>
     </div>
   );
