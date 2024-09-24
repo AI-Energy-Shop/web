@@ -33,7 +33,6 @@ interface ImageCarouselProps {
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({ bannerImages }) => {
   const brkp = useBreakpoint();
-  console.log(bannerImages);
   return (
     <div className="image-carousel h-full w-full relative overflow-hidden">
       <Carousel
