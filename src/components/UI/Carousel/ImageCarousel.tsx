@@ -27,27 +27,17 @@ const CustomDot = ({ onClick, ...rest }: any) => {
   );
 };
 
-type ImageCarouselData = {
-  attributes: {
-    title: string;
-    createdAt: string;
-    url: string;
-    image: {
-      data: {
-        attributes: {
-          url: string;
-        };
-      };
-    };
-  };
-  id: number;
-};
-
 interface ImageCarouselProps {
-  data: BannerImages[]; //Optional
+  desktopImages?: BannerImages[]; //Optional
+  tabletImages?: BannerImages[]; //Optional
+  mobileImages?: BannerImages[]; //Optional
 }
 
-const ImageCarousel: React.FC<ImageCarouselProps> = ({ data }) => {
+const ImageCarousel: React.FC<ImageCarouselProps> = ({
+  desktopImages,
+  tabletImages,
+  mobileImages,
+}) => {
   return (
     <div className="h-full w-full relative overflow-hidden">
       <Carousel
@@ -102,19 +92,51 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ data }) => {
         dotListClass="py-5 bottom-[5rem]"
         customDot={<CustomDot />}
       >
-        {data?.map((item) => {
-          return (
-            <Image
-              priority
-              width={1000}
-              height={1000}
-              key={item.id}
-              className="block w-full m-auto"
-              src={item.image.data.attributes.url}
-              alt={item.image.data.attributes.alternativeText || ""}
-            />
-          );
-        })}
+        <div className="w-full h-full md:hidden lg:hidden">
+          {mobileImages?.map((item) => {
+            return (
+              <Image
+                priority
+                width={1000}
+                height={1000}
+                key={item.id}
+                className="block w-full m-auto"
+                src={item.image.data.attributes.url}
+                alt={item.image.data.attributes.alternativeText || ""}
+              />
+            );
+          })}
+        </div>
+        <div className="w-full h-full hidden md:block lg:hidden">
+          {tabletImages?.map((item) => {
+            return (
+              <Image
+                priority
+                width={1000}
+                height={1000}
+                key={item.id}
+                className="block w-full m-auto"
+                src={item.image.data.attributes.url}
+                alt={item.image.data.attributes.alternativeText || ""}
+              />
+            );
+          })}
+        </div>
+        <div className="w-full h-full hidden md:hidden lg:block">
+          {desktopImages?.map((item) => {
+            return (
+              <Image
+                priority
+                width={1000}
+                height={1000}
+                key={item.id}
+                className="block w-full m-auto"
+                src={item.image.data.attributes.url}
+                alt={item.image.data.attributes.alternativeText || ""}
+              />
+            );
+          })}
+        </div>
       </Carousel>
     </div>
   );

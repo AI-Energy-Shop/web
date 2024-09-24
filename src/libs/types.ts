@@ -77,7 +77,9 @@ export type HomePageRes = {
     data: {
       attributes: {
         page_title: string;
-        banner_images: BannerImages[];
+        banner_images_desktop: BannerImages[];
+        banner_images_tablet: BannerImages[];
+        banner_images_mobile: BannerImages[];
         about_section: AboutSection;
         contactus_section: ContactusSection;
       };

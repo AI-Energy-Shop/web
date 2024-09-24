@@ -11,7 +11,9 @@ export default async function HomePage() {
   return (
     <main className="w-full min-h-screen bg-yellow-light-yellow-50 ">
       <Components.Sections.BannerSection
-        data={data.homePage.data.attributes.banner_images}
+        desktopImages={data.homePage.data.attributes.banner_images_desktop}
+        tabletImages={data.homePage.data.attributes.banner_images_tablet}
+        mobileImages={data.homePage.data.attributes.banner_images_mobile}
       />
 
       <Components.Sections.AboutusSection
