@@ -7,41 +7,16 @@ const schema = {
 				homePage {
 					data {
 						attributes {
-							banner_images_desktop {
+							banner_images {
 								id
 								link
+								image_type
 								image {
 									data {
 										attributes {
 											url
-											alternativeText
 											name
-										}
-									}
-								}
-							}
-							banner_images_tablet {
-								id
-								link
-								image {
-									data {
-										attributes {
-											url
 											alternativeText
-											name
-										}
-									}
-								}
-							}
-							banner_images_mobile {
-								id
-								link
-								image {
-									data {
-										attributes {
-											url
-											alternativeText
-											name
 										}
 									}
 								}

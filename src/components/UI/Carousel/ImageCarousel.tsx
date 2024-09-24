@@ -4,7 +4,7 @@ import Image from "next/image";
 import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-
+import useBreakpoint from "./hooks/useBreakpoints";
 const CustomDot = ({ onClick, ...rest }: any) => {
   const {
     onMove,
@@ -28,23 +28,18 @@ const CustomDot = ({ onClick, ...rest }: any) => {
 };
 
 interface ImageCarouselProps {
-  desktopImages?: BannerImages[]; //Optional
-  tabletImages?: BannerImages[]; //Optional
-  mobileImages?: BannerImages[]; //Optional
+  bannerImages: BannerImages[];
 }
 
-const ImageCarousel: React.FC<ImageCarouselProps> = ({
-  desktopImages,
-  tabletImages,
-  mobileImages,
-}) => {
+const ImageCarousel: React.FC<ImageCarouselProps> = ({ bannerImages }) => {
+  const brkp = useBreakpoint();
   return (
-    <div className="h-full w-full relative overflow-hidden">
+    <div className="image-carousel h-full w-full relative overflow-hidden">
       <Carousel
         additionalTransfrom={0}
         arrows={false}
         autoPlay={true}
-        autoPlaySpeed={3000}
+        autoPlaySpeed={4000}
         centerMode={false}
         className="carousel w-full h-full mx-auto"
         containerClass="w-full h-full container block"
@@ -92,59 +87,57 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
         dotListClass="py-5 bottom-[5rem]"
         customDot={<CustomDot />}
       >
-        {mobileImages && mobileImages.length > 0 && (
-          <div className="w-full h-full md:hidden lg:hidden">
-            {mobileImages.map((item) => {
-              return (
-                <Image
-                  priority
-                  width={1000}
-                  height={1000}
-                  key={item.id}
-                  className="block w-full m-auto"
-                  src={item.image.data.attributes.url}
-                  alt={item.image.data.attributes.alternativeText || ""}
-                />
-              );
-            })}
-          </div>
-        )}
-
-        {tabletImages && tabletImages.length > 0 && (
-          <div className="w-full h-full hidden md:block lg:hidden">
-            {tabletImages.map((item) => {
-              return (
-                <Image
-                  priority
-                  width={1000}
-                  height={1000}
-                  key={item.id}
-                  className="block w-full m-auto"
-                  src={item.image.data.attributes.url}
-                  alt={item.image.data.attributes.alternativeText || ""}
-                />
-              );
-            })}
-          </div>
-        )}
-
-        {desktopImages && desktopImages.length > 0 && (
-          <div className="w-full h-full hidden md:hidden lg:block">
-            {desktopImages.map((item) => {
-              return (
-                <Image
-                  priority
-                  width={1000}
-                  height={1000}
-                  key={item.id}
-                  className="block w-full m-auto"
-                  src={item.image.data.attributes.url}
-                  alt={item.image.data.attributes.alternativeText || ""}
-                />
-              );
-            })}
-          </div>
-        )}
+        {bannerImages?.map((item) => {
+          if (item.image_type === "MOBILE" && brkp < 640) {
+            return (
+              <Image
+                priority
+                width={1000}
+                height={1000}
+                key={item.id}
+                className={`w-full m-auto ${
+                  item.image_type === "MOBILE" && "block md:hidden lg:hidden"
+                }`}
+                src={item.image.data.attributes.url}
+                alt={item.image.data.attributes.alternativeText || ""}
+              />
+            );
+          }
+        })}
+        {bannerImages?.map((item) => {
+          if (item.image_type === "TABLET" && brkp > 768) {
+            return (
+              <Image
+                priority
+                width={1000}
+                height={1000}
+                key={item.id}
+                className={`w-full m-auto ${
+                  item.image_type === "TABLET" && "hidden md:block lg:hidden"
+                }`}
+                src={item.image.data.attributes.url}
+                alt={item.image.data.attributes.alternativeText || ""}
+              />
+            );
+          }
+        })}
+        {bannerImages?.map((item) => {
+          if (item.image_type === "DESKTOP" && brkp > 1024) {
+            return (
+              <Image
+                priority
+                width={1000}
+                height={1000}
+                key={item.id}
+                className={`w-full m-auto ${
+                  item.image_type === "DESKTOP" && "hidden md:hidden lg:block"
+                }`}
+                src={item.image.data.attributes.url}
+                alt={item.image.data.attributes.alternativeText || ""}
+              />
+            );
+          }
+        })}
       </Carousel>
     </div>
   );

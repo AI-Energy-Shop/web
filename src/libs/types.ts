@@ -41,6 +41,7 @@ export type ContactusSection = {
 export type BannerImages = {
   id: string;
   link: string;
+  image_type: string;
   image: {
     data: {
       attributes: ImageAttributes;
@@ -77,9 +78,7 @@ export type HomePageRes = {
     data: {
       attributes: {
         page_title: string;
-        banner_images_desktop: BannerImages[];
-        banner_images_tablet: BannerImages[];
-        banner_images_mobile: BannerImages[];
+        banner_images: BannerImages[];
         about_section: AboutSection;
         contactus_section: ContactusSection;
       };
