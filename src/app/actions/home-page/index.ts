@@ -12,6 +12,8 @@ export const homePage = async (): Promise<HomePageRes> => {
 
     return res.data;
   } catch (error: any) {
+    console.error("GraphQL Query Error:", error);
+
     return error.message;
   }
 };

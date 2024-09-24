@@ -4,7 +4,7 @@ import { homePage } from "./actions/home-page";
 export default async function HomePage() {
   const data = await homePage();
 
-  if (data && !data.homePage) {
+  if (data && data.homePage && !data.homePage.data) {
     return null;
   }
 
