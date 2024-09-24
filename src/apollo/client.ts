@@ -1,6 +1,6 @@
 import {
   ApolloClient,
-  HttpLink,
+  DefaultOptions,
   InMemoryCache,
   createHttpLink,
 } from "@apollo/client";
@@ -8,15 +8,16 @@ import {
 const PROTOCOL = process.env.BASE_PROTOCOL;
 const HOST = process.env.BASE_URL_HOST;
 
-// const httpLink = new HttpLink({
-//   uri: `${PROTOCOL}://${HOST}/graphql`,
-//   credentials: "include",
-// });
-
-// export const client = new ApolloClient({
-//   link: httpLink,
-//   cache: new InMemoryCache(),
-// });
+const defaultOptions: DefaultOptions = {
+  watchQuery: {
+    fetchPolicy: "no-cache",
+    errorPolicy: "ignore",
+  },
+  query: {
+    fetchPolicy: "no-cache",
+    errorPolicy: "all",
+  },
+};
 
 export const client = new ApolloClient({
   ssrMode: true,
@@ -28,4 +29,5 @@ export const client = new ApolloClient({
     // },
   }),
   cache: new InMemoryCache(),
+  defaultOptions: defaultOptions,
 });

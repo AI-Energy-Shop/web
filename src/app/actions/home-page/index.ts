@@ -8,7 +8,10 @@ export const homePage = async (): Promise<HomePageRes> => {
   try {
     const res = await client.query<HomePageRes>({
       query: HOMEPAGE_OPERATIONS.Queries.homePage,
+      fetchPolicy: "no-cache",
     });
+
+    console.log(res.data.homePage.data.attributes.banner_images.length);
 
     return res.data;
   } catch (error: any) {

@@ -87,6 +87,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ bannerImages }) => {
         dotListClass="py-5 bottom-[5rem]"
         customDot={<CustomDot />}
       >
+        {/* MOBILE */}
         {bannerImages?.map((item) => {
           if (item.image_type === "MOBILE" && brkp < 640) {
             return (
@@ -104,8 +105,9 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ bannerImages }) => {
             );
           }
         })}
+        {/* TABLET | IPAD */}
         {bannerImages?.map((item) => {
-          if (item.image_type === "TABLET" && brkp > 768) {
+          if (item.image_type === "TABLET" && brkp > 640 && brkp < 1024) {
             return (
               <Image
                 priority
@@ -113,7 +115,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ bannerImages }) => {
                 height={1000}
                 key={item.id}
                 className={`w-full m-auto ${
-                  item.image_type === "TABLET" && "hidden md:block lg:hidden"
+                  item.image_type === "TABLET" && "hidden sm:block lg:hidden"
                 }`}
                 src={item.image.data.attributes.url}
                 alt={item.image.data.attributes.alternativeText || ""}
@@ -121,6 +123,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ bannerImages }) => {
             );
           }
         })}
+        {/* DESKTOP | WIDESCREEN */}
         {bannerImages?.map((item) => {
           if (item.image_type === "DESKTOP" && brkp > 1024) {
             return (
