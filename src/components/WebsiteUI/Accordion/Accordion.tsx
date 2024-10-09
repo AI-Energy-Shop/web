@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { AccordionData } from "@/libs/types";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
-import { firaSansFont } from "@/assets/fonts/fonts";
+import React, { useState } from 'react';
+import { AccordionData } from '@/libs/types';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
+import { firaSansFont } from '@/assets/fonts/fonts';
 
 interface AccordionProps {
   data: AccordionData[];
@@ -34,7 +34,7 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
           {/* CONTENT */}
           <div
             className={`w-full h-0 overflow-hidden ease-in-out duration-300 bg-white ${
-              open === item.id && "h-auto"
+              open === item.id && 'h-auto'
             } md:h-auto md:bg-transparent`}
           >
             {item.content.map((content: string, index: number) => (

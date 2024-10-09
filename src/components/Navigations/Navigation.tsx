@@ -1,11 +1,11 @@
-"use client";
-import Link from "next/link";
-import Image from "next/image";
-import { useState, useEffect } from "react";
-import { NAV_LINKS } from "@/libs/constant";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { daysOne, firaSansFont } from "@/assets/fonts/fonts";
-import { usePathname } from "next/navigation";
+'use client';
+import Link from 'next/link';
+import Image from 'next/image';
+import { useState, useEffect } from 'react';
+import { NAV_LINKS } from '@/libs/constant';
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
+import { daysOne, firaSansFont } from '@/assets/fonts/fonts';
+import { usePathname } from 'next/navigation';
 
 interface NavigationBarProps {}
 
@@ -23,7 +23,7 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
   const { scrollY } = useScroll();
 
   //This hook is used to detect the scroll direction
-  useMotionValueEvent(scrollY, "change", (latest) => {
+  useMotionValueEvent(scrollY, 'change', (latest) => {
     //Get the previous value of the scrollY
     const previous = scrollY.getPrevious();
     //If the current scrollY is greater than the previous scrollY, hide the navbar
@@ -42,7 +42,7 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
     },
     opened: {
       rotate: 45,
-      backgroundColor: "rgb(0, 0, 0)",
+      backgroundColor: 'rgb(0, 0, 0)',
     },
   };
 
@@ -61,7 +61,7 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
     },
     opened: {
       rotate: -45,
-      backgroundColor: "rgb(0, 0, 0)",
+      backgroundColor: 'rgb(0, 0, 0)',
     },
   };
   // End of framer-motion
@@ -79,8 +79,8 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
   };
 
   const slideOutVariants = {
-    open: { opacity: 1, x: "0%" },
-    closed: { opacity: 0, x: "100%" },
+    open: { opacity: 1, x: '0%' },
+    closed: { opacity: 0, x: '100%' },
   };
 
   // Add sticky class to navbar when scrolling
@@ -93,10 +93,10 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
     };
 
     // Add event listener when component
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
     // Cleanup function to remove event listener on component unmount
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   /**The component returns a nav element with a conditional class based on the isSticky state.
@@ -104,11 +104,11 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
   return (
     <motion.nav
       className={`max-w-[1200px] m-auto ease-in-out duration-300 lg:duration-0 ${
-        isSticky ? "h-0 opacity-0" : "h-[80px] opacity-100"
+        isSticky ? 'h-0 opacity-0' : 'h-[80px] opacity-100'
       }`}
       variants={scrollVariant}
-      animate={hidden ? "hidden" : "visible"}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
+      animate={hidden ? 'hidden' : 'visible'}
+      transition={{ duration: 0.35, ease: 'easeInOut' }}
     >
       <div className="h-20 w-full flex items-center justify-between pl-5 lg:p-0">
         {/* TABLET/DESKTOP MENU LIST */}
@@ -142,7 +142,7 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
                 href={link.url}
                 passHref
                 className={`gradientbar-button ${
-                  pathname === link.url ? "active" : ""
+                  pathname === link.url ? 'active' : ''
                 } flex flex-col gap-2 min-w-[60px] pb-1 mt-auto`}
               >
                 <button
@@ -164,17 +164,17 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
           >
             <motion.div
               variants={topVariants}
-              animate={open ? "opened" : "closed"}
+              animate={open ? 'opened' : 'closed'}
               className="w-10 h-1 bg-black rounded origin-left"
             ></motion.div>
             <motion.div
               variants={centerVariants}
-              animate={open ? "opened" : "closed"}
+              animate={open ? 'opened' : 'closed'}
               className="w-10 h-1 bg-black rounded"
             ></motion.div>
             <motion.div
               variants={bottomVariants}
-              animate={open ? "opened" : "closed"}
+              animate={open ? 'opened' : 'closed'}
               className="w-10 h-1 bg-black rounded origin-left"
             ></motion.div>
           </button>
@@ -183,8 +183,8 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
               layout
               initial="closed"
               variants={slideOutVariants}
-              animate={open ? "open" : "closed"}
-              transition={{ duration: open ? 0.4 : 0.35, ease: "easeInOut" }}
+              animate={open ? 'open' : 'closed'}
+              transition={{ duration: open ? 0.4 : 0.35, ease: 'easeInOut' }}
               className={`w-10/12 h-screen text-blue-51  bg-slate-50 fixed top-0 right-0 flex flex-row z-20`}
             >
               <div className="h-full w-2 bg-gradient-to-b from-[#f9ac0a] via-[#e71467] to-[#29294c]"></div>

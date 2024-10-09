@@ -1,25 +1,25 @@
-"use server";
-import USERS_OPERATIONS from "@/graphql/users";
-import { client } from "@/apollo/client";
-import zod from "zod";
+'use server';
+import USERS_OPERATIONS from '@/graphql/users';
+import { client } from '@/apollo/client';
+import zod from 'zod';
 
 const schema = zod.object({
   email: zod.string().regex(/^\S+@\S+$/),
   username: zod.string(),
   password: zod
     .string()
-    .min(8, { message: "Password must be at least 8 characters" }),
+    .min(8, { message: 'Password must be at least 8 characters' }),
   repassword: zod
     .string()
-    .min(8, { message: "Confirm password must be at least 8 characters" }),
+    .min(8, { message: 'Confirm password must be at least 8 characters' }),
 });
 
 export async function registerUser(state: any, formData: any) {
   try {
-    const email = formData.get("email");
-    const username = formData.get("username");
-    const password = formData.get("password");
-    const repassword = formData.get("repassword");
+    const email = formData.get('email');
+    const username = formData.get('username');
+    const password = formData.get('password');
+    const repassword = formData.get('repassword');
 
     schema.parse({
       email,
@@ -30,14 +30,14 @@ export async function registerUser(state: any, formData: any) {
 
     if (!email || !username || !password) {
       return {
-        error: "All fields are required",
+        error: 'All fields are required',
         success: false,
       };
     }
 
     if (password !== repassword) {
       return {
-        error: "Passwords do not match",
+        error: 'Passwords do not match',
         success: false,
       };
     }
@@ -48,7 +48,7 @@ export async function registerUser(state: any, formData: any) {
         email: email,
         username: username,
         password: password,
-        level: "SMALL",
+        level: 'SMALL',
       },
     });
 
@@ -61,8 +61,8 @@ export async function registerUser(state: any, formData: any) {
 
 export async function loginUser(formData: any) {
   try {
-    const email = formData.get("email");
-    const password = formData.get("password");
+    const email = formData.get('email');
+    const password = formData.get('password');
 
     const response = await client.mutate({
       mutation: USERS_OPERATIONS.Mutations.loginUser,

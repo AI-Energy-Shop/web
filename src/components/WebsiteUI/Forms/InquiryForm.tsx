@@ -1,5 +1,5 @@
-import React from "react";
-import InputGroup from "./InputGroup";
+import React from 'react';
+import InputGroup from './InputGroup';
 
 const InquiryForm = () => {
   return (

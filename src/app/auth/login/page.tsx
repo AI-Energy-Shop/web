@@ -1,8 +1,8 @@
-import { loginUser } from "@/app/actions/users";
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import Link from "next/link";
+import { loginUser } from '@/app/actions/users';
+import React from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import Link from 'next/link';
 
 const LoginPage = () => {
   return (
@@ -37,7 +37,7 @@ const LoginPage = () => {
         </form>
 
         <p className="mt-10 text-center text-sm text-gray-500">
-          No account yet?{" "}
+          No account yet?{' '}
           <Link
             href="/auth/signup"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"

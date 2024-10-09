@@ -1,5 +1,5 @@
-import Navigations from "@/components/Navigations";
-import React from "react";
+import Navigations from '@/components/Navigations';
+import React from 'react';
 
 const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (

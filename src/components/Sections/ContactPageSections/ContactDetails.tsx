@@ -1,5 +1,5 @@
-import type { ContactDetails } from "@/libs/types";
-import React from "react";
+import type { ContactDetails } from '@/libs/types';
+import React from 'react';
 
 interface ContactDetailsProps {
   data: ContactDetails;

@@ -1,6 +1,6 @@
-import Components from "@/components";
-import React from "react";
-import { getContactPage } from "@/app/actions/contact-page";
+import Components from '@/components';
+import React from 'react';
+import { getContactPage } from '@/app/actions/contact-page';
 const ContactPage = async () => {
   const data = await getContactPage();
 

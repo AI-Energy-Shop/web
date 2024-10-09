@@ -1,6 +1,6 @@
-"use client";
-import { useState } from "react";
-import Navbar from "./Navigations/Navigation";
+'use client';
+import { useState } from 'react';
+import Navbar from './Navigations/Navigation';
 
 const ModalWrapper = () => {
   const [showModal, setShowModal] = useState(false);

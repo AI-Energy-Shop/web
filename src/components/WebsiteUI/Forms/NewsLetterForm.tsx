@@ -1,8 +1,8 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import InputGroup from "./InputGroup";
-import { firaSansFont } from "@/assets/fonts/fonts";
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import InputGroup from './InputGroup';
+import { firaSansFont } from '@/assets/fonts/fonts';
 
 interface NewsLetterFormProps {
   data: {
@@ -99,16 +99,16 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = ({ data }) => {
         </div>
 
         <p className="text-white text-xs text-center italic">
-          {data?.sub_text}{" "}
+          {data?.sub_text}{' '}
           <span>
-            <Link href={data?.privacy_link || "/"} className=" underline">
-              {"privacy policy"}
+            <Link href={data?.privacy_link || '/'} className=" underline">
+              {'privacy policy'}
             </Link>
           </span>
           .
         </p>
         <button className="min-w-[30%] m-auto font-bold py-1 px-5 bg-yellow-aes-yellow rounded-sm overflow-hidden">
-          {data?.button_title || "Button Title"}
+          {data?.button_title || 'Button Title'}
         </button>
       </form>
     </div>

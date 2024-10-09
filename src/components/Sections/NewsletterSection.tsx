@@ -1,8 +1,8 @@
-"use client";
-import React from "react";
-import Forms from "../WebsiteUI/Forms";
-import NEWS_LETTER_OPRATION from "@/graphql/newsletter-section";
-import { useQuery } from "@apollo/client";
+'use client';
+import React from 'react';
+import Forms from '../WebsiteUI/Forms';
+import NEWS_LETTER_OPRATION from '@/graphql/newsletter-section';
+import { useQuery } from '@apollo/client';
 
 const NewsletterSection = () => {
   const { data, loading } = useQuery(

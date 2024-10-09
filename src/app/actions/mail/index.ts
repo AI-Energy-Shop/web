@@ -1,14 +1,14 @@
-"use server";
-import zod from "zod";
+'use server';
+import zod from 'zod';
 
 export async function sendInquiry(formData: FormData) {
-  const fullName = formData.get("fullName");
-  const companyName = formData.get("companyName");
-  const email = formData.get("email");
-  const phone = formData.get("phone");
-  const message = formData.get("message");
-  const postal = formData.get("postal");
-  const who = formData.get("who");
+  const fullName = formData.get('fullName');
+  const companyName = formData.get('companyName');
+  const email = formData.get('email');
+  const phone = formData.get('phone');
+  const message = formData.get('message');
+  const postal = formData.get('postal');
+  const who = formData.get('who');
 
   const inquiry = zod.object({
     fullName: zod.string(),
@@ -43,9 +43,9 @@ export async function sendInquiry(formData: FormData) {
 }
 
 export async function subscribeToNews(formData: FormData) {
-  const fullName = formData.get("fullName");
-  const companyName = formData.get("companyName");
-  const email = formData.get("email");
+  const fullName = formData.get('fullName');
+  const companyName = formData.get('companyName');
+  const email = formData.get('email');
 
   const inquiry = zod.object({
     fullName: zod.string(),

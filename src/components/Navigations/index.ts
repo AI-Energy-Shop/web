@@ -1,5 +1,5 @@
-import Navigation from "./Navigation";
-import SideNavigation from "./SideNavigation";
+import Navigation from './Navigation';
+import SideNavigation from './SideNavigation';
 
 const navigations = {
   SideNavigation,

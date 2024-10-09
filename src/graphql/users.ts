@@ -1,5 +1,5 @@
-import { loginUser } from "@/app/actions/users";
-import { gql } from "@apollo/client";
+import { loginUser } from '@/app/actions/users';
+import { gql } from '@apollo/client';
 
 const schema = {
   Queries: {},

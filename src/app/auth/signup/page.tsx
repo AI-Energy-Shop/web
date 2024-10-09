@@ -1,15 +1,15 @@
-"use client";
-import { registerUser } from "@/app/actions/users";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import React from "react";
-import { useFormState } from "react-dom";
+'use client';
+import { registerUser } from '@/app/actions/users';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import React from 'react';
+import { useFormState } from 'react-dom';
 
 const SignupPage = () => {
   const [state, formAction] = useFormState(registerUser, {
-    email: "",
-    password: "",
-    confirmPassword: "",
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
 
   return (
@@ -105,7 +105,7 @@ const SignupPage = () => {
           </Button>
         </form>
         <p className="mt-10 text-center text-sm text-gray-500">
-          Already have an account?{" "}
+          Already have an account?{' '}
           <Link
             href="/auth/login"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"

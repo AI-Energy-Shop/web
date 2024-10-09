@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 const useBreakpoint = () => {
   const [currentBreakpoint, setCurrentBreakpoint] = useState(0);
 
   useEffect(() => {
     setCurrentBreakpoint(window.innerWidth);
-    window.addEventListener("resize", () => {
+    window.addEventListener('resize', () => {
       setCurrentBreakpoint(window.innerWidth);
     });
 
     // Cleanup the event listener on component unmount
     return () =>
-      window.removeEventListener("resize", () => {
+      window.removeEventListener('resize', () => {
         setCurrentBreakpoint(window.innerWidth);
       });
   }, []);

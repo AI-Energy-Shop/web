@@ -1,6 +1,6 @@
-"use client";
-import React, { useState } from "react";
-import { Locations } from "@/libs/types";
+'use client';
+import React, { useState } from 'react';
+import { Locations } from '@/libs/types';
 
 interface LocationTabProps {
   data: Locations[];
@@ -20,7 +20,7 @@ const LocationTab: React.FC<LocationTabProps> = ({ data }) => {
           <button
             key={tab.name}
             className={`uppercase px-4 font-bold text-blue-navy-blue ${
-              activeTab === tab.name && "bg-yellow-aes-yellow rounded-t-md"
+              activeTab === tab.name && 'bg-yellow-aes-yellow rounded-t-md'
             }`}
             onClick={() => handleButtonClick(tab)}
           >
