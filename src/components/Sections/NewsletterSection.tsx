@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Forms from "../UI/Forms";
+import Forms from "../WebsiteUI/Forms";
 import NEWS_LETTER_OPRATION from "@/graphql/newsletter-section";
 import { useQuery } from "@apollo/client";
 

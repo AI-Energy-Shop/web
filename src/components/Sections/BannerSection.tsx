@@ -1,6 +1,6 @@
 import React from "react";
 import Spacer from "../Spacer";
-import Carousel from "../UI/Carousel";
+import Carousel from "../WebsiteUI/Carousel";
 import { BannerImages } from "@/libs/types";
 
 interface BannerSectionProps {

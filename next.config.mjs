@@ -1,7 +1,4 @@
 /** @type {import('next').NextConfig} */
-import path from "path";
-
-const __dirname = new URL(".", import.meta.url).pathname;
 
 const nextConfig = {
   env: {
@@ -33,6 +30,10 @@ const nextConfig = {
   },
   reactStrictMode: false,
   // swcMinify: true,
+  compiler: {
+    // Enables the styled-components SWC transform
+    styledComponents: true, //removes warning from styled-components
+  },
 };
 
 export default nextConfig;

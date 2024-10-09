@@ -1,4 +1,4 @@
-import Forms from "../../UI/Forms";
+import Forms from "../../WebsiteUI/Forms";
 import React from "react";
 
 const InquerySection = () => {

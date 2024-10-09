@@ -1,6 +1,5 @@
 import AboutusSection from "./AboutusSection";
 import ContactusSection from "./ContactusSection";
-import HeaderSection from "./HeaderSection";
 import BannerSection from "./BannerSection";
 import NewsletterSection from "./NewsletterSection";
 import ContactDetails from "./ContactPageSections/ContactDetails";
@@ -11,7 +10,6 @@ const Sections = {
   BannerSection,
   AboutusSection,
   ContactusSection,
-  HeaderSection,
   NewsletterSection,
 
   // CONTACT-PAGE

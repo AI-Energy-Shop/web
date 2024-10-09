@@ -11,8 +11,6 @@ export const homePage = async (): Promise<HomePageRes> => {
       fetchPolicy: "no-cache",
     });
 
-    console.log(res.data.homePage.data.attributes.banner_images.length);
-
     return res.data;
   } catch (error: any) {
     console.error("GraphQL Query Error:", error);

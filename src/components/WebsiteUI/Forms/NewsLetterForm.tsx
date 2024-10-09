@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import InputGroup from "./InputGroup";
-import { subscribeToNews } from "@/app/actions/mail";
 import { firaSansFont } from "@/assets/fonts/fonts";
 
 interface NewsLetterFormProps {
@@ -71,10 +70,7 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = ({ data }) => {
           </div>
         </div>
       </div>
-      <form
-        action={subscribeToNews}
-        className="flex flex-col gap-5 bg-black px-5 py-4"
-      >
+      <form className="flex flex-col gap-5 bg-black px-5 py-4">
         <div className="inputs-container grid gap-5 grid-cols-4 md:p-10">
           <div className="col-span-2">
             <InputGroup
