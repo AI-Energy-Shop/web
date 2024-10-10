@@ -3,19 +3,19 @@ import {
   DefaultOptions,
   InMemoryCache,
   createHttpLink,
-} from "@apollo/client";
+} from '@apollo/client';
 
 const PROTOCOL = process.env.BASE_PROTOCOL;
 const HOST = process.env.BASE_URL_HOST;
 
 const defaultOptions: DefaultOptions = {
   watchQuery: {
-    fetchPolicy: "no-cache",
-    errorPolicy: "ignore",
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'ignore',
   },
   query: {
-    fetchPolicy: "no-cache",
-    errorPolicy: "all",
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'all',
   },
 };
 

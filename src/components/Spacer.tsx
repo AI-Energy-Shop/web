@@ -1,5 +1,5 @@
-import React from "react";
-import { number } from "zod";
+import React from 'react';
+import { number } from 'zod';
 
 interface SpacerProps {
   classStyle: string;

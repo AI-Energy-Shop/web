@@ -1,7 +1,7 @@
-import { firaSansFont, muktaVaani } from "@/assets/fonts/fonts";
-import React from "react";
-import Spacer from "../Spacer";
-import { AboutSection } from "@/libs/types";
+import { firaSansFont, muktaVaani } from '@/assets/fonts/fonts';
+import React from 'react';
+import Spacer from '../Spacer';
+import { AboutSection } from '@/libs/types';
 
 interface AboutusSectionProps {
   data: AboutSection;
@@ -19,11 +19,11 @@ const AboutusSection: React.FC<AboutusSectionProps> = ({ data }) => {
         </h1>
         <div
           style={{
-            backgroundPositionX: "30%",
-            backgroundPositionY: "60%",
+            backgroundPositionX: '30%',
+            backgroundPositionY: '60%',
             backgroundImage: data?.background_image?.data
               ? `url('${data.background_image.data.attributes.url}')`
-              : "",
+              : '',
           }}
           className="
             w-full bg-center bg-cover
