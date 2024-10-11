@@ -1,6 +1,6 @@
 import React from 'react';
 import LocationTab from '../../WebsiteUI/Tabs/LocationTab';
-import { WarehouseLocation } from '@/libs/types';
+import { WarehouseLocation } from '@/lib/types';
 
 interface WarehouseSectionProps {
   data: WarehouseLocation;

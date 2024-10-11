@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { Locations } from '@/libs/types';
+import { Locations } from '@/lib/types';
 
 interface LocationTabProps {
   data: Locations[];

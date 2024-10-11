@@ -2,7 +2,7 @@
 
 import { client } from '@/apollo/client';
 import HOMEPAGE_OPERATIONS from '@/graphql/home-page';
-import { HomePageRes } from '@/libs/types';
+import { HomePageRes } from '@/lib/types';
 
 export const homePage = async (): Promise<HomePageRes> => {
   try {

@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { NAV_LINKS } from '@/libs/constant';
+import { NAV_LINKS } from '@/lib/constant';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { daysOne, firaSansFont } from '@/assets/fonts/fonts';
 import { usePathname } from 'next/navigation';
