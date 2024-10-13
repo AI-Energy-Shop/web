@@ -1,9 +1,9 @@
 'use server';
 import USERS_OPERATIONS from '@/graphql/users';
 import { client } from '@/apollo/client';
-import { RegisterUserSchema } from '@/api-types/user';
 import { safeAction } from '@/lib/safe-action';
 import { redirect } from 'next/navigation';
+import { RegisterUserSchema } from '@/lib/schema/register-form';
 
 // TODO refactor this on how to use the library
 export const registerUser = safeAction

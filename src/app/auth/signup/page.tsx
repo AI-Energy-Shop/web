@@ -20,7 +20,7 @@ import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import { registerUser } from '@/app/actions/users';
 import { useAction } from 'next-safe-action/hooks';
-import { RegisterUserSchema } from '@/api-types/user';
+import { RegisterUserSchema } from '@/lib/schema/register-form';
 
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -61,6 +61,10 @@ const SignupPage = () => {
         form.reset();
       }
     },
+    onError(error) {
+      console.log(error);
+      toast.error('Something went wrong. Please try again later.');
+    },
   });
 
   async function onSubmit(values: z.infer<typeof RegisterUserSchema>) {
@@ -80,7 +84,7 @@ const SignupPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
       <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
-        <div className="flex justify-center mb-8">
+        <div className="flex justify -center mb-8">
           <Package2 className="h-12 w-12 text-indigo-500" />
         </div>
         <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
@@ -97,7 +101,7 @@ const SignupPage = () => {
                   <FormItem>
                     <FormLabel>Username</FormLabel>
                     <FormControl>
-                      <Input placeholder="john_doe" {...field} />
+                      <Input placeholder="john" {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -181,14 +185,14 @@ const SignupPage = () => {
               <div className="flex items-center space-x-2">
                 <Checkbox id="terms" required />
                 <Label htmlFor="terms" className="text-sm">
-                  I agree to the
+                  I agree to the{' '}
                   <Link
                     href="#"
                     className="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400"
                   >
-                    Terms of Service
+                    Terms of Service{' '}
                   </Link>
-                  and
+                  and{' '}
                   <Link
                     href="#"
                     className="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400"
