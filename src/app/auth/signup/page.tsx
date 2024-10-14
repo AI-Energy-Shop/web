@@ -38,6 +38,7 @@ const SignupPage = () => {
     },
   });
 
+  // TODO encapsulate this into a hook
   const { execute, status } = useAction(registerUser, {
     onSuccess(result) {
       const emailError = result.data?.error.email;

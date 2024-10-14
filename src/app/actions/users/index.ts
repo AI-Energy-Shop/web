@@ -5,7 +5,6 @@ import { safeAction } from '@/lib/safe-action';
 import { redirect } from 'next/navigation';
 import { RegisterUserSchema } from '@/lib/schema/register-form';
 
-// TODO refactor this and encapsulate it
 export const registerUser = safeAction
   .schema(RegisterUserSchema)
   .action(async ({ parsedInput: { email, username, password } }) => {
@@ -35,7 +34,7 @@ export const registerUser = safeAction
         },
       };
     } else {
-      redirect('/auth/pending');
+      redirect('/auth/approval');
     }
   });
 

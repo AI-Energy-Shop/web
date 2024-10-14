@@ -1,4 +1,6 @@
-export default function InfoPage() {
+import Link from 'next/link';
+
+export default function ApprovalPage() {
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-2xl overflow-hidden max-w-md w-full">
@@ -33,9 +35,17 @@ export default function InfoPage() {
             possible. You will be notified via email once your account has been
             approved.
           </p>
-          <p className="text-center font-semibold">
+          <p className="text-center font-semibold mb-6">
             Thank you for your patience!
           </p>
+          <div className="flex justify-center">
+            <Link
+              href="/auth/login"
+              className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200"
+            >
+              Go to Login Page
+            </Link>
+          </div>
         </div>
         <div className="bg-gray-100 px-8 py-4">
           <p className="text-sm text-gray-500 text-center">
