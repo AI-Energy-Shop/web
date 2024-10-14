@@ -3,10 +3,11 @@ import USERS_OPERATIONS from '@/graphql/users';
 import { client } from '@/apollo/client';
 import { safeAction } from '@/lib/safe-action';
 import { redirect } from 'next/navigation';
-import { RegisterUserSchema } from '@/lib/schema/register-form';
+import { registerUserSchema } from '@/lib/schema/register-form';
+import { loginUserSchema } from '@/lib/schema/login-form';
 
 export const registerUser = safeAction
-  .schema(RegisterUserSchema)
+  .schema(registerUserSchema)
   .action(async ({ parsedInput: { email, username, password } }) => {
     const response = await client.mutate({
       mutation: USERS_OPERATIONS.Mutations.registerUser,
@@ -17,6 +18,8 @@ export const registerUser = safeAction
         level: 'SMALL',
       },
     });
+
+    // TODO refactor this
     if (!response.data.registerUser.success) {
       const username =
         (response.data.registerUser.error as string)
@@ -38,21 +41,19 @@ export const registerUser = safeAction
     }
   });
 
-export async function loginUser(formData: any) {
-  try {
-    const email = formData.get('email');
-    const password = formData.get('password');
-
+export const loginUser = safeAction
+  .schema(loginUserSchema)
+  .action(async ({ parsedInput: { email, password } }) => {
     const response = await client.mutate({
       mutation: USERS_OPERATIONS.Mutations.loginUser,
       variables: {
         input: {
           identifier: email,
           password: password,
+          provider: '',
         },
       },
     });
 
-    console.log(response);
-  } catch (error: any) {}
-}
+    console.log({ response });
+  });
