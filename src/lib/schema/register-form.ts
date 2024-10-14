@@ -8,12 +8,10 @@ export const RegisterUserSchema = z.object({
   password: z
     .string()
     .min(8, { message: 'Password must be at least 8 characters long' })
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
-      {
-        message:
-          'Password must contain at least 8 characters, including uppercase, lowercase, number, and special character',
-      }
-    ),
+    .max(64, { message: 'Password must be no more than 64 characters long' })
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/, {
+      message:
+        'Password must contain at least 8 characters, including an uppercase letter, a lowercase letter, and a number',
+    }),
   confirmPassword: z.string(),
 });
