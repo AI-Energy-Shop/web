@@ -35,7 +35,7 @@ const LoginPage = () => {
   });
 
   // TODO encapsulate this into a hook
-  // TODO this is not yet functional
+  // TODO this is not yet fully funtcional
   const { execute, status } = useAction(loginUser, {
     onSuccess(result) {
       console.log({ result });
@@ -48,7 +48,7 @@ const LoginPage = () => {
 
   async function onSubmit(values: z.infer<typeof loginUserSchema>) {
     try {
-      execute({ email: values.email, password: values.password });
+      execute(values);
     } catch (error) {
       toast.error('Something went wrong. Please try again later.');
     }

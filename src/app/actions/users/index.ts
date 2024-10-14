@@ -50,10 +50,10 @@ export const loginUser = safeAction
         input: {
           identifier: email,
           password: password,
-          provider: '',
+          provider: 'local',
         },
       },
     });
 
-    console.log({ response });
+    return response;
   });
