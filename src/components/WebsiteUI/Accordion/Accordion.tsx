@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { AccordionData } from '@/libs/types';
+import { AccordionData } from '@/lib/types';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
 import { firaSansFont } from '@/assets/fonts/fonts';
 

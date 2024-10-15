@@ -1,47 +1,14 @@
 'use server';
 import USERS_OPERATIONS from '@/graphql/users';
 import { client } from '@/apollo/client';
-import zod from 'zod';
+import { RegisterUserSchema } from '@/api-types/user';
+import { safeAction } from '@/lib/safe-action';
+import { redirect } from 'next/navigation';
 
-const schema = zod.object({
-  email: zod.string().regex(/^\S+@\S+$/),
-  username: zod.string(),
-  password: zod
-    .string()
-    .min(8, { message: 'Password must be at least 8 characters' }),
-  repassword: zod
-    .string()
-    .min(8, { message: 'Confirm password must be at least 8 characters' }),
-});
-
-export async function registerUser(state: any, formData: any) {
-  try {
-    const email = formData.get('email');
-    const username = formData.get('username');
-    const password = formData.get('password');
-    const repassword = formData.get('repassword');
-
-    schema.parse({
-      email,
-      username,
-      password,
-      repassword,
-    });
-
-    if (!email || !username || !password) {
-      return {
-        error: 'All fields are required',
-        success: false,
-      };
-    }
-
-    if (password !== repassword) {
-      return {
-        error: 'Passwords do not match',
-        success: false,
-      };
-    }
-
+// TODO refactor this on how to use the library
+export const registerUser = safeAction
+  .schema(RegisterUserSchema)
+  .action(async ({ parsedInput: { email, username, password } }) => {
     const response = await client.mutate({
       mutation: USERS_OPERATIONS.Mutations.registerUser,
       variables: {
@@ -51,13 +18,26 @@ export async function registerUser(state: any, formData: any) {
         level: 'SMALL',
       },
     });
+    if (!response.data.registerUser.success) {
+      const username =
+        (response.data.registerUser.error as string)
+          .toLowerCase()
+          .includes('username') && response.data.registerUser.error;
+      const email =
+        (response.data.registerUser.error as string)
+          .toLowerCase()
+          .includes('email') && response.data.registerUser.error;
 
-    return response.data.registerUser;
-  } catch (error: any) {
-    console.log(error.message);
-    return error.message;
-  }
-}
+      return {
+        error: {
+          username,
+          email,
+        },
+      };
+    } else {
+      redirect('/auth/login');
+    }
+  });
 
 export async function loginUser(formData: any) {
   try {

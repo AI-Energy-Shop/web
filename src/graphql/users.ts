@@ -1,4 +1,3 @@
-import { loginUser } from '@/app/actions/users';
 import { gql } from '@apollo/client';
 
 const schema = {

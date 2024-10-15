@@ -1,7 +1,7 @@
 import { firaSansFont, muktaVaani } from '@/assets/fonts/fonts';
 import React from 'react';
 import Spacer from '../Spacer';
-import { AboutSection } from '@/libs/types';
+import { AboutSection } from '@/lib/types';
 
 interface AboutusSectionProps {
   data: AboutSection;
