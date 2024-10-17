@@ -27,17 +27,17 @@ const ContactusSection: React.FC<ContactusSectionProps> = ({ data }) => {
               lg:w-[65%] lg:clip-path-right-70
             "
           >
-            {data?.image?.data && (
+            {data?.background_image && (
               <Image
                 fill
                 priority
                 sizes="100vh"
                 quality={100}
                 className="object-cover"
-                src={data.image.data.attributes.url}
+                src={data.background_image.url}
                 alt={
-                  data.image.data.attributes.alternativeText ||
-                  data.image.data.attributes.name
+                  data.background_image.alternativeText ||
+                  data.background_image.name
                 }
               />
             )}

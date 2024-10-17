@@ -89,7 +89,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ bannerImages }) => {
       >
         {/* MOBILE */}
         {bannerImages?.map((item) => {
-          if (item.image_type === 'MOBILE' && brkp < 640) {
+          if (item.type === 'MOBILE' && brkp < 640) {
             return (
               <Image
                 priority
@@ -97,17 +97,17 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ bannerImages }) => {
                 height={1000}
                 key={item.id}
                 className={`w-full m-auto ${
-                  item.image_type === 'MOBILE' && 'block md:hidden lg:hidden'
+                  item.type === 'MOBILE' && 'block md:hidden lg:hidden'
                 }`}
-                src={item.image.data.attributes.url}
-                alt={item.image.data.attributes.alternativeText || ''}
+                src={item.image.url}
+                alt={item.image.alternativeText || ''}
               />
             );
           }
         })}
         {/* TABLET | IPAD */}
         {bannerImages?.map((item) => {
-          if (item.image_type === 'TABLET' && brkp > 640 && brkp < 1024) {
+          if (item.type === 'TABLET' && brkp > 640 && brkp < 1024) {
             return (
               <Image
                 priority
@@ -115,17 +115,17 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ bannerImages }) => {
                 height={1000}
                 key={item.id}
                 className={`w-full m-auto ${
-                  item.image_type === 'TABLET' && 'hidden sm:block lg:hidden'
+                  item.type === 'TABLET' && 'hidden sm:block lg:hidden'
                 }`}
-                src={item.image.data.attributes.url}
-                alt={item.image.data.attributes.alternativeText || ''}
+                src={item.image.url}
+                alt={item.image.alternativeText || ''}
               />
             );
           }
         })}
         {/* DESKTOP | WIDESCREEN */}
         {bannerImages?.map((item) => {
-          if (item.image_type === 'DESKTOP' && brkp > 1024) {
+          if (item.type === 'DESKTOP' && brkp > 1024) {
             return (
               <Image
                 priority
@@ -133,10 +133,10 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ bannerImages }) => {
                 height={1000}
                 key={item.id}
                 className={`w-full m-auto ${
-                  item.image_type === 'DESKTOP' && 'hidden md:hidden lg:block'
+                  item.type === 'DESKTOP' && 'hidden md:hidden lg:block'
                 }`}
-                src={item.image.data.attributes.url}
-                alt={item.image.data.attributes.alternativeText || ''}
+                src={item.image.url}
+                alt={item.image.alternativeText || ''}
               />
             );
           }

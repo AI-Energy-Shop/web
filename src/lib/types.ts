@@ -20,33 +20,21 @@ export type AboutSection = {
   sub_heading: string;
   description: string;
   button_title: string;
-  background_image: {
-    data?: {
-      attributes: ImageAttributes;
-    };
-  };
+  background_image: ImageAttributes;
 };
 
 export type ContactusSection = {
   heading: string;
   description: string;
   button_title: string;
-  image: {
-    data: {
-      attributes: ImageAttributes;
-    };
-  };
+  background_image: ImageAttributes;
 };
 
 export type BannerImages = {
   id: string;
   link: string;
-  image_type: string;
-  image: {
-    data: {
-      attributes: ImageAttributes;
-    };
-  };
+  type: string;
+  image: ImageAttributes;
 };
 
 export type WarehouseLocation = {

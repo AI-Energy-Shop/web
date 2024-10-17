@@ -8,17 +8,13 @@ interface NewsLetterFormProps {
   data: {
     heading: string;
     button_title?: string;
-    paragraph?: string;
+    sub_heading?: string;
     sub_text?: string;
     privacy_link?: string;
-    background_image?: {
-      data?: {
-        attributes: {
-          url: string;
-          name: string;
-          alternativeText: string;
-        };
-      };
+    image?: {
+      url: string;
+      name: string;
+      alternativeText: string;
     };
   };
 }
@@ -43,7 +39,7 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = ({ data }) => {
             md:text-base md:font-normal
           "
           >
-            {data?.paragraph}
+            {data?.sub_heading}
           </p>
         </div>
         <div
@@ -54,16 +50,16 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = ({ data }) => {
           "
         >
           <div className="w-full h-full relative overflow-hidden">
-            {data?.background_image?.data && (
+            {data?.image && (
               <Image
                 fill
                 priority
                 sizes="100vh"
                 alt={
-                  data.background_image.data.attributes.url ||
-                  `newsletter-bg-image${data.background_image.data.attributes.alternativeText}`
+                  data.image.url ||
+                  `newsletter-bg-image${data.image.alternativeText}`
                 }
-                src={data.background_image.data.attributes.url}
+                src={data.image.url}
                 className="w-auto h-auto object-cover"
               />
             )}

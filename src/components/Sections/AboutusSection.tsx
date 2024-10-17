@@ -21,8 +21,8 @@ const AboutusSection: React.FC<AboutusSectionProps> = ({ data }) => {
           style={{
             backgroundPositionX: '30%',
             backgroundPositionY: '60%',
-            backgroundImage: data?.background_image?.data
-              ? `url('${data.background_image.data.attributes.url}')`
+            backgroundImage: data?.background_image?.url
+              ? `url('${data.background_image.url}')`
               : '',
           }}
           className="

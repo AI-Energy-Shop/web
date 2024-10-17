@@ -28,12 +28,12 @@ const nextConfig = {
       },
     ],
   },
-  reactStrictMode: false,
+  reactStrictMode: true,
   // swcMinify: true,
-  compiler: {
-    // Enables the styled-components SWC transform
-    styledComponents: true, //removes warning from styled-components
-  },
+  // compiler: {
+  //   // Enables the styled-components SWC transform
+  //   styledComponents: true, //removes warning from styled-components
+  // },
 };
 
 export default nextConfig;
