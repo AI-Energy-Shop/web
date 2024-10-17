@@ -1,28 +1,40 @@
 import Components from '@/components';
-import { homePage } from '@/app/actions/home-page';
+import Sections from '../components/Sections/index';
+import { getPage } from '@/app/actions/pages';
 
 export default async function HomePage() {
-  const data = await homePage();
-
-  if (data && data.homePage && !data.homePage.data) {
-    return null;
-  }
+  const data = await getPage("");
 
   return (
     <main className="w-full min-h-screen bg-yellow-light-yellow-50 ">
-      <Components.Sections.BannerSection
-        bannerImages={data.homePage.data.attributes.banner_images}
-      />
-
-      <Components.Sections.AboutusSection
-        data={data.homePage.data.attributes.about_section}
-      />
-
-      <Components.Sections.ContactusSection
-        data={data.homePage.data.attributes.contactus_section}
-      />
-
-      <Components.Sections.NewsletterSection />
+      {data.getPage.sections.map((section: any, index: number) => {
+          switch (section.__typename) {
+            case "ComponentSectionsImageSlider":
+              return (
+                <Components.Sections.SliderSection
+                  bannerImages={section.slides}
+                />
+              )
+            case "ComponentSectionsAboutSection":
+              return (
+                <Components.Sections.AboutusSection
+                  data={section}
+                />
+              )
+            case "ComponentSectionsContactUsSection":
+              return (
+                <Components.Sections.ContactusSection
+                  data={section}
+                />
+              )
+            case "ComponentFormNewsletter":
+              return (
+                <Components.Sections.NewsletterSection data={section} />
+              )
+            default:
+              break;
+          }
+        })}
     </main>
   );
 }

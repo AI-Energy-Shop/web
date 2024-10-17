@@ -47,3 +47,6 @@ export const BREAKPOINTS = {
   xl: 1280,
   '2xl': 1536,
 };
+
+
+export const ComponentComponentBannerImages = 'ComponentComponentBannerImages';
