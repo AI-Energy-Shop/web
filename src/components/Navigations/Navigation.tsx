@@ -1,17 +1,20 @@
 'use client';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { daysOne, firaSansFont } from '@/assets/fonts/fonts';
+import PAGES_OPREATIONS from '@/graphql/page';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { NAV_LINKS } from '@/lib/constant';
+import { useQuery } from '@apollo/client';
 import Image from 'next/image';
 import Link from 'next/link';
 
 interface NavigationBarProps {}
 
-const NavigationBar: React.FC<NavigationBarProps> = (props) => {
-  const pathname = usePathname();
+const NavigationBar: React.FC<NavigationBarProps> = () => {
 
+  const { data , error , loading} = useQuery(PAGES_OPREATIONS.Queries.pages);
+
+  const pathname = usePathname();
   // State for the sticky navbar
   const [isSticky, setIsSticky] = useState(false);
   // State for the menu button
@@ -126,8 +129,9 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
                   priority
                 />
               </div>
+              {/* ${daysOne.className}  */}
               <p
-                className={`${daysOne.className} text-[10px] it text-purple-purp-aes font-black text-center text-nowrap `}
+                className={`text-[10px] it text-purple-purp-aes font-black text-center text-nowrap `}
               >
                 AI ENERGY SHOP
               </p>
@@ -136,23 +140,26 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
 
           {/* TABLET TO DESKTOP LINKS */}
           <div className="desktop-nav-links hidden lg:flex gap-4 items-center justify-center">
-            {NAV_LINKS.map((link, index) => (
+            {data?.pages?.map?.((link: any) => {
+              return(
               <Link
-                key={index}
-                href={link.url}
+                key={link.documentId}
+                href={`/${link.slug}`}
                 passHref
                 className={`gradientbar-button ${
                   pathname === link.url ? 'active' : ''
                 } flex flex-col gap-2 min-w-[60px] pb-1 mt-auto`}
               >
+                {/* ${firaSansFont.className}  */}
                 <button
-                  className={`${firaSansFont.className} w-full font-semibold text-center`}
+                  className={`w-full font-semibold text-center`}
                 >
                   {link.title}
                 </button>
                 <div className="gradientbar w-full h-[4px] bg-transparent ease-in-out duration-300 opacity-0"></div>
               </Link>
-            ))}
+              )
+            })}
           </div>
         </div>
 
@@ -189,10 +196,10 @@ const NavigationBar: React.FC<NavigationBarProps> = (props) => {
             >
               <div className="h-full w-2 bg-gradient-to-b from-[#f9ac0a] via-[#e71467] to-[#29294c]"></div>
               <div className="nav-list w-full h-full flex flex-col gap-4">
-                {NAV_LINKS.map((link, index) => (
+                {data?.pages?.map?.((link: any) => (
                   <Link
-                    key={index}
-                    href={link.url}
+                    key={link.documentId}
+                    href={`/${link.slug}`}
                     passHref
                     className="translate-y-20 "
                   >

@@ -1,86 +1,122 @@
+
 export type LinkItem = {
   url: string;
   title: string;
 };
 
-export type AccordionData = {
-  id: number;
-  title: string;
-  content: string[];
-};
-
-type ImageAttributes = {
-  url: string;
-  name: string;
-  alternativeText: string;
-};
-
-export type AboutSection = {
-  heading: string;
-  sub_heading: string;
-  description: string;
-  button_title: string;
-  background_image: ImageAttributes;
-};
-
-export type ContactusSection = {
-  heading: string;
-  description: string;
-  button_title: string;
-  background_image: ImageAttributes;
-};
-
-export type BannerImages = {
+// Types for the GraphQL query response
+interface Input {
   id: string;
-  link: string;
+  label: string;
   type: string;
-  image: ImageAttributes;
-};
+  placeholder: string;
+  required: boolean;
+}
+interface Image {
+  alternativeText: string;
+  name: string;
+  url: string;
+}
 
-export type WarehouseLocation = {
+interface Location {
+  id: string;
+  address: string;
+  office_time: string;
+  warehouse_time: string;
+  google_maps_link: string;
+  name: string;
+}
+
+interface SliderSlide {
+  id: string;
+  title: string;
+  description: string;
+  image: Image;
+  type: string;
+}
+
+interface BaseSection {
+  id: string;
+  __typename: string;
+}
+
+export interface ComponentSectionsWarehouseLocations extends BaseSection {
+  __typename: "ComponentSectionsWarehouseLocations";
   heading: string;
   sub_heading: string;
-  locations: Locations[];
-};
+  locations: Location[];
+}
 
-export type Locations = {
-  id: string;
-  name: string;
-  address: string;
-  warehouse_time: string;
-  office_time: string;
-  link: string;
-};
+interface ComponentSectionsImageSlider extends BaseSection {
+  __typename: "ComponentSectionsImageSlider";
+  animation_duration: number;
+  display_button: boolean;
+  slides: SliderSlide[];
+}
 
-export type ContactDetails = {
-  id: string;
-  left_subheading: string;
-  left_description: string;
-  right_subheading: string;
-  right_description: string;
-};
+export interface ComponentSectionsContactUs extends BaseSection {
+  __typename: "ComponentSectionsContactUs";
+  heading: string;
+  description: string;
+  button_title: string;
+  background_image: Image;
+}
 
-// HOME PAGE
-export type HomePageRes = {
-  homePage: {
-    data: {
-      attributes: {
-        page_title: string;
-        banner_images: BannerImages[];
-        about_section: AboutSection;
-        contactus_section: ContactusSection;
-      };
-    };
-  };
-};
+export interface ComponentSectionsContactDetails extends BaseSection {
+  __typename: "ComponentSectionsContactDetails";
+  left_heading: string;
+  left_sub_heading: string;
+  right_heading: string;
+  right_sub_heading: string;
+}
 
-export type ContactPageRes = {
-  contactPage: {
-    data: {
-      attributes: {
-        contact_details_section: ContactDetails;
-        warehouse_location: WarehouseLocation;
-      };
-    };
-  };
-};
+export interface ComponentSectionsAbout extends BaseSection {
+  __typename: "ComponentSectionsAbout";
+  heading: string;
+  sub_heading: string;
+  description: string;
+  button_title: string;
+  background_image: Image;
+}
+
+interface ComponentFormNewsletter extends BaseSection {
+  __typename: "ComponentFormNewsletter";
+  heading: string;
+  sub_heading: string;
+  inputs: Input[];
+  sub_text: string;
+  button_title: string;
+  image: Image;
+}
+
+export interface ComponentFormInquiry extends BaseSection {
+  __typename: "ComponentFormInquiry";
+  heading: string;
+  button_title: string;
+  inputs: Input[];
+}
+
+interface ErrorResponse {
+  code: string;
+  message: string;
+}
+
+type Section =
+  | ComponentSectionsWarehouseLocations
+  | ComponentSectionsImageSlider
+  | ComponentSectionsContactUs
+  | ComponentSectionsContactDetails
+  | ComponentSectionsAbout
+  | ComponentFormNewsletter
+  | ComponentFormInquiry
+  | ErrorResponse;
+
+interface GetPageResponse {
+  title: string;
+  slug: string;
+  sections: Section[];
+}
+
+interface GetPageQuery {
+  getPage: GetPageResponse;
+}

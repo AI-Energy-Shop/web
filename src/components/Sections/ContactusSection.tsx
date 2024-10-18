@@ -1,10 +1,10 @@
 import { firaSansFont, muktaVaani } from '@/assets/fonts/fonts';
 import React from 'react';
 import Image from 'next/image';
-import type { ContactusSection } from '@/lib/types';
+import type { ComponentSectionsContactUs } from '@/lib/types';
 
 interface ContactusSectionProps {
-  data: ContactusSection;
+  data: ComponentSectionsContactUs;
 }
 const ContactusSection: React.FC<ContactusSectionProps> = ({ data }) => {
   return (

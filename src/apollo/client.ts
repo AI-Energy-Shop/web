@@ -20,7 +20,7 @@ const defaultOptions: DefaultOptions = {
 };
 
 export const client = new ApolloClient({
-  ssrMode: true,
+  ssrMode: false,
   link: createHttpLink({
     uri: `${PROTOCOL}://${HOST}/graphql`,
     // credentials: "same-origin",

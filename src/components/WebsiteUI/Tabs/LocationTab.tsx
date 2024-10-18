@@ -18,7 +18,7 @@ const LocationTab: React.FC<LocationTabProps> = ({ data }) => {
       <div className="flex justify-between md:justify-center lg:justify-evenly md:gap-10">
         {data.map((tab) => (
           <button
-            key={tab.name}
+            key={tab.id}
             className={`uppercase px-4 font-bold text-blue-navy-blue ${
               activeTab === tab.name && 'bg-yellow-aes-yellow rounded-t-md'
             }`}
@@ -36,7 +36,7 @@ const LocationTab: React.FC<LocationTabProps> = ({ data }) => {
           (tab) =>
             activeTab === tab.name && (
               <div
-                key={tab.name}
+                key={tab.id}
                 className="w-full flex flex-col items-center justify-center"
               >
                 {/* ADDRESS */}
@@ -71,7 +71,7 @@ const LocationTab: React.FC<LocationTabProps> = ({ data }) => {
                     frameBorder={0}
                     style={{ border: 0 }}
                     allowFullScreen
-                    src={tab.link}
+                    src={tab.google_maps_link}
                     aria-hidden="false"
                     className="w-full md:min-h-[300px]"
                     loading="lazy"

@@ -9,7 +9,7 @@ import Accordion from './WebsiteUI/Accordion/Accordion';
 import Forms from './WebsiteUI/Forms';
 import LoadingAnimation from './WebsiteUI/LoadingAnimation';
 import Sliders from './WebsiteUI/Sliders';
-
+import DynamicComponentRenderer from './DynamicComponentRenderer';
 const Components = {
   NavigationBar,
   Footer,
@@ -22,6 +22,7 @@ const Components = {
   ApolloProviderComponent,
   NavigationProvider,
   LoadingAnimation,
+  DynamicComponentRenderer,
 };
 
 export default Components;
