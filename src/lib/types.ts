@@ -1,85 +1,89 @@
+// Common Types
+export type ImageAttributes = {
+  url: string;
+  name: string;
+  alternativeText: string; // Shortened alternative text
+};
+
 export type LinkItem = {
   url: string;
   title: string;
 };
 
-export type AccordionData = {
-  id: number;
-  title: string;
-  content: string[];
+// Inquiry Form Types
+export type InquiryInput = {
+  id: string;
+  label: string;
+  type: string;
+  placeholder: string;
+  required: boolean;
 };
 
-type ImageAttributes = {
-  url: string;
-  name: string;
-  alternativeText: string;
+export type InquiryForm = {
+  heading: string;
+  button_title: string;
+  inputs: InquiryInput[];
 };
 
+// Section Types
 export type AboutSection = {
   heading: string;
   sub_heading: string;
   description: string;
   button_title: string;
-  background_image: ImageAttributes;
+  backgroundImage: ImageAttributes;
 };
 
-export type ContactusSection = {
+export type ContactUsSection = {
   heading: string;
   description: string;
   button_title: string;
   background_image: ImageAttributes;
 };
 
-export type BannerImages = {
+export type Location = {
   id: string;
-  link: string;
-  type: string;
-  image: ImageAttributes;
+  name: string;
+  address: string;
+  warehouse_time: string;
+  officeTime: string;
+  googleMapsLink: string;
 };
 
 export type WarehouseLocation = {
   heading: string;
   sub_heading: string;
-  locations: Locations[];
-};
-
-export type Locations = {
-  id: string;
-  name: string;
-  address: string;
-  warehouse_time: string;
-  office_time: string;
-  link: string;
+  locations: Location[];
 };
 
 export type ContactDetails = {
   id: string;
-  left_subheading: string;
-  left_description: string;
-  right_subheading: string;
-  right_description: string;
+  left_heading: string;
+  left_sub_heading: string;
+  right_heading: string;
+  right_sub_heading: string;
 };
 
-// HOME PAGE
-export type HomePageRes = {
+// Response Types
+export type HomePageResponse = {
   homePage: {
     data: {
       attributes: {
-        page_title: string;
-        banner_images: BannerImages[];
-        about_section: AboutSection;
-        contactus_section: ContactusSection;
+        pageTitle: string;
+        bannerImages: ImageAttributes[];
+        aboutSection: AboutSection;
+        contactUsSection: ContactUsSection;
       };
     };
   };
 };
 
-export type ContactPageRes = {
+export type ContactPageResponse = {
   contactPage: {
     data: {
       attributes: {
-        contact_details_section: ContactDetails;
-        warehouse_location: WarehouseLocation;
+        contactDetails: ContactDetails;
+        warehouseLocation: WarehouseLocation;
       };
     };
   };

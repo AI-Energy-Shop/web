@@ -1,31 +1,3 @@
-import { LinkItem } from './types';
-
-export const NAV_LINKS: LinkItem[] = [
-  {
-    url: '/',
-    title: 'Home',
-  },
-  {
-    url: '/about',
-    title: 'About Us',
-  },
-  {
-    url: '/contact-us',
-    title: 'Contact Us',
-  },
-  {
-    url: '/downloads',
-    title: 'Downloads',
-  },
-  {
-    url: '/stc-trading',
-    title: 'STC Trading',
-  },
-  {
-    url: '/shift-trade',
-    title: 'Shift Trade',
-  },
-];
 
 export const FOOTER_ACCORDION_DATA = [
   {
@@ -47,6 +19,3 @@ export const BREAKPOINTS = {
   xl: 1280,
   '2xl': 1536,
 };
-
-
-export const ComponentComponentBannerImages = 'ComponentComponentBannerImages';
