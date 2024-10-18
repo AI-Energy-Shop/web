@@ -1,4 +1,3 @@
-
 import { ComponentSectionsContactDetails } from '@/lib/types';
 import React from 'react';
 
@@ -11,9 +10,7 @@ const ContactDetails: React.FC<ContactDetailsProps> = ({ data }) => {
       {/* BANNER */}
       <div className="w-full h-auto rounded-[10px] overflow-hidden font-bold flex flex-col md:flex-row ">
         <div className="top-dark w-full p-5 flex flex-col items-center justify-center bg-blue-navy-blue">
-          <span className="text-yellow-aes-yellow">
-            {data?.left_heading}
-          </span>
+          <span className="text-yellow-aes-yellow">{data?.left_heading}</span>
           <span className="text-white">{data?.left_sub_heading}</span>
         </div>
         <div className="top-light w-full p-5 flex flex-col items-center justify-center bg-yellow-aes-yellow">

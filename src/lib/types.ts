@@ -1,4 +1,3 @@
-
 export type LinkItem = {
   url: string;
   title: string;
@@ -41,21 +40,21 @@ interface BaseSection {
 }
 
 export interface ComponentSectionsWarehouseLocations extends BaseSection {
-  __typename: "ComponentSectionsWarehouseLocations";
+  __typename: 'ComponentSectionsWarehouseLocations';
   heading: string;
   sub_heading: string;
   locations: Location[];
 }
 
 interface ComponentSectionsImageSlider extends BaseSection {
-  __typename: "ComponentSectionsImageSlider";
+  __typename: 'ComponentSectionsImageSlider';
   animation_duration: number;
   display_button: boolean;
   slides: SliderSlide[];
 }
 
 export interface ComponentSectionsContactUs extends BaseSection {
-  __typename: "ComponentSectionsContactUs";
+  __typename: 'ComponentSectionsContactUs';
   heading: string;
   description: string;
   button_title: string;
@@ -63,7 +62,7 @@ export interface ComponentSectionsContactUs extends BaseSection {
 }
 
 export interface ComponentSectionsContactDetails extends BaseSection {
-  __typename: "ComponentSectionsContactDetails";
+  __typename: 'ComponentSectionsContactDetails';
   left_heading: string;
   left_sub_heading: string;
   right_heading: string;
@@ -71,7 +70,7 @@ export interface ComponentSectionsContactDetails extends BaseSection {
 }
 
 export interface ComponentSectionsAbout extends BaseSection {
-  __typename: "ComponentSectionsAbout";
+  __typename: 'ComponentSectionsAbout';
   heading: string;
   sub_heading: string;
   description: string;
@@ -80,7 +79,7 @@ export interface ComponentSectionsAbout extends BaseSection {
 }
 
 interface ComponentFormNewsletter extends BaseSection {
-  __typename: "ComponentFormNewsletter";
+  __typename: 'ComponentFormNewsletter';
   heading: string;
   sub_heading: string;
   inputs: Input[];
@@ -90,7 +89,7 @@ interface ComponentFormNewsletter extends BaseSection {
 }
 
 export interface ComponentFormInquiry extends BaseSection {
-  __typename: "ComponentFormInquiry";
+  __typename: 'ComponentFormInquiry';
   heading: string;
   button_title: string;
   inputs: Input[];

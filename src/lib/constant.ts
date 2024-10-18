@@ -1,4 +1,3 @@
-
 export const FOOTER_ACCORDION_DATA = [
   {
     id: 1,
