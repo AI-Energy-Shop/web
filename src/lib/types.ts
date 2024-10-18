@@ -27,7 +27,7 @@ interface Location {
   name: string;
 }
 
-interface SliderSlide {
+export interface SliderSlide {
   id: string;
   title: string;
   description: string;
@@ -120,3 +120,42 @@ interface GetPageResponse {
 interface GetPageQuery {
   getPage: GetPageResponse;
 }
+
+
+// Account Detail Type
+export type AccountDetail = {
+  documentId: string;
+  level: string;
+  user_type: string; // Changed to camelCase for consistency
+  odooId: string; // Changed to camelCase for consistency
+  first_name: string; // Changed to camelCase for consistency
+  middle_name: string; // Changed to camelCase for consistency
+  last_name: string; // Changed to camelCase for consistency
+  businessName: string; // Changed to camelCase for consistency
+  position: string;
+  createdAt: string; // Consider using Date type if you parse it later
+  updatedAt: string; // Consider using Date type if you parse it later
+  publishedAt: string; // Consider using Date type if you parse it later
+  locale: string;
+};
+
+// User Type
+export type UserType = {
+  documentId: string;
+  username: string;
+  email: string;
+  provider: string;
+  confirmed: boolean;
+  blocked: boolean;
+  account_status: string;
+  account_details: AccountDetail; // Changed to camelCase for consistency
+  createdAt: string; // Consider using Date type if you parse it later
+  updatedAt: string; // Consider using Date type if you parse it later
+  publishedAt: string; // Consider using Date type if you parse it later
+  locale: string;
+};
+
+// Response Type
+export type UsersPermissionsResponse = {
+  usersPermissionsUsers: UserType[];
+};

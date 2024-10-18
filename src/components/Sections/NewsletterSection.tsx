@@ -1,6 +1,6 @@
 
 import React from 'react';
-import Forms from '../WebsiteUI/Forms';
+import Forms from '../custom-ui/Forms';
 import NEWS_LETTER_OPRATION from '@/graphql/newsletter-section';
 import { useQuery } from '@apollo/client';
 

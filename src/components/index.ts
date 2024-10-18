@@ -5,11 +5,12 @@ import ModalWrapper from './ModalWrapper';
 import NavigationBar from './Navigations/Navigation';
 import NavigationProvider from './NavigationProvider';
 import Sections from './Sections';
-import Accordion from './WebsiteUI/Accordion/Accordion';
-import Forms from './WebsiteUI/Forms';
-import LoadingAnimation from './WebsiteUI/LoadingAnimation';
-import Sliders from './WebsiteUI/Sliders';
+import Accordion from './custom-ui/Accordion/Accordion';
+import Forms from './custom-ui/Forms';
+import LoadingAnimation from './custom-ui/LoadingAnimation';
+import Sliders from './custom-ui/Sliders';
 import DynamicComponentRenderer from './DynamicComponentRenderer';
+import Tables from './custom-ui/Table';
 const Components = {
   NavigationBar,
   Footer,
@@ -23,6 +24,7 @@ const Components = {
   NavigationProvider,
   LoadingAnimation,
   DynamicComponentRenderer,
+  Tables
 };
 
 export default Components;
