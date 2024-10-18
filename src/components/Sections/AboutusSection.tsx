@@ -1,10 +1,10 @@
 import { firaSansFont, muktaVaani } from '@/assets/fonts/fonts';
 import React from 'react';
 import Spacer from '../Spacer';
-import { AboutSection } from '@/lib/types';
+import { ComponentSectionsAbout } from '@/lib/types';
 
 interface AboutusSectionProps {
-  data: AboutSection;
+  data: ComponentSectionsAbout;
 }
 
 const AboutusSection: React.FC<AboutusSectionProps> = ({ data }) => {

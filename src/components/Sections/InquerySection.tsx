@@ -1,9 +1,9 @@
-import { InquiryForm } from '@/lib/types';
+import { ComponentFormInquiry } from '@/lib/types';
 import Forms from '../WebsiteUI/Forms';
 import React from 'react';
 
 interface InquirySectionProps {
-  data: InquiryForm
+  data: ComponentFormInquiry
 }
 const InquerySection: React.FC<InquirySectionProps> = ({data}) => {
   return (

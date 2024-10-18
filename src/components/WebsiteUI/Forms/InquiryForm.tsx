@@ -1,9 +1,9 @@
-import { InquiryFormType } from '@/lib/types';
+import { ComponentFormInquiry } from '@/lib/types';
 import InputGroup from './InputGroup';
 import React from 'react';
 
 interface InquiryFormProps {
-  data: InquiryFormType
+  data: ComponentFormInquiry
 }
 const InquiryForm: React.FC<InquiryFormProps> = ({data}) => {
   return (

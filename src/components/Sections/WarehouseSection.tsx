@@ -1,9 +1,9 @@
 import React from 'react';
 import LocationTab from '../WebsiteUI/Tabs/LocationTab';
-import { WarehouseLocation } from '@/lib/types';
+import { ComponentSectionsWarehouseLocations } from '@/lib/types';
 
 interface WarehouseSectionProps {
-  data: WarehouseLocation;
+  data: ComponentSectionsWarehouseLocations;
 }
 
 const WarehouseSection: React.FC<WarehouseSectionProps> = ({ data }) => {

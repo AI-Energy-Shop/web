@@ -1,8 +1,9 @@
-import type { ContactDetails } from '@/lib/types';
+
+import { ComponentSectionsContactDetails } from '@/lib/types';
 import React from 'react';
 
 interface ContactDetailsProps {
-  data: ContactDetails;
+  data: ComponentSectionsContactDetails;
 }
 const ContactDetails: React.FC<ContactDetailsProps> = ({ data }) => {
   return (
