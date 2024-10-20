@@ -1,5 +1,5 @@
 import { ComponentFormInquiry } from '@/lib/types';
-import Forms from '../WebsiteUI/Forms';
+import Forms from '../custom-ui/Forms';
 import React from 'react';
 
 interface InquirySectionProps {

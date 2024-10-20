@@ -31,6 +31,7 @@ const nextConfig = {
       },
     ],
   },
+  transpilePackages: ['lucide-react'], // add this
   reactStrictMode: true,
   // swcMinify: true,
   // compiler: {

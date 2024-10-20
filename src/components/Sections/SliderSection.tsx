@@ -1,10 +1,10 @@
 import React from 'react';
 import Spacer from '../Spacer';
-import Carousel from '../WebsiteUI/Carousel';
-import { BannerImages } from '@/lib/types';
+import Carousel from '../custom-ui/Carousel';
+import { SliderSlide } from '@/lib/types';
 
 interface SliderSectionProps {
-  bannerImages: BannerImages[];
+  bannerImages: SliderSlide[];
 }
 const SliderSection: React.FC<SliderSectionProps> = ({ bannerImages }) => {
   return (
