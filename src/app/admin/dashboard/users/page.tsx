@@ -8,13 +8,26 @@ import { UserType } from '@/lib/types';
 import Components from '@/components';
 
 const UserManagement = async () => {
-
   const users = await getUsers();
 
   const overviewCards = [
-    { icon: <User />, title: 'Total Users', value: users?.data?.usersPermissionsUsers.length.toString() },
-    { icon: <KeyRound />, title: 'Pending', value: users?.data?.usersPermissionsUsers?.filter?.((item: UserType) => item.account_status === 'PENDING').length.toString() },
-    { icon: <UserPlus />, title: 'New Users (This Month)', value: users?.data?.usersPermissionsUsers.length },
+    {
+      icon: <User />,
+      title: 'Total Users',
+      value: users?.data?.usersPermissionsUsers.length.toString(),
+    },
+    {
+      icon: <KeyRound />,
+      title: 'Pending',
+      value: users?.data?.usersPermissionsUsers
+        ?.filter?.((item: UserType) => item.account_status === 'PENDING')
+        .length.toString(),
+    },
+    {
+      icon: <UserPlus />,
+      title: 'New Users (This Month)',
+      value: users?.data?.usersPermissionsUsers.length,
+    },
     { icon: <Ban />, title: 'Suspended Users', value: '10' },
   ];
 
@@ -57,8 +70,8 @@ const UserManagement = async () => {
             <Button>Add New User</Button>
           </CardHeader>
           <CardContent>
-            <Components.Tables.UsersTable 
-              data={users?.data?.usersPermissionsUsers} 
+            <Components.Tables.UsersTable
+              data={users?.data?.usersPermissionsUsers}
             />
           </CardContent>
         </Card>

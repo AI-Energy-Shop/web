@@ -1,46 +1,47 @@
-<<<<<<< HEAD
-=======
 import { LucideProps } from 'lucide-react';
 import dynamicIconImports from 'lucide-react/dynamicIconImports';
 interface IconProps extends LucideProps {
   name: keyof typeof dynamicIconImports;
 }
 
-export const SIDE_NAVIGATIONS: Array<{ id: number; href: string; label: string; icon: IconProps["name"]; }> = [
+export const SIDE_NAVIGATIONS: Array<{
+  id: number;
+  href: string;
+  label: string;
+  icon: IconProps['name'];
+}> = [
   {
     id: 0,
-    label: "Dashboard",
-    href: "dashboard",
-    icon: "box",
+    label: 'Dashboard',
+    href: 'dashboard',
+    icon: 'box',
   },
   {
     id: 1,
-    label: "Products",
-    href: "dashboard/products",
-    icon: "zap"
+    label: 'Products',
+    href: 'dashboard/products',
+    icon: 'zap',
   },
   {
     id: 2,
-    label: "Orders",
-    href: "dashboard/orders",
-    icon: "shopping-cart"
+    label: 'Orders',
+    href: 'dashboard/orders',
+    icon: 'shopping-cart',
   },
   {
     id: 3,
-    label: "Users",
-    href: "dashboard/users",
-    icon: "users"
+    label: 'Users',
+    href: 'dashboard/users',
+    icon: 'users',
   },
   {
     id: 4,
-    label: "Analytics",
-    href: "dashboard/analytics",
-    icon: "chart-bar"
+    label: 'Analytics',
+    href: 'dashboard/analytics',
+    icon: 'chart-bar',
   },
-]
+];
 
-
->>>>>>> 401bcb97c0219bd3ded052223f359e9fe13365c3
 export const FOOTER_ACCORDION_DATA = [
   {
     id: 1,

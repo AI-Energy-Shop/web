@@ -9,7 +9,6 @@ import { loginUserSchema } from '@/lib/schema/login-form';
 export const registerUser = safeAction
   .schema(registerUserSchema)
   .action(async ({ parsedInput: { email, username, password } }) => {
-
     const response = await client.mutate({
       mutation: USERS_OPERATIONS.Mutations.registerUser,
       variables: {
@@ -59,14 +58,12 @@ export const loginUser = safeAction
     return response;
   });
 
+export const getUsers = safeAction.action(async () => {
+  const response = await client.query({
+    query: USERS_OPERATIONS.Queries.users,
+  });
 
-export const getUsers = safeAction
-  .action(async () => {
-    const response = await client.query({
-      query: USERS_OPERATIONS.Queries.users,
-    });
+  const data = response.data;
 
-    const data = response.data
-
-    return data;
-  })
+  return data;
+});

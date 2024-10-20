@@ -1,14 +1,20 @@
-"use client"
-import { Table, TableHeader, TableRow, TableHead, TableBody } from '@/components/ui/table';
+'use client';
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+} from '@/components/ui/table';
 import { UserType } from '@/lib/types';
-import React from 'react'
+import React from 'react';
 import UserTableRow from './UserTableRow';
 import Link from 'next/link';
 
 interface UserTableProps {
-  data?: UserType[]
+  data?: UserType[];
 }
-const UsersTable: React.FC<UserTableProps> = ({data}) => {
+const UsersTable: React.FC<UserTableProps> = ({ data }) => {
   return (
     <Table>
       <TableHeader>
@@ -22,13 +28,11 @@ const UsersTable: React.FC<UserTableProps> = ({data}) => {
       </TableHeader>
       <TableBody>
         {data?.map?.((user: UserType) => {
-          return(
-            <UserTableRow key={user.documentId} user={user} />
-          );
+          return <UserTableRow key={user.documentId} user={user} />;
         })}
       </TableBody>
     </Table>
-  )
-}
+  );
+};
 
-export default UsersTable
+export default UsersTable;

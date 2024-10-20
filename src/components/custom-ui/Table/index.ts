@@ -1,8 +1,7 @@
-import UsersTable from "./UsersTable/UsersTable";
+import UsersTable from './UsersTable/UsersTable';
 
 const tables = {
-  UsersTable
+  UsersTable,
 };
 
-
-export default tables
+export default tables;

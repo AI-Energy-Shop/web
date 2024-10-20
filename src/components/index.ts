@@ -24,7 +24,7 @@ const Components = {
   NavigationProvider,
   LoadingAnimation,
   DynamicComponentRenderer,
-  Tables
+  Tables,
 };
 
 export default Components;

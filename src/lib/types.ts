@@ -120,7 +120,6 @@ interface GetPageQuery {
   getPage: GetPageResponse;
 }
 
-
 // Account Detail Type
 export type AccountDetail = {
   documentId: string;
