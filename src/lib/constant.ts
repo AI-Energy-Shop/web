@@ -25,7 +25,7 @@ export const SIDE_NAVIGATIONS: Array<{
   {
     id: 2,
     label: 'Orders',
-    href: 'dashboard/orders',
+    href: 'dashboard/order',
     icon: 'shopping-cart',
   },
   {

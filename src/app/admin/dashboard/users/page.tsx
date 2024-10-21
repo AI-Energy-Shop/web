@@ -35,9 +35,9 @@ const UserManagement = async () => {
     <>
       {/* Header */}
       <header className="bg-white dark:bg-gray-800 shadow">
-        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <div className="max-w-full mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
-            User Management
+            Clients
           </h1>
           <div className="relative">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
@@ -47,7 +47,7 @@ const UserManagement = async () => {
       </header>
 
       {/* Dashboard Content */}
-      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 space-y-6">
+      <div className="max-w-full mx-auto py-6 sm:px-6 lg:px-8 space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {overviewCards.map((card, index) => (
             <Card key={index}>
