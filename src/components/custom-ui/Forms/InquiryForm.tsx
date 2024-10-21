@@ -3,12 +3,14 @@ import InputGroup from './InputGroup';
 import React from 'react';
 
 interface InquiryFormProps {
-  data: ComponentFormInquiry
+  data: ComponentFormInquiry;
 }
-const InquiryForm: React.FC<InquiryFormProps> = ({data}) => {
+const InquiryForm: React.FC<InquiryFormProps> = ({ data }) => {
   return (
     <form className="w-full h-auto bg-blue-navy-blue my-10 rounded-xl p-5 flex flex-col gap-3">
-      <h1 className="text-center text-white font-bold uppercase">{data.heading}</h1>
+      <h1 className="text-center text-white font-bold uppercase">
+        {data.heading}
+      </h1>
 
       <div className="inputs-container grid grid-cols-2 gap-5">
         <div className="col-span-2 md:col-span-1">

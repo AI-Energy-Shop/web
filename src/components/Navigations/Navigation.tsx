@@ -11,8 +11,7 @@ import Link from 'next/link';
 interface NavigationBarProps {}
 
 const NavigationBar: React.FC<NavigationBarProps> = () => {
-
-  const { data , error , loading} = useQuery(PAGES_OPREATIONS.Queries.pages);
+  const { data, error, loading } = useQuery(PAGES_OPREATIONS.Queries.pages);
 
   const pathname = usePathname();
   // State for the sticky navbar
@@ -141,24 +140,22 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
           {/* TABLET TO DESKTOP LINKS */}
           <div className="desktop-nav-links hidden lg:flex gap-4 items-center justify-center">
             {data?.pages?.map?.((link: any) => {
-              return(
-              <Link
-                key={link.documentId}
-                href={`/${link.slug}`}
-                passHref
-                className={`gradientbar-button ${
-                  pathname === link.url ? 'active' : ''
-                } flex flex-col gap-2 min-w-[60px] pb-1 mt-auto`}
-              >
-                {/* ${firaSansFont.className}  */}
-                <button
-                  className={`w-full font-semibold text-center`}
+              return (
+                <Link
+                  key={link.documentId}
+                  href={`/${link.slug}`}
+                  passHref
+                  className={`gradientbar-button ${
+                    pathname === link.url ? 'active' : ''
+                  } flex flex-col gap-2 min-w-[60px] pb-1 mt-auto`}
                 >
-                  {link.title}
-                </button>
-                <div className="gradientbar w-full h-[4px] bg-transparent ease-in-out duration-300 opacity-0"></div>
-              </Link>
-              )
+                  {/* ${firaSansFont.className}  */}
+                  <button className={`w-full font-semibold text-center`}>
+                    {link.title}
+                  </button>
+                  <div className="gradientbar w-full h-[4px] bg-transparent ease-in-out duration-300 opacity-0"></div>
+                </Link>
+              );
             })}
           </div>
         </div>

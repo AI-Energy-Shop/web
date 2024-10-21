@@ -1,8 +1,5 @@
-"use client"
-import {
-  LogOut,
-  Settings,
-} from 'lucide-react';
+'use client';
+import { LogOut, Settings } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
@@ -10,8 +7,7 @@ import { SIDE_NAVIGATIONS } from '@/lib/constant';
 import Icon from '../Icon';
 import { usePathname } from 'next/navigation';
 const SideNavigation = () => {
-
-  const pathname = usePathname()
+  const pathname = usePathname();
   return (
     <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
       <div className="flex-1">
@@ -23,8 +19,8 @@ const SideNavigation = () => {
 
         <nav className="mt-4">
           {SIDE_NAVIGATIONS.map((item) => {
-            const active = pathname.endsWith(item.href)
-            return(
+            const active = pathname.endsWith(item.href);
+            return (
               <Link
                 key={item.id}
                 href={`/admin/${item.href}`}
@@ -33,7 +29,7 @@ const SideNavigation = () => {
                 <Icon className="mr-3" name={item.icon} size={20} />
                 {item.label}
               </Link>
-            )
+            );
           })}
         </nav>
       </div>
