@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { loginUserSchema } from '@/lib/schema/login-form';
+import { loginUserSchema } from '@/lib/validation-schema/login-form';
 import { z } from 'zod';
 import { useAction } from 'next-safe-action/hooks';
 import { loginUser } from '@/app/actions/users';
@@ -34,8 +34,8 @@ const LoginPage = () => {
     },
   });
 
-  // TODO encapsulate this into a hook
-  // TODO this is not yet fully funtcional
+  // TODO(ROI) encapsulate this into a hook
+  // TODO(ROI) this is not yet fully functional
   const { execute, status } = useAction(loginUser, {
     onSuccess(result) {
       console.log({ result });

@@ -50,16 +50,16 @@ const schema = {
   },
   Mutations: {
     registerUser: gql(`
-      mutation RegisterUser($email: String!, $username: String!, $password: String!, $level: String!) {
-        registerUser(email: $email, username: $username, password: $password, level: $level) {
+      mutation RegisterUser($data: RegisterUserInput!) {
+        registerUser(data: $data) {
           error
-          success
           data {
-            id
-            email
+            documentId
             username
-            level
+            email
           }
+          success
+          statusText
         }
       }
     `),
