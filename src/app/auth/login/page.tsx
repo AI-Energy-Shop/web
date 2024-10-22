@@ -35,14 +35,14 @@ const LoginPage = () => {
   });
 
   // TODO(ROI) encapsulate this into a hook
-  // TODO(ROI) this is not yet fully functional
+  // *(ROI) this is already working, just continue this what happen when its successful
   const { execute, status } = useAction(loginUser, {
     onSuccess(result) {
-      console.log({ result });
+      console.log(result);
     },
     onError(error) {
       console.log(error);
-      toast.error('Something went wrong. Please try again later.');
+      toast.error('Your email or password is incorrect.');
     },
   });
 
