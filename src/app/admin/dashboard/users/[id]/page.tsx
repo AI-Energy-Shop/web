@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -40,13 +39,15 @@ const user = {
   middleName: 'Melgar',
   lastName: 'Doe',
   email: 'jane.doe@example.com',
-  level: 'SMALL',
+  level: 'admin',
   status: 'PENDING',
+  type: 'installer',
   phone: '+1 (555) 123-4567',
   address: '123 Main St, Anytown, AN 12345',
   company: 'HP Energy',
   odooId: 'OD12456',
   bio: 'Experienced editor with a passion for technology and innovation.',
+  abn: '12345678',
   lastActive: '2023-04-15T14:30:00Z',
   twoFactorEnabled: true,
 };
@@ -173,6 +174,26 @@ const AdminDashboardUserPage = async () => {
                             name="company"
                             value={user.odooId}
                           />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="type">Type</Label>
+                          <Select value={user.type}>
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="installer">
+                                INSTALLER
+                              </SelectItem>
+                              <SelectItem value="retailer">RETAILER</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="abn">
+                            Australian Business Number
+                          </Label>
+                          <Input id="abn" name="abn" value={user.abn} />
                         </div>
                       </div>
                       <div className="space-y-2">
