@@ -37,9 +37,6 @@ const LoginPage = () => {
   // TODO(ROI) encapsulate this into a hook
   // *(ROI) this is already working, just continue this what happen when its successful
   const { execute, status } = useAction(loginUser, {
-    onSuccess(result) {
-      console.log(result);
-    },
     onError(error) {
       console.log(error);
       toast.error('Your email or password is incorrect.');
@@ -108,28 +105,7 @@ const LoginPage = () => {
                 </FormItem>
               )}
             />
-            {/* <div>
-                <Label htmlFor="password">Password</Label>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Enter your password"
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </button>
-                </div>
-              </div> */}
+
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <Checkbox id="remember" />
@@ -142,7 +118,11 @@ const LoginPage = () => {
                 Forgot password?
               </Link>
             </div>
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={status === 'executing'}
+            >
               Sign In
             </Button>
           </form>
@@ -162,47 +142,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
-{
-  /* <div className="flex min-h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Sign in to your account
-        </h2>
-      </div>
-
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form action={loginUser} className="space-y-6">
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="Email"
-            required
-          />
-
-          <Input
-            id="password"
-            name="password"
-            type="password"
-            placeholder="Password"
-            required
-          />
-
-          <Button className="w-full" type="submit" variant="default">
-            Login
-          </Button>
-        </form>
-
-        <p className="mt-10 text-center text-sm text-gray-500">
-          No account yet?{' '}
-          <Link
-            href="/auth/signup"
-            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-          >
-            Signup
-          </Link>
-        </p>
-      </div>
-    </div> */
-}

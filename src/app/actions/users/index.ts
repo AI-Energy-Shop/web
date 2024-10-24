@@ -5,6 +5,7 @@ import { safeAction } from '@/lib/safe-action';
 import { redirect } from 'next/navigation';
 import { registerUserSchema } from '@/lib/validation-schema/register-form';
 import { loginUserSchema } from '@/lib/validation-schema/login-form';
+import { cookies } from 'next/headers';
 
 export const registerUser = safeAction
   .schema(registerUserSchema)
@@ -60,21 +61,43 @@ export const registerUser = safeAction
     }
   );
 
+// *(ROI) Logic of the user is in the client
 export const loginUser = safeAction
   .schema(loginUserSchema)
   .action(async ({ parsedInput: { email, password } }) => {
-    const response = await client.mutate({
-      mutation: USERS_OPERATIONS.Mutations.loginUser,
-      variables: {
-        input: {
-          identifier: email,
-          password: password,
-          provider: 'local',
-        },
-      },
-    });
+    const cookieStore = await cookies();
+    let isSuccessfull = false;
 
-    return response;
+    try {
+      const response = await client.mutate({
+        mutation: USERS_OPERATIONS.Mutations.loginUser,
+        variables: {
+          input: {
+            identifier: email,
+            password: password,
+            provider: 'local',
+          },
+        },
+      });
+
+      if (response.data.login.user.confirmed) {
+        isSuccessfull = true;
+
+        cookieStore.set('a-token', response.data.login.jwt, {
+          secure: true,
+          httpOnly: true,
+          sameSite: 'strict',
+        });
+      } else {
+        redirect('/auth/approval');
+      }
+    } catch (error) {
+      throw error;
+    }
+
+    if (isSuccessfull) {
+      redirect('/admin/dashboard');
+    }
   });
 
 export const getUsers = safeAction.action(async () => {
