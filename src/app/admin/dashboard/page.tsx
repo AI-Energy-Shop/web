@@ -1,6 +1,4 @@
-import React from 'react';
-
-const AdminDashboardPage = () => {
+const AdminDashboardPage = async () => {
   return <div>AdminDashboardPage</div>;
 };
 
