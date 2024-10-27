@@ -1,4 +1,3 @@
-import ApolloProviderComponent from './ApolloProviderComponent';
 import Footer from './Footer/Footer';
 import Modal from './Modal';
 import ModalWrapper from './ModalWrapper';
@@ -20,7 +19,6 @@ const Components = {
   Sections,
   Forms,
   Sliders,
-  ApolloProviderComponent,
   NavigationProvider,
   LoadingAnimation,
   DynamicComponentRenderer,

@@ -1,6 +1,7 @@
 import './globals.css';
 import React from 'react';
 import Components from '@/components';
+import { ApolloWrapper } from '@/apollo/provider';
 import { firaSansFont, muktaVaani } from '@/assets/fonts/fonts';
 import { Toaster } from '@/components/ui/sonner';
 // Assuming Metadata type needs to be defined or imported.
@@ -27,11 +28,11 @@ export default function RootLayout({
       className={`${firaSansFont.className} ${muktaVaani.className}`}
     >
       <body>
-        <Components.ApolloProviderComponent>
+        <ApolloWrapper>
           <Components.NavigationProvider>
             <div className="h-[calc(100vh - 6rem)]">{children}</div>
           </Components.NavigationProvider>
-        </Components.ApolloProviderComponent>
+        </ApolloWrapper>
         <Toaster />
       </body>
     </html>

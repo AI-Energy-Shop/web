@@ -1,11 +1,12 @@
 'use server';
 import USERS_OPERATIONS from '@/graphql/users';
-import { client } from '@/apollo/client';
 import { safeAction } from '@/lib/safe-action';
 import { redirect } from 'next/navigation';
 import { registerUserSchema } from '@/lib/validation-schema/register-form';
 import { loginUserSchema } from '@/lib/validation-schema/login-form';
 import { cookies } from 'next/headers';
+import { getClient } from '@/apollo/client';
+const client = getClient();
 
 export const registerUser = safeAction
   .schema(registerUserSchema)
