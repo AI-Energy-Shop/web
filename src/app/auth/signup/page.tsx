@@ -1,11 +1,12 @@
 'use client';
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Package2, Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
-import { z } from 'zod';
+import { set, z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {
@@ -29,10 +30,15 @@ import { registerUser } from '@/app/actions/users';
 import { useAction } from 'next-safe-action/hooks';
 import { registerUserSchema } from '@/lib/validation-schema/register-form';
 import { FormUserType } from '@/lib/constant';
+import Dialogs from '@/components/dialog';
 
 const SignupPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [userDetails, setUserDetails] =
+    useState<z.infer<typeof registerUserSchema>>();
 
   const form = useForm<z.infer<typeof registerUserSchema>>({
     resolver: zodResolver(registerUserSchema),
@@ -88,7 +94,8 @@ const SignupPage = () => {
           message: 'Password do not match',
         });
       }
-      execute(values);
+      setUserDetails(values);
+      setShowModal(true);
     } catch (error) {
       toast.error('Something went wrong. Please try again later.');
     }
@@ -96,6 +103,12 @@ const SignupPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+      <Dialogs.Registration
+        open={showModal}
+        onOpenChange={() => setShowModal(false)}
+        userData={userDetails}
+        execute={execute}
+      />
       <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
         <div className="flex justify-center mb-8">
           <Package2 className="h-12 w-12 text-indigo-500" />
@@ -177,7 +190,6 @@ const SignupPage = () => {
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
