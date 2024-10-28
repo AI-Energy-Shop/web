@@ -7,10 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "start:dev": "concurrently -n \"CODEGEN,NEXT\" -c \"blue,green\" \"npm run codegen\" \"npm run dev\"",
+    "codegen": "graphql-codegen --config --watch codegen.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",
+    "@apollo/experimental-nextjs-app-support": "^0.11.5",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@hookform/resolvers": "^3.9.0",
@@ -40,6 +43,7 @@
     "react-hook-form": "^7.53.0",
     "react-icons": "^5.2.1",
     "react-multi-carousel": "^2.8.5",
+    "recharts": "^2.13.0",
     "sharp": "^0.33.5",
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.5.2",
@@ -47,10 +51,15 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "5.0.3",
+    "@graphql-codegen/client-preset": "4.4.0",
+    "@graphql-codegen/introspection": "4.0.3",
+    "@parcel/watcher": "^2.4.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.20",
+    "concurrently": "^9.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.4",
     "eslint-config-prettier": "^9.1.0",

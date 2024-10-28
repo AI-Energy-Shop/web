@@ -1,5 +1,7 @@
-import { client } from '@/apollo/client';
+import { getClient } from '@/apollo/client';
 import PAGES_OPREATIONS from '@/graphql/page';
+
+const client = getClient();
 
 export async function getPages() {
   try {

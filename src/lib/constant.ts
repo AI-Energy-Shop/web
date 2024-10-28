@@ -25,7 +25,7 @@ export const SIDE_NAVIGATIONS: Array<{
   {
     id: 2,
     label: 'Orders',
-    href: 'dashboard/order',
+    href: 'dashboard/orders',
     icon: 'shopping-cart',
   },
   {
@@ -62,3 +62,8 @@ export const BREAKPOINTS = {
   xl: 1280,
   '2xl': 1536,
 };
+
+export enum FormUserType {
+  INSTALLER = 'INSTALLER',
+  RETAILER = 'RETAILER',
+}

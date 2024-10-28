@@ -1,36 +1,56 @@
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Textarea } from "@/components/ui/textarea"
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
 // import { Toast } from "@/components/ui/toast"
 // import { useToast } from "@/components/ui/use-toast"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Save, UserCircle, Mail, Phone, MapPin, Building, Shield, Activity } from "lucide-react"
-
-
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import {
+  Save,
+  UserCircle,
+  Mail,
+  Phone,
+  MapPin,
+  Building,
+  Shield,
+  Activity,
+} from 'lucide-react';
 
 const user = {
-    id: "12345",
-    firstName: "Jane",
-    middleName: "Melgar",
-    lastName: "Doe",
-    email: "jane.doe@example.com",
-    level: "SMALL",
-    status: "PENDING",
-    phone: "+1 (555) 123-4567",
-    address: "123 Main St, Anytown, AN 12345",
-    company: "HP Energy",
-    odooId: "OD12456",
-    bio: "Experienced editor with a passion for technology and innovation.",
-    lastActive: "2023-04-15T14:30:00Z",
-    twoFactorEnabled: true,
-  }
+  id: '12345',
+  firstName: 'Jane',
+  middleName: 'Melgar',
+  lastName: 'Doe',
+  email: 'jane.doe@example.com',
+  level: 'admin',
+  status: 'PENDING',
+  type: 'installer',
+  phone: '+1 (555) 123-4567',
+  address: '123 Main St, Anytown, AN 12345',
+  company: 'HP Energy',
+  odooId: 'OD12456',
+  bio: 'Experienced editor with a passion for technology and innovation.',
+  abn: '12345678',
+  lastActive: '2023-04-15T14:30:00Z',
+  twoFactorEnabled: true,
+};
 
 const AdminDashboardUserPage = async () => {
   return (
@@ -39,8 +59,12 @@ const AdminDashboardUserPage = async () => {
         <Card>
           <CardHeader className="space-y-1">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-2xl font-bold">Client Profile</CardTitle>
-              <Badge variant={user.status === "active" ? "default" : "secondary"}>
+              <CardTitle className="text-2xl font-bold">
+                Client Profile
+              </CardTitle>
+              <Badge
+                variant={user.status === 'active' ? 'default' : 'secondary'}
+              >
                 {user.status}
               </Badge>
             </div>
@@ -51,12 +75,17 @@ const AdminDashboardUserPage = async () => {
               <div className="space-y-8">
                 <div className="flex items-center space-x-4">
                   <Avatar className="w-20 h-20">
-                    <AvatarImage src="/placeholder.svg?height=80&width=80" alt={user.company.slice(0, 2)} />
-                    <AvatarFallback>{user.company.slice(0,2)}</AvatarFallback>
+                    <AvatarImage
+                      src="/placeholder.svg?height=80&width=80"
+                      alt={user.company.slice(0, 2)}
+                    />
+                    <AvatarFallback>{user.company.slice(0, 2)}</AvatarFallback>
                   </Avatar>
                   <div>
                     <h2 className="text-xl font-semibold">{user.company}</h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">User ID: {user.id}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      User ID: {user.id}
+                    </p>
                   </div>
                 </div>
 
@@ -103,9 +132,7 @@ const AdminDashboardUserPage = async () => {
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="role">Level</Label>
-                          <Select
-                            value={user.level}
-                          >
+                          <Select value={user.level}>
                             <SelectTrigger>
                               <SelectValue placeholder="Select a role" />
                             </SelectTrigger>
@@ -118,10 +145,7 @@ const AdminDashboardUserPage = async () => {
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="status">Status</Label>
-                          <Select
-                            
-                            value={user.status}
-                          >
+                          <Select value={user.status}>
                             <SelectTrigger>
                               <SelectValue placeholder="Select a status" />
                             </SelectTrigger>
@@ -133,11 +157,7 @@ const AdminDashboardUserPage = async () => {
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="phone">Phone</Label>
-                          <Input
-                            id="phone"
-                            name="phone"
-                            value={user.phone}
-                          />
+                          <Input id="phone" name="phone" value={user.phone} />
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="company">Company</Label>
@@ -155,6 +175,26 @@ const AdminDashboardUserPage = async () => {
                             value={user.odooId}
                           />
                         </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="type">Type</Label>
+                          <Select value={user.type}>
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="installer">
+                                INSTALLER
+                              </SelectItem>
+                              <SelectItem value="retailer">RETAILER</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="abn">
+                            Australian Business Number
+                          </Label>
+                          <Input id="abn" name="abn" value={user.abn} />
+                        </div>
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="address">Address</Label>
@@ -170,9 +210,12 @@ const AdminDashboardUserPage = async () => {
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
                         <div className="space-y-0.5">
-                          <Label htmlFor="twoFactorEnabled">Two-Factor Authentication</Label>
+                          <Label htmlFor="twoFactorEnabled">
+                            Two-Factor Authentication
+                          </Label>
                           <p className="text-sm text-gray-500 dark:text-gray-400">
-                            Enhance your account security by enabling two-factor authentication.
+                            Enhance your account security by enabling two-factor
+                            authentication.
                           </p>
                         </div>
                         <Switch

@@ -74,7 +74,6 @@ const RichTextEditor = ({
           size="sm"
           variant="ghost"
           onClick={() => {
-            console.log(editor.isActive('bulletList'));
             editor.chain().focus().toggleBulletList().run();
           }}
           className={editor.isActive('bulletList') ? 'bg-secondary' : ''}
