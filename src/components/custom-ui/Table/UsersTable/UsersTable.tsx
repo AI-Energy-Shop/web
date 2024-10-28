@@ -1,4 +1,3 @@
-'use client';
 import {
   Table,
   TableHeader,
@@ -6,13 +5,12 @@ import {
   TableHead,
   TableBody,
 } from '@/components/ui/table';
-import { UserType } from '@/lib/types';
 import React from 'react';
 import UserTableRow from './UserTableRow';
-import Link from 'next/link';
+import { UsersPermissionsUsersQuery } from '@/lib/gql/graphql';
 
 interface UserTableProps {
-  data?: UserType[];
+  data?: UsersPermissionsUsersQuery['usersPermissionsUsers'];
 }
 const UsersTable: React.FC<UserTableProps> = ({ data }) => {
   return (
@@ -27,8 +25,8 @@ const UsersTable: React.FC<UserTableProps> = ({ data }) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data?.map?.((user: UserType) => {
-          return <UserTableRow key={user.documentId} user={user} />;
+        {data?.map?.((user) => {
+          return <UserTableRow key={user?.documentId} user={user} />;
         })}
       </TableBody>
     </Table>

@@ -6,7 +6,7 @@ const HOST = process.env.NEXT_PUBLIC_BASE_URL_HOST || 'localhost:1337';
 const config: CodegenConfig = {
   overwrite: true,
   schema: `${PROTOCOL}://${HOST}/graphql`,
-  documents: 'src/**/*.tsx',
+  documents: 'src/**/*.{ts,tsx}',
   generates: {
     'src/lib/gql/': {
       preset: 'client',

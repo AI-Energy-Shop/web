@@ -6,6 +6,7 @@ import { registerUserSchema } from '@/lib/validation-schema/register-form';
 import { loginUserSchema } from '@/lib/validation-schema/login-form';
 import { cookies } from 'next/headers';
 import { getClient } from '@/apollo/client';
+
 const client = getClient();
 
 export const registerUser = safeAction
@@ -40,20 +41,20 @@ export const registerUser = safeAction
       });
 
       // TODO(ROI) refactor this
-      if (!response.data.registerUser.success) {
-        const username =
-          (response.data.registerUser.error as string)
+      if (!response?.data?.registerUser?.success) {
+        const usernameError =
+          (response?.data?.registerUser?.error as string)
             .toLowerCase()
-            .includes('username') && response.data.registerUser.error;
-        const email =
-          (response.data.registerUser.error as string)
+            .includes('username') && response?.data?.registerUser?.error;
+        const emailError =
+          (response?.data?.registerUser?.error as string)
             .toLowerCase()
-            .includes('email') && response.data.registerUser.error;
+            .includes('email') && response?.data?.registerUser?.error;
 
         return {
           error: {
-            username,
-            email,
+            username: usernameError,
+            email: emailError,
           },
         };
       } else {
@@ -81,16 +82,17 @@ export const loginUser = safeAction
         },
       });
 
-      if (response.data.login.user.confirmed) {
+      if (response.data?.login.user.confirmed) {
         isSuccessfull = true;
 
-        cookieStore.set('a-token', response.data.login.jwt, {
-          secure: true,
+        const token = response?.data.login.jwt;
+
+        cookieStore.set('a-token', token!, {
+          path: '/',
+          maxAge: 60 * 60 * 24 * 30,
           httpOnly: true,
           sameSite: 'strict',
         });
-      } else {
-        redirect('/auth/approval');
       }
     } catch (error) {
       throw error;
@@ -101,12 +103,23 @@ export const loginUser = safeAction
     }
   });
 
-export const getUsers = safeAction.action(async () => {
-  const response = await client.query({
-    query: USERS_OPERATIONS.Queries.users,
-  });
+export const getUsers = async () => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('a-token');
 
-  const data = response.data;
+  try {
+    const response = await client.query({
+      query: USERS_OPERATIONS.Queries.users,
+      fetchPolicy: 'no-cache',
+      context: {
+        headers: {
+          Authorization: `Bearer ${token?.value}`,
+        },
+      },
+    });
 
-  return data;
-});
+    return response.data;
+  } catch (error) {
+    console.error('GraphQL Query Error:', error);
+  }
+};

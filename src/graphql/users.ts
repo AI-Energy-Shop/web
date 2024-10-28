@@ -1,8 +1,8 @@
-import { gql } from '@apollo/client';
+import { graphql } from '@/lib/gql';
 
 const schema = {
   Queries: {
-    users: gql(`
+    users: graphql(`
       query UsersPermissionsUsers {
         usersPermissionsUsers {
           documentId
@@ -43,13 +43,12 @@ const schema = {
           updatedAt
           publishedAt
           locale
-
         }
       }
     `),
   },
   Mutations: {
-    registerUser: gql(`
+    registerUser: graphql(`
       mutation RegisterUser($data: RegisterUserInput!) {
         registerUser(data: $data) {
           error
@@ -63,7 +62,7 @@ const schema = {
         }
       }
     `),
-    loginUser: gql(`
+    loginUser: graphql(`
       mutation Login($input: UsersPermissionsLoginInput!) {
         login(input: $input) {
           jwt
@@ -81,7 +80,7 @@ const schema = {
             }
           }
         }
-      }  
+      }
     `),
   },
 };
