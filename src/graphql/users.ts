@@ -46,6 +46,29 @@ const schema = {
         }
       }
     `),
+    userDetails: graphql(`
+      query UsersPermissionsUser($documentId: ID!) {
+        usersPermissionsUser(documentId: $documentId) {
+          email
+          provider
+          confirmed
+          blocked
+          documentId
+          account_status
+          account_details {
+            documentId
+            level
+            user_type
+            odoo_id
+            first_name
+            middle_name
+            last_name
+            business_name
+            position
+          }
+        }
+      }
+    `),
   },
   Mutations: {
     registerUser: graphql(`

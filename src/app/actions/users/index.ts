@@ -123,3 +123,27 @@ export const getUsers = async () => {
     console.error('GraphQL Query Error:', error);
   }
 };
+
+export const getUserDetails = async (documentId: string) => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('a-token');
+
+  try {
+    const response = await client.query({
+      query: USERS_OPERATIONS.Queries.userDetails,
+      variables: {
+        documentId,
+      },
+      fetchPolicy: 'no-cache',
+      context: {
+        headers: {
+          Authorization: `Bearer ${token?.value}`,
+        },
+      },
+    });
+
+    return response?.data?.usersPermissionsUser;
+  } catch (error) {
+    console.error('GraphQL Query Error:', error);
+  }
+};

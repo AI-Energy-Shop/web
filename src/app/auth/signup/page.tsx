@@ -29,7 +29,7 @@ import { toast } from 'sonner';
 import { registerUser } from '@/app/actions/users';
 import { useAction } from 'next-safe-action/hooks';
 import { registerUserSchema } from '@/lib/validation-schema/register-form';
-import { FormUserType } from '@/lib/constant';
+import { USER_TYPE } from '@/lib/constant';
 import Dialogs from '@/components/dialog';
 
 const SignupPage = () => {
@@ -210,10 +210,10 @@ const SignupPage = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value={FormUserType.INSTALLER}>
+                        <SelectItem value={USER_TYPE.INSTALLER}>
                           Installer
                         </SelectItem>
-                        <SelectItem value={FormUserType.RETAILER}>
+                        <SelectItem value={USER_TYPE.RETAILER}>
                           Retailer
                         </SelectItem>
                       </SelectContent>
