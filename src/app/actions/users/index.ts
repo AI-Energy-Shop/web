@@ -6,6 +6,7 @@ import { registerUserSchema } from '@/lib/validation-schema/register-form';
 import { loginUserSchema } from '@/lib/validation-schema/login-form';
 import { cookies } from 'next/headers';
 import { getClient } from '@/apollo/client';
+import { UserApprovalReqestArgs } from '@/lib/types';
 
 const client = getClient();
 
@@ -143,6 +144,29 @@ export const getUserDetails = async (documentId: string) => {
     });
 
     return response?.data?.usersPermissionsUser;
+  } catch (error) {
+    console.error('GraphQL Query Error:', error);
+  }
+};
+
+export const approveUserRequest = async (data: UserApprovalReqestArgs) => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('a-token');
+
+  try {
+    const response = await client.mutate({
+      mutation: USERS_OPERATIONS.Mutations.userApprovalRequest,
+      variables: {
+        data,
+      },
+      context: {
+        headers: {
+          Authorization: `Bearer ${token?.value}`,
+        },
+      },
+    });
+
+    return response?.data?.createUserApprovalRequest;
   } catch (error) {
     console.error('GraphQL Query Error:', error);
   }

@@ -157,3 +157,9 @@ export type UserType = {
 export type UsersPermissionsResponse = {
   usersPermissionsUsers: UserType[];
 };
+
+export type UserApprovalReqestArgs = {
+  email: string;
+  request_link: string;
+  approved: boolean;
+};

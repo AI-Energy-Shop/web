@@ -105,6 +105,20 @@ const schema = {
         }
       }
     `),
+    userApprovalRequest: graphql(`
+      mutation CreateUserApprovalRequest($data: UserApprovalRequestInput!) {
+        createUserApprovalRequest(data: $data) {
+          documentId
+          email
+          request_link
+          approved
+          createdAt
+          updatedAt
+          publishedAt
+          locale
+        }
+      }
+    `),
   },
 };
 

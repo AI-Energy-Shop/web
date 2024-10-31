@@ -31,7 +31,7 @@ const schema = {
                 google_maps_link
               }
             }
-            
+
             ... on ComponentSectionsImageSlider {
               __typename
               id
