@@ -9,10 +9,9 @@ const schema = {
           username
           email
           provider
-          confirmed
           blocked
           account_status
-          account_details {
+          account_detail {
             documentId
             level
             user_type
@@ -22,40 +21,20 @@ const schema = {
             last_name
             business_name
             position
-            createdAt
-            updatedAt
-            publishedAt
-            locale
-            user {
-              documentId
-              username
-              email
-              provider
-              confirmed
-              blocked
-              createdAt
-              updatedAt
-              publishedAt
-              locale
-            }
           }
-          createdAt
-          updatedAt
-          publishedAt
-          locale
         }
       }
     `),
     userDetails: graphql(`
       query UsersPermissionsUser($documentId: ID!) {
         usersPermissionsUser(documentId: $documentId) {
+          documentId
+          username
           email
           provider
-          confirmed
           blocked
-          documentId
           account_status
-          account_details {
+          account_detail {
             documentId
             level
             user_type
@@ -75,11 +54,6 @@ const schema = {
       mutation RegisterUser($data: RegisterUserInput!) {
         registerUser(data: $data) {
           error
-          data {
-            documentId
-            username
-            email
-          }
           success
           statusText
         }
@@ -91,31 +65,20 @@ const schema = {
           jwt
           user {
             id
-            email
-            blocked
             username
+            email
             confirmed
-            role {
-              id
-              name
-              description
-              type
-            }
+            blocked
           }
         }
       }
     `),
-    userApprovalRequest: graphql(`
-      mutation CreateUserApprovalRequest($data: UserApprovalRequestInput!) {
-        createUserApprovalRequest(data: $data) {
-          documentId
-          email
-          request_link
-          approved
-          createdAt
-          updatedAt
-          publishedAt
-          locale
+    updateUserAccountStatus: graphql(`
+      mutation UserApproval($data: UserApprovalRequestInputArgs!) {
+        userApproval(data: $data) {
+          error
+          success
+          statusText
         }
       }
     `),

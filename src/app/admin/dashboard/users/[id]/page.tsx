@@ -13,9 +13,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { approveUserRequest, getUserDetails } from '@/app/actions/users';
 import UserProfileForm from '@/components/Form/user-profile';
 import { Save } from 'lucide-react';
+import { getUserDetails, updateAccountStatus } from '@/app/actions/users';
+import {
+  Enum_Accountdetail_Level,
+  Enum_Userspermissionsuser_Account_Status,
+} from '@/lib/gql/graphql';
 
 type AdminDashboardUserPageProps = {
   params: { id: string };
@@ -27,12 +31,15 @@ const AdminDashboardUserPage = async ({
   const userId = params.id;
   const user = await getUserDetails(userId);
 
-  // TODO(ROI) need to find how to get an request link
   if (user?.account_status === 'PENDING') {
-    approveUserRequest({
+    updateAccountStatus({
       email: user?.email,
-      request_link: '',
-      approved: true,
+      accountStatus: Enum_Userspermissionsuser_Account_Status.Reviewing,
+      user: {
+        odooId: user?.account_detail?.odoo_id || '',
+        userPricingLevel:
+          user?.account_detail?.level || Enum_Accountdetail_Level?.Small,
+      },
     });
   }
 

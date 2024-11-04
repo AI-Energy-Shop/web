@@ -83,9 +83,8 @@ export const loginUser = safeAction
         },
       });
 
-      if (response.data?.login.user.confirmed) {
+      if (response.data?.login.jwt) {
         isSuccessfull = true;
-
         const token = response?.data.login.jwt;
 
         cookieStore.set('a-token', token!, {
@@ -149,15 +148,22 @@ export const getUserDetails = async (documentId: string) => {
   }
 };
 
-export const approveUserRequest = async (data: UserApprovalReqestArgs) => {
+export const updateAccountStatus = async (data: UserApprovalReqestArgs) => {
   const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   try {
     const response = await client.mutate({
-      mutation: USERS_OPERATIONS.Mutations.userApprovalRequest,
+      mutation: USERS_OPERATIONS.Mutations.updateUserAccountStatus,
       variables: {
-        data,
+        data: {
+          email: data.email,
+          accountStatus: data.accountStatus,
+          user: {
+            odooId: data.user.odooId,
+            userPricingLevel: data.user.userPricingLevel,
+          },
+        },
       },
       context: {
         headers: {
@@ -166,7 +172,7 @@ export const approveUserRequest = async (data: UserApprovalReqestArgs) => {
       },
     });
 
-    return response?.data?.createUserApprovalRequest;
+    return response?.data?.userApproval;
   } catch (error) {
     console.error('GraphQL Query Error:', error);
   }

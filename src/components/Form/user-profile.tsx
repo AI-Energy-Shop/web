@@ -20,9 +20,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { USER_LEVEL, USER_STATUS, USER_TYPE } from '@/lib/constant';
 import { Textarea } from '../ui/textarea';
-import { UsersPermissionsUserQuery } from '@/lib/gql/graphql';
+import {
+  Enum_Accountdetail_Level,
+  Enum_Accountdetail_User_Type,
+  Enum_Userspermissionsuser_Account_Status,
+  UsersPermissionsUserQuery,
+} from '@/lib/gql/graphql';
 import { Save } from 'lucide-react';
 
 type UserProfileFormProps = {
@@ -35,17 +39,17 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
   const form = useForm<z.infer<typeof userProfileSchema>>({
     resolver: zodResolver(userProfileSchema),
     defaultValues: {
-      firstName: user?.account_details?.first_name || '',
-      middleName: user?.account_details?.middle_name || '',
-      lastName: user?.account_details?.last_name || '',
+      firstName: user?.account_detail?.first_name || '',
+      middleName: user?.account_detail?.middle_name || '',
+      lastName: user?.account_detail?.last_name || '',
       email: user?.email || '',
-      level: user?.account_details?.level || '',
+      level: user?.account_detail?.level || '',
       status: user?.account_status || '',
       phone: '',
       company: '',
-      odooId: user?.account_details?.odoo_id || '',
-      type: user?.account_details?.user_type || '',
-      australianBusinessNumber: user?.account_details?.business_name || '',
+      odooId: user?.account_detail?.odoo_id || '',
+      type: user?.account_detail?.user_type || '',
+      australianBusinessNumber: user?.account_detail?.business_name || '',
       address: '',
     },
   });
@@ -126,11 +130,15 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value={USER_LEVEL.SMALL}>SMALL</SelectItem>
-                    <SelectItem value={USER_LEVEL['MID-SIZED']}>
+                    <SelectItem value={Enum_Accountdetail_Level.Small}>
+                      SMALL
+                    </SelectItem>
+                    <SelectItem value={Enum_Accountdetail_Level.MidSized}>
                       MID-SIZED
                     </SelectItem>
-                    <SelectItem value={USER_LEVEL.VIP}>VIP</SelectItem>
+                    <SelectItem value={Enum_Accountdetail_Level.Vip}>
+                      VIP
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -153,14 +161,26 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value={USER_STATUS.PENDING}>Pending</SelectItem>
-                    <SelectItem value={USER_STATUS.REVIEWING}>
+                    <SelectItem
+                      value={Enum_Userspermissionsuser_Account_Status.Pending}
+                    >
+                      Pending
+                    </SelectItem>
+                    <SelectItem
+                      value={Enum_Userspermissionsuser_Account_Status.Reviewing}
+                    >
                       Reviewing
                     </SelectItem>
-                    <SelectItem value={USER_STATUS.APPROVED}>
+                    <SelectItem
+                      value={Enum_Userspermissionsuser_Account_Status.Approved}
+                    >
                       Approved
                     </SelectItem>
-                    <SelectItem value={USER_STATUS.DENIED}>Denied</SelectItem>
+                    <SelectItem
+                      value={Enum_Userspermissionsuser_Account_Status.Denied}
+                    >
+                      Denied
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -209,10 +229,12 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value={USER_TYPE.INSTALLER}>
+                    <SelectItem value={Enum_Accountdetail_User_Type.Installer}>
                       Installer
                     </SelectItem>
-                    <SelectItem value={USER_TYPE.RETAILER}>Retailer</SelectItem>
+                    <SelectItem value={Enum_Accountdetail_User_Type.Retailer}>
+                      Retailer
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
