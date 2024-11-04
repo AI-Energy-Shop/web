@@ -1,10 +1,11 @@
 'use client';
-import { BannerImages } from '@/lib/types';
 import Image from 'next/image';
 import React from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import useBreakpoint from './hooks/useBreakpoints';
+import type { SliderSlide } from '@/lib/types';
+
 const CustomDot = ({ onClick, ...rest }: any) => {
   const {
     onMove,
@@ -28,10 +29,10 @@ const CustomDot = ({ onClick, ...rest }: any) => {
 };
 
 interface ImageCarouselProps {
-  bannerImages: BannerImages[];
+  slides: SliderSlide[];
 }
 
-const ImageCarousel: React.FC<ImageCarouselProps> = ({ bannerImages }) => {
+const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
   const brkp = useBreakpoint();
   return (
     <div className="image-carousel h-full w-full relative overflow-hidden">
@@ -88,7 +89,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ bannerImages }) => {
         customDot={<CustomDot />}
       >
         {/* MOBILE */}
-        {bannerImages?.map((item) => {
+        {slides?.map((item) => {
           if (item.type === 'MOBILE' && brkp < 640) {
             return (
               <Image
@@ -106,7 +107,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ bannerImages }) => {
           }
         })}
         {/* TABLET | IPAD */}
-        {bannerImages?.map((item) => {
+        {slides?.map((item) => {
           if (item.type === 'TABLET' && brkp > 640 && brkp < 1024) {
             return (
               <Image
@@ -124,7 +125,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ bannerImages }) => {
           }
         })}
         {/* DESKTOP | WIDESCREEN */}
-        {bannerImages?.map((item) => {
+        {slides?.map((item) => {
           if (item.type === 'DESKTOP' && brkp > 1024) {
             return (
               <Image
