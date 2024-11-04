@@ -11,25 +11,25 @@ const DynamicComponentRenderer: React.FC<DynamicComponentRendererProps> = ({
 
   const componentMap: Record<string, (section: any) => React.ReactNode> = {
     ComponentSectionsImageSlider: (section) => (
-      <Sections.SliderSection bannerImages={section.slides} />
+      <Sections.SliderSection data={section.data} />
     ),
     ComponentSectionsAbout: (section) => (
-      <Sections.AboutusSection data={section} />
+      <Sections.AboutusSection data={section.data} />
     ),
     ComponentSectionsContactUs: (section) => (
-      <Sections.ContactusSection data={section} />
+      <Sections.ContactusSection data={section.data} />
     ),
     ComponentFormNewsletter: (section) => (
-      <Sections.NewsletterSection data={section} />
+      <Sections.NewsletterSection data={section.data} />
     ),
     ComponentSectionsContactDetails: (section) => (
-      <Sections.ContactDetails data={section} />
+      <Sections.ContactDetails data={section.data} />
     ),
     ComponentSectionsWarehouseLocations: (section) => (
-      <Sections.WarehouseSection data={section} />
+      <Sections.WarehouseSection data={section.data} />
     ),
     ComponentFormInquiry: (section) => (
-      <Sections.InquerySection data={section} />
+      <Sections.InquerySection data={section.data} />
     ),
   };
 
@@ -43,7 +43,17 @@ const DynamicComponentRenderer: React.FC<DynamicComponentRendererProps> = ({
         )}
 
         {sections?.map(
-          (section: any) => componentMap[section.__typename]?.(section) || null
+          (section: any, index) => {
+            const DynamicSection = componentMap[section.__typename]
+            if(DynamicSection){
+              return (
+                <DynamicSection 
+                  key={index}
+                  data={section}
+                />
+              )
+            }
+          }
         )}
       </div>
     </div>
