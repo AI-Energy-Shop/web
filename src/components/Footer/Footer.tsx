@@ -2,7 +2,7 @@ import React from 'react';
 import { FaFacebook, FaLinkedin } from 'react-icons/fa';
 import { HiOutlineMailOpen } from 'react-icons/hi';
 import Accordion from '../custom-ui/Accordion/Accordion';
-import { FOOTER_ACCORDION_DATA } from '@/lib/constant';
+import { FOOTER_ACCORDION_DATA } from '@/constant';
 import { firaSansFont, muktaVaani } from '@/assets/fonts/fonts';
 
 const Footer = () => {
