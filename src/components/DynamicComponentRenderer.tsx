@@ -1,12 +1,13 @@
 import React from 'react';
 import Sections from './Sections';
+import { type GetPageQuery } from '@/lib/types';
 interface DynamicComponentRendererProps {
-  data: any;
+  data: GetPageQuery;
 }
 const DynamicComponentRenderer: React.FC<DynamicComponentRendererProps> = ({
   data,
 }) => {
-  const { title, sections } = data?.getPage || {};
+  const { title, sections, slug } = data?.getPage || {};
 
   const componentMap: Record<string, (section: any) => React.ReactNode> = {
     ComponentSectionsImageSlider: (section) => (
@@ -35,9 +36,11 @@ const DynamicComponentRenderer: React.FC<DynamicComponentRendererProps> = ({
   return (
     <div className="w-full min-h-screen">
       <div className="inner-container w-full lg:max-w-[1200px] h-full mx-auto">
-        <h1 className="page-title text-lg w-full text-center font-bold uppercase my-5">
-          {title}
-        </h1>
+        {slug !== '/' && (
+          <h1 className="page-title text-lg w-full text-center font-bold uppercase my-5">
+            {title}
+          </h1>
+        )}
 
         {sections?.map(
           (section: any) => componentMap[section.__typename]?.(section) || null
