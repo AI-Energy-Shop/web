@@ -1,5 +1,6 @@
 'use client';
 
+import { Badge } from '@/components/ui/badge';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { UsersPermissionsUsersQuery } from '@/lib/gql/graphql';
 import { useRouter } from 'next/navigation';
@@ -15,6 +16,13 @@ const UserTableRow = ({
     router.push(`/admin/dashboard/users/${id}`);
   };
 
+  const userBadgeVariant =
+    user?.account_status === 'APPROVED'
+      ? 'default'
+      : user?.account_status === 'DENIED'
+        ? 'destructive'
+        : 'secondary';
+
   return (
     <TableRow
       className="cursor-pointer"
@@ -27,7 +35,9 @@ const UserTableRow = ({
       <TableCell>{user?.email}</TableCell>
       <TableCell>{user?.account_detail?.level}</TableCell>
       <TableCell>{'today'}</TableCell>
-      <TableCell>{user?.account_status}</TableCell>
+      <TableCell>
+        <Badge variant={userBadgeVariant}>{user?.account_status}</Badge>
+      </TableCell>
     </TableRow>
   );
 };

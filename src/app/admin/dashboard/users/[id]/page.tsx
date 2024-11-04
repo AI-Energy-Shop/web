@@ -31,15 +31,16 @@ const AdminDashboardUserPage = async ({
   const userId = params.id;
   const user = await getUserDetails(userId);
 
-  if (user?.account_status === 'PENDING') {
+  if (
+    user?.account_status === Enum_Userspermissionsuser_Account_Status.Pending
+  ) {
     updateAccountStatus({
+      userId: user?.documentId,
       email: user?.email,
       accountStatus: Enum_Userspermissionsuser_Account_Status.Reviewing,
-      user: {
-        odooId: user?.account_detail?.odoo_id || '',
-        userPricingLevel:
-          user?.account_detail?.level || Enum_Accountdetail_Level?.Small,
-      },
+      odooId: user?.account_detail?.odoo_id || '',
+      userPricingLevel:
+        user?.account_detail?.level || Enum_Accountdetail_Level?.Small,
     });
   }
 

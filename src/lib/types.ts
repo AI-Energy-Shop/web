@@ -1,8 +1,3 @@
-import {
-  Enum_Accountdetail_Level,
-  Enum_Userspermissionsuser_Account_Status,
-} from './gql/graphql';
-
 export type LinkItem = {
   url: string;
   title: string;
@@ -161,13 +156,4 @@ export type UserType = {
 // Response Type
 export type UsersPermissionsResponse = {
   usersPermissionsUsers: UserType[];
-};
-
-export type UserApprovalReqestArgs = {
-  email: string;
-  accountStatus: Enum_Userspermissionsuser_Account_Status;
-  user: {
-    odooId: string;
-    userPricingLevel: Enum_Accountdetail_Level;
-  };
 };

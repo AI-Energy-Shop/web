@@ -28,14 +28,16 @@ import {
   UsersPermissionsUserQuery,
 } from '@/lib/gql/graphql';
 import { Save } from 'lucide-react';
+import { useAction } from 'next-safe-action/hooks';
+import { updateAccountStatus } from '@/app/actions/users';
+import { toast } from 'sonner';
 
 type UserProfileFormProps = {
   user: UsersPermissionsUserQuery['usersPermissionsUser'];
 };
 
 const UserProfileForm = ({ user }: UserProfileFormProps) => {
-  // TODO (ROI) there is no phone data, address and company too
-
+  // TODO (ROI) there is no phone data, address and company
   const form = useForm<z.infer<typeof userProfileSchema>>({
     resolver: zodResolver(userProfileSchema),
     defaultValues: {
@@ -54,8 +56,38 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof userProfileSchema>) {
-    console.log(values);
+  const { execute, status } = useAction(updateAccountStatus, {
+    onSuccess(result) {
+      if (result.data?.error) {
+        toast.error(
+          "Status updated to 'Approved'. This change is final and cannot be undone."
+        );
+      }
+    },
+    onError(error) {
+      console.log(error);
+      toast.error('Something went wrong. Please try again later.');
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof userProfileSchema>) {
+    const isStatusChanged = form.formState.dirtyFields.status;
+    const isOdooIdChanged = form.formState.dirtyFields.odooId;
+    const isUserPricingLevelChanged = form.formState.dirtyFields.level;
+
+    try {
+      if (isStatusChanged || isOdooIdChanged || isUserPricingLevelChanged) {
+        await execute({
+          userId: user?.documentId!,
+          email: values.email,
+          accountStatus: values.status,
+          odooId: values.odooId,
+          userPricingLevel: values.level,
+        });
+      }
+    } catch (error) {
+      toast.error('Something went wrong. Please try again later.');
+    }
   }
 
   return (
@@ -268,7 +300,11 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
+        <Button
+          disabled={status === 'executing'}
+          type="submit"
+          className="w-full"
+        >
           <Save className="w-4 h-4 mr-2" />
           Save Changes
         </Button>
