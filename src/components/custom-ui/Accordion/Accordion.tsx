@@ -1,12 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
-import { AccordionData } from '@/lib/types';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
 import { firaSansFont } from '@/assets/fonts/fonts';
 
+type Accordion = {
+  id: string;
+  title: string;
+  content: string[];
+} 
+
 interface AccordionProps {
-  data: AccordionData[];
+  data: Accordion[];
 }
 
 const Accordion: React.FC<AccordionProps> = ({ data }) => {
