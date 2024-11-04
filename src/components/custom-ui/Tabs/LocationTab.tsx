@@ -1,9 +1,9 @@
 'use client';
 import React, { useState } from 'react';
-import { Locations } from '@/lib/types';
+import type { Location } from '@/lib/types';
 
 interface LocationTabProps {
-  data: Locations[];
+  data: Location[];
 }
 const LocationTab: React.FC<LocationTabProps> = ({ data }) => {
   const [activeTab, setActiveTab] = useState(data[0].name);
