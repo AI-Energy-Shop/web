@@ -6,9 +6,12 @@ import type { SliderSlide } from '@/lib/types';
 interface SliderSectionProps {
   data: {
     data: {
+      id: string;
+      animation_duration: number;
+      display_button: any;
       slides: SliderSlide[]
     }
-  };
+  }
 }
 const SliderSection: React.FC<SliderSectionProps> = ({ data }) => {
   return (
