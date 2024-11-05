@@ -1,4 +1,4 @@
-"use server"
+'use server';
 
 import { getClient } from '@/apollo/client';
 import PAGES_OPREATIONS from '@/graphql/page';

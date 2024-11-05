@@ -5,10 +5,10 @@ import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
 import { firaSansFont } from '@/assets/fonts/fonts';
 
 type Accordion = {
-  id: string;
+  // id: string
   title: string;
   content: string[];
-} 
+};
 
 interface AccordionProps {
   data: Accordion[];

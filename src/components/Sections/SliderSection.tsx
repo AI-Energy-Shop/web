@@ -8,8 +8,8 @@ interface SliderSectionProps {
     id: string;
     animation_duration: number;
     display_button: any;
-    slides: SliderSlide[]
-  }
+    slides: SliderSlide[];
+  };
 }
 const SliderSection: React.FC<SliderSectionProps> = ({ data }) => {
   return (

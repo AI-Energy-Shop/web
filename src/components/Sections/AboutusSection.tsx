@@ -8,7 +8,6 @@ interface AboutusSectionProps {
 }
 
 const AboutusSection: React.FC<AboutusSectionProps> = ({ data }) => {
-  console.log(data)
   return (
     <section className="about-section w-full h-auto">
       <div className="lg:max-w-[1200px] lg:m-auto pt-5">

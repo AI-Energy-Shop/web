@@ -42,19 +42,12 @@ const DynamicComponentRenderer: React.FC<DynamicComponentRendererProps> = ({
           </h1>
         )}
 
-        {sections?.map(
-          (section: any, index) => {
-            const DynamicSection = componentMap[section.__typename]
-            if(DynamicSection){
-              return (
-                <DynamicSection 
-                  key={index}
-                  data={section}
-                />
-              )
-            }
+        {sections?.map((section: any, index) => {
+          const DynamicSection = componentMap[section.__typename];
+          if (DynamicSection) {
+            return <DynamicSection key={index} data={section} />;
           }
-        )}
+        })}
       </div>
     </div>
   );
