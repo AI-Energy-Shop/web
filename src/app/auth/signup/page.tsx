@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Package2, Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
-import { set, z } from 'zod';
+import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {
@@ -29,8 +29,8 @@ import { toast } from 'sonner';
 import { registerUser } from '@/app/actions/users';
 import { useAction } from 'next-safe-action/hooks';
 import { registerUserSchema } from '@/lib/validation-schema/register-form';
-import { USER_TYPE } from '@/lib/constant';
 import Dialogs from '@/components/dialog';
+import { Enum_Accountdetail_User_Type } from '@/lib/gql/graphql';
 
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -210,10 +210,14 @@ const SignupPage = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value={USER_TYPE.INSTALLER}>
+                        <SelectItem
+                          value={Enum_Accountdetail_User_Type.Installer}
+                        >
                           Installer
                         </SelectItem>
-                        <SelectItem value={USER_TYPE.RETAILER}>
+                        <SelectItem
+                          value={Enum_Accountdetail_User_Type.Retailer}
+                        >
                           Retailer
                         </SelectItem>
                       </SelectContent>

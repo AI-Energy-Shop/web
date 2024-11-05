@@ -51,7 +51,6 @@ export type AccountDetailFiltersInput = {
   position?: InputMaybe<StringFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
-  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
   user_type?: InputMaybe<StringFilterInput>;
 };
 
@@ -65,7 +64,6 @@ export type AccountDetailInput = {
   odoo_id?: InputMaybe<Scalars['String']['input']>;
   position?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
-  user?: InputMaybe<Scalars['ID']['input']>;
   user_type?: InputMaybe<Enum_Accountdetail_User_Type>;
 };
 
@@ -344,6 +342,7 @@ export type PriceListFiltersInput = {
   localizations?: InputMaybe<PriceListFiltersInput>;
   not?: InputMaybe<PriceListFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<PriceListFiltersInput>>>;
+  price?: InputMaybe<StringFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
@@ -351,7 +350,37 @@ export type PriceListFiltersInput = {
 export type PriceListInput = {
   level?: InputMaybe<Scalars['String']['input']>;
   locale?: InputMaybe<Scalars['String']['input']>;
+  price?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type ProductFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ProductFiltersInput>>>;
+  category?: InputMaybe<StringFilterInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  documentId?: InputMaybe<IdFilterInput>;
+  item_code?: InputMaybe<StringFilterInput>;
+  locale?: InputMaybe<StringFilterInput>;
+  localizations?: InputMaybe<ProductFiltersInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ProductFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ProductFiltersInput>>>;
+  price_lists?: InputMaybe<PriceListFiltersInput>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  vendor?: InputMaybe<StringFilterInput>;
+};
+
+export type ProductInput = {
+  category?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  item_code?: InputMaybe<Scalars['String']['input']>;
+  locale?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  price_lists?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  vendor?: InputMaybe<Scalars['String']['input']>;
 };
 
 export enum PublicationStatus {
@@ -468,6 +497,11 @@ export type UploadFileFiltersInput = {
   width?: InputMaybe<IntFilterInput>;
 };
 
+export type UserAccountDetails = {
+  odooId: Scalars['String']['input'];
+  userPricingLevel?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type UserApprovalRequestFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<UserApprovalRequestFiltersInput>>>;
   approved?: InputMaybe<BooleanFilterInput>;
@@ -489,6 +523,37 @@ export type UserApprovalRequestInput = {
   locale?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   request_link?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UserApprovalRequestInputArgs = {
+  accountStatus: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  user?: InputMaybe<UserAccountDetails>;
+};
+
+export type UserNotificationFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<UserNotificationFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
+  documentId?: InputMaybe<IdFilterInput>;
+  locale?: InputMaybe<StringFilterInput>;
+  localizations?: InputMaybe<UserNotificationFiltersInput>;
+  not?: InputMaybe<UserNotificationFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<UserNotificationFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  read?: InputMaybe<DateTimeFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
+};
+
+export type UserNotificationInput = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  locale?: InputMaybe<Scalars['String']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  read?: InputMaybe<Scalars['DateTime']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  user?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UsersPermissionsLoginInput = {
@@ -545,12 +610,11 @@ export type UsersPermissionsRoleInput = {
 };
 
 export type UsersPermissionsUserFiltersInput = {
-  account_details?: InputMaybe<AccountDetailFiltersInput>;
+  account_detail?: InputMaybe<AccountDetailFiltersInput>;
   account_status?: InputMaybe<StringFilterInput>;
   and?: InputMaybe<Array<InputMaybe<UsersPermissionsUserFiltersInput>>>;
   blocked?: InputMaybe<BooleanFilterInput>;
   confirmationToken?: InputMaybe<StringFilterInput>;
-  confirmed?: InputMaybe<BooleanFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
   email?: InputMaybe<StringFilterInput>;
@@ -564,15 +628,15 @@ export type UsersPermissionsUserFiltersInput = {
   resetPasswordToken?: InputMaybe<StringFilterInput>;
   role?: InputMaybe<UsersPermissionsRoleFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  user_notifications?: InputMaybe<UserNotificationFiltersInput>;
   username?: InputMaybe<StringFilterInput>;
 };
 
 export type UsersPermissionsUserInput = {
-  account_details?: InputMaybe<Scalars['ID']['input']>;
+  account_detail?: InputMaybe<Scalars['ID']['input']>;
   account_status?: InputMaybe<Enum_Userspermissionsuser_Account_Status>;
   blocked?: InputMaybe<Scalars['Boolean']['input']>;
   confirmationToken?: InputMaybe<Scalars['String']['input']>;
-  confirmed?: InputMaybe<Scalars['Boolean']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   locale?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
@@ -580,6 +644,7 @@ export type UsersPermissionsUserInput = {
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   resetPasswordToken?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Scalars['ID']['input']>;
+  user_notifications?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 

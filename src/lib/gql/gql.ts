@@ -22,6 +22,16 @@ const documents = {
     types.RegisterUserDocument,
   '\n      mutation Login($input: UsersPermissionsLoginInput!) {\n        login(input: $input) {\n          jwt\n          user {\n            id\n            email\n            blocked\n            username\n            confirmed\n            role {\n              id\n              name\n              description\n              type\n            }\n          }\n        }\n      }\n    ':
     types.LoginDocument,
+  '\n      query UsersPermissionsUsers {\n        usersPermissionsUsers {\n          documentId\n          username\n          email\n          provider\n          blocked\n          account_status\n          account_detail {\n            documentId\n            level\n            user_type\n            odoo_id\n            first_name\n            middle_name\n            last_name\n            business_name\n            position\n          }\n        }\n      }\n    ':
+    types.UsersPermissionsUsersDocument,
+  '\n      query UsersPermissionsUser($documentId: ID!) {\n        usersPermissionsUser(documentId: $documentId) {\n          documentId\n          username\n          email\n          provider\n          blocked\n          account_status\n          account_detail {\n            documentId\n            level\n            user_type\n            odoo_id\n            first_name\n            middle_name\n            last_name\n            business_name\n            position\n          }\n        }\n      }\n    ':
+    types.UsersPermissionsUserDocument,
+  '\n      mutation RegisterUser($data: RegisterUserInput!) {\n        registerUser(data: $data) {\n          error\n          success\n          statusText\n        }\n      }\n    ':
+    types.RegisterUserDocument,
+  '\n      mutation Login($input: UsersPermissionsLoginInput!) {\n        login(input: $input) {\n          jwt\n          user {\n            id\n            username\n            email\n            confirmed\n            blocked\n          }\n        }\n      }\n    ':
+    types.LoginDocument,
+  '\n      mutation UserApproval($data: UserApprovalRequestInputArgs!) {\n        userApproval(data: $data) {\n          error\n          success\n          statusText\n        }\n      }\n    ':
+    types.UserApprovalDocument,
 };
 
 /**

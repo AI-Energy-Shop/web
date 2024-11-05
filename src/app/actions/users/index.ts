@@ -6,6 +6,8 @@ import { registerUserSchema } from '@/lib/validation-schema/register-form';
 import { loginUserSchema } from '@/lib/validation-schema/login-form';
 import { cookies } from 'next/headers';
 import { getClient } from '@/apollo/client';
+import { updateUserStatusSchema } from '@/lib/validation-schema/update-user-status-form';
+import { revalidatePath } from 'next/cache';
 
 const client = getClient();
 
@@ -82,9 +84,8 @@ export const loginUser = safeAction
         },
       });
 
-      if (response.data?.login.user.confirmed) {
+      if (response.data?.login.jwt) {
         isSuccessfull = true;
-
         const token = response?.data.login.jwt;
 
         cookieStore.set('a-token', token!, {
@@ -102,6 +103,42 @@ export const loginUser = safeAction
       redirect('/admin/dashboard');
     }
   });
+
+export const updateAccountStatus = safeAction
+  .schema(updateUserStatusSchema)
+  .action(
+    async ({
+      parsedInput: { userId, email, accountStatus, odooId, userPricingLevel },
+    }) => {
+      const cookieStore = await cookies();
+      const token = cookieStore.get('a-token');
+
+      try {
+        const response = await client.mutate({
+          mutation: USERS_OPERATIONS.Mutations.updateUserAccountStatus,
+          variables: {
+            data: {
+              email: email,
+              accountStatus: accountStatus,
+              user: {
+                odooId: odooId,
+                userPricingLevel: userPricingLevel,
+              },
+            },
+          },
+          context: {
+            headers: {
+              Authorization: `Bearer ${token?.value}`,
+            },
+          },
+        });
+        revalidatePath(`/admin/dashboard/users/${userId}`);
+        return response?.data?.userApproval;
+      } catch (error) {
+        console.error('GraphQL Query Error:', error);
+      }
+    }
+  );
 
 export const getUsers = async () => {
   const cookieStore = await cookies();
