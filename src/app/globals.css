@@ -171,3 +171,18 @@
   list-style-type: disc;
   padding-left: 1.5rem; /* Adjust as needed */
 }
+
+.about-us-background {
+  background-position-x: 35%;
+  background-position-y: 70%;
+  background-size: 200%;
+  background-repeat: no-repeat;
+}
+
+@media (min-width: 640px) {
+  .about-us-background {
+    background-size: 100%;
+    background-position-x: 35%;
+    background-position-y: 70%;
+  }
+}

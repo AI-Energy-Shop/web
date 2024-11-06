@@ -62,6 +62,8 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
     typeof window !== 'undefined' ? window.innerWidth : 0
   );
 
+  const MOBILE_VIEWPORT = 640;
+
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
 
@@ -74,14 +76,16 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
   // Transform scrollY to animate height from 80px to 50px
   const navHeight = useTransform(scrollY, [0, 100], ['75px', '50px']);
 
-  const navStyle = windowWidth < 640 ? { height: navHeight } : {};
+  const navStyle = windowWidth < MOBILE_VIEWPORT ? { height: navHeight } : {};
 
   // Transform Logo Text
   const logoTextOpacity = useTransform(scrollY, [0, 10], [1, 0]);
   const logoText = useTransform(scrollY, [0, 100], ['0px', '-150px']);
 
   const logoTextStyle =
-    windowWidth < 640 ? { x: logoText, opacity: logoTextOpacity } : {};
+    windowWidth < MOBILE_VIEWPORT
+      ? { x: logoText, opacity: logoTextOpacity }
+      : {};
 
   /**The component returns a nav element with a conditional class based on the isSticky state.
      If sticky (isSticky is true), it adds classes like sticky top-0 z-50 for positioning. */
@@ -99,10 +103,11 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
               <div className="w-[100px]  flex flex-col items-center justify-center gap-1 py-2">
                 <div className="relative">
                   <Image
-                    width={50}
-                    height={50}
+                    width={40}
+                    height={40}
                     alt="logo image"
                     src="/images/logo/AES-Logomark_750px-M.png"
+                    className="w-auto h-auto"
                     priority
                   />
                 </div>
