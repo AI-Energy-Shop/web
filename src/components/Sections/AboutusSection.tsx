@@ -37,7 +37,7 @@ const AboutusSection: React.FC<AboutusSectionProps> = ({ data }) => {
             <h2
               style={firaSansFont.style}
               className="
-                w-[200px] mb-3 font-bold text-purple-purp-aes text-wrap
+                w-[200px] mb-3 font-bold text-purple-purp-aes text-wrap text-[18px]
                 md:w-[250px] md:text-xl
                 lg:w-[300px] lg:text-[28px] leading-[1.1]
               "

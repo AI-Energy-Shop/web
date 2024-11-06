@@ -33,7 +33,7 @@ const ContactusSection: React.FC<ContactusSectionProps> = ({ data }) => {
                 priority
                 sizes="100vh"
                 quality={100}
-                className="object-cover"
+                className="object-cover object-left"
                 src={data.background_image.url}
                 alt={
                   data.background_image.alternativeText ||
@@ -45,15 +45,15 @@ const ContactusSection: React.FC<ContactusSectionProps> = ({ data }) => {
           <div
             className="
               absolute top-0 right-0 -z-1
-              w-full h-full p-5 flex flex-col justify-center gap-1 items-end          
+              w-full h-full p-5 flex flex-col justify-center gap-4 items-end          
             "
           >
             <h2
               style={firaSansFont.style}
               className=" 
                 text-yellow-aes-yellow flex flex-col font-bold text-sm text-right
-                md:text-xl
-                lg:text-[28px]
+                sm:text-[18px]
+                lg:text-[28px] leading-[1.1]
               "
             >
               {data.heading}
@@ -61,9 +61,9 @@ const ContactusSection: React.FC<ContactusSectionProps> = ({ data }) => {
             <p
               style={muktaVaani.style}
               className="
-                max-w-[50%] text-xs text-wrap text-white text-right ml-auto
+                max-w-[50%] text-xs text-wrap text-white text-right ml-auto sm:text-[14px]
                 md:max-w-[50%] md:text-base
-                lg:max-w-[30%] lg:text-end
+                lg:max-w-[30%] lg:text-end leading-[1.25]
               "
             >
               {data.description}
@@ -71,7 +71,7 @@ const ContactusSection: React.FC<ContactusSectionProps> = ({ data }) => {
             <button
               style={firaSansFont.style}
               className="
-                    bg-yellow-aes-yellow max-w-[120px] min-w-[120px] uppercase leading-5 text-lg p-1
+                    bg-yellow-aes-yellow max-w-[120px] min-w-[120px] uppercase leading-5 text-lg p-1 h-8
                     md:max-w-[150px] md:min-w-[140px]
                   "
             >
