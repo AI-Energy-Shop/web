@@ -1,5 +1,10 @@
 'use client';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useTransform,
+} from 'framer-motion';
 import PAGES_OPREATIONS from '@/graphql/page';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -55,7 +60,7 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
 
   const slideOutVariants = {
     open: { opacity: 1, x: '0%' },
-    closed: { opacity: 0, x: '100%' },
+    closed: { opacity: 1, x: '100%' }, // Sidebar slides out to the right
   };
 
   const [windowWidth, setWindowWidth] = useState(
@@ -72,6 +77,19 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
     // Cleanup on component unmount
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    // Cleanup on component unmount
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
 
   // Transform scrollY to animate height from 80px to 50px
   const navHeight = useTransform(scrollY, [0, 100], ['75px', '50px']);
@@ -146,6 +164,10 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
 
           {/* MOBILE MENU LIST */}
           <div className="lg:hidden">
+            {/* Overlay for the mobile menu */}
+            {open && (
+              <div className="fixed top-0 left-0 w-full h-full bg-black opacity-[.33]" />
+            )}
             <button
               className="w-10 h-8 flex rounded-md flex-col justify-between z-50 relative m-8"
               onClick={() => setOpen(!open)}
@@ -166,32 +188,38 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
                 className="w-10 h-1 bg-black rounded origin-left"
               ></motion.div>
             </button>
-            {open && (
-              <motion.div
-                layout
-                initial="closed"
-                variants={slideOutVariants}
-                animate={open ? 'open' : 'closed'}
-                transition={{ duration: open ? 0.4 : 0.35, ease: 'easeInOut' }}
-                className={`w-10/12 h-screen text-blue-51  bg-slate-50 fixed top-0 right-0 flex flex-row z-20`}
-              >
-                <div className="h-full w-2 bg-gradient-to-b from-[#f9ac0a] via-[#e71467] to-[#29294c]"></div>
-                <div className="nav-list w-full h-full flex flex-col gap-4">
-                  {data?.pages?.map?.((link: any) => (
-                    <Link
-                      key={link.documentId}
-                      href={`/${link.slug}`}
-                      passHref
-                      className="translate-y-20 "
-                    >
-                      <div className="cursor-pointer block hover:font-bold p-5 transition-all text-start  text-xl duration-200 hover:bg-slate-300">
-                        {link.title}
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </motion.div>
-            )}
+            <AnimatePresence>
+              {open && (
+                <motion.div
+                  initial="closed"
+                  animate={open ? 'open' : 'closed'}
+                  exit="closed" // Ensures a smooth exit animation
+                  variants={slideOutVariants}
+                  transition={{
+                    duration: open ? 0.4 : 0.35,
+                    ease: 'easeInOut',
+                  }}
+                  className="w-10/12 h-screen text-blue-51 bg-slate-50 fixed top-0 right-0 flex flex-row z-20"
+                >
+                  <div className="h-full w-2 bg-gradient-to-b from-[#f9ac0a] via-[#e71467] to-[#29294c]"></div>
+                  <div className="nav-list w-full h-full flex flex-col gap-4">
+                    {data?.pages?.map?.((link) => (
+                      <Link
+                        key={link?.documentId}
+                        href={`/${link?.slug}`}
+                        onClick={() => setOpen(false)}
+                        passHref
+                        className="translate-y-20"
+                      >
+                        <div className="cursor-pointer block hover:font-bold p-2 text-start text-xl hover:bg-slate-300">
+                          {link?.title}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </motion.div>
       </div>
