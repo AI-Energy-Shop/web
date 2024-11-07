@@ -8,7 +8,7 @@ import { firaSansFont, muktaVaani } from '@/assets/fonts/fonts';
 const Footer = () => {
   return (
     <footer className="w-full h-auto bg-gradient-to-b from-yellow-aes-yellow  to-[#f06039] ">
-      <div className="inner-container max-w-[1200px] mx-auto py-10">
+      <div className="inner-container max-w-[1200px] mx-auto pb-10 md:pt-10">
         <div className="upper-container w-full md:flex">
           {/* ACCORDION */}
           <div className="w-full md:w-[33.3%] lg:w-[33.3%]">

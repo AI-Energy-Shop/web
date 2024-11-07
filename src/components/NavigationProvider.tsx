@@ -15,7 +15,9 @@ const NavigationProvider: React.FC<NavigationProviderProps> = ({
   return (
     <div className="w-full h-auto">
       {!path.includes('admin') && <Navigations.Navigation />}
-      <div className="pt-[75px]">{children}</div>
+      <div className={!path.includes('admin') ? 'pt-[75px]' : ''}>
+        {children}
+      </div>
       <Footer />
     </div>
   );
