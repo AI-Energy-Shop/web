@@ -1,4 +1,4 @@
-import { getPage } from '@/app/actions/pages';
+import { getPage } from '@/app/actions';
 import Components from '@/components';
 import React from 'react';
 
