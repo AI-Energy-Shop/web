@@ -11,9 +11,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { getUserDetails } from '@/app/actions/users';
 import UserProfileForm from '@/components/Form/user-profile';
 import { Save } from 'lucide-react';
+import { getUserDetails, updateAccountStatus } from '@/app/actions/users';
+import {
+  Enum_Accountdetail_Level,
+  Enum_Userspermissionsuser_Account_Status,
+} from '@/lib/gql/graphql';
 
 type AdminDashboardUserPageProps = {
   params: { id: string };
@@ -24,6 +28,19 @@ const AdminDashboardUserPage = async ({
 }: AdminDashboardUserPageProps) => {
   const userId = params.id;
   const user = await getUserDetails(userId);
+
+  if (
+    user?.account_status === Enum_Userspermissionsuser_Account_Status.Pending
+  ) {
+    updateAccountStatus({
+      userId: user?.documentId,
+      email: user?.email,
+      accountStatus: Enum_Userspermissionsuser_Account_Status.Reviewing,
+      odooId: user?.account_detail?.odoo_id || '',
+      userPricingLevel:
+        user?.account_detail?.level || Enum_Accountdetail_Level?.Small,
+    });
+  }
 
   const userBadgeVariant =
     user?.account_status === 'APPROVED'

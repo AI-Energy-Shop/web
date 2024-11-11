@@ -7,12 +7,7 @@ import useBreakpoint from './hooks/useBreakpoints';
 import type { SliderSlide } from '@/lib/types';
 
 const CustomDot = ({ onClick, ...rest }: any) => {
-  const {
-    onMove,
-    index,
-    active,
-    carouselState: { currentSlide, deviceType },
-  } = rest;
+  const { active } = rest;
   // onMove means if dragging or swiping in progress.
   // active is provided by this lib for checking if the item is active or not.
 
@@ -34,6 +29,7 @@ interface ImageCarouselProps {
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
   const brkp = useBreakpoint();
+
   return (
     <div className="image-carousel h-full w-full relative overflow-hidden">
       <Carousel
@@ -90,7 +86,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
       >
         {/* MOBILE */}
         {slides?.map((item) => {
-          if (item.type === 'MOBILE' && brkp < 640) {
+          if (brkp < 640) {
             return (
               <Image
                 priority
@@ -108,7 +104,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
         })}
         {/* TABLET | IPAD */}
         {slides?.map((item) => {
-          if (item.type === 'TABLET' && brkp > 640 && brkp < 1024) {
+          if (brkp > 640 && brkp < 1024) {
             return (
               <Image
                 priority
@@ -126,7 +122,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
         })}
         {/* DESKTOP | WIDESCREEN */}
         {slides?.map((item) => {
-          if (item.type === 'DESKTOP' && brkp > 1024) {
+          if (brkp > 1024) {
             return (
               <Image
                 priority

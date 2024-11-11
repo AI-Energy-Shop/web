@@ -60,7 +60,7 @@ const config: Config = {
       },
       colors: {
         yellow: {
-          'light-yellow-50': 'rgba(247, 236, 218, 0.5)',
+          'light-yellow-50': 'rgba(247, 236, 218, 0.66)',
           'light-yellow': '#f7ecda',
           'aes-yellow': '#f9ac0a',
         },

@@ -10,24 +10,22 @@ interface AboutusSectionProps {
 const AboutusSection: React.FC<AboutusSectionProps> = ({ data }) => {
   return (
     <section className="about-section w-full h-auto">
-      <div className="lg:max-w-[1200px] lg:m-auto pt-5">
+      <div className="lg:max-w-[1200px] lg:m-auto">
         <h1
           style={firaSansFont.style}
-          className="text-blue-dark-blue flex items-center lg:h-[100px] uppercase text-center font-extrabold lg:text-[28px] lg:leading-[1.25] max-w-[85%] mx-auto md:max-w-[50%] md:mx-auto "
+          className="text-blue-dark-blue flex items-center py-6 lg:h-[100px] uppercase text-center font-extrabold lg:text-[28px] lg:leading-[1.25] max-w-[85%] mx-auto md:max-w-[50%] md:mx-auto "
         >
           {data.heading}
         </h1>
         <div
           style={{
-            backgroundPositionX: '30%',
-            backgroundPositionY: '60%',
             backgroundImage: data?.background_image?.url
               ? `url('${data.background_image.url}')`
               : '',
           }}
           className="
             w-full bg-center bg-cover
-            lg:h-[320px]
+            lg:h-[320px] about-us-background
           "
         >
           <div
@@ -39,9 +37,9 @@ const AboutusSection: React.FC<AboutusSectionProps> = ({ data }) => {
             <h2
               style={firaSansFont.style}
               className="
-                w-[200px] font-bold text-purple-purp-aes text-wrap
+                w-[200px] mb-3 font-bold text-purple-purp-aes text-wrap text-[18px]
                 md:w-[250px] md:text-xl
-                lg:w-[300px] lg:text-[28px] leading-[1.25]
+                lg:w-[300px] lg:text-[28px] leading-[1.1]
               "
             >
               {data.sub_heading}
@@ -49,9 +47,9 @@ const AboutusSection: React.FC<AboutusSectionProps> = ({ data }) => {
             <p
               style={muktaVaani.style}
               className="
-                text-xs max-w-[70%] 
+                text-[14px] max-w-[70%] 
                 md:text-base
-                lg:text-base lg:leading-[1.25]
+                lg:text-base leading-[1.25]
               "
             >
               {data.description}
