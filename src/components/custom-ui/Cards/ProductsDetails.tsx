@@ -167,10 +167,7 @@ const ProductsDetails = ({ product }: { product: any }) => {
           >
             Discard
           </Button>
-          <Button
-            disabled={loading}
-            onClick={handleClickSave}
-          >
+          <Button disabled={loading} onClick={handleClickSave}>
             {loading ? (
               <>
                 <Loader2 className="animate-spin" />
