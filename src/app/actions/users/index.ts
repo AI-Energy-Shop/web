@@ -84,7 +84,11 @@ export const loginUser = safeAction
         },
       });
 
-      if (response.data?.login.jwt) {
+      if (response.errors) {
+        throw new Error(response.errors[0].message);
+      }
+
+      if (response.data?.login) {
         isSuccessfull = true;
         const token = response?.data.login.jwt;
 

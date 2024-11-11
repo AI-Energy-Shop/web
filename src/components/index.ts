@@ -10,7 +10,9 @@ import LoadingAnimation from './custom-ui/LoadingAnimation';
 import Sliders from './custom-ui/Sliders';
 import DynamicComponentRenderer from './DynamicComponentRenderer';
 import Tables from './custom-ui/Table';
+import Cards from './custom-ui/Cards';
 const Components = {
+  Cards,
   NavigationBar,
   Footer,
   Accordion,
