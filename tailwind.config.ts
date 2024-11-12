@@ -172,8 +172,14 @@ const config: Config = {
         '.clip-path-right-70': {
           clipPath: 'polygon(0 0, 100% 0, 70% 100%, 0% 100%)',
         },
+        '.clip-path-right-75': {
+          clipPath: 'polygon(0 0, 100% 0, 75% 100%, 0% 100%)',
+        },
         '.clip-path-right-80': {
           clipPath: 'polygon(0 0, 100% 0, 80% 100%, 0% 100%)',
+        },
+        '.clip-path-right-85': {
+          clipPath: 'polygon(0 0, 100% 0, 85% 100%, 0% 100%)',
         },
         '.clip-path-right-90': {
           clipPath: 'polygon(0 0, 100% 0, 90% 100%, 0% 100%)',

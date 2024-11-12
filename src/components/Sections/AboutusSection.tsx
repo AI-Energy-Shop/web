@@ -30,7 +30,7 @@ const AboutusSection: React.FC<AboutusSectionProps> = ({ data }) => {
         >
           <div
             className="
-              max-w-[85vw] h-full flex flex-col item-center justify-center pt-5 bg-yellow-light-yellow-50 clip-path-right-70 px-5 py-4
+              max-w-[85vw] h-full flex flex-col item-center justify-center pt-5 bg-yellow-light-yellow-50 max-sm:clip-path-right-75 sm:clip-path-right-85  md:clip-path-right-75  px-5 py-4
               md:max-w-[50%]
             "
           >
@@ -46,11 +46,7 @@ const AboutusSection: React.FC<AboutusSectionProps> = ({ data }) => {
             </h2>
             <p
               style={muktaVaani.style}
-              className="
-                text-[14px] max-w-[70%] 
-                md:text-base
-                lg:text-base leading-[1.25]
-              "
+              className="text-[14px] md:text-[16px] max-w-[70%] leading-[1.25] "
             >
               {data.description}
             </p>
