@@ -11,7 +11,7 @@ const ContactusSection: React.FC<ContactusSectionProps> = ({ data }) => {
     <section className="w-full h-auto">
       <div
         className="
-          h-[200px] w-full
+          h-[220px] w-full
           md:h-[300px] 
           lg:max-w-[1200px] lg:h-[320px] lg:m-auto
         "

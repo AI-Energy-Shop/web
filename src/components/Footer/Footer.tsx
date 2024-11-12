@@ -22,7 +22,7 @@ const Footer = () => {
               Locations
             </h3>
             <address
-              className={`${muktaVaani.className} flex flex-col p-5 md:p-0 gap-3 text-sm md:text-xs leading-3`}
+              className={`${muktaVaani.className} flex flex-col p-5 md:p-0 gap-4 lg:gap-5 text-[16px] leading-3`}
             >
               <div>
                 <span className="font-bold">Melbourne:</span> 34/49 McArthurs
@@ -56,9 +56,9 @@ const Footer = () => {
 
         {/* PRIVACY | POLICY */}
         <div className="w-full text-white m-auto flex items-center justify-center gap-2 text-sm">
-          <p className="">© 2024 AI Energy Shop</p>
-          <p className="">Terms & Conditions</p>
-          <p className="">Privacy Policy</p>
+          <p>© 2024 AI Energy Shop</p>
+          <p>Terms & Conditions</p>
+          <p>Privacy Policy</p>
         </div>
       </div>
     </footer>

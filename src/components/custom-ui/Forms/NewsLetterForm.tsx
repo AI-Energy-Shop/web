@@ -22,12 +22,12 @@ interface NewsLetterFormProps {
 const NewsLetterForm: React.FC<NewsLetterFormProps> = ({ data }) => {
   return (
     <div className="w-full h-auto rounded-xl overflow-hidden">
-      <div className="w-full h-[80px] flex items-center bg-gradient-to-b from-[#f9ac0a] to-[#f06039]">
+      <div className="w-full h-[100px] flex items-center bg-gradient-to-b from-[#f9ac0a] to-[#f06039]">
         <div className="left w-[50%] md:lg:w-[40%] pl-5">
           <h1
             style={firaSansFont.style}
             className="
-            font-bold text-base 
+            font-bold text-[16px]
             md:text-[18px] 
           "
           >
