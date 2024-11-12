@@ -5,41 +5,27 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import useBreakpoint from './hooks/useBreakpoints';
 import type { SliderSlide } from '@/lib/types';
-
-const CustomDot = ({ onClick, ...rest }: any) => {
-  const { active } = rest;
-  // onMove means if dragging or swiping in progress.
-  // active is provided by this lib for checking if the item is active or not.
-
-  return (
-    <button
-      className={`h-2 w-2 bg-slate-400 mx-1 my-3 rounded-lg ${
-        active ? 'w-6' : ''
-      }`}
-      onClick={() => onClick()}
-    >
-      {/* {React.Children.toArray(imageData)[index]} */}
-    </button>
-  );
-};
+import { CustomDot } from './CustomDot';
 
 interface ImageCarouselProps {
   slides: SliderSlide[];
 }
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
-  const brkp = useBreakpoint();
+  const currentBreakpoint = useBreakpoint();
+
+  const TABLET_BREAKPOINT = 640;
+  const DESKTOP_BREAKPOINT = 1024;
 
   return (
-    <div className="image-carousel h-full w-full relative overflow-hidden">
+    <div className="h-[75vh] sm:h-[44.44vh] lg:h-[33.33vh] relative">
       <Carousel
         additionalTransfrom={0}
         arrows={false}
         autoPlay={true}
         autoPlaySpeed={4000}
         centerMode={false}
-        className="carousel w-full h-full mx-auto"
-        containerClass="w-full h-full container block"
+        containerClass="h-full"
         draggable={false}
         focusOnSelect={false}
         infinite={true}
@@ -86,55 +72,50 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
       >
         {/* MOBILE */}
         {slides?.map((item) => {
-          if (brkp < 640) {
+          if (currentBreakpoint < TABLET_BREAKPOINT) {
             return (
               <Image
                 priority
-                width={1000}
-                height={1000}
+                width={2000}
+                height={2000}
                 key={item.id}
-                className={`w-full m-auto ${
-                  item.type === 'MOBILE' && 'block md:hidden lg:hidden'
-                }`}
+                className="h-[75vh] w-full m-auto object-cover"
                 src={item.image.url}
                 alt={item.image.alternativeText || ''}
               />
             );
           }
-        })}
-        {/* TABLET | IPAD */}
-        {slides?.map((item) => {
-          if (brkp > 640 && brkp < 1024) {
+
+          /* TABLET | IPAD */
+          if (
+            currentBreakpoint > TABLET_BREAKPOINT &&
+            currentBreakpoint < DESKTOP_BREAKPOINT
+          ) {
             return (
-              <Image
-                priority
-                width={1000}
-                height={1000}
-                key={item.id}
-                className={`w-full m-auto ${
-                  item.type === 'TABLET' && 'hidden sm:block lg:hidden'
-                }`}
-                src={item.image.url}
-                alt={item.image.alternativeText || ''}
-              />
+              <div key={item.id} className="h-[240px] relative">
+                <Image
+                  priority
+                  fill
+                  className="object-cover object-center"
+                  src={item.image.url}
+                  alt={item.image.alternativeText || ''}
+                />
+              </div>
             );
           }
-        })}
-        {/* DESKTOP | WIDESCREEN */}
-        {slides?.map((item) => {
-          if (brkp > 1024) {
+
+          /* DESKTOP | WIDESCREEN */
+          if (currentBreakpoint > 1024) {
             return (
-              <Image
-                priority
-                width={1000}
-                height={1000}
-                key={item.id}
-                className={`w-full m-auto ${
-                  item.type === 'DESKTOP' && 'hidden md:hidden lg:block'
-                }`}
-                src={item.image.url}
-                alt={item.image.alternativeText || ''}
-              />
+              <div key={item.id} className="h-[33.33vh] relative">
+                <Image
+                  priority
+                  fill
+                  className="object-fill h-full"
+                  src={item.image.url}
+                  alt={item.image.alternativeText || ''}
+                />
+              </div>
             );
           }
         })}

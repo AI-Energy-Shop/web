@@ -791,6 +791,102 @@ export type GetPageQuery = {
   } | null;
 };
 
+export type ProductsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ProductsQuery = {
+  __typename?: 'Query';
+  products: Array<{
+    __typename?: 'Product';
+    documentId: string;
+    name?: string | null;
+    description?: string | null;
+    category?: string | null;
+    vendor?: string | null;
+    item_code?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+    locale?: string | null;
+  } | null>;
+};
+
+export type ProductQueryVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+}>;
+
+export type ProductQuery = {
+  __typename?: 'Query';
+  product?: {
+    __typename?: 'Product';
+    documentId: string;
+    name?: string | null;
+    description?: string | null;
+    category?: string | null;
+    vendor?: string | null;
+    item_code?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+    locale?: string | null;
+  } | null;
+};
+
+export type CreateProductMutationVariables = Exact<{
+  data: ProductInput;
+}>;
+
+export type CreateProductMutation = {
+  __typename?: 'Mutation';
+  createProduct?: {
+    __typename?: 'Product';
+    documentId: string;
+    name?: string | null;
+    description?: string | null;
+    category?: string | null;
+    vendor?: string | null;
+    item_code?: string | null;
+  } | null;
+};
+
+export type UpdateProductMutationVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+  data: ProductInput;
+}>;
+
+export type UpdateProductMutation = {
+  __typename?: 'Mutation';
+  updateProduct?: {
+    __typename?: 'Product';
+    documentId: string;
+    name?: string | null;
+    description?: string | null;
+    category?: string | null;
+    vendor?: string | null;
+    item_code?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null;
+};
+
+export type CreatePriceListMutationVariables = Exact<{
+  data: PriceListInput;
+}>;
+
+export type CreatePriceListMutation = {
+  __typename?: 'Mutation';
+  createPriceList?: { __typename?: 'PriceList'; documentId: string } | null;
+};
+
+export type UpdatePriceListMutationVariables = Exact<{
+  data: PriceListInput;
+  documentId: Scalars['ID']['input'];
+}>;
+
+export type UpdatePriceListMutation = {
+  __typename?: 'Mutation';
+  updatePriceList?: { __typename?: 'PriceList'; documentId: string } | null;
+};
+
 export type UsersPermissionsUsersQueryVariables = Exact<{
   [key: string]: never;
 }>;
@@ -1460,6 +1556,351 @@ export const GetPageDocument = {
     },
   ],
 } as unknown as DocumentNode<GetPageQuery, GetPageQueryVariables>;
+export const ProductsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'Products' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'products' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'vendor' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'item_code' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'locale' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ProductsQuery, ProductsQueryVariables>;
+export const ProductDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'Product' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'product' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'vendor' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'item_code' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'locale' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ProductQuery, ProductQueryVariables>;
+export const CreateProductDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateProduct' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'ProductInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createProduct' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'vendor' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'item_code' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateProductMutation,
+  CreateProductMutationVariables
+>;
+export const UpdateProductDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateProduct' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'ProductInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateProduct' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'vendor' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'item_code' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateProductMutation,
+  UpdateProductMutationVariables
+>;
+export const CreatePriceListDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreatePriceList' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'PriceListInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createPriceList' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreatePriceListMutation,
+  CreatePriceListMutationVariables
+>;
+export const UpdatePriceListDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdatePriceList' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'PriceListInput' },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updatePriceList' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdatePriceListMutation,
+  UpdatePriceListMutationVariables
+>;
 export const UsersPermissionsUsersDocument = {
   kind: 'Document',
   definitions: [
