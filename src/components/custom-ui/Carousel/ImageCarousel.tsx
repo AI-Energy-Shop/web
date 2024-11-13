@@ -17,6 +17,10 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
   const TABLET_BREAKPOINT = 640;
   const DESKTOP_BREAKPOINT = 1024;
 
+  const MOBILE = 'MOBILE';
+  const TABLET = 'TABLET';
+  const DESKTOP = 'DESKTOP';
+
   return (
     <div className="h-[75vh] sm:h-[44.44vh] lg:h-[33.33vh] relative">
       <Carousel
@@ -72,14 +76,14 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
       >
         {/* MOBILE */}
         {slides?.map((item) => {
-          if (currentBreakpoint < TABLET_BREAKPOINT) {
+          if (currentBreakpoint < TABLET_BREAKPOINT && item.type === MOBILE) {
             return (
               <Image
                 priority
-                width={2000}
-                height={2000}
+                width={1000}
+                height={1000}
                 key={item.id}
-                className="h-[75vh] w-full m-auto object-cover"
+                className="h-[75vh] w-full m-auto object-contain"
                 src={item.image.url}
                 alt={item.image.alternativeText || ''}
               />
@@ -89,7 +93,8 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
           /* TABLET | IPAD */
           if (
             currentBreakpoint > TABLET_BREAKPOINT &&
-            currentBreakpoint < DESKTOP_BREAKPOINT
+            currentBreakpoint < DESKTOP_BREAKPOINT &&
+            (item.type === TABLET || item.type === DESKTOP)
           ) {
             return (
               <div key={item.id} className="h-[240px] relative">
@@ -105,7 +110,10 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
           }
 
           /* DESKTOP | WIDESCREEN */
-          if (currentBreakpoint > 1024) {
+          if (
+            currentBreakpoint > 1024 &&
+            (item.type === TABLET || item.type === DESKTOP)
+          ) {
             return (
               <div key={item.id} className="h-[33.33vh] relative">
                 <Image
