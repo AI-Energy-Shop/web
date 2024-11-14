@@ -46,7 +46,7 @@ const Footer = () => {
               Follow AI Energy Shop
             </p>
             {/*END OF TEXT  */}
-            <span className="flex justify-center items-center gap-5 text-white">
+            <span className="flex justify-center items-center gap-9 text-white">
               <FaLinkedin size={30} />
               <FaFacebook size={30} />
               <HiOutlineMailOpen size={30} />
@@ -55,10 +55,14 @@ const Footer = () => {
         </div>
 
         {/* PRIVACY | POLICY */}
-        <div className="w-full text-white m-auto flex items-center justify-center gap-2 text-sm">
+        <div className="w-full text-white flex items-center justify-center flex-col md:flex-row md:gap-2 text-sm">
           <p>© 2024 AI Energy Shop</p>
-          <p>Terms & Conditions</p>
-          <p>Privacy Policy</p>
+          <div className="h-3 w-[2px] bg-white hidden md:block" />
+          <div className="flex items-center justify-center gap-2">
+            <p>Terms & Conditions</p>
+            <div className="h-3 w-[2px] bg-white" />
+            <p>Privacy Policy</p>
+          </div>
         </div>
       </div>
     </footer>
