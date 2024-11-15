@@ -179,6 +179,10 @@
   background-repeat: no-repeat;
 }
 
+.mobile-container {
+  @apply max-md:w-[92vw] mx-auto;
+}
+
 @media (min-width: 640px) {
   .about-us-background {
     background-size: 100%;
