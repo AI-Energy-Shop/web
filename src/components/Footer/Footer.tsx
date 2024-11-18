@@ -8,7 +8,7 @@ import { firaSansFont, muktaVaani } from '@/assets/fonts/fonts';
 const Footer = () => {
   return (
     <footer className="w-full h-auto bg-gradient-to-b from-yellow-aes-yellow  to-[#f06039] ">
-      <div className="inner-container max-w-[1200px] mx-auto py-10">
+      <div className="inner-container max-w-[1200px] mx-auto pb-10 md:pt-10">
         <div className="upper-container w-full md:flex">
           {/* ACCORDION */}
           <div className="w-full md:w-[33.3%] lg:w-[33.3%]">
@@ -22,7 +22,7 @@ const Footer = () => {
               Locations
             </h3>
             <address
-              className={`${muktaVaani.className} flex flex-col p-5 md:p-0 gap-3 text-sm md:text-xs leading-3`}
+              className={`${muktaVaani.className} flex flex-col p-5 md:p-0 gap-4 lg:gap-5 text-[16px] leading-3`}
             >
               <div>
                 <span className="font-bold">Melbourne:</span> 34/49 McArthurs
@@ -46,7 +46,7 @@ const Footer = () => {
               Follow AI Energy Shop
             </p>
             {/*END OF TEXT  */}
-            <span className="flex justify-center items-center gap-5 text-white">
+            <span className="flex justify-center items-center gap-9 text-white">
               <FaLinkedin size={30} />
               <FaFacebook size={30} />
               <HiOutlineMailOpen size={30} />
@@ -55,10 +55,14 @@ const Footer = () => {
         </div>
 
         {/* PRIVACY | POLICY */}
-        <div className="w-full text-white m-auto flex items-center justify-center gap-2 text-sm">
-          <p className="">© 2024 AI Energy Shop</p>
-          <p className="">Terms & Conditions</p>
-          <p className="">Privacy Policy</p>
+        <div className="w-full text-white flex items-center justify-center flex-col md:flex-row md:gap-2 text-sm">
+          <p>© 2024 AI Energy Shop</p>
+          <div className="h-3 w-[2px] bg-white hidden md:block" />
+          <div className="flex items-center justify-center gap-2">
+            <p>Terms & Conditions</p>
+            <div className="h-3 w-[2px] bg-white" />
+            <p>Privacy Policy</p>
+          </div>
         </div>
       </div>
     </footer>

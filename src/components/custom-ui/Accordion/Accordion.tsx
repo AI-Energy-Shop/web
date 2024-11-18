@@ -21,7 +21,7 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
     <div className="md:grid md:grid-cols-2 md:col-span-5 lg:col-span-3 lg:gap-6 lg:gap-x-9 lg:ml-4s ">
       {data.map((item: any) => (
         <div
-          className="w-ful justify-center border-b-2 md:border-none items-center mb-4 last:mb-0"
+          className="w-ful justify-center border-b-2 md:border-none items-center  last:mb-0"
           key={item.id}
         >
           {/* BUTTON */}
