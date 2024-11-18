@@ -17,6 +17,10 @@ const config: Config = {
       '2xl': '1536px',
     },
     extend: {
+      flex: {
+        '2': '2 2 0%',
+        '3': '3 3 0%',
+      },
       gridTemplateRows: {
         'auto-100': 'repeat(auto-fit, minmax(min-content, 1fr))',
         'auto-5': 'repeat(auto-fit, minmax(min-content, 1fr))',
@@ -124,6 +128,28 @@ const config: Config = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      keyframes: {
+        'accordion-down': {
+          from: {
+            height: '0',
+          },
+          to: {
+            height: 'var(--radix-accordion-content-height)',
+          },
+        },
+        'accordion-up': {
+          from: {
+            height: 'var(--radix-accordion-content-height)',
+          },
+          to: {
+            height: '0',
+          },
+        },
+      },
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
+      },
     },
   },
   plugins: [
@@ -172,8 +198,14 @@ const config: Config = {
         '.clip-path-right-70': {
           clipPath: 'polygon(0 0, 100% 0, 70% 100%, 0% 100%)',
         },
+        '.clip-path-right-75': {
+          clipPath: 'polygon(0 0, 100% 0, 75% 100%, 0% 100%)',
+        },
         '.clip-path-right-80': {
           clipPath: 'polygon(0 0, 100% 0, 80% 100%, 0% 100%)',
+        },
+        '.clip-path-right-85': {
+          clipPath: 'polygon(0 0, 100% 0, 85% 100%, 0% 100%)',
         },
         '.clip-path-right-90': {
           clipPath: 'polygon(0 0, 100% 0, 90% 100%, 0% 100%)',

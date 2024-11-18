@@ -111,7 +111,7 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
     <nav className="fixed w-full z-50 bg-white">
       <div className="max-w-[1200px] m-auto ease-in-out duration-300 lg:duration-0">
         <motion.div
-          className="w-full flex items-center justify-between pl-5 lg:p-0"
+          className="w-full flex items-center justify-between lg:p-0"
           style={navStyle}
         >
           {/* TABLET/DESKTOP MENU LIST */}

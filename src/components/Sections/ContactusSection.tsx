@@ -8,25 +8,16 @@ interface ContactusSectionProps {
 }
 const ContactusSection: React.FC<ContactusSectionProps> = ({ data }) => {
   return (
-    <section className="about-section w-full h-auto">
+    <section className="w-full h-auto">
       <div
         className="
-          h-[200px] w-full
+          h-[220px] w-full
           md:h-[300px] 
           lg:max-w-[1200px] lg:h-[320px] lg:m-auto
         "
       >
-        <div
-          className="
-            bg-blue-dark-blue w-full h-full relative
-          "
-        >
-          <div
-            className="
-              relative w-[50%] h-full clip-path-right-40
-              lg:w-[65%] lg:clip-path-right-70
-            "
-          >
+        <div className="bg-blue-dark-blue w-full h-full relative">
+          <div className="relative max-sm:w-[40%] sm:w-[50%] h-full clip-path-right-40 lg:w-[65%] lg:clip-path-right-70">
             {data?.background_image && (
               <Image
                 fill
@@ -42,16 +33,11 @@ const ContactusSection: React.FC<ContactusSectionProps> = ({ data }) => {
               />
             )}
           </div>
-          <div
-            className="
-              absolute top-0 right-0 -z-1
-              w-full h-full p-5 flex flex-col justify-center gap-4 items-end          
-            "
-          >
+          <div className="absolute top-0 right-0 -z-1 w-full h-full p-5 flex flex-col justify-center gap-4 items-end">
             <h2
               style={firaSansFont.style}
               className=" 
-                text-yellow-aes-yellow flex flex-col font-bold text-sm text-right
+                text-yellow-aes-yellow flex flex-col font-bold text-sm text-[16px] text-right
                 sm:text-[18px]
                 lg:text-[28px] leading-[1.1]
               "
@@ -61,8 +47,8 @@ const ContactusSection: React.FC<ContactusSectionProps> = ({ data }) => {
             <p
               style={muktaVaani.style}
               className="
-                max-w-[50%] text-xs text-wrap text-white text-right ml-auto sm:text-[14px]
-                md:max-w-[50%] md:text-base
+                max-w-[50%] text-wrap text-white text-right ml-auto text-[14px]
+                md:max-w-[50%] 
                 lg:max-w-[30%] lg:text-end leading-[1.25]
               "
             >
