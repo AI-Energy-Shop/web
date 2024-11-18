@@ -1,18 +1,7 @@
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Textarea } from '@/components/ui/textarea';
-// import { Toast } from "@/components/ui/toast"
-// import { useToast } from "@/components/ui/use-toast"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Card,
@@ -22,37 +11,44 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import UserProfileForm from '@/components/Form/user-profile';
+import { Save } from 'lucide-react';
+import { getUserDetails, updateAccountStatus } from '@/app/actions/users';
 import {
-  Save,
-  UserCircle,
-  Mail,
-  Phone,
-  MapPin,
-  Building,
-  Shield,
-  Activity,
-} from 'lucide-react';
+  Enum_Accountdetail_Level,
+  Enum_Userspermissionsuser_Account_Status,
+} from '@/lib/gql/graphql';
 
-const user = {
-  id: '12345',
-  firstName: 'Jane',
-  middleName: 'Melgar',
-  lastName: 'Doe',
-  email: 'jane.doe@example.com',
-  level: 'admin',
-  status: 'PENDING',
-  type: 'installer',
-  phone: '+1 (555) 123-4567',
-  address: '123 Main St, Anytown, AN 12345',
-  company: 'HP Energy',
-  odooId: 'OD12456',
-  bio: 'Experienced editor with a passion for technology and innovation.',
-  abn: '12345678',
-  lastActive: '2023-04-15T14:30:00Z',
-  twoFactorEnabled: true,
+type AdminDashboardUserPageProps = {
+  params: { id: string };
 };
 
-const AdminDashboardUserPage = async () => {
+const AdminDashboardUserPage = async ({
+  params,
+}: AdminDashboardUserPageProps) => {
+  const userId = params.id;
+  const user = await getUserDetails(userId);
+
+  if (
+    user?.account_status === Enum_Userspermissionsuser_Account_Status.Pending
+  ) {
+    updateAccountStatus({
+      userId: user?.documentId,
+      email: user?.email,
+      accountStatus: Enum_Userspermissionsuser_Account_Status.Reviewing,
+      odooId: user?.account_detail?.odoo_id || '',
+      userPricingLevel:
+        user?.account_detail?.level || Enum_Accountdetail_Level?.Small,
+    });
+  }
+
+  const userBadgeVariant =
+    user?.account_status === 'APPROVED'
+      ? 'default'
+      : user?.account_status === 'DENIED'
+        ? 'destructive'
+        : 'secondary';
+
   return (
     <div className="min-h-full bg-gray-100 dark:bg-gray-900">
       <div className="w-full mx-auto p-5">
@@ -62,183 +58,64 @@ const AdminDashboardUserPage = async () => {
               <CardTitle className="text-2xl font-bold">
                 Client Profile
               </CardTitle>
-              <Badge
-                variant={user.status === 'active' ? 'default' : 'secondary'}
-              >
-                {user.status}
-              </Badge>
+              <Badge variant={userBadgeVariant}>{user?.account_status}</Badge>
             </div>
             <CardDescription>View and edit user information</CardDescription>
           </CardHeader>
           <CardContent>
-            <form>
-              <div className="space-y-8">
-                <div className="flex items-center space-x-4">
-                  <Avatar className="w-20 h-20">
-                    <AvatarImage
-                      src="/placeholder.svg?height=80&width=80"
-                      alt={user.company.slice(0, 2)}
-                    />
-                    <AvatarFallback>{user.company.slice(0, 2)}</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <h2 className="text-xl font-semibold">{user.company}</h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      User ID: {user.id}
-                    </p>
-                  </div>
+            <div className="space-y-8">
+              <div className="flex items-center space-x-4">
+                <Avatar className="w-20 h-20">
+                  <AvatarImage
+                    src="/placeholder.svg?height=80&width=80"
+                    alt={user?.email}
+                  />
+                  <AvatarFallback>{user?.email.slice(0, 1)}</AvatarFallback>
+                </Avatar>
+                <div>
+                  <h2 className="text-xl font-semibold">{user?.email}</h2>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    User ID: {user?.documentId}
+                  </p>
                 </div>
+              </div>
 
-                <Tabs defaultValue="general" className="w-full">
-                  <TabsList>
-                    <TabsTrigger value="general">General</TabsTrigger>
-                    <TabsTrigger value="security">Security</TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="general">
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="firstName">First Name</Label>
-                          <Input
-                            id="firstName"
-                            name="firstName"
-                            value={user.firstName}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="middleName">Middle Name</Label>
-                          <Input
-                            id="middleName"
-                            name="middleName"
-                            value={user.middleName}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="lastName">Last Name</Label>
-                          <Input
-                            id="lastName"
-                            name="lastName"
-                            value={user.lastName}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="email">Email</Label>
-                          <Input
-                            id="email"
-                            name="email"
-                            type="email"
-                            value={user.email}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="role">Level</Label>
-                          <Select value={user.level}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select a role" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="admin">SMALL</SelectItem>
-                              <SelectItem value="editor">MID-SIZED</SelectItem>
-                              <SelectItem value="viewer">VIP</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="status">Status</Label>
-                          <Select value={user.status}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select a status" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="active">APPROVED</SelectItem>
-                              <SelectItem value="inactive">DENIED</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="phone">Phone</Label>
-                          <Input id="phone" name="phone" value={user.phone} />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="company">Company</Label>
-                          <Input
-                            id="company"
-                            name="company"
-                            value={user.company}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="company">ODOO ID</Label>
-                          <Input
-                            id="company"
-                            name="company"
-                            value={user.odooId}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="type">Type</Label>
-                          <Select value={user.type}>
-                            <SelectTrigger>
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="installer">
-                                INSTALLER
-                              </SelectItem>
-                              <SelectItem value="retailer">RETAILER</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="abn">
-                            Australian Business Number
-                          </Label>
-                          <Input id="abn" name="abn" value={user.abn} />
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="address">Address</Label>
-                        <Textarea
-                          id="address"
-                          name="address"
-                          value={user.address}
-                        />
-                      </div>
-                    </div>
-                  </TabsContent>
-                  <TabsContent value="security">
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div className="space-y-0.5">
-                          <Label htmlFor="twoFactorEnabled">
-                            Two-Factor Authentication
-                          </Label>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">
-                            Enhance your account security by enabling two-factor
-                            authentication.
-                          </p>
-                        </div>
-                        <Switch
-                          id="twoFactorEnabled"
-                          checked={user.twoFactorEnabled}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Last Active</Label>
+              <Tabs defaultValue="general" className="w-full">
+                <TabsList>
+                  <TabsTrigger value="general">General</TabsTrigger>
+                  <TabsTrigger value="security">Security</TabsTrigger>
+                </TabsList>
+                <TabsContent value="general">
+                  <UserProfileForm user={user} />
+                </TabsContent>
+                <TabsContent value="security">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <Label htmlFor="twoFactorEnabled">
+                          Two-Factor Authentication
+                        </Label>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                          {new Date(user.lastActive).toLocaleString()}
+                          Enhance your account security by enabling two-factor
+                          authentication.
                         </p>
                       </div>
+                      <Switch id="twoFactorEnabled" checked={true} />
                     </div>
-                  </TabsContent>
-                </Tabs>
-
-                <Button type="submit" className="w-full">
-                  <Save className="w-4 h-4 mr-2" />
-                  Save Changes
-                </Button>
-              </div>
-            </form>
+                    <div className="space-y-2">
+                      <Label>Last Active</Label>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {new Date('2023-04-15T14:30:00Z').toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                  <Button type="submit" className="w-full mt-4">
+                    <Save className="w-4 h-4 mr-2" />
+                    Save Changes
+                  </Button>
+                </TabsContent>
+              </Tabs>
+            </div>
           </CardContent>
         </Card>
       </div>

@@ -1,11 +1,14 @@
+'use server';
+
 import { getClient } from '@/apollo/client';
 import PAGES_OPREATIONS from '@/graphql/page';
+import type { GetPageQuery } from '@/lib/types';
 
 const client = getClient();
 
-export async function getPages() {
+export async function getPages(): Promise<GetPageQuery[]> {
   try {
-    const res = await client.query<any>({
+    const res = await client.query<GetPageQuery[]>({
       query: PAGES_OPREATIONS.Queries.pages,
       fetchPolicy: 'no-cache',
     });
@@ -18,9 +21,9 @@ export async function getPages() {
   }
 }
 
-export async function getPage(slug?: string) {
+export async function getPage(slug?: string): Promise<GetPageQuery> {
   try {
-    const res = await client.query<any>({
+    const res = await client.query<GetPageQuery>({
       query: PAGES_OPREATIONS.Queries.getPage,
       fetchPolicy: 'no-cache',
       variables: {

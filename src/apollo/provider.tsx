@@ -8,8 +8,8 @@ import {
   InMemoryCache,
 } from '@apollo/experimental-nextjs-app-support';
 
-const PROTOCOL = process.env.NEXT_PUBLIC_BASE_PROTOCOL;
-const HOST = process.env.NEXT_PUBLIC_BASE_URL_HOST;
+const PROTOCOL = process.env.NEXT_PUBLIC_BASE_PROTOCOL || 'http';
+const HOST = process.env.NEXT_PUBLIC_BASE_URL_HOST || 'localhost:1337';
 
 // have a function to create a client for you
 function makeClient() {

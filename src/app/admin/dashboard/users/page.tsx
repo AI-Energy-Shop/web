@@ -4,7 +4,6 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { getUsers } from '@/app/actions/users';
-import { UserType } from '@/lib/types';
 import Components from '@/components';
 
 const UserManagement = async () => {
@@ -14,26 +13,25 @@ const UserManagement = async () => {
     {
       icon: <User />,
       title: 'Total Users',
-      value: users?.data?.usersPermissionsUsers.length.toString(),
+      value: users?.usersPermissionsUsers.length.toString(),
     },
     {
       icon: <KeyRound />,
       title: 'Pending',
-      value: users?.data?.usersPermissionsUsers
-        ?.filter?.((item: UserType) => item.account_status === 'PENDING')
+      value: users?.usersPermissionsUsers
+        ?.filter?.((item) => item?.account_status === 'PENDING')
         .length.toString(),
     },
     {
       icon: <UserPlus />,
       title: 'New Users (This Month)',
-      value: users?.data?.usersPermissionsUsers.length,
+      value: users?.usersPermissionsUsers.length,
     },
     { icon: <Ban />, title: 'Suspended Users', value: '10' },
   ];
 
   return (
     <>
-      {/* Header */}
       <header className="bg-white dark:bg-gray-800 shadow">
         <div className="max-w-full mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
@@ -46,7 +44,6 @@ const UserManagement = async () => {
         </div>
       </header>
 
-      {/* Dashboard Content */}
       <div className="max-w-full mx-auto py-6 sm:px-6 lg:px-8 space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {overviewCards.map((card, index) => (
@@ -70,9 +67,7 @@ const UserManagement = async () => {
             <Button>Add New User</Button>
           </CardHeader>
           <CardContent>
-            <Components.Tables.UsersTable
-              data={users?.data?.usersPermissionsUsers}
-            />
+            <Components.Tables.UsersTable data={users?.usersPermissionsUsers} />
           </CardContent>
         </Card>
       </div>

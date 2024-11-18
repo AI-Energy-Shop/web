@@ -1,18 +1,17 @@
-import { gql } from '@apollo/client';
+import { graphql } from '@/lib/gql';
 
 const schema = {
   Queries: {
-    users: gql(`
+    users: graphql(`
       query UsersPermissionsUsers {
         usersPermissionsUsers {
           documentId
           username
           email
           provider
-          confirmed
           blocked
           account_status
-          account_details {
+          account_detail {
             documentId
             level
             user_type
@@ -22,66 +21,66 @@ const schema = {
             last_name
             business_name
             position
-            createdAt
-            updatedAt
-            publishedAt
-            locale
-            user {
-              documentId
-              username
-              email
-              provider
-              confirmed
-              blocked
-              createdAt
-              updatedAt
-              publishedAt
-              locale
-            }
           }
-          createdAt
-          updatedAt
-          publishedAt
-          locale
-
+        }
+      }
+    `),
+    userDetails: graphql(`
+      query UsersPermissionsUser($documentId: ID!) {
+        usersPermissionsUser(documentId: $documentId) {
+          documentId
+          username
+          email
+          provider
+          blocked
+          account_status
+          account_detail {
+            documentId
+            level
+            user_type
+            odoo_id
+            first_name
+            middle_name
+            last_name
+            business_name
+            position
+          }
         }
       }
     `),
   },
   Mutations: {
-    registerUser: gql(`
+    registerUser: graphql(`
       mutation RegisterUser($data: RegisterUserInput!) {
         registerUser(data: $data) {
           error
-          data {
-            documentId
-            username
-            email
-          }
           success
           statusText
         }
       }
     `),
-    loginUser: gql(`
+    loginUser: graphql(`
       mutation Login($input: UsersPermissionsLoginInput!) {
         login(input: $input) {
           jwt
           user {
             id
-            email
-            blocked
             username
+            email
             confirmed
-            role {
-              id
-              name
-              description
-              type
-            }
+            blocked
           }
         }
-      }  
+      }
+    `),
+    updateUserAccountStatus: graphql(`
+      mutation UserApproval($data: UserApprovalRequestInputArgs!) {
+        userApproval(data: $data) {
+          error
+          success
+          statusText
+        }
+      }
     `),
   },
 };

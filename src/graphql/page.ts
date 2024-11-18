@@ -1,9 +1,9 @@
-import { gql } from '@apollo/client';
+import { graphql } from '@/lib/gql';
 
 const schema = {
   Queries: {
-    pages: gql(`
-			query Pages {
+    pages: graphql(`
+      query Pages {
         pages {
           documentId
           title
@@ -11,42 +11,24 @@ const schema = {
         }
       }
     `),
-    getPage: gql(`
+    getPage: graphql(`
       query GetPage($slug: String!) {
         getPage(slug: $slug) {
+          documentId
           title
           slug
           sections {
             ... on ComponentSectionsWarehouseLocations {
-              __typename
               id
               heading
               sub_heading
               locations {
                 id
-                name
                 address
-                office_time
                 warehouse_time
+                office_time
                 google_maps_link
-              }
-            }
-            
-            ... on ComponentSectionsImageSlider {
-              __typename
-              id
-              animation_duration
-              display_button
-              slides {
-                id
-                title
-                description
-                image {
-                  alternativeText
-                  name
-                  url
-                }
-                type
+                name
               }
             }
             ... on ComponentSectionsContactUs {
@@ -55,8 +37,8 @@ const schema = {
               description
               button_title
               background_image {
-                alternativeText
                 name
+                alternativeText
                 url
               }
             }
@@ -74,9 +56,26 @@ const schema = {
               description
               button_title
               background_image {
-                alternativeText
                 name
+                alternativeText
                 url
+              }
+            }
+            ... on ComponentSectionsImageSlider {
+              id
+              animation_duration
+              display_button
+              slides {
+                id
+                title
+                description
+                link
+                image {
+                  name
+                  alternativeText
+                  url
+                }
+                type
               }
             }
             ... on ComponentFormNewsletter {
@@ -93,8 +92,8 @@ const schema = {
               sub_text
               button_title
               image {
-                alternativeText
                 name
+                alternativeText
                 url
               }
             }
@@ -115,6 +114,9 @@ const schema = {
               message
             }
           }
+          createdAt
+          updatedAt
+          publishedAt
         }
       }
     `),

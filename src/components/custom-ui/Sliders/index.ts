@@ -1,4 +1,4 @@
-import SlickSlider from '../Carousel/ImageCarousel';
+import SlickSlider from '../Carousel/Home/ImageCarousel';
 
 const Sliders = {
   SlickSlider,

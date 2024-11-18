@@ -3,7 +3,7 @@ import { LogOut, Settings } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { SIDE_NAVIGATIONS } from '@/lib/constant';
+import { SIDE_NAVIGATIONS } from '@/constant';
 import Icon from '../Icon';
 import { usePathname } from 'next/navigation';
 const SideNavigation = () => {

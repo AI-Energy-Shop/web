@@ -1,4 +1,5 @@
 'use client';
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -28,11 +29,16 @@ import { toast } from 'sonner';
 import { registerUser } from '@/app/actions/users';
 import { useAction } from 'next-safe-action/hooks';
 import { registerUserSchema } from '@/lib/validation-schema/register-form';
-import { FormUserType } from '@/lib/constant';
+import Dialogs from '@/components/dialog';
+import { Enum_Accountdetail_User_Type } from '@/lib/gql/graphql';
 
 const SignupPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [userDetails, setUserDetails] =
+    useState<z.infer<typeof registerUserSchema>>();
 
   const form = useForm<z.infer<typeof registerUserSchema>>({
     resolver: zodResolver(registerUserSchema),
@@ -88,7 +94,8 @@ const SignupPage = () => {
           message: 'Password do not match',
         });
       }
-      execute(values);
+      setUserDetails(values);
+      setShowModal(true);
     } catch (error) {
       toast.error('Something went wrong. Please try again later.');
     }
@@ -96,6 +103,12 @@ const SignupPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+      <Dialogs.Registration
+        open={showModal}
+        onOpenChange={() => setShowModal(false)}
+        userData={userDetails}
+        execute={execute}
+      />
       <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
         <div className="flex justify-center mb-8">
           <Package2 className="h-12 w-12 text-indigo-500" />
@@ -177,7 +190,6 @@ const SignupPage = () => {
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
@@ -198,10 +210,14 @@ const SignupPage = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value={FormUserType.INSTALLER}>
+                        <SelectItem
+                          value={Enum_Accountdetail_User_Type.Installer}
+                        >
                           Installer
                         </SelectItem>
-                        <SelectItem value={FormUserType.RETAILER}>
+                        <SelectItem
+                          value={Enum_Accountdetail_User_Type.Retailer}
+                        >
                           Retailer
                         </SelectItem>
                       </SelectContent>
@@ -320,7 +336,7 @@ const SignupPage = () => {
         </Form>
 
         <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
-          Already have an account?
+          Already have an account?{' '}
           <Link
             href="/auth/login"
             className="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 font-medium"

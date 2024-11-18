@@ -17,7 +17,7 @@ interface Image {
   url: string;
 }
 
-interface Location {
+export interface Location {
   id: string;
   address: string;
   office_time: string;
@@ -41,6 +41,7 @@ interface BaseSection {
 
 export interface ComponentSectionsWarehouseLocations extends BaseSection {
   __typename: 'ComponentSectionsWarehouseLocations';
+  id: string;
   heading: string;
   sub_heading: string;
   locations: Location[];
@@ -48,6 +49,7 @@ export interface ComponentSectionsWarehouseLocations extends BaseSection {
 
 interface ComponentSectionsImageSlider extends BaseSection {
   __typename: 'ComponentSectionsImageSlider';
+  id: string;
   animation_duration: number;
   display_button: boolean;
   slides: SliderSlide[];
@@ -55,6 +57,7 @@ interface ComponentSectionsImageSlider extends BaseSection {
 
 export interface ComponentSectionsContactUs extends BaseSection {
   __typename: 'ComponentSectionsContactUs';
+  id: string;
   heading: string;
   description: string;
   button_title: string;
@@ -63,6 +66,7 @@ export interface ComponentSectionsContactUs extends BaseSection {
 
 export interface ComponentSectionsContactDetails extends BaseSection {
   __typename: 'ComponentSectionsContactDetails';
+  id: string;
   left_heading: string;
   left_sub_heading: string;
   right_heading: string;
@@ -71,6 +75,7 @@ export interface ComponentSectionsContactDetails extends BaseSection {
 
 export interface ComponentSectionsAbout extends BaseSection {
   __typename: 'ComponentSectionsAbout';
+  id: string;
   heading: string;
   sub_heading: string;
   description: string;
@@ -80,6 +85,7 @@ export interface ComponentSectionsAbout extends BaseSection {
 
 interface ComponentFormNewsletter extends BaseSection {
   __typename: 'ComponentFormNewsletter';
+  id: string;
   heading: string;
   sub_heading: string;
   inputs: Input[];
@@ -90,6 +96,7 @@ interface ComponentFormNewsletter extends BaseSection {
 
 export interface ComponentFormInquiry extends BaseSection {
   __typename: 'ComponentFormInquiry';
+  id: string;
   heading: string;
   button_title: string;
   inputs: Input[];
@@ -100,15 +107,14 @@ interface ErrorResponse {
   message: string;
 }
 
-type Section =
+export type Section =
   | ComponentSectionsWarehouseLocations
   | ComponentSectionsImageSlider
   | ComponentSectionsContactUs
   | ComponentSectionsContactDetails
   | ComponentSectionsAbout
   | ComponentFormNewsletter
-  | ComponentFormInquiry
-  | ErrorResponse;
+  | ComponentFormInquiry;
 
 interface GetPageResponse {
   title: string;
@@ -116,7 +122,7 @@ interface GetPageResponse {
   sections: Section[];
 }
 
-interface GetPageQuery {
+export interface GetPageQuery {
   getPage: GetPageResponse;
 }
 
