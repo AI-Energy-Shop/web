@@ -45,6 +45,7 @@ const ImageCarousel: React.FC = () => {
         {new Array(3).fill('s').map((_, index) => (
           <div key={index} className="h-52 relative">
             <Image
+              priority
               fill
               src={'/images/background/Weiheng Tianwu AIO-Mobile.png'}
               alt="product image"

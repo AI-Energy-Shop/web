@@ -244,50 +244,12 @@ function ProductPage() {
 
       {/* Related Products */}
       <section className="bg-yellow-light-yellow py-2">
-        <div className="mobile-container mx-auto space-y-2">
-          <h1 className="text-xl font-bold">Related Products</h1>
+        <div className="space-y-2">
+          <h1 className="text-xl font-bold mobile-container mx-auto">
+            Related Products
+          </h1>
           <div>
-            <Card>
-              <CardHeader>
-                <div className="h-44 relative">
-                  <Image
-                    fill
-                    src={'/images/background/Weiheng Tianwu AIO-Mobile.png'}
-                    alt="product image"
-                    className="object-contain object-center"
-                  />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <h1 className="text-xl font-bold">
-                  Solplanet 6kW S-G2 Series Single Phase Inverter
-                </h1>
-                <h2 className="font-thin text-lg italic">ASW6000-S-G2</h2>
-                <h3 className="text-sm line-through">$1250.20</h3>
-                <h3 className="font-semibold text-lg">
-                  $1,160.00 <span className="text-sm">ex.GST</span>
-                </h3>
-              </CardContent>
-              <CardFooter>
-                <div className="flex flex-1 border border-black">
-                  <div
-                    role="button"
-                    className="flex-2 flex items-center justify-center bg-gray-200 hover:bg-gray-200/90 cursor-pointer"
-                  >
-                    <Minus />
-                  </div>
-                  <div className="flex-3 border border-x-black flex items-center justify-center">
-                    <p>1</p>
-                  </div>
-                  <div
-                    role="button"
-                    className="flex-2 flex items-center justify-center bg-gray-200 hover:bg-gray-200/90 cursor-pointer"
-                  >
-                    <Plus />
-                  </div>
-                </div>
-              </CardFooter>
-            </Card>
+            <Carousel.ProductRecoCarousel />
           </div>
         </div>
       </section>
