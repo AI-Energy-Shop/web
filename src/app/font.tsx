@@ -5,7 +5,6 @@ export const firaSans = Fira_Sans({
   subsets: ['latin'],
   variable: '--fira-Sans',
   adjustFontFallback: false,
-  display: "swap",
 });
 
 export const muktaVaani = Mukta_Vaani({
@@ -13,5 +12,4 @@ export const muktaVaani = Mukta_Vaani({
   subsets: ['latin'],
   variable: '--mukta-Vaani',
   adjustFontFallback: false,
-  display: "swap",
 });
