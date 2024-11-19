@@ -109,7 +109,7 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
      If sticky (isSticky is true), it adds classes like sticky top-0 z-50 for positioning. */
   return (
     <nav className="fixed w-full z-50 bg-white">
-      <div className="max-w-[1200px] m-auto ease-in-out duration-300 lg:duration-0">
+      <div className="ae-mobile-container ae-non-mobile-container ease-in-out duration-300 lg:duration-0">
         <motion.div
           className="w-full flex items-center justify-between lg:p-0"
           style={navStyle}
@@ -118,7 +118,7 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
           <div className="h-full md:flex gap-4">
             {/* Logo */}
             <Link href="/" passHref>
-              <div className="w-[100px]  flex flex-col items-center justify-center gap-1 py-2">
+              <div className="w-[100px] -ml-3 flex flex-col items-center justify-center gap-1 py-2">
                 <div className="relative">
                   <Image
                     width={40}
@@ -129,7 +129,6 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
                     priority
                   />
                 </div>
-                {/* ${daysOne.className}  */}
                 <motion.p
                   className="text-[10px] text-purple-purp-aes font-black text-center"
                   style={logoTextStyle}
@@ -140,7 +139,7 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
             </Link>
 
             {/* TABLET TO DESKTOP LINKS */}
-            <div className="desktop-nav-links hidden lg:flex gap-4 items-center justify-center">
+            <div className="hidden lg:flex gap-4 items-center justify-center">
               {data?.pages?.map?.((link: any) => {
                 return (
                   <Link
@@ -166,10 +165,10 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
           <div className="lg:hidden">
             {/* Overlay for the mobile menu */}
             {open && (
-              <div className="fixed top-0 left-0 w-full h-full bg-black opacity-[.33]" />
+              <div className="fixed top-0 right-0 w-full h-full bg-black opacity-[.33]" />
             )}
             <button
-              className="w-10 h-8 flex rounded-md flex-col justify-between z-50 relative m-8"
+              className="w-10 h-8 flex rounded-md flex-col justify-between z-50 relative"
               onClick={() => setOpen(!open)}
             >
               <motion.div

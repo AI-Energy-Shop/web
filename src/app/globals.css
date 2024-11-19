@@ -179,8 +179,12 @@
   background-repeat: no-repeat;
 }
 
-.mobile-container {
-  @apply max-md:w-[92vw] mx-auto;
+.ae-mobile-container {
+  @apply max-md:w-[92vw] max-md:mx-auto;
+}
+
+.ae-non-mobile-container {
+  @apply md:w-[90vw] md:mx-auto max-w-[1200px];
 }
 
 @media (min-width: 640px) {
