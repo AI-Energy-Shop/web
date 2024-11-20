@@ -9,10 +9,12 @@ import ProductDetailsOverview from './ProductDetailsOverview';
 import ProductKeyFeatures from './ProductKeyFeatures';
 import ProductSpecification from './ProductSpecification';
 import ProductDownloads from './ProductDownloads';
+import { firaSans } from '@/app/font';
 
 function ProductDescription() {
   return (
     <>
+      {/* mobile */}
       <div className="md:hidden">
         {/* Product Description */}
         <div>
@@ -58,36 +60,37 @@ function ProductDescription() {
         </div>
       </div>
 
-      <div className="hidden md:block ae-non-mobile-container bg-white">
+      {/* tablet/desktop */}
+      <div className="hidden md:block ae-non-mobile-container bg-white mt-9">
         <Tabs defaultValue="details">
-          <TabsList className="gap-x-0.5">
+          <TabsList className="m-0 p-0">
             <TabsTrigger
               value="details"
-              className="bg-blue-navy-blue/50 text-white/80 disabled:opacity-50 data-[state=active]:bg-blue-navy-blue 
-              data-[state=active]:text-white data-[state=active]:shadow-none rounded-none"
+              className={`${firaSans.className} text-2xl px-12 bg-blue-navy-blue/50 text-white/80 disabled:opacity-50 data-[state=active]:bg-blue-navy-blue 
+              data-[state=active]:text-white data-[state=active]:shadow-none rounded-none`}
             >
               Product Details
             </TabsTrigger>
             <TabsTrigger
               value="downloads"
-              className="bg-blue-navy-blue/50 text-white/80 disabled:opacity-50 data-[state=active]:bg-blue-navy-blue 
-              data-[state=active]:text-white data-[state=active]:shadow-none rounded-none"
+              className={`${firaSans.className} text-2xl px-12 bg-blue-navy-blue/50 text-white/80 disabled:opacity-50 data-[state=active]:bg-blue-navy-blue 
+              data-[state=active]:text-white data-[state=active]:shadow-none rounded-none`}
             >
               Product Downloads
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="details">
-            <ProductDetailsOverview />
-            <div className="flex">
-              <div className="flex-1">
+          <TabsContent value="details" className="py-6 px-12">
+            <div className="flex justify-between">
+              <div className="basis-[50%]">
+                <ProductDetailsOverview />
                 <ProductKeyFeatures />
               </div>
-              <div className="flex-1">
+              <div className="basis-[35%]">
                 <ProductSpecification />
               </div>
             </div>
           </TabsContent>
-          <TabsContent value="downloads">
+          <TabsContent value="downloads" className="py-6 px-12">
             <ProductDownloads />
           </TabsContent>
         </Tabs>

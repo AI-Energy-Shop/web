@@ -1,6 +1,8 @@
+import { muktaVaani } from '@/app/font';
+
 function ProductDetailsOverview() {
   return (
-    <p>
+    <p className={`${muktaVaani.className}`}>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima autem in
       earum itaque nulla. Impedit provident est sint, delectus autem voluptatem
       facilis sed! Dicta a corrupti doloremque beatae adipisci incidunt, animi

@@ -5,9 +5,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Separator } from '../ui/separator';
+import { Separator } from '@/components/ui/separator';
 import { Check, Minus, Plus } from 'lucide-react';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 
 function ProductPrice() {
   return (
