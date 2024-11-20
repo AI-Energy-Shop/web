@@ -50,12 +50,12 @@ function ProductPage() {
       <ProductDescription />
 
       {/* Related Products */}
-      <section className="bg-yellow-light-yellow py-2">
-        <div className="space-y-2">
-          <h1 className="text-xl font-bold ae-mobile-container ae-non-mobile-container mx-auto">
+      <section className="bg-yellow-light-yellow pt-6 pb-12 ">
+        <div>
+          <h1 className="text-xl font-bold ae-mobile-container ae-non-mobile-container mx-auto md:px-12 mb-4">
             Related Products
           </h1>
-          <div className="ae-non-mobile-container">
+          <div className="ae-non-mobile-container md:px-12">
             <Carousel.ProductRecoCarousel />
           </div>
         </div>
