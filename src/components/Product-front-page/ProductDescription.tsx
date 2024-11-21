@@ -20,14 +20,29 @@ function ProductDescription() {
         <div>
           <Accordion type="single" collapsible className="bg-gray-50">
             <AccordionItem className="border-none" value="item-1">
-              <AccordionTrigger className="text-lg font-bold py-3 px-6 hover:no-underline border border-x-0 bg-gray-200/80 border-y-black">
+              <AccordionTrigger
+                className={`${firaSans.className} text-[20px] font-bold py-3 px-6 hover:no-underline  bg-yellow-aes-yellow  text-white`}
+              >
                 Product Description
               </AccordionTrigger>
-              <AccordionContent className="mt-4 bg-gray-50">
-                <div className="px-4">
-                  <ProductDetailsOverview />
-                  <ProductKeyFeatures />
-                </div>
+              <AccordionContent className="p-4 bg-gray-50">
+                <ProductDetailsOverview />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+
+        {/* Key Features */}
+        <div>
+          <Accordion type="single" collapsible className="bg-gray-50">
+            <AccordionItem className="border-none" value="item-1">
+              <AccordionTrigger
+                className={`${firaSans.className} text-[20px] font-bold py-3 px-6 hover:no-underline  bg-orange-orange  text-white`}
+              >
+                Key Features
+              </AccordionTrigger>
+              <AccordionContent className="px-6 pt-4 pb-5 bg-gray-50">
+                <ProductKeyFeatures />
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -36,10 +51,12 @@ function ProductDescription() {
         <div>
           <Accordion type="single" collapsible>
             <AccordionItem className="border-none" value="item-1">
-              <AccordionTrigger className="text-lg font-bold py-3 px-6 hover:no-underline  bg-blue-navy-blue text-white ">
-                Specification
+              <AccordionTrigger
+                className={`${firaSans.className} text-[20px] font-bold py-3 px-6 hover:no-underline  bg-purple-purp-aes  text-white`}
+              >
+                Specifications
               </AccordionTrigger>
-              <AccordionContent className="pb-0">
+              <AccordionContent className="pb-2 bg-white">
                 <ProductSpecification />
               </AccordionContent>
             </AccordionItem>
@@ -48,8 +65,10 @@ function ProductDescription() {
         {/* Product Downloads */}
         <div>
           <Accordion type="single" collapsible>
-            <AccordionItem className="border-none" value="item-1">
-              <AccordionTrigger className="text-lg font-bold py-3 px-6 hover:no-underline  bg-black text-white ">
+            <AccordionItem className="border-b-2 border-b-black" value="item-1">
+              <AccordionTrigger
+                className={`${firaSans.className} text-[20px] font-bold py-3 px-6 hover:no-underline  bg-blue-navy-blue text-white`}
+              >
                 Product Downloads
               </AccordionTrigger>
               <AccordionContent className="pb-0">
