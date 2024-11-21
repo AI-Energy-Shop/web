@@ -34,7 +34,7 @@ const ImageCarousel: React.FC = () => {
   return (
     <>
       {/* mobile carousel */}
-      <div className="relative pb-8 md:hidden">
+      {/* <div className="relative pb-8 md:hidden">
         <Carousel
           responsive={responsive}
           infinite={true}
@@ -56,37 +56,42 @@ const ImageCarousel: React.FC = () => {
             </div>
           ))}
         </Carousel>
-      </div>
+      </div> */}
 
       {/* tablet/desktop carousel */}
-      <div className="relative hidden md:block">
-        <div className="h-52 relative">
-          <Image
-            priority
-            fill
-            src={'/images/background/Weiheng Tianwu AIO-Mobile.png'}
-            alt="product image"
-            className="object-contain object-center"
-          />
-        </div>
-        <Carousel
-          responsive={responsive}
-          arrows={false}
-          renderButtonGroupOutside={true}
-          className="mt-5 overflow-hidden"
-        >
-          {new Array(1).fill(0).map((_, index) => (
-            <div key={index} className="h-2  relative">
+      <div className="bg-red-300 w-full relative h-full hidden md:block">
+        <div className="w-32 h-12 bg-red-50 mx-auto"></div>
+
+        <div className="mt-3">
+          <div className="h-52 relative">
+            <Image
+              priority
+              fill
+              src={'/images/background/Weiheng Tianwu AIO-Mobile.png'}
+              alt="product image"
+              className="object-cover object-center"
+            />
+          </div>
+
+          <Carousel
+            responsive={responsive}
+            arrows={false}
+            renderButtonGroupOutside={true}
+            className="mt-4"
+            itemClass="h-16 relative"
+          >
+            {new Array(5).fill(0).map((_, i) => (
               <Image
+                key={i}
                 priority
                 fill
                 src={'/images/background/Weiheng Tianwu AIO-Mobile.png'}
                 alt="product image"
                 className="object-contain object-center"
               />
-            </div>
-          ))}
-        </Carousel>
+            ))}
+          </Carousel>
+        </div>
       </div>
     </>
   );

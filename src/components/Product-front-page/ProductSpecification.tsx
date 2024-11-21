@@ -4,7 +4,7 @@ function ProductSpecification() {
   return (
     <>
       <h1
-        className={`hidden md:block ${firaSans.className} text-2xl font-bold text-blue-navy-blue`}
+        className={`hidden md:block ${firaSans.className} text-2xl font-bold text-blue-navy-blue mb-4`}
       >
         Specifications
       </h1>

@@ -6,27 +6,37 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
-import { Check, Minus, Plus } from 'lucide-react';
+import { Check, CircleAlert, Minus, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { firaSans, muktaVaani } from '@/app/font';
 
 function ProductPrice() {
   return (
     <>
       {/* Product price */}
-      <div className="ae-mobile-container mx-auto p-2">
+      <div className={`${muktaVaani.className} ae-mobile-container mx-auto`}>
         <div className="flex justify-between">
           <div>
-            <h2 className="text-gray-500 line-through">$1100.20</h2>
-            <h1 className="text-2xl font-bold">$1,000.20</h1>
-            <p className="text-base">ex.GST</p>
+            <h2 className="text-gray-500 line-through font-light text-[28px]">
+              $1100.20
+            </h2>
+            <h1 className="font-medium">
+              <span className=" text-[40px]">$1,000</span>
+              <span className="text-[28px]">.20</span>
+              <span>ex.GST</span>
+            </h1>
           </div>
           <div className="w-24 bg-red-500 h-8 md:hidden"></div>
         </div>
 
         {/* Bulk Price */}
         <Select>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Bulk Pricing Available" />
+          <SelectTrigger className="w-full md:w-80 md:h-8 md:pl-24 relative">
+            <CircleAlert className="absolute left-3 top-1.5 w-4 h-4" />
+            <SelectValue
+              placeholder="Bulk Pricing Available"
+              className={`${muktaVaani.className}`}
+            />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="100">$100</SelectItem>
@@ -35,66 +45,74 @@ function ProductPrice() {
           </SelectContent>
         </Select>
       </div>
-      <div className="bg-yellow-light-yellow md:bg-white">
+      <div className="bg-yellow-light-yellow md:bg-white md:mt-6">
         <div className="ae-mobile-container mx-auto space-y-2">
-          <div className="p-2 space-y-2">
+          <div className="max-md:p-2 max-md:space-y-2">
             {/* Select Order Location */}
-            <h1 className="font-2xl font-bold">Select Order Location</h1>
-            <div className="flex justify-between items-center p-2 pl-8 border border-blue-navy-blue rounded-2xl bg-white ">
-              <h1 className="font-bold">Melbourne, VIC</h1>
-              <div className="text-right">
-                <p className="font-bold">In Stock</p>
-                <p className="font-thin">Qty. 22</p>
-              </div>
-            </div>
-            <div className="p-1 rounded-2xl gradient-effect relative">
-              <span className="absolute bg-green-700 rounded-full p-[2px] left-2 top-1/2 transform -translate-y-1/2">
-                <Check color="white" className="w-4 h-4" />
-              </span>
-              <div className="flex justify-between items-center p-2 pl-8 bg-white rounded-xl ">
-                <h1 className="font-bold">Sydney, NSW</h1>
+            <h1 className="font-2xl font-bold md:hidden">
+              Select Order Location
+            </h1>
+            <div
+              className={`${firaSans.className} leading-none w-full md:flex md:flex-wrap md:justify-center md:gap-2`}
+            >
+              <div className="md:basis-[48.31%] md:py-1 md:flex md:justify-between md:items-center border border-black pl-6 pr-5 rounded-2xl">
+                <h1 className="font-medium text-[20px]">Melbourne, VIC</h1>
                 <div className="text-right">
-                  <p className="font-bold">In Stock</p>
-                  <p className="font-thin">Qty. 100+</p>
+                  <p className="font-semibold text-[16px]">In Stock</p>
+                  <p className="text-sm font-light text-[14px]">Qty.22</p>
+                </div>
+              </div>
+              <div className="gradient-effect p-0.5 rounded-2xl md:basis-[48.31%]">
+                <div className="md:py-1 md:h-full md:flex bg-white md:justify-between md:items-center pl-6 pr-5 rounded-2xl relative">
+                  <span className="absolute bg-green-900 p-0.5 rounded-full left-1.5 top-1/2 transform -translate-y-1/2">
+                    <Check className="w-3 h-3 text-white" />
+                  </span>
+                  <h1 className="font-medium text-[20px]">Sydney, NSW</h1>
+                  <div className="text-right">
+                    <p className="font-semibold text-[16px]">In Stock</p>
+                    <p className="text-sm font-light text-[14px]">Qty.100+</p>
+                  </div>
+                </div>
+              </div>
+              <div className="md:basis-[48.31%] md:py-1 md:flex md:justify-between md:items-center border border-black pl-6 pr-5 rounded-2xl opacity-70">
+                <h1 className="font-medium text-[20px]">Brisbane, QLD</h1>
+                <div className="text-right">
+                  <p className="font-semibold text-[16px]">Out of Stock</p>
+                  <p className="text-sm font-light text-[14px]">On Request</p>
                 </div>
               </div>
             </div>
-            <div className="flex justify-between items-center p-2 pl-8 border border-blue-navy-blue rounded-2xl bg-white opacity-70">
-              <h1 className="font-bold">Brisbane, QLD</h1>
-              <div className="text-right">
-                <p className="font-bold">Out Of Stock</p>
-                <p className="font-thin">Available On Request</p>
-              </div>
-            </div>
           </div>
-          <Separator className="bg-purple-purp-aes" />
-          <div className="ae-mobile-container mx-auto p-2 text-center space-y-2">
-            <div className="flex border border-blue-navy-blue rounded-2xl overflow-hidden">
-              <div className="flex-2 flex items-center justify-center font-bold px-3 py-2 bg-gray-200 border border-r-black">
-                QTY
+          <Separator className="bg-purple-purp-aes md:hidden" />
+          <div className="ae-mobile-container mx-auto p-2 text-center md:flex md:gap-x-2">
+            <div className="md:basis-[38.65%] border border-black rounded-lg md:h-16 grid grid-cols-12 overflow-hidden">
+              <div
+                className={`${firaSans.className} font-semibold md:col-span-3 bg-gray-300 flex items-center justify-center`}
+              >
+                Qty
+              </div>
+              <div className="md:col-span-2 flex items-center justify-center bg-gray-200">
+                <Minus />
               </div>
               <div
-                role="button"
-                className="flex-1 flex items-center justify-center px-3 py-2 bg-gray-100 cursor-pointer"
+                className={`${muktaVaani.className} md:col-span-5 flex items-center justify-center`}
               >
-                <Minus className="w-5" />
-              </div>
-              <div className="flex-2 flex items-center justify-center px-3 py-2 bg-white border border-l-gray-400 border-r-gray-400">
                 2
               </div>
-              <div
-                role="button"
-                className="flex-1 flex items-center justify-center px-3 py-2 bg-gray-100 cursor-pointer"
-              >
-                <Plus className="w-5" />
+              <div className="md:col-span-2 flex items-center justify-center bg-gray-200">
+                <Plus />
               </div>
-              <div className="flex-3 flex items-center justify-center px-3 py-2 bg-gray-200 border border-l-black">
-                <p className="font-bold">
-                  $2,000.40 <span className="text-xs font-light">ex.GST</span>
-                </p>
+              <div
+                className={`${muktaVaani.className} font-medium col-span-12 flex items-end justify-center md:border-t md:border-t-black`}
+              >
+                <span className="md:text-[20px]">$2,000</span>
+                <span className="md:text-[16px]">.40</span>
+                <span className="md:text-[12px] md:pb-1">ex.GST</span>
               </div>
             </div>
-            <Button className="w-full py-6 bg-blue-navy-blue hover:bg-blue-navy-blue/90 rounded-full font-bold">
+            <Button
+              className={`${firaSans.className} w-full py-6 bg-blue-navy-blue hover:bg-blue-navy-blue/90 rounded-full font-bold md:basis-[57.98%] text-[28px] md:rounded-lg md:h-16`}
+            >
               Add to Cart
             </Button>
           </div>

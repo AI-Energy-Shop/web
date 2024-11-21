@@ -79,7 +79,7 @@ function ProductDescription() {
               Product Downloads
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="details" className="py-6 px-12">
+          <TabsContent value="details" className="py-6 mt-0 px-12">
             <div className="flex justify-between">
               <div className="basis-[50%]">
                 <ProductDetailsOverview />
@@ -90,7 +90,7 @@ function ProductDescription() {
               </div>
             </div>
           </TabsContent>
-          <TabsContent value="downloads" className="py-6 px-12">
+          <TabsContent value="downloads" className="py-6 mt-0 px-12">
             <ProductDownloads />
           </TabsContent>
         </Tabs>
