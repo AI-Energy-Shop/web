@@ -25,25 +25,25 @@ function ProductPage() {
       </section>
 
       {/* Product */}
-      {/* <section className="bg-white lg:w-[90vw] lg:mx-auto max-w-[1200px]">
+      <section className="bg-white lg:w-[90vw] lg:mx-auto max-w-[1200px]">
         <div
-          className={`${firaSans.className} ae-mobile-container md:px-12 md:pt-6`}
+          className={`${firaSans.className} max-md:px-4 ae-mobile-container md:px-12 md:pt-6`}
         >
-          <h1 className="text-4xl font-bold">
+          <h1 className="text-2xl md:text-4xl font-bold">
             Solplanet 5kW S-G2 Series Single Phase Inverter
           </h1>
-          <p className="font-medium text-2xl italic">ASW5000-S-G2</p>
+          <p className="font-medium text-lg md:text-2xl italic">ASW5000-S-G2</p>
         </div>
 
         <div className="md:flex md:justify-between md:px-12 md:pb-5">
-          <div className="ae-mobile-container md:basis-[35%] md:max-w-[35%]">
+          <div className="ae-mobile-container max-md:w-4/5 max-md:max-w-96 md:basis-[35%] md:max-w-[35%]">
             <Carousel.ProductCarousel />
           </div>
           <div className="md:basis-[51.75%] md:max-w-[51.75%]">
             <ProductPrice />
           </div>
         </div>
-      </section> */}
+      </section>
 
       <ProductDescription />
 

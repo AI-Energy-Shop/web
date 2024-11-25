@@ -1,12 +1,13 @@
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
-import { Check, CircleAlert, Minus, Plus } from 'lucide-react';
+import { Check, ChevronDown, CircleAlert, Minus, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { firaSans, muktaVaani } from '@/app/font';
 
@@ -14,48 +15,51 @@ function ProductPrice() {
   return (
     <>
       {/* Product price */}
-      <div className={`${muktaVaani.className} ae-mobile-container mx-auto`}>
+      <div
+        className={`${muktaVaani.className} ae-mobile-container mx-auto pb-4`}
+      >
         <div className="flex justify-between">
-          <div>
-            <h2 className="text-gray-500 line-through font-light text-[28px]">
+          <div className="leading-6">
+            <h2 className="text-gray-500 line-through font-light md:text-[28px]">
               $1100.20
             </h2>
             <h1 className="font-medium">
               <span className=" text-[40px]">$1,000</span>
               <span className="text-[28px]">.20</span>
-              <span>ex.GST</span>
+              <span className="max-md:text-[12px] max-md:block">ex.GST</span>
             </h1>
           </div>
           <div className="w-24 bg-red-500 h-8 md:hidden"></div>
         </div>
 
         {/* Bulk Price */}
-        <Select>
-          <SelectTrigger className="w-full md:w-80 md:h-8 md:pl-24 relative">
-            <CircleAlert className="absolute left-3 top-1.5 w-4 h-4" />
-            <SelectValue
-              placeholder="Bulk Pricing Available"
-              className={`${muktaVaani.className}`}
-            />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="100">$100</SelectItem>
-            <SelectItem value="200">$200</SelectItem>
-            <SelectItem value="300">$300</SelectItem>
-          </SelectContent>
-        </Select>
+        <DropdownMenu>
+          <DropdownMenuTrigger className="w-full md:w-80 h-8 md:h-8 text-center relative border border-black rounded-lg font-medium">
+            <CircleAlert className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4" />
+            <span>Bulk Pricing available</span>
+            <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2  w-4 h-4" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-[92vw] md:w-80">
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem>Billing</DropdownMenuItem>
+            <DropdownMenuItem>Team</DropdownMenuItem>
+            <DropdownMenuItem>Subscription</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <div className="bg-yellow-light-yellow md:bg-white md:mt-6">
-        <div className="ae-mobile-container mx-auto space-y-2">
-          <div className="max-md:p-2 max-md:space-y-2">
+        <div className="ae-mobile-container mx-auto">
+          <div className="max-md:py-4 max-md:px-2 max-md:space-y-2">
             {/* Select Order Location */}
             <h1 className="font-2xl font-bold md:hidden">
               Select Order Location
             </h1>
             <div
-              className={`${firaSans.className} leading-none w-full md:flex md:flex-wrap md:justify-center md:gap-2`}
+              className={`${firaSans.className} max-md:space-y-3 leading-none w-full md:flex md:flex-wrap md:justify-center md:gap-2`}
             >
-              <div className="md:basis-[48.31%] md:py-1 md:flex md:justify-between md:items-center border border-black pl-6 pr-5 rounded-2xl">
+              <div className="md:basis-[48.31%] md:py-1 max-md:h-12 flex justify-between items-center border border-black pl-6 pr-5 rounded-2xl bg-white">
                 <h1 className="font-medium text-[20px]">Melbourne, VIC</h1>
                 <div className="text-right">
                   <p className="font-semibold text-[16px]">In Stock</p>
@@ -63,7 +67,7 @@ function ProductPrice() {
                 </div>
               </div>
               <div className="gradient-effect p-0.5 rounded-2xl md:basis-[48.31%]">
-                <div className="md:py-1 md:h-full md:flex bg-white md:justify-between md:items-center pl-6 pr-5 rounded-2xl relative">
+                <div className="md:py-1 max-md:h-12 md:h-full flex justify-between items-center pl-6 pr-5 rounded-2xl relative bg-white">
                   <span className="absolute bg-green-900 p-0.5 rounded-full left-1.5 top-1/2 transform -translate-y-1/2">
                     <Check className="w-3 h-3 text-white" />
                   </span>
@@ -74,7 +78,7 @@ function ProductPrice() {
                   </div>
                 </div>
               </div>
-              <div className="md:basis-[48.31%] md:py-1 md:flex md:justify-between md:items-center border border-black pl-6 pr-5 rounded-2xl opacity-70">
+              <div className="md:basis-[48.31%] md:py-1 max-md:h-12 flex justify-between items-center border border-black pl-6 pr-5 rounded-2xl opacity-70 bg-white">
                 <h1 className="font-medium text-[20px]">Brisbane, QLD</h1>
                 <div className="text-right">
                   <p className="font-semibold text-[16px]">Out of Stock</p>
@@ -83,27 +87,27 @@ function ProductPrice() {
               </div>
             </div>
           </div>
-          <Separator className="bg-purple-purp-aes md:hidden" />
-          <div className="ae-mobile-container mx-auto p-2 text-center md:flex md:gap-x-2">
-            <div className="md:basis-[38.65%] border border-black rounded-lg md:h-16 grid grid-cols-12 overflow-hidden">
+          <Separator className="bg-purple-purp-aes mb-4 mt-1 md:hidden" />
+          <div className="ae-mobile-container mx-auto px-2 md:p-2 text-center md:flex md:gap-x-2">
+            <div className="flex md:basis-[38.65%] border border-black rounded-lg h-9 md:h-16 md:grid md:grid-cols-12 overflow-hidden">
               <div
-                className={`${firaSans.className} font-semibold md:col-span-3 bg-gray-300 flex items-center justify-center`}
+                className={`${firaSans.className} flex-1 font-semibold md:col-span-3 bg-gray-300 flex items-center justify-center`}
               >
                 Qty
               </div>
-              <div className="md:col-span-2 flex items-center justify-center bg-gray-200">
+              <div className="flex-1 md:col-span-2 flex items-center justify-center bg-gray-200">
                 <Minus />
               </div>
               <div
-                className={`${muktaVaani.className} md:col-span-5 flex items-center justify-center`}
+                className={`${muktaVaani.className} flex-2 md:col-span-5 flex items-center justify-center bg-white`}
               >
                 2
               </div>
-              <div className="md:col-span-2 flex items-center justify-center bg-gray-200">
+              <div className="flex-1 md:col-span-2 flex items-center justify-center bg-gray-200">
                 <Plus />
               </div>
               <div
-                className={`${muktaVaani.className} font-medium col-span-12 flex items-end justify-center md:border-t md:border-t-black`}
+                className={`${muktaVaani.className} flex-3 bg-white font-medium col-span-12 flex items-center md:items-end justify-center md:border-t md:border-t-black`}
               >
                 <span className="md:text-[20px]">$2,000</span>
                 <span className="md:text-[16px]">.40</span>
@@ -111,7 +115,7 @@ function ProductPrice() {
               </div>
             </div>
             <Button
-              className={`${firaSans.className} w-full py-6 bg-blue-navy-blue hover:bg-blue-navy-blue/90 rounded-full font-bold md:basis-[57.98%] text-[28px] md:rounded-lg md:h-16`}
+              className={`${firaSans.className} max-md:mt-3 max-md:mb-5 w-full py-6 bg-blue-navy-blue hover:bg-blue-navy-blue/90 rounded-full font-bold md:basis-[57.98%] text-[20px] md:text-[28px] md:rounded-lg md:h-16`}
             >
               Add to Cart
             </Button>

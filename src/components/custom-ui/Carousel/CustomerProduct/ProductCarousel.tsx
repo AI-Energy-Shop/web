@@ -34,7 +34,7 @@ const ImageCarousel: React.FC = () => {
   return (
     <>
       {/* mobile carousel */}
-      {/* <div className="relative pb-8 md:hidden">
+      <div className="relative md:hidden pb-6">
         <Carousel
           responsive={responsive}
           infinite={true}
@@ -56,7 +56,7 @@ const ImageCarousel: React.FC = () => {
             </div>
           ))}
         </Carousel>
-      </div> */}
+      </div>
 
       {/* tablet/desktop carousel */}
       <div className="bg-red-300 w-full relative h-full hidden md:block">
