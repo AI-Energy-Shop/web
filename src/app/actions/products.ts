@@ -177,6 +177,7 @@ export const createProduct = async (
       category: product.category,
       vendor: product.vendor,
       item_code: product.item_code,
+      inventory: product.inventory,
       price_list: createProductPriceListData.createPriceList.documentId,
     };
 

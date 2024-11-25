@@ -1,8 +1,8 @@
-'use client';
+// 'use client';
 import React from 'react';
 import Navigations from './Navigations';
-import Footer from './Footer/Footer';
-import { usePathname } from 'next/navigation';
+// import Footer from './Footer/Footer';
+// import { usePathname } from 'next/navigation';
 
 interface NavigationProviderProps {
   children: React.ReactNode;
@@ -10,15 +10,36 @@ interface NavigationProviderProps {
 const NavigationProvider: React.FC<NavigationProviderProps> = ({
   children,
 }) => {
-  const path = usePathname();
-
+  // const path = usePathname();
+  // const admin = path.includes('admin');
   return (
-    <div className="w-full h-auto">
-      {!path.includes('admin') && <Navigations.Navigation />}
-      <div className={!path.includes('admin') ? 'pt-[75px]' : ''}>
+    // <div className={`h-full grid ${admin ? 'grid-cols-6' : 'grid-cols-1'}`}>
+    <div className={`h-full grid grid-cols-6`}>
+      {/* { 
+        admin ? (
+          <div className='h-full w-full col-span-1 border-r border-gray-200 dark:border-gray-700'>
+            <Navigations.SideNavigation iconSize={20}/>
+          </div>
+        ) : 
+        (
+          <div className='h-full w-full col-span-6'>
+            <Navigations.Navigation/>
+          </div>
+        )
+      } */}
+      <div className='h-full w-full col-span-1 border-r border-gray-200 dark:border-gray-700'>
+          <Navigations.SideNavigation iconSize={20}/>
+        </div>
+      <div className='h-full w-full col-span-5 border'>
         {children}
       </div>
-      <Footer />
+      {/* {
+        !admin && (
+          <div className='h-full w-full col-span-6 border'>
+            <Footer />
+          </div>
+        )
+      } */}
     </div>
   );
 };

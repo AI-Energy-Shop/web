@@ -24,14 +24,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={firaSansFont.className}>
-      <body>
-        <ApolloWrapper>
+      <ApolloWrapper>
+        <body className='min-h-screen w-full m-0 p-0'>
           <Components.NavigationProvider>
-            <div className="h-[calc(100vh - 6rem)]">{children}</div>
+            {children}
           </Components.NavigationProvider>
-        </ApolloWrapper>
-        <Toaster />
-      </body>
+          <Toaster />
+        </body>
+      </ApolloWrapper>
     </html>
   );
 }
