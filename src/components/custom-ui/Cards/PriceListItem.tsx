@@ -1,4 +1,9 @@
-import React, { ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
+import { USER_LEVELS } from '@/constant';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Trash2 } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -6,14 +11,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { USER_LEVELS } from '@/constant';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { Trash2 } from 'lucide-react';
+import type { ProductDetails } from './ProductsDetails'
+
+
 
 interface PriceListItem {
-  onRemove: (index?: number, title?: string) => void;
+  onRemove: (index?: number, title?: any) => void;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onSelectChange: (value: string, index?: number) => void;
   index?: number;

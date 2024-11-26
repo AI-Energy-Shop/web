@@ -9,11 +9,11 @@ import Link from 'next/link';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { createProduct, updateProduct } from '@/app/actions';
-import { useRouter } from 'next/navigation';
 import ListInput from './ListInput';
 import InventoryItem from './InventoryItem';
 import PriceListItem from './PriceListItem';
 import { objectIsEqual } from '@/lib/utils';
+import { Toast } from '@/lib/toast';
 import {
   Select,
   SelectContent,
@@ -29,7 +29,22 @@ import {
   List,
   Loader2,
 } from 'lucide-react';
-import { Toast } from '@/lib/toast';
+
+
+
+export type ProductDetails = {
+  documentId: string;
+  name: string;
+  description: string;
+  category: string;
+  vendor: string;
+  odoo_product_id: string;
+  collections: string;
+  tags: string;
+  status: string;
+  price_list: any[];
+  inventory: any[];
+}
 
 const RichTextEditor = ({
   description,
@@ -93,10 +108,9 @@ const RichTextEditor = ({
 };
 
 const ProductsDetails = ({ product }: { product: any }) => {
-  const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [currentProduct, setCurrentProduct] = useState({
+  const [currentProduct, setCurrentProduct] = useState<ProductDetails>({
     documentId: product?.documentId || null,
     name: product?.name || 'New Product',
     description: product?.description || '',
@@ -106,16 +120,8 @@ const ProductsDetails = ({ product }: { product: any }) => {
     collections: product?.collections || '',
     tags: product?.tags || '',
     status: product?.status || 'draft',
-    price_list:
-      product?.price_list?.map?.((item: any) => {
-        delete item.__typename;
-        return item;
-      }) || [],
-    inventory:
-      product?.inventory?.map?.((item: any) => {
-        delete item.__typename;
-        return item;
-      }) || [],
+    price_list: product?.price_list || [],
+    inventory: product?.inventory || [],
   });
 
   const [productCopy, setProductCopy] = useState(currentProduct);
@@ -277,17 +283,21 @@ const ProductsDetails = ({ product }: { product: any }) => {
     });
   };
 
-  const onRemoveList = (index?: number, title?: string) => {
+  const onRemoveList = (index?: number, title?: keyof ProductDetails) => {
     if (index === undefined || title === undefined || currentProduct === null)
       return;
-
+  
     try {
-      setCurrentProduct({
-        ...currentProduct,
-        [title]: currentProduct.inventory.filter(
-          (_: any, i: number) => i !== index
-        ),
-      });
+      if (Array.isArray(currentProduct[title])) {
+        setCurrentProduct({
+          ...currentProduct,
+          [title]: currentProduct[title].filter(
+            (_: any, i: number) => i !== index
+          ),
+        });
+      } else {
+        console.error(`Cannot remove item from non-array property ${title}`);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -389,7 +399,6 @@ const ProductsDetails = ({ product }: { product: any }) => {
             onSave={handleSaveCurrentInventory}
             childComponent={
               <InventoryItem
-                inventory={currentProduct.inventory}
                 onRemove={onRemoveList}
                 onChangeSelectLocation={onChangeInventoryInputLocation}
               />
