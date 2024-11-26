@@ -3,44 +3,51 @@ import { gql } from '@apollo/client';
 export const PRODUCT_OPERATIONS = {
   Query: {
     products: gql(`
-      query Products {
+     query Products {
         products {
           documentId
           name
           description
           category
           vendor
-          item_code
-          createdAt
-          updatedAt
-          publishedAt
-          locale
-        }
-      }
-    `),
-    product: gql(`
-      query Product($documentId: ID!) {
-        product(documentId: $documentId){
-          documentId
-          name
-          description
-          category
-          vendor
-          item_code
+          odoo_product_id
           createdAt
           updatedAt
           publishedAt
           locale
           price_list {
-            documentId
-            prices {
-              location
-              price
-              min_quantity
-              max_quantity
-              user_level
-            }
+            price
+            min_quantity
+            max_quantity
+            user_level
           }
+          inventory {
+            location
+            quantity
+          }
+        }
+      }
+    `),
+    product: gql(`
+      query Product($documentId: ID!) {
+        product(documentId: $documentId) {
+          documentId
+          name
+          description
+          vendor
+          category
+          odoo_product_id
+          price_list {
+            price
+            min_quantity
+            max_quantity
+            user_level
+          }
+          inventory {
+            location
+            quantity
+          }
+          createdAt
         }
       }
     `),
@@ -54,23 +61,21 @@ export const PRODUCT_OPERATIONS = {
           description
           category
           vendor
-          item_code
-          price_list {
-            documentId
-            prices {
-              id
-              price
-              min_quantity
-              max_quantity
-              location
-              user_level
-            }
-            createdAt
-            publishedAt
-            updatedAt
+          odoo_product_id
+          inventory {
+            location
+            quantity
           }
+          price_list {
+            id
+            price
+            min_quantity
+            max_quantity
+            user_level
+          }
+          createdAt
         }
-      }  
+      }
     `),
     updateProduct: gql(`
       mutation UpdateProduct($documentId: ID!, $data: ProductInput!) {
@@ -80,22 +85,23 @@ export const PRODUCT_OPERATIONS = {
           description
           category
           vendor
-          item_code
           createdAt
           updatedAt
+          odoo_product_id
+          inventory {
+            id
+            location
+            quantity
+          }
           price_list {
-            documentId
-            prices {
-              id
-              price
-              min_quantity
-              max_quantity
-              location
-              user_level
-            }
+            id
+            price
+            min_quantity
+            max_quantity
+            user_level
           }
         }
-      } 
+      }
     `),
     createProductPriceList: gql(`
       mutation CreatePriceList($data: PriceListInput!) {

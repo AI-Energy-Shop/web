@@ -1,4 +1,4 @@
-import { product } from '@/app/actions';
+import { getProduct } from '@/app/actions';
 import { redirect } from 'next/navigation';
 import Components from '@/components';
 import { Suspense } from 'react';
@@ -12,7 +12,7 @@ export default async function ProductManagement({
     redirect('/not-found');
   }
 
-  const { data, error } = await product(params.id);
+  const { data, error } = await getProduct(params.id);
 
   if (error) {
     return <div>ERROR {error.toString()} </div>;

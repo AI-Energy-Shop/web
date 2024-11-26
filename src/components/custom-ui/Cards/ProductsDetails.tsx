@@ -8,11 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
-  Plus,
   ChevronLeft,
   Image as ImageIcon,
   Bold,
@@ -20,14 +16,19 @@ import {
   List,
   Loader2,
 } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import PriceList from './PriceList';
 import { createProduct, updateProduct } from '@/app/actions';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import ListInput from './ListInput';
+import InventoryItem from './InventoryItem';
+import PriceListItem from './PriceListItem';
 
 const RichTextEditor = ({
   description,
@@ -92,20 +93,21 @@ const RichTextEditor = ({
 
 const ProductsDetails = ({ product }: { product: any }) => {
   const router = useRouter();
-
+  const [inventory, setInventory] = useState(product?.inventory?.map?.((item: any) => {delete item.__typename; return item}) || []);
+  const [priceList, setPriceList] = useState(product?.price_list?.map?.((item: any) => {delete item.__typename; return item}) || []);
   const [currentProduct, setCurrentProduct] = useState({
     documentId: product?.documentId || null,
     name: product?.name || 'New Product',
     description: product?.description || '',
     category: product?.category || '',
     vendor: product?.vendor || '',
-    item_code: product?.item_code || '',
+    odoo_product_id: product?.odoo_product_id || '',
     collections: product?.collections || '',
     tags: product?.tags || '',
     status: product?.status || 'draft',
-    price_list: product?.price_list || { prices: [], documentId: '' },
+    price_list: priceList,
+    inventory: inventory,
   });
-
   const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -126,17 +128,106 @@ const ProductsDetails = ({ product }: { product: any }) => {
         return;
       }
       setLoading((loading) => !loading);
-      toast.success('Product updated created');
-      router.push(`/admin/dashboard/products/${data.createProduct.documentId}`);
+      toast.success('Product saved', { position: "top-center"});
     } else {
       const { errors } = await updateProduct(currentProduct);
       if (errors) {
+        setLoading((loading) => !loading);
         toast.error(errors);
         return;
       }
       setLoading((loading) => !loading);
-      toast.success('Product updated successfully');
+      toast.success('Product updated', { position: "top-center"});
     }
+  };
+
+  const handleAddInventoryItem = () => {
+    const newObj = {
+      location: '',
+      quantity: 0,
+    }
+
+    setInventory([...inventory, newObj]);
+  }
+
+  const handleAddPriceItem = () => {
+    const newObj = {
+      price: '',
+      min_quantity: undefined,
+      max_quantity: undefined,
+      user_level: "",
+    }
+
+    setPriceList([...priceList, newObj]);
+  }
+
+  const handleOnInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, type } = e.target;
+    const index = e.target.dataset.index;
+    const title = e.target.dataset.title;
+    const value = e.target.value;
+
+    if (index === undefined || title === undefined) return;
+
+    switch (title) {
+      case "inventory":
+        setInventory((prev: any[]) =>
+          prev.map((item, i) =>
+            i === Number(index) ? { ...item, [name]: type === "number" ? Number(value) : value } : item
+          )
+        );
+        break;
+
+      case "price_list":
+        setPriceList((prev: any[]) =>
+          prev.map((item, i) =>
+            i === Number(index) ? { ...item, [name]: type === "number" ? Number(value) : value } : item
+          )
+        );
+        break;
+
+      default:
+        console.warn(`Unhandled title: ${title}`);
+        break;
+    }
+  }
+
+  const handleSaveCurrentInventory = (data: any) => {
+    setCurrentProduct((prev: any) => {
+      return { ...prev, inventory: data };
+    })
+  }
+
+  const handleSaveCurrentPrices = (data: any) => {
+    setCurrentProduct((prev: any) => {
+      return { ...prev, price_list: data };
+    })
+  }
+
+  const onChangeInventoryInputLocation = (value?: string, index?: number) => {
+    if (index === undefined || index < 0) return;
+    setInventory((prev: any[]) =>
+      prev.map((item: any, i: number) =>
+        i === index ? { ...item, location: value || '' } : item
+      )
+    );
+  };
+
+  const onChangePriceUserLevel = (value?: string, index?: number) => {
+    if (index === undefined || index < 0) return;
+    setPriceList((prev: any[]) =>
+      prev.map((item: any, i: number) =>
+        i === index ? { ...item, user_level: value || '' } : item
+      )
+    );
+  };
+
+  const onChangeSelectUserLevel = (value: string) => {
+    // setData((prev: any) => {
+    //   return prev.map((item: any, i: number) => {
+    //     return { ...item, user_level: value };
+    //   });
+    // });
   };
 
   return (
@@ -226,9 +317,33 @@ const ProductsDetails = ({ product }: { product: any }) => {
             </CardContent>
           </Card>
 
-          <PriceList
-            data={currentProduct.price_list}
-            setCurrentProduct={setCurrentProduct}
+          <ListInput
+            title="Inventory"
+            data={inventory}
+            addButtonLabel="Add Stock"
+            onAddList={handleAddInventoryItem}
+            onChange={handleOnInputChange}
+            onSave={handleSaveCurrentInventory}
+            childComponent={
+              <InventoryItem 
+                inventory={currentProduct.inventory}
+                onChangeSelectLocation={onChangeInventoryInputLocation}
+              />
+            }
+          />  
+
+          <ListInput
+            title="Price List"
+            data={priceList}
+            addButtonLabel="Add Price"
+            onAddList={handleAddPriceItem}         
+            onChange={handleOnInputChange}
+            onSave={handleSaveCurrentPrices}  
+            childComponent={ 
+              <PriceListItem
+                onSelectChange={onChangePriceUserLevel}
+              /> 
+            } 
           />
         </div>
 
@@ -239,13 +354,13 @@ const ProductsDetails = ({ product }: { product: any }) => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label htmlFor="product-type">Item Code</Label>
+                <Label htmlFor="product-type">Reference ID</Label>
                 <Input
-                  id="item-code"
-                  name="item-code"
-                  placeholder="Enter product odoo item code"
-                  // onChange={handleInputChange}
-                  // value={currentProduct.category}
+                  id="odoo_product_id"
+                  name="odoo_product_id"
+                  placeholder="Enter product odoo id"
+                  onChange={handleInputChange}
+                  value={currentProduct.odoo_product_id}
                 />
               </div>
             </CardContent>
