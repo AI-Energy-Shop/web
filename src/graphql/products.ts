@@ -16,12 +16,14 @@ export const PRODUCT_OPERATIONS = {
           publishedAt
           locale
           price_list {
+            id
             price
             min_quantity
             max_quantity
             user_level
           }
           inventory {
+            id
             location
             quantity
           }
@@ -38,12 +40,14 @@ export const PRODUCT_OPERATIONS = {
           category
           odoo_product_id
           price_list {
+            id
             price
             min_quantity
             max_quantity
             user_level
           }
           inventory {
+            id
             location
             quantity
           }
@@ -63,10 +67,12 @@ export const PRODUCT_OPERATIONS = {
           vendor
           odoo_product_id
           inventory {
+            id
             location
             quantity
           }
           price_list {
+            id
             price
             min_quantity
             max_quantity
@@ -88,10 +94,12 @@ export const PRODUCT_OPERATIONS = {
           updatedAt
           odoo_product_id
           inventory {
+            id
             location
             quantity
           }
           price_list {
+            id
             price
             min_quantity
             max_quantity

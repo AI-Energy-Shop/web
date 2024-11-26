@@ -22,7 +22,7 @@ interface InventoryItemProps {
   };
   onChangeSelectLocation: (value?: any, index?: number) => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onRemove: (index?: number, title?: string) => void;
+  onRemove: (index?: number, title?: any) => void;
   inventory?: any[];
 }
 

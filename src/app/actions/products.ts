@@ -204,8 +204,16 @@ export const updateProduct = async (
       category: product.category,
       vendor: product.vendor,
       odoo_product_id: product.odoo_product_id,
-      inventory: product.inventory,
-      price_list: product.price_list,
+      inventory: product.inventory?.map?.((item: any) => {
+        delete item.id
+        delete item.__typename;
+        return item;
+      }),
+      price_list: product.price_list?.map?.((item: any) => {
+        delete item.id
+        delete item.__typename;
+        return item;
+      }),
       // status: product.status,
       // tags: product.tags,
       // collection: product.collection,
