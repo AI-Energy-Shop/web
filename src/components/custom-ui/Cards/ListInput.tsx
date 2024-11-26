@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { arrayIsEqual } from '@/lib/utils';
 
 interface ListInputProps {
   data: any[];
@@ -28,7 +29,7 @@ const ListInput: React.FC<ListInputProps> = ({
   childComponent,
   onSave,
   onChange,
-  onAddList
+  onAddList,
 }) => {
   const [list, setList] = useState(data);
   const newtitle = title.toLowerCase().replaceAll(' ', '_');
@@ -36,14 +37,7 @@ const ListInput: React.FC<ListInputProps> = ({
   const handleSave = (data: any) => {
     setList(data);
     onSave(data);
-  }
-
-  const onRemove = (index: number) => {};
-
-  const arrayIsEqual = useCallback((a?: any[], b?: any[]) => {
-    return JSON.stringify(a) === JSON.stringify(b);
-  }, []);
-
+  };
 
   return (
     <div className="w-full">
@@ -63,7 +57,6 @@ const ListInput: React.FC<ListInputProps> = ({
                 item,
                 index,
                 title: newtitle,
-                onRemove: onRemove,
                 onChange: (e: any) => onChange(e),
               })
             )}

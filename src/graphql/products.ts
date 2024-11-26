@@ -67,7 +67,6 @@ export const PRODUCT_OPERATIONS = {
             quantity
           }
           price_list {
-            id
             price
             min_quantity
             max_quantity
@@ -89,12 +88,10 @@ export const PRODUCT_OPERATIONS = {
           updatedAt
           odoo_product_id
           inventory {
-            id
             location
             quantity
           }
           price_list {
-            id
             price
             min_quantity
             max_quantity
