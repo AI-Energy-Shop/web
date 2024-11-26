@@ -36,7 +36,7 @@ function ProductPage() {
         </div>
 
         <div className="md:flex md:justify-between md:px-12 md:pb-5">
-          <div className="ae-mobile-container max-md:w-4/5 max-md:max-w-96 md:basis-[35%] md:max-w-[35%]">
+          <div className="ae-mobile-container max-md:w-4/5 max-md:max-w-96 md:basis-[40%] md:max-w-[40%]">
             <Carousel.ProductCarousel />
           </div>
           <div className="md:basis-[51.75%] md:max-w-[51.75%]">
