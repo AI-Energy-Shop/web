@@ -114,7 +114,7 @@ export const products = async (): Promise<{
   }
 };
 
-export const product = async (
+export const getProduct = async (
   id: string
 ): Promise<{
   loading?: boolean;
@@ -137,7 +137,6 @@ export const product = async (
         documentId: id,
       },
     });
-
     return {
       loading,
       data,
@@ -159,17 +158,6 @@ export const createProduct = async (
   const token = cookieStore.get('a-token');
 
   try {
-    const {
-      errors: createProductPriceListError,
-      data: createProductPriceListData,
-    } = await addProductPrice(product.price_list.prices);
-
-    if (createProductPriceListError) {
-      console.log(createProductPriceListError);
-      return {
-        errors: createProductPriceListError,
-      };
-    }
 
     const newProduct = {
       name: product.name,
@@ -177,7 +165,8 @@ export const createProduct = async (
       category: product.category,
       vendor: product.vendor,
       item_code: product.item_code,
-      price_list: createProductPriceListData.createPriceList.documentId,
+      inventory: product.inventory,
+      price_list: product.price_list,
     };
 
     const { errors, data } = await client.mutate({
@@ -203,38 +192,33 @@ export const createProduct = async (
   }
 };
 
-export const updateProduct = async (
-  product: any
-): Promise<{ data?: any; errors?: any }> => {
+export const updateProduct = async ( product: any): Promise<{ data?: any; errors?: any }> => {
   const cookieStore = cookies();
   const token = cookieStore.get('a-token');
 
   try {
-    const { errors: updateProductPriceErr, data: updateProductPriceData } =
-      await updateProductPrice(product.price_list);
-
-    if (updateProductPriceErr) {
-      console.log(updateProductPriceErr);
-      return {
-        errors: updateProductPriceErr,
-      };
-    }
 
     const updatedProduct = {
       name: product.name,
       description: product.description,
       category: product.category,
       vendor: product.vendor,
-      item_code: product.item_code,
-      price_list: updateProductPriceData.updatePriceList.documentId,
+      odoo_product_id: product.odoo_product_id,
+      inventory: product.inventory,
+      price_list: product.price_list,
+      // status: product.status,
+      // tags: product.tags,
+      // collection: product.collection,
     };
+
+    const variables = {
+      documentId: product.documentId,
+      data: updatedProduct
+    }
 
     const { errors, data } = await client.mutate({
       mutation: PRODUCT_OPERATIONS.Mutation.updateProduct,
-      variables: {
-        documentId: product.documentId,
-        data: updatedProduct,
-      },
+      variables: variables,
       context: {
         headers: {
           Authorization: `Bearer ${token?.value}`,
@@ -242,10 +226,17 @@ export const updateProduct = async (
       },
     });
 
+    if(errors){
+      return {
+        errors,
+      };
+    }
+
     return {
       data,
       errors,
     };
+
   } catch (error: any) {
     return {
       errors: error.message,

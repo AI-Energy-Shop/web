@@ -2,7 +2,7 @@ import { products } from '@/app/actions';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Components from '@/components';
-import { DollarSign, Package, Search, ShoppingCart, Users } from 'lucide-react';
+import { Package, Search, ShoppingCart, Users } from 'lucide-react';
 import Link from 'next/link';
 
 const ProductsPage = async () => {
