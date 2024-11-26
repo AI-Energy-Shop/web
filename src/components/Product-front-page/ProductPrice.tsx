@@ -10,20 +10,29 @@ import { Separator } from '@/components/ui/separator';
 import { Check, ChevronDown, CircleAlert, Minus, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { firaSans, muktaVaani } from '@/app/font';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 function ProductPrice() {
   return (
     <>
       {/* Product price */}
       <div
-        className={`${muktaVaani.className} ae-mobile-container mx-auto pb-4`}
+        className={`${muktaVaani.className} ae-mobile-container mx-auto max-md:px-4 pb-4`}
       >
         <div className="flex justify-between">
           <div className="leading-6">
             <h2 className="text-gray-500 line-through font-light md:text-[28px]">
               $1100.20
             </h2>
-            <h1 className="font-medium">
+            <h1 className="font-medium md:mt-1">
               <span className=" text-[40px]">$1,000</span>
               <span className="text-[28px]">.20</span>
               <span className="max-md:text-[12px] max-md:block">ex.GST</span>
@@ -40,16 +49,32 @@ function ProductPrice() {
             <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2  w-4 h-4" />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-[92vw] md:w-80">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
-            <DropdownMenuItem>Team</DropdownMenuItem>
-            <DropdownMenuItem>Subscription</DropdownMenuItem>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Qty</TableHead>
+                  <TableHead>Price Per Unit</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell>1-10</TableCell>
+                  <TableCell>$1,000.00</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>1-10</TableCell>
+                  <TableCell>$1,000.00</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>1-10</TableCell>
+                  <TableCell>$1,000.00</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="bg-yellow-light-yellow md:bg-white md:mt-6">
+      <div className="bg-yellow-light-yellow max-md:px-4 md:bg-white md:mt-6">
         <div className="ae-mobile-container mx-auto">
           <div className="max-md:py-4 max-md:px-2 max-md:space-y-2">
             {/* Select Order Location */}

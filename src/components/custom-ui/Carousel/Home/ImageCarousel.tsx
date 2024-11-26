@@ -30,8 +30,8 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
         autoPlaySpeed={4000}
         centerMode={false}
         containerClass="h-full"
-        draggable={true}
-        swipeable={true}
+        draggable={false}
+        swipeable={false}
         focusOnSelect={false}
         infinite={true}
         keyBoardControl={false}
