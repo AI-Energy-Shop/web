@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 
 interface PriceListItem {
-  onRemove?: () => void;
+  onRemove: (index?: number, title?: string) => void;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onSelectChange: (value: string, index?: number) => void;
   index?: number;
@@ -35,6 +35,8 @@ const PriceListItem: React.FC<PriceListItem> = ({
   item,
   title,
 }) => {
+
+  
   return (
     <div className="grid gap-4 p-4 border rounded-lg relative">
       <div>
@@ -108,7 +110,7 @@ const PriceListItem: React.FC<PriceListItem> = ({
           </div>
         </div>
       </div>
-      <Button onClick={onRemove} size="icon" className="relative right-0">
+      <Button onClick={() => onRemove(index, title)} size="icon" className="relative right-0">
         <Trash2 className="h-3 w-3" />
       </Button>
     </div>

@@ -1,6 +1,19 @@
 'use client';
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Switch } from '@/components/ui/switch';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import { createProduct, updateProduct } from '@/app/actions';
+import { useRouter } from 'next/navigation';
+import ListInput from './ListInput';
+import InventoryItem from './InventoryItem';
+import PriceListItem from './PriceListItem';
+import { objectIsEqual } from '@/lib/utils';
 import {
   Select,
   SelectContent,
@@ -16,19 +29,9 @@ import {
   List,
   Loader2,
 } from 'lucide-react';
-import { Switch } from '@/components/ui/switch';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import { createProduct, updateProduct } from '@/app/actions';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-import ListInput from './ListInput';
-import InventoryItem from './InventoryItem';
-import PriceListItem from './PriceListItem';
+import { Toast } from '@/lib/toast';
+
+
 
 const RichTextEditor = ({
   description,
@@ -93,18 +96,8 @@ const RichTextEditor = ({
 
 const ProductsDetails = ({ product }: { product: any }) => {
   const router = useRouter();
-  const [inventory, setInventory] = useState(
-    product?.inventory?.map?.((item: any) => {
-      delete item.__typename;
-      return item;
-    }) || []
-  );
-  const [priceList, setPriceList] = useState(
-    product?.price_list?.map?.((item: any) => {
-      delete item.__typename;
-      return item;
-    }) || []
-  );
+  
+  const [loading, setLoading] = useState(false);
   const [currentProduct, setCurrentProduct] = useState({
     documentId: product?.documentId || null,
     name: product?.name || 'New Product',
@@ -115,10 +108,40 @@ const ProductsDetails = ({ product }: { product: any }) => {
     collections: product?.collections || '',
     tags: product?.tags || '',
     status: product?.status || 'draft',
-    price_list: priceList,
-    inventory: inventory,
+    price_list: product?.price_list?.map?.((item: any) => { delete item.__typename; return item; }) || [],
+    inventory: product?.inventory?.map?.((item: any) => { delete item.__typename; return item; }) || [],
   });
-  const [loading, setLoading] = useState(false);
+
+  const [productCopy, setProductCopy] = useState(currentProduct);
+
+  const handleClickSave = async () => {
+    setLoading((loading) => !loading);
+    if (!product) {
+      const { data, errors } = await createProduct(currentProduct);
+      if (errors) {
+        Toast(errors, "ERROR")
+        return;
+      }
+      setLoading((loading) => !loading);
+      console.log(data)
+      Toast('Product saved', "ERROR", { position: "top-center" });
+    } else {
+      const { errors, data } = await updateProduct(currentProduct);
+      if (errors) {
+        setLoading((loading) => !loading);
+        Toast(errors, "ERROR", {position: "top-center"})
+        return;
+      }
+
+      setLoading((loading) => !loading);
+      setProductCopy({...currentProduct})
+      Toast("Product updated", "SUCCESS", {position: "top-center"})
+    }
+  };
+
+  const handleDiscardChanges = () => {
+    setCurrentProduct({ ...productCopy })
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -129,35 +152,15 @@ const ProductsDetails = ({ product }: { product: any }) => {
     setCurrentProduct((prevState: any) => ({ ...prevState, description }));
   };
 
-  const handleClickSave = async () => {
-    setLoading((loading) => !loading);
-    if (!product) {
-      const { data, errors } = await createProduct(currentProduct);
-      if (errors) {
-        toast.error(errors);
-        return;
-      }
-      setLoading((loading) => !loading);
-      toast.success('Product saved', { position: 'top-center' });
-    } else {
-      const { errors } = await updateProduct(currentProduct);
-      if (errors) {
-        setLoading((loading) => !loading);
-        toast.error(errors);
-        return;
-      }
-      setLoading((loading) => !loading);
-      toast.success('Product updated', { position: 'top-center' });
-    }
-  };
-
   const handleAddInventoryItem = () => {
+
     const newObj = {
       location: '',
       quantity: 0,
     };
 
-    setInventory([...inventory, newObj]);
+    setCurrentProduct({...currentProduct, inventory: [...currentProduct.inventory, newObj]});
+    
   };
 
   const handleAddPriceItem = () => {
@@ -168,7 +171,7 @@ const ProductsDetails = ({ product }: { product: any }) => {
       user_level: '',
     };
 
-    setPriceList([...priceList, newObj]);
+    setCurrentProduct({...currentProduct, price_list: [...currentProduct.price_list, newObj]});
   };
 
   const handleOnInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -181,23 +184,35 @@ const ProductsDetails = ({ product }: { product: any }) => {
 
     switch (title) {
       case 'inventory':
-        setInventory((prev: any[]) =>
-          prev.map((item, i) =>
-            i === Number(index)
-              ? { ...item, [name]: type === 'number' ? Number(value) : value }
-              : item
-          )
-        );
+        setCurrentProduct({
+          ...currentProduct,
+          inventory: currentProduct.inventory.map((item: any, i: number) => {
+            if (i === Number(index)) {
+              return {
+                ...item,
+                [name]: type === 'number' ? Number(value) : value,
+              };
+            }
+            return item;
+          })
+        })
+       
         break;
 
       case 'price_list':
-        setPriceList((prev: any[]) =>
-          prev.map((item, i) =>
-            i === Number(index)
-              ? { ...item, [name]: type === 'number' ? Number(value) : value }
-              : item
-          )
-        );
+        setCurrentProduct({
+          ...currentProduct,
+          price_list: currentProduct.price_list.map((item: any, i: number) => {
+            if (i === Number(index)) {
+              return {
+                ...item,
+                [name]: type === 'number' ? Number(value) : value,
+              };
+            }
+            return item;
+          })
+        })
+       
         break;
 
       default:
@@ -220,29 +235,52 @@ const ProductsDetails = ({ product }: { product: any }) => {
 
   const onChangeInventoryInputLocation = (value?: string, index?: number) => {
     if (index === undefined || index < 0) return;
-    setInventory((prev: any[]) =>
-      prev.map((item: any, i: number) =>
-        i === index ? { ...item, location: value || '' } : item
-      )
-    );
+
+    setCurrentProduct({
+      ...currentProduct,
+      inventory: currentProduct.inventory.map((item: any, i: number) => {
+        if (i === Number(index)) {
+          return {
+            ...item,
+            location: value,
+          };
+        }
+        return item;
+      })
+    })
   };
 
   const onChangePriceUserLevel = (value?: string, index?: number) => {
     if (index === undefined || index < 0) return;
-    setPriceList((prev: any[]) =>
-      prev.map((item: any, i: number) =>
-        i === index ? { ...item, user_level: value || '' } : item
-      )
-    );
+
+    setCurrentProduct({
+      ...currentProduct,
+      price_list: currentProduct.price_list.map((item: any, i: number) => {
+        if (i === Number(index)) {
+          return {
+            ...item,
+            user_level: value,
+          };
+        }
+        return item;
+      })
+    })
   };
 
-  const onChangeSelectUserLevel = (value: string) => {
-    // setData((prev: any) => {
-    //   return prev.map((item: any, i: number) => {
-    //     return { ...item, user_level: value };
-    //   });
-    // });
+  const onRemoveList = (index?: number, title?: string) => {
+    if (index === undefined || title === undefined || currentProduct === null) return;
+
+    try {
+      setCurrentProduct({
+        ...currentProduct,
+        [title]: currentProduct.inventory.filter((_: any, i: number) => i !== index)
+      })
+    } catch (error) {
+      console.error(error);
+    }
+
   };
+
 
   return (
     <>
@@ -264,26 +302,34 @@ const ProductsDetails = ({ product }: { product: any }) => {
               <SelectItem value="publish">Publish</SelectItem>
             </SelectContent>
           </Select>
-          <Button
-            variant="destructive"
-            onClick={() => {
-              router.back();
-            }}
-          >
-            Discard
-          </Button>
-          <Button disabled={loading} onClick={handleClickSave}>
-            {loading ? (
+          
+          {
+            !objectIsEqual(productCopy, currentProduct) && (
               <>
-                <Loader2 className="animate-spin" />
-                Please wait...
+                <Button
+                  variant="destructive"
+                  onClick={handleDiscardChanges}
+                >
+                  Discard
+                </Button>
+                <Button 
+                  disabled={loading} 
+                  onClick={handleClickSave}
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="animate-spin" />
+                      Please wait...
+                    </>
+                  ) : !product ? (
+                    'Save'
+                  ) : (
+                    'Update'
+                  )}
+                </Button>  
               </>
-            ) : !product ? (
-              'Save'
-            ) : (
-              'Update'
-            )}
-          </Button>
+            )
+          }
         </div>
       </div>
 
@@ -333,14 +379,16 @@ const ProductsDetails = ({ product }: { product: any }) => {
 
           <ListInput
             title="Inventory"
-            data={inventory}
+            data={currentProduct.inventory}
             addButtonLabel="Add Stock"
             onAddList={handleAddInventoryItem}
             onChange={handleOnInputChange}
             onSave={handleSaveCurrentInventory}
+           
             childComponent={
               <InventoryItem
                 inventory={currentProduct.inventory}
+                onRemove={onRemoveList}
                 onChangeSelectLocation={onChangeInventoryInputLocation}
               />
             }
@@ -348,13 +396,16 @@ const ProductsDetails = ({ product }: { product: any }) => {
 
           <ListInput
             title="Price List"
-            data={priceList}
+            data={currentProduct.price_list}
             addButtonLabel="Add Price"
             onAddList={handleAddPriceItem}
             onChange={handleOnInputChange}
             onSave={handleSaveCurrentPrices}
             childComponent={
-              <PriceListItem onSelectChange={onChangePriceUserLevel} />
+              <PriceListItem 
+                onRemove={onRemoveList}
+                onSelectChange={onChangePriceUserLevel} 
+              />
             }
           />
         </div>
