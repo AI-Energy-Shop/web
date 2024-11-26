@@ -93,8 +93,18 @@ const RichTextEditor = ({
 
 const ProductsDetails = ({ product }: { product: any }) => {
   const router = useRouter();
-  const [inventory, setInventory] = useState(product?.inventory?.map?.((item: any) => {delete item.__typename; return item}) || []);
-  const [priceList, setPriceList] = useState(product?.price_list?.map?.((item: any) => {delete item.__typename; return item}) || []);
+  const [inventory, setInventory] = useState(
+    product?.inventory?.map?.((item: any) => {
+      delete item.__typename;
+      return item;
+    }) || []
+  );
+  const [priceList, setPriceList] = useState(
+    product?.price_list?.map?.((item: any) => {
+      delete item.__typename;
+      return item;
+    }) || []
+  );
   const [currentProduct, setCurrentProduct] = useState({
     documentId: product?.documentId || null,
     name: product?.name || 'New Product',
@@ -128,7 +138,7 @@ const ProductsDetails = ({ product }: { product: any }) => {
         return;
       }
       setLoading((loading) => !loading);
-      toast.success('Product saved', { position: "top-center"});
+      toast.success('Product saved', { position: 'top-center' });
     } else {
       const { errors } = await updateProduct(currentProduct);
       if (errors) {
@@ -137,7 +147,7 @@ const ProductsDetails = ({ product }: { product: any }) => {
         return;
       }
       setLoading((loading) => !loading);
-      toast.success('Product updated', { position: "top-center"});
+      toast.success('Product updated', { position: 'top-center' });
     }
   };
 
@@ -145,21 +155,21 @@ const ProductsDetails = ({ product }: { product: any }) => {
     const newObj = {
       location: '',
       quantity: 0,
-    }
+    };
 
     setInventory([...inventory, newObj]);
-  }
+  };
 
   const handleAddPriceItem = () => {
     const newObj = {
       price: '',
       min_quantity: undefined,
       max_quantity: undefined,
-      user_level: "",
-    }
+      user_level: '',
+    };
 
     setPriceList([...priceList, newObj]);
-  }
+  };
 
   const handleOnInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, type } = e.target;
@@ -170,18 +180,22 @@ const ProductsDetails = ({ product }: { product: any }) => {
     if (index === undefined || title === undefined) return;
 
     switch (title) {
-      case "inventory":
+      case 'inventory':
         setInventory((prev: any[]) =>
           prev.map((item, i) =>
-            i === Number(index) ? { ...item, [name]: type === "number" ? Number(value) : value } : item
+            i === Number(index)
+              ? { ...item, [name]: type === 'number' ? Number(value) : value }
+              : item
           )
         );
         break;
 
-      case "price_list":
+      case 'price_list':
         setPriceList((prev: any[]) =>
           prev.map((item, i) =>
-            i === Number(index) ? { ...item, [name]: type === "number" ? Number(value) : value } : item
+            i === Number(index)
+              ? { ...item, [name]: type === 'number' ? Number(value) : value }
+              : item
           )
         );
         break;
@@ -190,19 +204,19 @@ const ProductsDetails = ({ product }: { product: any }) => {
         console.warn(`Unhandled title: ${title}`);
         break;
     }
-  }
+  };
 
   const handleSaveCurrentInventory = (data: any) => {
     setCurrentProduct((prev: any) => {
       return { ...prev, inventory: data };
-    })
-  }
+    });
+  };
 
   const handleSaveCurrentPrices = (data: any) => {
     setCurrentProduct((prev: any) => {
       return { ...prev, price_list: data };
-    })
-  }
+    });
+  };
 
   const onChangeInventoryInputLocation = (value?: string, index?: number) => {
     if (index === undefined || index < 0) return;
@@ -325,25 +339,23 @@ const ProductsDetails = ({ product }: { product: any }) => {
             onChange={handleOnInputChange}
             onSave={handleSaveCurrentInventory}
             childComponent={
-              <InventoryItem 
+              <InventoryItem
                 inventory={currentProduct.inventory}
                 onChangeSelectLocation={onChangeInventoryInputLocation}
               />
             }
-          />  
+          />
 
           <ListInput
             title="Price List"
             data={priceList}
             addButtonLabel="Add Price"
-            onAddList={handleAddPriceItem}         
+            onAddList={handleAddPriceItem}
             onChange={handleOnInputChange}
-            onSave={handleSaveCurrentPrices}  
-            childComponent={ 
-              <PriceListItem
-                onSelectChange={onChangePriceUserLevel}
-              /> 
-            } 
+            onSave={handleSaveCurrentPrices}
+            childComponent={
+              <PriceListItem onSelectChange={onChangePriceUserLevel} />
+            }
           />
         </div>
 

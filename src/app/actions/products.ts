@@ -158,7 +158,6 @@ export const createProduct = async (
   const token = cookieStore.get('a-token');
 
   try {
-
     const newProduct = {
       name: product.name,
       description: product.description,
@@ -192,12 +191,13 @@ export const createProduct = async (
   }
 };
 
-export const updateProduct = async ( product: any): Promise<{ data?: any; errors?: any }> => {
+export const updateProduct = async (
+  product: any
+): Promise<{ data?: any; errors?: any }> => {
   const cookieStore = cookies();
   const token = cookieStore.get('a-token');
 
   try {
-
     const updatedProduct = {
       name: product.name,
       description: product.description,
@@ -213,8 +213,8 @@ export const updateProduct = async ( product: any): Promise<{ data?: any; errors
 
     const variables = {
       documentId: product.documentId,
-      data: updatedProduct
-    }
+      data: updatedProduct,
+    };
 
     const { errors, data } = await client.mutate({
       mutation: PRODUCT_OPERATIONS.Mutation.updateProduct,
@@ -226,7 +226,7 @@ export const updateProduct = async ( product: any): Promise<{ data?: any; errors
       },
     });
 
-    if(errors){
+    if (errors) {
       return {
         errors,
       };
@@ -236,7 +236,6 @@ export const updateProduct = async ( product: any): Promise<{ data?: any; errors
       data,
       errors,
     };
-
   } catch (error: any) {
     return {
       errors: error.message,

@@ -28,7 +28,7 @@ const ListInput: React.FC<ListInputProps> = ({
   childComponent,
   onSave,
   onChange,
-  onAddList
+  onAddList,
 }) => {
   const [list, setList] = useState(data);
   const newtitle = title.toLowerCase().replaceAll(' ', '_');
@@ -36,14 +36,13 @@ const ListInput: React.FC<ListInputProps> = ({
   const handleSave = (data: any) => {
     setList(data);
     onSave(data);
-  }
+  };
 
   const onRemove = (index: number) => {};
 
   const arrayIsEqual = useCallback((a?: any[], b?: any[]) => {
     return JSON.stringify(a) === JSON.stringify(b);
   }, []);
-
 
   return (
     <div className="w-full">
