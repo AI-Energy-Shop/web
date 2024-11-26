@@ -31,8 +31,6 @@ import {
 } from 'lucide-react';
 import { Toast } from '@/lib/toast';
 
-
-
 const RichTextEditor = ({
   description,
   setDescription,
@@ -96,7 +94,7 @@ const RichTextEditor = ({
 
 const ProductsDetails = ({ product }: { product: any }) => {
   const router = useRouter();
-  
+
   const [loading, setLoading] = useState(false);
   const [currentProduct, setCurrentProduct] = useState({
     documentId: product?.documentId || null,
@@ -108,8 +106,16 @@ const ProductsDetails = ({ product }: { product: any }) => {
     collections: product?.collections || '',
     tags: product?.tags || '',
     status: product?.status || 'draft',
-    price_list: product?.price_list?.map?.((item: any) => { delete item.__typename; return item; }) || [],
-    inventory: product?.inventory?.map?.((item: any) => { delete item.__typename; return item; }) || [],
+    price_list:
+      product?.price_list?.map?.((item: any) => {
+        delete item.__typename;
+        return item;
+      }) || [],
+    inventory:
+      product?.inventory?.map?.((item: any) => {
+        delete item.__typename;
+        return item;
+      }) || [],
   });
 
   const [productCopy, setProductCopy] = useState(currentProduct);
@@ -119,29 +125,29 @@ const ProductsDetails = ({ product }: { product: any }) => {
     if (!product) {
       const { data, errors } = await createProduct(currentProduct);
       if (errors) {
-        Toast(errors, "ERROR")
+        Toast(errors, 'ERROR');
         return;
       }
       setLoading((loading) => !loading);
-      console.log(data)
-      Toast('Product saved', "ERROR", { position: "top-center" });
+      console.log(data);
+      Toast('Product saved', 'ERROR', { position: 'top-center' });
     } else {
       const { errors, data } = await updateProduct(currentProduct);
       if (errors) {
         setLoading((loading) => !loading);
-        Toast(errors, "ERROR", {position: "top-center"})
+        Toast(errors, 'ERROR', { position: 'top-center' });
         return;
       }
 
       setLoading((loading) => !loading);
-      setProductCopy({...currentProduct})
-      Toast("Product updated", "SUCCESS", {position: "top-center"})
+      setProductCopy({ ...currentProduct });
+      Toast('Product updated', 'SUCCESS', { position: 'top-center' });
     }
   };
 
   const handleDiscardChanges = () => {
-    setCurrentProduct({ ...productCopy })
-  }
+    setCurrentProduct({ ...productCopy });
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -153,14 +159,15 @@ const ProductsDetails = ({ product }: { product: any }) => {
   };
 
   const handleAddInventoryItem = () => {
-
     const newObj = {
       location: '',
       quantity: 0,
     };
 
-    setCurrentProduct({...currentProduct, inventory: [...currentProduct.inventory, newObj]});
-    
+    setCurrentProduct({
+      ...currentProduct,
+      inventory: [...currentProduct.inventory, newObj],
+    });
   };
 
   const handleAddPriceItem = () => {
@@ -171,7 +178,10 @@ const ProductsDetails = ({ product }: { product: any }) => {
       user_level: '',
     };
 
-    setCurrentProduct({...currentProduct, price_list: [...currentProduct.price_list, newObj]});
+    setCurrentProduct({
+      ...currentProduct,
+      price_list: [...currentProduct.price_list, newObj],
+    });
   };
 
   const handleOnInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -194,9 +204,9 @@ const ProductsDetails = ({ product }: { product: any }) => {
               };
             }
             return item;
-          })
-        })
-       
+          }),
+        });
+
         break;
 
       case 'price_list':
@@ -210,9 +220,9 @@ const ProductsDetails = ({ product }: { product: any }) => {
               };
             }
             return item;
-          })
-        })
-       
+          }),
+        });
+
         break;
 
       default:
@@ -246,8 +256,8 @@ const ProductsDetails = ({ product }: { product: any }) => {
           };
         }
         return item;
-      })
-    })
+      }),
+    });
   };
 
   const onChangePriceUserLevel = (value?: string, index?: number) => {
@@ -263,24 +273,25 @@ const ProductsDetails = ({ product }: { product: any }) => {
           };
         }
         return item;
-      })
-    })
+      }),
+    });
   };
 
   const onRemoveList = (index?: number, title?: string) => {
-    if (index === undefined || title === undefined || currentProduct === null) return;
+    if (index === undefined || title === undefined || currentProduct === null)
+      return;
 
     try {
       setCurrentProduct({
         ...currentProduct,
-        [title]: currentProduct.inventory.filter((_: any, i: number) => i !== index)
-      })
+        [title]: currentProduct.inventory.filter(
+          (_: any, i: number) => i !== index
+        ),
+      });
     } catch (error) {
       console.error(error);
     }
-
   };
-
 
   return (
     <>
@@ -302,34 +313,26 @@ const ProductsDetails = ({ product }: { product: any }) => {
               <SelectItem value="publish">Publish</SelectItem>
             </SelectContent>
           </Select>
-          
-          {
-            !objectIsEqual(productCopy, currentProduct) && (
-              <>
-                <Button
-                  variant="destructive"
-                  onClick={handleDiscardChanges}
-                >
-                  Discard
-                </Button>
-                <Button 
-                  disabled={loading} 
-                  onClick={handleClickSave}
-                >
-                  {loading ? (
-                    <>
-                      <Loader2 className="animate-spin" />
-                      Please wait...
-                    </>
-                  ) : !product ? (
-                    'Save'
-                  ) : (
-                    'Update'
-                  )}
-                </Button>  
-              </>
-            )
-          }
+
+          {!objectIsEqual(productCopy, currentProduct) && (
+            <>
+              <Button variant="destructive" onClick={handleDiscardChanges}>
+                Discard
+              </Button>
+              <Button disabled={loading} onClick={handleClickSave}>
+                {loading ? (
+                  <>
+                    <Loader2 className="animate-spin" />
+                    Please wait...
+                  </>
+                ) : !product ? (
+                  'Save'
+                ) : (
+                  'Update'
+                )}
+              </Button>
+            </>
+          )}
         </div>
       </div>
 
@@ -384,7 +387,6 @@ const ProductsDetails = ({ product }: { product: any }) => {
             onAddList={handleAddInventoryItem}
             onChange={handleOnInputChange}
             onSave={handleSaveCurrentInventory}
-           
             childComponent={
               <InventoryItem
                 inventory={currentProduct.inventory}
@@ -402,9 +404,9 @@ const ProductsDetails = ({ product }: { product: any }) => {
             onChange={handleOnInputChange}
             onSave={handleSaveCurrentPrices}
             childComponent={
-              <PriceListItem 
+              <PriceListItem
                 onRemove={onRemoveList}
-                onSelectChange={onChangePriceUserLevel} 
+                onSelectChange={onChangePriceUserLevel}
               />
             }
           />
