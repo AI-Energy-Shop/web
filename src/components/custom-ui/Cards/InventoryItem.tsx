@@ -35,10 +35,9 @@ const InventoryItem: React.FC<InventoryItemProps> = ({
   onRemove,
   onChangeSelectLocation,
 }) => {
-
   return (
     <div className="flex items-center gap-5 border p-2 rounded-lg group">
-      <div className='w-full flex gap-5 '>
+      <div className="w-full flex gap-5 ">
         <div className="space-y-2">
           <Label htmlFor={`location-${index}`}>Location</Label>
           <Select
@@ -82,8 +81,12 @@ const InventoryItem: React.FC<InventoryItemProps> = ({
           </div>
         </div>
       </div>
-      <div className='hidden group-hover:block'>
-        <Button onClick={() => onRemove(index, title)} size="icon" className="relative right-0">
+      <div className="hidden group-hover:block">
+        <Button
+          onClick={() => onRemove(index, title)}
+          size="icon"
+          className="relative right-0"
+        >
           <Trash2 className="h-3 w-3" />
         </Button>
       </div>
