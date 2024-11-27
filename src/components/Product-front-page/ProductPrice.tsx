@@ -109,7 +109,7 @@ function ProductPrice() {
             </div>
           </div>
           <Separator className="bg-purple-purp-aes mb-4 mt-1 md:hidden" />
-          <div className="ae-mobile-container mx-auto px-2 md:p-2 text-center md:flex md:gap-x-2">
+          <div className="ae-mobile-container mx-auto text-center max-md:px-2 md:mt-6 md:py-2 md:flex md:justify-between">
             <div className="flex md:basis-[38.65%] border border-black rounded-lg h-9 md:h-16 md:grid md:grid-cols-12 overflow-hidden">
               <div
                 className={`${firaSans.className} flex-1 font-semibold md:col-span-3 bg-gray-300 flex items-center justify-center`}
