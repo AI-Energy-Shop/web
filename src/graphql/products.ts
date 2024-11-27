@@ -1,8 +1,8 @@
-import { gql } from '@apollo/client';
+import { graphql } from '@/lib/gql';
 
 export const PRODUCT_OPERATIONS = {
   Query: {
-    products: gql(`
+    products: graphql(`
       query Products {
         products {
           documentId
@@ -18,9 +18,9 @@ export const PRODUCT_OPERATIONS = {
         }
       }
     `),
-    product: gql(`
+    product: graphql(`
       query Product($documentId: ID!) {
-        product(documentId: $documentId){
+        product(documentId: $documentId) {
           documentId
           name
           description
@@ -31,22 +31,12 @@ export const PRODUCT_OPERATIONS = {
           updatedAt
           publishedAt
           locale
-          price_list {
-            documentId
-            prices {
-              location
-              price
-              min_quantity
-              max_quantity
-              user_level
-            }
-          }
         }
       }
     `),
   },
   Mutation: {
-    createProduct: gql(`
+    createProduct: graphql(`
       mutation CreateProduct($data: ProductInput!) {
         createProduct(data: $data) {
           documentId
@@ -55,24 +45,16 @@ export const PRODUCT_OPERATIONS = {
           category
           vendor
           item_code
-          price_list {
+          price_lists {
             documentId
-            prices {
-              id
-              price
-              min_quantity
-              max_quantity
-              location
-              user_level
-            }
             createdAt
             publishedAt
             updatedAt
           }
         }
-      }  
+      }
     `),
-    updateProduct: gql(`
+    updateProduct: graphql(`
       mutation UpdateProduct($documentId: ID!, $data: ProductInput!) {
         updateProduct(documentId: $documentId, data: $data) {
           documentId
@@ -83,28 +65,20 @@ export const PRODUCT_OPERATIONS = {
           item_code
           createdAt
           updatedAt
-          price_list {
+          price_lists {
             documentId
-            prices {
-              id
-              price
-              min_quantity
-              max_quantity
-              location
-              user_level
-            }
           }
         }
-      } 
+      }
     `),
-    createProductPriceList: gql(`
+    createProductPriceList: graphql(`
       mutation CreatePriceList($data: PriceListInput!) {
         createPriceList(data: $data) {
           documentId
         }
       }
     `),
-    updateProductPriceList: gql(`
+    updateProductPriceList: graphql(`
       mutation UpdatePriceList($data: PriceListInput!, $documentId: ID!) {
         updatePriceList(data: $data, documentId: $documentId) {
           documentId
