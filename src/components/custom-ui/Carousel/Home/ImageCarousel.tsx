@@ -14,7 +14,7 @@ interface ImageCarouselProps {
 const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
   const currentBreakpoint = useBreakpoint();
 
-  const TABLET_BREAKPOINT = 640;
+  const TABLET_BREAKPOINT = 768;
   const DESKTOP_BREAKPOINT = 1024;
 
   const MOBILE = 'MOBILE';
@@ -22,7 +22,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
   const DESKTOP = 'DESKTOP';
 
   return (
-    <div className="h-[75vh] sm:h-[44.44vh] lg:h-[33.33vh] relative">
+    <div className="h-[75vw] md:h-[44.44vw] lg:h-[33.33vw] lg:max-h-[400px] relative">
       <Carousel
         additionalTransfrom={0}
         arrows={false}
@@ -31,9 +31,9 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
         centerMode={false}
         containerClass="h-full"
         draggable={false}
+        swipeable={false}
         focusOnSelect={false}
         infinite={true}
-        itemClass=""
         keyBoardControl={false}
         minimumTouchDrag={80}
         pauseOnHover={true}
@@ -50,14 +50,14 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
           },
           tablet: {
             breakpoint: {
-              max: 1024,
-              min: 464,
+              max: 1023,
+              min: 768,
             },
             items: 1,
           },
           mobile: {
             breakpoint: {
-              max: 640,
+              max: 767,
               min: 0,
             },
             items: 1,
@@ -68,8 +68,6 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
         rtl={false}
         shouldResetAutoplay={true}
         slidesToSlide={1}
-        swipeable={false}
-        // DOTS
         showDots={true}
         dotListClass="py-5 bottom-[5rem]"
         customDot={<CustomDot />}
@@ -83,7 +81,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
                 width={1000}
                 height={1000}
                 key={item.id}
-                className="h-[75vh] w-full m-auto object-contain"
+                className="h-full m-auto object-contain"
                 src={item.image.url}
                 alt={item.image.alternativeText || ''}
               />
@@ -97,7 +95,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
             (item.type === TABLET || item.type === DESKTOP)
           ) {
             return (
-              <div key={item.id} className="h-[240px] relative">
+              <div key={item.id} className="h-[44.44vw] relative">
                 <Image
                   priority
                   fill
@@ -111,15 +109,15 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
 
           /* DESKTOP | WIDESCREEN */
           if (
-            currentBreakpoint > 1024 &&
+            currentBreakpoint >= 1024 &&
             (item.type === TABLET || item.type === DESKTOP)
           ) {
             return (
-              <div key={item.id} className="h-[33.33vh] relative">
+              <div key={item.id} className="h-[33.33vw] max-h-[400px] relative">
                 <Image
                   priority
                   fill
-                  className="object-fill h-full"
+                  className="object-cover object-center"
                   src={item.image.url}
                   alt={item.image.alternativeText || ''}
                 />

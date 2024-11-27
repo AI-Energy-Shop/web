@@ -2,7 +2,7 @@ import './globals.css';
 import React from 'react';
 import Components from '@/components';
 import { ApolloWrapper } from '@/apollo/provider';
-import { firaSansFont, muktaVaani } from '@/assets/fonts/fonts';
+import { firaSansFont } from '@/assets/fonts/fonts';
 import { Toaster } from '@/components/ui/sonner';
 // Assuming Metadata type needs to be defined or imported.
 // If Metadata is a custom type, it should be imported from its definition file.
@@ -23,10 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${firaSansFont.className} ${muktaVaani.className}`}
-    >
+    <html lang="en" className={firaSansFont.className}>
       <body>
         <ApolloWrapper>
           <Components.NavigationProvider>
