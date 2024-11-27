@@ -11,9 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import type { ProductDetails } from './ProductsDetails'
-
-
+import type { ProductDetails } from './ProductsDetails';
 
 interface PriceListItem {
   onRemove: (index?: number, title?: any) => void;
