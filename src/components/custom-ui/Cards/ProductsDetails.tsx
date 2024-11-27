@@ -30,8 +30,6 @@ import {
   Loader2,
 } from 'lucide-react';
 
-
-
 export type ProductDetails = {
   documentId: string;
   name: string;
@@ -44,7 +42,7 @@ export type ProductDetails = {
   status: string;
   price_list: any[];
   inventory: any[];
-}
+};
 
 const RichTextEditor = ({
   description,
@@ -108,7 +106,6 @@ const RichTextEditor = ({
 };
 
 const ProductsDetails = ({ product }: { product: any }) => {
-
   const [loading, setLoading] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<ProductDetails>({
     documentId: product?.documentId || null,
@@ -286,7 +283,7 @@ const ProductsDetails = ({ product }: { product: any }) => {
   const onRemoveList = (index?: number, title?: keyof ProductDetails) => {
     if (index === undefined || title === undefined || currentProduct === null)
       return;
-  
+
     try {
       if (Array.isArray(currentProduct[title])) {
         setCurrentProduct({

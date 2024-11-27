@@ -205,12 +205,12 @@ export const updateProduct = async (
       vendor: product.vendor,
       odoo_product_id: product.odoo_product_id,
       inventory: product.inventory?.map?.((item: any) => {
-        delete item.id
+        delete item.id;
         delete item.__typename;
         return item;
       }),
       price_list: product.price_list?.map?.((item: any) => {
-        delete item.id
+        delete item.id;
         delete item.__typename;
         return item;
       }),
