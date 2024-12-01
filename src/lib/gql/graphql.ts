@@ -845,6 +845,13 @@ export type CreateProductMutation = {
     category?: string | null;
     vendor?: string | null;
     item_code?: string | null;
+    price_lists: Array<{
+      __typename?: 'PriceList';
+      documentId: string;
+      createdAt?: any | null;
+      publishedAt?: any | null;
+      updatedAt?: any | null;
+    } | null>;
   } | null;
 };
 
@@ -865,6 +872,7 @@ export type UpdateProductMutation = {
     item_code?: string | null;
     createdAt?: any | null;
     updatedAt?: any | null;
+    price_lists: Array<{ __typename?: 'PriceList'; documentId: string } | null>;
   } | null;
 };
 
@@ -1692,6 +1700,31 @@ export const CreateProductDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'category' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'vendor' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'item_code' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'price_lists' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'publishedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -1769,6 +1802,19 @@ export const UpdateProductDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'item_code' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'price_lists' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },

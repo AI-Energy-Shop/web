@@ -22,9 +22,9 @@ const documents = {
     types.ProductsDocument,
   '\n      query Product($documentId: ID!) {\n        product(documentId: $documentId) {\n          documentId\n          name\n          description\n          category\n          vendor\n          item_code\n          createdAt\n          updatedAt\n          publishedAt\n          locale\n        }\n      }\n    ':
     types.ProductDocument,
-  '\n      mutation CreateProduct($data: ProductInput!) {\n        createProduct(data: $data) {\n          documentId\n          name\n          description\n          category\n          vendor\n          item_code\n        }\n      }\n    ':
+  '\n      mutation CreateProduct($data: ProductInput!) {\n        createProduct(data: $data) {\n          documentId\n          name\n          description\n          category\n          vendor\n          item_code\n          price_lists {\n            documentId\n            createdAt\n            publishedAt\n            updatedAt\n          }\n        }\n      }\n    ':
     types.CreateProductDocument,
-  '\n      mutation UpdateProduct($documentId: ID!, $data: ProductInput!) {\n        updateProduct(documentId: $documentId, data: $data) {\n          documentId\n          name\n          description\n          category\n          vendor\n          item_code\n          createdAt\n          updatedAt\n        }\n      }\n    ':
+  '\n      mutation UpdateProduct($documentId: ID!, $data: ProductInput!) {\n        updateProduct(documentId: $documentId, data: $data) {\n          documentId\n          name\n          description\n          category\n          vendor\n          item_code\n          createdAt\n          updatedAt\n          price_lists {\n            documentId\n          }\n        }\n      }\n    ':
     types.UpdateProductDocument,
   '\n      mutation CreatePriceList($data: PriceListInput!) {\n        createPriceList(data: $data) {\n          documentId\n        }\n      }\n    ':
     types.CreatePriceListDocument,
@@ -84,14 +84,14 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n      mutation CreateProduct($data: ProductInput!) {\n        createProduct(data: $data) {\n          documentId\n          name\n          description\n          category\n          vendor\n          item_code\n        }\n      }\n    '
-): (typeof documents)['\n      mutation CreateProduct($data: ProductInput!) {\n        createProduct(data: $data) {\n          documentId\n          name\n          description\n          category\n          vendor\n          item_code\n        }\n      }\n    '];
+  source: '\n      mutation CreateProduct($data: ProductInput!) {\n        createProduct(data: $data) {\n          documentId\n          name\n          description\n          category\n          vendor\n          item_code\n          price_lists {\n            documentId\n            createdAt\n            publishedAt\n            updatedAt\n          }\n        }\n      }\n    '
+): (typeof documents)['\n      mutation CreateProduct($data: ProductInput!) {\n        createProduct(data: $data) {\n          documentId\n          name\n          description\n          category\n          vendor\n          item_code\n          price_lists {\n            documentId\n            createdAt\n            publishedAt\n            updatedAt\n          }\n        }\n      }\n    '];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n      mutation UpdateProduct($documentId: ID!, $data: ProductInput!) {\n        updateProduct(documentId: $documentId, data: $data) {\n          documentId\n          name\n          description\n          category\n          vendor\n          item_code\n          createdAt\n          updatedAt\n        }\n      }\n    '
-): (typeof documents)['\n      mutation UpdateProduct($documentId: ID!, $data: ProductInput!) {\n        updateProduct(documentId: $documentId, data: $data) {\n          documentId\n          name\n          description\n          category\n          vendor\n          item_code\n          createdAt\n          updatedAt\n        }\n      }\n    '];
+  source: '\n      mutation UpdateProduct($documentId: ID!, $data: ProductInput!) {\n        updateProduct(documentId: $documentId, data: $data) {\n          documentId\n          name\n          description\n          category\n          vendor\n          item_code\n          createdAt\n          updatedAt\n          price_lists {\n            documentId\n          }\n        }\n      }\n    '
+): (typeof documents)['\n      mutation UpdateProduct($documentId: ID!, $data: ProductInput!) {\n        updateProduct(documentId: $documentId, data: $data) {\n          documentId\n          name\n          description\n          category\n          vendor\n          item_code\n          createdAt\n          updatedAt\n          price_lists {\n            documentId\n          }\n        }\n      }\n    '];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
