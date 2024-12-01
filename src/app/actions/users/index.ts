@@ -94,7 +94,7 @@ export const loginUser = safeAction
 
         cookieStore.set('a-token', token!, {
           path: '/',
-          maxAge: 60 * 60 * 24 * 30,
+          maxAge: 86400, // 1 day expiration
           httpOnly: true,
           sameSite: 'strict',
         });

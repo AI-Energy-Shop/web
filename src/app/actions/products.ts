@@ -114,13 +114,7 @@ export const products = async (): Promise<{
   }
 };
 
-export const product = async (
-  id: string
-): Promise<{
-  loading?: boolean;
-  data?: { product?: any };
-  error?: unknown;
-}> => {
+export const product = async (id: string) => {
   const cookieStore = cookies();
   const token = cookieStore.get('a-token');
 

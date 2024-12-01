@@ -1,10 +1,17 @@
 import Carousel from '@/components/custom-ui/Carousel';
 import { ChevronRight } from 'lucide-react';
-import { firaSans, muktaVaani } from '@/app/font';
+import { firaSans } from '@/app/font';
 import ProductPrice from '@/components/Product-front-page/ProductPrice';
 import ProductDescription from '@/components/Product-front-page/ProductDescription';
+import { product } from '@/app/actions';
 
-function ProductPage() {
+async function ProductPage({ params }: { params: { id: string } }) {
+  const id = params.id;
+
+  const { data, error, loading } = await product(id);
+
+  const productData = data?.product;
+
   return (
     <main className="bg-yellow-light-yellow">
       {/* Breadcrumbs */}
@@ -30,7 +37,7 @@ function ProductPage() {
           className={`${firaSans.className} max-md:px-4 ae-mobile-container md:px-12 md:pt-6`}
         >
           <h1 className="text-2xl md:text-4xl font-bold">
-            Solplanet 5kW S-G2 Series Single Phase Inverter
+            {productData?.name}
           </h1>
           <p className="font-medium text-lg md:text-2xl italic">ASW5000-S-G2</p>
         </div>

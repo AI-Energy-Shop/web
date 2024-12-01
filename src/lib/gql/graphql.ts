@@ -31,6 +31,8 @@ export type Scalars = {
   DateTime: { input: any; output: any };
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: { input: any; output: any };
+  /** The `BigInt` scalar type represents non-fractional signed whole numeric values. */
+  Long: { input: any; output: any };
   PageSectionsDynamicZoneInput: { input: any; output: any };
 };
 
@@ -46,7 +48,7 @@ export type AccountDetailFiltersInput = {
   localizations?: InputMaybe<AccountDetailFiltersInput>;
   middle_name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<AccountDetailFiltersInput>;
-  odoo_id?: InputMaybe<StringFilterInput>;
+  odoo_user_id?: InputMaybe<StringFilterInput>;
   or?: InputMaybe<Array<InputMaybe<AccountDetailFiltersInput>>>;
   position?: InputMaybe<StringFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
@@ -61,7 +63,7 @@ export type AccountDetailInput = {
   level?: InputMaybe<Enum_Accountdetail_Level>;
   locale?: InputMaybe<Scalars['String']['input']>;
   middle_name?: InputMaybe<Scalars['String']['input']>;
-  odoo_id?: InputMaybe<Scalars['String']['input']>;
+  odoo_user_id?: InputMaybe<Scalars['String']['input']>;
   position?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   user_type?: InputMaybe<Enum_Accountdetail_User_Type>;
@@ -92,6 +94,47 @@ export type BooleanFilterInput = {
   startsWith?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type CartFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<CartFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  discount_amount?: InputMaybe<FloatFilterInput>;
+  discount_code?: InputMaybe<StringFilterInput>;
+  documentId?: InputMaybe<IdFilterInput>;
+  line_price?: InputMaybe<StringFilterInput>;
+  locale?: InputMaybe<StringFilterInput>;
+  localizations?: InputMaybe<CartFiltersInput>;
+  not?: InputMaybe<CartFiltersInput>;
+  note?: InputMaybe<StringFilterInput>;
+  or?: InputMaybe<Array<InputMaybe<CartFiltersInput>>>;
+  price?: InputMaybe<StringFilterInput>;
+  product_id?: InputMaybe<StringFilterInput>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  quantity?: InputMaybe<LongFilterInput>;
+  reference_id?: InputMaybe<StringFilterInput>;
+  subtotal_price?: InputMaybe<FloatFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
+  total_price?: InputMaybe<FloatFilterInput>;
+  total_tax?: InputMaybe<FloatFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type CartInput = {
+  discount_amount?: InputMaybe<Scalars['Float']['input']>;
+  discount_code?: InputMaybe<Scalars['String']['input']>;
+  line_price?: InputMaybe<Scalars['String']['input']>;
+  locale?: InputMaybe<Scalars['String']['input']>;
+  note?: InputMaybe<Scalars['String']['input']>;
+  price?: InputMaybe<Scalars['String']['input']>;
+  product_id?: InputMaybe<Scalars['String']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  quantity?: InputMaybe<Scalars['Long']['input']>;
+  reference_id?: InputMaybe<Scalars['String']['input']>;
+  subtotal_price?: InputMaybe<Scalars['Float']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  total_price?: InputMaybe<Scalars['Float']['input']>;
+  total_tax?: InputMaybe<Scalars['Float']['input']>;
+};
+
 export type ComponentElementsInputFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ComponentElementsInputFiltersInput>>>;
   label?: InputMaybe<StringFilterInput>;
@@ -100,6 +143,38 @@ export type ComponentElementsInputFiltersInput = {
   placeholder?: InputMaybe<StringFilterInput>;
   required?: InputMaybe<BooleanFilterInput>;
   type?: InputMaybe<StringFilterInput>;
+};
+
+export type ComponentElementsInventoryFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentElementsInventoryFiltersInput>>>;
+  location?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ComponentElementsInventoryFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentElementsInventoryFiltersInput>>>;
+  quantity?: InputMaybe<IntFilterInput>;
+};
+
+export type ComponentElementsInventoryInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  quantity?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type ComponentElementsPriceFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentElementsPriceFiltersInput>>>;
+  max_quantity?: InputMaybe<IntFilterInput>;
+  min_quantity?: InputMaybe<IntFilterInput>;
+  not?: InputMaybe<ComponentElementsPriceFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentElementsPriceFiltersInput>>>;
+  price?: InputMaybe<FloatFilterInput>;
+  user_level?: InputMaybe<StringFilterInput>;
+};
+
+export type ComponentElementsPriceInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  max_quantity?: InputMaybe<Scalars['Int']['input']>;
+  min_quantity?: InputMaybe<Scalars['Int']['input']>;
+  price?: InputMaybe<Scalars['Float']['input']>;
+  user_level?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ComponentLayoutSlideFiltersInput = {
@@ -302,6 +377,31 @@ export type JsonFilterInput = {
   startsWith?: InputMaybe<Scalars['JSON']['input']>;
 };
 
+export type LongFilterInput = {
+  and?: InputMaybe<Array<InputMaybe<Scalars['Long']['input']>>>;
+  between?: InputMaybe<Array<InputMaybe<Scalars['Long']['input']>>>;
+  contains?: InputMaybe<Scalars['Long']['input']>;
+  containsi?: InputMaybe<Scalars['Long']['input']>;
+  endsWith?: InputMaybe<Scalars['Long']['input']>;
+  eq?: InputMaybe<Scalars['Long']['input']>;
+  eqi?: InputMaybe<Scalars['Long']['input']>;
+  gt?: InputMaybe<Scalars['Long']['input']>;
+  gte?: InputMaybe<Scalars['Long']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['Long']['input']>>>;
+  lt?: InputMaybe<Scalars['Long']['input']>;
+  lte?: InputMaybe<Scalars['Long']['input']>;
+  ne?: InputMaybe<Scalars['Long']['input']>;
+  nei?: InputMaybe<Scalars['Long']['input']>;
+  not?: InputMaybe<LongFilterInput>;
+  notContains?: InputMaybe<Scalars['Long']['input']>;
+  notContainsi?: InputMaybe<Scalars['Long']['input']>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['Long']['input']>>>;
+  notNull?: InputMaybe<Scalars['Boolean']['input']>;
+  null?: InputMaybe<Scalars['Boolean']['input']>;
+  or?: InputMaybe<Array<InputMaybe<Scalars['Long']['input']>>>;
+  startsWith?: InputMaybe<Scalars['Long']['input']>;
+};
+
 export type PageFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<PageFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -333,44 +433,20 @@ export type PaginationArg = {
   start?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type PriceListFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<PriceListFiltersInput>>>;
-  createdAt?: InputMaybe<DateTimeFilterInput>;
-  documentId?: InputMaybe<IdFilterInput>;
-  level?: InputMaybe<StringFilterInput>;
-  locale?: InputMaybe<StringFilterInput>;
-  localizations?: InputMaybe<PriceListFiltersInput>;
-  location?: InputMaybe<StringFilterInput>;
-  not?: InputMaybe<PriceListFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<PriceListFiltersInput>>>;
-  price?: InputMaybe<StringFilterInput>;
-  product?: InputMaybe<ProductFiltersInput>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
-  updatedAt?: InputMaybe<DateTimeFilterInput>;
-};
-
-export type PriceListInput = {
-  level?: InputMaybe<Scalars['String']['input']>;
-  locale?: InputMaybe<Scalars['String']['input']>;
-  location?: InputMaybe<Scalars['String']['input']>;
-  price?: InputMaybe<Scalars['String']['input']>;
-  product?: InputMaybe<Scalars['ID']['input']>;
-  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
-};
-
 export type ProductFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ProductFiltersInput>>>;
   category?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
-  item_code?: InputMaybe<StringFilterInput>;
+  inventory?: InputMaybe<ComponentElementsInventoryFiltersInput>;
   locale?: InputMaybe<StringFilterInput>;
   localizations?: InputMaybe<ProductFiltersInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<ProductFiltersInput>;
+  odoo_product_id?: InputMaybe<StringFilterInput>;
   or?: InputMaybe<Array<InputMaybe<ProductFiltersInput>>>;
-  price_lists?: InputMaybe<PriceListFiltersInput>;
+  price_list?: InputMaybe<ComponentElementsPriceFiltersInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   vendor?: InputMaybe<StringFilterInput>;
@@ -379,10 +455,11 @@ export type ProductFiltersInput = {
 export type ProductInput = {
   category?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
-  item_code?: InputMaybe<Scalars['String']['input']>;
+  inventory?: InputMaybe<Array<InputMaybe<ComponentElementsInventoryInput>>>;
   locale?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  price_lists?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  odoo_product_id?: InputMaybe<Scalars['String']['input']>;
+  price_list?: InputMaybe<Array<InputMaybe<ComponentElementsPriceInput>>>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   vendor?: InputMaybe<Scalars['String']['input']>;
 };
@@ -802,7 +879,6 @@ export type ProductsQuery = {
     description?: string | null;
     category?: string | null;
     vendor?: string | null;
-    item_code?: string | null;
     createdAt?: any | null;
     updatedAt?: any | null;
     publishedAt?: any | null;
@@ -823,11 +899,11 @@ export type ProductQuery = {
     description?: string | null;
     category?: string | null;
     vendor?: string | null;
-    item_code?: string | null;
     createdAt?: any | null;
     updatedAt?: any | null;
     publishedAt?: any | null;
     locale?: string | null;
+    odoo_product_id?: string | null;
   } | null;
 };
 
@@ -844,14 +920,6 @@ export type CreateProductMutation = {
     description?: string | null;
     category?: string | null;
     vendor?: string | null;
-    item_code?: string | null;
-    price_lists: Array<{
-      __typename?: 'PriceList';
-      documentId: string;
-      createdAt?: any | null;
-      publishedAt?: any | null;
-      updatedAt?: any | null;
-    } | null>;
   } | null;
 };
 
@@ -869,30 +937,9 @@ export type UpdateProductMutation = {
     description?: string | null;
     category?: string | null;
     vendor?: string | null;
-    item_code?: string | null;
     createdAt?: any | null;
     updatedAt?: any | null;
-    price_lists: Array<{ __typename?: 'PriceList'; documentId: string } | null>;
   } | null;
-};
-
-export type CreatePriceListMutationVariables = Exact<{
-  data: PriceListInput;
-}>;
-
-export type CreatePriceListMutation = {
-  __typename?: 'Mutation';
-  createPriceList?: { __typename?: 'PriceList'; documentId: string } | null;
-};
-
-export type UpdatePriceListMutationVariables = Exact<{
-  data: PriceListInput;
-  documentId: Scalars['ID']['input'];
-}>;
-
-export type UpdatePriceListMutation = {
-  __typename?: 'Mutation';
-  updatePriceList?: { __typename?: 'PriceList'; documentId: string } | null;
 };
 
 export type UsersPermissionsUsersQueryVariables = Exact<{
@@ -914,7 +961,6 @@ export type UsersPermissionsUsersQuery = {
       documentId: string;
       level?: Enum_Accountdetail_Level | null;
       user_type?: Enum_Accountdetail_User_Type | null;
-      odoo_id?: string | null;
       first_name?: string | null;
       middle_name?: string | null;
       last_name?: string | null;
@@ -943,7 +989,6 @@ export type UsersPermissionsUserQuery = {
       documentId: string;
       level?: Enum_Accountdetail_Level | null;
       user_type?: Enum_Accountdetail_User_Type | null;
-      odoo_id?: string | null;
       first_name?: string | null;
       middle_name?: string | null;
       last_name?: string | null;
@@ -1585,7 +1630,6 @@ export const ProductsDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'category' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'vendor' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'item_code' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
@@ -1642,11 +1686,14 @@ export const ProductDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'category' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'vendor' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'item_code' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'locale' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'odoo_product_id' },
+                },
               ],
             },
           },
@@ -1699,32 +1746,6 @@ export const CreateProductDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'category' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'vendor' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'item_code' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'price_lists' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'documentId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'createdAt' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'publishedAt' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'updatedAt' },
-                      },
-                    ],
-                  },
-                },
               ],
             },
           },
@@ -1799,22 +1820,8 @@ export const UpdateProductDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'category' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'vendor' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'item_code' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'price_lists' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'documentId' },
-                      },
-                    ],
-                  },
-                },
               ],
             },
           },
@@ -1825,127 +1832,6 @@ export const UpdateProductDocument = {
 } as unknown as DocumentNode<
   UpdateProductMutation,
   UpdateProductMutationVariables
->;
-export const CreatePriceListDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'CreatePriceList' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'PriceListInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createPriceList' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'data' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'data' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  CreatePriceListMutation,
-  CreatePriceListMutationVariables
->;
-export const UpdatePriceListDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'UpdatePriceList' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'PriceListInput' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'documentId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'updatePriceList' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'data' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'data' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'documentId' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'documentId' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  UpdatePriceListMutation,
-  UpdatePriceListMutationVariables
 >;
 export const UsersPermissionsUsersDocument = {
   kind: 'Document',
@@ -1986,10 +1872,6 @@ export const UsersPermissionsUsersDocument = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'user_type' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'odoo_id' },
                       },
                       {
                         kind: 'Field',
@@ -2087,10 +1969,6 @@ export const UsersPermissionsUserDocument = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'user_type' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'odoo_id' },
                       },
                       {
                         kind: 'Field',

@@ -10,7 +10,6 @@ export const PRODUCT_OPERATIONS = {
           description
           category
           vendor
-          item_code
           createdAt
           updatedAt
           publishedAt
@@ -26,11 +25,11 @@ export const PRODUCT_OPERATIONS = {
           description
           category
           vendor
-          item_code
           createdAt
           updatedAt
           publishedAt
           locale
+          odoo_product_id
         }
       }
     `),
@@ -44,13 +43,6 @@ export const PRODUCT_OPERATIONS = {
           description
           category
           vendor
-          item_code
-          price_lists {
-            documentId
-            createdAt
-            publishedAt
-            updatedAt
-          }
         }
       }
     `),
@@ -62,24 +54,20 @@ export const PRODUCT_OPERATIONS = {
           description
           category
           vendor
-          item_code
           createdAt
           updatedAt
-          price_lists {
-            documentId
-          }
         }
       }
     `),
     createProductPriceList: graphql(`
-      mutation CreatePriceList($data: PriceListInput!) {
+      mutation CreatePriceList($data: ProductInput!) {
         createPriceList(data: $data) {
           documentId
         }
       }
     `),
     updateProductPriceList: graphql(`
-      mutation UpdatePriceList($data: PriceListInput!, $documentId: ID!) {
+      mutation UpdatePriceList($data: ProductInput!, $documentId: ID!) {
         updatePriceList(data: $data, documentId: $documentId) {
           documentId
         }
