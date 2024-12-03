@@ -12,6 +12,9 @@ const nextConfig = {
         hostname: 'images.unsplash.com',
       },
       {
+        hostname: 'aienergyshop-strapi-uploads.syd1.digitaloceanspaces.com',
+      },
+      {
         protocol: 'http',
         hostname: 'localhost',
         port: '1337',

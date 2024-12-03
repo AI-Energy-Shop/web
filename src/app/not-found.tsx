@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import NotFoundImage from '/public/images/not-found.jpg';
+import NotFoundImage from '../../public/images/not-found.jpg';
 
 export default function NotFound() {
   return (

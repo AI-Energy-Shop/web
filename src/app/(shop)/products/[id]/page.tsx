@@ -13,7 +13,7 @@ async function ProductPage({ params }: { params: { id: string } }) {
   const productData = data?.product;
 
   return (
-    <main className="bg-yellow-light-yellow">
+    <main className="bg-yellow-light-yellow pt-[75px]">
       {/* Breadcrumbs */}
       <section className="py-4">
         <div
