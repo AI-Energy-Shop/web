@@ -44,6 +44,7 @@ function CheckoutPage() {
   const [date, setDate] = useState<Date>(new Date());
   const [radioValue, setRadioValue] = useState<string>('1');
   const [stepper, setStepper] = useState<number>(1);
+  const [isShippingDelivery, setIsShippingDelivery] = useState<boolean>(true);
 
   const handleIncrementStepper = () => {
     setStepper((prev) => {
@@ -287,12 +288,12 @@ function CheckoutPage() {
         <div className="bg-pink-darker-pink py-3">
           <div className="ae-mobile-container px-2 text-white flex items-center gap-x-2 relative">
             <h1 className="text-lg font-bold ">Shipping</h1>
-            {stepper > 1 && (
+            {stepper > 2 && (
               <span className="bg-green-500 rounded-full p-0.5">
                 <Check className="w-4 h-4" />
               </span>
             )}
-            {stepper > 1 && (
+            {stepper > 2 && (
               <div
                 onClick={() => setStepper(2)}
                 className="absolute right-0 flex items-center gap-x-1 top-1/2 transform -translate-y-1/2"
@@ -309,112 +310,204 @@ function CheckoutPage() {
           {stepper === 2 ? (
             <div className="ae-mobile-container space-y-4">
               <div className="flex px-4 gap-x-4">
-                <div className="basis-1/2 gradient-effect p-0.5 rounded-2xl">
+                <div
+                  onClick={(e) => setIsShippingDelivery(true)}
+                  className={`basis-1/2 p-0.5 rounded-2xl ${isShippingDelivery ? 'gradient-effect' : 'bg-black opacity-50'}`}
+                >
                   <div className="bg-white rounded-2xl text-center p-2">
                     <Truck className="w-10 h-10 mx-auto" strokeWidth={1} />
                     <h1 className=" font-bold">Delivery</h1>
                   </div>
                 </div>
-                <div className="basis-1/2 bg-black p-0.5 rounded-2xl">
+                <div
+                  onClick={(e) => setIsShippingDelivery(false)}
+                  className={`basis-1/2  p-0.5 rounded-2xl ${isShippingDelivery ? 'bg-black opacity-50' : 'gradient-effect'}`}
+                >
                   <div className="bg-white rounded-2xl text-center p-2">
                     <Warehouse className="w-10 h-10 mx-auto" strokeWidth={1} />
                     <h1 className=" font-bold">Pick Up</h1>
                   </div>
                 </div>
               </div>
-              <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2">
-                <div className="flex items-center justify-between">
-                  <h1 className="font-bold text-blue-navy-blue">Ship To:</h1>
-                  <div className="flex items-center gap-x-1 relative border-b border-black">
-                    <p className="text-[12px]">Change Address</p>
-                    <MoveRight className="w-4" />
+              {isShippingDelivery ? (
+                <>
+                  <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <h1 className="font-bold text-blue-navy-blue">
+                        Ship To:
+                      </h1>
+                      <div className="flex items-center gap-x-1 relative border-b border-black">
+                        <p className="text-[12px]">Change Address</p>
+                        <MoveRight className="w-4" />
+                      </div>
+                    </div>
+                    <div>
+                      <h1 className="font-bold">Fake Company Installs</h1>
+                      <h1>123 Fake St, Springfield, NSW 2345</h1>
+                      <h1>Frank Grimes - 0444 444 441</h1>
+                      <h1>Warehouse</h1>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <h1 className="font-bold">Fake Company Installs</h1>
-                  <h1>123 Fake St, Springfield, NSW 2345</h1>
-                  <h1>Frank Grimes - 0444 444 441</h1>
-                  <h1>Warehouse</h1>
-                </div>
-              </div>
 
-              <div className="border border-blue-navy-blue rounded-xl p-2">
-                <h1 className="font-bold">Delivery Options:</h1>
+                  <div className="border border-blue-navy-blue rounded-xl p-2">
+                    <h1 className="font-bold">Delivery Options:</h1>
 
-                <RadioGroup
-                  defaultValue={radioValue}
-                  onValueChange={setRadioValue}
-                >
-                  <div className="flex items-center space-x-2 border-b border-b-gray-300">
-                    <RadioGroupItem value="1" id="1" />
-                    <Label htmlFor="1">
-                      <div>
-                        <p>$39.47 ex. GST</p>
-                        <p>TNT Standard Shipping (3-4 Business Days)</p>
+                    <RadioGroup
+                      defaultValue={radioValue}
+                      onValueChange={setRadioValue}
+                    >
+                      <div className="flex items-center space-x-2 border-b border-b-gray-300">
+                        <RadioGroupItem value="1" id="1" />
+                        <Label htmlFor="1">
+                          <div>
+                            <p>$39.47 ex. GST</p>
+                            <p>TNT Standard Shipping (3-4 Business Days)</p>
+                          </div>
+                        </Label>
                       </div>
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2 border-b border-b-gray-300">
-                    <RadioGroupItem value="2" id="2" />
-                    <Label htmlFor="2">
-                      <div>
-                        <p>$73.60 ex. GST</p>
-                        <p>TNT Express Shipping (1-2 Business Days)</p>
+                      <div className="flex items-center space-x-2 border-b border-b-gray-300">
+                        <RadioGroupItem value="2" id="2" />
+                        <Label htmlFor="2">
+                          <div>
+                            <p>$73.60 ex. GST</p>
+                            <p>TNT Express Shipping (1-2 Business Days)</p>
+                          </div>
+                        </Label>
                       </div>
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2 border-b border-b-gray-300">
-                    <RadioGroupItem value="3" id="3" />
-                    <Label htmlFor="3">
-                      <div>
-                        <p>$90.01 ex. GST</p>
-                        <p>Hi-Trans High Priority Next Day Shipping</p>
-                        <p>(1 Business Day)</p>
+                      <div className="flex items-center space-x-2 border-b border-b-gray-300">
+                        <RadioGroupItem value="3" id="3" />
+                        <Label htmlFor="3">
+                          <div>
+                            <p>$90.01 ex. GST</p>
+                            <p>Hi-Trans High Priority Next Day Shipping</p>
+                            <p>(1 Business Day)</p>
+                          </div>
+                        </Label>
                       </div>
-                    </Label>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="4" id="4" />
+                        <Label htmlFor="4">
+                          <div>
+                            <p>TBC - Request delivery on specified date</p>
+                            <div>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <Button
+                                    disabled={radioValue !== '4'}
+                                    variant="ghost"
+                                    className={cn(
+                                      'w-fit justify-start gap-2 px-2 font-normal hover:bg-transparent',
+                                      !date && 'text-muted-foreground'
+                                    )}
+                                  >
+                                    <CalendarIcon className="h-5 w-5 text-muted-foreground" />
+                                    <span className="text-lg text-muted-foreground">
+                                      {date ? formatDate(date) : 'Select date'}
+                                    </span>
+                                  </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                  <Calendar
+                                    mode="single"
+                                    selected={date}
+                                    onSelect={(e) => setDate(e!)}
+                                    initialFocus
+                                  />
+                                </PopoverContent>
+                              </Popover>
+                            </div>
+                          </div>
+                        </Label>
+                      </div>
+                    </RadioGroup>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="4" id="4" />
-                    <Label htmlFor="4">
-                      <div>
-                        <p>TBC - Request delivery on specified date</p>
-                        <div>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <Button
-                                disabled={radioValue !== '4'}
-                                variant="ghost"
-                                className={cn(
-                                  'w-fit justify-start gap-2 px-2 font-normal hover:bg-transparent',
-                                  !date && 'text-muted-foreground'
-                                )}
-                              >
-                                <CalendarIcon className="h-5 w-5 text-muted-foreground" />
-                                <span className="text-lg text-muted-foreground">
-                                  {date ? formatDate(date) : 'Select date'}
-                                </span>
-                              </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                              <Calendar
-                                mode="single"
-                                selected={date}
-                                onSelect={(e) => setDate(e!)}
-                                initialFocus
-                              />
-                            </PopoverContent>
-                          </Popover>
+
+                  <div>
+                    <h1 className="font-bold">Delivery Notes</h1>
+                    <Textarea />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <h1 className="font-bold text-blue-navy-blue">
+                        Pick From:
+                      </h1>
+                      <div className="flex items-center gap-x-1 relative border-b border-black">
+                        <p className="text-[12px]">Change Address</p>
+                        <MoveRight className="w-4" />
+                      </div>
+                    </div>
+                    <div>
+                      <h1 className="font-bold">
+                        AI Energy Shop - Sydney Warehouse
+                      </h1>
+                      <h1>24/32-38 Belmore Rd, Punchbowl NSW</h1>
+                    </div>
+                  </div>
+
+                  <div className="border border-blue-navy-blue rounded-xl p-2">
+                    <div>
+                      <h1 className="font-bold">Delivery Options:</h1>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            className={cn(
+                              'w-fit justify-start gap-2 px-2 font-normal hover:bg-transparent',
+                              !date && 'text-muted-foreground'
+                            )}
+                          >
+                            <CalendarIcon className="h-5 w-5 " />
+                            <span className="text-lg underline">
+                              {date ? formatDate(date) : 'Select date'}
+                            </span>
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0">
+                          <Calendar
+                            mode="single"
+                            selected={date}
+                            onSelect={(e) => setDate(e!)}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                    <div>
+                      <h1 className="font-bold">Estimated Arrival Time:</h1>
+                      <div className="p-2 flex flex-wrap justify-center gap-2">
+                        <div className="gradient-effect p-0.5">
+                          <p className="bg-white p-2">7:30am - 9am</p>
+                        </div>
+                        <div className="bg-black p-0.5">
+                          <p className="bg-white p-2">9am - 11am</p>
+                        </div>
+                        <div className="bg-black p-0.5">
+                          <p className="bg-white p-2">11am - 1pm</p>
+                        </div>
+                        <div className="bg-black p-0.5">
+                          <p className="bg-white p-2">1pm - 3pm</p>
+                        </div>
+                        <div className="bg-black p-0.5">
+                          <p className="bg-white p-2">3pm - 5pm</p>
                         </div>
                       </div>
-                    </Label>
-                  </div>
-                </RadioGroup>
-              </div>
+                    </div>
 
-              <div>
-                <h1 className="font-bold">Delivery Notes</h1>
-                <Textarea />
-              </div>
+                    <p className="text-[14px] text-center">
+                      NOTE: Order must be confirmed before pickup. Please allow
+                      2-3 hours after confirmation for the order to be ready for
+                      pick up.
+                    </p>
+                  </div>
+                  <div>
+                    <h1 className="font-bold">Delivery Notes</h1>
+                    <Textarea />
+                  </div>
+                </>
+              )}
             </div>
           ) : (
             <div className="ae-mobile-container px-2 opacity-50">
