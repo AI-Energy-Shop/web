@@ -161,20 +161,22 @@ export type ComponentElementsInventoryInput = {
 
 export type ComponentElementsPriceFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ComponentElementsPriceFiltersInput>>>;
-  max_quantity?: InputMaybe<IntFilterInput>;
-  min_quantity?: InputMaybe<IntFilterInput>;
+  max_quantity?: InputMaybe<LongFilterInput>;
+  min_quantity?: InputMaybe<LongFilterInput>;
   not?: InputMaybe<ComponentElementsPriceFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ComponentElementsPriceFiltersInput>>>;
   price?: InputMaybe<FloatFilterInput>;
+  sale_price?: InputMaybe<FloatFilterInput>;
   user_level?: InputMaybe<StringFilterInput>;
 };
 
 export type ComponentElementsPriceInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
-  max_quantity?: InputMaybe<Scalars['Int']['input']>;
-  min_quantity?: InputMaybe<Scalars['Int']['input']>;
+  max_quantity?: InputMaybe<Scalars['Long']['input']>;
+  min_quantity?: InputMaybe<Scalars['Long']['input']>;
   price?: InputMaybe<Scalars['Float']['input']>;
-  user_level?: InputMaybe<Scalars['String']['input']>;
+  sale_price?: InputMaybe<Scalars['Float']['input']>;
+  user_level?: InputMaybe<Enum_Componentelementsprice_User_Level>;
 };
 
 export type ComponentLayoutSlideFiltersInput = {
@@ -242,6 +244,13 @@ export enum Enum_Componentelementsinput_Type {
   Number = 'NUMBER',
   Text = 'TEXT',
   Textarea = 'TEXTAREA',
+}
+
+export enum Enum_Componentelementsprice_User_Level {
+  MidSized = 'MID_SIZED',
+  Small = 'SMALL',
+  Vip = 'VIP',
+  Wholesale = 'WHOLESALE',
 }
 
 export enum Enum_Componentlayoutslide_Type {
@@ -437,7 +446,7 @@ export type ProductFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ProductFiltersInput>>>;
   category?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  description?: InputMaybe<StringFilterInput>;
+  description?: InputMaybe<JsonFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
   inventory?: InputMaybe<ComponentElementsInventoryFiltersInput>;
   locale?: InputMaybe<StringFilterInput>;
@@ -448,19 +457,23 @@ export type ProductFiltersInput = {
   or?: InputMaybe<Array<InputMaybe<ProductFiltersInput>>>;
   price_list?: InputMaybe<ComponentElementsPriceFiltersInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  specification?: InputMaybe<JsonFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   vendor?: InputMaybe<StringFilterInput>;
 };
 
 export type ProductInput = {
   category?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['JSON']['input']>;
+  downloads?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  images?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   inventory?: InputMaybe<Array<InputMaybe<ComponentElementsInventoryInput>>>;
   locale?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   odoo_product_id?: InputMaybe<Scalars['String']['input']>;
   price_list?: InputMaybe<Array<InputMaybe<ComponentElementsPriceInput>>>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  specification?: InputMaybe<Scalars['JSON']['input']>;
   vendor?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -876,7 +889,7 @@ export type ProductsQuery = {
     __typename?: 'Product';
     documentId: string;
     name?: string | null;
-    description?: string | null;
+    description?: any | null;
     category?: string | null;
     vendor?: string | null;
     createdAt?: any | null;
@@ -896,7 +909,7 @@ export type ProductQuery = {
     __typename?: 'Product';
     documentId: string;
     name?: string | null;
-    description?: string | null;
+    description?: any | null;
     category?: string | null;
     vendor?: string | null;
     createdAt?: any | null;
@@ -904,6 +917,21 @@ export type ProductQuery = {
     publishedAt?: any | null;
     locale?: string | null;
     odoo_product_id?: string | null;
+    price_list?: Array<{
+      __typename?: 'ComponentElementsPrice';
+      id: string;
+      price?: number | null;
+      sale_price?: number | null;
+      min_quantity?: any | null;
+      max_quantity?: any | null;
+      user_level?: Enum_Componentelementsprice_User_Level | null;
+    } | null> | null;
+    inventory?: Array<{
+      __typename?: 'ComponentElementsInventory';
+      id: string;
+      location?: string | null;
+      quantity?: number | null;
+    } | null> | null;
   } | null;
 };
 
@@ -917,7 +945,7 @@ export type CreateProductMutation = {
     __typename?: 'Product';
     documentId: string;
     name?: string | null;
-    description?: string | null;
+    description?: any | null;
     category?: string | null;
     vendor?: string | null;
   } | null;
@@ -934,7 +962,7 @@ export type UpdateProductMutation = {
     __typename?: 'Product';
     documentId: string;
     name?: string | null;
-    description?: string | null;
+    description?: any | null;
     category?: string | null;
     vendor?: string | null;
     createdAt?: any | null;
@@ -1693,6 +1721,51 @@ export const ProductDocument = {
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'odoo_product_id' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'price_list' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'sale_price' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'min_quantity' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'max_quantity' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'user_level' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'inventory' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'location' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'quantity' },
+                      },
+                    ],
+                  },
                 },
               ],
             },

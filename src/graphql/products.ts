@@ -30,6 +30,19 @@ export const PRODUCT_OPERATIONS = {
           publishedAt
           locale
           odoo_product_id
+          price_list {
+            id
+            price
+            sale_price
+            min_quantity
+            max_quantity
+            user_level
+          }
+          inventory {
+            id
+            location
+            quantity
+          }
         }
       }
     `),
@@ -59,19 +72,19 @@ export const PRODUCT_OPERATIONS = {
         }
       }
     `),
-    createProductPriceList: graphql(`
-      mutation CreatePriceList($data: ProductInput!) {
-        createPriceList(data: $data) {
-          documentId
-        }
-      }
-    `),
-    updateProductPriceList: graphql(`
-      mutation UpdatePriceList($data: ProductInput!, $documentId: ID!) {
-        updatePriceList(data: $data, documentId: $documentId) {
-          documentId
-        }
-      }
-    `),
+    // createProductPriceList: graphql(`
+    //   mutation CreatePriceList($data: ProductInput!) {
+    //     createPriceList(data: $data) {
+    //       documentId
+    //     }
+    //   }
+    // `),
+    // updateProductPriceList: graphql(`
+    //   mutation UpdatePriceList($data: ProductInput!, $documentId: ID!) {
+    //     updatePriceList(data: $data, documentId: $documentId) {
+    //       documentId
+    //     }
+    //   }
+    // `),
   },
 };

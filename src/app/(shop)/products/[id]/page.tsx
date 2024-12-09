@@ -47,7 +47,7 @@ async function ProductPage({ params }: { params: { id: string } }) {
             <Carousel.ProductCarousel />
           </div>
           <div className="md:basis-[51.75%] md:max-w-[51.75%]">
-            <ProductPrice />
+            <ProductPrice productData={productData} />
           </div>
         </div>
       </section>
