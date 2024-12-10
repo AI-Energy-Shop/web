@@ -179,6 +179,24 @@ export type ComponentElementsPriceInput = {
   user_level?: InputMaybe<Enum_Componentelementsprice_User_Level>;
 };
 
+export type ComponentElementsSpecificationFiltersInput = {
+  and?: InputMaybe<
+    Array<InputMaybe<ComponentElementsSpecificationFiltersInput>>
+  >;
+  key?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ComponentElementsSpecificationFiltersInput>;
+  or?: InputMaybe<
+    Array<InputMaybe<ComponentElementsSpecificationFiltersInput>>
+  >;
+  value?: InputMaybe<StringFilterInput>;
+};
+
+export type ComponentElementsSpecificationInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  key?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type ComponentLayoutSlideFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ComponentLayoutSlideFiltersInput>>>;
   description?: InputMaybe<StringFilterInput>;
@@ -269,6 +287,11 @@ export enum Enum_Userspermissionsuser_Account_Status {
 export type FileInfoInput = {
   alternativeText?: InputMaybe<Scalars['String']['input']>;
   caption?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type FilesFiltersArgs = {
+  mimeTypes?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   name?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -446,7 +469,7 @@ export type ProductFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ProductFiltersInput>>>;
   category?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  description?: InputMaybe<JsonFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
   inventory?: InputMaybe<ComponentElementsInventoryFiltersInput>;
   locale?: InputMaybe<StringFilterInput>;
@@ -457,15 +480,15 @@ export type ProductFiltersInput = {
   or?: InputMaybe<Array<InputMaybe<ProductFiltersInput>>>;
   price_list?: InputMaybe<ComponentElementsPriceFiltersInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
-  specification?: InputMaybe<JsonFilterInput>;
+  specification?: InputMaybe<ComponentElementsSpecificationFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   vendor?: InputMaybe<StringFilterInput>;
 };
 
 export type ProductInput = {
   category?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['JSON']['input']>;
-  downloads?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  files?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   images?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   inventory?: InputMaybe<Array<InputMaybe<ComponentElementsInventoryInput>>>;
   locale?: InputMaybe<Scalars['String']['input']>;
@@ -473,7 +496,9 @@ export type ProductInput = {
   odoo_product_id?: InputMaybe<Scalars['String']['input']>;
   price_list?: InputMaybe<Array<InputMaybe<ComponentElementsPriceInput>>>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
-  specification?: InputMaybe<Scalars['JSON']['input']>;
+  specification?: InputMaybe<
+    Array<InputMaybe<ComponentElementsSpecificationInput>>
+  >;
   vendor?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -889,7 +914,7 @@ export type ProductsQuery = {
     __typename?: 'Product';
     documentId: string;
     name?: string | null;
-    description?: any | null;
+    description?: string | null;
     category?: string | null;
     vendor?: string | null;
     createdAt?: any | null;
@@ -909,7 +934,7 @@ export type ProductQuery = {
     __typename?: 'Product';
     documentId: string;
     name?: string | null;
-    description?: any | null;
+    description?: string | null;
     category?: string | null;
     vendor?: string | null;
     createdAt?: any | null;
@@ -945,7 +970,7 @@ export type CreateProductMutation = {
     __typename?: 'Product';
     documentId: string;
     name?: string | null;
-    description?: any | null;
+    description?: string | null;
     category?: string | null;
     vendor?: string | null;
   } | null;
@@ -962,7 +987,7 @@ export type UpdateProductMutation = {
     __typename?: 'Product';
     documentId: string;
     name?: string | null;
-    description?: any | null;
+    description?: string | null;
     category?: string | null;
     vendor?: string | null;
     createdAt?: any | null;
