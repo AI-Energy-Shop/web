@@ -42,7 +42,6 @@ export type ProductDetails = {
 };
 
 const ProductsDetails = ({ product }: { product: any }) => {
-
   const [loading, setLoading] = useState(false);
 
   const [currentProduct, setCurrentProduct] = useState({
@@ -65,7 +64,6 @@ const ProductsDetails = ({ product }: { product: any }) => {
   const [productCopy, setProductCopy] = useState(currentProduct);
 
   const handleClickSave = async () => {
-   
     setLoading((loading) => !loading);
     if (!product) {
       const { errors } = await createProduct({
@@ -89,9 +87,12 @@ const ProductsDetails = ({ product }: { product: any }) => {
       setLoading((loading) => !loading);
       Toast('Product saved', 'ERROR', { position: 'top-center' });
     } else {
-
-      const newFiles = currentProduct.files?.map?.((item: FileType) => String(item.documentId))
-      const newImages = currentProduct.images?.map?.((item: FileType) => String(item.documentId))
+      const newFiles = currentProduct.files?.map?.((item: FileType) =>
+        String(item.documentId)
+      );
+      const newImages = currentProduct.images?.map?.((item: FileType) =>
+        String(item.documentId)
+      );
 
       const newProductData = {
         name: currentProduct.name,
@@ -116,12 +117,11 @@ const ProductsDetails = ({ product }: { product: any }) => {
         }),
         files: [...newFiles],
         images: [...newImages],
-      }
-
+      };
 
       const { errors, data } = await updateProduct({
         documentId: product.documentId,
-        data: newProductData
+        data: newProductData,
       });
 
       if (!data && errors) {
@@ -129,9 +129,9 @@ const ProductsDetails = ({ product }: { product: any }) => {
         Toast(errors.toString(), 'ERROR', { position: 'top-center' });
         return;
       }
-      
+
       setLoading((loading) => !loading);
-      if(data) {
+      if (data) {
         setProductCopy(data);
       }
       Toast('Product updated', 'SUCCESS', { position: 'top-center' });
@@ -308,7 +308,7 @@ const ProductsDetails = ({ product }: { product: any }) => {
 
   const onRemoveList = (index?: number, title?: keyof ProductDetails) => {
     if (index === undefined || title === undefined || !currentProduct) {
-      console.error("Invalid parameters or currentProduct is null");
+      console.error('Invalid parameters or currentProduct is null');
       return;
     }
 
@@ -325,7 +325,7 @@ const ProductsDetails = ({ product }: { product: any }) => {
         ),
       });
     } catch (error) {
-      console.error("Failed to remove item from list:", error);
+      console.error('Failed to remove item from list:', error);
     }
   };
 
@@ -333,13 +333,13 @@ const ProductsDetails = ({ product }: { product: any }) => {
     if (!currentProduct) return;
     setCurrentProduct((prevProduct) => {
       if (!prevProduct) return prevProduct;
-      
+
       const existingFiles = prevProduct.files.map((file: FileType) => file.id);
-      const newFiles = files.filter(file => !existingFiles.includes(file.id));
+      const newFiles = files.filter((file) => !existingFiles.includes(file.id));
 
       return {
         ...prevProduct,
-        files: Array.from(new Set([...prevProduct.files, ...newFiles]))
+        files: Array.from(new Set([...prevProduct.files, ...newFiles])),
       };
     });
   };
@@ -348,13 +348,13 @@ const ProductsDetails = ({ product }: { product: any }) => {
     if (!currentProduct) return;
     setCurrentProduct((prevProduct) => {
       if (!prevProduct) return prevProduct;
-      
+
       const existingFiles = prevProduct.images.map((file: FileType) => file.id);
-      const newFiles = files.filter(file => !existingFiles.includes(file.id));
+      const newFiles = files.filter((file) => !existingFiles.includes(file.id));
 
       return {
         ...prevProduct,
-        images: Array.from(new Set([...prevProduct.images, ...newFiles]))
+        images: Array.from(new Set([...prevProduct.images, ...newFiles])),
       };
     });
   };
@@ -369,7 +369,9 @@ const ProductsDetails = ({ product }: { product: any }) => {
       }
 
       try {
-        const newFiles = prevProduct.files.filter((file: FileType) => file.documentId !== id);
+        const newFiles = prevProduct.files.filter(
+          (file: FileType) => file.documentId !== id
+        );
         if (newFiles.length !== prevProduct.files.length) {
           return {
             ...prevProduct,
@@ -377,12 +379,12 @@ const ProductsDetails = ({ product }: { product: any }) => {
           };
         }
       } catch (error) {
-        console.error("Failed to remove file from list:", error);
+        console.error('Failed to remove file from list:', error);
       }
 
       return prevProduct;
     });
-  }
+  };
 
   const handleImageRemove = (id: string) => {
     if (!currentProduct) return;
@@ -394,7 +396,9 @@ const ProductsDetails = ({ product }: { product: any }) => {
       }
 
       try {
-        const newImages = prevProduct.images.filter((image: FileType) => image.documentId !== id);
+        const newImages = prevProduct.images.filter(
+          (image: FileType) => image.documentId !== id
+        );
         if (newImages.length !== prevProduct.images.length) {
           return {
             ...prevProduct,
@@ -402,12 +406,12 @@ const ProductsDetails = ({ product }: { product: any }) => {
           };
         }
       } catch (error) {
-        console.error("Failed to remove image from list:", error);
+        console.error('Failed to remove image from list:', error);
       }
 
       return prevProduct;
     });
-  }
+  };
 
   return (
     <div className="relative w-full">
@@ -493,13 +497,22 @@ const ProductsDetails = ({ product }: { product: any }) => {
               <CardTitle>Media</CardTitle>
             </CardHeader>
             <CardContent>
-              <FileUpload 
+              <FileUpload
                 data={currentProduct.images}
-                dataModalFilters={{mimeTypes: ["image/jpeg", "image/png", "image/gif", "image/webp", "image/jpg", "image/svg+xml"]}}
+                dataModalFilters={{
+                  mimeTypes: [
+                    'image/jpeg',
+                    'image/png',
+                    'image/gif',
+                    'image/webp',
+                    'image/jpg',
+                    'image/svg+xml',
+                  ],
+                }}
                 onFileRemove={handleImageRemove}
-                uploadNewFileLabel='Upload new Image'
-                useExistingButtonLabel="Use existing Image"   
-                onSelectedFiles={handleImagesSelected}       
+                uploadNewFileLabel="Upload new Image"
+                useExistingButtonLabel="Use existing Image"
+                onSelectedFiles={handleImagesSelected}
               />
             </CardContent>
           </Card>
@@ -511,12 +524,12 @@ const ProductsDetails = ({ product }: { product: any }) => {
             <CardContent>
               <FileUpload
                 accept="application/pdf"
-                dataModalFilters={{mimeTypes: ["application/pdf"]}}
-                uploadNewFileLabel='Upload new File'
+                dataModalFilters={{ mimeTypes: ['application/pdf'] }}
+                uploadNewFileLabel="Upload new File"
                 useExistingButtonLabel="Use existing File"
                 data={currentProduct.files}
                 onFileRemove={handleFileRemove}
-                onSelectedFiles={handleFilesSelected} 
+                onSelectedFiles={handleFilesSelected}
               />
             </CardContent>
           </Card>

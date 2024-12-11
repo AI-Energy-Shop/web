@@ -36,7 +36,7 @@ const AdminDashboardUserPage = async ({
       userId: user?.documentId,
       email: user?.email,
       accountStatus: Enum_Userspermissionsuser_Account_Status.Reviewing,
-      odooId: user?.account_detail?.odoo_id || '',
+      odooId: user?.account_detail?.odoo_user_id || '',
       userPricingLevel:
         user?.account_detail?.level || Enum_Accountdetail_Level?.Small,
     });

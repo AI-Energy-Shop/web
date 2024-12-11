@@ -49,7 +49,7 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
       status: user?.account_status || '',
       phone: '',
       company: '',
-      odooId: user?.account_detail?.odoo_id || '',
+      odooId: user?.account_detail?.odoo_user_id || '',
       type: user?.account_detail?.user_type || '',
       australianBusinessNumber: user?.account_detail?.business_name || '',
       address: '',

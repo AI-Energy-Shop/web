@@ -13,18 +13,16 @@ import {
 import { Button } from '@/components/ui/button';
 import { ModalProps, FileType } from './types';
 
-
 const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
   const [selectedImageIds, setSelectedImageIds] = useState<FileType[]>([]);
   const { data } = useQuery(FILES_OPERATIONS.Query.files, {
     fetchPolicy: 'no-cache',
     variables: {
       filters: {
-        mimeTypes: filters.mimeTypes
+        mimeTypes: filters.mimeTypes,
       },
     },
   });
-
 
   const handleOnClick = (file: FileType) => {
     setSelectedImageIds((prevArray) =>
@@ -32,9 +30,7 @@ const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
         ? prevArray.filter((imageId) => imageId.documentId !== file.documentId)
         : prevArray.concat(file)
     );
-  }
-
-
+  };
 
   return (
     <div className="bg-black bg-opacity-40 w-full h-full fixed m-0 top-0 left-0 z-50 flex items-center justify-center">

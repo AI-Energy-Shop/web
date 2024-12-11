@@ -3,9 +3,7 @@ import { graphql } from '@/lib/gql';
 export const FILES_OPERATIONS = {
   Query: {
     files: graphql(`
-      query Files(
-        $filters: FilesFiltersArgs
-      ) {
+      query Files($filters: FilesFiltersArgs) {
         files(filters: $filters) {
           documentId
           name

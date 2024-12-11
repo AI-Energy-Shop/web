@@ -6,15 +6,15 @@ export type FileType = {
   url: string;
   mime: string;
   name: string;
-}
+};
 
 export type FileUploadProps = {
   maxFiles?: number;
   accept?: string;
   data: FileType[];
   dataModalFilters: {
-    mimeTypes: string[]
-  }
+    mimeTypes: string[];
+  };
   displayFiles?: boolean;
   displayUseExistingButton?: boolean;
   useExistingButtonLabel?: string;
@@ -41,13 +41,13 @@ export type FileUploadZoneProps = {
 };
 
 export type FilePreviewProps = {
-  file: FileType
+  file: FileType;
   onRemove: (id: string) => void;
 };
 
 export interface ModalProps {
   filters: {
-    mimeTypes: string[]
+    mimeTypes: string[];
   };
   onCancel?: () => void;
   onDone: (files: FileType[]) => void;

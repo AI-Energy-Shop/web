@@ -19,25 +19,24 @@ const FileUpload: React.FC<FileUploadProps> = ({
   useExistingButtonLabel,
   data,
 }) => {
-
   const [showFilesModal, setShowFilesModal] = useState(false);
 
-  const handleUseExistingFile = () =>{
-    setShowFilesModal(!showFilesModal)
-  }
+  const handleUseExistingFile = () => {
+    setShowFilesModal(!showFilesModal);
+  };
 
   const handleSelectFiles = (files: FileType[]) => {
     onSelectedFiles(files);
     setShowFilesModal(!showFilesModal);
-  }
+  };
 
   return (
     <div className="w-full h-auto mx-auto">
       {showFilesModal && (
-        <Modal 
+        <Modal
           filters={dataModalFilters}
-          onDone={handleSelectFiles} 
-          onCancel={() => setShowFilesModal(!showFilesModal)} 
+          onDone={handleSelectFiles}
+          onCancel={() => setShowFilesModal(!showFilesModal)}
         />
       )}
       {data.length === 0 && (
@@ -61,9 +60,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
               onRemove={() => onFileRemove(file.documentId)}
             />
           ))}
-          <Button 
-            variant="outline" 
-            className='w-full h-full'
+          <Button
+            variant="outline"
+            className="w-full h-full"
             onClick={handleUseExistingFile}
           >
             <Plus />
