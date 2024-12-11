@@ -26,7 +26,7 @@ export const products = async () => {
       },
     });
 
-    console.log(res)
+    console.log(res);
 
     return res;
   } catch (error: any) {
@@ -35,9 +35,7 @@ export const products = async () => {
   }
 };
 
-export const getProduct = async (
-  id: string
-) => {
+export const getProduct = async (id: string) => {
   const cookieStore = cookies();
   const token = cookieStore.get('a-token');
 
@@ -108,7 +106,7 @@ export const updateProduct = async (
     if (res?.errors) {
       return res;
     }
-    
+
     return res;
   } catch (error: any) {
     console.log('ERROR updating product:', error.message);

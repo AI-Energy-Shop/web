@@ -3,6 +3,7 @@ import { CircleX } from 'lucide-react';
 import { FilePreviewProps } from './types';
 import { Button } from '@/components/ui/button';
 import { IMAGE_TYPES } from '@/constant';
+import Image from 'next/image';
 
 const FilePreview: FC<FilePreviewProps> = ({ file, onRemove }) => {
   return (
@@ -16,7 +17,7 @@ const FilePreview: FC<FilePreviewProps> = ({ file, onRemove }) => {
           />
         )}
         {IMAGE_TYPES.includes(file.mime) && (
-          <img
+          <Image
             src={file.url}
             alt="Preview"
             className="w-full h-full object-cover"

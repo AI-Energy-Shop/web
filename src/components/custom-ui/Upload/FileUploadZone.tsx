@@ -14,7 +14,6 @@ export function FileUploadZone({
   uploadNewFileLabel = 'Upload new file',
   onUseExistingFile,
 }: FileUploadZoneProps) {
-  
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
