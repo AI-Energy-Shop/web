@@ -6,8 +6,7 @@ import { Package, Search, ShoppingCart, Users } from 'lucide-react';
 import Link from 'next/link';
 
 const ProductsPage = async () => {
-  const { data, error, loading } = await products();
-
+  const { data } = await products();
   return (
     <main className="w-full h-auto">
       {/* Header */}
@@ -39,7 +38,7 @@ const ProductsPage = async () => {
                       Total Products
                     </dt>
                     <dd className="text-lg font-medium text-gray-900 dark:text-white">
-                      {data?.products?.length}
+                      {data?.getProducts?.length}
                     </dd>
                   </dl>
                 </div>
@@ -118,7 +117,7 @@ const ProductsPage = async () => {
             </Button>
           </div>
           <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg">
-            <Components.Tables.ProductsTable products={data?.products} />
+            <Components.Tables.ProductsTable products={data?.getProducts} />
           </div>
         </div>
       </div>

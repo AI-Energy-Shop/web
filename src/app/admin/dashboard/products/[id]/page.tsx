@@ -20,10 +20,8 @@ export default async function ProductManagement({
 
   return (
     <Suspense fallback={<p>Loading...</p>}>
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-        <div className="mx-auto p-4">
-          <Components.Cards.ProductsDetails product={data?.product} />
-        </div>
+      <div className="h-auto w-full bg-gray-100 dark:bg-gray-900">
+        <Components.Cards.ProductsDetails product={data?.getProduct} />
       </div>
     </Suspense>
   );

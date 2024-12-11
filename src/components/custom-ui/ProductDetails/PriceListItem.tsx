@@ -11,7 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import type { ProductDetails } from './ProductsDetails';
 
 interface PriceListItem {
   onRemove: (index?: number, title?: any) => void;
@@ -40,6 +39,23 @@ const PriceListItem: React.FC<PriceListItem> = ({
     <div className="grid gap-4 p-4 border rounded-lg relative">
       <div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor={`price-${index}`}>Sale Price</Label>
+            <div className="relative">
+              <span className="absolute left-3 top-2.5">$</span>
+              <Input
+                id={`sale-price-${index}`}
+                type="number"
+                name="sale_price"
+                data-index={index}
+                data-title={title}
+                placeholder="0.00"
+                className="pl-7"
+                value={item?.price || ''}
+                onChange={onChange}
+              />
+            </div>
+          </div>
           <div className="space-y-2">
             <Label htmlFor={`price-${index}`}>Price</Label>
             <div className="relative">
