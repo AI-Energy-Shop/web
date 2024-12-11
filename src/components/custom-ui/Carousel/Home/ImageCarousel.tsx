@@ -82,8 +82,8 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
                 height={1000}
                 key={item.id}
                 className="h-full m-auto object-contain"
-                src={item.image.url}
-                alt={item.image.alternativeText || ''}
+                src={item?.image?.url || ''}
+                alt={item?.image?.alternativeText || ''}
               />
             );
           }
@@ -118,8 +118,8 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
                   priority
                   fill
                   className="object-cover object-center"
-                  src={item.image.url}
-                  alt={item.image.alternativeText || ''}
+                  src={item?.image?.url}
+                  alt={item?.image?.alternativeText || ''}
                 />
               </div>
             );

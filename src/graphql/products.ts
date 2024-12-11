@@ -1,38 +1,57 @@
-import { gql } from '@apollo/client';
+import { graphql } from '@/lib/gql';
 
-export const PRODUCT_OPERATIONS = {
+const schema = {
   Query: {
-    products: gql(`
-     query Products {
-        products {
+    products: graphql(`
+      query GetProducts {
+        getProducts {
           documentId
           name
           description
           category
           vendor
           odoo_product_id
+          price_list {
+            id
+            price
+            sale_price
+            min_quantity
+            max_quantity
+            user_level
+          }
+          inventory {
+            id
+            location
+            quantity
+          }
+          specification {
+            id
+            key
+            value
+          }
+          files {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
+          images {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
           createdAt
           updatedAt
           publishedAt
-          locale
-          price_list {
-            id
-            price
-            min_quantity
-            max_quantity
-            user_level
-          }
-          inventory {
-            id
-            location
-            quantity
-          }
         }
       }
     `),
-    product: gql(`
-      query Product($documentId: ID!) {
-        product(documentId: $documentId) {
+    product: graphql(`
+      query GetProduct($documentId: ID!) {
+        getProduct(documentId: $documentId) {
           documentId
           name
           description
@@ -51,13 +70,34 @@ export const PRODUCT_OPERATIONS = {
             location
             quantity
           }
+          specification {
+            id
+            key
+            value
+          }
+          files {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
+          images {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
           createdAt
+          updatedAt
+          publishedAt
         }
       }
     `),
   },
   Mutation: {
-    createProduct: gql(`
+    createProduct: graphql(`
       mutation CreateProduct($data: ProductInput!) {
         createProduct(data: $data) {
           documentId
@@ -78,49 +118,78 @@ export const PRODUCT_OPERATIONS = {
             max_quantity
             user_level
           }
+          files {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
+          images {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
+          specification {
+            id
+            key
+            value
+          }
           createdAt
+          updatedAt
+          publishedAt
         }
       }
     `),
-    updateProduct: gql(`
-      mutation UpdateProduct($documentId: ID!, $data: ProductInput!) {
-        updateProduct(documentId: $documentId, data: $data) {
+    updateProduct: graphql(`
+      mutation CustomProductUpdate($documentId: ID!, $data: ProductInput!) {
+        customProductUpdate(documentId: $documentId, data: $data) {
           documentId
           name
           description
           category
           vendor
-          createdAt
-          updatedAt
           odoo_product_id
+          price_list {
+            id
+            price
+            sale_price
+            min_quantity
+            max_quantity
+            user_level
+          }
           inventory {
             id
             location
             quantity
           }
-          price_list {
+          specification {
             id
-            price
-            min_quantity
-            max_quantity
-            user_level
+            key
+            value
           }
-        }
-      }
-    `),
-    createProductPriceList: gql(`
-      mutation CreatePriceList($data: PriceListInput!) {
-        createPriceList(data: $data) {
-          documentId
-        }
-      }
-    `),
-    updateProductPriceList: gql(`
-      mutation UpdatePriceList($data: PriceListInput!, $documentId: ID!) {
-        updatePriceList(data: $data, documentId: $documentId) {
-          documentId
+          files {
+            documentId
+            name
+            url
+            mime
+            ext
+          }
+          images {
+            documentId
+            name
+            url
+            mime
+            ext
+          }
+          createdAt
+          updatedAt
+          publishedAt
         }
       }
     `),
   },
 };
+export default schema;

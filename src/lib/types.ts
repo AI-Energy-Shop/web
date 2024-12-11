@@ -1,3 +1,4 @@
+import Product from '../components/custom-ui/Table/ProductsTable/Product';
 export type LinkItem = {
   url: string;
   title: string;
@@ -163,3 +164,29 @@ export type UserType = {
 export type UsersPermissionsResponse = {
   usersPermissionsUsers: UserType[];
 };
+
+// CART
+export type CartItemType = {
+  id: string;
+  name: string;
+  referenceId: string;
+  price: number;
+  quantity: number;
+  image: string;
+};
+
+export interface Product {
+  documentId: string;
+  name: string;
+  description: string;
+  category: string;
+  vendor: string;
+  odoo_product_id: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  price_list: [];
+  inventory: [];
+  specification: [];
+  __typename: string;
+}

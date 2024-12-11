@@ -11,6 +11,7 @@ import Sliders from './custom-ui/Sliders';
 import DynamicComponentRenderer from './DynamicComponentRenderer';
 import Tables from './custom-ui/Table';
 import Cards from './custom-ui/Cards';
+import MediaUpload from './custom-ui/Upload/FileUpload';
 const Components = {
   Cards,
   NavigationBar,
@@ -25,6 +26,7 @@ const Components = {
   LoadingAnimation,
   DynamicComponentRenderer,
   Tables,
+  MediaUpload,
 };
 
 export default Components;

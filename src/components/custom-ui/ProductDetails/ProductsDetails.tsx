@@ -6,8 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
 import { createProduct, updateProduct } from '@/app/actions';
 import ListInput from './ListInput';
 import InventoryItem from './InventoryItem';
@@ -21,14 +19,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import {
-  ChevronLeft,
-  Image as ImageIcon,
-  Bold,
-  Italic,
-  List,
-  Loader2,
-} from 'lucide-react';
+import { ChevronLeft, Loader2 } from 'lucide-react';
+import RichTextEditor from '@/components/RichTextEditor/RichTextEditor';
+import FileUpload from '../Upload/FileUpload';
+import SpecificationItem from './SpecificationItem';
+import { FileType } from '../Upload/types';
 
 export type ProductDetails = {
   documentId: string;
@@ -42,72 +37,15 @@ export type ProductDetails = {
   status: string;
   price_list: any[];
   inventory: any[];
-};
-
-const RichTextEditor = ({
-  description,
-  setDescription,
-}: {
-  description: string;
-  setDescription: any;
-}) => {
-  const editor = useEditor({
-    extensions: [StarterKit],
-    immediatelyRender: false,
-    content: description,
-    editorProps: {
-      attributes: {
-        class:
-          'prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-4 focus:outline-none',
-      },
-    },
-    onUpdate: ({ editor }) => {
-      setDescription(editor.getHTML());
-    },
-  });
-
-  if (!editor) {
-    return null;
-  }
-
-  return (
-    <div className="border rounded-md">
-      <div className="flex items-center space-x-2 p-2 border-b">
-        <Button
-          size="sm"
-          variant="ghost"
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          className={editor.isActive('bold') ? 'bg-secondary' : ''}
-        >
-          <Bold className="h-4 w-4" />
-        </Button>
-        <Button
-          size="sm"
-          variant="ghost"
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={editor.isActive('italic') ? 'bg-secondary' : ''}
-        >
-          <Italic className="h-4 w-4" />
-        </Button>
-        <Button
-          size="sm"
-          variant="ghost"
-          onClick={() => {
-            editor.chain().focus().toggleBulletList().run();
-          }}
-          className={editor.isActive('bulletList') ? 'bg-secondary' : ''}
-        >
-          <List className="h-4 w-4" />
-        </Button>
-      </div>
-      <EditorContent editor={editor} />
-    </div>
-  );
+  images: string[];
+  files: string[];
 };
 
 const ProductsDetails = ({ product }: { product: any }) => {
+
   const [loading, setLoading] = useState(false);
-  const [currentProduct, setCurrentProduct] = useState<ProductDetails>({
+
+  const [currentProduct, setCurrentProduct] = useState({
     documentId: product?.documentId || null,
     name: product?.name || 'New Product',
     description: product?.description || '',
@@ -119,31 +57,83 @@ const ProductsDetails = ({ product }: { product: any }) => {
     status: product?.status || 'draft',
     price_list: product?.price_list || [],
     inventory: product?.inventory || [],
+    specification: product?.specification || [],
+    images: product?.images || [],
+    files: product?.files || [],
   });
 
   const [productCopy, setProductCopy] = useState(currentProduct);
 
   const handleClickSave = async () => {
+   
     setLoading((loading) => !loading);
     if (!product) {
-      const { data, errors } = await createProduct(currentProduct);
+      const { errors } = await createProduct({
+        data: {
+          name: currentProduct.name,
+          description: currentProduct.description,
+          category: currentProduct.category,
+          vendor: currentProduct.vendor,
+          odoo_product_id: currentProduct.odoo_product_id,
+          price_list: currentProduct.price_list,
+          inventory: currentProduct.inventory,
+          specification: currentProduct.specification,
+          files: currentProduct.files,
+          images: currentProduct.images,
+        },
+      });
       if (errors) {
-        Toast(errors, 'ERROR');
+        Toast(errors.toString(), 'ERROR');
         return;
       }
       setLoading((loading) => !loading);
-      console.log(data);
       Toast('Product saved', 'ERROR', { position: 'top-center' });
     } else {
-      const { errors, data } = await updateProduct(currentProduct);
-      if (errors) {
-        setLoading((loading) => !loading);
-        Toast(errors, 'ERROR', { position: 'top-center' });
-        return;
+
+      const newFiles = currentProduct.files?.map?.((item: FileType) => String(item.documentId))
+      const newImages = currentProduct.images?.map?.((item: FileType) => String(item.documentId))
+
+      const newProductData = {
+        name: currentProduct.name,
+        description: currentProduct.description,
+        category: currentProduct.category,
+        vendor: currentProduct.vendor,
+        odoo_product_id: currentProduct.odoo_product_id,
+        price_list: currentProduct.price_list?.map?.((item: any) => {
+          delete item.id;
+          delete item.__typename;
+          return item;
+        }),
+        inventory: currentProduct.inventory?.map?.((item: any) => {
+          delete item.id;
+          delete item.__typename;
+          return item;
+        }),
+        specification: currentProduct.specification?.map?.((item: any) => {
+          delete item.id;
+          delete item.__typename;
+          return item;
+        }),
+        files: [...newFiles],
+        images: [...newImages],
       }
 
+
+      const { errors, data } = await updateProduct({
+        documentId: product.documentId,
+        data: newProductData
+      });
+
+      if (!data && errors) {
+        setLoading((loading) => !loading);
+        Toast(errors.toString(), 'ERROR', { position: 'top-center' });
+        return;
+      }
+      
       setLoading((loading) => !loading);
-      setProductCopy({ ...currentProduct });
+      if(data) {
+        setProductCopy(data);
+      }
       Toast('Product updated', 'SUCCESS', { position: 'top-center' });
     }
   };
@@ -170,6 +160,18 @@ const ProductsDetails = ({ product }: { product: any }) => {
     setCurrentProduct({
       ...currentProduct,
       inventory: [...currentProduct.inventory, newObj],
+    });
+  };
+
+  const handleAddSpecsItem = () => {
+    const newObj = {
+      key: '',
+      value: '',
+    };
+
+    setCurrentProduct({
+      ...currentProduct,
+      specification: [...currentProduct.specification, newObj],
     });
   };
 
@@ -228,6 +230,24 @@ const ProductsDetails = ({ product }: { product: any }) => {
 
         break;
 
+      case 'specification':
+        setCurrentProduct({
+          ...currentProduct,
+          specification: currentProduct.specification.map(
+            (item: any, i: number) => {
+              if (i === Number(index)) {
+                return {
+                  ...item,
+                  [name]: value,
+                };
+              }
+              return item;
+            }
+          ),
+        });
+
+        break;
+
       default:
         console.warn(`Unhandled title: ${title}`);
         break;
@@ -237,6 +257,12 @@ const ProductsDetails = ({ product }: { product: any }) => {
   const handleSaveCurrentInventory = (data: any) => {
     setCurrentProduct((prev: any) => {
       return { ...prev, inventory: data };
+    });
+  };
+
+  const handleSaveCurrentSpecs = (data: any) => {
+    setCurrentProduct((prev: any) => {
+      return { ...prev, specification: data };
     });
   };
 
@@ -281,43 +307,130 @@ const ProductsDetails = ({ product }: { product: any }) => {
   };
 
   const onRemoveList = (index?: number, title?: keyof ProductDetails) => {
-    if (index === undefined || title === undefined || currentProduct === null)
+    if (index === undefined || title === undefined || !currentProduct) {
+      console.error("Invalid parameters or currentProduct is null");
       return;
+    }
+
+    if (!Array.isArray(currentProduct[title])) {
+      console.error(`Cannot remove item from non-array property ${title}`);
+      return;
+    }
 
     try {
-      if (Array.isArray(currentProduct[title])) {
-        setCurrentProduct({
-          ...currentProduct,
-          [title]: currentProduct[title].filter(
-            (_: any, i: number) => i !== index
-          ),
-        });
-      } else {
-        console.error(`Cannot remove item from non-array property ${title}`);
-      }
+      setCurrentProduct({
+        ...currentProduct,
+        [title]: currentProduct[title].filter(
+          (_: any, i: number) => i !== index
+        ),
+      });
     } catch (error) {
-      console.error(error);
+      console.error("Failed to remove item from list:", error);
     }
   };
 
+  const handleFilesSelected = (files: FileType[]) => {
+    if (!currentProduct) return;
+    setCurrentProduct((prevProduct) => {
+      if (!prevProduct) return prevProduct;
+      
+      const existingFiles = prevProduct.files.map((file: FileType) => file.id);
+      const newFiles = files.filter(file => !existingFiles.includes(file.id));
+
+      return {
+        ...prevProduct,
+        files: Array.from(new Set([...prevProduct.files, ...newFiles]))
+      };
+    });
+  };
+
+  const handleImagesSelected = (files: FileType[]) => {
+    if (!currentProduct) return;
+    setCurrentProduct((prevProduct) => {
+      if (!prevProduct) return prevProduct;
+      
+      const existingFiles = prevProduct.images.map((file: FileType) => file.id);
+      const newFiles = files.filter(file => !existingFiles.includes(file.id));
+
+      return {
+        ...prevProduct,
+        images: Array.from(new Set([...prevProduct.images, ...newFiles]))
+      };
+    });
+  };
+
+  const handleFileRemove = (id: string) => {
+    if (!currentProduct) return;
+
+    setCurrentProduct((prevProduct) => {
+      if (!prevProduct.files) {
+        console.error("Cannot remove file from non-array property 'files'");
+        return prevProduct;
+      }
+
+      try {
+        const newFiles = prevProduct.files.filter((file: FileType) => file.documentId !== id);
+        if (newFiles.length !== prevProduct.files.length) {
+          return {
+            ...prevProduct,
+            files: newFiles,
+          };
+        }
+      } catch (error) {
+        console.error("Failed to remove file from list:", error);
+      }
+
+      return prevProduct;
+    });
+  }
+
+  const handleImageRemove = (id: string) => {
+    if (!currentProduct) return;
+
+    setCurrentProduct((prevProduct) => {
+      if (!prevProduct.images) {
+        console.error("Cannot remove image from non-array property 'images'");
+        return prevProduct;
+      }
+
+      try {
+        const newImages = prevProduct.images.filter((image: FileType) => image.documentId !== id);
+        if (newImages.length !== prevProduct.images.length) {
+          return {
+            ...prevProduct,
+            images: newImages,
+          };
+        }
+      } catch (error) {
+        console.error("Failed to remove image from list:", error);
+      }
+
+      return prevProduct;
+    });
+  }
+
   return (
-    <>
+    <div className="relative w-full">
       {/* HEADER */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="w-full bg-white flex items-center justify-between p-2">
         <div className="flex items-center space-x-2">
           <Link href="/admin/dashboard/products">
             <ChevronLeft className="h-4 w-4" />
           </Link>
-          <h1 className="text-2xl font-bold">{currentProduct.name}</h1>
+          <h1 className="text-base font-bold">{currentProduct.name}</h1>
         </div>
         <div className="flex items-center space-x-2">
           <Select>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="min-w-[150px]">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent defaultValue={currentProduct.status}>
-              <SelectItem value="draft">Draft</SelectItem>
-              <SelectItem value="publish">Publish</SelectItem>
+              <SelectItem value="draft">
+                <p className="text-sm">Draft</p>
+              </SelectItem>
+              <SelectItem value="publish">
+                <p className="text-sm">Publish</p>
+              </SelectItem>
             </SelectContent>
           </Select>
 
@@ -344,14 +457,14 @@ const ProductsDetails = ({ product }: { product: any }) => {
       </div>
 
       {/* BODY */}
-      <div className="grid grid-cols-3 gap-6">
-        <div className="col-span-2 space-y-6">
+      <div className="w-full h-auto grid grid-cols-3 gap-2 px-2 bg-white">
+        <div className="w-full h-auto col-span-2 flex flex-col gap-2 pb-2">
           <Card>
             <CardHeader>
               <CardTitle>Product Details</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="flex flex-col gap-5">
                 <div>
                   <Label htmlFor="title">Title</Label>
                   <Input
@@ -362,11 +475,13 @@ const ProductsDetails = ({ product }: { product: any }) => {
                     placeholder="Enter product title"
                   />
                 </div>
-                <div>
+                <div className="min-h-[300px]">
                   <Label htmlFor="description">Description</Label>
                   <RichTextEditor
                     description={currentProduct.description}
                     setDescription={handleDescriptionChange}
+                    iconSize={15}
+                    className="min-h-[200px] m-2 focus:outline-none"
                   />
                 </div>
               </div>
@@ -378,19 +493,48 @@ const ProductsDetails = ({ product }: { product: any }) => {
               <CardTitle>Media</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-3 gap-4">
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
-                  <ImageIcon className="mx-auto h-12 w-12 text-gray-400" />
-                  <p className="mt-2 text-sm text-gray-500">Add image</p>
-                </div>
-              </div>
+              <FileUpload 
+                data={currentProduct.images}
+                dataModalFilters={{mimeTypes: ["image/jpeg", "image/png", "image/gif", "image/webp", "image/jpg", "image/svg+xml"]}}
+                onFileRemove={handleImageRemove}
+                uploadNewFileLabel='Upload new Image'
+                useExistingButtonLabel="Use existing Image"   
+                onSelectedFiles={handleImagesSelected}       
+              />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Files</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <FileUpload
+                accept="application/pdf"
+                dataModalFilters={{mimeTypes: ["application/pdf"]}}
+                uploadNewFileLabel='Upload new File'
+                useExistingButtonLabel="Use existing File"
+                data={currentProduct.files}
+                onFileRemove={handleFileRemove}
+                onSelectedFiles={handleFilesSelected} 
+              />
             </CardContent>
           </Card>
 
           <ListInput
+            title="Specification"
+            data={currentProduct.specification}
+            addButtonLabel="Add"
+            onAddList={handleAddSpecsItem}
+            onChange={handleOnInputChange}
+            onSave={handleSaveCurrentSpecs}
+            childComponent={<SpecificationItem onRemove={onRemoveList} />}
+          />
+
+          <ListInput
             title="Inventory"
             data={currentProduct.inventory}
-            addButtonLabel="Add Stock"
+            addButtonLabel="Add"
             onAddList={handleAddInventoryItem}
             onChange={handleOnInputChange}
             onSave={handleSaveCurrentInventory}
@@ -405,7 +549,7 @@ const ProductsDetails = ({ product }: { product: any }) => {
           <ListInput
             title="Price List"
             data={currentProduct.price_list}
-            addButtonLabel="Add Price"
+            addButtonLabel="Add"
             onAddList={handleAddPriceItem}
             onChange={handleOnInputChange}
             onSave={handleSaveCurrentPrices}
@@ -501,7 +645,7 @@ const ProductsDetails = ({ product }: { product: any }) => {
           </Card>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

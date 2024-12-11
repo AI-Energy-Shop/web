@@ -3,9 +3,13 @@ import React from 'react';
 
 const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <main className="flex h-screen bg-gray-100 dark:bg-gray-900">
-      <Navigations.SideNavigation />
-      <div className="flex-1 overflow-y-auto h-full">{children}</div>
+    <main className="h-screen w-full grid grid-cols-12">
+      <div className="h-full w-full col-span-2">
+        <Navigations.SideNavigation />
+      </div>
+      <div className="h-full w-full col-span-10 overflow-hidden">
+        <div className="h-full overflow-y-auto scrollbar-thin">{children}</div>
+      </div>
     </main>
   );
 };

@@ -37,7 +37,7 @@ const InventoryItem: React.FC<InventoryItemProps> = ({
 }) => {
   return (
     <div className="flex items-center gap-5 border p-2 rounded-lg group">
-      <div className="w-full flex gap-5 ">
+      <div className="w-full flex flex-col gap-5 ">
         <div className="space-y-2">
           <Label htmlFor={`location-${index}`}>Location</Label>
           <Select

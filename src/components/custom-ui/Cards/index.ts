@@ -1,4 +1,4 @@
-import ProductsDetails from './ProductsDetails';
+import ProductsDetails from '../ProductDetails/ProductsDetails';
 
 const cards = {
   ProductsDetails,
