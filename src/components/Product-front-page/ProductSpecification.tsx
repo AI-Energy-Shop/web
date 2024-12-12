@@ -1,6 +1,11 @@
 import { firaSans, muktaVaani } from '@/app/font';
+import { ProductQuery } from '@/lib/gql/graphql';
 
-function ProductSpecification() {
+interface ProductSpecificationProps {
+  productData: ProductQuery['product'];
+}
+
+function ProductSpecification({ productData }: ProductSpecificationProps) {
   return (
     <>
       <h1
@@ -8,19 +13,15 @@ function ProductSpecification() {
       >
         Specifications
       </h1>
-      {new Array(5).fill(0).map((_, index) => {
-        return (
-          <div
-            key={index}
-            className={`flex items-center md:px-1 gap-x-2 py-2 ${muktaVaani.className} ${index % 2 === 0 ? 'bg-gray-200/80' : 'bg-gray-50'}`}
-          >
-            <h1 className="flex-1 text-right font-semibold">
-              Dimensions (WxHxD)
-            </h1>
-            <h1 className="flex-1 text-left">368 mm x 325 mm x 145 mm</h1>
-          </div>
-        );
-      })}
+      {productData?.specification?.map((data, index) => (
+        <div
+          key={data?.id}
+          className={`flex items-center md:px-1 gap-x-2 py-2 ${muktaVaani.className} ${index % 2 === 0 ? 'bg-gray-200/80' : 'bg-gray-50'}`}
+        >
+          <h1 className="flex-1 text-right font-semibold">{data?.key}</h1>
+          <h1 className="flex-1 text-left">{data?.value}</h1>
+        </div>
+      ))}
     </>
   );
 }

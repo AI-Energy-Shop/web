@@ -10,8 +10,13 @@ import ProductKeyFeatures from './ProductKeyFeatures';
 import ProductSpecification from './ProductSpecification';
 import ProductDownloads from './ProductDownloads';
 import { firaSans } from '@/app/font';
+import { ProductQuery } from '@/lib/gql/graphql';
 
-function ProductDescription() {
+interface ProductDescriptionProps {
+  productData: ProductQuery['product'];
+}
+
+function ProductDescription({ productData }: ProductDescriptionProps) {
   return (
     <>
       {/* mobile */}
@@ -26,7 +31,7 @@ function ProductDescription() {
                 Product Description
               </AccordionTrigger>
               <AccordionContent className="p-4 bg-gray-50">
-                <ProductDetailsOverview />
+                <ProductDetailsOverview productData={productData} />
               </AccordionContent>
             </AccordionItem>
 
@@ -50,7 +55,7 @@ function ProductDescription() {
                 Specifications
               </AccordionTrigger>
               <AccordionContent className="pb-2 bg-white">
-                <ProductSpecification />
+                <ProductSpecification productData={productData} />
               </AccordionContent>
             </AccordionItem>
 
@@ -91,11 +96,11 @@ function ProductDescription() {
           <TabsContent value="details" className="py-6 mt-0 px-12">
             <div className="flex justify-between">
               <div className="basis-[50%]">
-                <ProductDetailsOverview />
+                <ProductDetailsOverview productData={productData} />
                 <ProductKeyFeatures />
               </div>
               <div className="basis-[35%]">
-                <ProductSpecification />
+                <ProductSpecification productData={productData} />
               </div>
             </div>
           </TabsContent>

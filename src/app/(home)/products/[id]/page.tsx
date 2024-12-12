@@ -36,7 +36,7 @@ async function ProductPage({ params }: { params: { id: string } }) {
         <div
           className={`${firaSans.className} max-md:px-4 ae-mobile-container md:px-12 md:pt-6`}
         >
-          <h1 className="text-2xl md:text-4xl font-bold">
+          <h1 className="text-2xl max-sm:pt-2 md:text-4xl font-bold">
             {productData?.name}
           </h1>
           <p className="font-medium text-lg md:text-2xl italic">ASW5000-S-G2</p>
@@ -44,7 +44,7 @@ async function ProductPage({ params }: { params: { id: string } }) {
 
         <div className="md:flex md:justify-between md:px-12 md:pb-5">
           <div className="ae-mobile-container max-md:w-4/5 max-md:max-w-96 md:basis-[40%] md:max-w-[40%]">
-            <Carousel.ProductCarousel />
+            <Carousel.ProductCarousel productData={productData} />
           </div>
           <div className="md:basis-[51.75%] md:max-w-[51.75%]">
             <ProductPrice productData={productData} />
@@ -52,7 +52,7 @@ async function ProductPage({ params }: { params: { id: string } }) {
         </div>
       </section>
 
-      <ProductDescription />
+      <ProductDescription productData={productData} />
 
       {/* Related Products */}
       <section className="bg-yellow-light-yellow pt-6 pb-12 ">

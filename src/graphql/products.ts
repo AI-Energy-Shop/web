@@ -43,6 +43,18 @@ export const PRODUCT_OPERATIONS = {
             location
             quantity
           }
+          images {
+            documentId
+            name
+            alternativeText
+            caption
+            url
+          }
+          specification {
+            key
+            value
+            id
+          }
         }
       }
     `),

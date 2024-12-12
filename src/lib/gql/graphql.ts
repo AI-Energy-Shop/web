@@ -957,6 +957,20 @@ export type ProductQuery = {
       location?: string | null;
       quantity?: number | null;
     } | null> | null;
+    images: Array<{
+      __typename?: 'UploadFile';
+      documentId: string;
+      name: string;
+      alternativeText?: string | null;
+      caption?: string | null;
+      url: string;
+    } | null>;
+    specification?: Array<{
+      __typename?: 'ComponentElementsSpecification';
+      key?: string | null;
+      value?: string | null;
+      id: string;
+    } | null> | null;
   } | null;
 };
 
@@ -1789,6 +1803,41 @@ export const ProductDocument = {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'quantity' },
                       },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'images' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'alternativeText' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'caption' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'specification' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'key' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                     ],
                   },
                 },
