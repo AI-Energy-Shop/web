@@ -38,6 +38,14 @@ import { cn } from '@/lib/utils';
 import { formatDate } from '@/utils/formatDate';
 import { Calendar } from '@/components/ui/calendar';
 import { Textarea } from '@/components/ui/textarea';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogDescription,
+} from '@/components/ui/dialog';
 
 function CheckoutPage() {
   const arr = 4;
@@ -434,10 +442,51 @@ function CheckoutPage() {
                       <h1 className="font-bold text-blue-navy-blue">
                         Pick From:
                       </h1>
-                      <div className="flex items-center gap-x-1 relative border-b border-black">
-                        <p className="text-[12px]">Change Address</p>
-                        <MoveRight className="w-4" />
-                      </div>
+                      <Dialog>
+                        <DialogTrigger>
+                          <div className="flex items-center gap-x-1 relative border-b border-black">
+                            <p className="text-[12px]">Change Address</p>
+                            <MoveRight className="w-4" />
+                          </div>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Choose Pick up location</DialogTitle>
+                          </DialogHeader>
+                          <div>
+                            <RadioGroup
+                              defaultValue="option-one"
+                              className="space-y-2"
+                            >
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem
+                                  value="option-one"
+                                  id="option-one"
+                                />
+                                <Label htmlFor="option-one">
+                                  Melbourne, VIC
+                                </Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem
+                                  value="option-two"
+                                  id="option-two"
+                                />
+                                <Label htmlFor="option-two">Sydney, NSW</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem
+                                  value="option-three"
+                                  id="option-three"
+                                />
+                                <Label htmlFor="option-three">
+                                  Brisbane, QLD
+                                </Label>
+                              </div>
+                            </RadioGroup>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                     <div>
                       <h1 className="font-bold">
