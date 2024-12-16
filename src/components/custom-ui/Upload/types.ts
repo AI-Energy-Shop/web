@@ -30,7 +30,7 @@ export type FileWithPreview = {
 };
 
 export type FileUploadZoneProps = {
-  onFiles: (files: FileList | null) => void;
+  onFiles: (files: FileType[]) => void;
   onUseExistingFile?: () => void;
   accept: string;
   maxFiles: number;

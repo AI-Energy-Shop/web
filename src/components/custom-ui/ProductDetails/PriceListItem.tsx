@@ -19,8 +19,9 @@ interface PriceListItem {
   index?: number;
   title?: string;
   item?: {
-    documentId: string;
     price: string;
+    sale_price: string;
+    documentId: string;
     min_quantity: string;
     max_quantity: string;
     user_level: string;
@@ -51,7 +52,7 @@ const PriceListItem: React.FC<PriceListItem> = ({
                 data-title={title}
                 placeholder="0.00"
                 className="pl-7"
-                value={item?.price || ''}
+                value={item?.sale_price || ''}
                 onChange={onChange}
               />
             </div>

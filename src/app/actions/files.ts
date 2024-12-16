@@ -17,11 +17,9 @@ export const filesUpload = async (formData: FormData) => {
       }
     );
 
-    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-
     const data = await res.json();
 
-    console.log(data);
+    
     return data;
   } catch (error: any) {
     console.error('Error in filesUpload:', error.message);
