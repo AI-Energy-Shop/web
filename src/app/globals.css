@@ -166,7 +166,7 @@
   background-position-y: 70%;
   background-size: 200%;
   background-repeat: no-repeat;
-}
+} */
 
 .ae-mobile-container {
   @apply max-md:w-[92vw] max-md:mx-auto;
@@ -174,7 +174,20 @@
 
 .ae-non-mobile-container {
   @apply md:w-[90vw] md:mx-auto max-w-[1200px];
-} */
+}
+
+.no-spinner {
+  -moz-appearance: textfield; /* Firefox */
+  -webkit-appearance: none; /* Chrome, Safari, Edge */
+  appearance: none; /* General property */
+}
+
+/* Optional: Remove inner increment buttons in Chrome/Edge */
+.no-spinner::-webkit-inner-spin-button,
+.no-spinner::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
 @media (min-width: 640px) {
   .about-us-background {
@@ -193,7 +206,7 @@
     @apply pl-4 list-[unset];
   }
 
-  h1 {
+  /* h1 {
     @apply text-2xl font-bold;
   }
 
@@ -215,5 +228,5 @@
 
   h6 {
     @apply text-xs font-bold;
-  }
+  } */
 }

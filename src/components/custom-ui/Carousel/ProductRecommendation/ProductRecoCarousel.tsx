@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { firaSans, muktaVaani } from '@/app/font';
 import CustomButton from './CustomButton';
 import CustomDot from './CustomDot';
+import { Input } from '@/components/ui/input';
 
 const responsive = {
   desktop: {
@@ -87,11 +88,11 @@ function ProductRecoCarousel() {
                     >
                       <Minus />
                     </div>
-                    <div
-                      className={`${muktaVaani.className} flex-3 border border-x-black flex items-center justify-center`}
-                    >
-                      <p>1</p>
-                    </div>
+                    <Input
+                      className={`${muktaVaani.className} flex-3 h-full text-center no-spinner`}
+                      type="number"
+                    />
+
                     <div
                       role="button"
                       className="flex-2 flex items-center justify-center bg-gray-200 hover:bg-gray-200/90 cursor-pointer"
@@ -164,9 +165,11 @@ function ProductRecoCarousel() {
                     >
                       <Minus />
                     </div>
-                    <div className="flex-1 border border-x-black flex items-center justify-center">
-                      <p>1</p>
-                    </div>
+                    <Input
+                      className="flex-1 h-full text-center no-spinner"
+                      type="number"
+                    />
+
                     <div
                       role="button"
                       className="w-9 flex items-center justify-center bg-gray-200 hover:bg-gray-200/90 cursor-pointer"

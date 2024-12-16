@@ -1,13 +1,19 @@
 import { muktaVaani } from '@/app/font';
 import { ProductQuery } from '@/lib/gql/graphql';
+import DOMPurify from 'isomorphic-dompurify';
 
 interface ProductDetailsOverviewProps {
   productData: ProductQuery['product'];
 }
 
 function ProductDetailsOverview({ productData }: ProductDetailsOverviewProps) {
+  const sanitizedHtml = DOMPurify.sanitize(productData?.description!);
+
   return (
-    <p className={`${muktaVaani.className}`}>{productData?.description}</p>
+    <div
+      className={`${muktaVaani.className}`}
+      dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+    />
   );
 }
 

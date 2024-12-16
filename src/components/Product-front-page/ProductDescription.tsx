@@ -54,7 +54,7 @@ function ProductDescription({ productData }: ProductDescriptionProps) {
               >
                 Specifications
               </AccordionTrigger>
-              <AccordionContent className="pb-2 bg-white">
+              <AccordionContent className="pb-0 bg-white">
                 <ProductSpecification productData={productData} />
               </AccordionContent>
             </AccordionItem>
@@ -67,7 +67,7 @@ function ProductDescription({ productData }: ProductDescriptionProps) {
                 Product Downloads
               </AccordionTrigger>
               <AccordionContent className="pb-0">
-                <ProductDownloads />
+                <ProductDownloads productData={productData} />
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -105,7 +105,7 @@ function ProductDescription({ productData }: ProductDescriptionProps) {
             </div>
           </TabsContent>
           <TabsContent value="downloads" className="py-6 mt-0 px-12">
-            <ProductDownloads />
+            <ProductDownloads productData={productData} />
           </TabsContent>
         </Tabs>
       </div>

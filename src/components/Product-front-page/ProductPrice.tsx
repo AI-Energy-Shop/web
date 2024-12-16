@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/table';
 import { ProductQuery } from '@/lib/gql/graphql';
 import { useState } from 'react';
+import { Input } from '../ui/input';
 
 interface ProductPriceProps {
   productData: ProductQuery['product'];
@@ -152,11 +153,12 @@ function ProductPrice({ productData }: ProductPriceProps) {
               >
                 <Minus />
               </Button>
-              <div
-                className={`${muktaVaani.className} flex-2 md:col-span-5 flex items-center justify-center bg-white`}
-              >
-                {qty}
-              </div>
+              <Input
+                className={`${muktaVaani.className} flex-2 md:col-span-5 text-center bg-white no-spinner`}
+                value={qty}
+                type="number"
+                onChange={(e) => setQty(Number(e.target.value))}
+              />
               <Button
                 size="icon"
                 variant="ghost"

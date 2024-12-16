@@ -42,6 +42,7 @@ const schema = {
             last_name
             business_name
             position
+            odoo_user_id
           }
         }
       }
