@@ -24,8 +24,8 @@ const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
       },
     },
     onCompleted: (data) => {
-      setFiles(data.files)
-    }
+      setFiles(data.files);
+    },
   });
 
   const handleOnClick = (file: FileType) => {
@@ -37,9 +37,9 @@ const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
   };
 
   const handleOnUploadFiles = (data: any[]) => {
-    setFiles(files.concat(data))
-    refetch()
-  }
+    setFiles(files.concat(data));
+    refetch();
+  };
 
   return (
     <div className="bg-black bg-opacity-40 w-full h-full fixed m-0 top-0 left-0 z-50 flex items-center justify-center">

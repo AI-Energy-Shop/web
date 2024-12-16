@@ -33,7 +33,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
   const handleFileUploadOutsideModal = (files: FileType[]) => {
     onSelectedFiles(files);
-  }
+  };
 
   return (
     <div className="w-full h-auto mx-auto">
