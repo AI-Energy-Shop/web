@@ -6,8 +6,13 @@ import Carousel, { ResponsiveType } from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import ButtonGroup from './ButtonGroup';
 import RightButton from './RightButton';
+import { ProductQuery } from '@/lib/gql/graphql';
 
-const ImageCarousel: React.FC = () => {
+interface ImageCarouselProps {
+  productData: ProductQuery['product'];
+}
+
+const ImageCarousel: React.FC<ImageCarouselProps> = ({ productData }) => {
   const responsive: ResponsiveType = {
     desktop: {
       breakpoint: {
@@ -32,7 +37,7 @@ const ImageCarousel: React.FC = () => {
     },
   };
 
-  const [arr, setArr] = useState<number>(0);
+  const [index, setIndex] = useState<number>(0);
 
   return (
     <>
@@ -47,13 +52,15 @@ const ImageCarousel: React.FC = () => {
           renderButtonGroupOutside={true}
           customButtonGroup={<ButtonGroup />}
         >
-          {new Array(3).fill(0).map((_, index) => (
+          {productData?.images.map((image, index) => (
             <div key={index} className="h-52 relative">
               <Image
                 priority
                 fill
-                src={'/images/background/Weiheng Tianwu AIO-Mobile.png'}
-                alt="product image"
+                src={image?.url!}
+                alt={
+                  image?.alternativeText || image?.name || 'image of product'
+                }
                 className="object-contain object-center"
               />
             </div>
@@ -70,8 +77,12 @@ const ImageCarousel: React.FC = () => {
             <Image
               priority
               fill
-              src={'/images/background/Weiheng Tianwu AIO-Mobile.png'}
-              alt="product image"
+              src={productData?.images[index]?.url!}
+              alt={
+                productData?.images[index]?.alternativeText ||
+                productData?.images[index]?.name ||
+                'image of product'
+              }
               className="object-contain object-center"
             />
           </div>
@@ -84,17 +95,21 @@ const ImageCarousel: React.FC = () => {
               customButtonGroup={<RightButton />}
               className="overflow-hidden"
             >
-              {new Array(24).fill(0).map((_, i) => (
+              {productData?.images?.map((image, i) => (
                 <div
                   key={i}
-                  className={`relative h-20 mr-2  rounded-xl ${arr === i && 'border border-black'}`}
-                  onClick={() => setArr(i)}
+                  className={`relative h-20 mr-2  rounded-xl ${index === i && 'border border-black'}`}
+                  onClick={() => setIndex(i)}
                 >
                   <Image
                     priority
                     fill
-                    src={'/images/background/Weiheng Tianwu AIO-Mobile.png'}
-                    alt="product image"
+                    src={image?.url!}
+                    alt={
+                      image?.alternativeText ||
+                      image?.name ||
+                      'image of product'
+                    }
                     className="object-contain p-1 rounded-xl"
                   />
                 </div>

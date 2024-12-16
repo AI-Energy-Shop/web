@@ -32,7 +32,7 @@ export const products = async () => {
   }
 };
 
-export const getProduct = async (id: string) => {
+export const product = async (id: string) => {
   const cookieStore = cookies();
   const token = cookieStore.get('a-token');
 

@@ -15,7 +15,6 @@ const schema = {
             documentId
             level
             user_type
-            odoo_user_id
             first_name
             middle_name
             last_name
@@ -38,12 +37,12 @@ const schema = {
             documentId
             level
             user_type
-            odoo_user_id
             first_name
             middle_name
             last_name
             business_name
             position
+            odoo_user_id
           }
         }
       }

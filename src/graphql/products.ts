@@ -3,13 +3,41 @@ import { graphql } from '@/lib/gql';
 const schema = {
   Query: {
     products: graphql(`
-      query GetProducts {
-        getProducts {
+      query Products {
+        products {
+          name
+          description
+          category
+          vendor
+          documentId
+          odoo_product_id
+          price_list {
+            id
+            price
+            min_quantity
+            max_quantity
+            user_level
+          }
+          inventory {
+            id
+            location
+            quantity
+          }
+        }
+      }
+    `),
+    product: graphql(`
+      query Product($documentId: ID!) {
+        product(documentId: $documentId) {
           documentId
           name
           description
           category
           vendor
+          createdAt
+          updatedAt
+          publishedAt
+          locale
           odoo_product_id
           price_list {
             id
@@ -24,74 +52,23 @@ const schema = {
             location
             quantity
           }
+          images {
+            documentId
+            name
+            alternativeText
+            caption
+            url
+          }
           specification {
-            id
             key
             value
+            id
           }
           files {
             documentId
-            mime
             name
             url
-            alternativeText
           }
-          images {
-            documentId
-            mime
-            name
-            url
-            alternativeText
-          }
-          createdAt
-          updatedAt
-          publishedAt
-        }
-      }
-    `),
-    product: graphql(`
-      query GetProduct($documentId: ID!) {
-        getProduct(documentId: $documentId) {
-          documentId
-          name
-          description
-          vendor
-          category
-          odoo_product_id
-          price_list {
-            id
-            price
-            min_quantity
-            max_quantity
-            user_level
-          }
-          inventory {
-            id
-            location
-            quantity
-          }
-          specification {
-            id
-            key
-            value
-          }
-          files {
-            documentId
-            mime
-            name
-            url
-            alternativeText
-          }
-          images {
-            documentId
-            mime
-            name
-            url
-            alternativeText
-          }
-          createdAt
-          updatedAt
-          publishedAt
         }
       }
     `),
