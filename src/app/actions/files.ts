@@ -19,7 +19,6 @@ export const filesUpload = async (formData: FormData) => {
 
     const data = await res.json();
 
-    
     return data;
   } catch (error: any) {
     console.error('Error in filesUpload:', error.message);

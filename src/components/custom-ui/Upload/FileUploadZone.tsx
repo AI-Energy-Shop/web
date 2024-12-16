@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import React, { useCallback, useRef } from 'react';
 import { Upload } from 'lucide-react';
 import { FileType, FileUploadZoneProps } from './types';
@@ -52,7 +52,6 @@ export function FileUploadZone({
     [onFiles]
   );
 
-
   const handleFormSubmit = async (form: React.FormEvent<HTMLFormElement>) => {
     form.preventDefault(); // Prevent the default form submission
 
@@ -63,16 +62,15 @@ export function FileUploadZone({
     const formData = new FormData(formElement);
 
     try {
-      const fileUploadRes = await filesUpload(formData)
-      if(fileUploadRes){
+      const fileUploadRes = await filesUpload(formData);
+      if (fileUploadRes) {
         onFiles(fileUploadRes);
-        Toast("File uploaded successfully", "SUCCESS")
+        Toast('File uploaded successfully', 'SUCCESS');
       }
     } catch (error) {
-      Toast("Something went wrong. Please try again later.", "ERROR")
+      Toast('Something went wrong. Please try again later.', 'ERROR');
     }
-
-  }
+  };
 
   return (
     <>
