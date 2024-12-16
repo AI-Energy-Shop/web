@@ -1,96 +1,21 @@
 'use server';
+import PRODUCT_OPERATIONS from '@/graphql/products';
 import { getClient } from '@/apollo/client';
-import { PRODUCT_OPERATIONS } from '@/graphql';
+import { FetchResult } from '@apollo/client';
 import { cookies } from 'next/headers';
+import {
+  CreateProductMutation,
+  CustomProductUpdateMutationVariables,
+  CreateProductMutationVariables,
+} from '@/lib/gql/graphql';
 
 const client = getClient();
 
-const addProductPrice = async (pricesList: any[]) => {
-  const cookieStore = cookies();
-  const token = cookieStore.get('a-token');
-
-  try {
-    const { errors, data } = await client.mutate({
-      mutation: PRODUCT_OPERATIONS.Mutation.createProductPriceList,
-      variables: {
-        data: {
-          prices: pricesList,
-        },
-      },
-      context: {
-        headers: {
-          Authorization: `Bearer ${token?.value}`,
-        },
-      },
-    });
-
-    return {
-      data,
-      errors,
-    };
-  } catch (error: any) {
-    console.log('Error adding product price:', error.message);
-
-    return {
-      errors: error.message,
-    };
-  }
-};
-
-const updateProductPrice = async ({
-  documentId,
-  prices,
-}: {
-  documentId: string;
-  prices: any[];
-}) => {
-  const cookieStore = cookies();
-  const token = cookieStore.get('a-token');
-
-  try {
-    const { errors, data } = await client.mutate({
-      mutation: PRODUCT_OPERATIONS.Mutation.updateProductPriceList,
-      variables: {
-        documentId: documentId,
-        data: {
-          prices: prices.map((price: any) => {
-            if (price.__typename) {
-              delete price.__typename;
-            }
-
-            return price;
-          }),
-        },
-      },
-      context: {
-        headers: {
-          Authorization: `Bearer ${token?.value}`,
-        },
-      },
-    });
-
-    return {
-      data,
-      errors,
-    };
-  } catch (error: any) {
-    console.log('Error updating product price:', error.message);
-
-    return {
-      errors: error.message,
-    };
-  }
-};
-
-export const products = async (): Promise<{
-  loading?: boolean;
-  data?: { products?: any[] };
-  error?: unknown;
-}> => {
+export const products = async () => {
   const cookieStore = cookies();
   const token = cookieStore.get('a-token');
   try {
-    const { data, loading, error } = await client.query({
+    const res = await client.query({
       query: PRODUCT_OPERATIONS.Query.products,
       fetchPolicy: 'no-cache',
       context: {
@@ -100,17 +25,10 @@ export const products = async (): Promise<{
       },
     });
 
-    return {
-      loading,
-      data,
-      error,
-    };
+    return res;
   } catch (error: any) {
     console.log("ERROR fetching product's:", error.message);
-    return {
-      error: error.message,
-      loading: false,
-    };
+    return error;
   }
 };
 
@@ -119,7 +37,7 @@ export const product = async (id: string) => {
   const token = cookieStore.get('a-token');
 
   try {
-    const { data, loading, error } = await client.query({
+    const res = await client.query({
       query: PRODUCT_OPERATIONS.Query.product,
       fetchPolicy: 'no-cache',
       context: {
@@ -132,53 +50,23 @@ export const product = async (id: string) => {
       },
     });
 
-    return {
-      loading,
-      data,
-      error,
-    };
+    return res;
   } catch (error: any) {
     console.log('ERROR fetching product:', error.message);
-    return {
-      error: error.message,
-      loading: false,
-    };
+    return error;
   }
 };
 
 export const createProduct = async (
-  product: any
-): Promise<{ data?: any; errors?: any }> => {
+  variables: CreateProductMutationVariables
+): Promise<FetchResult<CreateProductMutation>> => {
   const cookieStore = cookies();
   const token = cookieStore.get('a-token');
 
   try {
-    const {
-      errors: createProductPriceListError,
-      data: createProductPriceListData,
-    } = await addProductPrice(product.price_list.prices);
-
-    if (createProductPriceListError) {
-      console.log(createProductPriceListError);
-      return {
-        errors: createProductPriceListError,
-      };
-    }
-
-    const newProduct = {
-      name: product.name,
-      description: product.description,
-      category: product.category,
-      vendor: product.vendor,
-      item_code: product.item_code,
-      price_list: createProductPriceListData.createPriceList.documentId,
-    };
-
-    const { errors, data } = await client.mutate({
+    const res = await client.mutate({
       mutation: PRODUCT_OPERATIONS.Mutation.createProduct,
-      variables: {
-        data: newProduct,
-      },
+      variables: variables,
       context: {
         headers: {
           Authorization: `Bearer ${token?.value}`,
@@ -186,49 +74,25 @@ export const createProduct = async (
       },
     });
 
-    return {
-      data,
-      errors,
-    };
+    if (res.data === null) {
+      throw new Error('Failed to create product');
+    }
+
+    return res;
   } catch (error: any) {
-    return {
-      errors: error.message,
-    };
+    throw error;
   }
 };
 
 export const updateProduct = async (
-  product: any
-): Promise<{ data?: any; errors?: any }> => {
+  variables: CustomProductUpdateMutationVariables
+) => {
   const cookieStore = cookies();
   const token = cookieStore.get('a-token');
-
   try {
-    const { errors: updateProductPriceErr, data: updateProductPriceData } =
-      await updateProductPrice(product.price_list);
-
-    if (updateProductPriceErr) {
-      console.log(updateProductPriceErr);
-      return {
-        errors: updateProductPriceErr,
-      };
-    }
-
-    const updatedProduct = {
-      name: product.name,
-      description: product.description,
-      category: product.category,
-      vendor: product.vendor,
-      item_code: product.item_code,
-      price_list: updateProductPriceData.updatePriceList.documentId,
-    };
-
-    const { errors, data } = await client.mutate({
+    const res = await client.mutate({
       mutation: PRODUCT_OPERATIONS.Mutation.updateProduct,
-      variables: {
-        documentId: product.documentId,
-        data: updatedProduct,
-      },
+      variables: variables,
       context: {
         headers: {
           Authorization: `Bearer ${token?.value}`,
@@ -236,13 +100,13 @@ export const updateProduct = async (
       },
     });
 
-    return {
-      data,
-      errors,
-    };
+    if (res?.errors) {
+      return res;
+    }
+
+    return res;
   } catch (error: any) {
-    return {
-      errors: error.message,
-    };
+    console.log('ERROR updating product:', error.message);
+    return error;
   }
 };

@@ -1,6 +1,5 @@
 import './globals.css';
 import React from 'react';
-import Components from '@/components';
 import { ApolloWrapper } from '@/apollo/provider';
 import { firaSansFont } from '@/assets/fonts/fonts';
 import { Toaster } from '@/components/ui/sonner';
@@ -25,11 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={firaSansFont.className}>
       <body>
-        <ApolloWrapper>
-          <Components.NavigationProvider>
-            <div className="h-[calc(100vh - 6rem)]">{children}</div>
-          </Components.NavigationProvider>
-        </ApolloWrapper>
+        <ApolloWrapper>{children}</ApolloWrapper>
         <Toaster />
       </body>
     </html>

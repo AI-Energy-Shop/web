@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import NotFoundImage from '../../public/images/not-found.jpg';
 
 export default function NotFound() {
   return (
@@ -25,7 +24,7 @@ export default function NotFound() {
           </div>
           <div className="md:w-1/2 lg:w-3/5 flex justify-center items-center">
             <Image
-              src={NotFoundImage}
+              src="/images/not-found.jpg"
               alt="404 Illustration"
               width={500}
               height={500}

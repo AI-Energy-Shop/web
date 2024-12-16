@@ -6,41 +6,17 @@ const nextConfig = {
     BASE_URL_HOST: process.env.BASE_URL_HOST,
   },
   images: {
-    // formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
-        hostname: 'images.unsplash.com',
-      },
-      {
-        hostname: 'aienergyshop-strapi-uploads.syd1.digitaloceanspaces.com',
-      },
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '1337',
-        pathname: '/uploads/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'hammerhead-app-aauqg.ondigitalocean.app',
+        protocol: process.env.DO_SPACES_PROTOCOL,
+        hostname: process.env.DO_SPACES_HOST,
+        pathname: process.env.DO_SPACES_PATH,
         port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'aienergyshop-strapi-uploads.syd1.cdn.digitaloceanspaces.com',
-        port: '',
-        pathname: '/**',
       },
     ],
   },
   transpilePackages: ['lucide-react'], // add this
   reactStrictMode: true,
-  // swcMinify: true,
-  // compiler: {
-  //   // Enables the styled-components SWC transform
-  //   styledComponents: true, //removes warning from styled-components
-  // },
 };
 
 export default nextConfig;

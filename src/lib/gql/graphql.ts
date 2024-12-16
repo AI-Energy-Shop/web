@@ -49,6 +49,7 @@ export type AccountDetailFiltersInput = {
   middle_name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<AccountDetailFiltersInput>;
   odoo_user_id?: InputMaybe<StringFilterInput>;
+  odoo_user_id?: InputMaybe<StringFilterInput>;
   or?: InputMaybe<Array<InputMaybe<AccountDetailFiltersInput>>>;
   position?: InputMaybe<StringFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
@@ -63,6 +64,7 @@ export type AccountDetailInput = {
   level?: InputMaybe<Enum_Accountdetail_Level>;
   locale?: InputMaybe<Scalars['String']['input']>;
   middle_name?: InputMaybe<Scalars['String']['input']>;
+  odoo_user_id?: InputMaybe<Scalars['String']['input']>;
   odoo_user_id?: InputMaybe<Scalars['String']['input']>;
   position?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -92,6 +94,47 @@ export type BooleanFilterInput = {
   null?: InputMaybe<Scalars['Boolean']['input']>;
   or?: InputMaybe<Array<InputMaybe<Scalars['Boolean']['input']>>>;
   startsWith?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type CartFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<CartFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  discount_amount?: InputMaybe<FloatFilterInput>;
+  discount_code?: InputMaybe<StringFilterInput>;
+  documentId?: InputMaybe<IdFilterInput>;
+  line_price?: InputMaybe<StringFilterInput>;
+  locale?: InputMaybe<StringFilterInput>;
+  localizations?: InputMaybe<CartFiltersInput>;
+  not?: InputMaybe<CartFiltersInput>;
+  note?: InputMaybe<StringFilterInput>;
+  or?: InputMaybe<Array<InputMaybe<CartFiltersInput>>>;
+  price?: InputMaybe<StringFilterInput>;
+  product_id?: InputMaybe<StringFilterInput>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  quantity?: InputMaybe<LongFilterInput>;
+  reference_id?: InputMaybe<StringFilterInput>;
+  subtotal_price?: InputMaybe<FloatFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
+  total_price?: InputMaybe<FloatFilterInput>;
+  total_tax?: InputMaybe<FloatFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type CartInput = {
+  discount_amount?: InputMaybe<Scalars['Float']['input']>;
+  discount_code?: InputMaybe<Scalars['String']['input']>;
+  line_price?: InputMaybe<Scalars['String']['input']>;
+  locale?: InputMaybe<Scalars['String']['input']>;
+  note?: InputMaybe<Scalars['String']['input']>;
+  price?: InputMaybe<Scalars['String']['input']>;
+  product_id?: InputMaybe<Scalars['String']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  quantity?: InputMaybe<Scalars['Long']['input']>;
+  reference_id?: InputMaybe<Scalars['String']['input']>;
+  subtotal_price?: InputMaybe<Scalars['Float']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  total_price?: InputMaybe<Scalars['Float']['input']>;
+  total_tax?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type CartFiltersInput = {
@@ -295,6 +338,11 @@ export type FilesFiltersArgs = {
   name?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type FilesFiltersArgs = {
+  mimeTypes?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type FloatFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
   between?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
@@ -434,6 +482,31 @@ export type LongFilterInput = {
   startsWith?: InputMaybe<Scalars['Long']['input']>;
 };
 
+export type LongFilterInput = {
+  and?: InputMaybe<Array<InputMaybe<Scalars['Long']['input']>>>;
+  between?: InputMaybe<Array<InputMaybe<Scalars['Long']['input']>>>;
+  contains?: InputMaybe<Scalars['Long']['input']>;
+  containsi?: InputMaybe<Scalars['Long']['input']>;
+  endsWith?: InputMaybe<Scalars['Long']['input']>;
+  eq?: InputMaybe<Scalars['Long']['input']>;
+  eqi?: InputMaybe<Scalars['Long']['input']>;
+  gt?: InputMaybe<Scalars['Long']['input']>;
+  gte?: InputMaybe<Scalars['Long']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['Long']['input']>>>;
+  lt?: InputMaybe<Scalars['Long']['input']>;
+  lte?: InputMaybe<Scalars['Long']['input']>;
+  ne?: InputMaybe<Scalars['Long']['input']>;
+  nei?: InputMaybe<Scalars['Long']['input']>;
+  not?: InputMaybe<LongFilterInput>;
+  notContains?: InputMaybe<Scalars['Long']['input']>;
+  notContainsi?: InputMaybe<Scalars['Long']['input']>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['Long']['input']>>>;
+  notNull?: InputMaybe<Scalars['Boolean']['input']>;
+  null?: InputMaybe<Scalars['Boolean']['input']>;
+  or?: InputMaybe<Array<InputMaybe<Scalars['Long']['input']>>>;
+  startsWith?: InputMaybe<Scalars['Long']['input']>;
+};
+
 export type PageFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<PageFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -472,14 +545,18 @@ export type ProductFiltersInput = {
   description?: InputMaybe<StringFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
   inventory?: InputMaybe<ComponentElementsInventoryFiltersInput>;
+  inventory?: InputMaybe<ComponentElementsInventoryFiltersInput>;
   locale?: InputMaybe<StringFilterInput>;
   localizations?: InputMaybe<ProductFiltersInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<ProductFiltersInput>;
   odoo_product_id?: InputMaybe<StringFilterInput>;
+  odoo_product_id?: InputMaybe<StringFilterInput>;
   or?: InputMaybe<Array<InputMaybe<ProductFiltersInput>>>;
   price_list?: InputMaybe<ComponentElementsPriceFiltersInput>;
+  price_list?: InputMaybe<ComponentElementsPriceFiltersInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  specification?: InputMaybe<ComponentElementsSpecificationFiltersInput>;
   specification?: InputMaybe<ComponentElementsSpecificationFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   vendor?: InputMaybe<StringFilterInput>;
@@ -491,8 +568,13 @@ export type ProductInput = {
   files?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   images?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   inventory?: InputMaybe<Array<InputMaybe<ComponentElementsInventoryInput>>>;
+  files?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  images?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  inventory?: InputMaybe<Array<InputMaybe<ComponentElementsInventoryInput>>>;
   locale?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  odoo_product_id?: InputMaybe<Scalars['String']['input']>;
+  price_list?: InputMaybe<Array<InputMaybe<ComponentElementsPriceInput>>>;
   odoo_product_id?: InputMaybe<Scalars['String']['input']>;
   price_list?: InputMaybe<Array<InputMaybe<ComponentElementsPriceInput>>>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -767,6 +849,32 @@ export type UsersPermissionsUserInput = {
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type FilesQueryVariables = Exact<{
+  filters?: InputMaybe<FilesFiltersArgs>;
+}>;
+
+export type FilesQuery = {
+  __typename?: 'Query';
+  files: Array<{
+    __typename?: 'UploadFile';
+    documentId: string;
+    name: string;
+    alternativeText?: string | null;
+    caption?: string | null;
+    width?: number | null;
+    height?: number | null;
+    formats?: any | null;
+    hash: string;
+    ext?: string | null;
+    mime: string;
+    size: number;
+    url: string;
+    previewUrl?: string | null;
+    provider: string;
+    provider_metadata?: any | null;
+  } | null>;
+};
+
 export type PagesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type PagesQuery = {
@@ -924,7 +1032,7 @@ export type ProductsQuery = {
   } | null>;
 };
 
-export type ProductQueryVariables = Exact<{
+export type GetProductQueryVariables = Exact<{
   documentId: Scalars['ID']['input'];
 }>;
 
@@ -990,7 +1098,7 @@ export type CreateProductMutation = {
   } | null;
 };
 
-export type UpdateProductMutationVariables = Exact<{
+export type CustomProductUpdateMutationVariables = Exact<{
   documentId: Scalars['ID']['input'];
   data: ProductInput;
 }>;

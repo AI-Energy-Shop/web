@@ -1,34 +1,15 @@
 import { graphql } from '@/lib/gql';
 
-export const PRODUCT_OPERATIONS = {
+const schema = {
   Query: {
     products: graphql(`
-      query Products {
-        products {
+      query GetProducts {
+        getProducts {
           documentId
           name
           description
           category
           vendor
-          createdAt
-          updatedAt
-          publishedAt
-          locale
-        }
-      }
-    `),
-    product: graphql(`
-      query Product($documentId: ID!) {
-        product(documentId: $documentId) {
-          documentId
-          name
-          description
-          category
-          vendor
-          createdAt
-          updatedAt
-          publishedAt
-          locale
           odoo_product_id
           price_list {
             id
@@ -43,18 +24,74 @@ export const PRODUCT_OPERATIONS = {
             location
             quantity
           }
-          images {
-            documentId
-            name
-            alternativeText
-            caption
-            url
-          }
           specification {
+            id
             key
             value
-            id
           }
+          files {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
+          images {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
+    product: graphql(`
+      query GetProduct($documentId: ID!) {
+        getProduct(documentId: $documentId) {
+          documentId
+          name
+          description
+          vendor
+          category
+          odoo_product_id
+          price_list {
+            id
+            price
+            min_quantity
+            max_quantity
+            user_level
+          }
+          inventory {
+            id
+            location
+            quantity
+          }
+          specification {
+            id
+            key
+            value
+          }
+          files {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
+          images {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
+          createdAt
+          updatedAt
+          publishedAt
         }
       }
     `),
@@ -68,35 +105,92 @@ export const PRODUCT_OPERATIONS = {
           description
           category
           vendor
+          odoo_product_id
+          inventory {
+            id
+            location
+            quantity
+          }
+          price_list {
+            id
+            price
+            min_quantity
+            max_quantity
+            user_level
+          }
+          files {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
+          images {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
+          specification {
+            id
+            key
+            value
+          }
+          createdAt
+          updatedAt
+          publishedAt
         }
       }
     `),
     updateProduct: graphql(`
-      mutation UpdateProduct($documentId: ID!, $data: ProductInput!) {
-        updateProduct(documentId: $documentId, data: $data) {
+      mutation CustomProductUpdate($documentId: ID!, $data: ProductInput!) {
+        customProductUpdate(documentId: $documentId, data: $data) {
           documentId
           name
           description
           category
           vendor
+          odoo_product_id
+          price_list {
+            id
+            price
+            sale_price
+            min_quantity
+            max_quantity
+            user_level
+          }
+          inventory {
+            id
+            location
+            quantity
+          }
+          specification {
+            id
+            key
+            value
+          }
+          files {
+            documentId
+            name
+            url
+            mime
+            ext
+          }
+          images {
+            documentId
+            name
+            url
+            mime
+            ext
+          }
           createdAt
           updatedAt
+          publishedAt
         }
       }
     `),
-    // createProductPriceList: graphql(`
-    //   mutation CreatePriceList($data: ProductInput!) {
-    //     createPriceList(data: $data) {
-    //       documentId
-    //     }
-    //   }
-    // `),
-    // updateProductPriceList: graphql(`
-    //   mutation UpdatePriceList($data: ProductInput!, $documentId: ID!) {
-    //     updatePriceList(data: $data, documentId: $documentId) {
-    //       documentId
-    //     }
-    //   }
-    // `),
   },
 };
+
+export default schema;

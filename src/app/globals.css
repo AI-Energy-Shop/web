@@ -116,6 +116,15 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
   .dark {
     --background: 224 71.4% 4.1%;
     --foreground: 210 20% 98%;
@@ -143,36 +152,16 @@
     --chart-5: 340 75% 55%;
   }
 }
+
 @layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-
-  :root {
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-  }
-
-  .dark {
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-  }
 }
-.prose ul {
+
+/* .prose ul {
   list-style-type: disc;
-  padding-left: 1.5rem; /* Adjust as needed */
-}
+  padding-left: 1.5rem;
+} */
 
-.about-us-background {
+/* .about-us-background {
   background-position-x: 35%;
   background-position-y: 70%;
   background-size: 200%;
@@ -185,12 +174,46 @@
 
 .ae-non-mobile-container {
   @apply md:w-[90vw] md:mx-auto max-w-[1200px];
-}
+} */
 
 @media (min-width: 640px) {
   .about-us-background {
     background-size: 100%;
     background-position-x: 35%;
     background-position-y: 70%;
+  }
+}
+
+@layer base {
+  ol {
+    @apply pl-4 list-[decimal];
+  }
+
+  ul {
+    @apply pl-4 list-[unset];
+  }
+
+  h1 {
+    @apply text-2xl font-bold;
+  }
+
+  h2 {
+    @apply text-xl font-bold;
+  }
+
+  h3 {
+    @apply text-lg font-bold;
+  }
+
+  h4 {
+    @apply text-base font-bold;
+  }
+
+  h5 {
+    @apply text-sm font-bold;
+  }
+
+  h6 {
+    @apply text-xs font-bold;
   }
 }

@@ -9,8 +9,8 @@ import { usePathname } from 'next/navigation';
 const SideNavigation = () => {
   const pathname = usePathname();
   return (
-    <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
-      <div className="flex-1">
+    <aside className="h-full w-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+      <div className="h-full w-full">
         <div className="p-4">
           <h2 className="text-xl font-bold text-gray-800 dark:text-white">
             AI ENERGY SHOP

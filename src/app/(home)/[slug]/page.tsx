@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { getPage } from '@/app/actions';
 import Components from '@/components';
 import React from 'react';
