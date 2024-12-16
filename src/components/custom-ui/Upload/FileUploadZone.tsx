@@ -1,8 +1,11 @@
-import React, { useCallback } from 'react';
+"use client"
+import React, { useCallback, useRef } from 'react';
 import { Upload } from 'lucide-react';
-import { FileUploadZoneProps } from './types';
+import { FileType, FileUploadZoneProps } from './types';
 import { filesUpload } from '@/app/actions/files';
 import { Button } from '@/components/ui/button';
+import { on } from 'events';
+import { Toast } from '@/lib/toast';
 
 export function FileUploadZone({
   onFiles,
@@ -14,6 +17,8 @@ export function FileUploadZone({
   uploadNewFileLabel = 'Upload new file',
   onUseExistingFile,
 }: FileUploadZoneProps) {
+  const formRef = useRef<HTMLFormElement>(null);
+
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -27,37 +32,56 @@ export function FileUploadZone({
       const remainingSlots = maxFiles - currentFiles;
       if (remainingSlots <= 0) return;
 
-      const droppedFiles = e.dataTransfer.files;
+      const droppedFiles = e.dataTransfer.files as unknown as FileType[];
       onFiles(droppedFiles);
+
+      // Trigger form submission automatically
+      formRef.current?.requestSubmit();
     },
     [maxFiles, currentFiles, onFiles]
   );
 
   const handleFileInput = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const files = e.target.files;
+      // Trigger form submission automatically
+      formRef.current?.requestSubmit();
 
-      const formData = new FormData();
-
-      if (files == null) return;
-      formData.append('files', files[0]);
-      const uploadRes = await filesUpload(formData);
-
-      onFiles(files);
-      e.target.value = ''; // Reset input
+      // Reset input
+      e.target.value = '';
     },
     [onFiles]
   );
 
-  const remainingSlots = maxFiles - currentFiles;
-  const isDisabled = remainingSlots <= 0;
+
+  const handleFormSubmit = async (form: React.FormEvent<HTMLFormElement>) => {
+    form.preventDefault(); // Prevent the default form submission
+
+    // Get the form element
+    const formElement = form.target as HTMLFormElement;
+
+    // Create a FormData object from the form
+    const formData = new FormData(formElement);
+
+    try {
+      const fileUploadRes = await filesUpload(formData)
+      if(fileUploadRes){
+        onFiles(fileUploadRes);
+        Toast("File uploaded successfully", "SUCCESS")
+      }
+    } catch (error) {
+      Toast("Something went wrong. Please try again later.", "ERROR")
+    }
+
+  }
 
   return (
     <>
-      <div
+      <form
+        ref={formRef}
         onDragOver={handleDragOver}
-        onDrop={!isDisabled ? handleDrop : undefined}
-        className={`border-2 border-dashed rounded-lg p-2 text-center ${isDisabled ? 'border-gray-300 bg-gray-50' : 'border-blue-300 hover:border-blue-400 bg-blue-50'}`}
+        onDrop={handleDrop}
+        onSubmit={handleFormSubmit}
+        className={`border-2 border-dashed rounded-lg p-2 text-center border-blue-300 hover:border-blue-400 bg-blue-50`}
       >
         <div className="flex flex-col items-center justify-center space-y-4">
           <div className="p-1 bg-blue-100 rounded-full">
@@ -67,35 +91,23 @@ export function FileUploadZone({
           <div className="space-y-2">
             <div className="flex items-center justify-center gap-5">
               <p className="text-sm font-medium text-gray-700 flex items-center justify-center">
-                {isDisabled ? (
-                  'Maximum files reached'
-                ) : (
-                  <>
-                    <label
-                      htmlFor="fileInput"
-                      className="text-black cursor-pointer text-xs border-b border-primary "
-                    >
-                      {uploadNewFileLabel}
-                    </label>
-                  </>
-                )}
+                <label
+                  htmlFor="fileInput"
+                  className="text-black cursor-pointer text-xs border-b border-primary "
+                >
+                  {uploadNewFileLabel}
+                </label>
               </p>
               {displayUseExistingFile && (
                 <p className="text-sm font-medium text-gray-700 ">
-                  {isDisabled ? (
-                    'Maximum files reached'
-                  ) : (
-                    <>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="text-black cursor-pointer text-xs"
-                        onClick={onUseExistingFile}
-                      >
-                        {useExistingButtonLabel}
-                      </Button>
-                    </>
-                  )}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-black cursor-pointer text-xs"
+                    onClick={onUseExistingFile}
+                  >
+                    {useExistingButtonLabel}
+                  </Button>
                 </p>
               )}
             </div>
@@ -105,12 +117,6 @@ export function FileUploadZone({
                 ? ' PDF '
                 : 'Supported files'} up to 10MB
             </p>
-            {!isDisabled && (
-              <p className="text-xs text-gray-500">
-                {remainingSlots} {remainingSlots === 1 ? 'slot' : 'slots'}{' '}
-                remaining
-              </p>
-            )}
           </div>
         </div>
 
@@ -121,11 +127,10 @@ export function FileUploadZone({
           className="hidden"
           onChange={handleFileInput}
           accept={accept}
-          multiple={remainingSlots > 1}
-          disabled={isDisabled}
+          multiple
         />
         <button type="submit" className="hidden" id="uploadSubmit" />
-      </div>
+      </form>
     </>
   );
 }

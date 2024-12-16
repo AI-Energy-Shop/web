@@ -21,6 +21,8 @@ const FilePreview: FC<FilePreviewProps> = ({ file, onRemove }) => {
             src={file.url}
             alt="Preview"
             className="w-full h-full object-cover"
+            width={100}
+            height={100}
           />
         )}
       </div>

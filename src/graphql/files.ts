@@ -1,6 +1,6 @@
 import { graphql } from '@/lib/gql';
 
-export const FILES_OPERATIONS = {
+export const schema = {
   Query: {
     files: graphql(`
       query Files($filters: FilesFiltersArgs) {
@@ -26,3 +26,5 @@ export const FILES_OPERATIONS = {
   },
   Mutation: {},
 };
+
+export default schema;

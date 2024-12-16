@@ -26,9 +26,14 @@ const FileUpload: React.FC<FileUploadProps> = ({
   };
 
   const handleSelectFiles = (files: FileType[]) => {
+    console.log(files);
     onSelectedFiles(files);
     setShowFilesModal(!showFilesModal);
   };
+
+  const handleFileUploadOutsideModal = (files: FileType[]) => {
+    onSelectedFiles(files);
+  }
 
   return (
     <div className="w-full h-auto mx-auto">
@@ -41,7 +46,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       )}
       {data.length === 0 && (
         <FileUploadZone
-          onFiles={() => {}}
+          onFiles={handleFileUploadOutsideModal}
           accept={accept}
           maxFiles={maxFiles}
           currentFiles={data.length}

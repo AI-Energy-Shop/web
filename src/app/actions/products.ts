@@ -1,14 +1,13 @@
 'use server';
-import { getClient } from '@/apollo/client';
 import PRODUCT_OPERATIONS from '@/graphql/products';
+import { getClient } from '@/apollo/client';
+import { FetchResult } from '@apollo/client';
+import { cookies } from 'next/headers';
 import {
   CreateProductMutation,
   CustomProductUpdateMutationVariables,
-  CustomProductUpdateMutation,
   CreateProductMutationVariables,
 } from '@/lib/gql/graphql';
-import { ApolloQueryResult, FetchResult } from '@apollo/client';
-import { cookies } from 'next/headers';
 
 const client = getClient();
 
@@ -25,8 +24,6 @@ export const products = async () => {
         },
       },
     });
-
-    console.log(res);
 
     return res;
   } catch (error: any) {
