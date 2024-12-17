@@ -20,14 +20,36 @@ import {
 import { ProductQuery } from '@/lib/gql/graphql';
 import { useState } from 'react';
 import { Input } from '../ui/input';
+import { formatPriceWithCommas } from '@/utils/formatPriceWithCommas';
+import { getCents } from '@/utils/getCents';
 
 interface ProductPriceProps {
   productData: ProductQuery['product'];
 }
 
 function ProductPrice({ productData }: ProductPriceProps) {
-  const [pickLocation, setPickLocation] = useState<string>(
-    productData!.inventory![0]!.id!
+  const [pickLocation, setPickLocation] = useState<string | undefined>(
+    productData?.inventory?.[0]?.id
+  );
+
+  const productPrice = productData?.price_list?.find(
+    (price) => price?.min_quantity === null && price?.max_quantity === null
+  );
+
+  const salePrice = productPrice?.sale_price
+    ? `$${formatPriceWithCommas(productPrice?.price!)}.${getCents(productPrice?.price!)}`
+    : '';
+
+  const currentPriceWholeNumber = productPrice?.sale_price
+    ? formatPriceWithCommas(productPrice?.sale_price)
+    : formatPriceWithCommas(productPrice?.price!);
+
+  const currentPriceCent = productPrice?.sale_price
+    ? getCents(productPrice?.sale_price!)
+    : getCents(productPrice?.sale_price!);
+
+  const bulkPricing = productData?.price_list?.filter(
+    (price) => price?.min_quantity !== null || price?.max_quantity !== null
   );
 
   const [qty, setQty] = useState<number>(0);
@@ -41,11 +63,11 @@ function ProductPrice({ productData }: ProductPriceProps) {
         <div className="flex justify-between">
           <div className="leading-6">
             <h2 className="text-gray-500 line-through font-light md:text-[28px]">
-              $1100.20
+              {salePrice}
             </h2>
             <h1 className="font-medium md:mt-1">
-              <span className=" text-[40px]">$1,000</span>
-              <span className="text-[28px]">.20</span>
+              <span className=" text-[40px]">${currentPriceWholeNumber}</span>
+              <span className="text-[28px]">.{currentPriceCent}</span>
               <span className="max-md:text-[12px] max-md:block">ex.GST</span>
             </h1>
           </div>
@@ -68,7 +90,7 @@ function ProductPrice({ productData }: ProductPriceProps) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {productData?.price_list?.map((data) => (
+                {bulkPricing?.map((data) => (
                   <TableRow key={data?.id}>
                     <TableCell>{`${data?.min_quantity}-${data?.max_quantity}`}</TableCell>
                     <TableCell>{data?.price}</TableCell>

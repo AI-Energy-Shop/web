@@ -17,7 +17,7 @@ function ButtonGroup({ next, previous, goToSlide, ...rest }: ButtonGroupProps) {
         <Button
           size="icon"
           variant="ghost"
-          className="absolute right-[-60px] top-[-38px]"
+          className="absolute right-[-63px] top-[-38px]"
           onClick={() => next!()}
         >
           <ChevronRight />
