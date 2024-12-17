@@ -1,4 +1,4 @@
-export function getCents(amount: number): string {
+export function getCentsInAmount(amount: number): string {
   const decimalPart = amount % 1; // Get the decimal part of the number
   if (decimalPart !== 0) {
     // Extract cents, multiply by 100 to convert to whole cents
