@@ -7,6 +7,7 @@ import 'react-multi-carousel/lib/styles.css';
 import ButtonGroup from './ButtonGroup';
 import RightButton from './RightButton';
 import { ProductQuery } from '@/lib/gql/graphql';
+import CustomDot from './CustomDot';
 
 interface ImageCarouselProps {
   productData: ProductQuery['product'];
@@ -51,6 +52,8 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ productData }) => {
           renderDotsOutside={true}
           renderButtonGroupOutside={true}
           customButtonGroup={<ButtonGroup />}
+          customDot={<CustomDot />}
+          dotListClass="space-x-1 top-[213px]"
         >
           {productData?.images.map((image, index) => (
             <div key={index} className="h-52 relative">
