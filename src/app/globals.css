@@ -156,17 +156,17 @@
 @layer base {
 }
 
-/* .prose ul {
+.prose ul {
   list-style-type: disc;
   padding-left: 1.5rem;
-} */
+}
 
-/* .about-us-background {
+.about-us-background {
   background-position-x: 35%;
   background-position-y: 70%;
   background-size: 200%;
   background-repeat: no-repeat;
-} */
+}
 
 .ae-mobile-container {
   @apply max-md:w-[92vw] max-md:mx-auto;

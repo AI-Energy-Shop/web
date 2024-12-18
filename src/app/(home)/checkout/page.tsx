@@ -44,7 +44,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogDescription,
 } from '@/components/ui/dialog';
 
 function CheckoutPage() {
@@ -67,7 +66,7 @@ function CheckoutPage() {
   return (
     <main className="bg-yellow-light-yellow pb-96">
       <header className="bg-white">
-        <section className="h-28 relative ae-mobile-container">
+        <section className="h-28 relative ae-mobile-container ae-non-mobile-container">
           <div className="absolute left-1/2 transform -translate-x-1/2 top-2">
             <Image
               width={40}
@@ -82,7 +81,7 @@ function CheckoutPage() {
           </div>
           <div className="text-[14px] absolute left-0 top-2 flex items-center gap-x-1 border border-black py-2 pr-2 rounded-lg">
             <ChevronLeft className="w-5 h-5" />
-            <div>
+            <div className="lg:flex lg:gap-x-1">
               <p>Continue</p>
               <p>Shopping</p>
             </div>
