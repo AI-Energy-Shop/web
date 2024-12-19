@@ -126,7 +126,7 @@ function CheckoutPage() {
                 {stepper > 1 && (
                   <div
                     onClick={() => setStepper(1)}
-                    className="absolute right-0 md:right-4 flex items-center gap-x-1 top-1/2 transform -translate-y-1/2"
+                    className="absolute cursor-pointer right-0 md:right-4 flex items-center gap-x-1 top-1/2 transform -translate-y-1/2"
                   >
                     <span className="font-thin underline">Edit</span>
                     <span>
@@ -323,10 +323,10 @@ function CheckoutPage() {
           </section>
 
           {/* Shipping */}
-          <section>
+          <section className="md:mb-4">
             <div className="bg-pink-darker-pink py-3">
-              <div className="ae-mobile-container px-2 text-white flex items-center gap-x-2 relative">
-                <h1 className="text-lg font-bold ">Shipping</h1>
+              <div className="ae-mobile-container px-2 md:px-12 text-white flex items-center gap-x-2 relative">
+                <h1 className="text-lg font-bold">Shipping</h1>
                 {stepper > 2 && (
                   <span className="bg-green-500 rounded-full p-0.5">
                     <Check className="w-4 h-4" />
@@ -335,7 +335,7 @@ function CheckoutPage() {
                 {stepper > 2 && (
                   <div
                     onClick={() => setStepper(2)}
-                    className="absolute right-0 flex items-center gap-x-1 top-1/2 transform -translate-y-1/2"
+                    className="absolute cursor-pointer right-0 md:right-4 flex items-center gap-x-1 top-1/2 transform -translate-y-1/2"
                   >
                     <span className="font-thin underline">Edit</span>
                     <span>
@@ -345,15 +345,13 @@ function CheckoutPage() {
                 )}
               </div>
             </div>
-            <div
-              className={`bg-white py-4 ${stepper < 2 ? 'hidden' : 'block'}`}
-            >
+            <div className={`bg-white ${stepper < 2 ? 'hidden' : 'block'}`}>
               {stepper === 2 ? (
-                <div className="ae-mobile-container space-y-4">
-                  <div className="flex px-4 gap-x-4">
+                <div className="ae-mobile-container pt-4 space-y-4">
+                  <div className="flex justify-center items-center px-4 gap-x-4">
                     <div
                       onClick={(e) => setIsShippingDelivery(true)}
-                      className={`basis-1/2 p-0.5 rounded-2xl ${isShippingDelivery ? 'gradient-effect' : 'bg-black opacity-50'}`}
+                      className={`basis-1/3 p-0.5 rounded-2xl cursor-pointer ${isShippingDelivery ? 'gradient-effect' : 'bg-black opacity-50'}`}
                     >
                       <div className="bg-white rounded-2xl text-center p-2">
                         <Truck className="w-10 h-10 mx-auto" strokeWidth={1} />
@@ -362,7 +360,7 @@ function CheckoutPage() {
                     </div>
                     <div
                       onClick={(e) => setIsShippingDelivery(false)}
-                      className={`basis-1/2  p-0.5 rounded-2xl ${isShippingDelivery ? 'bg-black opacity-50' : 'gradient-effect'}`}
+                      className={`basis-1/3 p-0.5 rounded-2xl cursor-pointer ${isShippingDelivery ? 'bg-black opacity-50' : 'gradient-effect'}`}
                     >
                       <div className="bg-white rounded-2xl text-center p-2">
                         <Warehouse
@@ -375,7 +373,7 @@ function CheckoutPage() {
                   </div>
                   {isShippingDelivery ? (
                     <>
-                      <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2">
+                      <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12">
                         <div className="flex items-center justify-between">
                           <h1 className="font-bold text-blue-navy-blue">
                             Ship To:
@@ -393,7 +391,7 @@ function CheckoutPage() {
                         </div>
                       </div>
 
-                      <div className="border border-blue-navy-blue rounded-xl p-2">
+                      <div className="border border-blue-navy-blue rounded-xl p-2 md:mx-12">
                         <h1 className="font-bold">Delivery Options:</h1>
 
                         <RadioGroup
@@ -468,14 +466,14 @@ function CheckoutPage() {
                         </RadioGroup>
                       </div>
 
-                      <div>
+                      <div className="md:px-12 pb-4">
                         <h1 className="font-bold">Delivery Notes</h1>
                         <Textarea />
                       </div>
                     </>
                   ) : (
                     <>
-                      <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2">
+                      <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12">
                         <div className="flex items-center justify-between">
                           <h1 className="font-bold text-blue-navy-blue">
                             Pick From:
@@ -538,7 +536,7 @@ function CheckoutPage() {
                         </div>
                       </div>
 
-                      <div className="border border-blue-navy-blue rounded-xl p-2">
+                      <div className="border border-blue-navy-blue rounded-xl p-2 md:mx-12">
                         <div>
                           <h1 className="font-bold">Delivery Options:</h1>
                           <Popover>
@@ -593,7 +591,7 @@ function CheckoutPage() {
                           ready for pick up.
                         </p>
                       </div>
-                      <div>
+                      <div className="md:px-12 pb-4">
                         <h1 className="font-bold">Delivery Notes</h1>
                         <Textarea />
                       </div>
@@ -601,7 +599,7 @@ function CheckoutPage() {
                   )}
                 </div>
               ) : (
-                <div className="ae-mobile-container px-2 opacity-50">
+                <div className="ae-mobile-container px-2 opacity-50 md:hidden">
                   <h1>Delivery:</h1>
                   <h2>Unit 34/49 McArthurs Rd,</h2>
                   <h2>Altona North VIC 3025</h2>
@@ -611,8 +609,8 @@ function CheckoutPage() {
             </div>
 
             {stepper === 2 && (
-              <div className="my-4">
-                <div className="bg-white ae-mobile-container py-2">
+              <div className="my-4 ">
+                <div className="bg-white ae-mobile-container py-2 md:hidden">
                   <div className="px-2">
                     <div className="flex items-center justify-between border-b border-b-gray-400">
                       <h1>Sub-total(ex.GST)</h1>
@@ -635,9 +633,9 @@ function CheckoutPage() {
                     </div>
                   </div>
                 </div>
-                <div className="ae-mobile-container px-2 mt-4">
+                <div className="ae-mobile-container px-2 mt-4 md:bg-white md:-mt-4 md:pb-4">
                   <Button
-                    className="w-full rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
+                    className="w-full md:w-auto md:block md:mx-auto md:px-12 rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
                     onClick={handleIncrementStepper}
                   >
                     Continue to Payment
@@ -650,7 +648,7 @@ function CheckoutPage() {
           {/* Payment */}
           <section>
             <div className="bg-blue-navy-blue py-3">
-              <h1 className="text-lg font-bold ae-mobile-container px-2 text-white">
+              <h1 className="text-lg font-bold ae-mobile-container px-2 md:px-12 text-white">
                 Payment
               </h1>
             </div>
@@ -658,7 +656,7 @@ function CheckoutPage() {
               className={`bg-white py-4 ${stepper < 3 ? 'hidden' : 'block'}`}
             >
               <div className="ae-mobile-container space-y-4">
-                <div className="border border-blue-navy-blue rounded-xl p-2">
+                <div className="border border-blue-navy-blue rounded-xl p-2 md:mx-12">
                   <h1 className="font-bold">Payment Method</h1>
                   <RadioGroup defaultValue="option-one" className="space-y-1">
                     <div className="flex items-center justify-between border-b border-b-gray-300 pb-2">
@@ -695,7 +693,7 @@ function CheckoutPage() {
                   </RadioGroup>
                 </div>
 
-                <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2">
+                <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12">
                   <div className="flex items-center justify-between">
                     <h1 className="font-bold">Card Details</h1>
                     <div className="flex items-center gap-x-1 relative border-b border-black">
@@ -724,7 +722,7 @@ function CheckoutPage() {
 
             {stepper === 3 && (
               <div className="my-4">
-                <div className="bg-white ae-mobile-container py-2">
+                <div className="bg-white ae-mobile-container py-2 md:px-12">
                   <div className="px-2">
                     <div className="flex items-center justify-between border-b border-b-gray-400">
                       <h1>Sub-total(ex.GST)</h1>
@@ -749,15 +747,76 @@ function CheckoutPage() {
                 </div>
                 <div className="ae-mobile-container px-2 mt-4">
                   <Button
-                    className="w-full rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
+                    className="w-full md:w-auto md:block md:mx-auto md:px-12 rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
                     onClick={handleIncrementStepper}
                   >
-                    Submit Order
+                    <div className="md:flex md:gap-1">
+                      <p>Submit Order</p>
+                      <p className="hidden md:block">& Pay</p>
+                    </div>
                   </Button>
                 </div>
               </div>
             )}
           </section>
+        </div>
+
+        <div className="md:col-span-4 ">
+          <div className="bg-white ml-8">
+            <h1 className="p-2 text-xl font-black text-white bg-black">
+              Order Summary
+            </h1>
+
+            <div className="px-2 space-y-2 py-4">
+              <div>
+                <h1 className="font-semibold">Selected Location:</h1>
+                <h2>Sydney</h2>
+                <p className="text-xs">24/32-38 Belmore Rd, Punchbowl NSW </p>
+              </div>
+              <div className="h-0.5 w-full bg-yellow-aes-yellow" />
+              <div>
+                <h1 className="font-semibold">Shipping:</h1>
+                <h2 className="text-sm">
+                  Fake Company Installs 123 Fake St, Springfield, NSW 2345
+                </h2>
+                <p className="text-xs">
+                  TNT Standard Shipping (3-4 Business Days)
+                </p>
+              </div>
+              <div className="h-0.5 w-full bg-pink-lighter-pink" />
+
+              <div className="flex justify-between items-center">
+                <h1>Sub-total (ex. GST)</h1>
+                <p>$3,270.60</p>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <h1>Delivery</h1>
+                <p>$39.47</p>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <h1>Card Surcharge (1.2%)</h1>
+                <p>$39.71</p>
+              </div>
+
+              <div className="h-0.5 w-full bg-blue-navy-blue" />
+
+              <div className="flex justify-between items-center">
+                <h1>GST</h1>
+                <p>$334.98</p>
+              </div>
+
+              <div className="h-0.5 w-full bg-blue-navy-blue" />
+
+              <div className="flex justify-between items-center">
+                <h1 className="font-bold">
+                  Total <span className="font-normal text-xs">(inc. GST)</span>
+                </h1>
+                <p className="font-bold">$3,684.76</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
