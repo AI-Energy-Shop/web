@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 import { DotProps } from 'react-multi-carousel';
 
-const CustomDot = ({ onClick, active, carouselState, index }: DotProps) => {
-  const totalDots = Math.min(carouselState?.totalItems || 0, 3); // Ensure max 3 dots
-  const activeIndex = carouselState?.currentSlide! % totalDots; // Cyclic mapping for active dot
+const CustomDot = ({ onClick, carouselState, index }: DotProps) => {
+  const totalDots = 3; // Ensure max 3 dots
+  const activeIndex = (carouselState?.currentSlide! - 2) % totalDots; // Cyclic mapping for active dot
 
   // Determine if the current dot should be active
   const isActive = activeIndex === index;

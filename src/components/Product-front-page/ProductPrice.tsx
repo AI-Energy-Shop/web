@@ -21,7 +21,7 @@ import { ProductQuery } from '@/lib/gql/graphql';
 import { useState } from 'react';
 import { Input } from '../ui/input';
 import { formatPriceWithCommas } from '@/utils/formatPriceWithCommas';
-import { getCents } from '@/utils/getCents';
+import { getCentsInAmount } from '@/utils/getCentsInAmount';
 
 interface ProductPriceProps {
   productData: ProductQuery['product'];
@@ -37,7 +37,7 @@ function ProductPrice({ productData }: ProductPriceProps) {
   );
 
   const salePrice = productPrice?.sale_price
-    ? `$${formatPriceWithCommas(productPrice?.price!)}.${getCents(productPrice?.price!)}`
+    ? `$${formatPriceWithCommas(productPrice?.price!)}.${getCentsInAmount(productPrice?.price!)}`
     : '';
 
   const currentPriceWholeNumber = productPrice?.sale_price
@@ -45,14 +45,18 @@ function ProductPrice({ productData }: ProductPriceProps) {
     : formatPriceWithCommas(productPrice?.price!);
 
   const currentPriceCent = productPrice?.sale_price
-    ? getCents(productPrice?.sale_price!)
-    : getCents(productPrice?.sale_price!);
+    ? getCentsInAmount(productPrice?.sale_price!)
+    : getCentsInAmount(productPrice?.sale_price!);
+
+  const initialCost = productPrice?.sale_price || productPrice?.price;
+
+  const [qty, setQty] = useState<number>(0);
+
+  const totalCost = initialCost! * qty;
 
   const bulkPricing = productData?.price_list?.filter(
     (price) => price?.min_quantity !== null || price?.max_quantity !== null
   );
-
-  const [qty, setQty] = useState<number>(0);
 
   return (
     <>
@@ -192,8 +196,12 @@ function ProductPrice({ productData }: ProductPriceProps) {
               <div
                 className={`${muktaVaani.className} flex-3 bg-white font-medium col-span-12 flex items-center md:items-end justify-center md:border-t md:border-t-black`}
               >
-                <span className="md:text-[20px]">$2,000</span>
-                <span className="md:text-[16px]">.40</span>
+                <span className="md:text-[20px]">
+                  ${formatPriceWithCommas(totalCost)}
+                </span>
+                <span className="md:text-[16px]">
+                  .{getCentsInAmount(totalCost)}
+                </span>
                 <span className="md:text-[12px] md:pb-1">ex.GST</span>
               </div>
             </div>
