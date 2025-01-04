@@ -8,7 +8,7 @@ import Accordion from './custom-ui/Accordion/Accordion';
 import Forms from './custom-ui/Forms';
 import LoadingAnimation from './custom-ui/LoadingAnimation';
 import Sliders from './custom-ui/Sliders';
-import DynamicComponentRenderer from './DynamicComponentRenderer';
+import DynamicSections from './DynamicSections';
 import Tables from './custom-ui/Table';
 import Cards from './custom-ui/Cards';
 import MediaUpload from './custom-ui/Upload/FileUpload';
@@ -24,7 +24,7 @@ const Components = {
   Sliders,
   NavigationProvider,
   LoadingAnimation,
-  DynamicComponentRenderer,
+  DynamicSections,
   Tables,
   MediaUpload,
 };
