@@ -1,12 +1,12 @@
 import React from 'react';
 import Sections from './Sections';
 import { type GetPageQuery } from '@/lib/types';
-interface DynamicComponentRendererProps {
+import NavigationProvider from './NavigationProvider';
+import Footer from './Footer/Footer';
+interface DynamicSectionsProps {
   data: GetPageQuery;
 }
-const DynamicComponentRenderer: React.FC<DynamicComponentRendererProps> = ({
-  data,
-}) => {
+const DynamicSections: React.FC<DynamicSectionsProps> = ({ data }) => {
   const { title, sections, slug } = data?.getPage || {};
 
   const componentMap: Record<string, (section: any) => React.ReactNode> = {
@@ -34,23 +34,28 @@ const DynamicComponentRenderer: React.FC<DynamicComponentRendererProps> = ({
   };
 
   return (
-    <div className="w-full min-h-screen">
-      <div className="inner-container w-full lg:max-w-[1200px] h-full mx-auto">
-        {slug !== '/' && (
-          <h1 className="page-title text-lg w-full text-center font-bold uppercase my-5">
-            {title}
-          </h1>
-        )}
+    <>
+      <NavigationProvider>
+        <div className="w-full min-h-screen">
+          <div className="inner-container w-full lg:max-w-[1200px] h-full mx-auto">
+            {slug !== '/' && (
+              <h1 className="page-title text-lg w-full text-center font-bold uppercase my-5">
+                {title}
+              </h1>
+            )}
 
-        {sections?.map((section: any, index) => {
-          const DynamicSection = componentMap[section.__typename];
-          if (DynamicSection) {
-            return <DynamicSection key={index} data={section} />;
-          }
-        })}
-      </div>
-    </div>
+            {sections?.map((section: any, index) => {
+              const DynamicSection = componentMap[section.__typename];
+              if (DynamicSection) {
+                return <DynamicSection key={index} data={section} />;
+              }
+            })}
+          </div>
+        </div>
+      </NavigationProvider>
+      <Footer />
+    </>
   );
 };
 
-export default DynamicComponentRenderer;
+export default DynamicSections;
