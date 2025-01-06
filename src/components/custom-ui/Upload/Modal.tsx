@@ -41,6 +41,10 @@ const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
     refetch();
   };
 
+  if (loading) {
+    return <h1>LOADING</h1>;
+  }
+
   return (
     <div className="bg-black bg-opacity-40 w-full h-full fixed m-0 top-0 left-0 z-50 flex items-center justify-center">
       <div className="w-[50%] h-[80%] rounded-md bg-white flex flex-col">
@@ -50,7 +54,6 @@ const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
               accept="application/pdf"
               onFiles={handleOnUploadFiles}
               maxFiles={10}
-              currentFiles={files?.length || 0}
               displayUseExistingFile={false}
             />
           </CardHeader>

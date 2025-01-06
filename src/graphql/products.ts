@@ -23,6 +23,28 @@ const schema = {
             location
             quantity
           }
+          specification {
+            id
+            key
+            value
+          }
+          files {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
+          images {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
+          createdAt
+          updatedAt
+          publishedAt
         }
       }
     `),
@@ -63,6 +85,10 @@ const schema = {
             key
             value
             id
+          }
+          key_features {
+            id
+            feature
           }
           files {
             documentId
@@ -114,6 +140,10 @@ const schema = {
             key
             value
           }
+          key_features {
+            id
+            feature
+          }
           createdAt
           updatedAt
           publishedAt
@@ -160,6 +190,10 @@ const schema = {
             url
             mime
             ext
+          }
+          key_features {
+            id
+            feature
           }
           createdAt
           updatedAt

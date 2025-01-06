@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+export const dynamic = 'auto';
 import { getPage } from '@/app/actions';
 import Components from '@/components';
 import React from 'react';
@@ -8,7 +8,7 @@ interface DynamicPageProps {
 }
 
 const DynamicPage = async ({ params: { slug } }: DynamicPageProps) => {
-  let data;
+  let data = null;
 
   try {
     data = await getPage(slug);
@@ -18,9 +18,7 @@ const DynamicPage = async ({ params: { slug } }: DynamicPageProps) => {
 
   return (
     <main className="w-full min-h-screen">
-      <>
-        <Components.DynamicComponentRenderer data={data} />
-      </>
+      <Components.DynamicSections data={data} />
     </main>
   );
 };

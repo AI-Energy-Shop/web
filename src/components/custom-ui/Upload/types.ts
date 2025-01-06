@@ -20,7 +20,7 @@ export type FileUploadProps = {
   useExistingButtonLabel?: string;
   uploadNewFileLabel?: string;
   onUseExistingFile?: () => void;
-  onSelectedFiles: (files: FileType[]) => void;
+  onSelectedFiles?: (files: FileType[]) => void;
   onFileRemove: (id: string) => void;
 };
 
@@ -30,11 +30,10 @@ export type FileWithPreview = {
 };
 
 export type FileUploadZoneProps = {
-  onFiles: (files: FileType[]) => void;
+  onFiles?: (files: FileType[]) => void;
   onUseExistingFile?: () => void;
   accept: string;
   maxFiles: number;
-  currentFiles: number;
   displayUseExistingFile?: boolean;
   useExistingButtonLabel?: string;
   uploadNewFileLabel?: string;

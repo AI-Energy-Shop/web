@@ -1,17 +1,14 @@
 'use client';
-import { cn } from '@/lib/utils';
-
 import { useEditor, EditorContent } from '@tiptap/react';
 import { FC } from 'react';
 import StarterKit from '@tiptap/starter-kit';
 import ToolBar from './ToolBar';
 // import UnderlineExt from '@tiptap/extension-underline'
 // import OrderedListEx from '@tiptap/extension-ordered-list'
-import HeadingExt from '@tiptap/extension-heading';
+// import HeadingExt from '@tiptap/extension-heading';
 import TextStyleEx from '@tiptap/extension-text-style';
 import TypographyEX from '@tiptap/extension-typography';
 import TextAlignEx from '@tiptap/extension-text-align';
-// import {} from './ui/t'
 
 interface RichTextEditorProps {
   description: string;
@@ -27,6 +24,8 @@ const RichTextEditor: FC<RichTextEditorProps> = ({
   iconSize,
 }) => {
   const editor = useEditor({
+    content: description,
+    immediatelyRender: false,
     extensions: [
       StarterKit.configure({
         heading: { levels: [1, 2, 3, 4, 5, 6] },
@@ -39,13 +38,11 @@ const RichTextEditor: FC<RichTextEditorProps> = ({
       TextStyleEx.configure(),
       TypographyEX.configure(),
     ],
-    immediatelyRender: false,
     editorProps: {
       attributes: {
         class: `text-sm ${className}`,
       },
     },
-    content: description,
     onUpdate: ({ editor }) => {
       setDescription(editor.getHTML());
     },

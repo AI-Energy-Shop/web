@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import Image from 'next/image';
 import Link from 'next/link';
+import { firaSansFont } from '@/assets/fonts/fonts';
 
 interface NavigationBarProps {}
 
@@ -111,11 +112,11 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
     <nav className="fixed w-full z-50 bg-white">
       <div className="ae-mobile-container ae-non-mobile-container ease-in-out duration-300 lg:duration-0">
         <motion.div
-          className="w-full flex items-center justify-between lg:p-0"
           style={navStyle}
+          className="max-w-[1200px] mx-auto flex items-center justify-between lg:p-0"
         >
           {/* TABLET/DESKTOP MENU LIST */}
-          <div className="h-full md:flex gap-4">
+          <div className="tablet-list h-full md:flex gap-4">
             {/* Logo */}
             <Link href="/" passHref>
               <div className="w-[100px] -ml-3 flex flex-col items-center justify-center gap-1 py-2">
@@ -140,29 +141,32 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
 
             {/* TABLET TO DESKTOP LINKS */}
             <div className="hidden lg:flex gap-4 items-center justify-center">
-              {data?.pages?.map?.((link: any) => {
-                return (
-                  <Link
-                    key={link.documentId}
-                    href={`/${link.slug}`}
-                    passHref
-                    className={`gradientbar-button ${
-                      pathname === link.url ? 'active' : ''
-                    } flex flex-col gap-2 min-w-[60px] pb-1 mt-auto`}
-                  >
-                    {/* ${firaSansFont.className}  */}
-                    <button className={`w-full font-semibold text-center`}>
-                      {link.title}
-                    </button>
-                    <div className="gradientbar w-full h-[4px] bg-transparent ease-in-out duration-300 opacity-0"></div>
-                  </Link>
-                );
-              })}
+              {data?.pages
+                ?.filter((item) => item?.slug !== '/')
+                .map?.((link: any) => {
+                  return (
+                    <Link
+                      key={link.documentId}
+                      href={`/${link.slug}`}
+                      passHref
+                      className={`gradientbar-link ${
+                        pathname.includes(link.slug, 1) ? 'active' : ''
+                      } flex flex-col gap-2 min-w-[60px] pb-1 mt-auto`}
+                    >
+                      <div
+                        className={`${firaSansFont.className} w-full font-semibold text-center`}
+                      >
+                        {link.title}
+                      </div>
+                      <div className="gradientbar w-full h-[4px] bg-transparent ease-in-out duration-300 opacity-0"></div>
+                    </Link>
+                  );
+                })}
             </div>
           </div>
 
           {/* MOBILE MENU LIST */}
-          <div className="lg:hidden">
+          <div className="mobile-list lg:hidden">
             {/* Overlay for the mobile menu */}
             {open && (
               <div className="fixed top-0 right-0 w-full h-full bg-black opacity-[.33]" />
