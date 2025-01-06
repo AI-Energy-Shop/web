@@ -9,10 +9,9 @@ import Modal from './Modal';
 
 const FileUpload: React.FC<FileUploadProps> = ({
   maxFiles = 5,
-  accept = 'image/*',
+  accept,
   displayFiles = true,
   dataModalFilters,
-  onUseExistingFile,
   onFileRemove,
   onSelectedFiles,
   uploadNewFileLabel,
@@ -21,42 +20,46 @@ const FileUpload: React.FC<FileUploadProps> = ({
 }) => {
   const [showFilesModal, setShowFilesModal] = useState(false);
 
-  const handleUseExistingFile = () => {
-    setShowFilesModal(!showFilesModal);
-  };
+  const handleSelectFilesFromModal = (files: FileType[] | null | undefined) => {
+    if (!files || files.length === 0) {
+      console.warn('No files selected');
+      return;
+    }
 
-  const handleSelectFiles = (files: FileType[]) => {
-    console.log(files);
-    onSelectedFiles(files);
-    setShowFilesModal(!showFilesModal);
-  };
-
-  const handleFileUploadOutsideModal = (files: FileType[]) => {
-    onSelectedFiles(files);
+    try {
+      const newFiles = files?.map((file) => {
+        return {
+          documentId: file.documentId,
+          url: file.url,
+          mime: file.mime,
+          name: file.name,
+          __typename: file.__typename,
+          id: file.id,
+          alternativeText: file.alternativeText,
+        };
+      });
+      onSelectedFiles?.(newFiles);
+    } catch (error) {
+      console.error('Failed to select files:', error);
+    } finally {
+      setShowFilesModal(!showFilesModal);
+    }
   };
 
   return (
     <div className="w-full h-auto mx-auto">
-      {showFilesModal && (
-        <Modal
-          filters={dataModalFilters}
-          onDone={handleSelectFiles}
-          onCancel={() => setShowFilesModal(!showFilesModal)}
-        />
-      )}
-      {data.length === 0 && (
+      {data?.length === 0 && (
         <FileUploadZone
-          onFiles={handleFileUploadOutsideModal}
-          accept={accept}
+          onFiles={onSelectedFiles}
+          accept={accept || ''}
           maxFiles={maxFiles}
-          currentFiles={data.length}
-          onUseExistingFile={handleUseExistingFile}
+          onUseExistingFile={() => setShowFilesModal(!showFilesModal)}
           uploadNewFileLabel={uploadNewFileLabel}
           useExistingButtonLabel={useExistingButtonLabel}
         />
       )}
 
-      {data.length > 0 && (
+      {data?.length > 0 && (
         <div className="grid grid-cols-8 gap-4 px-1 py-3">
           {data.map((file) => (
             <FilePreview
@@ -68,11 +71,19 @@ const FileUpload: React.FC<FileUploadProps> = ({
           <Button
             variant="outline"
             className="w-full h-full"
-            onClick={handleUseExistingFile}
+            onClick={() => setShowFilesModal(!showFilesModal)}
           >
             <Plus />
           </Button>
         </div>
+      )}
+
+      {showFilesModal && (
+        <Modal
+          filters={dataModalFilters}
+          onDone={handleSelectFilesFromModal}
+          onCancel={() => setShowFilesModal(!showFilesModal)}
+        />
       )}
     </div>
   );

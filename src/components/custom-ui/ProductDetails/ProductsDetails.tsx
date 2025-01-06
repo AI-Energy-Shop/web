@@ -1,17 +1,16 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { createProduct, updateProduct } from '@/app/actions';
+
 import ListInput from './ListInput';
 import InventoryItem from './InventoryItem';
 import PriceListItem from './PriceListItem';
 import { objectIsEqual } from '@/lib/utils';
-import { Toast } from '@/lib/toast';
 import {
   Select,
   SelectContent,
@@ -23,7 +22,8 @@ import { ChevronLeft, Loader2 } from 'lucide-react';
 import RichTextEditor from '@/components/RichTextEditor/RichTextEditor';
 import FileUpload from '../Upload/FileUpload';
 import SpecificationItem from './SpecificationItem';
-import { FileType } from '../Upload/types';
+import useProductDetails from './useProductDetails';
+import KeyFeatureItem from './KeyFeatureItem';
 
 export type ProductDetails = {
   documentId: string;
@@ -32,386 +32,47 @@ export type ProductDetails = {
   category: string;
   vendor: string;
   odoo_product_id: string;
-  collections: string;
-  tags: string;
-  status: string;
+  // collections: string;
+  // tags: string;
   price_list: any[];
+  specification: any[];
   inventory: any[];
-  images: string[];
-  files: string[];
+  key_features: any[];
+  images: any[];
+  files: any[];
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
 };
 
-const ProductsDetails = ({ product }: { product: any }) => {
-  const [loading, setLoading] = useState(false);
-
-  const [currentProduct, setCurrentProduct] = useState({
-    documentId: product?.documentId || null,
-    name: product?.name || 'New Product',
-    description: product?.description || '',
-    category: product?.category || '',
-    vendor: product?.vendor || '',
-    odoo_product_id: product?.odoo_product_id || '',
-    collections: product?.collections || '',
-    tags: product?.tags || '',
-    status: product?.status || 'draft',
-    price_list: product?.price_list || [],
-    inventory: product?.inventory || [],
-    specification: product?.specification || [],
-    images: product?.images || [],
-    files: product?.files || [],
-  });
-
-  const [productCopy, setProductCopy] = useState(currentProduct);
-
-  const handleClickSave = async () => {
-    setLoading((loading) => !loading);
-    if (!product) {
-      const { errors } = await createProduct({
-        data: {
-          name: currentProduct.name,
-          description: currentProduct.description,
-          category: currentProduct.category,
-          vendor: currentProduct.vendor,
-          odoo_product_id: currentProduct.odoo_product_id,
-          price_list: currentProduct.price_list,
-          inventory: currentProduct.inventory,
-          specification: currentProduct.specification,
-          files: currentProduct.files,
-          images: currentProduct.images,
-        },
-      });
-      if (errors) {
-        Toast(errors.toString(), 'ERROR');
-        return;
-      }
-      setLoading((loading) => !loading);
-      Toast('Product saved', 'ERROR', { position: 'top-center' });
-    } else {
-      const newFiles = currentProduct.files?.map?.((item: FileType) =>
-        String(item.documentId)
-      );
-      const newImages = currentProduct.images?.map?.((item: FileType) =>
-        String(item.documentId)
-      );
-
-      const newProductData = {
-        name: currentProduct.name,
-        description: currentProduct.description,
-        category: currentProduct.category,
-        vendor: currentProduct.vendor,
-        odoo_product_id: currentProduct.odoo_product_id,
-        price_list: currentProduct.price_list?.map?.((item: any) => {
-          delete item.id;
-          delete item.__typename;
-          return item;
-        }),
-        inventory: currentProduct.inventory?.map?.((item: any) => {
-          delete item.id;
-          delete item.__typename;
-          return item;
-        }),
-        specification: currentProduct.specification?.map?.((item: any) => {
-          delete item.id;
-          delete item.__typename;
-          return item;
-        }),
-        files: [...newFiles],
-        images: [...newImages],
-      };
-
-      const { errors, data } = await updateProduct({
-        documentId: product.documentId,
-        data: newProductData,
-      });
-
-      if (!data && errors) {
-        setLoading((loading) => !loading);
-        Toast(errors.toString(), 'ERROR', { position: 'top-center' });
-        return;
-      }
-
-      setLoading((loading) => !loading);
-      if (data) {
-        setProductCopy(data);
-      }
-      Toast('Product updated', 'SUCCESS', { position: 'top-center' });
-    }
-  };
-
-  const handleDiscardChanges = () => {
-    setCurrentProduct({ ...productCopy });
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCurrentProduct((prevState: any) => ({ ...prevState, [name]: value }));
-  };
-
-  const handleDescriptionChange = (description: string) => {
-    setCurrentProduct((prevState: any) => ({ ...prevState, description }));
-  };
-
-  const handleAddInventoryItem = () => {
-    const newObj = {
-      location: '',
-      quantity: 0,
-    };
-
-    setCurrentProduct({
-      ...currentProduct,
-      inventory: [...currentProduct.inventory, newObj],
-    });
-  };
-
-  const handleAddSpecsItem = () => {
-    const newObj = {
-      key: '',
-      value: '',
-    };
-
-    setCurrentProduct({
-      ...currentProduct,
-      specification: [...currentProduct.specification, newObj],
-    });
-  };
-
-  const handleAddPriceItem = () => {
-    const newObj = {
-      price: '',
-      min_quantity: undefined,
-      max_quantity: undefined,
-      user_level: '',
-    };
-
-    setCurrentProduct({
-      ...currentProduct,
-      price_list: [...currentProduct.price_list, newObj],
-    });
-  };
-
-  const handleOnInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, type } = e.target;
-    const index = e.target.dataset.index;
-    const title = e.target.dataset.title;
-    const value = e.target.value;
-
-    if (index === undefined || title === undefined) return;
-
-    switch (title) {
-      case 'inventory':
-        setCurrentProduct({
-          ...currentProduct,
-          inventory: currentProduct.inventory.map((item: any, i: number) => {
-            if (i === Number(index)) {
-              return {
-                ...item,
-                [name]: type === 'number' ? Number(value) : value,
-              };
-            }
-            return item;
-          }),
-        });
-
-        break;
-
-      case 'price_list':
-        setCurrentProduct({
-          ...currentProduct,
-          price_list: currentProduct.price_list.map((item: any, i: number) => {
-            if (i === Number(index)) {
-              return {
-                ...item,
-                [name]: type === 'number' ? Number(value) : value,
-              };
-            }
-            return item;
-          }),
-        });
-
-        break;
-
-      case 'specification':
-        setCurrentProduct({
-          ...currentProduct,
-          specification: currentProduct.specification.map(
-            (item: any, i: number) => {
-              if (i === Number(index)) {
-                return {
-                  ...item,
-                  [name]: value,
-                };
-              }
-              return item;
-            }
-          ),
-        });
-
-        break;
-
-      default:
-        console.warn(`Unhandled title: ${title}`);
-        break;
-    }
-  };
-
-  const handleSaveCurrentInventory = (data: any) => {
-    setCurrentProduct((prev: any) => {
-      return { ...prev, inventory: data };
-    });
-  };
-
-  const handleSaveCurrentSpecs = (data: any) => {
-    setCurrentProduct((prev: any) => {
-      return { ...prev, specification: data };
-    });
-  };
-
-  const handleSaveCurrentPrices = (data: any) => {
-    setCurrentProduct((prev: any) => {
-      return { ...prev, price_list: data };
-    });
-  };
-
-  const onChangeInventoryInputLocation = (value?: string, index?: number) => {
-    if (index === undefined || index < 0) return;
-
-    setCurrentProduct({
-      ...currentProduct,
-      inventory: currentProduct.inventory.map((item: any, i: number) => {
-        if (i === Number(index)) {
-          return {
-            ...item,
-            location: value,
-          };
-        }
-        return item;
-      }),
-    });
-  };
-
-  const onChangePriceUserLevel = (value?: string, index?: number) => {
-    if (index === undefined || index < 0) return;
-
-    setCurrentProduct({
-      ...currentProduct,
-      price_list: currentProduct.price_list.map((item: any, i: number) => {
-        if (i === Number(index)) {
-          return {
-            ...item,
-            user_level: value,
-          };
-        }
-        return item;
-      }),
-    });
-  };
-
-  const onRemoveList = (index?: number, title?: keyof ProductDetails) => {
-    if (index === undefined || title === undefined || !currentProduct) {
-      console.error('Invalid parameters or currentProduct is null');
-      return;
-    }
-
-    if (!Array.isArray(currentProduct[title])) {
-      console.error(`Cannot remove item from non-array property ${title}`);
-      return;
-    }
-
-    try {
-      setCurrentProduct({
-        ...currentProduct,
-        [title]: currentProduct[title].filter(
-          (_: any, i: number) => i !== index
-        ),
-      });
-    } catch (error) {
-      console.error('Failed to remove item from list:', error);
-    }
-  };
-
-  const handleFilesSelected = (files: FileType[]) => {
-    if (!currentProduct) return;
-    setCurrentProduct((prevProduct) => {
-      if (!prevProduct) return prevProduct;
-
-      const existingFiles = prevProduct.files.map((file: FileType) => file.id);
-      const newFiles = files.filter((file) => !existingFiles.includes(file.id));
-
-      return {
-        ...prevProduct,
-        files: Array.from(new Set([...prevProduct.files, ...newFiles])),
-      };
-    });
-  };
-
-  const handleImagesSelected = (files: FileType[]) => {
-    if (!currentProduct) return;
-    setCurrentProduct((prevProduct) => {
-      if (!prevProduct) return prevProduct;
-
-      const existingFiles = prevProduct.images.map((file: FileType) => file.id);
-      const newFiles = files.filter((file) => !existingFiles.includes(file.id));
-
-      return {
-        ...prevProduct,
-        images: Array.from(new Set([...prevProduct.images, ...newFiles])),
-      };
-    });
-  };
-
-  const handleFileRemove = (id: string) => {
-    if (!currentProduct) return;
-
-    setCurrentProduct((prevProduct) => {
-      if (!prevProduct.files) {
-        console.error("Cannot remove file from non-array property 'files'");
-        return prevProduct;
-      }
-
-      try {
-        const newFiles = prevProduct.files.filter(
-          (file: FileType) => file.documentId !== id
-        );
-        if (newFiles.length !== prevProduct.files.length) {
-          return {
-            ...prevProduct,
-            files: newFiles,
-          };
-        }
-      } catch (error) {
-        console.error('Failed to remove file from list:', error);
-      }
-
-      return prevProduct;
-    });
-  };
-
-  const handleImageRemove = (id: string) => {
-    if (!currentProduct) return;
-
-    setCurrentProduct((prevProduct) => {
-      if (!prevProduct.images) {
-        console.error("Cannot remove image from non-array property 'images'");
-        return prevProduct;
-      }
-
-      try {
-        const newImages = prevProduct.images.filter(
-          (image: FileType) => image.documentId !== id
-        );
-        if (newImages.length !== prevProduct.images.length) {
-          return {
-            ...prevProduct,
-            images: newImages,
-          };
-        }
-      } catch (error) {
-        console.error('Failed to remove image from list:', error);
-      }
-
-      return prevProduct;
-    });
-  };
+const ProductsDetails = ({ product }: { product: ProductDetails }) => {
+  const {
+    loading,
+    productCopy,
+    currentProduct,
+    handleDiscardChanges,
+    handleAddInventoryItem,
+    handleAddPriceItem,
+    handleClickSave,
+    handleInputChange,
+    handleDescriptionChange,
+    handleImageRemove,
+    handleImagesSelected,
+    handleFileRemove,
+    handleFilesSelected,
+    handleAddSpecsItem,
+    handleOnInputChange,
+    handleSaveCurrentSpecs,
+    onRemoveList,
+    handleSaveCurrentInventory,
+    onChangeInventoryInputLocation,
+    handleSaveCurrentPrices,
+    onChangePriceUserLevel,
+    handleProductStatusChange,
+    handleAddKeyFeatureItem,
+    handleSaveCurrentKeyFeatures,
+  } = useProductDetails(product);
 
   return (
     <div className="relative w-full">
@@ -424,15 +85,19 @@ const ProductsDetails = ({ product }: { product: any }) => {
           <h1 className="text-base font-bold">{currentProduct.name}</h1>
         </div>
         <div className="flex items-center space-x-2">
-          <Select>
+          <Select
+            onValueChange={handleProductStatusChange}
+            value={currentProduct.status}
+            defaultValue="draft"
+          >
             <SelectTrigger className="min-w-[150px]">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
-            <SelectContent defaultValue={currentProduct.status}>
+            <SelectContent>
               <SelectItem value="draft">
                 <p className="text-sm">Draft</p>
               </SelectItem>
-              <SelectItem value="publish">
+              <SelectItem value="published">
                 <p className="text-sm">Publish</p>
               </SelectItem>
             </SelectContent>
@@ -498,7 +163,8 @@ const ProductsDetails = ({ product }: { product: any }) => {
             </CardHeader>
             <CardContent>
               <FileUpload
-                data={currentProduct.images}
+                accept="image/*"
+                data={currentProduct.images || []}
                 dataModalFilters={{
                   mimeTypes: [
                     'image/jpeg',
@@ -509,9 +175,9 @@ const ProductsDetails = ({ product }: { product: any }) => {
                     'image/svg+xml',
                   ],
                 }}
-                onFileRemove={handleImageRemove}
                 uploadNewFileLabel="Upload new Image"
                 useExistingButtonLabel="Use existing Image"
+                onFileRemove={handleImageRemove}
                 onSelectedFiles={handleImagesSelected}
               />
             </CardContent>
@@ -523,16 +189,26 @@ const ProductsDetails = ({ product }: { product: any }) => {
             </CardHeader>
             <CardContent>
               <FileUpload
+                data={currentProduct.files || []}
                 accept="application/pdf"
-                dataModalFilters={{ mimeTypes: ['application/pdf'] }}
                 uploadNewFileLabel="Upload new File"
                 useExistingButtonLabel="Use existing File"
-                data={currentProduct.files}
+                dataModalFilters={{ mimeTypes: ['application/pdf'] }}
                 onFileRemove={handleFileRemove}
                 onSelectedFiles={handleFilesSelected}
               />
             </CardContent>
           </Card>
+
+          <ListInput
+            title="Key Features"
+            data={currentProduct.key_features}
+            addButtonLabel="Add"
+            onAddList={handleAddKeyFeatureItem}
+            onChange={handleOnInputChange}
+            onSave={handleSaveCurrentKeyFeatures}
+            childComponent={<KeyFeatureItem onRemove={onRemoveList} />}
+          />
 
           <ListInput
             title="Specification"
@@ -618,7 +294,7 @@ const ProductsDetails = ({ product }: { product: any }) => {
                   onChange={handleInputChange}
                 />
               </div>
-              <div>
+              {/* <div>
                 <Label htmlFor="collections">Collections</Label>
                 <Input
                   id="collections"
@@ -637,7 +313,7 @@ const ProductsDetails = ({ product }: { product: any }) => {
                   onChange={handleInputChange}
                   value={currentProduct.tags}
                 />
-              </div>
+              </div> */}
             </CardContent>
           </Card>
 

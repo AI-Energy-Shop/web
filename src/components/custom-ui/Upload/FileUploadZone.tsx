@@ -4,14 +4,12 @@ import { Upload } from 'lucide-react';
 import { FileType, FileUploadZoneProps } from './types';
 import { filesUpload } from '@/app/actions/files';
 import { Button } from '@/components/ui/button';
-import { on } from 'events';
 import { Toast } from '@/lib/toast';
 
 export function FileUploadZone({
   onFiles,
   accept,
   maxFiles,
-  currentFiles,
   displayUseExistingFile = true,
   useExistingButtonLabel = 'Use existing file',
   uploadNewFileLabel = 'Upload new file',
@@ -29,16 +27,13 @@ export function FileUploadZone({
       e.preventDefault();
       e.stopPropagation();
 
-      const remainingSlots = maxFiles - currentFiles;
-      if (remainingSlots <= 0) return;
-
       const droppedFiles = e.dataTransfer.files as unknown as FileType[];
-      onFiles(droppedFiles);
+      onFiles?.(droppedFiles);
 
       // Trigger form submission automatically
       formRef.current?.requestSubmit();
     },
-    [maxFiles, currentFiles, onFiles]
+    [maxFiles, onFiles]
   );
 
   const handleFileInput = useCallback(
@@ -64,12 +59,17 @@ export function FileUploadZone({
     try {
       const fileUploadRes = await filesUpload(formData);
       if (fileUploadRes) {
-        onFiles(fileUploadRes);
+        onFiles?.(fileUploadRes);
         Toast('File uploaded successfully', 'SUCCESS');
       }
     } catch (error) {
       Toast('Something went wrong. Please try again later.', 'ERROR');
     }
+  };
+
+  const handleUseExistingFileClick = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent form submission
+    onUseExistingFile?.(); // Call the onUseExistingFile handler
   };
 
   return (
@@ -102,7 +102,7 @@ export function FileUploadZone({
                     variant="outline"
                     size="sm"
                     className="text-black cursor-pointer text-xs"
-                    onClick={onUseExistingFile}
+                    onClick={handleUseExistingFileClick}
                   >
                     {useExistingButtonLabel}
                   </Button>
@@ -111,9 +111,7 @@ export function FileUploadZone({
             </div>
             <p className="text-xs text-gray-500">
               {accept === 'image/*' ? ' PNG, JPG or GIF ' : 'Supported files'}
-              {accept === 'application/pdf'
-                ? ' PDF '
-                : 'Supported files'} up to 10MB
+              {accept === 'application/pdf' && ' PDF '}
             </p>
           </div>
         </div>

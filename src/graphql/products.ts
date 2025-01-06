@@ -31,17 +31,17 @@ const schema = {
           }
           files {
             documentId
-            mime
             name
             url
-            alternativeText
+            mime
+            ext
           }
           images {
             documentId
-            mime
             name
             url
-            alternativeText
+            mime
+            ext
           }
           createdAt
           updatedAt
@@ -74,6 +74,10 @@ const schema = {
             id
             key
             value
+          }
+          key_features {
+            id
+            feature
           }
           files {
             documentId
@@ -137,6 +141,10 @@ const schema = {
             key
             value
           }
+          key_features {
+            id
+            feature
+          }
           createdAt
           updatedAt
           publishedAt
@@ -183,6 +191,10 @@ const schema = {
             url
             mime
             ext
+          }
+          key_features {
+            id
+            feature
           }
           createdAt
           updatedAt
