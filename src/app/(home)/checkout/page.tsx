@@ -107,17 +107,17 @@ function CheckoutPage() {
         </section>
       </header>
 
-      <h1 className="text-xl font-bold ae-mobile-container py-4 md:hidden">
+      <h1 className="text-xl font-bold ae-mobile-container ae-non-mobile-container py-4 ">
         Checkout
       </h1>
 
-      <div className="ae-non-mobile-container md:pt-12 md:grid md:grid-cols-12">
+      <div className="ae-non-mobile-container md:grid md:grid-cols-12">
         <div className="md:col-span-8">
           {/* Review Items */}
           <section className="md:mb-4">
             <div className="bg-yellow-aes-yellow py-3">
               <div className="ae-mobile-container px-2 md:px-12 text-white flex items-center gap-x-2 relative">
-                <h1 className="text-lg font-bold ">Review Items</h1>
+                <h1 className="text-  lg font-bold ">Review Items</h1>
                 {stepper > 1 && (
                   <span className="bg-green-500 rounded-full p-0.5">
                     <Check className="w-4 h-4" />
@@ -143,10 +143,7 @@ function CheckoutPage() {
                     <h1 className="font-semibold">Selected Location:</h1>
                     <Select>
                       <SelectTrigger className="w-full md:w-8/12">
-                        <SelectValue
-                          className="tex"
-                          placeholder="Sydney(24/32-38 Belmore Rd, Punchbowl NSW)"
-                        />
+                        <SelectValue placeholder="Sydney(24/32-38 Belmore Rd, Punchbowl NSW)" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="light">Light</SelectItem>
@@ -156,11 +153,18 @@ function CheckoutPage() {
                     </Select>
                   </div>
 
-                  <div className="space-y-8 pt-8 md:pl-12">
+                  <div className="space-y-8 pt-8 lg:pr-12">
                     {new Array(arr).fill(0).map((item, index) => {
                       return (
                         <div key={index} className="space-y-4">
                           <div className="flex gap-x-1">
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              className="hidden lg:block lg:self-center"
+                            >
+                              <Trash2 className="w-5 h-5 mx-auto" color="red" />
+                            </Button>
                             <div className="relative h-24 flex-1">
                               <Image
                                 src={SampleImage}
@@ -214,7 +218,7 @@ function CheckoutPage() {
                             <Button
                               size="icon"
                               variant="ghost"
-                              className="self-center"
+                              className="self-center lg:hidden"
                             >
                               <Trash2 className="w-5 h-5" color="red" />
                             </Button>
@@ -248,7 +252,7 @@ function CheckoutPage() {
                             </div>
                           </div>
                           {arr !== index + 1 && (
-                            <div className="h-0.5 bg-purple-purp-aes md:mr-10" />
+                            <div className="h-0.5 bg-purple-purp-aes lg:ml-10" />
                           )}
                         </div>
                       );
@@ -761,7 +765,7 @@ function CheckoutPage() {
           </section>
         </div>
 
-        <div className="md:col-span-4 ">
+        <div className="hidden md:block md:col-span-4">
           <div className="bg-white ml-8">
             <h1 className="p-2 text-xl font-black text-white bg-black">
               Order Summary
