@@ -107,17 +107,17 @@ function CheckoutPage() {
         </section>
       </header>
 
-      <h1 className="text-xl font-bold ae-mobile-container py-4 md:hidden">
+      <h1 className="text-xl font-bold ae-mobile-container ae-non-mobile-container py-4 ">
         Checkout
       </h1>
 
-      <div className="ae-non-mobile-container md:pt-12 md:grid md:grid-cols-12">
-        <div className="md:col-span-8">
+      <div className=" md:grid md:grid-cols-12 lg:w-[90vw] lg:mx-auto max-w-[1200px]">
+        <div className="md:col-span-12 lg:col-span-8">
           {/* Review Items */}
-          <section className="md:mb-4">
+          <section className="lg:mb-4">
             <div className="bg-yellow-aes-yellow py-3">
               <div className="ae-mobile-container px-2 md:px-12 text-white flex items-center gap-x-2 relative">
-                <h1 className="text-lg font-bold ">Review Items</h1>
+                <h1 className="text-  lg font-bold ">Review Items</h1>
                 {stepper > 1 && (
                   <span className="bg-green-500 rounded-full p-0.5">
                     <Check className="w-4 h-4" />
@@ -143,10 +143,7 @@ function CheckoutPage() {
                     <h1 className="font-semibold">Selected Location:</h1>
                     <Select>
                       <SelectTrigger className="w-full md:w-8/12">
-                        <SelectValue
-                          className="tex"
-                          placeholder="Sydney(24/32-38 Belmore Rd, Punchbowl NSW)"
-                        />
+                        <SelectValue placeholder="Sydney(24/32-38 Belmore Rd, Punchbowl NSW)" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="light">Light</SelectItem>
@@ -156,11 +153,18 @@ function CheckoutPage() {
                     </Select>
                   </div>
 
-                  <div className="space-y-8 pt-8 md:pl-12">
+                  <div className="space-y-8 pt-8 md:pr-12">
                     {new Array(arr).fill(0).map((item, index) => {
                       return (
                         <div key={index} className="space-y-4">
                           <div className="flex gap-x-1">
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              className="hidden md:block md:self-center"
+                            >
+                              <Trash2 className="w-5 h-5 mx-auto" color="red" />
+                            </Button>
                             <div className="relative h-24 flex-1">
                               <Image
                                 src={SampleImage}
@@ -214,7 +218,7 @@ function CheckoutPage() {
                             <Button
                               size="icon"
                               variant="ghost"
-                              className="self-center"
+                              className="self-center md:hidden"
                             >
                               <Trash2 className="w-5 h-5" color="red" />
                             </Button>
@@ -248,16 +252,16 @@ function CheckoutPage() {
                             </div>
                           </div>
                           {arr !== index + 1 && (
-                            <div className="h-0.5 bg-purple-purp-aes md:mr-10" />
+                            <div className="h-0.5 bg-purple-purp-aes md:ml-10" />
                           )}
                         </div>
                       );
                     })}
                   </div>
 
-                  <div className="space-y-4 pb-4 md:border md:mx-10 md:flex md:px-2 md:pb-4">
-                    <div className="h-0.5 w-full bg-black md:hidden" />
-                    <div className="px-2 flex items-center gap-x-4 md:block md:flex-1">
+                  <div className="space-y-4 pb-4 lg:border md:mx-10 lg:flex lg:px-2 lg:pb-4">
+                    <div className="h-0.5 w-full bg-black lg:hidden" />
+                    <div className="px-2 flex items-center gap-x-4 lg:block lg:flex-1">
                       <h1>Voucher Code:</h1>
                       <div className="flex-1 flex">
                         <Input className="rounded-none border border-blue-navy-blue" />
@@ -266,15 +270,15 @@ function CheckoutPage() {
                         </Button>
                       </div>
                     </div>
-                    <div className="h-0.5 w-full bg-black md:hidden" />
-                    <div className="md:flex-1">
+                    <div className="h-0.5 w-full bg-black lg:hidden" />
+                    <div className="lg:flex-1">
                       <h1 className="font-bold">Order Notes</h1>
                       <Textarea className="min-h-9 h-9" />
                     </div>
                   </div>
                 </div>
               ) : (
-                <div className="ae-mobile-container px-2 opacity-50 md:hidden">
+                <div className="ae-mobile-container ae-non-mobile-container px-2 opacity-50 lg:hidden">
                   <h1 className="font-bold">Selected Location:</h1>
                   <p>
                     Sydney{' '}
@@ -287,7 +291,7 @@ function CheckoutPage() {
             </div>
             {stepper === 1 && (
               <div className="my-4">
-                <div className="bg-white ae-mobile-container py-2 md:hidden">
+                <div className="bg-white ae-mobile-container py-2 lg:hidden mx-10">
                   <div className="px-2">
                     <div className="flex items-center justify-between border-b border-b-gray-400">
                       <h1>Sub-total(ex.GST)</h1>
@@ -310,9 +314,9 @@ function CheckoutPage() {
                     </div>
                   </div>
                 </div>
-                <div className="ae-mobile-container px-2 mt-4 md:bg-white md:-mt-4 md:py-4 ">
+                <div className="ae-mobile-container px-2 mt-4 lg:bg-white lg:-mt-4 lg:py-4 ">
                   <Button
-                    className="w-full md:w-auto md:block md:px-12 md:mx-auto rounded-2xl bg-pink-darker-pink hover:bg-pink-darker-pink/90"
+                    className="mx-auto px-12 block rounded-2xl bg-pink-darker-pink hover:bg-pink-darker-pink/90"
                     onClick={handleIncrementStepper}
                   >
                     Continue to Shipping
@@ -323,7 +327,7 @@ function CheckoutPage() {
           </section>
 
           {/* Shipping */}
-          <section className="md:mb-4">
+          <section className="lg:mb-4">
             <div className="bg-pink-darker-pink py-3">
               <div className="ae-mobile-container px-2 md:px-12 text-white flex items-center gap-x-2 relative">
                 <h1 className="text-lg font-bold">Shipping</h1>
@@ -599,7 +603,7 @@ function CheckoutPage() {
                   )}
                 </div>
               ) : (
-                <div className="ae-mobile-container px-2 opacity-50 md:hidden">
+                <div className="ae-mobile-container ae-non-mobile-container px-2 opacity-50 lg:hidden">
                   <h1>Delivery:</h1>
                   <h2>Unit 34/49 McArthurs Rd,</h2>
                   <h2>Altona North VIC 3025</h2>
@@ -610,7 +614,7 @@ function CheckoutPage() {
 
             {stepper === 2 && (
               <div className="my-4 ">
-                <div className="bg-white ae-mobile-container py-2 md:hidden">
+                <div className="bg-white ae-mobile-container py-2 lg:hidden mx-10">
                   <div className="px-2">
                     <div className="flex items-center justify-between border-b border-b-gray-400">
                       <h1>Sub-total(ex.GST)</h1>
@@ -633,9 +637,9 @@ function CheckoutPage() {
                     </div>
                   </div>
                 </div>
-                <div className="ae-mobile-container px-2 mt-4 md:bg-white md:-mt-4 md:pb-4">
+                <div className="ae-mobile-container px-2 mt-4 lg:bg-white lg:-mt-4 lg:pb-4">
                   <Button
-                    className="w-full md:w-auto md:block md:mx-auto md:px-12 rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
+                    className="block mx-auto px-12 rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
                     onClick={handleIncrementStepper}
                   >
                     Continue to Payment
@@ -693,27 +697,48 @@ function CheckoutPage() {
                   </RadioGroup>
                 </div>
 
-                <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12">
-                  <div className="flex items-center justify-between">
-                    <h1 className="font-bold">Card Details</h1>
-                    <div className="flex items-center gap-x-1 relative border-b border-black">
-                      <p className="text-[12px]">Change Payment Method</p>
-                      <MoveRight className="w-4" />
+                <div className="max-lg:space-y-4 lg:flex lg:gap-x-4 lg:mx-12">
+                  <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12 lg:mx-0">
+                    <div className="flex items-center justify-between">
+                      <h1 className="font-bold text-blue-navy-blue">
+                        Bill to:
+                      </h1>
+                      <div className="flex items-center gap-x-1 relative border-b border-black">
+                        <p className="text-[12px]">Change Address</p>
+                        <MoveRight className="w-4" />
+                      </div>
+                    </div>
+                    <div className="flex gap-x-2">
+                      <h1 className="font-bold">Fake Company Installs</h1>
+                      <p>-</p>
+                      <h1>123 Fake St, Springfield, NSW 2345</h1>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h1>Frank Grimes</h1>
-                      <p>Ending with 2684</p>
-                      <p>Exp. 10/2026</p>
+
+                  <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12 lg:mx-0">
+                    <div className="flex items-center justify-between">
+                      <h1 className="font-bold">Card Details</h1>
+                      <div className="flex items-center gap-x-1 relative border-b border-black">
+                        <p className="text-[12px]">Change Payment Method</p>
+                        <MoveRight className="w-4" />
+                      </div>
                     </div>
-                    <div className="basis-3/12 flex items-center justify-center flex-col gap-y-2">
-                      <Image
-                        src={Visa}
-                        alt="visa logo"
-                        className="w-7 h-6 border border-black"
-                      />
-                      <p className="text-[14px] text-center">1.2% Surcharge</p>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h1>Frank Grimes</h1>
+                        <p>Ending with 2684</p>
+                        <p>Exp. 10/2026</p>
+                      </div>
+                      <div className="basis-3/12 flex items-center justify-center flex-col gap-y-2">
+                        <Image
+                          src={Visa}
+                          alt="visa logo"
+                          className="w-7 h-6 border border-black"
+                        />
+                        <p className="text-[14px] text-center">
+                          1.2% Surcharge
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -722,7 +747,7 @@ function CheckoutPage() {
 
             {stepper === 3 && (
               <div className="my-4">
-                <div className="bg-white ae-mobile-container py-2 md:px-12">
+                <div className="bg-white ae-mobile-container py-2 md:px-12 md:mx-12 lg:mx-0">
                   <div className="px-2">
                     <div className="flex items-center justify-between border-b border-b-gray-400">
                       <h1>Sub-total(ex.GST)</h1>
@@ -747,7 +772,7 @@ function CheckoutPage() {
                 </div>
                 <div className="ae-mobile-container px-2 mt-4">
                   <Button
-                    className="w-full md:w-auto md:block md:mx-auto md:px-12 rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
+                    className="block mx-auto px-12 rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
                     onClick={handleIncrementStepper}
                   >
                     <div className="md:flex md:gap-1">
@@ -761,7 +786,7 @@ function CheckoutPage() {
           </section>
         </div>
 
-        <div className="md:col-span-4 ">
+        <div className="hidden lg:block md:col-span-4">
           <div className="bg-white ml-8">
             <h1 className="p-2 text-xl font-black text-white bg-black">
               Order Summary
