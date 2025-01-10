@@ -22,19 +22,16 @@ export function FileUploadZone({
     e.stopPropagation();
   }, []);
 
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-      const droppedFiles = e.dataTransfer.files as unknown as FileType[];
-      onFiles?.(droppedFiles);
+    const droppedFiles = e.dataTransfer.files as unknown as FileType[];
+    onFiles?.(droppedFiles);
 
-      // Trigger form submission automatically
-      formRef.current?.requestSubmit();
-    },
-    [maxFiles, onFiles]
-  );
+    // Trigger form submission automatically
+    formRef.current?.requestSubmit();
+  }, []);
 
   const handleFileInput = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +41,7 @@ export function FileUploadZone({
       // Reset input
       e.target.value = '';
     },
-    [onFiles]
+    []
   );
 
   const handleFormSubmit = async (form: React.FormEvent<HTMLFormElement>) => {

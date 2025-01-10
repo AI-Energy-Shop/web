@@ -97,42 +97,30 @@ export type BooleanFilterInput = {
 export type CartFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CartFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  discount_amount?: InputMaybe<FloatFilterInput>;
-  discount_code?: InputMaybe<StringFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
-  line_price?: InputMaybe<StringFilterInput>;
+  image?: InputMaybe<StringFilterInput>;
   locale?: InputMaybe<StringFilterInput>;
   localizations?: InputMaybe<CartFiltersInput>;
   not?: InputMaybe<CartFiltersInput>;
-  note?: InputMaybe<StringFilterInput>;
+  odoo_product_id?: InputMaybe<StringFilterInput>;
   or?: InputMaybe<Array<InputMaybe<CartFiltersInput>>>;
-  price?: InputMaybe<StringFilterInput>;
-  product_id?: InputMaybe<StringFilterInput>;
+  price?: InputMaybe<FloatFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   quantity?: InputMaybe<LongFilterInput>;
   reference_id?: InputMaybe<StringFilterInput>;
-  subtotal_price?: InputMaybe<FloatFilterInput>;
   title?: InputMaybe<StringFilterInput>;
-  total_price?: InputMaybe<FloatFilterInput>;
-  total_tax?: InputMaybe<FloatFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type CartInput = {
-  discount_amount?: InputMaybe<Scalars['Float']['input']>;
-  discount_code?: InputMaybe<Scalars['String']['input']>;
-  line_price?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   locale?: InputMaybe<Scalars['String']['input']>;
-  note?: InputMaybe<Scalars['String']['input']>;
-  price?: InputMaybe<Scalars['String']['input']>;
-  product_id?: InputMaybe<Scalars['String']['input']>;
+  odoo_product_id?: InputMaybe<Scalars['String']['input']>;
+  price?: InputMaybe<Scalars['Float']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   quantity?: InputMaybe<Scalars['Long']['input']>;
   reference_id?: InputMaybe<Scalars['String']['input']>;
-  subtotal_price?: InputMaybe<Scalars['Float']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
-  total_price?: InputMaybe<Scalars['Float']['input']>;
-  total_tax?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type ComponentElementsInputFiltersInput = {
@@ -783,6 +771,41 @@ export type UsersPermissionsUserInput = {
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type CartsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type CartsQuery = {
+  __typename?: 'Query';
+  carts: Array<{
+    __typename?: 'Cart';
+    documentId: string;
+    title?: string | null;
+    image?: string | null;
+    reference_id?: string | null;
+    odoo_product_id?: string | null;
+    quantity?: any | null;
+    price?: number | null;
+  } | null>;
+};
+
+export type CreateCartMutationVariables = Exact<{
+  data: CartInput;
+}>;
+
+export type CreateCartMutation = {
+  __typename?: 'Mutation';
+  createCart?: {
+    __typename?: 'Cart';
+    documentId: string;
+    title?: string | null;
+    image?: string | null;
+    reference_id?: string | null;
+    quantity?: any | null;
+    odoo_product_id?: string | null;
+    price?: number | null;
+    createdAt?: any | null;
+  } | null;
+};
+
 export type FilesQueryVariables = Exact<{
   filters?: InputMaybe<FilesFiltersArgs>;
 }>;
@@ -1293,6 +1316,104 @@ export type UserApprovalMutation = {
   } | null;
 };
 
+export const CartsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'Carts' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'carts' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'image' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'reference_id' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'odoo_product_id' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'quantity' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CartsQuery, CartsQueryVariables>;
+export const CreateCartDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateCart' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CartInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createCart' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'image' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'reference_id' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'quantity' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'odoo_product_id' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CreateCartMutation, CreateCartMutationVariables>;
 export const FilesDocument = {
   kind: 'Document',
   definitions: [

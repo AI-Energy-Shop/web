@@ -14,6 +14,10 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 const documents = {
+  '\n      query Carts {\n        carts {\n          documentId\n          title\n          image\n          reference_id\n          odoo_product_id\n          quantity\n          price\n        }\n      }\n    ':
+    types.CartsDocument,
+  '\n      mutation CreateCart($data: CartInput!) {\n        createCart(data: $data) {\n          documentId\n          title\n          image\n          reference_id\n          quantity\n          odoo_product_id\n          price\n          createdAt\n        }\n      }\n    ':
+    types.CreateCartDocument,
   '\n      query Files($filters: FilesFiltersArgs) {\n        files(filters: $filters) {\n          documentId\n          name\n          alternativeText\n          caption\n          width\n          height\n          formats\n          hash\n          ext\n          mime\n          size\n          url\n          previewUrl\n          provider\n          provider_metadata\n        }\n      }\n    ':
     types.FilesDocument,
   '\n      query Pages {\n        pages {\n          documentId\n          title\n          slug\n        }\n      }\n    ':
@@ -54,6 +58,18 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      query Carts {\n        carts {\n          documentId\n          title\n          image\n          reference_id\n          odoo_product_id\n          quantity\n          price\n        }\n      }\n    '
+): (typeof documents)['\n      query Carts {\n        carts {\n          documentId\n          title\n          image\n          reference_id\n          odoo_product_id\n          quantity\n          price\n        }\n      }\n    '];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation CreateCart($data: CartInput!) {\n        createCart(data: $data) {\n          documentId\n          title\n          image\n          reference_id\n          quantity\n          odoo_product_id\n          price\n          createdAt\n        }\n      }\n    '
+): (typeof documents)['\n      mutation CreateCart($data: CartInput!) {\n        createCart(data: $data) {\n          documentId\n          title\n          image\n          reference_id\n          quantity\n          odoo_product_id\n          price\n          createdAt\n        }\n      }\n    '];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
