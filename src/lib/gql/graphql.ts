@@ -97,42 +97,30 @@ export type BooleanFilterInput = {
 export type CartFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CartFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  discount_amount?: InputMaybe<FloatFilterInput>;
-  discount_code?: InputMaybe<StringFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
-  line_price?: InputMaybe<StringFilterInput>;
+  image?: InputMaybe<StringFilterInput>;
   locale?: InputMaybe<StringFilterInput>;
   localizations?: InputMaybe<CartFiltersInput>;
   not?: InputMaybe<CartFiltersInput>;
-  note?: InputMaybe<StringFilterInput>;
+  odoo_product_id?: InputMaybe<StringFilterInput>;
   or?: InputMaybe<Array<InputMaybe<CartFiltersInput>>>;
-  price?: InputMaybe<StringFilterInput>;
-  product_id?: InputMaybe<StringFilterInput>;
+  price?: InputMaybe<FloatFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   quantity?: InputMaybe<LongFilterInput>;
   reference_id?: InputMaybe<StringFilterInput>;
-  subtotal_price?: InputMaybe<FloatFilterInput>;
   title?: InputMaybe<StringFilterInput>;
-  total_price?: InputMaybe<FloatFilterInput>;
-  total_tax?: InputMaybe<FloatFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type CartInput = {
-  discount_amount?: InputMaybe<Scalars['Float']['input']>;
-  discount_code?: InputMaybe<Scalars['String']['input']>;
-  line_price?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   locale?: InputMaybe<Scalars['String']['input']>;
-  note?: InputMaybe<Scalars['String']['input']>;
-  price?: InputMaybe<Scalars['String']['input']>;
-  product_id?: InputMaybe<Scalars['String']['input']>;
+  odoo_product_id?: InputMaybe<Scalars['String']['input']>;
+  price?: InputMaybe<Scalars['Float']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   quantity?: InputMaybe<Scalars['Long']['input']>;
   reference_id?: InputMaybe<Scalars['String']['input']>;
-  subtotal_price?: InputMaybe<Scalars['Float']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
-  total_price?: InputMaybe<Scalars['Float']['input']>;
-  total_tax?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type ComponentElementsInputFiltersInput = {
@@ -1024,6 +1012,7 @@ export type GetProductQuery = {
       __typename?: 'ComponentElementsPrice';
       id: string;
       price?: number | null;
+      sale_price?: number | null;
       min_quantity?: any | null;
       max_quantity?: any | null;
       user_level?: Enum_Componentelementsprice_User_Level | null;
@@ -2107,6 +2096,10 @@ export const GetProductDocument = {
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'sale_price' },
+                      },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'min_quantity' },

@@ -33,7 +33,7 @@ export function FileUploadZone({
       // Trigger form submission automatically
       formRef.current?.requestSubmit();
     },
-    [maxFiles, onFiles]
+    [onFiles]
   );
 
   const handleFileInput = useCallback(
@@ -44,7 +44,7 @@ export function FileUploadZone({
       // Reset input
       e.target.value = '';
     },
-    [onFiles]
+    []
   );
 
   const handleFormSubmit = async (form: React.FormEvent<HTMLFormElement>) => {

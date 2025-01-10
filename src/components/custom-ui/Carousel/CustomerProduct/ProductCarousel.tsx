@@ -6,11 +6,11 @@ import Carousel, { ResponsiveType } from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import ButtonGroup from './ButtonGroup';
 import RightButton from './RightButton';
-import { ProductQuery } from '@/lib/gql/graphql';
+import { GetProductQuery } from '@/lib/gql/graphql';
 import CustomDot from './CustomDot';
 
 interface ImageCarouselProps {
-  productData: ProductQuery['product'];
+  productData: GetProductQuery['getProduct'];
 }
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({ productData }) => {

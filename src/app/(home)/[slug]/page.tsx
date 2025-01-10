@@ -1,5 +1,5 @@
 export const dynamic = 'auto';
-import { getPage } from '@/app/actions';
+import { getPage } from '@/app/actions/pages';
 import Components from '@/components';
 import React from 'react';
 

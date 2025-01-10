@@ -3,7 +3,7 @@ import { ChevronRight } from 'lucide-react';
 import { firaSans } from '@/app/font';
 import ProductPrice from '@/components/Product-front-page/ProductPrice';
 import ProductDescription from '@/components/Product-front-page/ProductDescription';
-import { product } from '@/app/actions';
+import { product } from '@/app/actions/products';
 
 async function ProductPage({ params }: { params: { id: string } }) {
   const id = params.id;

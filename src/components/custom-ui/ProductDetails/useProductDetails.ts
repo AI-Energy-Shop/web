@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { createProduct, updateProduct } from '@/app/actions';
+import { createProduct, updateProduct } from '@/app/actions/products';
 import { ProductDetails } from './ProductsDetails';
 import { FileType } from '../Upload/types';
 import { Toast } from '@/lib/toast';

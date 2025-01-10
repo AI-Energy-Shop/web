@@ -1068,30 +1068,6 @@
             "deprecationReason": null
           },
           {
-            "name": "discount_amount",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "discount_code",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "documentId",
             "description": null,
             "args": [],
@@ -1108,7 +1084,7 @@
             "deprecationReason": null
           },
           {
-            "name": "line_price",
+            "name": "image",
             "description": null,
             "args": [],
             "type": {
@@ -1246,7 +1222,7 @@
             "deprecationReason": null
           },
           {
-            "name": "note",
+            "name": "odoo_product_id",
             "description": null,
             "args": [],
             "type": {
@@ -1263,19 +1239,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "product_id",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "name": "Float",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1318,48 +1282,12 @@
             "deprecationReason": null
           },
           {
-            "name": "subtotal_price",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "title",
             "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
               "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "total_price",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "total_tax",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1471,30 +1399,6 @@
             "deprecationReason": null
           },
           {
-            "name": "discount_amount",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "FloatFilterInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "discount_code",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFilterInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "documentId",
             "description": null,
             "type": {
@@ -1507,7 +1411,7 @@
             "deprecationReason": null
           },
           {
-            "name": "line_price",
+            "name": "image",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -1555,7 +1459,7 @@
             "deprecationReason": null
           },
           {
-            "name": "note",
+            "name": "odoo_product_id",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -1587,19 +1491,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "StringFilterInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "product_id",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFilterInput",
+              "name": "FloatFilterInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -1643,47 +1535,11 @@
             "deprecationReason": null
           },
           {
-            "name": "subtotal_price",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "FloatFilterInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "title",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "StringFilterInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "total_price",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "FloatFilterInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "total_tax",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "FloatFilterInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -1715,31 +1571,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "discount_amount",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "discount_code",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "line_price",
+            "name": "image",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -1763,7 +1595,7 @@
             "deprecationReason": null
           },
           {
-            "name": "note",
+            "name": "odoo_product_id",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -1779,19 +1611,7 @@
             "description": null,
             "type": {
               "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "product_id",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "name": "Float",
               "ofType": null
             },
             "defaultValue": null,
@@ -1835,47 +1655,11 @@
             "deprecationReason": null
           },
           {
-            "name": "subtotal_price",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "title",
             "description": null,
             "type": {
               "kind": "SCALAR",
               "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "total_price",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "total_tax",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
               "ofType": null
             },
             "defaultValue": null,

@@ -61,6 +61,7 @@ const schema = {
           price_list {
             id
             price
+            sale_price
             min_quantity
             max_quantity
             user_level
