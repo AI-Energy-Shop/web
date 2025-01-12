@@ -110,3 +110,23 @@ export const updateProduct = async (
     return error;
   }
 };
+
+export const frontPageGetProduct = async (id: string) => {
+  const cookieStore = cookies();
+  const token = cookieStore.get('a-token');
+
+  const res = await client.query({
+    query: PRODUCT_OPERATIONS.Query.product,
+    fetchPolicy: 'no-cache',
+    context: {
+      headers: {
+        Authorization: `Bearer ${token?.value}`,
+      },
+    },
+    variables: {
+      documentId: id,
+    },
+  });
+
+  return res;
+};
