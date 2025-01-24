@@ -2,6 +2,27 @@ import { graphql } from '@/lib/gql';
 
 const schema = {
   Queries: {
+    user: graphql(`
+      query User($filters: UserFiltersInput) {
+        user(filters: $filters) {
+          documentId
+          email
+          account_status
+          blocked
+          username
+          account_detail {
+            shipping_addresses {
+              id
+              street
+              suburb
+              state_territory
+              postcode
+              country
+            }
+          }
+        }
+      }
+    `),
     users: graphql(`
       query UsersPermissionsUsers {
         usersPermissionsUsers {

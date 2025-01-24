@@ -114,7 +114,7 @@ const Payment: React.FC<PaymentProps> = ({
 
       {stepper === 3 && (
         <div className="my-4">
-          <div className="bg-white ae-mobile-container py-2 md:px-12 md:mx-12 lg:mx-0">
+          {/* <div className="bg-white ae-mobile-container py-2 md:px-12 md:mx-12 lg:mx-0">
             <div className="px-2">
               <div className="flex items-center justify-between border-b border-b-gray-400">
                 <h1>Sub-total(ex.GST)</h1>
@@ -136,7 +136,7 @@ const Payment: React.FC<PaymentProps> = ({
                 <p className="font-bold">$3,597.66</p>
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="ae-mobile-container px-2 mt-4">
             <Button
               className="block mx-auto px-12 rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"

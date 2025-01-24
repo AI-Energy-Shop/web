@@ -1,69 +1,289 @@
 'use client';
-import { useState } from 'react';
+import React from 'react';
 import CheckoutHeader from '@/components/Checkout/CheckoutHeader';
 import ReviewItems from './ReviewItems';
 import ShippingDetails from './ShippingDetails';
+import OrderSummary from './OrderSummary';
 import Payment from './Payment';
-import { useQuery } from '@apollo/client';
+import { getCartSubtotal, getCartTotal } from '@/utils/cart';
+import { useMutation, useQuery } from '@apollo/client';
 import CART_OPERATIONS from '@/graphql/cart';
-const CartDetails = () => {
-  const [date, setDate] = useState<Date>(new Date());
-  const [stepper, setStepper] = useState<number>(1);
-  const [radioValue, setRadioValue] = useState<string>('1');
-  const [isShippingDelivery, setIsShippingDelivery] = useState<boolean>(true);
-  const { data, loading, error } = useQuery(CART_OPERATIONS.Query.cartItems);
-  const [voucherDetails, setVoucherDetails] = useState<{
-    voucherCode: string;
-    orderNotes: string;
-  }>({ voucherCode: '', orderNotes: '' });
+import USER_OPERATIONS from '@/graphql/users';
+import ORDER_OPERATIONS from '@/graphql/order';
+import { DELIVERY_OPTIONS, SHIPPING_DETAILS } from '@/constant/shipping';
+
+// type UserData = {
+//   __typename?: "UsersPermissionsUser";
+//   documentId: string;
+//   email: string;
+//   account_status?: Enum_Userspermissionsuser_Account_Status | null;
+//   blocked?: boolean | null;
+//   username: string;
+//   account_detail?: {
+//     __typename?: "AccountDetail";
+//     firstName: string;
+//     lastName: string;
+//   } | null;
+// } | undefined;
+
+type ShippingDetails = {
+  deliveryMethod: string;
+  shippingAddresses: {
+    street: string;
+    suburb: string;
+    state_territory: string;
+    postcode: string;
+    country: string;
+  }[];
+  deliveryOptions: {
+    courer: string;
+    price: number;
+  }[];
+  tbcDate: Date;
+};
+
+interface CartDetailsProps {
+  authToken?: any;
+  userEmail?: string;
+}
+const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
+  const [date, setDate] = React.useState<Date>(new Date());
+  const [stepper, setStepper] = React.useState<number>(1);
+  const [cartData, setCartData] = React.useState<any[]>([]);
+
+  const [warehouseLocation, setWarehouseLocation] = React.useState<any[]>([
+    {
+      id: 0,
+      title: 'Sydney(24/32-38 Belmore Rd, Punchbowl NSW)',
+    },
+    {
+      id: 1,
+      title: 'Melbourne(34/49 McArthurs Rd, Altona North VIC 3025)',
+    },
+    {
+      id: 2,
+      title: 'Brisbane(4/22 Spine St, Sumner QLD 4074)',
+    },
+  ]);
+
+  const [shipping, setShipping] = React.useState<any>({
+    deliveryOptions: {
+      title: 'TNT Standard Shipping',
+      price: 39.0,
+      eta: '3-5',
+      notes: ""
+    },
+    shippingOptions: {
+      company_name: 'Fake Company Installs',
+      address: {
+        street: '123 Example Street',
+        suburb: 'Sydney',
+        state_territory: 'NSW',
+        postcode: '2000',
+        country: 'Australia',
+      },
+    },
+  });
+
+  useQuery(USER_OPERATIONS.Queries.user, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    },
+    onCompleted: (data) => {
+      console.log(data);
+      if (!data?.user) return;
+    },
+    onError: (error) => {
+      console.error('ERROR', error);
+    },
+    variables: {
+      filters: {
+        email: userEmail,
+      },
+    },
+  });
+
+  useQuery(CART_OPERATIONS.Query.cartItems, {
+    onCompleted: (data) => {
+      if (!data?.carts) return;
+      setCartData(data?.carts);
+    },
+  });
+
+  const [createOrder] = useMutation(ORDER_OPERATIONS.Mutation.createOrder, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    },
+    onCompleted: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.error('ERROR', error);
+    },
+  });
 
   const handleIncrementStepper = () => {
-    setStepper((prev) => {
-      if (prev <= 2) {
-        return prev + 1;
-      } else {
-        return 3;
-      }
+    try {
+      setStepper((prev) => {
+        if (prev == null) throw new Error('Stepper value is null');
+
+        if (prev === 3) {
+          console.log('submit');
+          createOrder({
+            variables: {
+              data: {
+                cart_items: cartData.map((item) => ({
+                  title: item.title,
+                  quantity: item.quantity,
+                  price: item.price,
+                  odoo_product_id: item.odoo_product_id,
+                })),
+                shipping: {
+                  delivery_address: null,
+                  delivery_option: shipping.deliveryOptions,
+                  shipping_details: shipping.shippingOptions
+                },
+              },
+            },
+          });
+          return 3;
+        }
+        return Math.min(prev + 1, 3);
+      });
+    } catch (error) {
+      console.error('Error in handleIncrementStepper:', error);
+    }
+  };
+
+  const handleAddItemQuantity = (id: string) => {
+    if (!cartData.length) return;
+
+    setCartData((prevCartData) => {
+      const newCartData = [...prevCartData];
+      const itemIndex = newCartData.findIndex(
+        (item) => item?.documentId === id
+      );
+      if (itemIndex === -1) return newCartData;
+
+      const item = newCartData[itemIndex];
+      if (!item) return newCartData;
+
+      newCartData[itemIndex] = {
+        ...item,
+        quantity: item.quantity + 1,
+        price: item.price * (item.quantity + 1),
+      };
+
+      return newCartData;
     });
   };
 
-  if (loading) return <p>Loading...</p>;
+  const handleReduceItemQuantity = (id: string) => {
+    if (!cartData.length) return;
 
-  if (!data) return <p>No data</p>;
+    setCartData((prevCartData) => {
+      const itemIndex = prevCartData.findIndex(
+        (item) => item?.documentId === id
+      );
+      if (itemIndex === -1) return prevCartData;
+
+      const item = prevCartData[itemIndex];
+      if (!item || item.quantity < 2) {
+        return prevCartData.filter((cartItem) => cartItem?.documentId !== id);
+      }
+
+      const { price, quantity } = item;
+      const newPrice = (price * (quantity - 1)) / quantity;
+
+      return prevCartData.map((cartItem, index) =>
+        index === itemIndex
+          ? { ...cartItem, quantity: quantity - 1, price: newPrice }
+          : cartItem
+      );
+    });
+  };
+
+  const handleOnInputChange = (
+    id: string,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = e.target.value;
+    if (!value || isNaN(parseInt(value, 10))) return;
+
+    if (!cartData.length) return;
+
+    setCartData((prevCartData) => {
+      const newCartData = [...prevCartData];
+      const itemIndex = newCartData.findIndex((item) => item?.id === id);
+      if (itemIndex === -1) return newCartData;
+
+      const item = newCartData[itemIndex];
+      if (!item) return newCartData;
+
+      const quantity = parseInt(value, 10);
+      if (quantity < 0) return newCartData;
+
+      newCartData[itemIndex] = {
+        ...item,
+        quantity,
+      };
+
+      return newCartData;
+    });
+  };
+
+  const handleEditClick = (index: number) => {
+    setStepper(index);
+  };
+
+  const handleChangeWarehouse = (id: any) => {
+    console.log(id);
+  };
+
+  const handleDeliveryChange = (id: any) => {
+    setShipping((prev: any) => ({
+      ...prev,
+      deliveryOptions: DELIVERY_OPTIONS.find((option) => option.id === id),
+    }));
+  };
 
   return (
-    <div className="w-full h-auto">
+    <>
       <CheckoutHeader stepper={stepper} />
-      <h1 className="text-xl font-bold ae-mobile-container ae-non-mobile-container py-4 ">
+      <h1 className="text-xl font-bold ae-mobile-container ae-non-mobile-container py-4">
         Checkout
       </h1>
 
-      <div className=" md:grid md:grid-cols-12 lg:w-[90vw] lg:mx-auto max-w-[1200px]">
+      <div className="md:grid md:grid-cols-12 lg:w-[90vw] lg:mx-auto max-w-[1200px]">
         <div className="md:col-span-12 lg:col-span-8">
-          {/* Review Items */}
           <ReviewItems
-            cartItems={data.carts}
+            warehouseLocation={warehouseLocation}
+            onChangeWarehouse={handleChangeWarehouse}
+            cartItems={cartData}
             stepper={stepper}
-            // voucherDetails={voucherDetails}
-            // setVoucherDetails={setVoucherDetails}
-            setStepper={setStepper}
+            onEdit={handleEditClick}
+            onChange={handleOnInputChange}
+            onAddQuant={handleAddItemQuantity}
+            onReduceQuant={handleReduceItemQuantity}
             onClickContinue={handleIncrementStepper}
           />
 
-          {/* Shipping */}
           <ShippingDetails
-            stepper={stepper}
-            setStepper={setStepper}
-            onClickContinue={handleIncrementStepper}
             date={date}
+            stepper={stepper}
+            shippingAddresses={SHIPPING_DETAILS}
+            deliveryOptions={DELIVERY_OPTIONS}
             setDate={setDate}
-            radioValue={radioValue}
-            setRadioValue={setRadioValue}
-            isShippingDelivery={isShippingDelivery}
-            setIsShippingDelivery={setIsShippingDelivery}
+            onEdit={handleEditClick}
+            onClickContinue={handleIncrementStepper}
+            onShippingOptionChange={handleChangeWarehouse}
+            onDeliveryOptionChange={handleDeliveryChange}
           />
 
-          {/* Payment */}
           <Payment
             stepper={stepper}
             handleIncrementStepper={handleIncrementStepper}
@@ -71,64 +291,16 @@ const CartDetails = () => {
         </div>
 
         <div className="hidden lg:block md:col-span-4">
-          <div className="bg-white ml-8">
-            <h1 className="p-2 text-xl font-black text-white bg-black">
-              Order Summary
-            </h1>
-
-            <div className="px-2 space-y-2 py-4">
-              <div>
-                <h1 className="font-semibold">Selected Location:</h1>
-                <h2>Sydney</h2>
-                <p className="text-xs">24/32-38 Belmore Rd, Punchbowl NSW </p>
-              </div>
-              <div className="h-0.5 w-full bg-yellow-aes-yellow" />
-              <div>
-                <h1 className="font-semibold">Shipping:</h1>
-                <h2 className="text-sm">
-                  Fake Company Installs 123 Fake St, Springfield, NSW 2345
-                </h2>
-                <p className="text-xs">
-                  TNT Standard Shipping (3-4 Business Days)
-                </p>
-              </div>
-              <div className="h-0.5 w-full bg-pink-lighter-pink" />
-
-              <div className="flex justify-between items-center">
-                <h1>Sub-total (ex. GST)</h1>
-                <p>$3,270.60</p>
-              </div>
-
-              <div className="flex justify-between items-center">
-                <h1>Delivery</h1>
-                <p>$39.47</p>
-              </div>
-
-              <div className="flex justify-between items-center">
-                <h1>Card Surcharge (1.2%)</h1>
-                <p>$39.71</p>
-              </div>
-
-              <div className="h-0.5 w-full bg-blue-navy-blue" />
-
-              <div className="flex justify-between items-center">
-                <h1>GST</h1>
-                <p>$334.98</p>
-              </div>
-
-              <div className="h-0.5 w-full bg-blue-navy-blue" />
-
-              <div className="flex justify-between items-center">
-                <h1 className="font-bold">
-                  Total <span className="font-normal text-xs">(inc. GST)</span>
-                </h1>
-                <p className="font-bold">$3,684.76</p>
-              </div>
-            </div>
-          </div>
+          <OrderSummary
+            gst={39.5}
+            deliveryCharge={39.71}
+            cardSubCharge={39.25}
+            subtotal={getCartSubtotal(cartData)}
+            total={getCartTotal(cartData, 39.71, 39.5)}
+          />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
