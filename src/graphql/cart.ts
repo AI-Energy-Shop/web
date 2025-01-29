@@ -12,6 +12,7 @@ const schema = {
           odoo_product_id
           quantity
           price
+          gst
         }
       }
     `),
@@ -28,6 +29,7 @@ const schema = {
           odoo_product_id
           price
           createdAt
+          gst
         }
       }
     `),

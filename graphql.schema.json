@@ -245,7 +245,7 @@
             "deprecationReason": null
           },
           {
-            "name": "position",
+            "name": "phone",
             "description": null,
             "args": [],
             "type": {
@@ -579,7 +579,7 @@
             "deprecationReason": null
           },
           {
-            "name": "position",
+            "name": "phone",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -735,7 +735,7 @@
             "deprecationReason": null
           },
           {
-            "name": "position",
+            "name": "phone",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -1169,6 +1169,18 @@
             "deprecationReason": null
           },
           {
+            "name": "gst",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "image",
             "description": null,
             "args": [],
@@ -1496,6 +1508,18 @@
             "deprecationReason": null
           },
           {
+            "name": "gst",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "FloatFilterInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "image",
             "description": null,
             "type": {
@@ -1655,6 +1679,18 @@
         "isOneOf": false,
         "fields": null,
         "inputFields": [
+          {
+            "name": "gst",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "image",
             "description": null,
@@ -1827,6 +1863,42 @@
             "deprecationReason": null
           },
           {
+            "name": "isActive",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "name",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ComponentElementsName",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phone",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "postcode",
             "description": null,
             "args": [],
@@ -1916,6 +1988,30 @@
             "deprecationReason": null
           },
           {
+            "name": "isActive",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "BooleanFilterInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "name",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ComponentElementsNameFiltersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "not",
             "description": null,
             "type": {
@@ -1938,6 +2034,18 @@
                 "name": "ComponentElementsAddressFiltersInput",
                 "ofType": null
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phone",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFilterInput",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -2021,6 +2129,42 @@
             "type": {
               "kind": "SCALAR",
               "name": "ID",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "isActive",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "name",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ComponentElementsNameInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "phone",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
               "ofType": null
             },
             "defaultValue": null,
@@ -3090,10 +3234,22 @@
       },
       {
         "kind": "OBJECT",
-        "name": "ComponentElementsPayment",
+        "name": "ComponentElementsName",
         "description": null,
         "isOneOf": null,
         "fields": [
+          {
+            "name": "first_name",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "id",
             "description": null,
@@ -3111,7 +3267,19 @@
             "deprecationReason": null
           },
           {
-            "name": "method",
+            "name": "last_name",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "middle_name",
             "description": null,
             "args": [],
             "type": {
@@ -3130,7 +3298,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "ComponentElementsPaymentFiltersInput",
+        "name": "ComponentElementsNameFiltersInput",
         "description": null,
         "isOneOf": false,
         "fields": null,
@@ -3143,7 +3311,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "ComponentElementsPaymentFiltersInput",
+                "name": "ComponentElementsNameFiltersInput",
                 "ofType": null
               }
             },
@@ -3152,7 +3320,31 @@
             "deprecationReason": null
           },
           {
-            "name": "method",
+            "name": "first_name",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFilterInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "last_name",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFilterInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "middle_name",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -3168,7 +3360,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "ComponentElementsPaymentFiltersInput",
+              "name": "ComponentElementsNameFiltersInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -3183,7 +3375,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "ComponentElementsPaymentFiltersInput",
+                "name": "ComponentElementsNameFiltersInput",
                 "ofType": null
               }
             },
@@ -3198,11 +3390,23 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "ComponentElementsPaymentInput",
+        "name": "ComponentElementsNameInput",
         "description": null,
         "isOneOf": false,
         "fields": null,
         "inputFields": [
+          {
+            "name": "first_name",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "id",
             "description": null,
@@ -3216,7 +3420,19 @@
             "deprecationReason": null
           },
           {
-            "name": "method",
+            "name": "last_name",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "middle_name",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -3527,18 +3743,6 @@
         "isOneOf": null,
         "fields": [
           {
-            "name": "delivery_address",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "delivery_option",
             "description": null,
             "args": [],
@@ -3572,42 +3776,6 @@
             "args": [],
             "type": {
               "kind": "OBJECT",
-              "name": "ComponentElementsShippingDetails",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "type",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "ComponentElementsShippingDetails",
-        "description": null,
-        "isOneOf": null,
-        "fields": [
-          {
-            "name": "address",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
               "name": "ComponentElementsAddress",
               "ofType": null
             },
@@ -3615,29 +3783,13 @@
             "deprecationReason": null
           },
           {
-            "name": "company_name",
+            "name": "warehouse_location",
             "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "String",
+              "name": "Int",
               "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "id",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -3645,134 +3797,6 @@
         ],
         "inputFields": null,
         "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "ComponentElementsShippingDetailsFiltersInput",
-        "description": null,
-        "isOneOf": false,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "address",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ComponentElementsAddressFiltersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "and",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "ComponentElementsShippingDetailsFiltersInput",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "company_name",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFilterInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "not",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ComponentElementsShippingDetailsFiltersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "or",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "ComponentElementsShippingDetailsFiltersInput",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "ComponentElementsShippingDetailsInput",
-        "description": null,
-        "isOneOf": false,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "address",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ComponentElementsAddressInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "company_name",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "id",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
       },
@@ -3794,18 +3818,6 @@
                 "name": "ComponentElementsShippingFiltersInput",
                 "ofType": null
               }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "delivery_address",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFilterInput",
-              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -3856,7 +3868,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "ComponentElementsShippingDetailsFiltersInput",
+              "name": "ComponentElementsAddressFiltersInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -3864,11 +3876,11 @@
             "deprecationReason": null
           },
           {
-            "name": "type",
+            "name": "warehouse_location",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "StringFilterInput",
+              "name": "IntFilterInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -3887,18 +3899,6 @@
         "isOneOf": false,
         "fields": null,
         "inputFields": [
-          {
-            "name": "delivery_address",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "delivery_option",
             "description": null,
@@ -3928,7 +3928,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "ComponentElementsShippingDetailsInput",
+              "name": "ComponentElementsAddressInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -3936,11 +3936,11 @@
             "deprecationReason": null
           },
           {
-            "name": "type",
+            "name": "warehouse_location",
             "description": null,
             "type": {
               "kind": "SCALAR",
-              "name": "String",
+              "name": "Int",
               "ofType": null
             },
             "defaultValue": null,
@@ -4129,6 +4129,58 @@
           }
         ],
         "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ComponentElementsWarehouseLocation",
+        "description": null,
+        "isOneOf": null,
+        "fields": [
+          {
+            "name": "address",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ComponentElementsAddress",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "title",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -6287,7 +6339,7 @@
           },
           {
             "kind": "OBJECT",
-            "name": "ComponentElementsPayment",
+            "name": "ComponentElementsName",
             "ofType": null
           },
           {
@@ -6302,12 +6354,12 @@
           },
           {
             "kind": "OBJECT",
-            "name": "ComponentElementsShippingDetails",
+            "name": "ComponentElementsSpecification",
             "ofType": null
           },
           {
             "kind": "OBJECT",
-            "name": "ComponentElementsSpecification",
+            "name": "ComponentElementsWarehouseLocation",
             "ofType": null
           },
           {
@@ -10759,18 +10811,6 @@
             "deprecationReason": null
           },
           {
-            "name": "payment",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "ComponentElementsPayment",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "publishedAt",
             "description": null,
             "args": [],
@@ -10976,18 +11016,6 @@
             "deprecationReason": null
           },
           {
-            "name": "payment",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ComponentElementsPaymentFiltersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "publishedAt",
             "description": null,
             "type": {
@@ -11057,18 +11085,6 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "payment",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ComponentElementsPaymentInput",
               "ofType": null
             },
             "defaultValue": null,

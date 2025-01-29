@@ -11,13 +11,22 @@ const schema = {
           blocked
           username
           account_detail {
+            business_name
+            phone
             shipping_addresses {
               id
+              phone
+              name {
+                first_name
+                middle_name
+                last_name
+              }
               street
               suburb
               state_territory
               postcode
               country
+              isActive
             }
           }
         }
@@ -35,12 +44,12 @@ const schema = {
           account_detail {
             documentId
             level
+            phone
             user_type
             first_name
             middle_name
             last_name
             business_name
-            position
           }
         }
       }
@@ -62,7 +71,7 @@ const schema = {
             middle_name
             last_name
             business_name
-            position
+            phone
             odoo_user_id
           }
         }

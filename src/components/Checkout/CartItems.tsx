@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import CartItem from './CartItem';
+import { formatCurrency } from '@/utils/cart';
 
 const CartItems = ({
   data,
@@ -26,8 +27,8 @@ const CartItems = ({
             title={item.title}
             refId={item.reference_id}
             price={item.price}
+            gst={formatCurrency(item.gst, "USD")}
             quantity={item.quantity}
-            currency="$"
             onAddQuant={onAddQuant}
             onReduceQuant={onReduceQuant}
             onChange={onChange}

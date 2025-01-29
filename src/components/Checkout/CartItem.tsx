@@ -4,6 +4,7 @@ import { Button } from '../ui/button';
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { Input } from '../ui/input';
+import { getCartItemSubtotal } from '@/utils/cart';
 
 interface CartItemProps {
   id: string;
@@ -12,7 +13,7 @@ interface CartItemProps {
   refId: string;
   price: number;
   quantity: number;
-  currency: string;
+  gst: string;
   onChange: (id: string, e: React.ChangeEvent<HTMLInputElement>) => void;
   onReduceQuant: (id: string) => void;
   onAddQuant: (id: string) => void;
@@ -25,7 +26,7 @@ const CartItem = ({
   refId,
   price,
   quantity = 0,
-  currency = '$',
+  gst,
   onChange,
   onAddQuant,
   onReduceQuant,
@@ -55,7 +56,9 @@ const CartItem = ({
           <p className="font-thin text-[14px]">{refId}</p>
         </div>
         <div className="flex-1 self-center">
-          <h2>$1,000.20</h2>
+          <h2>
+            {gst}
+          </h2>
           <p className="text-[12px]">ex.GST</p>
         </div>
         <div className="hidden md:block md:flex-1 md:border md:rounded-md md:h-full">
@@ -87,8 +90,7 @@ const CartItem = ({
           </div>
           <div className="text-center">
             <p>
-              {currency}
-              {price}
+              {getCartItemSubtotal(price, quantity)}
             </p>
             <p className="text-[12px]">ex.GST</p>
           </div>

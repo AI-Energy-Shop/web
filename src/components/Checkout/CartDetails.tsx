@@ -1,99 +1,67 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import CheckoutHeader from '@/components/Checkout/CheckoutHeader';
 import ReviewItems from './ReviewItems';
 import ShippingDetails from './ShippingDetails';
 import OrderSummary from './OrderSummary';
 import Payment from './Payment';
-import { getCartSubtotal, getCartTotal } from '@/utils/cart';
+import { formatCurrency, getCartTotals } from '@/utils/cart';
 import { useMutation, useQuery } from '@apollo/client';
 import CART_OPERATIONS from '@/graphql/cart';
 import USER_OPERATIONS from '@/graphql/users';
 import ORDER_OPERATIONS from '@/graphql/order';
-import { DELIVERY_OPTIONS, SHIPPING_DETAILS } from '@/constant/shipping';
-
-// type UserData = {
-//   __typename?: "UsersPermissionsUser";
-//   documentId: string;
-//   email: string;
-//   account_status?: Enum_Userspermissionsuser_Account_Status | null;
-//   blocked?: boolean | null;
-//   username: string;
-//   account_detail?: {
-//     __typename?: "AccountDetail";
-//     firstName: string;
-//     lastName: string;
-//   } | null;
-// } | undefined;
-
-type ShippingDetails = {
-  deliveryMethod: string;
-  shippingAddresses: {
-    street: string;
-    suburb: string;
-    state_territory: string;
-    postcode: string;
-    country: string;
-  }[];
-  deliveryOptions: {
-    courer: string;
-    price: number;
-  }[];
-  tbcDate: Date;
-};
+import { CARD_FEE, DELIVERY_OPTIONS, SHIPPING_FEE, WAREHOUSE_LOCATIONS } from '@/constant/shipping';
+import ModalWrapper from './ModalWrapper';
+import { ShippingDetailsTypes } from '@/lib/types';
 
 interface CartDetailsProps {
   authToken?: any;
   userEmail?: string;
 }
+
 const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
+
   const [date, setDate] = React.useState<Date>(new Date());
   const [stepper, setStepper] = React.useState<number>(1);
-  const [cartData, setCartData] = React.useState<any[]>([]);
-
-  const [warehouseLocation, setWarehouseLocation] = React.useState<any[]>([
-    {
-      id: 0,
-      title: 'Sydney(24/32-38 Belmore Rd, Punchbowl NSW)',
-    },
-    {
-      id: 1,
-      title: 'Melbourne(34/49 McArthurs Rd, Altona North VIC 3025)',
-    },
-    {
-      id: 2,
-      title: 'Brisbane(4/22 Spine St, Sumner QLD 4074)',
-    },
-  ]);
-
-  const [shipping, setShipping] = React.useState<any>({
-    deliveryOptions: {
-      title: 'TNT Standard Shipping',
-      price: 39.0,
-      eta: '3-5',
-      notes: ""
-    },
-    shippingOptions: {
-      company_name: 'Fake Company Installs',
-      address: {
-        street: '123 Example Street',
-        suburb: 'Sydney',
-        state_territory: 'NSW',
-        postcode: '2000',
-        country: 'Australia',
-      },
-    },
+  const [cartItems, setCartItems] = React.useState<any[]>([]);
+  const [showModal, setShowModal] = React.useState<boolean>(false);
+  const [itemToRemove, setItemToRemove] = React.useState<string>('');
+  const [shippingDetails, setShipDetails] = useState<ShippingDetailsTypes>({
+    companyName: undefined,
+    shippingAddress: undefined,
+    deliveryOptions: undefined,
+    warehouseLocation: 0,
   });
 
-  useQuery(USER_OPERATIONS.Queries.user, {
+  const {data: userData} = useQuery(USER_OPERATIONS.Queries.user, {
     context: {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
     },
     onCompleted: (data) => {
-      console.log(data);
       if (!data?.user) return;
+      const { user } = data;
+      const activeShippingAddress = user.account_detail?.shipping_addresses?.find(
+        (address) => address?.isActive === true
+      );
+      setShipDetails((prevShipDetails) => ({
+        ...prevShipDetails,
+        companyName: user.account_detail?.business_name || '',
+        shippingAddress: activeShippingAddress ? {
+          name: {
+            first_name: activeShippingAddress.name?.first_name || '',
+            middle_name: activeShippingAddress.name?.middle_name || '',
+            last_name: activeShippingAddress.name?.last_name || '',
+          },
+          phone: user.account_detail?.phone || '',
+          street: activeShippingAddress.street || '',
+          suburb: activeShippingAddress.suburb || '',
+          state_territory: activeShippingAddress.state_territory || '',
+          postcode: activeShippingAddress.postcode || '',
+          country: activeShippingAddress.country || '',
+        } : undefined
+      }));
     },
     onError: (error) => {
       console.error('ERROR', error);
@@ -101,6 +69,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
     variables: {
       filters: {
         email: userEmail,
+        username: userEmail,
       },
     },
   });
@@ -108,7 +77,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
   useQuery(CART_OPERATIONS.Query.cartItems, {
     onCompleted: (data) => {
       if (!data?.carts) return;
-      setCartData(data?.carts);
+      setCartItems(data?.carts);
     },
   });
 
@@ -127,27 +96,31 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
   });
 
   const handleIncrementStepper = () => {
+    
+
     try {
       setStepper((prev) => {
         if (prev == null) throw new Error('Stepper value is null');
 
         if (prev === 3) {
           console.log('submit');
+          const data = {
+            cart_items: cartItems.map((item) => ({
+              title: item.title,
+              quantity: item.quantity,
+              price: item.price,
+              odoo_product_id: item.odoo_product_id,
+            })),
+            shipping: {
+              delivery_option: shippingDetails.deliveryOptions,
+              shipping_details: shippingDetails.shippingAddress,
+              warehouse_location: shippingDetails.warehouseLocation,
+            },
+          }
+      
           createOrder({
             variables: {
-              data: {
-                cart_items: cartData.map((item) => ({
-                  title: item.title,
-                  quantity: item.quantity,
-                  price: item.price,
-                  odoo_product_id: item.odoo_product_id,
-                })),
-                shipping: {
-                  delivery_address: null,
-                  delivery_option: shipping.deliveryOptions,
-                  shipping_details: shipping.shippingOptions
-                },
-              },
+              data: data,
             },
           });
           return 3;
@@ -160,9 +133,9 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
   };
 
   const handleAddItemQuantity = (id: string) => {
-    if (!cartData.length) return;
+    if (!cartItems.length) return;
 
-    setCartData((prevCartData) => {
+    setCartItems((prevCartData) => {
       const newCartData = [...prevCartData];
       const itemIndex = newCartData.findIndex(
         (item) => item?.documentId === id
@@ -175,7 +148,6 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
       newCartData[itemIndex] = {
         ...item,
         quantity: item.quantity + 1,
-        price: item.price * (item.quantity + 1),
       };
 
       return newCartData;
@@ -183,26 +155,26 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
   };
 
   const handleReduceItemQuantity = (id: string) => {
-    if (!cartData.length) return;
+    if (!cartItems.length) return;
 
-    setCartData((prevCartData) => {
+    setCartItems((prevCartData) => {
       const itemIndex = prevCartData.findIndex(
         (item) => item?.documentId === id
       );
+
       if (itemIndex === -1) return prevCartData;
 
       const item = prevCartData[itemIndex];
       if (!item || item.quantity < 2) {
-        return prevCartData.filter((cartItem) => cartItem?.documentId !== id);
+        setShowModal(true);
+        setItemToRemove(item.documentId);
+        return prevCartData;
       }
 
-      const { price, quantity } = item;
-      const newPrice = (price * (quantity - 1)) / quantity;
+      const { quantity } = item;
 
       return prevCartData.map((cartItem, index) =>
-        index === itemIndex
-          ? { ...cartItem, quantity: quantity - 1, price: newPrice }
-          : cartItem
+        index === itemIndex ? { ...cartItem, quantity: quantity - 1 } : cartItem
       );
     });
   };
@@ -214,9 +186,9 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
     const value = e.target.value;
     if (!value || isNaN(parseInt(value, 10))) return;
 
-    if (!cartData.length) return;
+    if (!cartItems.length) return;
 
-    setCartData((prevCartData) => {
+    setCartItems((prevCartData) => {
       const newCartData = [...prevCartData];
       const itemIndex = newCartData.findIndex((item) => item?.id === id);
       if (itemIndex === -1) return newCartData;
@@ -240,16 +212,37 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
     setStepper(index);
   };
 
-  const handleChangeWarehouse = (id: any) => {
-    console.log(id);
-  };
-
-  const handleDeliveryChange = (id: any) => {
-    setShipping((prev: any) => ({
+  const handleChangeWarehouse = (id: string) => {
+    setShipDetails((prev: any) => ({
       ...prev,
-      deliveryOptions: DELIVERY_OPTIONS.find((option) => option.id === id),
+      warehouseLocation: parseInt(id),
     }));
   };
+
+  const handleDeliveryChange = (id: string) => {
+    const selectedDeliveryOption = DELIVERY_OPTIONS.find((option) => option.id === id);
+    if(!selectedDeliveryOption) return;
+    setShipDetails((prev: ShippingDetailsTypes) => ({
+      ...prev,
+      deliveryOptions: {
+        title: selectedDeliveryOption.label,
+        price: selectedDeliveryOption.price,
+        eta: selectedDeliveryOption.eta,
+      },
+    }));
+  };
+
+  const handleConfirmRemove = () => {
+    setCartItems((prevCartData) =>
+      prevCartData.filter((cartItem) => cartItem?.documentId !== itemToRemove)
+    );
+    setShowModal(false);
+    setItemToRemove('');
+  };
+
+
+  const deliveryFee = shippingDetails?.deliveryOptions?.price ? shippingDetails?.deliveryOptions?.price : 0;
+  const { subtotal, totalGst, total } = getCartTotals(cartItems, deliveryFee, CARD_FEE);
 
   return (
     <>
@@ -261,10 +254,10 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
       <div className="md:grid md:grid-cols-12 lg:w-[90vw] lg:mx-auto max-w-[1200px]">
         <div className="md:col-span-12 lg:col-span-8">
           <ReviewItems
-            warehouseLocation={warehouseLocation}
-            onChangeWarehouse={handleChangeWarehouse}
-            cartItems={cartData}
+            warehouseLocation={WAREHOUSE_LOCATIONS}
+            cartItems={cartItems}
             stepper={stepper}
+            onChangeWarehouse={handleChangeWarehouse}
             onEdit={handleEditClick}
             onChange={handleOnInputChange}
             onAddQuant={handleAddItemQuantity}
@@ -275,13 +268,15 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
           <ShippingDetails
             date={date}
             stepper={stepper}
-            shippingAddresses={SHIPPING_DETAILS}
-            deliveryOptions={DELIVERY_OPTIONS}
             setDate={setDate}
             onEdit={handleEditClick}
+            onClickChangeShipAddress={() => {
+              console.log('redirect to addresses');
+            }}
+            companyName={userData?.user?.account_detail?.business_name || ""}
+            selectedShippingDetails={shippingDetails}
             onClickContinue={handleIncrementStepper}
-            onShippingOptionChange={handleChangeWarehouse}
-            onDeliveryOptionChange={handleDeliveryChange}
+            onChangeDeliveryOpt={handleDeliveryChange}
           />
 
           <Payment
@@ -292,14 +287,24 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
 
         <div className="hidden lg:block md:col-span-4">
           <OrderSummary
-            gst={39.5}
-            deliveryCharge={39.71}
-            cardSubCharge={39.25}
-            subtotal={getCartSubtotal(cartData)}
-            total={getCartTotal(cartData, 39.71, 39.5)}
+            shippingDetails={shippingDetails}
+            shippingFee={formatCurrency(deliveryFee, "USD")}
+            cardSubCharge={formatCurrency(CARD_FEE, "USD")}
+            gst={formatCurrency(totalGst, "USD")}
+            subtotal={formatCurrency(subtotal, "USD")}
+            total={formatCurrency(total, "USD")}
           />
         </div>
       </div>
+
+      <ModalWrapper 
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={handleConfirmRemove}
+        title="Remove Item"
+        description="You are about to remove this item from your cart."
+        message="Are you sure you want to remove this item from your cart?"
+      />
     </>
   );
 };

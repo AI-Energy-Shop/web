@@ -1,14 +1,8 @@
 'use client';
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import {
-  CalendarIcon,
-  Check,
-  FilePenLine,
-  MoveRight,
-  Truck,
-  Warehouse,
-} from 'lucide-react';
+import { CalendarIcon, Check, FilePenLine, MoveRight } from 'lucide-react';
+import { DynamicIcon } from 'lucide-react/dynamic';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import {
@@ -27,58 +21,35 @@ import { formatDate } from '@/utils/formatDate';
 import { Calendar } from '@/components/ui/calendar';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-
-type ShippingOptions = {
-  id: number;
-  title: string;
-  value: string;
-  active: boolean;
-  icon: JSX.Element;
-}[];
-
-const SHIPPING_OPTIONS: ShippingOptions = [
-  {
-    id: 0,
-    title: 'Delivery',
-    value: 'delivery',
-    active: true,
-    icon: <Truck className="w-10 h-10 mx-auto" strokeWidth={1} />,
-  },
-  {
-    id: 1,
-    title: 'Pick Up',
-    value: 'pick_up',
-    active: false,
-    icon: <Warehouse className="w-10 h-10 mx-auto" strokeWidth={1} />,
-  },
-];
+import { DELIVERY_OPTIONS, SHIPPING_OPTIONS, ShippingOptions } from '@/constant/shipping';
+import { ShippingDetailsTypes } from '@/lib/types';
 
 interface ShippingDetailsProps {
   date: Date;
   stepper: number;
-  shippingAddresses: any[];
-  deliveryOptions: any[];
+  selectedShippingDetails?: ShippingDetailsTypes;
+  companyName: string;
   onEdit: (index: number) => void;
   onClickContinue: () => void;
-  onDeliveryOptionChange: (id: string) => void;
-  onShippingOptionChange: (id: string) => void;
+  onChangeDeliveryOpt: (id: string) => void;
+  onClickChangeShipAddress: () => void;
   setDate: React.Dispatch<React.SetStateAction<Date>>;
 }
 const ShippingDetails: React.FC<ShippingDetailsProps> = ({
   date,
   stepper,
-  shippingAddresses,
-  deliveryOptions,
+  companyName,
+  selectedShippingDetails,
   onEdit,
   setDate,
   onClickContinue,
-  onDeliveryOptionChange,
-  onShippingOptionChange,
+  onChangeDeliveryOpt,
+  onClickChangeShipAddress,
 }) => {
   const [shippingOptions, setShippingOptions] =
     useState<ShippingOptions>(SHIPPING_OPTIONS);
 
-  const handleShippingOptionsClick = (index: number) =>
+  const handleShippingMethodClick = (index: number) =>
     setShippingOptions(
       shippingOptions.map((item, i) => ({
         ...item,
@@ -87,7 +58,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     );
 
   return (
-    <section className="lg:mb-4">
+    <section className="">
       <div className="bg-pink-darker-pink py-3">
         <div className="ae-mobile-container px-2 md:px-12 text-white flex items-center gap-x-2 relative">
           <h1 className="text-lg font-bold">Shipping</h1>
@@ -116,11 +87,16 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
               {shippingOptions.map((item, index) => (
                 <div
                   key={item.id}
-                  onClick={() => handleShippingOptionsClick(index)}
+                  onClick={() => handleShippingMethodClick(index)}
                   className={`basis-1/3 p-0.5 rounded-2xl cursor-pointer ${item.active ? 'gradient-effect' : 'bg-black opacity-50'}`}
                 >
                   <div className="bg-white rounded-2xl text-center p-2">
-                    {item.icon}
+                    <DynamicIcon
+                      name={item.icon.type}
+                      size={item.icon.size}
+                      className={item.icon.className}
+                      strokeWidth={item.icon.strokeWidth}
+                    />
                     <h1 className=" font-bold">{item.title}</h1>
                   </div>
                 </div>
@@ -137,38 +113,38 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                         <h1 className="font-bold text-blue-navy-blue">
                           Ship To:
                         </h1>
-                        <div className="flex items-center gap-x-1 relative border-b border-black">
+                        <button
+                          onClick={onClickChangeShipAddress}
+                          className="flex user-select-none items-center gap-x-1 relative border-b border-black"
+                        >
                           <p className="text-[12px]">Change Address</p>
                           <MoveRight className="w-4" />
-                        </div>
+                        </button>
                       </div>
-                      {shippingAddresses.map((item) => {
-                        if (item.active === true) {
-                          return (
-                            <div key={item.id}>
-                              <h1 className="font-bold">{item.title}</h1>
-                              <h1>
-                                {item.address.street}, {item.address.suburb},{' '}
-                                {item.address.state_territory}{' '}
-                                {item.address.postcode}
-                              </h1>
-                              <h1>
-                                {item.user.firstName} {item.user.lastName} -{' '}
-                                {item.user.phone}
-                              </h1>
-                              <h1>Warehouse</h1>
-                            </div>
-                          );
-                        }
-                      })}
+
+                      {selectedShippingDetails?.shippingAddress && (
+                        <div>
+                        <h1 className="font-bold">{companyName}</h1>
+                        <h1>
+                          {selectedShippingDetails?.shippingAddress.street}, {selectedShippingDetails?.shippingAddress.suburb}, {' '}
+                          {selectedShippingDetails?.shippingAddress.state_territory} {' '}
+                          {selectedShippingDetails?.shippingAddress.postcode}
+                        </h1>
+                        <h1>
+                          {selectedShippingDetails.shippingAddress.name.first_name} {selectedShippingDetails.shippingAddress.name.last_name} -{' '}{selectedShippingDetails.shippingAddress.phone}
+                        </h1>
+                        <h1>Warehouse</h1>
+                      </div>
+                      )}
+          
                     </div>
 
                     {/* Delivery Options */}
                     <div className="border border-blue-navy-blue rounded-xl p-2 md:mx-12">
                       <h1 className="font-bold">Delivery Options:</h1>
 
-                      <RadioGroup onValueChange={onDeliveryOptionChange}>
-                        {deliveryOptions.map((item) => {
+                      <RadioGroup onValueChange={onChangeDeliveryOpt}>
+                        {DELIVERY_OPTIONS.map((item) => {
                           return (
                             <div
                               key={item.id}
@@ -194,7 +170,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                         })}
 
                         <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="4" id="4" />
+                          <RadioGroupItem value="4" id="4" disabled/>
                           <Label htmlFor="4">
                             <div>
                               <p>TBC - Request delivery on specified date</p>
@@ -375,8 +351,9 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
 
             <div className="ae-mobile-container px-2 mt-4 lg:bg-white lg:-mt-4 lg:py-4 ">
               <Button
-                className="mx-auto px-12 block rounded-2xl bg-pink-darker-pink hover:bg-pink-darker-pink/90"
                 onClick={onClickContinue}
+                disabled={!selectedShippingDetails?.deliveryOptions || !selectedShippingDetails?.shippingAddress}
+                className="mx-auto px-12 block rounded-2xl bg-pink-darker-pink hover:bg-pink-darker-pink/90"
               >
                 Continue to Shipping
               </Button>
