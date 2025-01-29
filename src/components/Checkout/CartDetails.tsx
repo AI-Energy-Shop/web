@@ -10,7 +10,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import CART_OPERATIONS from '@/graphql/cart';
 import USER_OPERATIONS from '@/graphql/users';
 import ORDER_OPERATIONS from '@/graphql/order';
-import { CARD_FEE, DELIVERY_OPTIONS, SHIPPING_FEE, WAREHOUSE_LOCATIONS } from '@/constant/shipping';
+import { CARD_FEE, DELIVERY_OPTIONS, WAREHOUSE_LOCATIONS } from '@/constant/shipping';
 import ModalWrapper from './ModalWrapper';
 import { ShippingDetailsTypes } from '@/lib/types';
 
