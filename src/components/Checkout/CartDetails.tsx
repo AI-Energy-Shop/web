@@ -10,7 +10,11 @@ import { useMutation, useQuery } from '@apollo/client';
 import CART_OPERATIONS from '@/graphql/cart';
 import USER_OPERATIONS from '@/graphql/users';
 import ORDER_OPERATIONS from '@/graphql/order';
-import { CARD_FEE, DELIVERY_OPTIONS, WAREHOUSE_LOCATIONS } from '@/constant/shipping';
+import {
+  CARD_FEE,
+  DELIVERY_OPTIONS,
+  WAREHOUSE_LOCATIONS,
+} from '@/constant/shipping';
 import ModalWrapper from './ModalWrapper';
 import { ShippingDetailsTypes } from '@/lib/types';
 
@@ -20,7 +24,6 @@ interface CartDetailsProps {
 }
 
 const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
-
   const [date, setDate] = React.useState<Date>(new Date());
   const [stepper, setStepper] = React.useState<number>(1);
   const [cartItems, setCartItems] = React.useState<any[]>([]);
@@ -33,7 +36,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
     warehouseLocation: 0,
   });
 
-  const {data: userData} = useQuery(USER_OPERATIONS.Queries.user, {
+  const { data: userData } = useQuery(USER_OPERATIONS.Queries.user, {
     context: {
       headers: {
         Authorization: `Bearer ${authToken}`,
@@ -42,25 +45,28 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
     onCompleted: (data) => {
       if (!data?.user) return;
       const { user } = data;
-      const activeShippingAddress = user.account_detail?.shipping_addresses?.find(
-        (address) => address?.isActive === true
-      );
+      const activeShippingAddress =
+        user.account_detail?.shipping_addresses?.find(
+          (address) => address?.isActive === true
+        );
       setShipDetails((prevShipDetails) => ({
         ...prevShipDetails,
         companyName: user.account_detail?.business_name || '',
-        shippingAddress: activeShippingAddress ? {
-          name: {
-            first_name: activeShippingAddress.name?.first_name || '',
-            middle_name: activeShippingAddress.name?.middle_name || '',
-            last_name: activeShippingAddress.name?.last_name || '',
-          },
-          phone: user.account_detail?.phone || '',
-          street: activeShippingAddress.street || '',
-          suburb: activeShippingAddress.suburb || '',
-          state_territory: activeShippingAddress.state_territory || '',
-          postcode: activeShippingAddress.postcode || '',
-          country: activeShippingAddress.country || '',
-        } : undefined
+        shippingAddress: activeShippingAddress
+          ? {
+              name: {
+                first_name: activeShippingAddress.name?.first_name || '',
+                middle_name: activeShippingAddress.name?.middle_name || '',
+                last_name: activeShippingAddress.name?.last_name || '',
+              },
+              phone: user.account_detail?.phone || '',
+              street: activeShippingAddress.street || '',
+              suburb: activeShippingAddress.suburb || '',
+              state_territory: activeShippingAddress.state_territory || '',
+              postcode: activeShippingAddress.postcode || '',
+              country: activeShippingAddress.country || '',
+            }
+          : undefined,
       }));
     },
     onError: (error) => {
@@ -96,8 +102,6 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
   });
 
   const handleIncrementStepper = () => {
-    
-
     try {
       setStepper((prev) => {
         if (prev == null) throw new Error('Stepper value is null');
@@ -116,8 +120,8 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
               shipping_details: shippingDetails.shippingAddress,
               warehouse_location: shippingDetails.warehouseLocation,
             },
-          }
-      
+          };
+
           createOrder({
             variables: {
               data: data,
@@ -220,8 +224,10 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
   };
 
   const handleDeliveryChange = (id: string) => {
-    const selectedDeliveryOption = DELIVERY_OPTIONS.find((option) => option.id === id);
-    if(!selectedDeliveryOption) return;
+    const selectedDeliveryOption = DELIVERY_OPTIONS.find(
+      (option) => option.id === id
+    );
+    if (!selectedDeliveryOption) return;
     setShipDetails((prev: ShippingDetailsTypes) => ({
       ...prev,
       deliveryOptions: {
@@ -240,9 +246,14 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
     setItemToRemove('');
   };
 
-
-  const deliveryFee = shippingDetails?.deliveryOptions?.price ? shippingDetails?.deliveryOptions?.price : 0;
-  const { subtotal, totalGst, total } = getCartTotals(cartItems, deliveryFee, CARD_FEE);
+  const deliveryFee = shippingDetails?.deliveryOptions?.price
+    ? shippingDetails?.deliveryOptions?.price
+    : 0;
+  const { subtotal, totalGst, total } = getCartTotals(
+    cartItems,
+    deliveryFee,
+    CARD_FEE
+  );
 
   return (
     <>
@@ -273,7 +284,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
             onClickChangeShipAddress={() => {
               console.log('redirect to addresses');
             }}
-            companyName={userData?.user?.account_detail?.business_name || ""}
+            companyName={userData?.user?.account_detail?.business_name || ''}
             selectedShippingDetails={shippingDetails}
             onClickContinue={handleIncrementStepper}
             onChangeDeliveryOpt={handleDeliveryChange}
@@ -288,16 +299,16 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
         <div className="hidden lg:block md:col-span-4">
           <OrderSummary
             shippingDetails={shippingDetails}
-            shippingFee={formatCurrency(deliveryFee, "USD")}
-            cardSubCharge={formatCurrency(CARD_FEE, "USD")}
-            gst={formatCurrency(totalGst, "USD")}
-            subtotal={formatCurrency(subtotal, "USD")}
-            total={formatCurrency(total, "USD")}
+            shippingFee={formatCurrency(deliveryFee, 'USD')}
+            cardSubCharge={formatCurrency(CARD_FEE, 'USD')}
+            gst={formatCurrency(totalGst, 'USD')}
+            subtotal={formatCurrency(subtotal, 'USD')}
+            total={formatCurrency(total, 'USD')}
           />
         </div>
       </div>
 
-      <ModalWrapper 
+      <ModalWrapper
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={handleConfirmRemove}

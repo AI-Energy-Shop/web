@@ -21,7 +21,11 @@ import { formatDate } from '@/utils/formatDate';
 import { Calendar } from '@/components/ui/calendar';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-import { DELIVERY_OPTIONS, SHIPPING_OPTIONS, ShippingOptions } from '@/constant/shipping';
+import {
+  DELIVERY_OPTIONS,
+  SHIPPING_OPTIONS,
+  ShippingOptions,
+} from '@/constant/shipping';
 import { ShippingDetailsTypes } from '@/lib/types';
 
 interface ShippingDetailsProps {
@@ -124,19 +128,30 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
 
                       {selectedShippingDetails?.shippingAddress && (
                         <div>
-                        <h1 className="font-bold">{companyName}</h1>
-                        <h1>
-                          {selectedShippingDetails?.shippingAddress.street}, {selectedShippingDetails?.shippingAddress.suburb}, {' '}
-                          {selectedShippingDetails?.shippingAddress.state_territory} {' '}
-                          {selectedShippingDetails?.shippingAddress.postcode}
-                        </h1>
-                        <h1>
-                          {selectedShippingDetails.shippingAddress.name.first_name} {selectedShippingDetails.shippingAddress.name.last_name} -{' '}{selectedShippingDetails.shippingAddress.phone}
-                        </h1>
-                        <h1>Warehouse</h1>
-                      </div>
+                          <h1 className="font-bold">{companyName}</h1>
+                          <h1>
+                            {selectedShippingDetails?.shippingAddress.street},{' '}
+                            {selectedShippingDetails?.shippingAddress.suburb},{' '}
+                            {
+                              selectedShippingDetails?.shippingAddress
+                                .state_territory
+                            }{' '}
+                            {selectedShippingDetails?.shippingAddress.postcode}
+                          </h1>
+                          <h1>
+                            {
+                              selectedShippingDetails.shippingAddress.name
+                                .first_name
+                            }{' '}
+                            {
+                              selectedShippingDetails.shippingAddress.name
+                                .last_name
+                            }{' '}
+                            - {selectedShippingDetails.shippingAddress.phone}
+                          </h1>
+                          <h1>Warehouse</h1>
+                        </div>
                       )}
-          
                     </div>
 
                     {/* Delivery Options */}
@@ -170,7 +185,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                         })}
 
                         <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="4" id="4" disabled/>
+                          <RadioGroupItem value="4" id="4" disabled />
                           <Label htmlFor="4">
                             <div>
                               <p>TBC - Request delivery on specified date</p>
@@ -352,7 +367,10 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
             <div className="ae-mobile-container px-2 mt-4 lg:bg-white lg:-mt-4 lg:py-4 ">
               <Button
                 onClick={onClickContinue}
-                disabled={!selectedShippingDetails?.deliveryOptions || !selectedShippingDetails?.shippingAddress}
+                disabled={
+                  !selectedShippingDetails?.deliveryOptions ||
+                  !selectedShippingDetails?.shippingAddress
+                }
                 className="mx-auto px-12 block rounded-2xl bg-pink-darker-pink hover:bg-pink-darker-pink/90"
               >
                 Continue to Shipping

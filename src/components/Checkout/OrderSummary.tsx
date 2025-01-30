@@ -17,8 +17,9 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   gst,
   total,
 }) => {
-
-  const warehouseLocation = WAREHOUSE_LOCATIONS.find((warehouse) => warehouse.id === shippingDetails.warehouseLocation)
+  const warehouseLocation = WAREHOUSE_LOCATIONS.find(
+    (warehouse) => warehouse.id === shippingDetails.warehouseLocation
+  );
   return (
     <div className="bg-white ml-8">
       <h1 className="p-2 text-xl font-black text-white bg-black">
@@ -37,10 +38,18 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         <div>
           <h1 className="font-semibold">Shipping:</h1>
           <h2 className="text-sm">
-            {shippingDetails?.companyName}{' '}{shippingDetails?.shippingAddress?.street}{' '}{shippingDetails?.shippingAddress?.suburb}{' '}{shippingDetails?.shippingAddress?.state}{' '}{shippingDetails?.shippingAddress?.postcode}
+            {shippingDetails?.companyName}{' '}
+            {shippingDetails?.shippingAddress?.street}{' '}
+            {shippingDetails?.shippingAddress?.suburb}{' '}
+            {shippingDetails?.shippingAddress?.state}{' '}
+            {shippingDetails?.shippingAddress?.postcode}
             {/* Fake Company Installs 123 Fake St, Springfield, NSW 2345 */}
           </h2>
-          <p className="text-xs">{shippingDetails?.deliveryOptions ? (`${shippingDetails?.deliveryOptions?.title} (${shippingDetails?.deliveryOptions?.eta})`) : "Please select delivery option"}</p>
+          <p className="text-xs">
+            {shippingDetails?.deliveryOptions
+              ? `${shippingDetails?.deliveryOptions?.title} (${shippingDetails?.deliveryOptions?.eta})`
+              : 'Please select delivery option'}
+          </p>
         </div>
         <div className="h-0.5 w-full bg-pink-lighter-pink" />
 

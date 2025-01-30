@@ -56,9 +56,7 @@ const CartItem = ({
           <p className="font-thin text-[14px]">{refId}</p>
         </div>
         <div className="flex-1 self-center">
-          <h2>
-            {gst}
-          </h2>
+          <h2>{gst}</h2>
           <p className="text-[12px]">ex.GST</p>
         </div>
         <div className="hidden md:block md:flex-1 md:border md:rounded-md md:h-full">
@@ -89,9 +87,7 @@ const CartItem = ({
             </Button>
           </div>
           <div className="text-center">
-            <p>
-              {getCartItemSubtotal(price, quantity)}
-            </p>
+            <p>{getCartItemSubtotal(price, quantity)}</p>
             <p className="text-[12px]">ex.GST</p>
           </div>
         </div>

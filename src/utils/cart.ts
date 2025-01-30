@@ -3,9 +3,9 @@ export const formatCurrency = (value: number, currency: string) => {
     style: 'currency',
     currency: currency,
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2
+    maximumFractionDigits: 2,
   });
-}
+};
 
 export const getCartSubtotal = (cartItems: any[]) => {
   return cartItems.reduce((acc, item) => {
@@ -19,8 +19,6 @@ export const getCartTotalGST = (cartItems: any[]) => {
   }, 0);
 };
 
-
-
 export const getCartItemSubtotal = (
   originalPrice: number,
   quantity: number
@@ -30,26 +28,30 @@ export const getCartItemSubtotal = (
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2
+    maximumFractionDigits: 2,
   });
 };
 
-
-export const getCartTotals = (cartItems: any[], shippingFee?: number, cardFee?: number) => {
+export const getCartTotals = (
+  cartItems: any[],
+  shippingFee?: number,
+  cardFee?: number
+) => {
   const totalItemsGST = getCartTotalGST(cartItems);
   const subtotal = getCartSubtotal(cartItems);
 
   const shippingGst = shippingFee ? shippingFee : 0;
-  
-  let totalGst, total: number = 0;
-  
+
+  let totalGst,
+    total: number = 0;
+
   if (cardFee) {
-    const cardfeeGst = cardFee ? cardFee * 0.12 : 0; 
+    const cardfeeGst = cardFee ? cardFee * 0.12 : 0;
     totalGst = totalItemsGST + shippingGst + cardfeeGst;
   } else {
     totalGst = totalItemsGST + shippingGst;
   }
-  
+
   if (cardFee) {
     total = subtotal + shippingFee + totalGst + cardFee;
   } else {
@@ -59,6 +61,6 @@ export const getCartTotals = (cartItems: any[], shippingFee?: number, cardFee?: 
   return {
     subtotal,
     totalGst,
-    total
+    total,
   };
 };

@@ -191,8 +191,6 @@ export interface Product {
   __typename: string;
 }
 
-
-
 export type ShippingDetailsTypes = {
   companyName?: string;
   shippingAddress?: {
@@ -209,7 +207,7 @@ export type ShippingDetailsTypes = {
     country: string;
   };
   deliveryOptions?: {
-    title:string;
+    title: string;
     price: number;
     eta: string;
   };
