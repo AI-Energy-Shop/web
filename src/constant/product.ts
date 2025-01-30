@@ -1,3 +1,5 @@
+export const USER_LEVELS = ['SMALL', 'MID-SIZED', 'VIP', 'Wholesale'];
+
 export const LOCATIONS = [
   // State/Territory Codes
   'NSW', // New South Wales
@@ -41,4 +43,51 @@ export const LOCATIONS = [
   'BWT', // Burnie (Tasmania)
 ];
 
-export const USER_LEVELS = ['SMALL', 'MID-SIZED', 'VIP', 'Wholesale'];
+export const PRODUCT_CATEGORIES = [
+  {
+    id: 1,
+    name: 'Solar Panels',
+    value: 'solar_panel',
+    icon: '/images/categories/panel.png',
+  },
+  {
+    id: 1,
+    name: 'Inverters',
+    value: 'inverter',
+    icon: '/images/categories/inverter.png',
+  },
+  {
+    id: 1,
+    name: 'Energy Storage',
+    value: 'energy_storage',
+    icon: '/images/categories/panel.png',
+  },
+  {
+    id: 1,
+    name: 'EV Chargers',
+    value: 'ev_charger',
+    icon: '/images/categories/charger.png',
+  },
+  {
+    id: 1,
+    name: 'Electricals',
+    value: 'electricals',
+    icon: '/images/categories/electricals.png',
+  },
+];
+
+export const BRANDS = [
+  { name: 'HT-SAAE', logo: '/placeholder.svg?height=32&width=120' },
+  { name: 'YH SUNPRO', logo: '/placeholder.svg?height=32&width=120' },
+  { name: 'DAA Solar', logo: '/placeholder.svg?height=32&width=120' },
+  { name: 'JinKO', logo: '/placeholder.svg?height=32&width=120' },
+];
+
+
+export const FILTERS = [
+  { name: 'Brand' },
+  { name: 'Wattage' },
+  { name: 'Colour' },
+  { name: 'Key Features' },
+  { name: 'Product Warranty' },
+];
