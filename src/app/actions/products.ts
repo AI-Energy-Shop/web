@@ -92,7 +92,10 @@ export const updateProduct = async (
   try {
     const res = await client.mutate({
       mutation: PRODUCT_OPERATIONS.Mutation.updateProduct,
-      variables: variables,
+      variables: {
+        documentId: variables.documentId,
+        data: variables.data
+      },
       context: {
         headers: {
           Authorization: `Bearer ${token?.value}`,
@@ -101,10 +104,14 @@ export const updateProduct = async (
     });
 
     if (res?.errors) {
-      return res;
+      return {
+        errors: res.errors,
+      };
     }
 
-    return res;
+    return {
+      data: res.data
+    };
   } catch (error: any) {
     console.log('ERROR updating product:', error.message);
     return error;

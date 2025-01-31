@@ -44,61 +44,59 @@ const useProductDetails = (product: ProductDetails) => {
       Toast('Product saved', 'ERROR', { position: 'top-center' });
     } else {
       console.log('UPDATE');
-      const newFiles = currentProduct.files?.map?.((item: FileType) =>
-        String(item.documentId)
-      );
 
-      const newImages = currentProduct.images?.map?.((item: FileType) =>
-        String(item.documentId)
-      );
-
-      const newProductData = {
-        name: currentProduct.name,
-        description: currentProduct.description,
-        category: currentProduct.category,
-        vendor: currentProduct.vendor,
-        odoo_product_id: currentProduct.odoo_product_id,
-        price_list: currentProduct.price_list?.map?.((item: any) => {
-          delete item.id;
-          delete item.__typename;
-          return item;
-        }),
-        inventory: currentProduct.inventory?.map?.((item: any) => {
-          delete item.id;
-          delete item.__typename;
-          return item;
-        }),
-        specification: currentProduct.specification?.map?.((item: any) => {
-          delete item.id;
-          delete item.__typename;
-          return item;
-        }),
-        key_features: currentProduct.key_features?.map?.((item: any) => {
-          delete item.id;
-          delete item.__typename;
-          return item;
-        }),
-        files: [...newFiles],
-        images: [...newImages],
+      // Sanitize the data structures to ensure they're serializable
+      const sanitizeArrayData = (arr: any[] = []) => {
+        return arr.map((item) => {
+          const newItem = { ...item };
+          // Remove non-serializable properties
+          delete newItem.id;
+          delete newItem.__typename;
+          // Ensure all values are serializable
+          return Object.fromEntries(
+            Object.entries(newItem).map(([key, value]) => [
+              key,
+              value === undefined ? null : value,
+            ])
+          );
+        });
       };
 
-      const { errors, data } = await updateProduct({
-        documentId: product.documentId,
-        data: newProductData,
-      });
+      try {
+        const { errors, data } = await updateProduct({
+          documentId: product.documentId,
+          data: {
+            name: currentProduct.name,
+            description: currentProduct.description,
+            category: currentProduct.category,
+            vendor: currentProduct.vendor,
+            odoo_product_id: currentProduct.odoo_product_id,
+            price_list: sanitizeArrayData(currentProduct.price_list),
+            inventory: sanitizeArrayData(currentProduct.inventory),
+            specification: sanitizeArrayData(currentProduct.specification),
+            key_features: sanitizeArrayData(currentProduct.key_features),
+            files: currentProduct.files?.map(file => file.documentId) || [],
+            images:  currentProduct.images?.map(image => image.documentId) || []
+          },
+        });
 
-      if (!data && errors) {
+        if (!data && errors) {
+          setLoading((loading) => !loading);
+          Toast(errors.toString(), 'ERROR', { position: 'top-center' });
+          return;
+        }
+  
+        if (data) {
+          setProductCopy({ ...data.customProductUpdate });
+        }
+  
         setLoading((loading) => !loading);
-        Toast(errors.toString(), 'ERROR', { position: 'top-center' });
-        return;
+        Toast('Product updated', 'SUCCESS', { position: 'top-center' });
+
+      } catch (error) {
+        console.error('data', error);
       }
 
-      if (data) {
-        setProductCopy({ ...data.customProductUpdate });
-      }
-
-      setLoading((loading) => !loading);
-      Toast('Product updated', 'SUCCESS', { position: 'top-center' });
     }
   };
 

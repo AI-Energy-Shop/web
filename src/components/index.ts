@@ -10,10 +10,10 @@ import LoadingAnimation from './custom-ui/LoadingAnimation';
 import Sliders from './custom-ui/Sliders';
 import DynamicSections from './DynamicSections';
 import Tables from './custom-ui/Table';
-import Cards from './custom-ui/Cards';
 import MediaUpload from './custom-ui/Upload/FileUpload';
+import AdminProducts from './custom-ui/admin-products';
+
 const Components = {
-  Cards,
   NavigationBar,
   Footer,
   Accordion,
@@ -27,6 +27,7 @@ const Components = {
   DynamicSections,
   Tables,
   MediaUpload,
+  AdminProducts,
 };
 
 export default Components;

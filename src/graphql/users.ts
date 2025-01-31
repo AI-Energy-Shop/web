@@ -20,7 +20,6 @@ const schema = {
             middle_name
             last_name
             business_name
-            position
           }
         }
       }
@@ -43,7 +42,6 @@ const schema = {
             middle_name
             last_name
             business_name
-            position
           }
         }
       }

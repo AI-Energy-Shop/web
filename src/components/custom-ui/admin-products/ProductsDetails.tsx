@@ -279,7 +279,7 @@ const ProductsDetails = ({ product }: { product: ProductDetails }) => {
                 <Input
                   id="category"
                   name="category"
-                  placeholder="Enter product category"
+                  placeholder="Categories"
                   onChange={handleInputChange}
                   value={currentProduct.category}
                 />
@@ -294,26 +294,6 @@ const ProductsDetails = ({ product }: { product: ProductDetails }) => {
                   onChange={handleInputChange}
                 />
               </div>
-              {/* <div>
-                <Label htmlFor="collections">Collections</Label>
-                <Input
-                  id="collections"
-                  name="collections"
-                  placeholder="Add to collections"
-                  onChange={handleInputChange}
-                  value={currentProduct.collections}
-                />
-              </div>
-              <div>
-                <Label htmlFor="tags">Tags</Label>
-                <Input
-                  id="tags"
-                  name="tags"
-                  placeholder="Add tags"
-                  onChange={handleInputChange}
-                  value={currentProduct.tags}
-                />
-              </div> */}
             </CardContent>
           </Card>
 
