@@ -13,11 +13,6 @@ export const getCartSubtotal = (cartItems: any[]) => {
   }, 0);
 };
 
-export const getCartTotalGST = (cartItems: any[]) => {
-  return cartItems.reduce((acc, item) => {
-    return acc + item.gst;
-  }, 0);
-};
 
 export const getCartItemSubtotal = (
   originalPrice: number,
@@ -37,26 +32,20 @@ export const getCartTotals = (
   shippingFee?: number,
   cardFee?: number
 ) => {
-  const totalItemsGST = getCartTotalGST(cartItems);
-  const subtotal = getCartSubtotal(cartItems);
+  const cartSubtotal = getCartSubtotal(cartItems);
+  // Calculate GST for each component separately
+  const cartGst = cartSubtotal * 0.10;
+  const shippingGst = shippingFee ? shippingFee * 0.10 : 0;
+  const cardGst = cardFee ? cardFee * 0.10 : 0;
+  const subtotal = cartSubtotal;
+  
+  // Total GST is the sum of all GST components
+  const totalGst = cartGst + shippingGst + cardGst;
 
-  const shippingGst = shippingFee ? shippingFee : 0;
-
-  let totalGst,
-    total: number = 0;
-
-  if (cardFee) {
-    const cardfeeGst = cardFee ? cardFee * 0.12 : 0;
-    totalGst = totalItemsGST + shippingGst + cardfeeGst;
-  } else {
-    totalGst = totalItemsGST + shippingGst;
-  }
-
-  if (cardFee) {
-    total = subtotal + shippingFee + totalGst + cardFee;
-  } else {
-    total = subtotal + shippingFee + totalGst;
-  }
+  // Calculate final total including all fees and GST
+  const total = cardFee
+    ? cartSubtotal + shippingFee + cardFee + totalGst
+    : cartSubtotal + shippingFee + totalGst;
 
   return {
     subtotal,

@@ -212,4 +212,8 @@ export type ShippingDetailsTypes = {
     eta: string;
   };
   warehouseLocation?: number;
+  paymentOption?: {
+    title: string;
+    price: number;
+  };
 };

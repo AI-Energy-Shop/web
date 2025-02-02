@@ -33,6 +33,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
     companyName: undefined,
     shippingAddress: undefined,
     deliveryOptions: undefined,
+    paymentOption: undefined,
     warehouseLocation: 0,
   });
 
@@ -249,10 +250,13 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
   const deliveryFee = shippingDetails?.deliveryOptions?.price
     ? shippingDetails?.deliveryOptions?.price
     : 0;
+
+  const paymentOption = shippingDetails?.paymentOption;
+
   const { subtotal, totalGst, total } = getCartTotals(
     cartItems,
     deliveryFee,
-    CARD_FEE
+    paymentOption?.price
   );
 
   return (
@@ -293,6 +297,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
           <Payment
             stepper={stepper}
             handleIncrementStepper={handleIncrementStepper}
+            paymentOption={shippingDetails?.paymentOption}
           />
         </div>
 
@@ -300,7 +305,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
           <OrderSummary
             shippingDetails={shippingDetails}
             shippingFee={formatCurrency(deliveryFee, 'USD')}
-            cardSubCharge={formatCurrency(CARD_FEE, 'USD')}
+            cardSubCharge={formatCurrency(shippingDetails?.paymentOption?.price || 0.00, 'USD')}
             gst={formatCurrency(totalGst, 'USD')}
             subtotal={formatCurrency(subtotal, 'USD')}
             total={formatCurrency(total, 'USD')}

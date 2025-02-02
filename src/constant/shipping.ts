@@ -33,7 +33,7 @@ export const DELIVERY_OPTIONS = [
   {
     id: '0',
     label: 'TNT Standard Shipping',
-    price: 39.0,
+    price: 39.47,
     eta: '3-5  Business days',
     prefix: '$',
   },
