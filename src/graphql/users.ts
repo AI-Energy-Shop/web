@@ -2,6 +2,36 @@ import { graphql } from '@/lib/gql';
 
 const schema = {
   Queries: {
+    user: graphql(`
+      query User($filters: UserFiltersInput) {
+        user(filters: $filters) {
+          documentId
+          email
+          account_status
+          blocked
+          username
+          account_detail {
+            business_name
+            phone
+            shipping_addresses {
+              id
+              phone
+              name {
+                first_name
+                middle_name
+                last_name
+              }
+              street
+              suburb
+              state_territory
+              postcode
+              country
+              isActive
+            }
+          }
+        }
+      }
+    `),
     users: graphql(`
       query UsersPermissionsUsers {
         usersPermissionsUsers {
@@ -14,12 +44,12 @@ const schema = {
           account_detail {
             documentId
             level
+            phone
             user_type
             first_name
             middle_name
             last_name
             business_name
-            position
           }
         }
       }
@@ -41,7 +71,7 @@ const schema = {
             middle_name
             last_name
             business_name
-            position
+            phone
             odoo_user_id
           }
         }
