@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get('a-token');
+  const token = request.cookies.get('a-token')?.value;
 
   if (!token) {
     return NextResponse.redirect(new URL('/auth/login', request.url));
@@ -12,5 +12,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/products/:path*', '/cart/:path*'],
+  matcher: ['/checkout', '/admin/:path*', '/products/:path*', '/cart/:path*'],
 };

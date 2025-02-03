@@ -190,3 +190,30 @@ export interface Product {
   specification: [];
   __typename: string;
 }
+
+export type ShippingDetailsTypes = {
+  companyName?: string;
+  shippingAddress?: {
+    name: {
+      first_name: string;
+      middle_name: string;
+      last_name: string;
+    };
+    phone: string;
+    street: string;
+    suburb: string;
+    state_territory: string;
+    postcode: string;
+    country: string;
+  };
+  deliveryOptions?: {
+    title: string;
+    price: number;
+    eta: string;
+  };
+  warehouseLocation?: number;
+  paymentOption?: {
+    title: string;
+    price: number;
+  };
+};

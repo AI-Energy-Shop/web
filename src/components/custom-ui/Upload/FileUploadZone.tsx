@@ -22,13 +22,12 @@ export function FileUploadZone({
     e.stopPropagation();
   }, []);
 
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-      const droppedFiles = e.dataTransfer.files as unknown as FileType[];
-      onFiles?.(droppedFiles);
+    const droppedFiles = e.dataTransfer.files as unknown as FileType[];
+    onFiles?.(droppedFiles);
 
       // Trigger form submission automatically
       formRef.current?.requestSubmit();

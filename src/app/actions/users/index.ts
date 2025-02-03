@@ -91,10 +91,20 @@ export const loginUser = safeAction
       if (response.data?.login) {
         isSuccessfull = true;
         const token = response?.data.login.jwt;
+        const user = response?.data.login.user;
 
         cookieStore.set('a-token', token!, {
           path: '/',
-          maxAge: 86400, // 1 day expiration
+          // maxAge: 604800, // 7 days
+          maxAge: 60 * 60 * 12,
+          httpOnly: true,
+          sameSite: 'strict',
+        });
+
+        cookieStore.set('a-user', JSON.stringify(user!), {
+          path: '/',
+          // maxAge: 604800, // 7 days
+          maxAge: 60 * 60 * 12,
           httpOnly: true,
           sameSite: 'strict',
         });
