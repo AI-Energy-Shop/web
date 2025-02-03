@@ -1,10 +1,10 @@
 import { muktaVaani } from '@/app/font';
-import { ProductQuery } from '@/lib/gql/graphql';
+import { GetProductQuery } from '@/lib/gql/graphql';
 import { Download } from 'lucide-react';
 import Link from 'next/link';
 
 interface ProductDownloadsProps {
-  productData: ProductQuery['product'];
+  productData: GetProductQuery['getProduct'];
 }
 
 function ProductDownloads({ productData }: ProductDownloadsProps) {

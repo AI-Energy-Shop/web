@@ -1,4 +1,4 @@
-import { product } from '@/app/actions';
+import { product } from '@/app/actions/products';
 import { redirect } from 'next/navigation';
 import Components from '@/components';
 import { Suspense } from 'react';

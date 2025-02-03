@@ -29,9 +29,11 @@ export function FileUploadZone({
     const droppedFiles = e.dataTransfer.files as unknown as FileType[];
     onFiles?.(droppedFiles);
 
-    // Trigger form submission automatically
-    formRef.current?.requestSubmit();
-  }, []);
+      // Trigger form submission automatically
+      formRef.current?.requestSubmit();
+    },
+    [onFiles]
+  );
 
   const handleFileInput = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {

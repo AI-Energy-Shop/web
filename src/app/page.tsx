@@ -1,5 +1,5 @@
 import Components from '@/components';
-import { getPage } from '@/app/actions';
+import { getPage } from '@/app/actions/pages';
 
 export default async function HomePage() {
   const data = await getPage('/');

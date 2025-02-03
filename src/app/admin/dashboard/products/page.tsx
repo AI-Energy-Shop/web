@@ -1,6 +1,6 @@
 export const dynamic = 'auto';
 import { Package, Search, ShoppingCart, Users } from 'lucide-react';
-import { products } from '@/app/actions';
+import { products } from '@/app/actions/products';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Components from '@/components';

@@ -3,14 +3,14 @@ import { ChevronRight } from 'lucide-react';
 import { firaSans } from '@/app/font';
 import ProductPrice from '@/components/Product-front-page/ProductPrice';
 import ProductDescription from '@/components/Product-front-page/ProductDescription';
-import { product } from '@/app/actions';
+import { frontPageGetProduct } from '@/app/actions/products';
 
 async function ProductPage({ params }: { params: { id: string } }) {
   const id = params.id;
 
-  const { data, error, loading } = await product(id);
+  const { data, error, loading } = await frontPageGetProduct(id);
 
-  const productData = data?.product;
+  const productData = data?.getProduct;
 
   return (
     <main className="bg-yellow-light-yellow pt-[75px]">

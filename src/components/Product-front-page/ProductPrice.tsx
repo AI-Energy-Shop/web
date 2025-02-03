@@ -17,14 +17,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { ProductQuery } from '@/lib/gql/graphql';
+import { GetProductQuery } from '@/lib/gql/graphql';
 import { useState } from 'react';
 import { Input } from '../ui/input';
 import { formatPriceWithCommas } from '@/utils/formatPriceWithCommas';
 import { getCentsInAmount } from '@/utils/getCentsInAmount';
 
 interface ProductPriceProps {
-  productData: ProductQuery['product'];
+  productData: GetProductQuery['getProduct'];
 }
 
 function ProductPrice({ productData }: ProductPriceProps) {
