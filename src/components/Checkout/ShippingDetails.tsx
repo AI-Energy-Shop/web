@@ -62,7 +62,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     );
 
   return (
-    <section className="">
+    <section className="w-full h-auto">
       <div className="bg-pink-darker-pink py-3">
         <div className="ae-mobile-container px-2 md:px-12 text-white flex items-center gap-x-2 relative">
           <h1 className="text-lg font-bold">Shipping</h1>
@@ -367,10 +367,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
             <div className="ae-mobile-container px-2 mt-4 lg:bg-white lg:-mt-4 lg:py-4 ">
               <Button
                 onClick={onClickContinue}
-                disabled={
-                  !selectedShippingDetails?.deliveryOptions ||
-                  !selectedShippingDetails?.shippingAddress
-                }
+                disabled={!selectedShippingDetails?.shippingAddress}
                 className="mx-auto px-12 block rounded-2xl bg-pink-darker-pink hover:bg-pink-darker-pink/90"
               >
                 Continue to Shipping

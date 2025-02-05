@@ -91,29 +91,21 @@ export type CartFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CartFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
-  image?: InputMaybe<StringFilterInput>;
+  item?: InputMaybe<ComponentElementsCartItemFiltersInput>;
   locale?: InputMaybe<StringFilterInput>;
   localizations?: InputMaybe<CartFiltersInput>;
   not?: InputMaybe<CartFiltersInput>;
-  odoo_product_id?: InputMaybe<StringFilterInput>;
   or?: InputMaybe<Array<InputMaybe<CartFiltersInput>>>;
-  price?: InputMaybe<FloatFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
-  quantity?: InputMaybe<LongFilterInput>;
-  reference_id?: InputMaybe<StringFilterInput>;
-  title?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
 };
 
 export type CartInput = {
-  image?: InputMaybe<Scalars['String']['input']>;
+  item?: InputMaybe<ComponentElementsCartItemInput>;
   locale?: InputMaybe<Scalars['String']['input']>;
-  odoo_product_id?: InputMaybe<Scalars['String']['input']>;
-  price?: InputMaybe<Scalars['Float']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
-  quantity?: InputMaybe<Scalars['Long']['input']>;
-  reference_id?: InputMaybe<Scalars['String']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
+  user?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type ComponentElementsAddressFiltersInput = {
@@ -144,19 +136,23 @@ export type ComponentElementsAddressInput = {
 
 export type ComponentElementsCartItemFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ComponentElementsCartItemFiltersInput>>>;
+  image?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<ComponentElementsCartItemFiltersInput>;
   odoo_product_id?: InputMaybe<StringFilterInput>;
   or?: InputMaybe<Array<InputMaybe<ComponentElementsCartItemFiltersInput>>>;
   price?: InputMaybe<FloatFilterInput>;
   quantity?: InputMaybe<IntFilterInput>;
+  reference_id?: InputMaybe<StringFilterInput>;
   title?: InputMaybe<StringFilterInput>;
 };
 
 export type ComponentElementsCartItemInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   odoo_product_id?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<Scalars['Float']['input']>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
+  reference_id?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -593,6 +589,7 @@ export type OrderFiltersInput = {
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   shipping?: InputMaybe<ComponentElementsShippingFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
 };
 
 export type OrderInput = {
@@ -600,6 +597,7 @@ export type OrderInput = {
   locale?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   shipping?: InputMaybe<ComponentElementsShippingInput>;
+  user?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type PageFiltersInput = {
@@ -906,6 +904,7 @@ export type UsersPermissionsUserFiltersInput = {
   account_status?: InputMaybe<StringFilterInput>;
   and?: InputMaybe<Array<InputMaybe<UsersPermissionsUserFiltersInput>>>;
   blocked?: InputMaybe<BooleanFilterInput>;
+  carts?: InputMaybe<CartFiltersInput>;
   confirmationToken?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
@@ -914,6 +913,7 @@ export type UsersPermissionsUserFiltersInput = {
   localizations?: InputMaybe<UsersPermissionsUserFiltersInput>;
   not?: InputMaybe<UsersPermissionsUserFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<UsersPermissionsUserFiltersInput>>>;
+  orders?: InputMaybe<OrderFiltersInput>;
   password?: InputMaybe<StringFilterInput>;
   provider?: InputMaybe<StringFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
@@ -928,9 +928,11 @@ export type UsersPermissionsUserInput = {
   account_detail?: InputMaybe<Scalars['ID']['input']>;
   account_status?: InputMaybe<Enum_Userspermissionsuser_Account_Status>;
   blocked?: InputMaybe<Scalars['Boolean']['input']>;
+  carts?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   confirmationToken?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   locale?: InputMaybe<Scalars['String']['input']>;
+  orders?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   password?: InputMaybe<Scalars['String']['input']>;
   provider?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -940,17 +942,12 @@ export type UsersPermissionsUserInput = {
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type CartsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type CartsQuery = { __typename?: 'Query', carts: Array<{ __typename?: 'Cart', documentId: string, title?: string | null, image?: string | null, reference_id?: string | null, odoo_product_id?: string | null, quantity?: any | null, price?: number | null } | null> };
-
-export type CreateCartMutationVariables = Exact<{
-  data: CartInput;
+export type CartsQueryVariables = Exact<{
+  filters?: InputMaybe<CartFiltersInput>;
 }>;
 
 
-export type CreateCartMutation = { __typename?: 'Mutation', createCart?: { __typename?: 'Cart', documentId: string, title?: string | null, image?: string | null, reference_id?: string | null, quantity?: any | null, odoo_product_id?: string | null, price?: number | null, createdAt?: any | null } | null };
+export type CartsQuery = { __typename?: 'Query', carts: Array<{ __typename?: 'Cart', documentId: string, updatedAt?: any | null, createdAt?: any | null, item: { __typename?: 'ComponentElementsCartItem', title: string, quantity: number, price: number, odoo_product_id: string, reference_id: string, image: string } } | null> };
 
 export type FilesQueryVariables = Exact<{
   filters?: InputMaybe<FilesFiltersArgs>;
@@ -1046,8 +1043,7 @@ export type UserApprovalMutationVariables = Exact<{
 export type UserApprovalMutation = { __typename?: 'Mutation', userApproval?: { __typename?: 'Response', error?: string | null, success?: boolean | null, statusText?: string | null } | null };
 
 
-export const CartsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Carts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"carts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"reference_id"}},{"kind":"Field","name":{"kind":"Name","value":"odoo_product_id"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"price"}}]}}]}}]} as unknown as DocumentNode<CartsQuery, CartsQueryVariables>;
-export const CreateCartDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateCart"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CartInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createCart"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"image"}},{"kind":"Field","name":{"kind":"Name","value":"reference_id"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"odoo_product_id"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<CreateCartMutation, CreateCartMutationVariables>;
+export const CartsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Carts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filters"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"CartFiltersInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"carts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filters"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filters"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"item"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"odoo_product_id"}},{"kind":"Field","name":{"kind":"Name","value":"reference_id"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<CartsQuery, CartsQueryVariables>;
 export const FilesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Files"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filters"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"FilesFiltersArgs"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"files"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filters"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filters"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}},{"kind":"Field","name":{"kind":"Name","value":"caption"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"formats"}},{"kind":"Field","name":{"kind":"Name","value":"hash"}},{"kind":"Field","name":{"kind":"Name","value":"ext"}},{"kind":"Field","name":{"kind":"Name","value":"mime"}},{"kind":"Field","name":{"kind":"Name","value":"size"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"previewUrl"}},{"kind":"Field","name":{"kind":"Name","value":"provider"}},{"kind":"Field","name":{"kind":"Name","value":"provider_metadata"}}]}}]}}]} as unknown as DocumentNode<FilesQuery, FilesQueryVariables>;
 export const CreateOrderDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateOrder"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OrderInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createOrder"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<CreateOrderMutation, CreateOrderMutationVariables>;
 export const PagesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Pages"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pages"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}}]} as unknown as DocumentNode<PagesQuery, PagesQueryVariables>;

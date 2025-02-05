@@ -16,7 +16,8 @@ import {
   WAREHOUSE_LOCATIONS,
 } from '@/constant/shipping';
 import ModalWrapper from './ModalWrapper';
-import { ShippingDetailsTypes } from '@/lib/types';
+import { CartItemType, ShippingDetailsTypes } from '@/lib/types';
+import { CartsQuery } from '@/lib/gql/graphql';
 
 interface CartDetailsProps {
   authToken?: any;
@@ -26,7 +27,7 @@ interface CartDetailsProps {
 const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
   const [date, setDate] = React.useState<Date>(new Date());
   const [stepper, setStepper] = React.useState<number>(1);
-  const [cartItems, setCartItems] = React.useState<any[]>([]);
+  const [cartItems, setCartItems] = React.useState<CartItemType[]>([]);
   const [showModal, setShowModal] = React.useState<boolean>(false);
   const [itemToRemove, setItemToRemove] = React.useState<string>('');
   const [shippingDetails, setShipDetails] = useState<ShippingDetailsTypes>({
@@ -81,10 +82,19 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
     },
   });
 
-  useQuery(CART_OPERATIONS.Query.cartItems, {
+  useQuery<CartsQuery>(CART_OPERATIONS.Query.carts, {
     onCompleted: (data) => {
-      if (!data?.carts) return;
-      setCartItems(data?.carts);
+      if (!data) return;
+      const { carts } = data;
+      if (!carts) return;
+
+      setCartItems(carts.map((cart) => ({
+        documentId: cart?.documentId || '',
+        item: cart?.item || {},
+        updatedAt: cart?.updatedAt || '',
+        createdAt: cart?.createdAt || ''
+      })));
+
     },
   });
 
@@ -111,10 +121,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
           console.log('submit');
           const data = {
             cart_items: cartItems.map((item) => ({
-              title: item.title,
-              quantity: item.quantity,
-              price: item.price,
-              odoo_product_id: item.odoo_product_id,
+              item: item.item
             })),
             shipping: {
               delivery_option: shippingDetails.deliveryOptions,
@@ -123,11 +130,11 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
             },
           };
 
-          createOrder({
-            variables: {
-              data: data,
-            },
-          });
+          // createOrder({
+          //   variables: {
+          //     data: data,
+          //   },
+          // });
           return 3;
         }
         return Math.min(prev + 1, 3);
@@ -143,7 +150,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
     setCartItems((prevCartData) => {
       const newCartData = [...prevCartData];
       const itemIndex = newCartData.findIndex(
-        (item) => item?.documentId === id
+        (item) => item.documentId === id
       );
       if (itemIndex === -1) return newCartData;
 
@@ -152,7 +159,10 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
 
       newCartData[itemIndex] = {
         ...item,
-        quantity: item.quantity + 1,
+        item: {
+          ...item.item,
+          quantity: item.item?.quantity ? item.item.quantity + 1 : 0,
+        },
       };
 
       return newCartData;
@@ -164,22 +174,26 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
 
     setCartItems((prevCartData) => {
       const itemIndex = prevCartData.findIndex(
-        (item) => item?.documentId === id
+        (item) => item.documentId === id
       );
 
       if (itemIndex === -1) return prevCartData;
-
       const item = prevCartData[itemIndex];
-      if (!item || item.quantity < 2) {
+      if (!item || (item.item?.quantity !== undefined && item.item.quantity < 2)) {
         setShowModal(true);
-        setItemToRemove(item.documentId);
+        setItemToRemove(item.documentId || "");
         return prevCartData;
       }
-
-      const { quantity } = item;
+      const quantity = item.item?.quantity ?? 0;
 
       return prevCartData.map((cartItem, index) =>
-        index === itemIndex ? { ...cartItem, quantity: quantity - 1 } : cartItem
+        index === itemIndex ? {
+          ...cartItem,
+          item: {
+            ...cartItem.item,
+            quantity: quantity - 1,
+          },
+        } : cartItem
       );
     });
   };
@@ -195,7 +209,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
 
     setCartItems((prevCartData) => {
       const newCartData = [...prevCartData];
-      const itemIndex = newCartData.findIndex((item) => item?.id === id);
+      const itemIndex = newCartData.findIndex((item) => item.item?.id === id);
       if (itemIndex === -1) return newCartData;
 
       const item = newCartData[itemIndex];
@@ -206,9 +220,11 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
 
       newCartData[itemIndex] = {
         ...item,
-        quantity,
+        item: {
+          ...item.item,
+          quantity,
+        },
       };
-
       return newCartData;
     });
   };
@@ -241,7 +257,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
 
   const handleConfirmRemove = () => {
     setCartItems((prevCartData) =>
-      prevCartData.filter((cartItem) => cartItem?.documentId !== itemToRemove)
+      prevCartData.filter((cartItem) => cartItem.documentId !== itemToRemove)
     );
     setShowModal(false);
     setItemToRemove('');
@@ -285,9 +301,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
             stepper={stepper}
             setDate={setDate}
             onEdit={handleEditClick}
-            onClickChangeShipAddress={() => {
-              console.log('redirect to addresses');
-            }}
+            onClickChangeShipAddress={() => {}}
             companyName={userData?.user?.account_detail?.business_name || ''}
             selectedShippingDetails={shippingDetails}
             onClickContinue={handleIncrementStepper}
