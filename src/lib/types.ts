@@ -181,7 +181,6 @@ export type CartItemType = {
   createdAt: string;
 };
 
-
 export interface Product {
   documentId: string;
   name: string;

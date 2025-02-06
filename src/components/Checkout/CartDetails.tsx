@@ -88,13 +88,14 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
       const { carts } = data;
       if (!carts) return;
 
-      setCartItems(carts.map((cart) => ({
-        documentId: cart?.documentId || '',
-        item: cart?.item || {},
-        updatedAt: cart?.updatedAt || '',
-        createdAt: cart?.createdAt || ''
-      })));
-
+      setCartItems(
+        carts.map((cart) => ({
+          documentId: cart?.documentId || '',
+          item: cart?.item || {},
+          updatedAt: cart?.updatedAt || '',
+          createdAt: cart?.createdAt || '',
+        }))
+      );
     },
   });
 
@@ -121,7 +122,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
           console.log('submit');
           const data = {
             cart_items: cartItems.map((item) => ({
-              item: item.item
+              item: item.item,
             })),
             shipping: {
               delivery_option: shippingDetails.deliveryOptions,
@@ -149,9 +150,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
 
     setCartItems((prevCartData) => {
       const newCartData = [...prevCartData];
-      const itemIndex = newCartData.findIndex(
-        (item) => item.documentId === id
-      );
+      const itemIndex = newCartData.findIndex((item) => item.documentId === id);
       if (itemIndex === -1) return newCartData;
 
       const item = newCartData[itemIndex];
@@ -179,21 +178,26 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
 
       if (itemIndex === -1) return prevCartData;
       const item = prevCartData[itemIndex];
-      if (!item || (item.item?.quantity !== undefined && item.item.quantity < 2)) {
+      if (
+        !item ||
+        (item.item?.quantity !== undefined && item.item.quantity < 2)
+      ) {
         setShowModal(true);
-        setItemToRemove(item.documentId || "");
+        setItemToRemove(item.documentId || '');
         return prevCartData;
       }
       const quantity = item.item?.quantity ?? 0;
 
       return prevCartData.map((cartItem, index) =>
-        index === itemIndex ? {
-          ...cartItem,
-          item: {
-            ...cartItem.item,
-            quantity: quantity - 1,
-          },
-        } : cartItem
+        index === itemIndex
+          ? {
+              ...cartItem,
+              item: {
+                ...cartItem.item,
+                quantity: quantity - 1,
+              },
+            }
+          : cartItem
       );
     });
   };
@@ -275,6 +279,16 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
     paymentOption?.price
   );
 
+  const handlePaymentOptionChange = (value: string) => {
+    setShipDetails((prev: ShippingDetailsTypes) => ({
+      ...prev,
+      paymentOption: {
+        title: value,
+        price: 39.5 * 0.1,
+      },
+    }));
+  };
+
   return (
     <>
       <CheckoutHeader stepper={stepper} />
@@ -312,6 +326,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
             stepper={stepper}
             handleIncrementStepper={handleIncrementStepper}
             paymentOption={shippingDetails?.paymentOption}
+            handlePaymentOptionChange={handlePaymentOptionChange}
           />
         </div>
 
@@ -319,7 +334,10 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
           <OrderSummary
             shippingDetails={shippingDetails}
             shippingFee={formatCurrency(deliveryFee, 'USD')}
-            cardSubCharge={formatCurrency(shippingDetails?.paymentOption?.price || 0.00, 'USD')}
+            cardSubCharge={formatCurrency(
+              shippingDetails?.paymentOption?.price || 0.0,
+              'USD'
+            )}
             gst={formatCurrency(totalGst, 'USD')}
             subtotal={formatCurrency(subtotal, 'USD')}
             total={formatCurrency(total, 'USD')}
