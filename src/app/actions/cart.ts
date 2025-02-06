@@ -6,14 +6,12 @@ import { CartsQuery } from '@/lib/gql/graphql';
 
 const client = getClient();
 
-export async function getCartItems() {
+export async function getCartItems(): Promise<CartsQuery> {
   try {
     const res = await client.query({
-      query: CART_OPERATIONS.Query.cartItems,
+      query: CART_OPERATIONS.Query.carts,
       fetchPolicy: 'no-cache',
     });
-
-    console.log(res.data);
 
     return res.data;
   } catch (error: any) {
