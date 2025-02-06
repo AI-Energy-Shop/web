@@ -36,7 +36,7 @@ const ReviewItems = ({
   onEdit,
 }: ReviewItemsProps) => {
   return (
-    <section className="lg:mb-4">
+    <section className="w-full h-auto">
       <div className="bg-yellow-aes-yellow py-3">
         <div className="ae-mobile-container px-2 md:px-12 text-white flex items-center gap-x-2 relative">
           <h1 className="text-  lg font-bold ">Review Items</h1>

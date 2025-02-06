@@ -167,13 +167,20 @@ export type UsersPermissionsResponse = {
 
 // CART
 export type CartItemType = {
-  id: string;
-  name: string;
-  referenceId: string;
-  price: number;
-  quantity: number;
-  image: string;
+  documentId: string;
+  item: {
+    id?: string;
+    title?: string;
+    quantity?: number;
+    price?: number;
+    odoo_product_id?: string;
+    reference_id?: string;
+    image?: string;
+  };
+  updatedAt: string;
+  createdAt: string;
 };
+
 
 export interface Product {
   documentId: string;

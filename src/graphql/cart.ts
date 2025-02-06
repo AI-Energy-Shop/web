@@ -2,36 +2,25 @@ import { graphql } from '@/lib/gql';
 
 const schema = {
   Query: {
-    cartItems: graphql(`
-      query Carts {
-        carts {
+    carts: graphql(`
+      query Carts($filters: CartFiltersInput) {
+        carts(filters: $filters) {
           documentId
-          title
-          image
-          reference_id
-          odoo_product_id
-          quantity
-          price
-        }
-      }
-    `),
-  },
-  Mutation: {
-    createCartItem: graphql(`
-      mutation CreateCart($data: CartInput!) {
-        createCart(data: $data) {
-          documentId
-          title
-          image
-          reference_id
-          quantity
-          odoo_product_id
-          price
+          item {
+            title
+            quantity
+            price
+            odoo_product_id
+            reference_id
+            image
+          }
+          updatedAt
           createdAt
         }
       }
     `),
   },
+  Mutation: {},
 };
 
 export default schema;

@@ -8,12 +8,12 @@ import { getCartItemSubtotal } from '@/utils/cart';
 
 interface CartItemProps {
   id: string;
-  image: string;
-  title: string;
-  refId: string;
-  price: number;
-  quantity: number;
-  gst: string;
+  image?: string;
+  title?: string;
+  refId?: string;
+  price?: number;
+  quantity?: number;
+  gst?: string;
   onChange: (id: string, e: React.ChangeEvent<HTMLInputElement>) => void;
   onReduceQuant: (id: string) => void;
   onAddQuant: (id: string) => void;
@@ -45,7 +45,7 @@ const CartItem = ({
           <Image
             fill
             sizes=""
-            src={image}
+            src={image || '/no-product-image.jpg'}
             alt="picture"
             className="object-contain object-top"
           />

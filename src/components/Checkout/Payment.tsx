@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Label } from '@/components/ui/label';
 import { MoveRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 interface PaymentProps {
   stepper: number;
@@ -27,7 +28,7 @@ const Payment: React.FC<PaymentProps> = ({
         <div className="ae-mobile-container space-y-4">
           <div className="border border-blue-navy-blue rounded-xl p-2 md:mx-12">
             <h1 className="font-bold">Payment Method</h1>
-            <RadioGroup defaultValue="option-one" className="space-y-1">
+            <RadioGroup className="space-y-1">
               <div className="flex items-center justify-between border-b border-b-gray-300 pb-2">
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="option-one" id="option-one" />
@@ -84,32 +85,38 @@ const Payment: React.FC<PaymentProps> = ({
               </div>
             </div>
 
-            <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12 lg:mx-0">
-              <div className="flex items-center justify-between">
-                <h1 className="font-bold">Card Details</h1>
-                <div className="flex items-center gap-x-1 relative border-b border-black">
-                  <p className="text-[12px]">Change Payment Method</p>
-                  <MoveRight className="w-4" />
+            {/* Card Details */}
+            {paymentOption && (
+              <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12 lg:mx-0">
+                <div className="flex items-center justify-between">
+                  <h1 className="font-bold">Card Details</h1>
+                  <Link href="/payment">
+                    <div className="flex items-center gap-x-1 relative border-b border-black">
+                      <p className="text-[12px]">Change Payment Method</p>
+                      <MoveRight className="w-4" />
+                    </div>
+                  </Link>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h1>Frank Grimes</h1>
+                    <p>Ending with 2684</p>
+                    <p>Exp. 10/2026</p>
+                  </div>
+                  <div className="basis-3/12 flex items-center justify-center flex-col gap-y-2">
+                    <Image
+                      width={28}
+                      height={24}
+                      src="/images/logo/visa.png"
+                      alt="visa logo"
+                      className="w-7 h-6 border border-black"
+                    />
+                    <p className="text-[14px] text-center">1.2% Surcharge</p>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <h1>Frank Grimes</h1>
-                  <p>Ending with 2684</p>
-                  <p>Exp. 10/2026</p>
-                </div>
-                <div className="basis-3/12 flex items-center justify-center flex-col gap-y-2">
-                  <Image
-                    width={28}
-                    height={24}
-                    src="/images/logo/visa.png"
-                    alt="visa logo"
-                    className="w-7 h-6 border border-black"
-                  />
-                  <p className="text-[14px] text-center">1.2% Surcharge</p>
-                </div>
-              </div>
-            </div>
+            )}
+            
           </div>
         </div>
       </div>

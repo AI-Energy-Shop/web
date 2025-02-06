@@ -1,24 +1,31 @@
-export const formatCurrency = (value: number, currency: string) => {
-  return value.toLocaleString('en-US', {
+import { CartItemType } from "@/lib/types";
+
+export const formatCurrency = (value?: number, currency? : string) => {
+  if (!value) return '0.00';
+  return value?.toLocaleString('en-US', {
     style: 'currency',
-    currency: currency,
+    currency: currency || 'USD',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
 };
 
-export const getCartSubtotal = (cartItems: any[]) => {
+export const getCartSubtotal = (cartItems: CartItemType[]) => {
   return cartItems.reduce((acc, item) => {
-    return acc + item.quantity * item.price;
+    const quantity = item.item?.quantity ?? 0;
+    const price = item.item?.price ?? 0;
+    return acc + quantity * price;
   }, 0);
 };
 
 
 export const getCartItemSubtotal = (
-  originalPrice: number,
-  quantity: number
+  originalPrice?: number,
+  quantity?: number
 ): string => {
+  if (!originalPrice || !quantity) return '0.00';
   const subtotal = originalPrice * quantity;
+
   return subtotal.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -28,10 +35,11 @@ export const getCartItemSubtotal = (
 };
 
 export const getCartTotals = (
-  cartItems: any[],
+  cartItems: CartItemType[],
   shippingFee?: number,
   cardFee?: number
 ) => {
+
   const cartSubtotal = getCartSubtotal(cartItems);
   // Calculate GST for each component separately
   const cartGst = cartSubtotal * 0.10;
@@ -44,8 +52,8 @@ export const getCartTotals = (
 
   // Calculate final total including all fees and GST
   const total = cardFee
-    ? cartSubtotal + shippingFee + cardFee + totalGst
-    : cartSubtotal + shippingFee + totalGst;
+    ? cartSubtotal + (shippingFee ?? 0) + cardFee + totalGst
+    : cartSubtotal + (shippingFee ?? 0) + totalGst;
 
   return {
     subtotal,

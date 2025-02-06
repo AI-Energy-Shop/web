@@ -2,11 +2,11 @@ import { WAREHOUSE_LOCATIONS } from '@/constant/shipping';
 import React from 'react';
 interface OrderSummaryProps {
   shippingDetails: any;
-  subtotal: string;
-  cardSubCharge: string;
-  shippingFee: string;
-  gst: string;
-  total: string;
+  subtotal?: string;
+  cardSubCharge?: string;
+  shippingFee?: string;
+  gst?: string;
+  total?: string;
 }
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({
