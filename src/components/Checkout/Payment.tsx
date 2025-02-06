@@ -10,13 +10,19 @@ interface PaymentProps {
   stepper: number;
   paymentOption?: any;
   handleIncrementStepper: () => void;
+  handlePaymentOptionChange: (value: string) => void;
 }
+
 
 const Payment: React.FC<PaymentProps> = ({
   stepper,
   paymentOption,
   handleIncrementStepper,
+  handlePaymentOptionChange,
 }) => {
+
+
+  console.log(paymentOption)
   return (
     <section>
       <div className="bg-blue-navy-blue py-3">
@@ -28,7 +34,7 @@ const Payment: React.FC<PaymentProps> = ({
         <div className="ae-mobile-container space-y-4">
           <div className="border border-blue-navy-blue rounded-xl p-2 md:mx-12">
             <h1 className="font-bold">Payment Method</h1>
-            <RadioGroup className="space-y-1">
+            <RadioGroup className="space-y-1" onValueChange={handlePaymentOptionChange}>
               <div className="flex items-center justify-between border-b border-b-gray-300 pb-2">
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="option-one" id="option-one" />

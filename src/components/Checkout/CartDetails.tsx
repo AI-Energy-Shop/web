@@ -275,6 +275,18 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
     paymentOption?.price
   );
 
+  const handlePaymentOptionChange = (value: string) => {
+    setShipDetails((prev: ShippingDetailsTypes) => ({
+      ...prev,
+      paymentOption: {
+        title: value,
+        price: 39.5 * 0.10,
+      },
+    }));
+  }
+
+
+
   return (
     <>
       <CheckoutHeader stepper={stepper} />
@@ -312,8 +324,10 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
             stepper={stepper}
             handleIncrementStepper={handleIncrementStepper}
             paymentOption={shippingDetails?.paymentOption}
+            handlePaymentOptionChange={handlePaymentOptionChange}
           />
         </div>
+
 
         <div className="hidden lg:block md:col-span-4">
           <OrderSummary
