@@ -7,30 +7,10 @@ import {
   CreateProductMutation,
   CustomProductUpdateMutationVariables,
   CreateProductMutationVariables,
+  ProductsQueryVariables,
 } from '@/lib/gql/graphql';
 
 const client = getClient();
-
-export const products = async () => {
-  const cookieStore = cookies();
-  const token = cookieStore.get('a-token');
-  try {
-    const res = await client.query({
-      query: PRODUCT_OPERATIONS.Query.products,
-      fetchPolicy: 'no-cache',
-      context: {
-        headers: {
-          Authorization: `Bearer ${token?.value}`,
-        },
-      },
-    });
-
-    return res;
-  } catch (error: any) {
-    console.log("ERROR fetching product's:", error.message);
-    return error;
-  }
-};
 
 export const product = async (id: string) => {
   const cookieStore = cookies();
@@ -53,6 +33,33 @@ export const product = async (id: string) => {
     return res;
   } catch (error: any) {
     console.log('ERROR fetching product:', error.message);
+    return error;
+  }
+};
+
+export const products = async (variables?: ProductsQueryVariables) => {
+  const cookieStore = cookies();
+  const token = cookieStore.get('a-token');
+
+  try {
+    const res = await client.query({
+      query: PRODUCT_OPERATIONS.Query.products,
+      fetchPolicy: 'no-cache',
+      context: {
+        headers: {
+          Authorization: `Bearer ${token?.value}`,
+        },
+      },
+      variables,
+    });
+
+    if (!res?.data) {
+      throw new Error('No products found');
+    }
+
+    return res.data;
+  } catch (error: any) {
+    console.log("ERROR fetching product's:", error.message);
     return error;
   }
 };

@@ -11,7 +11,7 @@ const schema = {
             quantity
             price
             odoo_product_id
-            reference_id
+            model
             image
           }
           updatedAt
@@ -20,7 +20,45 @@ const schema = {
       }
     `),
   },
-  Mutation: {},
+  Mutation: {
+    addToCart: graphql(`
+      mutation CreateCart($data: CartInput!) {
+        createCart(data: $data) {
+          documentId
+          item {
+            title
+            quantity
+            price
+            odoo_product_id
+            model
+            image
+          }
+        }
+      }
+    `),
+    updateCart: graphql(`
+      mutation UpdateCart($documentId: ID!, $data: CartInput!) {
+        updateCart(documentId: $documentId, data: $data) {
+          documentId
+          item {
+            image
+            odoo_product_id
+            price
+            quantity
+            model
+            title
+          }
+        }
+      }
+    `),
+    removeFromCart: graphql(`
+      mutation DeleteCart($documentId: ID!) {
+        deleteCart(documentId: $documentId) {
+          documentId
+        }
+      }
+    `),
+  },
 };
 
 export default schema;

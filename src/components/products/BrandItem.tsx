@@ -20,7 +20,7 @@ const BrandItem: React.FC<BrandItemProps> = ({ name, logo }) => {
       ) : (
         <h2>{name}</h2>
       )} */}
-      <h2 className='text-3xl'>{name}</h2>
+      <h2 className="text-3xl">{name}</h2>
     </div>
   );
 };

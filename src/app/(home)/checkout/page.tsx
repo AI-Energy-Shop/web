@@ -1,4 +1,4 @@
-import CartDetails from '@/components/Checkout/CartDetails';
+import CartDetails from '@/components/checkout/CartDetails';
 import { cookies } from 'next/headers';
 
 function CheckoutPage() {

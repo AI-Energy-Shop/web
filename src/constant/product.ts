@@ -46,33 +46,38 @@ export const LOCATIONS = [
 export const PRODUCT_CATEGORIES = [
   {
     id: 1,
-    name: 'Solar Panels',
+    name: 'Solar Panel',
     value: 'solar_panel',
     icon: '/images/categories/panel.png',
+    link: '/products/solar-panel',
   },
   {
     id: 1,
-    name: 'Inverters',
+    name: 'Inverter',
     value: 'inverter',
     icon: '/images/categories/inverter.png',
+    link: '/products/inverter',
   },
   {
     id: 1,
     name: 'Energy Storage',
     value: 'energy_storage',
-    icon: '/images/categories/panel.png',
+    icon: '/images/categories/battery.png',
+    link: '/products/battery',
   },
   {
     id: 1,
-    name: 'EV Chargers',
+    name: 'EV Charger',
     value: 'ev_charger',
     icon: '/images/categories/charger.png',
+    link: '/products/charger',
   },
   {
     id: 1,
-    name: 'Electricals',
-    value: 'electricals',
+    name: 'Electrical',
+    value: 'electrical',
     icon: '/images/categories/electricals.png',
+    link: '/products/electrical',
   },
 ];
 
@@ -82,7 +87,6 @@ export const BRANDS = [
   { name: 'DAA Solar', logo: '/placeholder.svg?height=32&width=120' },
   { name: 'JinKO', logo: '/placeholder.svg?height=32&width=120' },
 ];
-
 
 export const FILTERS = [
   { name: 'Brand' },

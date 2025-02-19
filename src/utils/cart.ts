@@ -1,4 +1,4 @@
-import { CartItemType } from '@/lib/types';
+import { CartType } from '@/lib/types';
 
 export const formatCurrency = (value?: number, currency?: string) => {
   if (!value) return '0.00';
@@ -10,7 +10,7 @@ export const formatCurrency = (value?: number, currency?: string) => {
   });
 };
 
-export const getCartSubtotal = (cartItems: CartItemType[]) => {
+export const getCartSubtotal = (cartItems: CartType[]) => {
   return cartItems.reduce((acc, item) => {
     const quantity = item.item?.quantity ?? 0;
     const price = item.item?.price ?? 0;
@@ -34,7 +34,7 @@ export const getCartItemSubtotal = (
 };
 
 export const getCartTotals = (
-  cartItems: CartItemType[],
+  cartItems: CartType[],
   shippingFee?: number,
   cardFee?: number
 ) => {

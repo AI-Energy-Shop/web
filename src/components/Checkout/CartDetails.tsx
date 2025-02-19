@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import CheckoutHeader from '@/components/Checkout/CheckoutHeader';
+import CheckoutHeader from '@/components/checkout/CheckoutHeader';
 import ReviewItems from './ReviewItems';
 import ShippingDetails from './ShippingDetails';
 import OrderSummary from './OrderSummary';
@@ -10,13 +10,9 @@ import { useMutation, useQuery } from '@apollo/client';
 import CART_OPERATIONS from '@/graphql/cart';
 import USER_OPERATIONS from '@/graphql/users';
 import ORDER_OPERATIONS from '@/graphql/order';
-import {
-  CARD_FEE,
-  DELIVERY_OPTIONS,
-  WAREHOUSE_LOCATIONS,
-} from '@/constant/shipping';
+import { DELIVERY_OPTIONS, WAREHOUSE_LOCATIONS } from '@/constant/shipping';
 import ModalWrapper from './ModalWrapper';
-import { CartItemType, ShippingDetailsTypes } from '@/lib/types';
+import { CartType, ShippingDetailsTypes } from '@/lib/types';
 import { CartsQuery } from '@/lib/gql/graphql';
 
 interface CartDetailsProps {
@@ -27,9 +23,10 @@ interface CartDetailsProps {
 const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
   const [date, setDate] = React.useState<Date>(new Date());
   const [stepper, setStepper] = React.useState<number>(1);
-  const [cartItems, setCartItems] = React.useState<CartItemType[]>([]);
+  const [cartItems, setCartItems] = React.useState<CartType[]>([]);
   const [showModal, setShowModal] = React.useState<boolean>(false);
   const [itemToRemove, setItemToRemove] = React.useState<string>('');
+
   const [shippingDetails, setShipDetails] = useState<ShippingDetailsTypes>({
     companyName: undefined,
     shippingAddress: undefined,
@@ -112,6 +109,23 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
       console.error('ERROR', error);
     },
   });
+
+  const [removeFromCart] = useMutation(
+    CART_OPERATIONS.Mutation.removeFromCart,
+    {
+      context: {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      },
+      onCompleted: (data) => {
+        console.log(data);
+      },
+      onError: (error) => {
+        console.error('ERROR', error);
+      },
+    }
+  );
 
   const handleIncrementStepper = () => {
     try {
@@ -263,6 +277,13 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
     setCartItems((prevCartData) =>
       prevCartData.filter((cartItem) => cartItem.documentId !== itemToRemove)
     );
+
+    removeFromCart({
+      variables: {
+        documentId: itemToRemove,
+      },
+    });
+
     setShowModal(false);
     setItemToRemove('');
   };

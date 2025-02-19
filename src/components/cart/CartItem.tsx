@@ -13,21 +13,21 @@ export const CartItem: React.FC<CartItemProps> = ({
   onUpdateQuantity,
   onRemove,
 }) => {
+  const price = item.price || 0;
+  const quantity = item.quantity || 0;
   return (
     <div className="flex items-center justify-between p-4 border-b border-gray-200">
       <div className="flex items-center space-x-4">
         <Image
           src={'/no-product-image.jpg'}
-          alt={item.name}
+          alt="No Product Image"
           width={100}
           height={100}
           className="w-20 h-20 object-cover rounded-md"
         />
         <div>
-          <h3 className="text-lg font-semibold text-gray-800">{item.name}</h3>
-          <p className="text-sm text-gray-600">
-            Reference ID: {item.referenceId}
-          </p>
+          <h3 className="text-lg font-semibold text-gray-800">{item.title}</h3>
+          <p className="text-sm text-gray-600">Reference ID: {item.model}</p>
         </div>
       </div>
 
@@ -49,9 +49,7 @@ export const CartItem: React.FC<CartItemProps> = ({
         </div>
 
         <div className="text-right">
-          <p className="font-semibold">
-            ${(item.price * item.quantity).toFixed(2)}
-          </p>
+          <p className="font-semibold">${(price * quantity).toFixed(2)}</p>
           <button
             // onClick={() => onRemove(item.id)}
             className="text-sm text-red-600 hover:text-red-800"

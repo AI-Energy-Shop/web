@@ -101,7 +101,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ productData }) => {
               {productData?.images?.map((image, i) => (
                 <div
                   key={i}
-                  className={`relative h-20 mr-2  rounded-xl ${index === i && 'border border-black'}`}
+                  className={`relative h-20 mr-2  rounded-xl ${index === i && 'border border-black'} cursor-pointer`}
                   onClick={() => setIndex(i)}
                 >
                   <Image

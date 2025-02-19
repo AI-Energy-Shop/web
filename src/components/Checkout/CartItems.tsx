@@ -1,15 +1,16 @@
 'use client';
 import React from 'react';
-import CartItem from './CartItem';
 import { formatCurrency } from '@/utils/cart';
-import { CartItemType } from '@/lib/types';
+import { CartType } from '@/lib/types';
+import CartItemCard from '@/components/checkout/CartItemCard';
+
 const CartItems = ({
   data,
   onChange,
   onAddQuant,
   onReduceQuant,
 }: {
-  data: CartItemType[];
+  data: CartType[];
   onChange: (id: string, e: React.ChangeEvent<HTMLInputElement>) => void;
   onReduceQuant: (id: string) => void;
   onAddQuant: (id: string) => void;
@@ -19,12 +20,12 @@ const CartItems = ({
       {data?.map?.((item) => {
         if (!item.item) return null;
         return (
-          <CartItem
+          <CartItemCard
             key={item.documentId}
             id={item.documentId}
             image={item.item.image}
             title={item.item.title}
-            refId={item.item.reference_id}
+            refId={item.item.model}
             price={item.item.price ?? 0}
             gst={formatCurrency((item?.item?.price ?? 0) * 0.1, 'USD')}
             quantity={item.item.quantity ?? 0}

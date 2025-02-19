@@ -3,8 +3,11 @@ import { graphql } from '@/lib/gql';
 const schema = {
   Query: {
     products: graphql(`
-      query GetProducts {
-        getProducts {
+      query Products(
+        $filters: ProductFiltersInput
+        $pagination: PaginationArg
+      ) {
+        products(filters: $filters, pagination: $pagination) {
           documentId
           name
           description
@@ -28,6 +31,10 @@ const schema = {
             id
             key
             value
+          }
+          key_features {
+            id
+            feature
           }
           files {
             documentId
@@ -54,6 +61,7 @@ const schema = {
         getProduct(documentId: $documentId) {
           documentId
           name
+          model
           description
           vendor
           category
@@ -107,6 +115,7 @@ const schema = {
         createProduct(data: $data) {
           documentId
           name
+          model
           description
           category
           vendor
@@ -157,6 +166,7 @@ const schema = {
         customProductUpdate(documentId: $documentId, data: $data) {
           documentId
           name
+          model
           description
           category
           vendor

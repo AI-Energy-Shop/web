@@ -1,4 +1,3 @@
-import Footer from './Footer/Footer';
 import NavigationBar from './Navigations/Navigation';
 import NavigationProvider from './NavigationProvider';
 import Sections from './Sections';
@@ -13,7 +12,6 @@ import MediaUpload from './custom-ui/Upload/FileUpload';
 const Components = {
   Cards,
   NavigationBar,
-  Footer,
   Accordion,
   Sections,
   Forms,

@@ -64,20 +64,20 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
     closed: { opacity: 1, x: '100%' }, // Sidebar slides out to the right
   };
 
-  const [windowWidth, setWindowWidth] = useState(
-    typeof window !== 'undefined' ? window.innerWidth : 0
-  );
+  // const [windowWidth, setWindowWidth] = useState(
+  //   typeof window !== 'undefined' ? window.innerWidth : 0
+  // );
 
-  const MOBILE_VIEWPORT = 640;
+  // const MOBILE_VIEWPORT = 640;
 
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
+  // useEffect(() => {
+  //   const handleResize = () => setWindowWidth(window.innerWidth);
 
-    window.addEventListener('resize', handleResize);
+  //   window.addEventListener('resize', handleResize);
 
-    // Cleanup on component unmount
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  //   // Cleanup on component unmount
+  //   return () => window.removeEventListener('resize', handleResize);
+  // }, []);
 
   useEffect(() => {
     if (open) {
@@ -95,16 +95,9 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
   // Transform scrollY to animate height from 80px to 50px
   const navHeight = useTransform(scrollY, [0, 100], ['75px', '50px']);
 
-  const navStyle = windowWidth < MOBILE_VIEWPORT ? { height: navHeight } : {};
-
   // Transform Logo Text
   const logoTextOpacity = useTransform(scrollY, [0, 10], [1, 0]);
-  const logoText = useTransform(scrollY, [0, 100], ['0px', '-150px']);
-
-  const logoTextStyle =
-    windowWidth < MOBILE_VIEWPORT
-      ? { x: logoText, opacity: logoTextOpacity }
-      : {};
+  // const logoText = useTransform(scrollY, [0, 100], ['0px', '-150px']);;
 
   /**The component returns a nav element with a conditional class based on the isSticky state.
      If sticky (isSticky is true), it adds classes like sticky top-0 z-50 for positioning. */
@@ -112,8 +105,7 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
     <nav className="fixed w-full z-50 bg-white">
       <div className="ae-mobile-container ae-non-mobile-container ease-in-out duration-300 lg:duration-0">
         <motion.div
-          style={navStyle}
-          className="max-w-[1200px] mx-auto flex items-center justify-between lg:p-0"
+          className={`max-w-[1200px] mx-auto flex items-center justify-between lg:p-0 h-[${navHeight}]`}
         >
           {/* TABLET/DESKTOP MENU LIST */}
           <div className="tablet-list h-full md:flex gap-4">
@@ -131,8 +123,7 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
                   />
                 </div>
                 <motion.p
-                  className="text-[10px] text-purple-purp-aes font-black text-center"
-                  style={logoTextStyle}
+                  className={`text-[10px] text-purple-purp-aes font-black text-center opacity-[${logoTextOpacity}]`}
                 >
                   AI ENERGY SHOP
                 </motion.p>
