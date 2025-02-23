@@ -14,6 +14,7 @@ const schema = {
           category
           vendor
           odoo_product_id
+          model
           price_list {
             id
             price
@@ -66,6 +67,7 @@ const schema = {
           vendor
           category
           odoo_product_id
+          model
           price_list {
             id
             price
