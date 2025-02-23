@@ -59,11 +59,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           {/* NAME AND MODEL */}
           <div className="flex flex-col justify-between">
             <h3 className="font-medium text-sm mb-1 text-pretty">
-              <span>{name.slice(0, 40)}</span>
-              {/* <br /> */}{' '}
-              <span className="text-gray-500 text-xs">
-                {name.length > 40 && '...'}
-              </span>
+              <span>{name}</span>
             </h3>
             <p className="text-sm font-thin italic">{model}</p>
           </div>
