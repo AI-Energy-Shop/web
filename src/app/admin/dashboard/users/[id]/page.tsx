@@ -20,12 +20,11 @@ import {
 } from '@/lib/gql/graphql';
 
 type AdminDashboardUserPageProps = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
-const AdminDashboardUserPage = async ({
-  params,
-}: AdminDashboardUserPageProps) => {
+const AdminDashboardUserPage = async (props: AdminDashboardUserPageProps) => {
+  const params = await props.params;
   const userId = params.id;
   const user = await getUserDetails(userId);
 

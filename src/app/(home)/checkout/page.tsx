@@ -3,7 +3,7 @@ import CartDetails from '@/components/checkout/CartDetails';
 import { cookies } from 'next/headers';
 
 async function CheckoutPage() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const a_token = cookieStore.get('a-token');
   const a_user = cookieStore.get('a-user');
   const { carts } = await getCartItems()

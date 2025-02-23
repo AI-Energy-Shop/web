@@ -1,12 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import ProductQuantity from './ProductQuantity';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { addToCart } from '@/app/actions/cart';
 import { formatCurrency } from '@/utils/currency';
-
+import AddToCartButton from './AddToCartButton';
 interface ProductCardProps {
   id: string | number;
   category: string;
@@ -78,22 +74,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         </div>
       </Link>
-      <form action={addToCart}>
-        <ProductQuantity price={currentPrice} />
-        <Input type="hidden" value={id || ''} name="id" />
-        <Input type="hidden" value={name || ''} name="title" />
-        <Input type="hidden" value={currentPrice || ''} name="price" />
-        <Input
-          type="hidden"
-          value={odoo_product_id || ''}
-          name="odoo_product_id"
-        />
-        <Input type="hidden" value={model || ''} name="model" />
-        <Input type="hidden" value={image || ''} name="image" />
-        <Button className="w-full mt-2 bg-[#29294c] text-white" type="submit">
-          Add to Cart
-        </Button>
-      </form>
+      <AddToCartButton
+        id={id}
+        name={name}
+        currentPrice={currentPrice}
+        odoo_product_id={odoo_product_id}
+        model={model}
+        image={image}
+      />
     </div>
   );
 };

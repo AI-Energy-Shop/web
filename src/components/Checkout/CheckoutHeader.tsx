@@ -6,8 +6,9 @@ const CheckoutHeader = ({ stepper }: { stepper: number }) => {
   return (
     <header className="bg-white">
       <section className="h-28 relative ae-mobile-container ae-non-mobile-container">
-        <div className="absolute left-1/2 transform -translate-x-1/2 top-2">
+        {/* <div className="absolute w-10 h-10 left-1/2 transform -translate-x-1/2 top-2">
           <Image
+            loading="eager"
             width={40}
             height={40}
             src="/images/logo/AES-Logomark_750px-M.png"
@@ -17,7 +18,7 @@ const CheckoutHeader = ({ stepper }: { stepper: number }) => {
           <p className="text-[10px] text-purple-purp-aes font-black tracking-widest">
             AI ENERGY SHOP
           </p>
-        </div>
+        </div> */}
         <div className="text-[14px] absolute left-0 top-2 flex items-center gap-x-1 border border-black py-2 pr-2 rounded-lg">
           <ChevronLeft className="w-5 h-5" />
           <div className="md:flex md:gap-x-1">

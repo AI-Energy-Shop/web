@@ -23,6 +23,7 @@ interface CartDetailsProps {
 }
 
 const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail, data }) => {
+
   const [cartItems, setCartItems] = React.useState<CartType[]>(data?.map((item: any) => ({
     item: item?.item || {},
     documentId: item?.documentId || '',

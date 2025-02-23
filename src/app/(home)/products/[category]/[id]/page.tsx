@@ -10,7 +10,7 @@ import { firaSans } from '@/app/font';
 
 async function ProductPage({ params }: { params: { id: string } }) {
   const id = (await params).id;
-  const token = cookies().get('a-token')?.value;
+  const token = (await cookies()).get('a-token')?.value;
   const { data, error, loading } = await frontPageGetProduct(id);
 
   const productData = data?.getProduct;

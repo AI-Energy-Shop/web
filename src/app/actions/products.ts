@@ -13,7 +13,7 @@ import {
 const client = getClient();
 
 export const product = async (id: string) => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   try {
@@ -38,7 +38,7 @@ export const product = async (id: string) => {
 };
 
 export const products = async (variables?: ProductsQueryVariables) => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   try {
@@ -67,7 +67,7 @@ export const products = async (variables?: ProductsQueryVariables) => {
 export const createProduct = async (
   variables: CreateProductMutationVariables
 ): Promise<FetchResult<CreateProductMutation>> => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   try {
@@ -94,7 +94,7 @@ export const createProduct = async (
 export const updateProduct = async (
   variables: CustomProductUpdateMutationVariables
 ) => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
   try {
     const res = await client.mutate({
@@ -119,7 +119,7 @@ export const updateProduct = async (
 };
 
 export const frontPageGetProduct = async (id: string) => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   const res = await client.query({

@@ -69,7 +69,7 @@ export const registerUser = safeAction
 export const loginUser = safeAction
   .schema(loginUserSchema)
   .action(async ({ parsedInput: { email, password } }) => {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     let isSuccessfull = false;
 
     try {
@@ -124,7 +124,7 @@ export const updateAccountStatus = safeAction
     async ({
       parsedInput: { userId, email, accountStatus, odooId, userPricingLevel },
     }) => {
-      const cookieStore = cookies();
+      const cookieStore = await cookies();
       const token = cookieStore.get('a-token');
 
       try {
@@ -155,7 +155,7 @@ export const updateAccountStatus = safeAction
   );
 
 export const getUsers = async () => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   try {
@@ -176,7 +176,7 @@ export const getUsers = async () => {
 };
 
 export const getUserDetails = async (documentId: string) => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   try {
