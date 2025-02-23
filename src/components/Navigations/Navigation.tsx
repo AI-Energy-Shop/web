@@ -104,9 +104,7 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
   return (
     <nav className="fixed w-full z-50 bg-white">
       <div className="ae-mobile-container ae-non-mobile-container ease-in-out duration-300 lg:duration-0">
-        <motion.div
-          className={`max-w-[1200px] mx-auto flex items-center justify-between lg:p-0 h-[${navHeight}]`}
-        >
+        <motion.div >
           {/* TABLET/DESKTOP MENU LIST */}
           <div className="tablet-list h-full md:flex gap-4">
             {/* Logo */}
@@ -122,9 +120,7 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
                     priority
                   />
                 </div>
-                <motion.p
-                  className={`text-[10px] text-purple-purp-aes font-black text-center opacity-[${logoTextOpacity}]`}
-                >
+                <motion.p>
                   AI ENERGY SHOP
                 </motion.p>
               </div>
@@ -169,17 +165,14 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
               <motion.div
                 variants={topVariants}
                 animate={open ? 'opened' : 'closed'}
-                className="w-10 h-1 bg-black rounded origin-left"
               ></motion.div>
               <motion.div
                 variants={centerVariants}
                 animate={open ? 'opened' : 'closed'}
-                className="w-10 h-1 bg-black rounded"
               ></motion.div>
               <motion.div
                 variants={bottomVariants}
                 animate={open ? 'opened' : 'closed'}
-                className="w-10 h-1 bg-black rounded origin-left"
               ></motion.div>
             </button>
             <AnimatePresence>
@@ -192,9 +185,7 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
                   transition={{
                     duration: open ? 0.4 : 0.35,
                     ease: 'easeInOut',
-                  }}
-                  className="w-10/12 h-screen text-blue-51 bg-slate-50 fixed top-0 right-0 flex flex-row z-20"
-                >
+                  }} >
                   <div className="h-full w-2 bg-gradient-to-b from-[#f9ac0a] via-[#e71467] to-[#29294c]"></div>
                   <div className="nav-list w-full h-full flex flex-col gap-4">
                     {data?.pages?.map?.((link) => (
