@@ -4,9 +4,7 @@ import ProductCard from './ProductCard';
 import Filters from './filter/Filters';
 import DropdownOptions from './options/DropdownOptions';
 import ProductPagination from './ProductPagination';
-import { getProductSpecification } from '@/utils/productArray';
 import { Product } from '@/lib/types';
-import { removeDuplicates } from '@/utils/array';
 
 interface Filter {
   id: string;
@@ -31,6 +29,7 @@ const Products: React.FC<ProductListProps> = ({
 }) => {
   const [warehouse, setWarehouse] = useState('SYD');
   const [currentFilter, setCurrentFilter] = useState<Filter[]>([]);
+  const [filterCopy, setFilterCopy] = useState<Filter[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
   const currentProducts = data
@@ -42,12 +41,18 @@ const Products: React.FC<ProductListProps> = ({
     .slice();
 
   const handleFilterChange = (filter: string) => {
+
     setSelectedFilters((prevFilters: string[]) => {
       if (prevFilters.includes(filter)) {
-        return prevFilters.filter((f) => f !== filter);
+        const newFilter =  prevFilters.filter((f) => f !== filter)
+        if(newFilter.length === 0) {
+          setCurrentFilter(filterCopy);
+        }
+        return newFilter;
       }
       return [...prevFilters, filter];
     });
+
 
     const filteredProducts = currentProducts?.filter((product) => {
       return product.specification.some((spec) => spec.value.includes(filter));
@@ -115,9 +120,8 @@ const Products: React.FC<ProductListProps> = ({
   };
 
   useEffect(() => {
-    if (data && data.length > 0 && currentFilter.length === 0) {
-      const combinedSpecifications =
-        data?.flatMap((product) => product.specification) || [];
+    if (data && data.length > 0) {
+      const combinedSpecifications = data?.flatMap((product) => product.specification) || [];
 
       // Group specifications by key
       const groupedSpecifications = combinedSpecifications.reduce(
@@ -140,12 +144,11 @@ const Products: React.FC<ProductListProps> = ({
       );
 
       // Convert the grouped specifications object back to an array
-      const uniqueSpecifications = Object.values(
-        groupedSpecifications
-      ) as Filter[];
+      const uniqueSpecifications = Object.values(groupedSpecifications) as Filter[];
       setCurrentFilter(uniqueSpecifications);
+      setFilterCopy(uniqueSpecifications);
     }
-  }, [currentFilter, data]);
+  }, [data]);
 
   return (
     <div className="products flex gap-8">
