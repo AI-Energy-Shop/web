@@ -22,6 +22,8 @@ interface ReviewItemsProps {
   onReduceQuant: (id: string) => void;
   onAddQuant: (id: string) => void;
   onEdit: (index: number) => void;
+  onRemoveItem: (id: string) => void;
+
 }
 
 const ReviewItems = ({
@@ -34,6 +36,7 @@ const ReviewItems = ({
   onReduceQuant,
   onAddQuant,
   onEdit,
+  onRemoveItem,
 }: ReviewItemsProps) => {
   return (
     <section className="w-full h-auto">
@@ -82,6 +85,7 @@ const ReviewItems = ({
               onChange={onChange}
               onAddQuant={onAddQuant}
               onReduceQuant={onReduceQuant}
+              onRemove={onRemoveItem}
             />
 
             <div className="space-y-4 pb-4 lg:border md:mx-10 lg:flex lg:px-2 lg:pb-4">

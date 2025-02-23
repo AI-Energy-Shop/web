@@ -17,6 +17,7 @@ interface CartItemCardProps {
   onAddQuant: (id: string) => void;
   onReduceQuant: (id: string) => void;
   onChange: (id: string, e: React.ChangeEvent<HTMLInputElement>) => void;
+  onRemove: (id: string) => void;
 }
 
 const CartItemCard = ({
@@ -30,6 +31,7 @@ const CartItemCard = ({
   onChange,
   onAddQuant,
   onReduceQuant,
+  onRemove,
 }: CartItemCardProps) => {
   return (
     <div className="space-y-4">
@@ -38,6 +40,7 @@ const CartItemCard = ({
           size="icon"
           variant="ghost"
           className="hidden md:block md:self-center"
+          onClick={() => onRemove(id)}
         >
           <Trash2 className="w-5 h-5 mx-auto" color="red" />
         </Button>

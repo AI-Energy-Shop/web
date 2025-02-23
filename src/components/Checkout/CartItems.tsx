@@ -9,11 +9,13 @@ const CartItems = ({
   onChange,
   onAddQuant,
   onReduceQuant,
+  onRemove,
 }: {
   data: CartType[];
   onChange: (id: string, e: React.ChangeEvent<HTMLInputElement>) => void;
   onReduceQuant: (id: string) => void;
   onAddQuant: (id: string) => void;
+  onRemove: (id: string) => void;
 }) => {
   return (
     <div className="space-y-8 pt-8 md:pr-12">
@@ -32,6 +34,7 @@ const CartItems = ({
             onAddQuant={onAddQuant}
             onReduceQuant={onReduceQuant}
             onChange={onChange}
+            onRemove={onRemove}
           />
         );
       })}
