@@ -1270,132 +1270,6 @@
             "deprecationReason": null
           },
           {
-            "name": "locale",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "localizations",
-            "description": null,
-            "args": [
-              {
-                "name": "filters",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "CartFiltersInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "pagination",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "PaginationArg",
-                  "ofType": null
-                },
-                "defaultValue": "{}",
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "sort",
-                "description": null,
-                "type": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": "[]",
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Cart",
-                  "ofType": null
-                }
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "localizations_connection",
-            "description": null,
-            "args": [
-              {
-                "name": "filters",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "CartFiltersInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "pagination",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "PaginationArg",
-                  "ofType": null
-                },
-                "defaultValue": "{}",
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "sort",
-                "description": null,
-                "type": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": "[]",
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "CartRelationResponseCollection",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "publishedAt",
             "description": null,
             "args": [],
@@ -1438,58 +1312,6 @@
         "possibleTypes": null
       },
       {
-        "kind": "OBJECT",
-        "name": "CartEntityResponseCollection",
-        "description": null,
-        "isOneOf": null,
-        "fields": [
-          {
-            "name": "nodes",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Cart",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "pageInfo",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Pagination",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
         "kind": "INPUT_OBJECT",
         "name": "CartFiltersInput",
         "description": null,
@@ -1504,21 +1326,9 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "CartFiltersInput",
+                "name": "ProductFiltersInput",
                 "ofType": null
               }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "createdAt",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "DateTimeFilterInput",
-              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -1541,31 +1351,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "ComponentElementsCartItemFiltersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "locale",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFilterInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "localizations",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "CartFiltersInput",
+              "name": "CartItemFiltersInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -1577,7 +1363,7 @@
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "CartFiltersInput",
+              "name": "ProductFiltersInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -1592,20 +1378,32 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "CartFiltersInput",
+                "name": "ProductFiltersInput",
                 "ofType": null
               }
             },
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
-          },
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "CartItemFiltersInput",
+        "description": null,
+        "isOneOf": false,
+        "fields": null,
+        "inputFields": [
           {
-            "name": "publishedAt",
+            "name": "id",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "DateTimeFilterInput",
+              "name": "IDFilterInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -1613,11 +1411,11 @@
             "deprecationReason": null
           },
           {
-            "name": "updatedAt",
+            "name": "image",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "DateTimeFilterInput",
+              "name": "StringFilterInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -1625,11 +1423,59 @@
             "deprecationReason": null
           },
           {
-            "name": "user",
+            "name": "model",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "UsersPermissionsUserFiltersInput",
+              "name": "StringFilterInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "odoo_product_id",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFilterInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "price",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "FloatFilterInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "quantity",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "IntFilterInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "title",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFilterInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -1643,54 +1489,102 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "CartInput",
+        "name": "CartItemInput",
         "description": null,
         "isOneOf": false,
         "fields": null,
         "inputFields": [
           {
-            "name": "item",
+            "name": "image",
             "description": null,
             "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ComponentElementsCartItemInput",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "locale",
+            "name": "model",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "publishedAt",
+            "name": "odoo_product_id",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "DateTime",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "user",
+            "name": "price",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "quantity",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "title",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -1698,42 +1592,6 @@
           }
         ],
         "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "CartRelationResponseCollection",
-        "description": null,
-        "isOneOf": null,
-        "fields": [
-          {
-            "name": "nodes",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Cart",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -6263,6 +6121,30 @@
         "possibleTypes": null
       },
       {
+        "kind": "OBJECT",
+        "name": "DeleteResponse",
+        "description": null,
+        "isOneOf": null,
+        "fields": [
+          {
+            "name": "documentId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "ENUM",
         "name": "ENUM_ACCOUNTDETAIL_LEVEL",
         "description": null,
@@ -6908,11 +6790,6 @@
           {
             "kind": "OBJECT",
             "name": "AccountDetail",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "Cart",
             "ofType": null
           },
           {
@@ -9290,6 +9167,35 @@
         "isOneOf": null,
         "fields": [
           {
+            "name": "addToCart",
+            "description": null,
+            "args": [
+              {
+                "name": "data",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "CartItemInput",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Cart",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "changePassword",
             "description": "Change user password. Confirm with the current password.",
             "args": [
@@ -9386,47 +9292,6 @@
             "type": {
               "kind": "OBJECT",
               "name": "AccountDetail",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "createCart",
-            "description": null,
-            "args": [
-              {
-                "name": "data",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "CartInput",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "status",
-                "description": null,
-                "type": {
-                  "kind": "ENUM",
-                  "name": "PublicationStatus",
-                  "ofType": null
-                },
-                "defaultValue": "PUBLISHED",
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "Cart",
               "ofType": null
             },
             "isDeprecated": false,
@@ -9897,7 +9762,7 @@
             "deprecationReason": null
           },
           {
-            "name": "deleteCart",
+            "name": "deleteCartItem",
             "description": null,
             "args": [
               {
@@ -9919,7 +9784,7 @@
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "DeleteMutationResponse",
+              "name": "DeleteResponse",
               "ofType": null
             },
             "isDeprecated": false,
@@ -10531,7 +10396,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "CartInput",
+                    "name": "CartItemInput",
                     "ofType": null
                   }
                 },
@@ -10554,16 +10419,49 @@
                 "defaultValue": null,
                 "isDeprecated": false,
                 "deprecationReason": null
-              },
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Cart",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updateCartItem",
+            "description": null,
+            "args": [
               {
-                "name": "status",
+                "name": "data",
                 "description": null,
                 "type": {
-                  "kind": "ENUM",
-                  "name": "PublicationStatus",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "CartItemInput",
+                    "ofType": null
+                  }
                 },
-                "defaultValue": "PUBLISHED",
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "documentId",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
                 "isDeprecated": false,
                 "deprecationReason": null
               }
@@ -14040,18 +13938,6 @@
                 "defaultValue": null,
                 "isDeprecated": false,
                 "deprecationReason": null
-              },
-              {
-                "name": "status",
-                "description": null,
-                "type": {
-                  "kind": "ENUM",
-                  "name": "PublicationStatus",
-                  "ofType": null
-                },
-                "defaultValue": "PUBLISHED",
-                "isDeprecated": false,
-                "deprecationReason": null
               }
             ],
             "type": {
@@ -14105,97 +13991,16 @@
                 "defaultValue": "[]",
                 "isDeprecated": false,
                 "deprecationReason": null
-              },
-              {
-                "name": "status",
-                "description": null,
-                "type": {
-                  "kind": "ENUM",
-                  "name": "PublicationStatus",
-                  "ofType": null
-                },
-                "defaultValue": "PUBLISHED",
-                "isDeprecated": false,
-                "deprecationReason": null
               }
             ],
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Cart",
-                  "ofType": null
-                }
+                "kind": "OBJECT",
+                "name": "Cart",
+                "ofType": null
               }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "carts_connection",
-            "description": null,
-            "args": [
-              {
-                "name": "filters",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "CartFiltersInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "pagination",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "PaginationArg",
-                  "ofType": null
-                },
-                "defaultValue": "{}",
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "sort",
-                "description": null,
-                "type": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": "[]",
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "status",
-                "description": null,
-                "type": {
-                  "kind": "ENUM",
-                  "name": "PublicationStatus",
-                  "ofType": null
-                },
-                "defaultValue": "PUBLISHED",
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "CartEntityResponseCollection",
-              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -22065,120 +21870,6 @@
             "deprecationReason": null
           },
           {
-            "name": "carts",
-            "description": null,
-            "args": [
-              {
-                "name": "filters",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "CartFiltersInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "pagination",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "PaginationArg",
-                  "ofType": null
-                },
-                "defaultValue": "{}",
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "sort",
-                "description": null,
-                "type": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": "[]",
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Cart",
-                  "ofType": null
-                }
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "carts_connection",
-            "description": null,
-            "args": [
-              {
-                "name": "filters",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "CartFiltersInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "pagination",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "PaginationArg",
-                  "ofType": null
-                },
-                "defaultValue": "{}",
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "sort",
-                "description": null,
-                "type": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": "[]",
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "CartRelationResponseCollection",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "createdAt",
             "description": null,
             "args": [],
@@ -22782,18 +22473,6 @@
             "deprecationReason": null
           },
           {
-            "name": "carts",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "CartFiltersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "confirmationToken",
             "description": null,
             "type": {
@@ -23044,22 +22723,6 @@
               "kind": "SCALAR",
               "name": "Boolean",
               "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "carts",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
             },
             "defaultValue": null,
             "isDeprecated": false,
