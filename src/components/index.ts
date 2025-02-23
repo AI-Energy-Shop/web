@@ -1,4 +1,4 @@
-import NavigationBar from './Navigations/Navigation';
+import Navigation from './navigations/navigation';
 import NavigationProvider from './NavigationProvider';
 import Sections from './Sections';
 import Accordion from './custom-ui/Accordion/Accordion';
@@ -11,11 +11,11 @@ import Cards from './custom-ui/Cards';
 import MediaUpload from './custom-ui/Upload/FileUpload';
 const Components = {
   Cards,
-  NavigationBar,
   Accordion,
   Sections,
   Forms,
   Sliders,
+  Navigation,
   NavigationProvider,
   LoadingAnimation,
   DynamicSections,

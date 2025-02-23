@@ -8,7 +8,7 @@ import { Toast } from '@/lib/toast';
 const client = getClient();
 
 export async function getCartItems(): Promise<CartsQuery> {
-  const cookieStore = (await cookies());
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;
   try {
     const res = await client.query({
@@ -30,7 +30,7 @@ export async function getCartItems(): Promise<CartsQuery> {
 }
 
 export async function addToCart(prevState: any, formData: FormData) {
-  const cookieStore = (await cookies());
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;
   const productId = formData.get('model') as string;
 
@@ -46,7 +46,6 @@ export async function addToCart(prevState: any, formData: FormData) {
   };
 
   try {
-
     const { data: cartData } = await client.query({
       query: CART_OPERATIONS.Query.carts,
       fetchPolicy: 'no-cache',
@@ -61,7 +60,7 @@ export async function addToCart(prevState: any, formData: FormData) {
             model: {
               eq: productId,
             },
-          }
+          },
         },
       },
     });
@@ -76,7 +75,7 @@ export async function addToCart(prevState: any, formData: FormData) {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },          
+        },
         mutation: CART_OPERATIONS.Mutation.updateCart,
         variables: {
           documentId: cartItem.documentId,

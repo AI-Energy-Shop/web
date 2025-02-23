@@ -6,8 +6,8 @@ async function CheckoutPage() {
   const cookieStore = await cookies();
   const a_token = cookieStore.get('a-token');
   const a_user = cookieStore.get('a-user');
-  const { carts } = await getCartItems()
-  
+  const { carts } = await getCartItems();
+
   return (
     <main className="bg-yellow-light-yellow pb-12">
       <CartDetails

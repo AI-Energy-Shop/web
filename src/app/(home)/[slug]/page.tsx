@@ -10,9 +10,7 @@ interface DynamicPageProps {
 const DynamicPage = async (props: DynamicPageProps) => {
   const params = await props.params;
 
-  const {
-    slug
-  } = params;
+  const { slug } = params;
 
   let data = null;
 

@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import Navigations from './Navigations';
+import Navigations from './navigations';
 import { usePathname } from 'next/navigation';
 
 interface NavigationProviderProps {
@@ -13,10 +13,8 @@ const NavigationProvider: React.FC<NavigationProviderProps> = ({
 
   return (
     <div className="w-full h-auto">
-      {/* {!path.includes('admin') && <Navigations.Navigation />} */}
-      <div>
-        {children}
-      </div>
+      {!path.includes('admin') && <Navigations.Navigation />}
+      <div>{children}</div>
       {!path.includes('admin') && <Navigations.Footer />}
     </div>
   );

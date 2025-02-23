@@ -41,18 +41,16 @@ const Products: React.FC<ProductListProps> = ({
     .slice();
 
   const handleFilterChange = (filter: string) => {
-
     setSelectedFilters((prevFilters: string[]) => {
       if (prevFilters.includes(filter)) {
-        const newFilter =  prevFilters.filter((f) => f !== filter)
-        if(newFilter.length === 0) {
+        const newFilter = prevFilters.filter((f) => f !== filter);
+        if (newFilter.length === 0) {
           setCurrentFilter(filterCopy);
         }
         return newFilter;
       }
       return [...prevFilters, filter];
     });
-
 
     const filteredProducts = currentProducts?.filter((product) => {
       return product.specification.some((spec) => spec.value.includes(filter));
@@ -79,12 +77,13 @@ const Products: React.FC<ProductListProps> = ({
     );
 
     // Convert the grouped specifications object back to an array
-    const uniqueSpecifications = Object.values(groupedSpecifications) as Filter[];
+    const uniqueSpecifications = Object.values(
+      groupedSpecifications
+    ) as Filter[];
 
     setCurrentFilter((prev) => {
       return [...uniqueSpecifications];
     });
-
   };
 
   const handleSortChange = (sort: string) => {
@@ -121,7 +120,8 @@ const Products: React.FC<ProductListProps> = ({
 
   useEffect(() => {
     if (data && data.length > 0) {
-      const combinedSpecifications = data?.flatMap((product) => product.specification) || [];
+      const combinedSpecifications =
+        data?.flatMap((product) => product.specification) || [];
 
       // Group specifications by key
       const groupedSpecifications = combinedSpecifications.reduce(
@@ -144,7 +144,9 @@ const Products: React.FC<ProductListProps> = ({
       );
 
       // Convert the grouped specifications object back to an array
-      const uniqueSpecifications = Object.values(groupedSpecifications) as Filter[];
+      const uniqueSpecifications = Object.values(
+        groupedSpecifications
+      ) as Filter[];
       setCurrentFilter(uniqueSpecifications);
       setFilterCopy(uniqueSpecifications);
     }
@@ -152,10 +154,10 @@ const Products: React.FC<ProductListProps> = ({
 
   return (
     <div className="products flex gap-8">
-      <Filters 
+      <Filters
         selectedFilters={selectedFilters}
-        filters={currentFilter} 
-        onFilterChange={handleFilterChange} 
+        filters={currentFilter}
+        onFilterChange={handleFilterChange}
       />
       <div className="flex-1">
         <DropdownOptions

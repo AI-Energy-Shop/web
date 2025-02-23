@@ -22,14 +22,19 @@ interface CartDetailsProps {
   data?: any;
 }
 
-const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail, data }) => {
-
-  const [cartItems, setCartItems] = React.useState<CartType[]>(data?.map((item: any) => ({
-    item: item?.item || {},
-    documentId: item?.documentId || '',
-    updatedAt: item?.updatedAt || '',
-    createdAt: item?.createdAt || '',
-  })));
+const CartDetails: React.FC<CartDetailsProps> = ({
+  authToken,
+  userEmail,
+  data,
+}) => {
+  const [cartItems, setCartItems] = React.useState<CartType[]>(
+    data?.map((item: any) => ({
+      item: item?.item || {},
+      documentId: item?.documentId || '',
+      updatedAt: item?.updatedAt || '',
+      createdAt: item?.createdAt || '',
+    }))
+  );
   const [date, setDate] = React.useState<Date>(new Date());
   const [stepper, setStepper] = React.useState<number>(1);
   const [showModal, setShowModal] = React.useState<boolean>(false);
@@ -127,7 +132,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail, data })
         },
       },
       onCompleted: (data) => {
-        Toast('Item removed from cart', "SUCCESS", {
+        Toast('Item removed from cart', 'SUCCESS', {
           theme: 'light',
           position: 'top-center',
         });

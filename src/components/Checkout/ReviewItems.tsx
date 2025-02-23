@@ -23,7 +23,6 @@ interface ReviewItemsProps {
   onAddQuant: (id: string) => void;
   onEdit: (index: number) => void;
   onRemoveItem: (id: string) => void;
-
 }
 
 const ReviewItems = ({

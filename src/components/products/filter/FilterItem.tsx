@@ -21,16 +21,18 @@ const FilterItem: React.FC<FilterItemProps> = ({
   const renderFilterItem = (item: string, index: number) => {
     return (
       <div key={index} className="flex items-center gap-2">
-        <Checkbox 
-          name={item} 
-          onCheckedChange={() => onFilterChange(item)} 
+        <Checkbox
+          name={item}
+          onCheckedChange={() => onFilterChange(item)}
           checked={selectedFilters.includes(item)}
         />
         <Label className="text-sm font-normal">{item}</Label>
       </div>
     );
   };
-  const [isOpen, setIsOpen] = useState(value.some((item) => selectedFilters.includes(item)));
+  const [isOpen, setIsOpen] = useState(
+    value.some((item) => selectedFilters.includes(item))
+  );
   return (
     <div className="flex flex-col">
       <div className="flex items-center justify-between">
@@ -45,7 +47,7 @@ const FilterItem: React.FC<FilterItemProps> = ({
       </div>
 
       <div className="w-full border-b border-gray-200 py-1 flex flex-col gap-2 overflow-hidden">
-        {isOpen && (value.map(renderFilterItem))}
+        {isOpen && value.map(renderFilterItem)}
       </div>
     </div>
   );
