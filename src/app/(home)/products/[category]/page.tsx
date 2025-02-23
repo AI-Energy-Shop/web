@@ -1,13 +1,11 @@
 export const dynamic = 'force-dynamic';
 import Products from '@/components/products/ProductList';
-import Filters from '@/components/products/filter/Filters';
 import Breadcrumb from '@/components/products/Breadcrumb';
 import Categories from '@/components/products/Categories';
 import Brands from '@/components/products/Brands';
 import { products } from '@/app/actions/products';
 import { PRODUCT_CATEGORIES } from '@/constant';
 import { capitalizeAllFirstChar } from '@/utils/string';
-import { getProductSpecification } from '@/utils/productArray';
 import PageTitle from '@/components/products/PageTitle';
 
 export default async function CategoryPage({
