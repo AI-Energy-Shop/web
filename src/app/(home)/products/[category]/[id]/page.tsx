@@ -1,9 +1,9 @@
-import ProductDescription from '@/components/Products/ProductDescription';
-import RelatedProducts from '@/components/Products/RelatedProducts';
-import ProductPrice from '@/components/Products/ProductPrice';
+import ProductDescription from '@/components/products/ProductDescription';
+import RelatedProducts from '@/components/products/RelatedProducts';
+import ProductPrice from '@/components/products/ProductPrice';
 import { frontPageGetProduct } from '@/app/actions/products';
-import Breadcrumb from '@/components/Products/Breadcrumb';
-import AddToCart from '@/components/Products/AddToCart';
+import Breadcrumb from '@/components/products/Breadcrumb';
+import AddToCart from '@/components/products/AddToCart';
 import Carousel from '@/components/custom-ui/Carousel';
 import { cookies } from 'next/headers';
 import { firaSans } from '@/app/font';

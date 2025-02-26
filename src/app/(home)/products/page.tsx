@@ -1,10 +1,10 @@
-import ProductList from '@/components/Products/ProductList';
-import Breadcrumb from '@/components/Products/Breadcrumb';
-import Categories from '@/components/Products/Categories';
-import Brands from '@/components/Products/Brands';
+import ProductList from '@/components/products/ProductList';
+import Breadcrumb from '@/components/products/Breadcrumb';
+import Categories from '@/components/products/Categories';
+import Brands from '@/components/products/Brands';
 import { products } from '@/app/actions/products';
 import { PRODUCT_CATEGORIES } from '@/constant';
-import PageTitle from '@/components/Products/PageTitle';
+import PageTitle from '@/components/products/PageTitle';
 
 const INITIAL_PAGE = 1;
 const INITIAL_PAGE_SIZE = 12;
