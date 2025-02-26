@@ -7,7 +7,6 @@ import ProductPagination from './ProductPagination';
 import { Product } from '@/lib/types';
 import { useSearchParams, useRouter } from 'next/navigation';
 
-
 interface Filter {
   id: string;
   key: string;
@@ -34,19 +33,23 @@ const Products: React.FC<ProductListProps> = ({
   const [warehouse, setWarehouse] = useState('SYD');
   const [currentFilter, setCurrentFilter] = useState<Filter[]>([]);
   const [filterCopy, setFilterCopy] = useState<Filter[]>([]);
-  const [selectedFilters, setSelectedFilters] = useState<{key: string, value: string}[]>([]);
+  const [selectedFilters, setSelectedFilters] = useState<
+    { key: string; value: string }[]
+  >([]);
 
   const currentProducts = data
     ?.filter((product) => {
       if (selectedFilters.length === 0) {
         return true; // Return all products if no filters are selected
       }
-      return product.specification.some((spec) => selectedFilters.some((f) => f.value === spec.value));
+      return product.specification.some((spec) =>
+        selectedFilters.some((f) => f.value === spec.value)
+      );
     })
     .slice();
 
   const handleFilterChange = (key: string, value: string) => {
-    setSelectedFilters((prevFilters: {key: string, value: string}[]) => {
+    setSelectedFilters((prevFilters: { key: string; value: string }[]) => {
       if (prevFilters.some((f) => f.value === value)) {
         const newFilter = prevFilters.filter((f) => f.value !== value);
         if (newFilter.length === 0) {
@@ -54,9 +57,8 @@ const Products: React.FC<ProductListProps> = ({
         }
         return newFilter;
       }
-      return [...prevFilters, {key, value}];
+      return [...prevFilters, { key, value }];
     });
-
 
     // const filteredProducts = currentProducts?.filter((product) => {
     //   return product.specification.some((spec) => spec.value.includes(filter));
@@ -126,7 +128,13 @@ const Products: React.FC<ProductListProps> = ({
 
   useEffect(() => {
     if (data && data.length > 0) {
-      const solarPanelFilterList = ['Brand', 'Wattage', 'Colour', 'Key Features', 'Product Warranty']
+      const solarPanelFilterList = [
+        'Brand',
+        'Wattage',
+        'Colour',
+        'Key Features',
+        'Product Warranty',
+      ];
       const filterOptions = [
         'Product Type',
         'Product Subtype',
@@ -141,13 +149,11 @@ const Products: React.FC<ProductListProps> = ({
         'No. of MPPTs',
         'Colour',
         'Key Features',
-        'Product Warranty'
+        'Product Warranty',
       ];
 
-      const test = data.flatMap((product) => 
-        product.specification.filter((spec) => 
-          filterOptions.includes(spec.key)
-        )
+      const test = data.flatMap((product) =>
+        product.specification.filter((spec) => filterOptions.includes(spec.key))
       );
 
       const combinedSpecifications = test.reduce((acc: any, spec: any) => {
@@ -155,8 +161,8 @@ const Products: React.FC<ProductListProps> = ({
           acc[spec.key] = {
             id: spec.id,
             key: spec.key,
-            value: [],  
-            __typename: spec.__typename
+            value: [],
+            __typename: spec.__typename,
           };
         }
         if (!acc[spec.key].value.includes(spec.value)) {

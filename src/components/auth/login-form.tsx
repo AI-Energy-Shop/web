@@ -25,14 +25,11 @@ const LoginForm = () => {
 
   const [state, formAction, pending] = useActionState(loginUser, {
     error: '',
-		message: '',
   });
 
-  if (state.message) {
+  if (state?.message) {
     redirect('/products');
   }
-
-
 
   return (
     <Form {...form}>
@@ -101,7 +98,7 @@ const LoginForm = () => {
         <Button type="submit" className="w-full">
           Sign In
         </Button>
-        {state.message && <p className="text-red-500">{state.message}</p>}
+        {state.error && <p className="text-red-500">{state.error}</p>}
       </form>
     </Form>
   );

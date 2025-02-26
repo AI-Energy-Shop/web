@@ -72,48 +72,52 @@ export async function loginUser(prevState: any, formData: FormData) {
 
   const cookieStore = await cookies();
 
-    try {
-      const response = await client.mutate({
-        mutation: USERS_OPERATIONS.Mutations.loginUser,
-        variables: {
-          input: {
-            identifier: email,
-            password: password,
-            provider: 'local',
-          },
+  try {
+    const response = await client.mutate({
+      mutation: USERS_OPERATIONS.Mutations.loginUser,
+      variables: {
+        input: {
+          identifier: email,
+          password: password,
+          provider: 'local',
         },
-      });
+      },
+    });
 
-      if (response.data?.login) {
-        const token = response?.data.login.jwt;
-        const user = response?.data.login.user;
-
-        cookieStore.set('a-token', token!, {
-          path: '/',
-          // maxAge: 604800, // 7 days
-          maxAge: 60 * 60 * 12, // 12 hours
-          httpOnly: true,
-          sameSite: 'strict',
-        });
-
-        cookieStore.set('a-user', JSON.stringify(user!), {
-          path: '/',
-          // maxAge: 604800, // 7 days
-          maxAge: 60 * 60 * 12, // 12 hours
-          httpOnly: true,
-          sameSite: 'strict',
-        });
-
-        return {
-          message: "Login Success!",
-        };
-      }
-    } catch (error) {
+    if (!response.data?.login) {
       return {
-        error: error.message as string,
+        error: 'No user found!',
       };
     }
-};
+
+    const token = response?.data.login.jwt;
+    const user = response?.data.login.user;
+
+    cookieStore.set('a-token', token!, {
+      path: '/',
+      // maxAge: 604800, // 7 days
+      maxAge: 60 * 60 * 12, // 12 hours
+      httpOnly: true,
+      sameSite: 'strict',
+    });
+
+    cookieStore.set('a-user', JSON.stringify(user!), {
+      path: '/',
+      // maxAge: 604800, // 7 days
+      maxAge: 60 * 60 * 12, // 12 hours
+      httpOnly: true,
+      sameSite: 'strict',
+    });
+
+    return {
+      message: 'Login Success!',
+    };
+  } catch (error: any) {
+    return {
+      error: error.message || '',
+    };
+  }
+}
 
 export const updateAccountStatus = safeAction
   .schema(updateUserStatusSchema)

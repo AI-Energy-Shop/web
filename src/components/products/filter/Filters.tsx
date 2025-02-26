@@ -2,7 +2,7 @@ import React from 'react';
 import FilterItem from './FilterItem';
 
 interface FiltersProps {
-  selectedFilters: {key: string, value: string}[];
+  selectedFilters: { key: string; value: string }[];
   filters: {
     id: string;
     key: string;

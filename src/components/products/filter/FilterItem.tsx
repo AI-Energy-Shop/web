@@ -10,7 +10,7 @@ interface FilterItemProps {
   index: number;
   name: string;
   value: string[];
-  selectedFilters: {key: string, value: string}[];
+  selectedFilters: { key: string; value: string }[];
   onFilterChange: (key: string, value: string) => void;
 }
 
@@ -21,7 +21,6 @@ const FilterItem: React.FC<FilterItemProps> = ({
   selectedFilters,
   onFilterChange,
 }) => {
-
   const renderFilterItem = (item: string, index: number) => {
     return (
       <div key={index} className="flex items-center gap-2">
@@ -52,8 +51,12 @@ const FilterItem: React.FC<FilterItemProps> = ({
         </Button>
       </div>
 
-      <div className={cn(`w-full border-b border-gray-200 flex flex-col gap-2 overflow-hidden ease-in-out duration-500 ${isOpen ? 'min-h-[100px] py-1 overflow-y-auto' : 'h-0 overflow-hidden'}`)}>
-       {value.map(renderFilterItem)}
+      <div
+        className={cn(
+          `w-full border-b border-gray-200 flex flex-col gap-2 overflow-hidden ease-in-out duration-500 ${isOpen ? 'min-h-[100px] py-1 overflow-y-auto' : 'h-0 overflow-hidden'}`
+        )}
+      >
+        {value.map(renderFilterItem)}
       </div>
     </div>
   );
