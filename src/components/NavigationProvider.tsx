@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
-import Navbar from './navigations/Navbar';
+import Navbar from './Navigations/Navbar';
 import { usePathname } from 'next/navigation';
-import Footer from './navigations/Footer';
+import Footer from './Navigations/Footer';
 
 interface NavigationProviderProps {
   children: React.ReactNode;

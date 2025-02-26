@@ -1,11 +1,11 @@
-import Products from '@/components/products/ProductList';
-import Breadcrumb from '@/components/products/Breadcrumb';
-import Categories from '@/components/products/Categories';
-import Brands from '@/components/products/Brands';
+import Products from '@/components/Products/ProductList';
+import Breadcrumb from '@/components/Products/Breadcrumb';
+import Categories from '@/components/Products/Categories';
+import Brands from '@/components/Products/Brands';
 import { products } from '@/app/actions/products';
 import { PRODUCT_CATEGORIES } from '@/constant';
 import { capitalizeAllFirstChar } from '@/utils/string';
-import PageTitle from '@/components/products/PageTitle';
+import PageTitle from '@/components/Products/PageTitle';
 
 export default async function CategoryPage({
   params,
