@@ -1,5 +1,5 @@
 import { getCartItems } from '@/app/actions/cart';
-import CartDetails from '@/components/checkout/CartDetails';
+import Components from '@/components';
 import { cookies } from 'next/headers';
 
 async function CheckoutPage() {
@@ -10,7 +10,7 @@ async function CheckoutPage() {
 
   return (
     <main className="bg-yellow-light-yellow pb-12">
-      <CartDetails
+      <Components.CartDetails
         authToken={a_token?.value}
         userEmail={JSON.parse(a_user?.value || JSON.stringify({})).email}
         data={carts}

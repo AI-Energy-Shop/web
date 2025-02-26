@@ -8,22 +8,20 @@ import DynamicSections from './DynamicSections';
 import Tables from './custom-ui/Table';
 import Cards from './custom-ui/Cards';
 import MediaUpload from './custom-ui/Upload/FileUpload';
-import SideNavigation from './navigations/side-naviation';
-import Navbar from './navigations/Navbar';
-import Footer from './navigations/Footer';
+import CartDetails from './checkout/CartDetails';
 
-export default {
+const Components = {
   Cards,
   Accordion,
   Sections,
   Forms,
   Sliders,
-  SideNavigation,
-  Navbar,
-  Footer,
+  CartDetails,
   NavigationProvider,
   LoadingAnimation,
   DynamicSections,
   Tables,
   MediaUpload,
 };
+
+export default Components;
