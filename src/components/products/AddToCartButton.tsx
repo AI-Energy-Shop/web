@@ -1,10 +1,7 @@
-'use client';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import ProductQuantity from './ProductQuantity';
-import { useActionState } from 'react';
 import { addToCart } from '@/app/actions/cart';
-import { Loader2 } from 'lucide-react';
 
 interface AddToCartButtonProps {
   id: string | number;
@@ -23,12 +20,8 @@ const AddToCartButton = ({
   model,
   image,
 }: AddToCartButtonProps) => {
-  const [state, formAction, pending] = useActionState(addToCart, {
-    message: '',
-  });
-
   return (
-    <form action={formAction}>
+    <form action={addToCart}>
       <ProductQuantity price={currentPrice} />
       <Input type="hidden" value={id || ''} name="id" />
       <Input type="hidden" value={name || ''} name="title" />
@@ -40,12 +33,7 @@ const AddToCartButton = ({
       />
       <Input type="hidden" value={model || ''} name="model" />
       <Input type="hidden" value={image || ''} name="image" />
-      <Button
-        type="submit"
-        disabled={pending}
-        className="w-full mt-2 bg-[#29294c] text-white"
-      >
-        {pending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+      <Button type="submit" className="w-full mt-2 bg-[#29294c] text-white">
         Add to Cart
       </Button>
     </form>

@@ -1,11 +1,13 @@
 'use client';
 import React from 'react';
-import Navigations from './navigations';
+import Navbar from './navigations/Navbar';
 import { usePathname } from 'next/navigation';
+import Footer from './navigations/Footer';
 
 interface NavigationProviderProps {
   children: React.ReactNode;
 }
+
 const NavigationProvider: React.FC<NavigationProviderProps> = ({
   children,
 }) => {
@@ -13,9 +15,9 @@ const NavigationProvider: React.FC<NavigationProviderProps> = ({
 
   return (
     <div className="w-full h-auto">
-      {!path.includes('admin') && <Navigations.Navbar />}
+      {!path.includes('admin') && <Navbar />}
       <div>{children}</div>
-      {!path.includes('admin') && <Navigations.Footer />}
+      {!path.includes('admin') && <Footer />}
     </div>
   );
 };

@@ -19,7 +19,6 @@ export const product = async (id: string) => {
   try {
     const res = await client.query({
       query: PRODUCT_OPERATIONS.Query.product,
-      fetchPolicy: 'no-cache',
       context: {
         headers: {
           Authorization: `Bearer ${token?.value}`,

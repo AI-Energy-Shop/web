@@ -13,7 +13,6 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
     cache: new InMemoryCache(),
     link: new HttpLink({
       uri: `${PROTOCOL}://${HOST}/graphql`,
-      fetchOptions: { cache: 'no-store' },
     }),
   });
 });

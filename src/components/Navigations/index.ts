@@ -1,10 +1,5 @@
 import Navbar from './Navbar';
-import SideNavigation from './SideNavigation';
+import SideNavigation from './side-naviation';
 import Footer from './Footer';
-const navigations = {
-  SideNavigation,
-  Navbar,
-  Footer,
-};
 
-export default navigations;
+export { SideNavigation, Navbar, Footer };

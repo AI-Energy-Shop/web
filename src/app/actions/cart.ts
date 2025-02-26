@@ -29,7 +29,7 @@ export async function getCartItems(): Promise<CartsQuery> {
   }
 }
 
-export async function addToCart(prevState: any, formData: FormData) {
+export async function addToCart(formData: FormData) {
   const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;
   const productId = formData.get('model') as string;
@@ -48,7 +48,6 @@ export async function addToCart(prevState: any, formData: FormData) {
   try {
     const { data: cartData } = await client.query({
       query: CART_OPERATIONS.Query.carts,
-      fetchPolicy: 'no-cache',
       context: {
         headers: {
           Authorization: `Bearer ${token}`,

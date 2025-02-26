@@ -10,7 +10,6 @@ export async function getPages(): Promise<GetPageQuery[]> {
   try {
     const res = await client.query<GetPageQuery[]>({
       query: PAGES_OPREATIONS.Queries.pages,
-      fetchPolicy: 'no-cache',
     });
 
     return res.data;
@@ -25,7 +24,6 @@ export async function getPage(slug?: string): Promise<GetPageQuery> {
   try {
     const res = await client.query<GetPageQuery>({
       query: PAGES_OPREATIONS.Queries.getPage,
-      fetchPolicy: 'no-cache',
       variables: {
         slug: slug,
       },

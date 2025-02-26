@@ -3,7 +3,6 @@ import USERS_OPERATIONS from '@/graphql/users';
 import { safeAction } from '@/lib/safe-action';
 import { redirect } from 'next/navigation';
 import { registerUserSchema } from '@/lib/validation-schema/register-form';
-import { loginUserSchema } from '@/lib/validation-schema/login-form';
 import { cookies } from 'next/headers';
 import { getClient } from '@/apollo/client';
 import { updateUserStatusSchema } from '@/lib/validation-schema/update-user-status-form';
@@ -66,7 +65,7 @@ export const registerUser = safeAction
   );
 
 // *(ROI) Logic of the user is in the client
-export async function loginUser(prevState: any, formData: FormData) {
+export async function loginUser(formData: FormData) {
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
 

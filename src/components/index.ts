@@ -1,4 +1,3 @@
-import Navigation from './navigations';
 import NavigationProvider from './NavigationProvider';
 import Sections from './Sections';
 import Accordion from './custom-ui/Accordion/Accordion';
@@ -9,18 +8,22 @@ import DynamicSections from './DynamicSections';
 import Tables from './custom-ui/Table';
 import Cards from './custom-ui/Cards';
 import MediaUpload from './custom-ui/Upload/FileUpload';
-const Components = {
+import SideNavigation from './navigations/side-naviation';
+import Navbar from './navigations/Navbar';
+import Footer from './navigations/Footer';
+
+export default {
   Cards,
   Accordion,
   Sections,
   Forms,
   Sliders,
-  Navigation,
+  SideNavigation,
+  Navbar,
+  Footer,
   NavigationProvider,
   LoadingAnimation,
   DynamicSections,
   Tables,
   MediaUpload,
 };
-
-export default Components;

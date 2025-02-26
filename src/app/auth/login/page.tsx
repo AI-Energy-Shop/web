@@ -1,23 +1,7 @@
-import LoginForm from '@/components/auth/login-form';
+import LoginForm from '@/components/Form/login-form';
 import { Package2 } from 'lucide-react';
 import Link from 'next/link';
 const LoginPage = () => {
-  // const form = useForm<z.infer<typeof loginUserSchema>>({
-  //   resolver: zodResolver(loginUserSchema),
-  //   defaultValues: {
-  //     email: '',
-  //     password: '',
-  //   },
-  // });
-
-  // async function onSubmit(values: z.infer<typeof loginUserSchema>) {
-  //   try {
-  //     execute(values);
-  //   } catch (error) {
-  //     toast.error('Something went wrong. Please try again later.');
-  //   }
-  // }
-
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
       <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
@@ -27,7 +11,7 @@ const LoginPage = () => {
         <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
           Login to Your Account
         </h1>
-        <LoginForm />
+        {/* <LoginForm /> */}
         <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
           Don&apos;t have an account?{' '}
           <Link
