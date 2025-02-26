@@ -7,7 +7,7 @@ import Components from '@/components';
 import Link from 'next/link';
 
 const ProductsPage = async () => {
-  const { data } = await products();
+  const { products: productsData } = await products();
   return (
     <main className="w-full h-auto">
       {/* Header */}
@@ -39,7 +39,7 @@ const ProductsPage = async () => {
                       Total Products
                     </dt>
                     <dd className="text-lg font-medium text-gray-900 dark:text-white">
-                      {data?.getProducts?.length}
+                      {productsData?.length}
                     </dd>
                   </dl>
                 </div>
@@ -118,7 +118,7 @@ const ProductsPage = async () => {
             </Button>
           </div>
           <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg">
-            <Components.Tables.ProductsTable products={data?.getProducts} />
+            <Components.Tables.ProductsTable products={productsData} />
           </div>
         </div>
       </div>

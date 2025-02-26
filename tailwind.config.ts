@@ -57,11 +57,6 @@ const config: Config = {
         'right-80': 'polygon(0 0, 100% 0, 80% 100%, 0% 100%)',
         'right-90': 'polygon(0 0, 100% 0, 90% 100%, 0% 100%)',
       },
-      fontFamily: {
-        firaSans: ['firaSans'],
-        muktaVaani: ['mukta-Vaani'],
-        daysone: ['font-daysone'],
-      },
       colors: {
         yellow: {
           'light-yellow-50': 'rgba(247, 236, 218, 0.66)',

@@ -4,10 +4,14 @@ import Components from '@/components';
 import React from 'react';
 
 interface DynamicPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
-const DynamicPage = async ({ params: { slug } }: DynamicPageProps) => {
+const DynamicPage = async (props: DynamicPageProps) => {
+  const params = await props.params;
+
+  const { slug } = params;
+
   let data = null;
 
   try {

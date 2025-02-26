@@ -29,7 +29,7 @@ import {
 } from '@/lib/gql/graphql';
 import { Save } from 'lucide-react';
 import { useAction } from 'next-safe-action/hooks';
-import { updateAccountStatus } from '@/app/actions/users';
+import { updateAccountStatus } from '@/app/actions/user';
 import { toast } from 'sonner';
 
 type UserProfileFormProps = {

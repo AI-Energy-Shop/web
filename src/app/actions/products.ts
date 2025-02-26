@@ -7,33 +7,13 @@ import {
   CreateProductMutation,
   CustomProductUpdateMutationVariables,
   CreateProductMutationVariables,
+  ProductsQueryVariables,
 } from '@/lib/gql/graphql';
 
 const client = getClient();
 
-export const products = async () => {
-  const cookieStore = cookies();
-  const token = cookieStore.get('a-token');
-  try {
-    const res = await client.query({
-      query: PRODUCT_OPERATIONS.Query.products,
-      fetchPolicy: 'no-cache',
-      context: {
-        headers: {
-          Authorization: `Bearer ${token?.value}`,
-        },
-      },
-    });
-
-    return res;
-  } catch (error: any) {
-    console.log("ERROR fetching product's:", error.message);
-    return error;
-  }
-};
-
 export const product = async (id: string) => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   try {
@@ -57,10 +37,37 @@ export const product = async (id: string) => {
   }
 };
 
+export const products = async (variables?: ProductsQueryVariables) => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('a-token');
+
+  try {
+    const res = await client.query({
+      query: PRODUCT_OPERATIONS.Query.products,
+      fetchPolicy: 'no-cache',
+      context: {
+        headers: {
+          Authorization: `Bearer ${token?.value}`,
+        },
+      },
+      variables,
+    });
+
+    if (!res?.data) {
+      throw new Error('No products found');
+    }
+
+    return res.data;
+  } catch (error: any) {
+    console.log("ERROR fetching product's:", error.message);
+    return error;
+  }
+};
+
 export const createProduct = async (
   variables: CreateProductMutationVariables
 ): Promise<FetchResult<CreateProductMutation>> => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   try {
@@ -87,7 +94,7 @@ export const createProduct = async (
 export const updateProduct = async (
   variables: CustomProductUpdateMutationVariables
 ) => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
   try {
     const res = await client.mutate({
@@ -112,7 +119,7 @@ export const updateProduct = async (
 };
 
 export const frontPageGetProduct = async (id: string) => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   const res = await client.query({

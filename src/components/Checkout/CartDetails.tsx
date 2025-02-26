@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import CheckoutHeader from '@/components/Checkout/CheckoutHeader';
+import CheckoutHeader from '@/components/checkout/CheckoutHeader';
 import ReviewItems from './ReviewItems';
 import ShippingDetails from './ShippingDetails';
 import OrderSummary from './OrderSummary';
@@ -10,26 +10,36 @@ import { useMutation, useQuery } from '@apollo/client';
 import CART_OPERATIONS from '@/graphql/cart';
 import USER_OPERATIONS from '@/graphql/users';
 import ORDER_OPERATIONS from '@/graphql/order';
-import {
-  CARD_FEE,
-  DELIVERY_OPTIONS,
-  WAREHOUSE_LOCATIONS,
-} from '@/constant/shipping';
+import { DELIVERY_OPTIONS, WAREHOUSE_LOCATIONS } from '@/constant/shipping';
 import ModalWrapper from './ModalWrapper';
-import { CartItemType, ShippingDetailsTypes } from '@/lib/types';
+import { CartType, ShippingDetailsTypes } from '@/lib/types';
 import { CartsQuery } from '@/lib/gql/graphql';
+import { Toast } from '@/lib/toast';
 
 interface CartDetailsProps {
-  authToken?: any;
+  authToken?: string;
   userEmail?: string;
+  data?: any;
 }
 
-const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
+const CartDetails: React.FC<CartDetailsProps> = ({
+  authToken,
+  userEmail,
+  data,
+}) => {
+  const [cartItems, setCartItems] = React.useState<CartType[]>(
+    data?.map((item: any) => ({
+      item: item?.item || {},
+      documentId: item?.documentId || '',
+      updatedAt: item?.updatedAt || '',
+      createdAt: item?.createdAt || '',
+    }))
+  );
   const [date, setDate] = React.useState<Date>(new Date());
   const [stepper, setStepper] = React.useState<number>(1);
-  const [cartItems, setCartItems] = React.useState<CartItemType[]>([]);
   const [showModal, setShowModal] = React.useState<boolean>(false);
   const [itemToRemove, setItemToRemove] = React.useState<string>('');
+
   const [shippingDetails, setShipDetails] = useState<ShippingDetailsTypes>({
     companyName: undefined,
     shippingAddress: undefined,
@@ -39,11 +49,6 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
   });
 
   const { data: userData } = useQuery(USER_OPERATIONS.Queries.user, {
-    context: {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    },
     onCompleted: (data) => {
       if (!data?.user) return;
       const { user } = data;
@@ -80,14 +85,19 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
         username: userEmail,
       },
     },
+    context: {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    },
   });
 
   useQuery<CartsQuery>(CART_OPERATIONS.Query.carts, {
     onCompleted: (data) => {
       if (!data) return;
       const { carts } = data;
+      console.log('CART ITEMS: ', carts);
       if (!carts) return;
-
       setCartItems(
         carts.map((cart) => ({
           documentId: cart?.documentId || '',
@@ -112,6 +122,26 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
       console.error('ERROR', error);
     },
   });
+
+  const [removeFromCart] = useMutation(
+    CART_OPERATIONS.Mutation.removeFromCart,
+    {
+      context: {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      },
+      onCompleted: (data) => {
+        Toast('Item removed from cart', 'SUCCESS', {
+          theme: 'light',
+          position: 'top-center',
+        });
+      },
+      onError: (error) => {
+        console.error('ERROR', error);
+      },
+    }
+  );
 
   const handleIncrementStepper = () => {
     try {
@@ -263,8 +293,36 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
     setCartItems((prevCartData) =>
       prevCartData.filter((cartItem) => cartItem.documentId !== itemToRemove)
     );
+
+    removeFromCart({
+      variables: {
+        documentId: itemToRemove,
+      },
+    });
+
     setShowModal(false);
     setItemToRemove('');
+  };
+
+  const handlePaymentOptionChange = (value: string) => {
+    setShipDetails((prev: ShippingDetailsTypes) => ({
+      ...prev,
+      paymentOption: {
+        title: value,
+        price: 39.5 * 0.1,
+      },
+    }));
+  };
+
+  const handleRemoveItem = (id: string) => {
+    setCartItems((prevCartData) => {
+      return prevCartData.filter((cartItem) => cartItem.documentId !== id);
+    });
+    removeFromCart({
+      variables: {
+        documentId: id,
+      },
+    });
   };
 
   const deliveryFee = shippingDetails?.deliveryOptions?.price
@@ -278,16 +336,6 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
     deliveryFee,
     paymentOption?.price
   );
-
-  const handlePaymentOptionChange = (value: string) => {
-    setShipDetails((prev: ShippingDetailsTypes) => ({
-      ...prev,
-      paymentOption: {
-        title: value,
-        price: 39.5 * 0.1,
-      },
-    }));
-  };
 
   return (
     <>
@@ -307,6 +355,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ authToken, userEmail }) => {
             onChange={handleOnInputChange}
             onAddQuant={handleAddItemQuantity}
             onReduceQuant={handleReduceItemQuantity}
+            onRemoveItem={handleRemoveItem}
             onClickContinue={handleIncrementStepper}
           />
 

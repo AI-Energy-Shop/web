@@ -13,19 +13,18 @@ import {
 import { Badge } from '@/components/ui/badge';
 import UserProfileForm from '@/components/Form/user-profile';
 import { Save } from 'lucide-react';
-import { getUserDetails, updateAccountStatus } from '@/app/actions/users';
+import { getUserDetails, updateAccountStatus } from '@/app/actions/user';
 import {
   Enum_Accountdetail_Level,
   Enum_Userspermissionsuser_Account_Status,
 } from '@/lib/gql/graphql';
 
 type AdminDashboardUserPageProps = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
-const AdminDashboardUserPage = async ({
-  params,
-}: AdminDashboardUserPageProps) => {
+const AdminDashboardUserPage = async (props: AdminDashboardUserPageProps) => {
+  const params = await props.params;
   const userId = params.id;
   const user = await getUserDetails(userId);
 

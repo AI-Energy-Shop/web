@@ -3,7 +3,7 @@ import { Ban, KeyRound, Search, User, UserPlus } from 'lucide-react';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { getUsers } from '@/app/actions/users';
+import { getUsers } from '@/app/actions/user';
 import Components from '@/components';
 
 const UserManagement = async () => {

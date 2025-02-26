@@ -19,7 +19,6 @@ const Payment: React.FC<PaymentProps> = ({
   handleIncrementStepper,
   handlePaymentOptionChange,
 }) => {
-  console.log(paymentOption);
   return (
     <section>
       <div className="bg-blue-navy-blue py-3">

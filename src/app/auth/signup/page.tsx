@@ -26,7 +26,7 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
-import { registerUser } from '@/app/actions/users';
+import { registerUser } from '@/app/actions/user';
 import { useAction } from 'next-safe-action/hooks';
 import { registerUserSchema } from '@/lib/validation-schema/register-form';
 import Dialogs from '@/components/dialog';

@@ -165,18 +165,19 @@ export type UsersPermissionsResponse = {
   usersPermissionsUsers: UserType[];
 };
 
-// CART
 export type CartItemType = {
+  id?: string;
+  title?: string;
+  model?: string;
+  quantity?: number;
+  price?: number;
+  odoo_product_id?: string;
+  image?: string;
+};
+// CART
+export type CartType = {
   documentId: string;
-  item: {
-    id?: string;
-    title?: string;
-    quantity?: number;
-    price?: number;
-    odoo_product_id?: string;
-    reference_id?: string;
-    image?: string;
-  };
+  item: CartItemType;
   updatedAt: string;
   createdAt: string;
 };
@@ -191,9 +192,25 @@ export interface Product {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
-  price_list: [];
-  inventory: [];
-  specification: [];
+  model: string;
+  images: {
+    documentId: string | number;
+    url: string;
+    name: string;
+  }[];
+  price_list: {
+    price: number;
+    sale_price: number;
+    user_level: string;
+  }[];
+  inventory: {
+    location: string;
+    quantity: number;
+  }[];
+  specification: {
+    key: string;
+    value: string;
+  }[];
   __typename: string;
 }
 

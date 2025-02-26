@@ -1,12 +1,12 @@
 'use client';
 import React from 'react';
-import { Button } from '../ui/button';
-import { Minus, Plus, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 import { getCartItemSubtotal } from '@/utils/cart';
+import { Minus, Plus, Trash2 } from 'lucide-react';
 
-interface CartItemProps {
+interface CartItemCardProps {
   id: string;
   image?: string;
   title?: string;
@@ -14,12 +14,13 @@ interface CartItemProps {
   price?: number;
   quantity?: number;
   gst?: string;
-  onChange: (id: string, e: React.ChangeEvent<HTMLInputElement>) => void;
-  onReduceQuant: (id: string) => void;
   onAddQuant: (id: string) => void;
+  onReduceQuant: (id: string) => void;
+  onChange: (id: string, e: React.ChangeEvent<HTMLInputElement>) => void;
+  onRemove: (id: string) => void;
 }
 
-const CartItem = ({
+const CartItemCard = ({
   id,
   image,
   title,
@@ -30,7 +31,8 @@ const CartItem = ({
   onChange,
   onAddQuant,
   onReduceQuant,
-}: CartItemProps) => {
+  onRemove,
+}: CartItemCardProps) => {
   return (
     <div className="space-y-4">
       <div className="flex gap-x-1">
@@ -38,6 +40,7 @@ const CartItem = ({
           size="icon"
           variant="ghost"
           className="hidden md:block md:self-center"
+          onClick={() => onRemove(id)}
         >
           <Trash2 className="w-5 h-5 mx-auto" color="red" />
         </Button>
@@ -130,4 +133,4 @@ const CartItem = ({
   );
 };
 
-export default CartItem;
+export default CartItemCard;

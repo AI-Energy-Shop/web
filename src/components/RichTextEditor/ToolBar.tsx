@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, type JSX } from 'react';
 import {
   Bold,
   Disc,
@@ -31,7 +31,7 @@ interface TempSubOption {
   name: string;
   isActive: boolean;
   icon: JSX.Element | null;
-  ui: React.ReactElement | null;
+  ui: React.ReactElement<any> | null;
   onClick: () => boolean;
 }
 
