@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import CheckoutHeader from '@/components/checkout/CheckoutHeader';
+import CheckoutHeader from '@/components/Checkout/CheckoutHeader';
 import ReviewItems from './ReviewItems';
 import ShippingDetails from './ShippingDetails';
 import OrderSummary from './OrderSummary';

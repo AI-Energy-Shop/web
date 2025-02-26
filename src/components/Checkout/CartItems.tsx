@@ -2,7 +2,7 @@
 import React from 'react';
 import { formatCurrency } from '@/utils/cart';
 import { CartType } from '@/lib/types';
-import CartItemCard from '@/components/checkout/CartItemCard';
+import CartItemCard from '@/components/Checkout/CartItemCard';
 
 const CartItems = ({
   data,
