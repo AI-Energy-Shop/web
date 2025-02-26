@@ -66,11 +66,11 @@ export const registerUser = safeAction
   );
 
 // *(ROI) Logic of the user is in the client
-export const loginUser = safeAction
-  .schema(loginUserSchema)
-  .action(async ({ parsedInput: { email, password } }) => {
-    const cookieStore = await cookies();
-    let isSuccessfull = false;
+export async function loginUser(prevState: any, formData: FormData) {
+  const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
+
+  const cookieStore = await cookies();
 
     try {
       const response = await client.mutate({
@@ -84,19 +84,14 @@ export const loginUser = safeAction
         },
       });
 
-      if (response.errors) {
-        throw new Error(response.errors[0].message);
-      }
-
       if (response.data?.login) {
-        isSuccessfull = true;
         const token = response?.data.login.jwt;
         const user = response?.data.login.user;
 
         cookieStore.set('a-token', token!, {
           path: '/',
           // maxAge: 604800, // 7 days
-          maxAge: 60 * 60 * 12,
+          maxAge: 60 * 60 * 12, // 12 hours
           httpOnly: true,
           sameSite: 'strict',
         });
@@ -104,19 +99,21 @@ export const loginUser = safeAction
         cookieStore.set('a-user', JSON.stringify(user!), {
           path: '/',
           // maxAge: 604800, // 7 days
-          maxAge: 60 * 60 * 12,
+          maxAge: 60 * 60 * 12, // 12 hours
           httpOnly: true,
           sameSite: 'strict',
         });
+
+        return {
+          message: "Login Success!",
+        };
       }
     } catch (error) {
-      throw error;
+      return {
+        error: error.message as string,
+      };
     }
-
-    if (isSuccessfull) {
-      redirect('/admin/dashboard');
-    }
-  });
+};
 
 export const updateAccountStatus = safeAction
   .schema(updateUserStatusSchema)

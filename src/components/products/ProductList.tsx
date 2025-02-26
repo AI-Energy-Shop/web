@@ -5,6 +5,8 @@ import Filters from './filter/Filters';
 import DropdownOptions from './options/DropdownOptions';
 import ProductPagination from './ProductPagination';
 import { Product } from '@/lib/types';
+import { useSearchParams, useRouter } from 'next/navigation';
+
 
 interface Filter {
   id: string;
@@ -27,63 +29,67 @@ const Products: React.FC<ProductListProps> = ({
   pageSize,
   category,
 }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [warehouse, setWarehouse] = useState('SYD');
   const [currentFilter, setCurrentFilter] = useState<Filter[]>([]);
   const [filterCopy, setFilterCopy] = useState<Filter[]>([]);
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [selectedFilters, setSelectedFilters] = useState<{key: string, value: string}[]>([]);
 
   const currentProducts = data
     ?.filter((product) => {
-      return selectedFilters.every((filter) =>
-        product.specification.some((spec) => spec.value.includes(filter))
-      );
+      if (selectedFilters.length === 0) {
+        return true; // Return all products if no filters are selected
+      }
+      return product.specification.some((spec) => selectedFilters.some((f) => f.value === spec.value));
     })
     .slice();
 
-  const handleFilterChange = (filter: string) => {
-    setSelectedFilters((prevFilters: string[]) => {
-      if (prevFilters.includes(filter)) {
-        const newFilter = prevFilters.filter((f) => f !== filter);
+  const handleFilterChange = (key: string, value: string) => {
+    setSelectedFilters((prevFilters: {key: string, value: string}[]) => {
+      if (prevFilters.some((f) => f.value === value)) {
+        const newFilter = prevFilters.filter((f) => f.value !== value);
         if (newFilter.length === 0) {
           setCurrentFilter(filterCopy);
         }
         return newFilter;
       }
-      return [...prevFilters, filter];
+      return [...prevFilters, {key, value}];
     });
 
-    const filteredProducts = currentProducts?.filter((product) => {
-      return product.specification.some((spec) => spec.value.includes(filter));
-    });
 
-    const combinedSpecifications =
-      filteredProducts?.flatMap((product) => product.specification) || [];
+    // const filteredProducts = currentProducts?.filter((product) => {
+    //   return product.specification.some((spec) => spec.value.includes(filter));
+    // });
 
-    const groupedSpecifications = combinedSpecifications.reduce(
-      (acc: any, spec: any) => {
-        if (!acc[spec.key]) {
-          acc[spec.key] = {
-            id: spec.id,
-            key: spec.key,
-            value: [],
-          };
-        }
-        if (!acc[spec.key].value.includes(spec.value)) {
-          acc[spec.key].value.push(spec.value);
-        }
-        return acc;
-      },
-      {}
-    );
+    // const combinedSpecifications =
+    //   filteredProducts?.flatMap((product) => product.specification) || [];
 
-    // Convert the grouped specifications object back to an array
-    const uniqueSpecifications = Object.values(
-      groupedSpecifications
-    ) as Filter[];
+    // const groupedSpecifications = combinedSpecifications.reduce(
+    //   (acc: any, spec: any) => {
+    //     if (!acc[spec.key]) {
+    //       acc[spec.key] = {
+    //         id: spec.id,
+    //         key: spec.key,
+    //         value: [],
+    //       };
+    //     }
+    //     if (!acc[spec.key].value.includes(spec.value)) {
+    //       acc[spec.key].value.push(spec.value);
+    //     }
+    //     return acc;
+    //   },
+    //   {}
+    // );
 
-    setCurrentFilter((prev) => {
-      return [...uniqueSpecifications];
-    });
+    // // Convert the grouped specifications object back to an array
+    // const uniqueSpecifications = Object.values(
+    //   groupedSpecifications
+    // ) as Filter[];
+
+    // setCurrentFilter((prev) => {
+    //   return [...uniqueSpecifications];
+    // });
   };
 
   const handleSortChange = (sort: string) => {
@@ -120,32 +126,47 @@ const Products: React.FC<ProductListProps> = ({
 
   useEffect(() => {
     if (data && data.length > 0) {
-      const combinedSpecifications =
-        data?.flatMap((product) => product.specification) || [];
+      const solarPanelFilterList = ['Brand', 'Wattage', 'Colour', 'Key Features', 'Product Warranty']
+      const filterOptions = [
+        'Product Type',
+        'Product Subtype',
+        'Brand',
+        'Wattage',
+        'Power Rating (kW)',
+        'Capacity (kWh)',
+        'Water Capacity',
+        'Inverter Type',
+        'Phase Support',
+        'Grid Support',
+        'No. of MPPTs',
+        'Colour',
+        'Key Features',
+        'Product Warranty'
+      ];
 
-      // Group specifications by key
-      const groupedSpecifications = combinedSpecifications.reduce(
-        (acc: any, spec: any) => {
-          if (!acc[spec.key]) {
-            acc[spec.key] = {
-              id: spec.id,
-              key: spec.key,
-              value: [],
-              // __typename: spec.__typename
-            };
-          }
-          if (!acc[spec.key].value.includes(spec.value)) {
-            acc[spec.key].value.push(spec.value);
-          }
-
-          return acc;
-        },
-        {}
+      const test = data.flatMap((product) => 
+        product.specification.filter((spec) => 
+          filterOptions.includes(spec.key)
+        )
       );
 
-      // Convert the grouped specifications object back to an array
+      const combinedSpecifications = test.reduce((acc: any, spec: any) => {
+        if (!acc[spec.key]) {
+          acc[spec.key] = {
+            id: spec.id,
+            key: spec.key,
+            value: [],  
+            __typename: spec.__typename
+          };
+        }
+        if (!acc[spec.key].value.includes(spec.value)) {
+          acc[spec.key].value.push(spec.value);
+        }
+        return acc;
+      }, {});
+
       const uniqueSpecifications = Object.values(
-        groupedSpecifications
+        combinedSpecifications
       ) as Filter[];
       setCurrentFilter(uniqueSpecifications);
       setFilterCopy(uniqueSpecifications);
@@ -167,11 +188,11 @@ const Products: React.FC<ProductListProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {currentProducts?.map(renderProductCard)}
         </div>
-        <ProductPagination
+        {/* <ProductPagination
           currentPage={currentPage}
           pageSize={pageSize}
           category={category}
-        />
+        /> */}
       </div>
     </div>
   );

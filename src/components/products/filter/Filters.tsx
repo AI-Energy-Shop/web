@@ -2,13 +2,13 @@ import React from 'react';
 import FilterItem from './FilterItem';
 
 interface FiltersProps {
-  selectedFilters: string[];
+  selectedFilters: {key: string, value: string}[];
   filters: {
     id: string;
     key: string;
     value: string[];
   }[];
-  onFilterChange: (filter: string) => void;
+  onFilterChange: (key: string, value: string) => void;
 }
 
 const FilterSidebar: React.FC<FiltersProps> = (props) => {
@@ -16,8 +16,9 @@ const FilterSidebar: React.FC<FiltersProps> = (props) => {
   return (
     <div className="w-64 flex-shrink-0">
       <div className="text-sm font-medium mb-4">Filter:</div>
-      {filters.map?.((filter) => (
+      {filters.map?.((filter, index) => (
         <FilterItem
+          index={index}
           key={filter.id}
           name={filter.key}
           value={filter.value}

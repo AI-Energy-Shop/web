@@ -7,8 +7,6 @@ import { SIDE_NAVIGATIONS } from '@/constant';
 import Icon from '../Icon';
 import { usePathname } from 'next/navigation';
 
-
-  
 const SideNavigation = () => {
   const pathname = usePathname();
   return (

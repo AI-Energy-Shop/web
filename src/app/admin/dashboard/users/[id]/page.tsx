@@ -13,7 +13,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import UserProfileForm from '@/components/Form/user-profile';
 import { Save } from 'lucide-react';
-import { getUserDetails, updateAccountStatus } from '@/app/actions/users';
+import { getUserDetails, updateAccountStatus } from '@/app/actions/user';
 import {
   Enum_Accountdetail_Level,
   Enum_Userspermissionsuser_Account_Status,

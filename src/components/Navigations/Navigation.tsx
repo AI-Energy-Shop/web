@@ -1,19 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronDown, Search, User, ShoppingCart, Warehouse } from 'lucide-react';
+import { Search, User, ShoppingCart, Warehouse } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import NavList from './nav-list';
 import { Input } from '@/components/ui/input';
 
 interface NavigationBarProps {}
 
 const NavigationBar: React.FC<NavigationBarProps> = () => {
-
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white">
       <div className="flex max-w-[1200px] h-20 items-center justify-between mx-auto gap-10">
@@ -29,63 +23,14 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
                 priority
               />
             </div>
-            <p className={`text-[10px] text-purple-purp-aes font-black text-center`}>
+            <p
+              className={`text-[10px] text-purple-purp-aes font-black text-center`}
+            >
               AI ENERGY SHOP
             </p>
           </div>
         </Link>
-        <nav className="flex items-end h-full text-sm font-medium py-[0.5rem] gap-3">
-          <Link href="/" className="transition-colors hover:text-primary">
-            Home
-          </Link>
-          <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center space-x-1 transition-colors hover:text-primary font-normal">
-              <span>Products</span>
-              <ChevronDown className="h-4 w-4" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="font-normal">
-              <DropdownMenuItem>
-                <Link href="/products/solar-panel">Solar Panel</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href="/products/inverter">Inverter</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href="/products/battery">Energy Storage</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href="/products/charger">Charger</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href="/products/electrical">Electrical</Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <Link href="/about" className="transition-colors hover:text-primary font-normal">
-            About Us
-          </Link>
-          <Link href="/contact-us" className="text-primary font-normal">
-            Contact Us
-          </Link>
-          <Link
-            href="/downloads"
-            className="transition-colors hover:text-primary font-normal"
-          >
-            Downloads
-          </Link>
-          <Link
-            href="/stc-trading"
-            className="transition-colors hover:text-primary font-normal"
-          >
-            STC Trading
-          </Link>
-          <Link
-            href="/shift-trade"
-            className="transition-colors hover:text-primary font-normal"
-          >
-            Shift Trade
-          </Link>
-        </nav>
+        <NavList />
         <div className="flex gap-2 items-end h-full py-[0.5rem]">
           <div className="relative w-48 p-1">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />

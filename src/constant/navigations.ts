@@ -41,3 +41,13 @@ export const SIDE_NAVIGATIONS: Array<{
     icon: 'chart-bar',
   },
 ];
+
+export const NAV_LIST_ITEMS = [
+  { href: '/', label: 'Home' },
+  { href: '/products', label: 'Products' },
+  { href: '/about', label: 'About Us' },
+  { href: '/contact-us', label: 'Contact Us' },
+  { href: '/downloads', label: 'Downloads' },
+  { href: '/stc-trading', label: 'STC Trading' },
+  { href: '/shift-trade', label: 'Shift Trade' },
+];

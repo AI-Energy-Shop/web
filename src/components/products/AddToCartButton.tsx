@@ -5,6 +5,7 @@ import ProductQuantity from './ProductQuantity';
 import { useActionState } from 'react';
 import { addToCart } from '@/app/actions/cart';
 import { Loader2 } from 'lucide-react';
+
 interface AddToCartButtonProps {
   id: string | number;
   name: string;
@@ -13,6 +14,7 @@ interface AddToCartButtonProps {
   model?: string;
   image?: string;
 }
+
 const AddToCartButton = ({
   id,
   name,
