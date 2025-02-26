@@ -1,9 +1,9 @@
-import Navigation from './navigation';
-import SideNavigation from './side-naviation';
-import Footer from './footer';
+import Navbar from './Navbar';
+import SideNavigation from './SideNavigation';
+import Footer from './Footer';
 const navigations = {
   SideNavigation,
-  Navigation,
+  Navbar,
   Footer,
 };
 

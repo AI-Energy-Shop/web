@@ -1,4 +1,3 @@
-export const dynamic = 'force-dynamic';
 import Products from '@/components/products/ProductList';
 import Breadcrumb from '@/components/products/Breadcrumb';
 import Categories from '@/components/products/Categories';

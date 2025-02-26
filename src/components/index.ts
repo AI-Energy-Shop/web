@@ -1,4 +1,4 @@
-import Navigation from './navigations/navigation';
+import Navigation from './navigations';
 import NavigationProvider from './NavigationProvider';
 import Sections from './Sections';
 import Accordion from './custom-ui/Accordion/Accordion';

@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Search, User, ShoppingCart, Warehouse } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import NavList from './nav-list';
+import NavList from './NavList';
 import { Input } from '@/components/ui/input';
 
 interface NavigationBarProps {}
