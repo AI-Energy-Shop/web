@@ -10,6 +10,8 @@ import { useForm } from 'react-hook-form';
 import { loginUser } from '@/app/actions/user';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
+import { useDispatch } from 'react-redux';
+import { setMe, setToken } from '@/store/features/me';
 
 interface LoginFormData {
   email: string;
@@ -21,10 +23,21 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (data: LoginFormData) => {
-    const { success, error } = await loginUser(data);
+    const { success, error, data: userData } = await loginUser(data);
     if (success) {
+      dispatch(
+        setMe({
+          id: userData?.user?.id || '',
+          email: userData?.user?.email || '',
+          username: userData?.user?.username || '',
+          blocked: userData?.user?.blocked || false,
+          confirmed: userData?.user?.confirmed || null,
+        })
+      );
+      dispatch(setToken(userData?.token || ''));
       router.push('/products');
     } else {
       toast({

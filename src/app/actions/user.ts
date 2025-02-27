@@ -84,29 +84,29 @@ export async function loginUser({
       },
     });
 
-    if (response.data?.login) {
-      const token = response?.data.login.jwt;
-      const user = response?.data.login.user;
-
-      cookieStore.set('a-token', token!, {
-        path: '/',
-        maxAge: 60 * 60 * 12, // 12 hours
-        httpOnly: true,
-        sameSite: 'strict',
-        secure: process.env.NODE_ENV === 'production' ? true : false,
-      });
-
-      cookieStore.set('a-user', JSON.stringify(user!), {
-        path: '/',
-        maxAge: 60 * 60 * 12, // 12 hours
-        httpOnly: true,
-        sameSite: 'strict',
-        secure: process.env.NODE_ENV === 'production' ? true : false,
-      });
-      return { success: true }; // Return success indicator
-    } else {
+    if (!response.data?.login) {
       return { success: false, error: 'Login failed' };
     }
+
+    const token = response?.data.login.jwt;
+    const user = response?.data.login.user;
+
+    cookieStore.set('a-token', token!, {
+      path: '/',
+      maxAge: 60 * 60 * 12, // 12 hours
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production' ? true : false,
+    });
+    cookieStore.set('a-user', JSON.stringify(user!), {
+      path: '/',
+      maxAge: 60 * 60 * 12, // 12 hours
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production' ? true : false,
+    });
+
+    return { success: true, data: { token, user } }; // Return success indicator
   } catch (error: any) {
     console.error('GraphQL Query Error:', error);
     return { success: false, error: error.message };

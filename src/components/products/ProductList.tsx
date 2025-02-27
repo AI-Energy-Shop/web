@@ -28,8 +28,6 @@ const Products: React.FC<ProductListProps> = ({
   pageSize,
   category,
 }) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
   const [warehouse, setWarehouse] = useState('SYD');
   const [currentFilter, setCurrentFilter] = useState<Filter[]>([]);
   const [filterCopy, setFilterCopy] = useState<Filter[]>([]);
@@ -59,39 +57,6 @@ const Products: React.FC<ProductListProps> = ({
       }
       return [...prevFilters, { key, value }];
     });
-
-    // const filteredProducts = currentProducts?.filter((product) => {
-    //   return product.specification.some((spec) => spec.value.includes(filter));
-    // });
-
-    // const combinedSpecifications =
-    //   filteredProducts?.flatMap((product) => product.specification) || [];
-
-    // const groupedSpecifications = combinedSpecifications.reduce(
-    //   (acc: any, spec: any) => {
-    //     if (!acc[spec.key]) {
-    //       acc[spec.key] = {
-    //         id: spec.id,
-    //         key: spec.key,
-    //         value: [],
-    //       };
-    //     }
-    //     if (!acc[spec.key].value.includes(spec.value)) {
-    //       acc[spec.key].value.push(spec.value);
-    //     }
-    //     return acc;
-    //   },
-    //   {}
-    // );
-
-    // // Convert the grouped specifications object back to an array
-    // const uniqueSpecifications = Object.values(
-    //   groupedSpecifications
-    // ) as Filter[];
-
-    // setCurrentFilter((prev) => {
-    //   return [...uniqueSpecifications];
-    // });
   };
 
   const handleSortChange = (sort: string) => {
@@ -128,19 +93,12 @@ const Products: React.FC<ProductListProps> = ({
 
   useEffect(() => {
     if (data && data.length > 0) {
-      const solarPanelFilterList = [
-        'Brand',
-        'Wattage',
-        'Colour',
-        'Key Features',
-        'Product Warranty',
-      ];
       const filterOptions = [
         'Product Type',
         'Product Subtype',
         'Brand',
         'Wattage',
-        'Power Rating (kW)',
+        'Power Rating',
         'Capacity (kWh)',
         'Water Capacity',
         'Inverter Type',
@@ -194,11 +152,11 @@ const Products: React.FC<ProductListProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {currentProducts?.map(renderProductCard)}
         </div>
-        {/* <ProductPagination
+        <ProductPagination
           currentPage={currentPage}
           pageSize={pageSize}
           category={category}
-        /> */}
+        />
       </div>
     </div>
   );

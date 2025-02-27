@@ -9,7 +9,7 @@ import Tables from './custom-ui/Table';
 import Cards from './custom-ui/Cards';
 import MediaUpload from './custom-ui/Upload/FileUpload';
 import CartDetails from './Checkout/CartDetails';
-
+import ReduxProvider from './ReduxProvider';
 const Components = {
   Cards,
   Accordion,
@@ -22,6 +22,7 @@ const Components = {
   DynamicSections,
   Tables,
   MediaUpload,
+  ReduxProvider,
 };
 
 export default Components;

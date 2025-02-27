@@ -4,7 +4,6 @@ import { getClient } from '@/apollo/client';
 import CART_OPERATIONS from '@/graphql/cart';
 import { CartsQuery } from '@/lib/gql/graphql';
 import { cookies } from 'next/headers';
-import { Toast } from '@/lib/toast';
 const client = getClient();
 
 export async function getCartItems(): Promise<CartsQuery> {
@@ -89,8 +88,16 @@ export async function addToCart(formData: FormData) {
         },
       });
 
+      if (res.errors) {
+        return {
+          success: false,
+          error: res.errors[0].message,
+        };
+      }
+
       return {
-        message: 'Item updated',
+        success: true,
+        message: 'Item updated in cart',
       };
     }
 
@@ -104,13 +111,22 @@ export async function addToCart(formData: FormData) {
       variables,
     });
 
-    return {
-      message: 'Item added',
-    };
-  } catch (error: any) {
-    console.log('VARIABLES: ', variables);
-    console.error('GraphQL Mutation Error:', error);
+    if (res.errors) {
+      return {
+        success: false,
+        error: res.errors[0].message,
+      };
+    }
 
-    return error.message;
+    return {
+      success: true,
+      message: 'Item added to cart',
+    };
+
+  } catch (error: any) {
+    console.error('GraphQL Mutation Error:', error.message);
+    return {
+      error: error.message,
+    };
   }
 }
