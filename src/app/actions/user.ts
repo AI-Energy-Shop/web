@@ -95,14 +95,14 @@ export async function loginUser({
       path: '/',
       maxAge: 60 * 60 * 12, // 12 hours
       httpOnly: true,
-      sameSite: 'strict',
+      // sameSite: 'strict',
       // secure: process.env.NODE_ENV === 'production' ? true : false,
     });
     cookieStore.set('a-user', JSON.stringify(user!), {
       path: '/',
       maxAge: 60 * 60 * 12, // 12 hours
       httpOnly: true,
-      sameSite: 'strict',
+      // sameSite: 'strict',
       // secure: process.env.NODE_ENV === 'production' ? true : false,
     });
 
