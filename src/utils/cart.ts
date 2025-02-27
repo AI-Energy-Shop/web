@@ -1,5 +1,4 @@
-import { CartType } from '@/lib/types';
-import { Cart } from '@/store/features/cart';
+import { CartType } from '@/lib/types'; 
 
 export const formatCurrency = (value?: number, currency?: string) => {
   if (!value) return '0.00';
@@ -11,10 +10,10 @@ export const formatCurrency = (value?: number, currency?: string) => {
   });
 };
 
-export const getCartSubtotal = (cartItems: Cart[]) => {
+export const getCartSubtotal = (cartItems: CartType[]) => {
   return cartItems.reduce((acc, item) => {
-    const quantity = item?.quantity ?? 0;
-    const price = item?.price ?? 0;
+    const quantity = item?.item?.quantity ?? 0;
+    const price = item?.item?.price ?? 0;
     return acc + quantity * price;
   }, 0);
 };
@@ -35,7 +34,7 @@ export const getCartItemSubtotal = (
 };
 
 export const getCartTotals = (
-  cartItems: Cart[],
+  cartItems: CartType[],
   shippingFee?: number,
   cardFee?: number
 ) => {
