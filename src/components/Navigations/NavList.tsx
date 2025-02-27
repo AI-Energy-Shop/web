@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { NAV_LIST_ITEMS } from '@/constant';
 const NavList = () => {
   return (
-    <nav className="flex items-end h-full text-sm font-medium py-[0.5rem] gap-3">
+    <nav className="flex items-end h-full text-sm font-medium gap-3">
       {NAV_LIST_ITEMS.map((item, index) => (
         <Link
           key={index}

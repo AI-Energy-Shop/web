@@ -1,16 +1,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search, User, ShoppingCart, Warehouse } from 'lucide-react';
+import { User, ShoppingCart, Warehouse } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import NavList from './NavList';
-import { Input } from '@/components/ui/input';
-
+import NavSearchBar from './NavSearchBar';
+import CartButton from './CartButton';
 interface NavigationBarProps {}
 
 const NavigationBar: React.FC<NavigationBarProps> = () => {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white">
-      <div className="flex max-w-[1200px] h-20 items-center justify-between mx-auto gap-10">
+      <div className="flex max-w-[1200px] h-20 items-end justify-between mx-auto gap-10 py-[0.5rem]">
         <Link href="/" passHref>
           <div className="w-[100px] flex flex-col items-center justify-between gap-1">
             <div className="relative w-10 h-10 overflow-hidden">
@@ -31,11 +31,8 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
           </div>
         </Link>
         <NavList />
-        <div className="flex gap-2 items-end h-full py-[0.5rem]">
-          <div className="relative w-48 p-1">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search" className="pl-8" />
-          </div>
+        <NavSearchBar />
+        <div className="flex gap-2 items-end h-full">
           <Button
             variant="ghost"
             size="icon"
@@ -52,17 +49,7 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
             <User className="h-5 w-5" />
             <span className="text-sm font-normal">Username</span>
           </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="flex flex-col items-center m-0 w-auto h-auto px-1 relative"
-          >
-            <ShoppingCart />
-            <span className="text-sm font-normal">Cart(0)</span>
-            {/* <span className="absolute -right-3 -top-3 h-5 w-5 rounded-full bg-red-500 text-[10px] font-bold text-white flex items-center justify-center">
-              4
-            </span> */}
-          </Button>
+          <CartButton />
         </div>
       </div>
     </header>
