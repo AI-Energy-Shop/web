@@ -1,12 +1,12 @@
 'use server';
 import USERS_OPERATIONS from '@/graphql/users';
 import { safeAction } from '@/lib/safe-action';
-import { redirect } from 'next/navigation';
 import { registerUserSchema } from '@/lib/validation-schema/register-form';
 import { cookies } from 'next/headers';
 import { getClient } from '@/apollo/client';
 import { updateUserStatusSchema } from '@/lib/validation-schema/update-user-status-form';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 const client = getClient();
 
@@ -64,14 +64,15 @@ export const registerUser = safeAction
     }
   );
 
-// *(ROI) Logic of the user is in the client
-export async function loginUser(formData: FormData) {
-  const email = formData.get('email') as string;
-  const password = formData.get('password') as string;
-
-  const cookieStore = await cookies();
-
+export async function loginUser({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) {
   try {
+    const cookieStore = cookies();
     const response = await client.mutate({
       mutation: USERS_OPERATIONS.Mutations.loginUser,
       variables: {
@@ -83,41 +84,34 @@ export async function loginUser(formData: FormData) {
       },
     });
 
-    if (!response.data?.login) {
-      return {
-        error: 'No user found!',
-      };
+    if (response.data?.login) {
+      const token = response?.data.login.jwt;
+      const user = response?.data.login.user;
+
+      cookieStore.set('a-token', token!, {
+        path: '/',
+        maxAge: 60 * 60 * 12, // 12 hours
+        httpOnly: true,
+        sameSite: 'strict',
+        secure: process.env.NODE_ENV === 'production' ? true : false,
+      });
+
+      cookieStore.set('a-user', JSON.stringify(user!), {
+        path: '/',
+        maxAge: 60 * 60 * 12, // 12 hours
+        httpOnly: true,
+        sameSite: 'strict',
+        secure: process.env.NODE_ENV === 'production' ? true : false,
+      });
+      return { success: true }; // Return success indicator
+    } else {
+        return {success: false, error:"Login failed"};
     }
-
-    const token = response?.data.login.jwt;
-    const user = response?.data.login.user;
-
-    cookieStore.set('a-token', token!, {
-      path: '/',
-      // maxAge: 604800, // 7 days
-      maxAge: 60 * 60 * 12, // 12 hours
-      httpOnly: true,
-      sameSite: 'strict',
-    });
-
-    cookieStore.set('a-user', JSON.stringify(user!), {
-      path: '/',
-      // maxAge: 604800, // 7 days
-      maxAge: 60 * 60 * 12, // 12 hours
-      httpOnly: true,
-      sameSite: 'strict',
-    });
-
-    return {
-      message: 'Login Success!',
-    };
   } catch (error: any) {
-    return {
-      error: error.message || '',
-    };
+    console.error('GraphQL Query Error:', error);
+    return {success: false, error: error.message};
   }
 }
-
 export const updateAccountStatus = safeAction
   .schema(updateUserStatusSchema)
   .action(

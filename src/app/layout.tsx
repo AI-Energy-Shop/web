@@ -3,6 +3,7 @@ import React from 'react';
 import { ApolloWrapper } from '@/apollo/provider';
 import { firaSansFont } from '@/assets/fonts/fonts';
 import { Toaster } from '@/components/ui/sonner';
+import { Toaster as ToasterUI } from "@/components/ui/toaster"
 import NavigationProvider from '@/components/NavigationProvider';
 // Assuming Metadata type needs to be defined or imported.
 // If Metadata is a custom type, it should be imported from its definition file.
@@ -29,6 +30,7 @@ export default function RootLayout({
           <NavigationProvider>{children}</NavigationProvider>
         </ApolloWrapper>
         <Toaster />
+        <ToasterUI />
       </body>
     </html>
   );
