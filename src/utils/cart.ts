@@ -1,4 +1,4 @@
-import { CartType } from '@/lib/types'; 
+import { CartType } from '@/lib/types';
 
 export const formatCurrency = (value?: number, currency?: string) => {
   if (!value) return '0.00';
