@@ -1,13 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -16,21 +8,42 @@ import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { loginUser } from '@/app/actions/user';
+import { useRouter } from 'next/navigation';
+import { useToast } from "@/hooks/use-toast"
+
+
+interface LoginFormData {
+  email: string;
+  password: string;
+}
 
 const LoginForm = () => {
-  const form = useForm();
-
+  const form = useForm<LoginFormData>();
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const handleSubmit = async (data: LoginFormData) => {
+    const {success, error} = await loginUser(data);
+    if(success) {
+      router.push('/products');
+    } else {
+      toast({
+        title: error,
+        variant: "destructive",
+      })
+    }
+  };
 
   return (
-    <form className="space-y-4">
-      <Input name="email" placeholder="Enter your email" />
+    <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+      <Input placeholder="Enter your email" {...form.register('email')} />
 
       <div className="relative">
         <Input
           type={showPassword ? 'text' : 'password'}
           placeholder="Enter your password"
-          name="password"
+          {...form.register('password')}
         />
         <button
           type="button"
