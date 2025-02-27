@@ -122,7 +122,6 @@ export async function addToCart(formData: FormData) {
       success: true,
       message: 'Item added to cart',
     };
-
   } catch (error: any) {
     console.error('GraphQL Mutation Error:', error.message);
     return {

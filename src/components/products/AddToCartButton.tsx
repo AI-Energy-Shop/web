@@ -6,7 +6,6 @@ import { addToCart } from '@/app/actions/cart';
 import { useForm } from 'react-hook-form';
 import { useToast } from '@/hooks/use-toast';
 
-
 interface AddToCartButtonProps {
   id: string | number;
   name: string;
