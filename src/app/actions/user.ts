@@ -105,11 +105,11 @@ export async function loginUser({
       });
       return { success: true }; // Return success indicator
     } else {
-        return {success: false, error:"Login failed"};
+      return { success: false, error: 'Login failed' };
     }
   } catch (error: any) {
     console.error('GraphQL Query Error:', error);
-    return {success: false, error: error.message};
+    return { success: false, error: error.message };
   }
 }
 export const updateAccountStatus = safeAction

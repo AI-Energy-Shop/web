@@ -19,9 +19,9 @@ export function Toast(message: Message, type: Type, config?: ToasterProps) {
       toast.warning(message, { ...config });
       break;
     case 'ERROR':
-      toast.error(message, { 
+      toast.error(message, {
         ...config,
-        className: "text-red" 
+        className: 'text-red',
       });
       break;
     default:

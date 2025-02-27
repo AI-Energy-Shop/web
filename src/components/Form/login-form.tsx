@@ -9,8 +9,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { loginUser } from '@/app/actions/user';
 import { useRouter } from 'next/navigation';
-import { useToast } from "@/hooks/use-toast"
-
+import { useToast } from '@/hooks/use-toast';
 
 interface LoginFormData {
   email: string;
@@ -24,14 +23,14 @@ const LoginForm = () => {
   const { toast } = useToast();
 
   const handleSubmit = async (data: LoginFormData) => {
-    const {success, error} = await loginUser(data);
-    if(success) {
+    const { success, error } = await loginUser(data);
+    if (success) {
       router.push('/products');
     } else {
       toast({
         title: error,
-        variant: "destructive",
-      })
+        variant: 'destructive',
+      });
     }
   };
 
