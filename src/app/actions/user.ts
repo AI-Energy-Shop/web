@@ -93,17 +93,17 @@ export async function loginUser({
 
     cookieStore.set('a-token', token!, {
       path: '/',
-      maxAge: 60 * 60 * 12, // 12 hours
+      // maxAge: 60 * 60 * 12, // 12 hours
       httpOnly: true,
       sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production' ? true : false,
+      // secure: process.env.NODE_ENV === 'production' ? true : false,
     });
     cookieStore.set('a-user', JSON.stringify(user!), {
       path: '/',
       maxAge: 60 * 60 * 12, // 12 hours
       httpOnly: true,
       sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production' ? true : false,
+      // secure: process.env.NODE_ENV === 'production' ? true : false,
     });
 
     return { success: true, data: { token, user } }; // Return success indicator
