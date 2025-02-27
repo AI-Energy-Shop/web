@@ -1,10 +1,12 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { User, ShoppingCart, Warehouse } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import NavList from './NavList';
 import NavSearchBar from './NavSearchBar';
 import CartButton from './CartButton';
+import UserIconButton from './UserIconButton';
+import WarehouseIconButton from './WarehouseIconButton';
+
 interface NavigationBarProps {}
 
 const NavigationBar: React.FC<NavigationBarProps> = () => {
@@ -33,22 +35,8 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
         <NavList />
         <NavSearchBar />
         <div className="flex gap-2 items-end h-full">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="flex flex-col items-center m-0 w-auto h-auto px-1"
-          >
-            <Warehouse />
-            <span className="text-sm font-normal">Sydney</span>
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="flex flex-col items-center m-0 w-auto h-auto px-1"
-          >
-            <User className="h-5 w-5" />
-            <span className="text-sm font-normal">Username</span>
-          </Button>
+          <WarehouseIconButton />
+          <UserIconButton />
           <CartButton />
         </div>
       </div>

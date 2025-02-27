@@ -31,16 +31,21 @@ export async function getCartItems(): Promise<CartsQuery> {
 export async function addToCart(formData: FormData) {
   const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;
-  const productId = formData.get('model') as string;
+  const model = formData.get('model') as string;
+  const quantity = Number(formData.get('quantity'));
+  const title = formData.get('title') as string;
+  const price = Number(formData.get('price'));
+  const odoo_product_id = formData.get('odoo_product_id') as string;
+  const image = formData.get('image') as string;
 
   const variables = {
     data: {
-      title: formData.get('title') as string,
-      price: Number(formData.get('price')), // Convert to number safely
-      quantity: Number(formData.get('quantity')), // Convert to number safely
-      model: productId,
-      odoo_product_id: productId,
-      image: formData.get('image') as string,
+      title: title,
+      price: price,
+      quantity: quantity,
+      model: model,
+      odoo_product_id,
+      image: image,
     },
   };
 
@@ -56,7 +61,7 @@ export async function addToCart(formData: FormData) {
         filters: {
           item: {
             model: {
-              eq: productId,
+              eq: model,
             },
           },
         },
@@ -64,7 +69,7 @@ export async function addToCart(formData: FormData) {
     });
 
     const cartItem = cartData?.carts?.find?.(
-      (cart: any) => cart.item.odoo_product_id === productId
+      (cart: any) => cart.item.model === model
     );
 
     if (cartItem) {
@@ -96,8 +101,15 @@ export async function addToCart(formData: FormData) {
       }
 
       return {
-        success: true,
         message: 'Item updated in cart',
+        data: {
+          id: cartItem.documentId,
+          name: cartItem.item.title,
+          price: cartItem.item.price,
+          quantity: cartItem.item.quantity + variables.data.quantity,
+          image: cartItem.item.image,
+        },
+        success: true,
       };
     }
 
@@ -119,6 +131,14 @@ export async function addToCart(formData: FormData) {
     }
 
     return {
+      data: {
+        id: res.data?.addToCart?.documentId,
+        name: title,
+        price: price,
+        quantity: quantity,
+        image: image,
+        model: model,
+      },
       success: true,
       message: 'Item added to cart',
     };

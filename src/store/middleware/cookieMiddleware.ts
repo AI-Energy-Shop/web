@@ -15,5 +15,10 @@ export const cookieMiddleware: Middleware = (store) => (next) => (action) => {
     }
   }
 
+  // Save cart state
+  if (state.cart) {
+    setCookie('cart', JSON.stringify(state.cart));
+  }
+
   return result;
 };

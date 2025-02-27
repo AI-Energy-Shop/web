@@ -5,6 +5,8 @@ import ProductQuantity from './ProductQuantity';
 import { addToCart } from '@/app/actions/cart';
 import { useForm } from 'react-hook-form';
 import { useToast } from '@/hooks/use-toast';
+import { useDispatch } from 'react-redux';
+import { setCart } from '@/store/features/cart';
 
 interface AddToCartButtonProps {
   id: string | number;
@@ -22,6 +24,7 @@ interface AddToCartFormData {
   odoo_product_id: string;
   model: string;
   image: string;
+  quantity: string;
 }
 const AddToCartButton = ({
   id,
@@ -33,7 +36,17 @@ const AddToCartButton = ({
 }: AddToCartButtonProps) => {
   const form = useForm<AddToCartFormData>();
   const { toast } = useToast();
+  const dispatch = useDispatch();
+
   const onSubmit = async (data: AddToCartFormData) => {
+    if (data.quantity === '') {
+      toast({
+        title: 'Quantity cannot be 0',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     const formData = new FormData();
     formData.append('id', data.id);
     formData.append('title', data.title);
@@ -41,8 +54,14 @@ const AddToCartButton = ({
     formData.append('odoo_product_id', data.odoo_product_id);
     formData.append('model', data.model);
     formData.append('image', data.image);
+    formData.append('quantity', data.quantity.toString());
+    const {
+      success,
+      error,
+      message,
+      data: cartData,
+    } = await addToCart(formData);
 
-    const { success, error, message } = await addToCart(formData);
     if (success) {
       toast({
         title: message,
@@ -52,6 +71,17 @@ const AddToCartButton = ({
         },
         duration: 2000,
       });
+      dispatch(
+        setCart({
+          id: data.id,
+          name: data.title,
+          price: data.price,
+          quantity: Number(data.quantity),
+          image: data.image,
+          odoo_product_id: data.odoo_product_id,
+          model: data.model,
+        })
+      );
     } else {
       toast({
         title: error,
@@ -77,7 +107,14 @@ const AddToCartButton = ({
       />
       <Input type="hidden" value={model || ''} {...form.register('model')} />
       <Input type="hidden" value={image || ''} {...form.register('image')} />
-      <Button type="submit" className="w-full mt-2 bg-[#1b1b3b] text-white">
+      <Button
+        disabled={
+          form.getValues('quantity') === '0' ||
+          form.getValues('quantity') === null
+        }
+        type="submit"
+        className="w-full mt-2 bg-[#1b1b3b] text-white"
+      >
         Add to Cart
       </Button>
     </form>

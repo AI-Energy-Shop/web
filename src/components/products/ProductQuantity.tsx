@@ -15,29 +15,30 @@ interface ProductQuantityProps {
 
 const ProductQuantity = ({
   price,
-  isPriceEnable = false,
   form,
+  isPriceEnable = false,
 }: ProductQuantityProps) => {
-  const [quantity, setQuantity] = useState<number>(1);
+  const [quantity, setQuantity] = useState<number>(0);
 
   const handleSetQuantity = (e: React.MouseEvent<HTMLButtonElement>) => {
     const target = e.target as HTMLButtonElement;
 
     switch (target.name) {
       case 'add':
-        setQuantity(quantity + 1);
+        form?.setValue('quantity', Number(form?.getValues('quantity')) + 1);
         break;
       case 'minus':
-        setQuantity(quantity && quantity > 0 ? quantity - 1 : 0);
+        form?.setValue(
+          'quantity',
+          Number(form?.getValues('quantity')) &&
+            Number(form?.getValues('quantity')) > 0
+            ? Number(form?.getValues('quantity')) - 1
+            : 0
+        );
         break;
       default:
         break;
     }
-  };
-
-  const handleChangeQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement;
-    setQuantity(Number(target.value));
   };
 
   return (
@@ -61,10 +62,9 @@ const ProductQuantity = ({
       </Button>
       <Input
         type="number"
-        value={quantity}
-        onChange={handleChangeQuantity}
-        className={`${muktaVaani.className} w-full h-full rounded-none flex-2 bg-white no-spinner text-center`}
+        placeholder="0"
         {...form?.register('quantity')}
+        className={`${muktaVaani.className} w-full h-full rounded-none flex-2 bg-white no-spinner text-center`}
       />
       <Button
         type="button"
