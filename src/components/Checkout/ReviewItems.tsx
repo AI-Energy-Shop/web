@@ -164,8 +164,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
     </div>
   );
 
-
-  console.log("Review Items Step",step);
+  console.log('Review Items Step', step);
   return (
     <section className="w-full h-auto">
       {renderHeader()}
