@@ -110,6 +110,9 @@ export async function loginUser({
 
     const newUser = {
       ...user,
+      account_detail: {
+        business_name: userDetails?.business_name,
+      },
       shipping_addresses:
         userDetails?.shipping_addresses?.map((address) => ({
           id: address?.id,
