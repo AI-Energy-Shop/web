@@ -13,16 +13,15 @@ interface PaymentProps {}
 
 const Payment: React.FC<PaymentProps> = ({}) => {
   const [paymentOption, setPaymentOption] = useState<string>('');
-  
+
   const stepper = useSelector((state: RootState) => state.cart.paymentStep);
   const [step, setStep] = useState<number>(0);
 
-  
   useEffect(() => {
     setStep(stepper);
   }, [stepper]);
-  
-  console.log("Payment Details Step",step);
+
+  console.log('Payment Details Step', step);
   return (
     <section>
       <div className="bg-blue-navy-blue py-3">

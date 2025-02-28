@@ -33,32 +33,36 @@ import { type ShippingAddress } from '@/store/features/me';
 import { setPaymentStep } from '@/store/features/cart';
 interface ShippingDetailsProps {}
 
-
 const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
   const date = new Date();
   const dispatch = useDispatch();
   const stepper = useSelector((state: RootState) => state.cart.paymentStep);
-  const shipping = useSelector((state: RootState) => state.me.me?.shipping_addresses);
-  const [shippingOptions, setShippingOptions] = useState<ShippingOptions>(SHIPPING_OPTIONS);
-  const [shippingAddress, setShippingAddress] = useState<ShippingAddress[] | undefined>(undefined);
-  
+  const shipping = useSelector(
+    (state: RootState) => state.me.me?.shipping_addresses
+  );
+  const [shippingOptions, setShippingOptions] =
+    useState<ShippingOptions>(SHIPPING_OPTIONS);
+  const [shippingAddress, setShippingAddress] = useState<
+    ShippingAddress[] | undefined
+  >(undefined);
+
   const [step, setStep] = useState<number>(0);
-  
+
   const handleShippingMethodClick = (index: number) =>
     setShippingOptions(
       shippingOptions.map((item, i) => ({
         ...item,
         active: i === index,
       }))
-  );
+    );
 
   const handleContinueClick = () => {
-    dispatch(setPaymentStep(3))
-  }
+    dispatch(setPaymentStep(3));
+  };
 
   const handleEditClick = () => {
-    dispatch(setPaymentStep(2))
-  }
+    dispatch(setPaymentStep(2));
+  };
 
   const renderHeader = () => {
     return (
@@ -83,8 +87,8 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
           )}
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   const renderDeliveryMethodOptions = () => {
     return (
@@ -107,16 +111,14 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
           </div>
         ))}
       </div>
-    )
-  }
+    );
+  };
 
   const renderShippingAddress = (item: ShippingAddress) => {
     return (
       <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12">
         <div className="flex items-center justify-between">
-          <h1 className="font-bold text-blue-navy-blue">
-            Ship To:
-          </h1>
+          <h1 className="font-bold text-blue-navy-blue">Ship To:</h1>
           <Link
             href={`/shipping-addresses`}
             className="flex user-select-none items-center gap-x-1 relative border-b border-black"
@@ -129,8 +131,9 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
         {item.isActive && (
           <div>
             <h1 className="font-bold">{item.company}</h1>
-            <h1> 
-              {item.street}, {item.suburb}, {item .state_territory} {item.postcode}
+            <h1>
+              {item.street}, {item.suburb}, {item.state_territory}{' '}
+              {item.postcode}
             </h1>
             <h1>
               {item.name?.first_name} {item.name?.last_name} - {item.phone}
@@ -139,8 +142,8 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
           </div>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   const renderDeliveryOptions = () => {
     return (
@@ -153,10 +156,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
                 key={item.id}
                 className="flex items-center space-x-2 border-b border-b-gray-300"
               >
-                <RadioGroupItem
-                  value={`${item.id}`}
-                  id={`${item.id}`}
-                />
+                <RadioGroupItem value={`${item.id}`} id={`${item.id}`} />
                 <Label htmlFor={`${item.id}`}>
                   <div>
                     <p>
@@ -189,9 +189,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
                       >
                         <CalendarIcon className="h-5 w-5 text-muted-foreground" />
                         <span className="text-lg text-muted-foreground">
-                          {date
-                            ? formatDate(date)
-                            : 'Select date'}
+                          {date ? formatDate(date) : 'Select date'}
                         </span>
                       </Button>
                     </PopoverTrigger>
@@ -210,8 +208,8 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
           </div>
         </RadioGroup>
       </div>
-    )
-  }
+    );
+  };
 
   const renderDeliveryNotes = () => {
     return (
@@ -219,19 +217,15 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
         <h1 className="font-bold">Delivery Notes</h1>
         <Textarea />
       </div>
-    )
-  }
-
-
+    );
+  };
 
   useEffect(() => {
-    setShippingAddress(shipping)
-    setStep(stepper)
-  }, [shipping, stepper])
+    setShippingAddress(shipping);
+    setStep(stepper);
+  }, [shipping, stepper]);
 
-
-
-  console.log("Shipping Details Step",step);
+  console.log('Shipping Details Step', step);
 
   return (
     <section className="w-full h-auto">
@@ -292,9 +286,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
                                   value="option-two"
                                   id="option-two"
                                 />
-                                <Label htmlFor="option-two">
-                                  Sydney, NSW
-                                </Label>
+                                <Label htmlFor="option-two">Sydney, NSW</Label>
                               </div>
                               <div className="flex items-center space-x-2">
                                 <RadioGroupItem
@@ -369,9 +361,9 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
                     </div>
 
                     <p className="text-[14px] text-center">
-                      NOTE: Order must be confirmed before pickup. Please
-                      allow 2-3 hours after confirmation for the order to be
-                      ready for pick up.
+                      NOTE: Order must be confirmed before pickup. Please allow
+                      2-3 hours after confirmation for the order to be ready for
+                      pick up.
                     </p>
                   </div>
 
