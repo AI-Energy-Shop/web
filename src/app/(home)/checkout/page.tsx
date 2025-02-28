@@ -16,7 +16,7 @@ async function CheckoutPage() {
 
           <ShippingDetails />
 
-          <Payment  />
+          <Payment />
         </div>
 
         {/* <div className="hidden lg:block md:col-span-4">

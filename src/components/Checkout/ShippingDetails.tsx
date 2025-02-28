@@ -65,12 +65,12 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
       <div className="bg-pink-darker-pink py-3">
         <div className="ae-mobile-container px-2 md:px-12 text-white flex items-center gap-x-2 relative">
           <h1 className="text-lg font-bold">Shipping</h1>
-          {stepper > 2 && (
+          {step > 2 && (
             <span className="bg-green-500 rounded-full p-0.5">
               <Check className="w-4 h-4" />
             </span>
           )}
-          {stepper > 2 && (
+          {step > 2 && (
             <div
               onClick={handleEditClick}
               className="absolute cursor-pointer right-0 md:right-4 flex items-center gap-x-1 top-1/2 transform -translate-y-1/2"
@@ -228,6 +228,10 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
     setShippingAddress(shipping)
     setStep(stepper)
   }, [shipping, stepper])
+
+
+
+  console.log("Shipping Details Step",step);
 
   return (
     <section className="w-full h-auto">
