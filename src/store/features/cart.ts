@@ -12,15 +12,17 @@ export interface Cart {
 
 export interface InitialState {
   carts: Cart[];
+  paymentStep: number;
 }
 
 const initialState: InitialState = {
   carts: [],
+  paymentStep: 1,
 };
 
 export const cartSlice = createSlice({
   name: 'cart',
-  initialState: initialState,
+  initialState,
   reducers: {
     setCart: (state, { payload }: { payload: Cart; type: string }) => {
       if (payload) {
@@ -36,15 +38,29 @@ export const cartSlice = createSlice({
         }
       }
     },
+    setCartQuantity: (
+      state,
+      { payload }: { payload: { id: string; quantity: number }; type: string }
+    ) => {
+      const cart = state.carts.find((cart) => cart.id === payload.id);
+      if (cart) {
+        cart.quantity = payload.quantity;
+      }
+      return state;
+    },
     removeCart: (
       state,
       { payload }: { payload: { id: string }; type: string }
     ) => {
       state.carts = state.carts.filter((cart) => cart.id !== payload.id);
     },
+    setPaymentStep: (state, { payload }: { payload: number; type: string }) => {
+      state.paymentStep = payload;
+    },
   },
 });
 
-export const { setCart, removeCart } = cartSlice.actions;
+export const { setCart, removeCart, setPaymentStep, setCartQuantity } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;

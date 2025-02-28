@@ -35,6 +35,7 @@ const LoginForm = () => {
           username: userData?.user?.username || '',
           blocked: userData?.user?.blocked || false,
           confirmed: userData?.user?.confirmed || null,
+          shipping_addresses: userData?.user.shipping_addresses || [],
         })
       );
       dispatch(setToken(userData?.token || ''));

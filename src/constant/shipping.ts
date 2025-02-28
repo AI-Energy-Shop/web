@@ -111,7 +111,7 @@ export const SHIPPING_OPTIONS: ShippingOptions = [
     value: 'pick_up',
     active: false,
     icon: {
-      type: 'warehouse',
+      type: 'building',
       size: 10,
       className: 'w-10 h-10 mx-auto',
       strokeWidth: 1,

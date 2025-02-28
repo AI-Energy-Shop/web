@@ -1,24 +1,27 @@
-import React from 'react';
+'use client';
+import React, { useState, useEffect } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import Image from 'next/image';
 import { Label } from '@/components/ui/label';
 import { MoveRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
-interface PaymentProps {
-  stepper: number;
-  paymentOption?: any;
-  handleIncrementStepper: () => void;
-  handlePaymentOptionChange: (value: string) => void;
-}
+interface PaymentProps {}
 
-const Payment: React.FC<PaymentProps> = ({
-  stepper,
-  paymentOption,
-  handleIncrementStepper,
-  handlePaymentOptionChange,
-}) => {
+const Payment: React.FC<PaymentProps> = ({}) => {
+  const stepper = useSelector((state: RootState) => state.cart.paymentStep);
+
+  const [step, setStep] = useState<number>(0);
+  const [paymentOption, setPaymentOption] = useState<string>('');
+
+
+  useEffect(() => {
+    setStep(stepper)
+  }, [stepper])
+
   return (
     <section>
       <div className="bg-blue-navy-blue py-3">
@@ -32,7 +35,7 @@ const Payment: React.FC<PaymentProps> = ({
             <h1 className="font-bold">Payment Method</h1>
             <RadioGroup
               className="space-y-1"
-              onValueChange={handlePaymentOptionChange}
+              onValueChange={() => {}}
             >
               <div className="flex items-center justify-between border-b border-b-gray-300 pb-2">
                 <div className="flex items-center space-x-2">
@@ -125,12 +128,12 @@ const Payment: React.FC<PaymentProps> = ({
         </div>
       </div>
 
-      {stepper === 3 && (
+      {step === 3 && (
         <div className="my-4">
           <div className="ae-mobile-container px-2 mt-4">
             <Button
               className="block mx-auto px-12 rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
-              onClick={handleIncrementStepper}
+              onClick={() => {}}
               disabled={!paymentOption}
             >
               <div className="md:flex md:gap-1">

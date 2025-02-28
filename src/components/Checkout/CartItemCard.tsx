@@ -20,7 +20,7 @@ interface CartItemCardProps {
   onRemove: (id: string) => void;
 }
 
-const CartItemCard = ({
+const CartItemCard: React.FC<CartItemCardProps> = ({
   id,
   image,
   title,
@@ -32,10 +32,10 @@ const CartItemCard = ({
   onAddQuant,
   onReduceQuant,
   onRemove,
-}: CartItemCardProps) => {
+}) => {
   return (
     <div className="space-y-4">
-      <div className="flex gap-x-1">
+      <div className="flex ">
         <Button
           size="icon"
           variant="ghost"
@@ -44,13 +44,14 @@ const CartItemCard = ({
         >
           <Trash2 className="w-5 h-5 mx-auto" color="red" />
         </Button>
-        <div className="relative h-24 flex-1">
+        <div className="relative flex-1 overflow-hidden">
           <Image
-            fill
-            sizes=""
-            src={image || '/no-product-image.jpg'}
+            priority
             alt="picture"
-            className="object-contain object-top"
+            width={100}
+            height={100}
+            src={image || '/no-product-image.jpg'}
+            className="w-[100px] h-[100px] object-contain"
           />
         </div>
         <div className="flex-1">
@@ -126,9 +127,6 @@ const CartItemCard = ({
           <p className="text-[14px]">ex.GST</p>
         </div>
       </div>
-      {/* {arr !== index + 1 && (
-            <div className="h-0.5 bg-purple-purp-aes md:ml-10" />
-          )} */}
     </div>
   );
 };

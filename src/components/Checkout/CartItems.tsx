@@ -1,8 +1,9 @@
 'use client';
 import React from 'react';
 import { formatCurrency } from '@/utils/cart';
-import { CartType } from '@/lib/types';
+// import { CartType } from '@/lib/types';
 import CartItemCard from '@/components/Checkout/CartItemCard';
+import { Cart } from '@/store/features/cart';
 
 const CartItems = ({
   data,
@@ -11,26 +12,25 @@ const CartItems = ({
   onReduceQuant,
   onRemove,
 }: {
-  data: CartType[];
+  data: Cart[];
   onChange: (id: string, e: React.ChangeEvent<HTMLInputElement>) => void;
   onReduceQuant: (id: string) => void;
   onAddQuant: (id: string) => void;
   onRemove: (id: string) => void;
 }) => {
   return (
-    <div className="space-y-8 pt-8 md:pr-12">
+    <div className="space-y-8 pt-8 md:p-12">
       {data?.map?.((item) => {
-        if (!item.item) return null;
         return (
           <CartItemCard
-            key={item.documentId}
-            id={item.documentId}
-            image={item.item.image}
-            title={item.item.title}
-            refId={item.item.model}
-            price={item.item.price ?? 0}
-            gst={formatCurrency((item?.item?.price ?? 0) * 0.1, 'USD')}
-            quantity={item.item.quantity ?? 0}
+            key={item.id}
+            id={item.id}
+            image={item.image}
+            title={item.name}
+            refId={item.model}
+            price={item.price}
+            gst={formatCurrency(item?.price * 0.1, 'USD')}
+            quantity={item.quantity}
             onAddQuant={onAddQuant}
             onReduceQuant={onReduceQuant}
             onChange={onChange}
