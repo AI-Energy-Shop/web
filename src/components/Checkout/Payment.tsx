@@ -12,16 +12,17 @@ import { RootState } from '@/store/store';
 interface PaymentProps {}
 
 const Payment: React.FC<PaymentProps> = ({}) => {
-  const stepper = useSelector((state: RootState) => state.cart.paymentStep);
-
-  const [step, setStep] = useState<number>(0);
   const [paymentOption, setPaymentOption] = useState<string>('');
+  
+  const stepper = useSelector((state: RootState) => state.cart.paymentStep);
+  const [step, setStep] = useState<number>(0);
 
-
+  
   useEffect(() => {
-    setStep(stepper)
-  }, [stepper])
-
+    setStep(stepper);
+  }, [stepper]);
+  
+  console.log("Payment Details Step",step);
   return (
     <section>
       <div className="bg-blue-navy-blue py-3">
@@ -29,14 +30,11 @@ const Payment: React.FC<PaymentProps> = ({}) => {
           Payment
         </h1>
       </div>
-      <div className={`bg-white py-4 ${stepper < 3 ? 'hidden' : 'block'}`}>
+      <div className={`bg-white py-4 ${step < 3 ? 'hidden' : 'block'}`}>
         <div className="ae-mobile-container space-y-4">
           <div className="border border-blue-navy-blue rounded-xl p-2 md:mx-12">
             <h1 className="font-bold">Payment Method</h1>
-            <RadioGroup
-              className="space-y-1"
-              onValueChange={() => {}}
-            >
+            <RadioGroup className="space-y-1" onValueChange={() => {}}>
               <div className="flex items-center justify-between border-b border-b-gray-300 pb-2">
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="option-one" id="option-one" />
