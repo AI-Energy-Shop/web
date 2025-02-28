@@ -1,11 +1,32 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export interface ShippingAddress {
+  id?: string | null;
+  street?: string | null;
+  suburb?: string | null;
+  state_territory?: string | null;
+  postcode?: string | null;
+  phone?: string | null;
+  country?: string | null;
+  isActive?: boolean | null;
+  company?: string | null;
+  name?: {
+    first_name?: string | null;
+    middle_name?: string | null;
+    last_name?: string | null;
+  };
+}
+
 interface Me {
   id: string;
   email: string;
   username: string;
   blocked: boolean;
   confirmed?: any;
+  account_detail?: {
+    business_name: string;
+  };
+  shipping_addresses?: ShippingAddress[];
 }
 
 export interface InitialState {
@@ -14,7 +35,17 @@ export interface InitialState {
 }
 
 const initialState: InitialState = {
-  me: undefined,
+  me: {
+    id: '',
+    email: '',
+    username: '',
+    blocked: false,
+    confirmed: null,
+    account_detail: {
+      business_name: '',
+    },
+    shipping_addresses: [],
+  },
   token: undefined,
 };
 

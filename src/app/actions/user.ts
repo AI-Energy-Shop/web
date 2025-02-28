@@ -91,6 +91,44 @@ export async function loginUser({
     const token = response?.data.login.jwt;
     const user = response?.data.login.user;
 
+    const userRes = await client.query({
+      query: USERS_OPERATIONS.Queries.user,
+      variables: {
+        filters: {
+          username: user.username,
+          email: user.email,
+        },
+      },
+      context: {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    });
+
+    const userDetails = userRes?.data.user?.account_detail;
+
+    const newUser = {
+      ...user,
+      shipping_addresses:
+        userDetails?.shipping_addresses?.map((address) => ({
+          id: address?.id,
+          name: {
+            first_name: address?.name?.first_name,
+            middle_name: address?.name?.middle_name,
+            last_name: address?.name?.last_name,
+          },
+          street: address?.street,
+          suburb: address?.suburb,
+          state_territory: address?.state_territory,
+          postcode: address?.postcode,
+          phone: address?.phone,
+          country: address?.country,
+          isActive: address?.isActive,
+          company: userDetails?.business_name,
+        })) || [],
+    };
+
     cookieStore.set('a-token', token!, {
       path: '/',
       maxAge: 60 * 60 * 12, // 12 hours
@@ -106,7 +144,7 @@ export async function loginUser({
       // secure: process.env.NODE_ENV === 'production' ? true : false,
     });
 
-    return { success: true, data: { token, user } }; // Return success indicator
+    return { success: true, data: { token, user: newUser } }; // Return success indicator
   } catch (error: any) {
     console.error('GraphQL Query Error:', error);
     return { success: false, error: error.message };

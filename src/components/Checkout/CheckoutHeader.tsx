@@ -1,8 +1,18 @@
-import React from 'react';
+'use client';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { ChevronLeft } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
-const CheckoutHeader = ({ stepper }: { stepper: number }) => {
+const CheckoutHeader = () => {
+  const stepper = useSelector((state: RootState) => state.cart.paymentStep);
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    setStep(stepper);
+  }, [stepper]);
+
   return (
     <header className="bg-white">
       <section className="h-28 relative ae-mobile-container ae-non-mobile-container">
@@ -28,19 +38,19 @@ const CheckoutHeader = ({ stepper }: { stepper: number }) => {
         </div>
         <div
           className={`absolute h-0.5 w-full bottom-5 left-0 bg-gradient-to-r from-yellow-aes-yellow
-            ${stepper < 2 ? 'from-5% via-gray-300 via-30%' : 'from-5% via-pink-lighter-pink via-30%'}
-            ${stepper === 3 ? 'to-blue-navy-blue to-80%' : 'to-gray-300 to-80%'}   
+            ${step < 2 ? 'from-5% via-gray-300 via-30%' : 'from-5% via-pink-lighter-pink via-30%'}
+            ${step === 3 ? 'to-blue-navy-blue to-80%' : 'to-gray-300 to-80%'}   
               `}
         >
           <div className="relative">
             <span
-              className={`absolute h-5 w-5 rounded-full -top-2 left-0 ${stepper > 0 ? 'bg-yellow-aes-yellow' : 'bg-gray-300'}`}
+              className={`absolute h-5 w-5 rounded-full -top-2 left-0 ${step > 0 ? 'bg-yellow-aes-yellow' : 'bg-gray-300'}`}
             />
             <span
-              className={`absolute h-5 w-5 rounded-full -top-2 left-1/2 transform -translate-x-1/2 ${stepper > 1 ? 'bg-pink-lighter-pink ' : 'bg-gray-300'}`}
+              className={`absolute h-5 w-5 rounded-full -top-2 left-1/2 transform -translate-x-1/2 ${step > 1 ? 'bg-pink-lighter-pink ' : 'bg-gray-300'}`}
             />
             <span
-              className={`absolute  h-5 w-5 rounded-full -top-2 right-0 ${stepper > 2 ? 'bg-blue-navy-blue' : 'bg-gray-300'}`}
+              className={`absolute  h-5 w-5 rounded-full -top-2 right-0 ${step > 2 ? 'bg-blue-navy-blue' : 'bg-gray-300'}`}
             />
           </div>
         </div>
