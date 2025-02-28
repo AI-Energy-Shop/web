@@ -17,14 +17,14 @@ export interface ShippingAddress {
   };
 }
 
-interface Me {
+export interface Me {
   id: string;
   email: string;
   username: string;
   blocked: boolean;
   confirmed?: any;
   account_detail?: {
-    business_name: string;
+    business_name?: string;
   };
   shipping_addresses?: ShippingAddress[];
 }
@@ -42,7 +42,7 @@ const initialState: InitialState = {
     blocked: false,
     confirmed: null,
     account_detail: {
-      business_name: '',
+      business_name: undefined,
     },
     shipping_addresses: [],
   },
