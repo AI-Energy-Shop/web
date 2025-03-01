@@ -1,4 +1,5 @@
 import CheckoutHeader from '@/components/Checkout/CheckoutHeader';
+import OrderSummary from '@/components/Checkout/OrderSummary';
 import Payment from '@/components/Checkout/Payment';
 import ReviewItems from '@/components/Checkout/ReviewItems';
 import ShippingDetails from '@/components/Checkout/ShippingDetails';
@@ -19,19 +20,9 @@ async function CheckoutPage() {
           <Payment />
         </div>
 
-        {/* <div className="hidden lg:block md:col-span-4">
-          <OrderSummary
-            shippingDetails={shippingDetails}
-            shippingFee={formatCurrency(deliveryFee, 'USD')}
-            cardSubCharge={formatCurrency(
-              shippingDetails?.paymentOption?.price || 0.0,
-              'USD'
-            )}
-            gst={formatCurrency(totalGst, 'USD')}
-            subtotal={formatCurrency(subtotal, 'USD')}
-            total={formatCurrency(total, 'USD')}
-          />
-        </div> */}
+        <div className="hidden lg:block md:col-span-4">
+          <OrderSummary />
+        </div>
       </div>
 
       {/* <ModalWrapper
