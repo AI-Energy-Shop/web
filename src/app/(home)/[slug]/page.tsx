@@ -13,9 +13,6 @@ const DynamicPage = async (props: DynamicPageProps) => {
 
   const { slug } = params;
 
-  // if(!pageExists(slug)) {
-  // }
-
   const data = await getPage(slug);
 
   if (data && !data.getPage) {
