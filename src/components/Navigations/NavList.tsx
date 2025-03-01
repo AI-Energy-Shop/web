@@ -12,8 +12,10 @@ const NavList = () => {
         <Link
           key={index}
           href={item.href}
-          className={`transition-colors hover:text-primary font-normal ${
-            pathname === item.href ? 'border-b-2 border-red-500' : ''
+          className={`transition-colors hover:text-primary  ${
+            pathname === item.href
+              ? 'border-b-2 border-red-500 font-bold'
+              : 'font-normal'
           }`}
         >
           {item.label}
