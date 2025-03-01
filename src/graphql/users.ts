@@ -13,6 +13,12 @@ const schema = {
           account_detail {
             business_name
             phone
+            level
+            name {
+              first_name
+              middle_name
+              last_name
+            }
             shipping_addresses {
               id
               phone
@@ -27,6 +33,17 @@ const schema = {
               postcode
               country
               isActive
+            }
+            warehouse_location {
+              title
+              address {
+                city
+                street
+                suburb
+                state_territory
+                postcode
+                country
+              }
             }
           }
         }
@@ -45,10 +62,11 @@ const schema = {
             documentId
             level
             phone
-            user_type
-            first_name
-            middle_name
-            last_name
+            name {
+              first_name
+              middle_name
+              last_name
+            }
             business_name
           }
         }
@@ -67,12 +85,25 @@ const schema = {
             documentId
             level
             user_type
-            first_name
-            middle_name
-            last_name
             business_name
             phone
             odoo_user_id
+            name {
+              first_name
+              middle_name
+              last_name
+            }
+            warehouse_location {
+              title
+              address {
+                city
+                street
+                suburb
+                state_territory
+                postcode
+                country
+              }
+            }
           }
         }
       }

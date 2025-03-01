@@ -111,8 +111,11 @@ export async function loginUser({
     const newUser = {
       ...user,
       account_detail: {
+        name: userDetails?.name,
+        user_level: userDetails?.level,
         business_name: userDetails?.business_name,
       },
+      warehouse_location: userDetails?.warehouse_location,
       shipping_addresses:
         userDetails?.shipping_addresses?.map((address) => ({
           id: address?.id,
@@ -139,6 +142,7 @@ export async function loginUser({
       // sameSite: 'strict',
       // secure: process.env.NODE_ENV === 'production' ? true : false,
     });
+
     cookieStore.set('a-user', JSON.stringify(user!), {
       path: '/',
       maxAge: 60 * 60 * 12, // 12 hours

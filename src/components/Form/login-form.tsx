@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { useDispatch } from 'react-redux';
 import { setMe, setToken } from '@/store/features/me';
+import { setWarehouseLocation } from '@/store/features/cart';
 
 interface LoginFormData {
   email: string;
@@ -36,11 +37,35 @@ const LoginForm = () => {
           blocked: userData?.user?.blocked || false,
           confirmed: userData?.user?.confirmed || null,
           shipping_addresses: userData?.user.shipping_addresses || [],
+          name: {
+            first_name: userData?.user?.account_detail?.name?.first_name || '',
+            middle_name:
+              userData?.user?.account_detail?.name?.middle_name || '',
+            last_name: userData?.user?.account_detail?.name?.last_name || '',
+          },
           account_detail: {
+            user_level: userData?.user?.account_detail?.user_level || '',
             business_name: userData?.user?.account_detail?.business_name || '',
           },
         })
       );
+
+      dispatch(
+        setWarehouseLocation({
+          address: {
+            city: userData?.user?.warehouse_location?.address?.city || '',
+            street: userData?.user?.warehouse_location?.address?.street || '',
+            suburb: userData?.user?.warehouse_location?.address?.suburb || '',
+            state_territory:
+              userData?.user?.warehouse_location?.address?.state_territory ||
+              '',
+            postcode:
+              userData?.user?.warehouse_location?.address?.postcode || '',
+            country: userData?.user?.warehouse_location?.address?.country || '',
+          },
+        })
+      );
+
       dispatch(setToken(userData?.token || ''));
       router.push('/products');
     } else {
