@@ -14,14 +14,13 @@ const DynamicPage = async (props: DynamicPageProps) => {
   const { slug } = params;
 
   // if(!pageExists(slug)) {
-    // }
-    
+  // }
+
   const data = await getPage(slug);
-  
-  if(data && !data.getPage) {
-    return <NotFoundPage />
+
+  if (data && !data.getPage) {
+    return <NotFoundPage />;
   }
- 
 
   return (
     <main className="w-full min-h-screen">
