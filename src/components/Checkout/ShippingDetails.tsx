@@ -48,13 +48,15 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
 
   const [step, setStep] = useState<number>(0);
 
-  const handleShippingMethodClick = (index: number) =>
+  const handleShippingMethodClick = (index: number) => {
+    console.log('Shipping Options', index);
     setShippingOptions(
       shippingOptions.map((item, i) => ({
         ...item,
         active: i === index,
       }))
     );
+  };
 
   const handleContinueClick = () => {
     dispatch(setPaymentStep(3));
@@ -93,7 +95,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
   const renderDeliveryMethodOptions = () => {
     return (
       <div className="flex justify-center items-center px-4 gap-x-4">
-        {SHIPPING_OPTIONS.map((item, index) => (
+        {shippingOptions.map((item, index) => (
           <div
             key={item.id}
             onClick={() => handleShippingMethodClick(index)}
@@ -114,11 +116,14 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
     );
   };
 
-  const renderShippingAddress = (item: ShippingAddress) => {
+  const renderShippingAddress = (value: string) => {
+
+    const item = shippingAddress?.find((item) => item.isActive);
+
     return (
       <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12">
         <div className="flex items-center justify-between">
-          <h1 className="font-bold text-blue-navy-blue">Ship To:</h1>
+          <h1 className="font-bold text-blue-navy-blue">{value === "delivery" ? "Ship To:" : "Pick Up From:"}</h1>
           <Link
             href={`/shipping-addresses`}
             className="flex user-select-none items-center gap-x-1 relative border-b border-black"
@@ -128,7 +133,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
           </Link>
         </div>
 
-        {item.isActive && (
+        {item?.isActive && (
           <div>
             <h1 className="font-bold">{item.company}</h1>
             <h1>
@@ -225,153 +230,19 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
     setStep(stepper);
   }, [shipping, stepper]);
 
-  console.log('Shipping Details Step', step);
-
   return (
     <section className="w-full h-auto">
       {renderHeader()}
       <div className="bg-white">
         <div className={`space-y-4 pt-4 ${step === 2 ? 'block' : 'hidden'}`}>
           {renderDeliveryMethodOptions()}
-
-          {shippingAddress?.map((item) => {
-            if (item.isActive) {
+          {shippingOptions?.map((item) => {
+            if (item.active) {
               return (
                 <React.Fragment key={item.id}>
-                  {renderShippingAddress(item)}
-
-                  {renderDeliveryOptions()}
-
-                  {renderDeliveryNotes()}
-                </React.Fragment>
-              );
-            }
-
-            if (item.isActive) {
-              return (
-                <React.Fragment key={item.id}>
-                  {/* Pick Up Address */}
-                  <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12">
-                    <div className="flex items-center justify-between">
-                      <h1 className="font-bold text-blue-navy-blue">
-                        Pick From:
-                      </h1>
-                      <Dialog>
-                        <DialogTrigger>
-                          <div className="flex items-center gap-x-1 relative border-b border-black">
-                            <p className="text-[12px]">Change Address</p>
-                            <MoveRight className="w-4" />
-                          </div>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Choose Pick up location</DialogTitle>
-                          </DialogHeader>
-                          <div>
-                            <RadioGroup
-                              defaultValue="option-one"
-                              className="space-y-2"
-                            >
-                              <div className="flex items-center space-x-2">
-                                <RadioGroupItem
-                                  value="option-one"
-                                  id="option-one"
-                                />
-                                <Label htmlFor="option-one">
-                                  Melbourne, VIC
-                                </Label>
-                              </div>
-                              <div className="flex items-center space-x-2">
-                                <RadioGroupItem
-                                  value="option-two"
-                                  id="option-two"
-                                />
-                                <Label htmlFor="option-two">Sydney, NSW</Label>
-                              </div>
-                              <div className="flex items-center space-x-2">
-                                <RadioGroupItem
-                                  value="option-three"
-                                  id="option-three"
-                                />
-                                <Label htmlFor="option-three">
-                                  Brisbane, QLD
-                                </Label>
-                              </div>
-                            </RadioGroup>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-                    </div>
-                    <div>
-                      <h1 className="font-bold">
-                        AI Energy Shop - Sydney Warehouse
-                      </h1>
-                      <h1>24/32-38 Belmore Rd, Punchbowl NSW</h1>
-                    </div>
-                  </div>
-
-                  {/* Delivery Options */}
-                  <div className="border border-blue-navy-blue rounded-xl p-2 md:mx-12">
-                    <div>
-                      <h1 className="font-bold">Delivery Options:</h1>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            className={cn(
-                              'w-fit justify-start gap-2 px-2 font-normal hover:bg-transparent',
-                              !date && 'text-muted-foreground'
-                            )}
-                          >
-                            <CalendarIcon className="h-5 w-5 " />
-                            <span className="text-lg underline">
-                              {date ? formatDate(date) : 'Select date'}
-                            </span>
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0">
-                          <Calendar
-                            mode="single"
-                            selected={date}
-                            onSelect={() => {}}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    </div>
-                    <div>
-                      <h1 className="font-bold">Estimated Arrival Time:</h1>
-                      <div className="p-2 flex flex-wrap justify-center gap-2">
-                        <div className="gradient-effect p-0.5">
-                          <p className="bg-white p-2">7:30am - 9am</p>
-                        </div>
-                        <div className="bg-black p-0.5">
-                          <p className="bg-white p-2">9am - 11am</p>
-                        </div>
-                        <div className="bg-black p-0.5">
-                          <p className="bg-white p-2">11am - 1pm</p>
-                        </div>
-                        <div className="bg-black p-0.5">
-                          <p className="bg-white p-2">1pm - 3pm</p>
-                        </div>
-                        <div className="bg-black p-0.5">
-                          <p className="bg-white p-2">3pm - 5pm</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <p className="text-[14px] text-center">
-                      NOTE: Order must be confirmed before pickup. Please allow
-                      2-3 hours after confirmation for the order to be ready for
-                      pick up.
-                    </p>
-                  </div>
-
-                  {/* Delivery Notes */}
-                  <div className="md:px-12 pb-4">
-                    <h1 className="font-bold">Delivery Notes</h1>
-                    <Textarea />
-                  </div>
+                  {renderShippingAddress(item.value)}
+                  {item.value === "delivery" && renderDeliveryOptions()}
+                  {item.value === "delivery" && renderDeliveryNotes()}
                 </React.Fragment>
               );
             }
