@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dialog';
 
 interface ModalProps {
-  isOpen: boolean;
+  open: boolean;
   onClose: () => void;
   onConfirm: () => void;
   title: string;
@@ -19,7 +19,7 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({
-  isOpen,
+  open,
   onClose,
   onConfirm,
   title,
@@ -27,7 +27,7 @@ const Modal: React.FC<ModalProps> = ({
   message,
 }) => {
   return (
-    <Dialog open={isOpen}>
+    <Dialog open={open}>
       {/* <DialogTrigger asChild>
         <Button variant="outline">Edit Profile</Button>
       </DialogTrigger> */}
