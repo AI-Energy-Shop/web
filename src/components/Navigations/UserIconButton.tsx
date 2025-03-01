@@ -6,6 +6,7 @@ import { User } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { Me } from '@/store/features/me';
+import Link from 'next/link';
 
 const UserIconButton = () => {
   const me = useSelector((state: RootState) => state.me.me);
@@ -17,21 +18,20 @@ const UserIconButton = () => {
     }
   }, [me]);
 
-  if (!user?.account_detail?.business_name) {
-    return null;
-  }
-
   return (
-    <Button
-      variant="ghost"
-      size="icon"
+    <Link
+      href="/profile"
       className="flex flex-col items-center m-0 w-auto h-auto px-1"
     >
       <User className="h-5 w-5" />
-      <p className="text-sm font-normal">
-        {user?.account_detail?.business_name}
-      </p>
-    </Button>
+      {user ? (
+        <p className="text-sm font-normal">
+          {user?.account_detail?.business_name}
+        </p>
+      ) : (
+        <p className="text-sm font-normal">Profile</p>
+      )}
+    </Link>
   );
 };
 
