@@ -85,8 +85,8 @@ const OrderSummary: React.FC<OrderSummaryProps> = () => {
           <span className="mx-1 text-sm">{warehouse?.address.postcode}</span>
         </p>
       </div>
-    )
-  }
+    );
+  };
 
   const renderShippingAddress = () => {
     return (
@@ -97,9 +97,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = () => {
             if (address.isActive) {
               return (
                 <span key={address.id}>
-                  <span className="block font-semibold">
-                    {address.company}
-                  </span>
+                  <span className="block font-semibold">{address.company}</span>
                   <span className="mr-1 text-sm">{address.street},</span>
                   <span className="mx-1 text-sm">{address.suburb},</span>
                   <span className="mx-1 text-sm">
@@ -116,8 +114,8 @@ const OrderSummary: React.FC<OrderSummaryProps> = () => {
           <span className="mx-1 font-thin">({delivery?.description})</span>
         </p>
       </div>
-    )
-  }
+    );
+  };
 
   const renderSubTotal = () => {
     return (
@@ -125,8 +123,8 @@ const OrderSummary: React.FC<OrderSummaryProps> = () => {
         <h1>Sub-total (ex. GST)</h1>
         <p>{subtotal}</p>
       </div>
-    )
-  }
+    );
+  };
 
   const renderDeliveryPrice = () => {
     return (
@@ -134,8 +132,8 @@ const OrderSummary: React.FC<OrderSummaryProps> = () => {
         <h1>Delivery</h1>
         <p>{formatCurrency(deliveryOptions?.price, 'USD')}</p>
       </div>
-    )
-  }
+    );
+  };
 
   const renderCardSubCharge = () => {
     return (
@@ -143,8 +141,8 @@ const OrderSummary: React.FC<OrderSummaryProps> = () => {
         <h1>Card Surcharge (1.2%)</h1>
         {/* <p>{cardSubCharge}</p> */}
       </div>
-    )
-  }
+    );
+  };
 
   const renderTotalGst = () => {
     return (
@@ -152,8 +150,8 @@ const OrderSummary: React.FC<OrderSummaryProps> = () => {
         <h1>GST</h1>
         <p>{totalGst.toFixed(2)}</p>
       </div>
-    )
-  }
+    );
+  };
 
   const renderTotal = () => {
     return (
@@ -163,8 +161,8 @@ const OrderSummary: React.FC<OrderSummaryProps> = () => {
         </h1>
         <p className="font-bold">{total.toFixed(2)}</p>
       </div>
-    )
-  }
+    );
+  };
   return (
     <div className="bg-white ml-8">
       <h1 className="p-2 text-xl font-black text-white bg-black">

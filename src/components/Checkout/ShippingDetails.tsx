@@ -117,13 +117,14 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
   };
 
   const renderShippingAddress = (value: string) => {
-
     const item = shippingAddress?.find((item) => item.isActive);
 
     return (
       <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12">
         <div className="flex items-center justify-between">
-          <h1 className="font-bold text-blue-navy-blue">{value === "delivery" ? "Ship To:" : "Pick Up From:"}</h1>
+          <h1 className="font-bold text-blue-navy-blue">
+            {value === 'delivery' ? 'Ship To:' : 'Pick Up From:'}
+          </h1>
           <Link
             href={`/shipping-addresses`}
             className="flex user-select-none items-center gap-x-1 relative border-b border-black"
@@ -241,8 +242,8 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
               return (
                 <React.Fragment key={item.id}>
                   {renderShippingAddress(item.value)}
-                  {item.value === "delivery" && renderDeliveryOptions()}
-                  {item.value === "delivery" && renderDeliveryNotes()}
+                  {item.value === 'delivery' && renderDeliveryOptions()}
+                  {item.value === 'delivery' && renderDeliveryNotes()}
                 </React.Fragment>
               );
             }
