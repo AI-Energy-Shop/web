@@ -33,7 +33,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   const [data, setData] = useState<Cart[]>([]);
   const [step, setStep] = useState<number>(0);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [toRemoveItemId, setToRemoveItemId] = useState<string>("")
+  const [toRemoveItemId, setToRemoveItemId] = useState<string>('');
 
   const handleEditClick = () => {
     dispatch(setPaymentStep(1));
@@ -59,12 +59,11 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
     const cart = data.find((cart) => cart.id === id);
     if (cart) {
       if (cart.quantity <= 1) {
-        setShowModal(!showModal)
-        setToRemoveItemId(id)
-      }else{
-        dispatch(setCartQuantity({ id, quantity: cart.quantity - 1 }))
+        setShowModal(!showModal);
+        setToRemoveItemId(id);
+      } else {
+        dispatch(setCartQuantity({ id, quantity: cart.quantity - 1 }));
       }
-
     }
   };
 
@@ -76,8 +75,8 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   };
 
   const handleRemove = (id: string) => {
-    setShowModal(!showModal)
-    setToRemoveItemId(id)
+    setShowModal(!showModal);
+    setToRemoveItemId(id);
   };
 
   const handleConfirmRemove = () => {
@@ -177,7 +176,6 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
     </div>
   );
 
-
   return (
     <section className="w-full h-auto">
       {renderHeader()}
@@ -188,7 +186,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
           {renderVoucherCode()}
           {renderButton()}
         </div>
-      </div> 
+      </div>
       <ModalWrapper
         open={showModal}
         onClose={() => setShowModal(false)}
