@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { ChevronLeft } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-
+import Link from 'next/link';
 const CheckoutHeader = () => {
   const stepper = useSelector((state: RootState) => state.cart.paymentStep);
   const [step, setStep] = useState(0);
@@ -31,10 +31,9 @@ const CheckoutHeader = () => {
         </div> */}
         <div className="text-[14px] absolute left-0 top-2 flex items-center gap-x-1 border border-black py-2 pr-2 rounded-lg">
           <ChevronLeft className="w-5 h-5" />
-          <div className="md:flex md:gap-x-1">
-            <p>Continue</p>
-            <p>Shopping</p>
-          </div>
+          <Link href="/products" className="md:flex md:gap-x-1">
+            Continue Shopping
+          </Link>
         </div>
         <div
           className={`absolute h-0.5 w-full bottom-5 left-0 bg-gradient-to-r from-yellow-aes-yellow

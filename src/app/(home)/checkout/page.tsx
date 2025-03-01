@@ -5,7 +5,7 @@ import ReviewItems from '@/components/Checkout/ReviewItems';
 import ShippingDetails from '@/components/Checkout/ShippingDetails';
 async function CheckoutPage() {
   return (
-    <main className="bg-yellow-light-yellow pb-12">
+    <main className="bg-yellow-light-yellow pb-12 relative">
       <CheckoutHeader />
       <h1 className="text-xl font-bold ae-mobile-container ae-non-mobile-container py-4">
         Checkout
@@ -24,15 +24,6 @@ async function CheckoutPage() {
           <OrderSummary />
         </div>
       </div>
-
-      {/* <ModalWrapper
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        onConfirm={handleConfirmRemove}
-        title="Remove Item"
-        description="You are about to remove this item from your cart."
-        message="Are you sure you want to remove this item from your cart?"
-      /> */}
     </main>
   );
 }

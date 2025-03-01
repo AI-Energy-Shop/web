@@ -22,6 +22,7 @@ import {
   setCartQuantity,
   removeCart,
 } from '@/store/features/cart';
+import ModalWrapper from './ModalWrapper';
 
 interface ReviewItemsProps {}
 
@@ -31,6 +32,8 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   const carts = useSelector((state: RootState) => state.cart.carts);
   const [data, setData] = useState<Cart[]>([]);
   const [step, setStep] = useState<number>(0);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [toRemoveItemId, setToRemoveItemId] = useState<string>("")
 
   const handleEditClick = () => {
     dispatch(setPaymentStep(1));
@@ -55,9 +58,13 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   const handleReduceQuant = (id: string) => {
     const cart = data.find((cart) => cart.id === id);
     if (cart) {
-      cart.quantity <= 1
-        ? dispatch(removeCart({ id }))
-        : dispatch(setCartQuantity({ id, quantity: cart.quantity - 1 }));
+      if (cart.quantity <= 1) {
+        setShowModal(!showModal)
+        setToRemoveItemId(id)
+      }else{
+        dispatch(setCartQuantity({ id, quantity: cart.quantity - 1 }))
+      }
+
     }
   };
 
@@ -69,7 +76,13 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   };
 
   const handleRemove = (id: string) => {
-    dispatch(removeCart({ id }));
+    setShowModal(!showModal)
+    setToRemoveItemId(id)
+  };
+
+  const handleConfirmRemove = () => {
+    dispatch(removeCart({ id: toRemoveItemId }));
+    setShowModal(false);
   };
 
   useEffect(() => {
@@ -164,7 +177,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
     </div>
   );
 
-  console.log('Review Items Step', step);
+
   return (
     <section className="w-full h-auto">
       {renderHeader()}
@@ -175,7 +188,15 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
           {renderVoucherCode()}
           {renderButton()}
         </div>
-      </div>
+      </div> 
+      <ModalWrapper
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={() => handleConfirmRemove()}
+        title="Remove Item"
+        description="You are about to remove this item from your cart."
+        message="Are you sure you want to remove this item from your cart?"
+      />
     </section>
   );
 };
