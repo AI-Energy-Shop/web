@@ -41,9 +41,9 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
   const form = useForm<z.infer<typeof userProfileSchema>>({
     resolver: zodResolver(userProfileSchema),
     defaultValues: {
-      firstName: user?.account_detail?.first_name || '',
-      middleName: user?.account_detail?.middle_name || '',
-      lastName: user?.account_detail?.last_name || '',
+      firstName: user?.account_detail?.name?.first_name || '',
+      middleName: user?.account_detail?.name?.middle_name || '',
+      lastName: user?.account_detail?.name?.last_name || '',
       email: user?.email || '',
       level: user?.account_detail?.level || '',
       status: user?.account_status || '',
