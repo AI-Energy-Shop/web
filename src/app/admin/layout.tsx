@@ -1,5 +1,5 @@
 import React from 'react';
-import SideNavigation from '@/components/Navigations/side-naviation';
+import SideNavigation from '@/components/Navigations/SideNavigation';
 
 const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (

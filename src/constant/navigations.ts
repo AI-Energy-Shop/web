@@ -43,11 +43,11 @@ export const SIDE_NAVIGATIONS: Array<{
 ];
 
 export const NAV_LIST_ITEMS = [
-  { href: '/', label: 'Home' },
-  { href: '/products', label: 'Products' },
-  { href: '/about', label: 'About Us' },
-  { href: '/contact-us', label: 'Contact Us' },
-  { href: '/downloads', label: 'Downloads' },
-  { href: '/stc-trading', label: 'STC Trading' },
-  { href: '/shift-trade', label: 'Shift Trade' },
+  { href: '/', label: 'Home', icon: 'home' },
+  { href: '/products', label: 'Products', icon: 'zap' },
+  { href: '/about', label: 'About Us', icon: 'info' },
+  { href: '/contact-us', label: 'Contact Us', icon: 'mail' },
+  { href: '/downloads', label: 'Downloads', icon: 'download' },
+  { href: '/stc-trading', label: 'STC Trading', icon: 'shopping-cart' },
+  { href: '/shift-trade', label: 'Shift Trade', icon: 'shopping-cart' },
 ];

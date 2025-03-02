@@ -7,7 +7,7 @@ const NavList = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="flex items-end h-full text-sm font-medium gap-3">
+    <nav className="hidden items-end h-full text-sm font-medium gap-3 lg:flex">
       {NAV_LIST_ITEMS.map((item, index) => (
         <Link
           key={index}
