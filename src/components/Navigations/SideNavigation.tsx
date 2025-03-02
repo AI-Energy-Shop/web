@@ -57,7 +57,7 @@ const SideNavigation = () => {
         variant="ghost"
         size="icon"
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-6 right-5 flex items-center justify-center md:hidden"
+        className="fixed top-6 right-5 flex items-center justify-center lg:hidden"
       >
         {isOpen ? <X className="h-10 w-10" /> : <Menu className="h-10 w-10" />}
       </Button>
