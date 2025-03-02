@@ -23,7 +23,13 @@ export interface Me {
   username: string;
   blocked: boolean;
   confirmed?: any;
+  name?: {
+    first_name?: string;
+    middle_name?: string;
+    last_name?: string;
+  };
   account_detail?: {
+    user_level?: string;
     business_name?: string;
   };
   shipping_addresses?: ShippingAddress[];
@@ -35,17 +41,7 @@ export interface InitialState {
 }
 
 const initialState: InitialState = {
-  me: {
-    id: '',
-    email: '',
-    username: '',
-    blocked: false,
-    confirmed: null,
-    account_detail: {
-      business_name: undefined,
-    },
-    shipping_addresses: [],
-  },
+  me: undefined,
   token: undefined,
 };
 

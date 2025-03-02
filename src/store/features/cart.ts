@@ -11,19 +11,20 @@ export interface Cart {
 }
 
 export interface WarehouseLocation {
-  id: string;
   address: {
     city: string;
     street: string;
     suburb: string;
     state_territory: string;
     postcode: string;
+    country: string;
   };
 }
 
 export interface ShippingAddress {
   id: string;
   company: string;
+  city: string;
   street: string;
   suburb: string;
   state_territory: string;
@@ -48,30 +49,9 @@ export interface InitialState {
 const initialState: InitialState = {
   carts: [],
   paymentStep: 1,
-  warehouseLocation: {
-    id: '0',
-    address: {
-      city: 'Sydney',
-      street: '24/32-38 Belmore Rd',
-      suburb: 'Punchbowl',
-      state_territory: 'NSW',
-      postcode: '2000',
-    },
-  },
-  shippingAddress: {
-    id: '0',
-    company: 'Aes',
-    street: '24/32-38 Belmore Rd',
-    suburb: 'Punchbowl',
-    state_territory: 'NSW',
-    postcode: '2000',
-  },
-  deliveryOptions: {
-    id: '0',
-    title: 'TNT Standard Shipping',
-    description: '3-5 Business Days',
-    price: 39.47,
-  },
+  warehouseLocation: undefined,
+  shippingAddress: undefined,
+  deliveryOptions: undefined,
 };
 
 export const cartSlice = createSlice({
@@ -108,13 +88,24 @@ export const cartSlice = createSlice({
     ) => {
       state.carts = state.carts.filter((cart) => cart.id !== payload.id);
     },
+    setWarehouseLocation: (
+      state,
+      { payload }: { payload: WarehouseLocation; type: string }
+    ) => {
+      state.warehouseLocation = payload;
+    },
     setPaymentStep: (state, { payload }: { payload: number; type: string }) => {
       state.paymentStep = payload;
     },
   },
 });
 
-export const { setCart, removeCart, setPaymentStep, setCartQuantity } =
-  cartSlice.actions;
+export const {
+  setCart,
+  removeCart,
+  setPaymentStep,
+  setCartQuantity,
+  setWarehouseLocation,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;
