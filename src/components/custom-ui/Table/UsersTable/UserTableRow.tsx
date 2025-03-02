@@ -30,7 +30,8 @@ const UserTableRow = ({
       onClick={() => handleClick(user!.documentId)}
     >
       <TableCell className="font-medium">
-        {user?.account_detail?.first_name} {user?.account_detail?.last_name}
+        {user?.account_detail?.name?.first_name}{' '}
+        {user?.account_detail?.name?.last_name}
       </TableCell>
       <TableCell>{user?.email}</TableCell>
       <TableCell>{user?.account_detail?.level}</TableCell>
