@@ -157,6 +157,7 @@ export async function loginUser({
     return { success: false, error: error.message };
   }
 }
+
 export const updateAccountStatus = safeAction
   .schema(updateUserStatusSchema)
   .action(
@@ -236,4 +237,12 @@ export const getUserDetails = async (documentId: string) => {
   } catch (error) {
     console.error('GraphQL Query Error:', error);
   }
+};
+
+export const logoutUser = async () => {
+  const cookieStore = await cookies();
+  cookieStore.delete('a-token');
+  cookieStore.delete('a-user');
+  cookieStore.delete('reduxState');
+  redirect('/auth/login');
 };
