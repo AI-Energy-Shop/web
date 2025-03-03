@@ -27,7 +27,7 @@ export default async function ProductsPage({
     <div className="min-h-screen bg-[#fdf6ed]">
       <Breadcrumb />
       <Categories categories={PRODUCT_CATEGORIES} />
-      <div className="max-w-[1200px] mx-auto py-2">
+      <div className="max-w-[1200px] mx-auto p-5">
         <PageTitle title="All Products" />
         {/* <Brands brands={brands} /> */}
         <ProductList

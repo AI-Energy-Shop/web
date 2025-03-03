@@ -12,7 +12,7 @@ const DropdownOptions = ({
   onSortChange,
 }: DropdownOptionsProps) => {
   return (
-    <div className="flex justify-end gap-2 m-2">
+    <div className="hidden justify-end gap-2 m-2 lg:flex">
       <WarehouseOptions onWarehouseChange={onWarehouseChange} />
       <SortOption onSortChange={onSortChange} />
     </div>
