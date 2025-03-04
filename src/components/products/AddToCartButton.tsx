@@ -4,7 +4,7 @@ import { Button } from '../ui/button';
 import ProductQuantity from './ProductQuantity';
 import { addToCart } from '@/app/actions/cart';
 import { useForm } from 'react-hook-form';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/useToast';
 import { useDispatch } from 'react-redux';
 import { setCart } from '@/store/features/cart';
 

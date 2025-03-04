@@ -1,10 +1,8 @@
 import { z } from 'zod';
 
 export const registerUserSchema = z.object({
-  firstName: z.string().min(1, { message: 'Required' }),
-  middleName: z.string().min(1, { message: 'Required' }),
-  lastName: z.string().min(1, { message: 'Required' }),
   businessName: z.string().min(1, { message: 'Required' }),
+  businessNumber: z.string().min(1, { message: 'Required' }),
   userType: z.string().min(1, { message: 'Required' }),
   username: z.string().min(1, { message: 'Required' }),
   email: z.string().email(),

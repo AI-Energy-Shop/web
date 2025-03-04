@@ -10,59 +10,40 @@ import { redirect } from 'next/navigation';
 
 const client = getClient();
 
-export const registerUser = safeAction
-  .schema(registerUserSchema)
-  .action(
-    async ({
-      parsedInput: {
-        email,
-        username,
-        password,
-        firstName,
-        middleName,
-        lastName,
-        businessName,
-        userType,
-      },
-    }) => {
-      const response = await client.mutate({
-        mutation: USERS_OPERATIONS.Mutations.registerUser,
-        variables: {
-          data: {
-            firstName,
-            middleName,
-            lastName,
-            userType,
-            businessName,
-            email,
-            username,
-            password,
-          },
+export const registerUser = async (formData: FormData) => {
+  const email = formData.get('email') as string;
+  const username = formData.get('username') as string;
+  const password = formData.get('password') as string;
+  const userType = formData.get('userType') as string;
+  const businessNumber = formData.get('businessNumber') as string;
+  const businessName = formData.get('businessName') as string;
+
+  try {
+    const response = await client.mutate({
+      mutation: USERS_OPERATIONS.Mutations.registerUser,
+      variables: {
+        data: {
+          email,
+          username,
+          password,
+          businessNumber,
+          userType,
+          businessName,
         },
-      });
+      },
+    });
 
-      // TODO(ROI) refactor this
-      if (!response?.data?.registerUser?.success) {
-        const usernameError =
-          (response?.data?.registerUser?.error as string)
-            .toLowerCase()
-            .includes('username') && response?.data?.registerUser?.error;
-        const emailError =
-          (response?.data?.registerUser?.error as string)
-            .toLowerCase()
-            .includes('email') && response?.data?.registerUser?.error;
-
-        return {
-          error: {
-            username: usernameError,
-            email: emailError,
-          },
-        };
-      } else {
-        redirect('/auth/approval');
-      }
+    if (response.errors) {
+      return { success: false, error: response.errors[0].message };
     }
-  );
+
+    return {
+      data: response.data,
+    };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+};
 
 export async function loginUser({
   email,
@@ -112,8 +93,6 @@ export async function loginUser({
       ...user,
       account_detail: {
         name: userDetails?.name,
-        user_level: userDetails?.level,
-        business_name: userDetails?.business_name,
       },
       warehouse_location: userDetails?.warehouse_location,
       shipping_addresses:
@@ -131,7 +110,6 @@ export async function loginUser({
           phone: address?.phone,
           country: address?.country,
           isActive: address?.isActive,
-          company: userDetails?.business_name,
         })) || [],
     };
 

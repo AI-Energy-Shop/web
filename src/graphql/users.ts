@@ -11,7 +11,6 @@ const schema = {
           blocked
           username
           account_detail {
-            business_name
             phone
             level
             name {
@@ -67,7 +66,6 @@ const schema = {
               middle_name
               last_name
             }
-            business_name
           }
         }
       }
@@ -84,8 +82,6 @@ const schema = {
           account_detail {
             documentId
             level
-            user_type
-            business_name
             phone
             odoo_user_id
             name {
@@ -113,9 +109,7 @@ const schema = {
     registerUser: graphql(`
       mutation RegisterUser($data: RegisterUserInput!) {
         registerUser(data: $data) {
-          error
-          success
-          statusText
+          documentId
         }
       }
     `),
@@ -125,10 +119,10 @@ const schema = {
           jwt
           user {
             id
-            username
             email
             confirmed
             blocked
+            username
           }
         }
       }
