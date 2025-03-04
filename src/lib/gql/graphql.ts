@@ -40,7 +40,6 @@ export type Scalars = {
 
 export type AccountDetailFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<AccountDetailFiltersInput>>>;
-  business_name?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
   level?: InputMaybe<StringFilterInput>;
@@ -55,12 +54,10 @@ export type AccountDetailFiltersInput = {
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   shipping_addresses?: InputMaybe<ComponentElementsAddressFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
-  user_type?: InputMaybe<StringFilterInput>;
   warehouse_location?: InputMaybe<ComponentElementsWarehouseLocationFiltersInput>;
 };
 
 export type AccountDetailInput = {
-  business_name?: InputMaybe<Scalars['String']['input']>;
   level?: InputMaybe<Enum_Accountdetail_Level>;
   locale?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<ComponentElementsNameInput>;
@@ -73,7 +70,6 @@ export type AccountDetailInput = {
   shipping_addresses?: InputMaybe<
     Array<InputMaybe<ComponentElementsAddressInput>>
   >;
-  user_type?: InputMaybe<Enum_Accountdetail_User_Type>;
   warehouse_location?: InputMaybe<ComponentElementsWarehouseLocationInput>;
 };
 
@@ -430,13 +426,6 @@ export enum Enum_Accountdetail_Level {
   Vip = 'VIP',
 }
 
-export enum Enum_Accountdetail_User_Type {
-  Administrator = 'ADMINISTRATOR',
-  Installer = 'INSTALLER',
-  Retailer = 'RETAILER',
-  Sales = 'SALES',
-}
-
 export enum Enum_Componentelementsinput_Type {
   Number = 'NUMBER',
   Text = 'TEXT',
@@ -738,10 +727,8 @@ export enum PublicationStatus {
 
 export type RegisterUserInput = {
   businessName: Scalars['String']['input'];
+  businessNumber: Scalars['String']['input'];
   email: Scalars['String']['input'];
-  firstName: Scalars['String']['input'];
-  lastName: Scalars['String']['input'];
-  middleName?: InputMaybe<Scalars['String']['input']>;
   password: Scalars['String']['input'];
   userType: Scalars['String']['input'];
   username: Scalars['String']['input'];
@@ -967,6 +954,8 @@ export type UsersPermissionsUserFiltersInput = {
   account_status?: InputMaybe<StringFilterInput>;
   and?: InputMaybe<Array<InputMaybe<UsersPermissionsUserFiltersInput>>>;
   blocked?: InputMaybe<BooleanFilterInput>;
+  business_name?: InputMaybe<StringFilterInput>;
+  business_number?: InputMaybe<StringFilterInput>;
   confirmationToken?: InputMaybe<StringFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
@@ -983,6 +972,7 @@ export type UsersPermissionsUserFiltersInput = {
   role?: InputMaybe<UsersPermissionsRoleFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   user_notifications?: InputMaybe<UserNotificationFiltersInput>;
+  user_type?: InputMaybe<StringFilterInput>;
   username?: InputMaybe<StringFilterInput>;
 };
 
@@ -990,6 +980,8 @@ export type UsersPermissionsUserInput = {
   account_detail?: InputMaybe<Scalars['ID']['input']>;
   account_status?: InputMaybe<Enum_Userspermissionsuser_Account_Status>;
   blocked?: InputMaybe<Scalars['Boolean']['input']>;
+  business_name?: InputMaybe<Scalars['String']['input']>;
+  business_number?: InputMaybe<Scalars['String']['input']>;
   confirmationToken?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   locale?: InputMaybe<Scalars['String']['input']>;
@@ -1000,6 +992,7 @@ export type UsersPermissionsUserInput = {
   resetPasswordToken?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Scalars['ID']['input']>;
   user_notifications?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  user_type?: InputMaybe<Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1540,7 +1533,6 @@ export type UserQuery = {
     username: string;
     account_detail?: {
       __typename?: 'AccountDetail';
-      business_name?: string | null;
       phone?: string | null;
       level?: Enum_Accountdetail_Level | null;
       name?: {
@@ -1602,7 +1594,6 @@ export type UsersPermissionsUsersQuery = {
       documentId: string;
       level?: Enum_Accountdetail_Level | null;
       phone?: string | null;
-      business_name?: string | null;
       name?: {
         __typename?: 'ComponentElementsName';
         first_name?: string | null;
@@ -1631,8 +1622,6 @@ export type UsersPermissionsUserQuery = {
       __typename?: 'AccountDetail';
       documentId: string;
       level?: Enum_Accountdetail_Level | null;
-      user_type?: Enum_Accountdetail_User_Type | null;
-      business_name?: string | null;
       phone?: string | null;
       odoo_user_id: string;
       name?: {
@@ -1665,10 +1654,8 @@ export type RegisterUserMutationVariables = Exact<{
 export type RegisterUserMutation = {
   __typename?: 'Mutation';
   registerUser?: {
-    __typename?: 'Response';
-    error?: string | null;
-    success?: boolean | null;
-    statusText?: string | null;
+    __typename?: 'UsersPermissionsUser';
+    documentId: string;
   } | null;
 };
 
@@ -1684,10 +1671,10 @@ export type LoginMutation = {
     user: {
       __typename?: 'UsersPermissionsMe';
       id: string;
-      username: string;
       email?: string | null;
       confirmed?: boolean | null;
       blocked?: boolean | null;
+      username: string;
     };
   };
 };
@@ -3474,10 +3461,6 @@ export const UserDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'business_name' },
-                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'level' } },
                       {
@@ -3684,10 +3667,6 @@ export const UsersPermissionsUsersDocument = {
                           ],
                         },
                       },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'business_name' },
-                      },
                     ],
                   },
                 },
@@ -3761,14 +3740,6 @@ export const UsersPermissionsUserDocument = {
                         name: { kind: 'Name', value: 'documentId' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'level' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'user_type' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'business_name' },
-                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
                       {
                         kind: 'Field',
@@ -3897,9 +3868,7 @@ export const RegisterUserDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'error' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'statusText' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
               ],
             },
           },
@@ -3961,10 +3930,6 @@ export const LoginDocument = {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'username' },
-                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'email' } },
                       {
                         kind: 'Field',
@@ -3973,6 +3938,10 @@ export const LoginDocument = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'blocked' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'username' },
                       },
                     ],
                   },

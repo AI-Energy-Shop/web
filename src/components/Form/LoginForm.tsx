@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { loginUser } from '@/app/actions/user';
 import { useRouter } from 'next/navigation';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/useToast';
 import { useDispatch } from 'react-redux';
 import { setMe, setToken } from '@/store/features/me';
 import { setWarehouseLocation } from '@/store/features/cart';
@@ -43,10 +43,10 @@ const LoginForm = () => {
               userData?.user?.account_detail?.name?.middle_name || '',
             last_name: userData?.user?.account_detail?.name?.last_name || '',
           },
-          account_detail: {
-            user_level: userData?.user?.account_detail?.user_level || '',
-            business_name: userData?.user?.account_detail?.business_name || '',
-          },
+          // account_detail: {
+          //   user_level: userData?.user?.account_detail?.user_level || '',
+          //   business_name: userData?.user?.account_detail?.business_name || '',
+          // },
         })
       );
 
