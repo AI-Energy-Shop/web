@@ -41,19 +41,19 @@ function RegistrationDialog({
           <div className="grid grid-cols-3 items-center gap-4">
             <p className="text-sm font-medium text-gray-500">First Name</p>
             <p className="col-span-2 text-sm text-gray-700">
-              {userData?.firstName}
+              {/* {userData?.firstName} */}
             </p>
           </div>
           <div className="grid grid-cols-3 items-center gap-4">
             <p className="text-sm font-medium text-gray-500">Middle Name</p>
             <p className="col-span-2 text-sm text-gray-700">
-              {userData?.middleName}
+              {/* {userData?.middleName} */}
             </p>
           </div>
           <div className="grid grid-cols-3 items-center gap-4">
             <p className="text-sm font-medium text-gray-500">Last Name</p>
             <p className="col-span-2 text-sm text-gray-700">
-              {userData?.lastName}
+              {/* {userData?.lastName} */}
             </p>
           </div>
           <div className="grid grid-cols-3 items-center gap-4">

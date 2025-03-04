@@ -23,7 +23,6 @@ import {
 import { Textarea } from '../ui/textarea';
 import {
   Enum_Accountdetail_Level,
-  Enum_Accountdetail_User_Type,
   Enum_Userspermissionsuser_Account_Status,
   UsersPermissionsUserQuery,
 } from '@/lib/gql/graphql';
@@ -50,8 +49,6 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
       phone: '',
       company: '',
       odooId: user?.account_detail?.odoo_user_id || '',
-      type: user?.account_detail?.user_type || '',
-      australianBusinessNumber: user?.account_detail?.business_name || '',
       address: '',
     },
   });
@@ -241,34 +238,6 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="type"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Type</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a type" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value={Enum_Accountdetail_User_Type.Installer}>
-                      Installer
-                    </SelectItem>
-                    <SelectItem value={Enum_Accountdetail_User_Type.Retailer}>
-                      Retailer
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
                 <FormMessage />
               </FormItem>
             )}

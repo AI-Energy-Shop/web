@@ -246,11 +246,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                   </Link>
                 </Label>
               </div>
-              <Button
-                disabled={status === 'executing'}
-                type="submit"
-                className="w-full"
-              >
+              <Button type="submit" className="w-full">
                 Sign Up
               </Button>
             </div>
