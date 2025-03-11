@@ -52,7 +52,7 @@ export type AccountDetailFiltersInput = {
   payment_options?: InputMaybe<ComponentElementsPaymentOptionFiltersInput>;
   phone?: InputMaybe<StringFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
-  shipping_addresses?: InputMaybe<ComponentElementsAddressFiltersInput>;
+  shipping_addresses?: InputMaybe<ComponentElementsShippingAddressFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   warehouse_location?: InputMaybe<ComponentElementsWarehouseLocationFiltersInput>;
 };
@@ -68,9 +68,16 @@ export type AccountDetailInput = {
   phone?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   shipping_addresses?: InputMaybe<
-    Array<InputMaybe<ComponentElementsAddressInput>>
+    Array<InputMaybe<ComponentElementsShippingAddressInput>>
   >;
   warehouse_location?: InputMaybe<ComponentElementsWarehouseLocationInput>;
+};
+
+export type ApprovedUserInput = {
+  accountStatus: Scalars['String']['input'];
+  odooUserId: Scalars['String']['input'];
+  userLevel: Scalars['String']['input'];
+  userType: Scalars['String']['input'];
 };
 
 export type BooleanFilterInput = {
@@ -130,7 +137,6 @@ export type ComponentElementsAddressFiltersInput = {
   city?: InputMaybe<StringFilterInput>;
   country?: InputMaybe<StringFilterInput>;
   isActive?: InputMaybe<BooleanFilterInput>;
-  name?: InputMaybe<ComponentElementsNameFiltersInput>;
   not?: InputMaybe<ComponentElementsAddressFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ComponentElementsAddressFiltersInput>>>;
   phone?: InputMaybe<StringFilterInput>;
@@ -145,7 +151,6 @@ export type ComponentElementsAddressInput = {
   country?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
   isActive?: InputMaybe<Scalars['Boolean']['input']>;
-  name?: InputMaybe<ComponentElementsNameInput>;
   phone?: InputMaybe<Scalars['String']['input']>;
   postcode?: InputMaybe<Scalars['String']['input']>;
   state_territory?: InputMaybe<Scalars['String']['input']>;
@@ -291,6 +296,38 @@ export type ComponentElementsPriceInput = {
   price?: InputMaybe<Scalars['Float']['input']>;
   sale_price?: InputMaybe<Scalars['Float']['input']>;
   user_level?: InputMaybe<Enum_Componentelementsprice_User_Level>;
+};
+
+export type ComponentElementsShippingAddressFiltersInput = {
+  and?: InputMaybe<
+    Array<InputMaybe<ComponentElementsShippingAddressFiltersInput>>
+  >;
+  city?: InputMaybe<StringFilterInput>;
+  country?: InputMaybe<StringFilterInput>;
+  isActive?: InputMaybe<BooleanFilterInput>;
+  name?: InputMaybe<ComponentElementsNameFiltersInput>;
+  not?: InputMaybe<ComponentElementsShippingAddressFiltersInput>;
+  or?: InputMaybe<
+    Array<InputMaybe<ComponentElementsShippingAddressFiltersInput>>
+  >;
+  phone?: InputMaybe<StringFilterInput>;
+  postcode?: InputMaybe<StringFilterInput>;
+  state_territory?: InputMaybe<StringFilterInput>;
+  street?: InputMaybe<StringFilterInput>;
+  suburb?: InputMaybe<StringFilterInput>;
+};
+
+export type ComponentElementsShippingAddressInput = {
+  city?: InputMaybe<Scalars['String']['input']>;
+  country?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<ComponentElementsNameInput>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+  postcode?: InputMaybe<Scalars['String']['input']>;
+  state_territory?: InputMaybe<Scalars['String']['input']>;
+  street?: InputMaybe<Scalars['String']['input']>;
+  suburb?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ComponentElementsShippingFiltersInput = {
@@ -730,6 +767,11 @@ export type RegisterUserInput = {
   businessNumber: Scalars['String']['input'];
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
+  phone: Scalars['String']['input'];
+  postalCode: Scalars['String']['input'];
+  state: Scalars['String']['input'];
+  street: Scalars['String']['input'];
+  suburb: Scalars['String']['input'];
   userType: Scalars['String']['input'];
   username: Scalars['String']['input'];
 };
@@ -832,11 +874,6 @@ export type UploadFileFiltersInput = {
   width?: InputMaybe<IntFilterInput>;
 };
 
-export type UserAccountDetails = {
-  odooId: Scalars['String']['input'];
-  userPricingLevel?: InputMaybe<Scalars['String']['input']>;
-};
-
 export type UserApprovalRequestFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<UserApprovalRequestFiltersInput>>>;
   approved?: InputMaybe<BooleanFilterInput>;
@@ -858,12 +895,6 @@ export type UserApprovalRequestInput = {
   locale?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   request_link?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type UserApprovalRequestInputArgs = {
-  accountStatus: Scalars['String']['input'];
-  email: Scalars['String']['input'];
-  user?: InputMaybe<UserAccountDetails>;
 };
 
 export type UserFiltersInput = {
@@ -952,6 +983,7 @@ export type UsersPermissionsRoleInput = {
 export type UsersPermissionsUserFiltersInput = {
   account_detail?: InputMaybe<AccountDetailFiltersInput>;
   account_status?: InputMaybe<StringFilterInput>;
+  address?: InputMaybe<ComponentElementsAddressFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<UsersPermissionsUserFiltersInput>>>;
   blocked?: InputMaybe<BooleanFilterInput>;
   business_name?: InputMaybe<StringFilterInput>;
@@ -966,6 +998,7 @@ export type UsersPermissionsUserFiltersInput = {
   or?: InputMaybe<Array<InputMaybe<UsersPermissionsUserFiltersInput>>>;
   orders?: InputMaybe<OrderFiltersInput>;
   password?: InputMaybe<StringFilterInput>;
+  phone?: InputMaybe<StringFilterInput>;
   provider?: InputMaybe<StringFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   resetPasswordToken?: InputMaybe<StringFilterInput>;
@@ -979,6 +1012,7 @@ export type UsersPermissionsUserFiltersInput = {
 export type UsersPermissionsUserInput = {
   account_detail?: InputMaybe<Scalars['ID']['input']>;
   account_status?: InputMaybe<Enum_Userspermissionsuser_Account_Status>;
+  address?: InputMaybe<ComponentElementsAddressInput>;
   blocked?: InputMaybe<Scalars['Boolean']['input']>;
   business_name?: InputMaybe<Scalars['String']['input']>;
   business_number?: InputMaybe<Scalars['String']['input']>;
@@ -987,6 +1021,7 @@ export type UsersPermissionsUserInput = {
   locale?: InputMaybe<Scalars['String']['input']>;
   orders?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   password?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
   provider?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   resetPasswordToken?: InputMaybe<Scalars['String']['input']>;
@@ -1531,6 +1566,7 @@ export type UserQuery = {
     account_status?: Enum_Userspermissionsuser_Account_Status | null;
     blocked?: boolean | null;
     username: string;
+    role?: { __typename?: 'UsersPermissionsRole'; name: string } | null;
     account_detail?: {
       __typename?: 'AccountDetail';
       phone?: string | null;
@@ -1542,7 +1578,7 @@ export type UserQuery = {
         last_name?: string | null;
       } | null;
       shipping_addresses?: Array<{
-        __typename?: 'ComponentElementsAddress';
+        __typename?: 'ComponentElementsShippingAddress';
         id: string;
         phone?: string | null;
         street?: string | null;
@@ -1589,6 +1625,22 @@ export type UsersPermissionsUsersQuery = {
     provider?: string | null;
     blocked?: boolean | null;
     account_status?: Enum_Userspermissionsuser_Account_Status | null;
+    business_name?: string | null;
+    business_number?: string | null;
+    user_type?: string | null;
+    phone?: string | null;
+    address?: {
+      __typename?: 'ComponentElementsAddress';
+      id: string;
+      street?: string | null;
+      suburb?: string | null;
+      state_territory?: string | null;
+      postcode?: string | null;
+      country?: string | null;
+      isActive?: boolean | null;
+      phone?: string | null;
+      city?: string | null;
+    } | null;
     account_detail?: {
       __typename?: 'AccountDetail';
       documentId: string;
@@ -1601,6 +1653,7 @@ export type UsersPermissionsUsersQuery = {
         last_name?: string | null;
       } | null;
     } | null;
+    role?: { __typename?: 'UsersPermissionsRole'; name: string } | null;
   } | null>;
 };
 
@@ -1618,12 +1671,15 @@ export type UsersPermissionsUserQuery = {
     provider?: string | null;
     blocked?: boolean | null;
     account_status?: Enum_Userspermissionsuser_Account_Status | null;
+    business_name?: string | null;
+    business_number?: string | null;
+    role?: { __typename?: 'UsersPermissionsRole'; name: string } | null;
     account_detail?: {
       __typename?: 'AccountDetail';
       documentId: string;
       level?: Enum_Accountdetail_Level | null;
       phone?: string | null;
-      odoo_user_id: string;
+      odoo_user_id?: string | null;
       name?: {
         __typename?: 'ComponentElementsName';
         first_name?: string | null;
@@ -1679,17 +1735,30 @@ export type LoginMutation = {
   };
 };
 
-export type UserApprovalMutationVariables = Exact<{
-  data: UserApprovalRequestInputArgs;
+export type ApprovedUserMutationVariables = Exact<{
+  data: ApprovedUserInput;
+  documentId: Scalars['ID']['input'];
 }>;
 
-export type UserApprovalMutation = {
+export type ApprovedUserMutation = {
   __typename?: 'Mutation';
-  userApproval?: {
-    __typename?: 'Response';
-    error?: string | null;
-    success?: boolean | null;
-    statusText?: string | null;
+  approvedUser?: {
+    __typename?: 'UsersPermissionsUser';
+    documentId: string;
+    email: string;
+  } | null;
+};
+
+export type UpdateUserMutationVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+  data: UsersPermissionsUserInput;
+}>;
+
+export type UpdateUserMutation = {
+  __typename?: 'Mutation';
+  updateUser?: {
+    __typename?: 'UsersPermissionsUser';
+    account_status?: Enum_Userspermissionsuser_Account_Status | null;
   } | null;
 };
 
@@ -3457,6 +3526,16 @@ export const UserDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'username' } },
                 {
                   kind: 'Field',
+                  name: { kind: 'Name', value: 'role' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'account_detail' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -3636,6 +3715,52 @@ export const UsersPermissionsUsersDocument = {
                 },
                 {
                   kind: 'Field',
+                  name: { kind: 'Name', value: 'business_name' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'business_number' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'user_type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'address' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'street' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'suburb' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'state_territory' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'postcode' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'country' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isActive' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'account_detail' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -3667,6 +3792,16 @@ export const UsersPermissionsUsersDocument = {
                           ],
                         },
                       },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'role' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                     ],
                   },
                 },
@@ -3728,6 +3863,24 @@ export const UsersPermissionsUserDocument = {
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'account_status' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'business_name' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'business_number' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'role' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
                 },
                 {
                   kind: 'Field',
@@ -3954,13 +4107,13 @@ export const LoginDocument = {
     },
   ],
 } as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
-export const UserApprovalDocument = {
+export const ApprovedUserDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'UserApproval' },
+      name: { kind: 'Name', value: 'ApprovedUser' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -3969,7 +4122,89 @@ export const UserApprovalDocument = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'UserApprovalRequestInputArgs' },
+              name: { kind: 'Name', value: 'ApprovedUserInput' },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'approvedUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  ApprovedUserMutation,
+  ApprovedUserMutationVariables
+>;
+export const UpdateUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UsersPermissionsUserInput' },
             },
           },
         },
@@ -3979,8 +4214,16 @@ export const UserApprovalDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'userApproval' },
+            name: { kind: 'Name', value: 'updateUser' },
             arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
               {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'data' },
@@ -3993,9 +4236,10 @@ export const UserApprovalDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'error' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'success' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'statusText' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'account_status' },
+                },
               ],
             },
           },
@@ -4003,7 +4247,4 @@ export const UserApprovalDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<
-  UserApprovalMutation,
-  UserApprovalMutationVariables
->;
+} as unknown as DocumentNode<UpdateUserMutation, UpdateUserMutationVariables>;

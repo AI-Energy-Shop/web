@@ -13,7 +13,7 @@ const UserTableRow = ({
   const router = useRouter();
 
   const handleClick = (id: string) => {
-    router.push(`/admin/dashboard/users/${id}`);
+    router.push(`/admin/users/${id}`);
   };
 
   const userBadgeVariant =
@@ -29,13 +29,8 @@ const UserTableRow = ({
       key={user?.documentId}
       onClick={() => handleClick(user!.documentId)}
     >
-      <TableCell className="font-medium">
-        {user?.account_detail?.name?.first_name}{' '}
-        {user?.account_detail?.name?.last_name}
-      </TableCell>
       <TableCell>{user?.email}</TableCell>
-      <TableCell>{user?.account_detail?.level}</TableCell>
-      <TableCell>{'today'}</TableCell>
+      <TableCell>{user?.role?.name}</TableCell>
       <TableCell>
         <Badge variant={userBadgeVariant}>{user?.account_status}</Badge>
       </TableCell>
