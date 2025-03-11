@@ -225,7 +225,11 @@ const UserApprovalForm: React.FC<UserApprovalFormProps> = (props) => {
             </div>
             <div className="flex gap-4">
               <Button type="submit">Submit</Button>
-              <Button type="button" variant="destructive">
+              <Button
+                type="button"
+                variant="destructive"
+                onClick={() => router.push('/admin/users')}
+              >
                 Cancel
               </Button>
             </div>
