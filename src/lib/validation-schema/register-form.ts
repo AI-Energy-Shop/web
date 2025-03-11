@@ -6,6 +6,11 @@ export const registerUserSchema = z.object({
   userType: z.string().min(1, { message: 'Required' }),
   username: z.string().min(1, { message: 'Required' }),
   email: z.string().email(),
+  street: z.string().min(1, { message: 'Required' }),
+  suburb: z.string().min(1, { message: 'Required' }),
+  state: z.string().min(1, { message: 'Required' }),
+  postalCode: z.string().min(1, { message: 'Required' }),
+  phone: z.string().min(1, { message: 'Required' }),
   password: z
     .string()
     .min(8, { message: 'Password must be at least 8 characters long' })

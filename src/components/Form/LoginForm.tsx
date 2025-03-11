@@ -67,7 +67,15 @@ const LoginForm = () => {
       );
 
       dispatch(setToken(userData?.token || ''));
-      router.push('/products');
+
+      switch (userData?.user.role?.name) {
+        case 'SALES':
+          router.push('/admin');
+          break;
+        default:
+          router.push('/products');
+          break;
+      }
     } else {
       toast({
         title: error,

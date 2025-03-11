@@ -10,6 +10,9 @@ const schema = {
           account_status
           blocked
           username
+          role {
+            name
+          }
           account_detail {
             phone
             level
@@ -57,6 +60,21 @@ const schema = {
           provider
           blocked
           account_status
+          business_name
+          business_number
+          user_type
+          phone
+          address {
+            id
+            street
+            suburb
+            state_territory
+            postcode
+            country
+            isActive
+            phone
+            city
+          }
           account_detail {
             documentId
             level
@@ -66,6 +84,9 @@ const schema = {
               middle_name
               last_name
             }
+          }
+          role {
+            name
           }
         }
       }
@@ -79,6 +100,11 @@ const schema = {
           provider
           blocked
           account_status
+          business_name
+          business_number
+          role {
+            name
+          }
           account_detail {
             documentId
             level
@@ -127,12 +153,18 @@ const schema = {
         }
       }
     `),
-    updateUserAccountStatus: graphql(`
-      mutation UserApproval($data: UserApprovalRequestInputArgs!) {
-        userApproval(data: $data) {
-          error
-          success
-          statusText
+    approveUser: graphql(`
+      mutation ApprovedUser($data: ApprovedUserInput!, $documentId: ID!) {
+        approvedUser(data: $data, documentId: $documentId) {
+          documentId
+          email
+        }
+      }
+    `),
+    updateUser: graphql(`
+      mutation UpdateUser($documentId: ID!, $data: UsersPermissionsUserInput!) {
+        updateUser(documentId: $documentId, data: $data) {
+          account_status
         }
       }
     `),
