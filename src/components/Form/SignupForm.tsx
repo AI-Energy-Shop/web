@@ -44,12 +44,18 @@ const SignupForm: React.FC<SignupFormProps> = () => {
       username: '',
       password: '',
       confirmPassword: '',
+      street: '',
+      suburb: '',
+      state: '',
+      postalCode: '',
+      phone: '',
     },
   });
 
   const handleSubmit = async (data: z.infer<typeof registerUserSchema>) => {
     try {
       const formData = new FormData();
+
       Object.entries(data).forEach(([key, value]) => {
         formData.append(key, value);
       });
@@ -138,35 +144,6 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                 {renderTextField('email', 'Email')}
               </div>
               <div className="grid grid-cols-2 gap-2">
-                {renderTextField('businessName', 'Business Name')}
-                {renderTextField('businessNumber', 'Business Number')}
-              </div>
-              <FormField
-                control={form.control}
-                name="userType"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>User Type</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Are you Installer or Retailer? " />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value={'installer'}>Installer</SelectItem>
-                        <SelectItem value={'retailer'}>Retailer</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="grid grid-cols-2 gap-2">
                 <FormField
                   control={form.control}
                   name="password"
@@ -225,6 +202,41 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                     </FormItem>
                   )}
                 />
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {renderTextField('businessName', 'Business Name')}
+                {renderTextField('businessNumber', 'Business Number')}
+                <FormField
+                  control={form.control}
+                  name="userType"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>User Type</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Are you Installer or Retailer? " />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value={'installer'}>Installer</SelectItem>
+                          <SelectItem value={'retailer'}>Retailer</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {renderTextField('phone', 'Phone Number')}
+                {renderTextField('street', 'Street')}
+                {renderTextField('suburb', 'Suburb')}
+                {renderTextField('state', 'State')}
+                {renderTextField('postalCode', 'Postal Code')}
               </div>
 
               <div className="flex items-center space-x-2">

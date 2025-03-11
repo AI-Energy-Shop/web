@@ -1,12 +1,13 @@
 'use server';
 import USERS_OPERATIONS from '@/graphql/users';
-import { safeAction } from '@/lib/safe-action';
-import { registerUserSchema } from '@/lib/validation-schema/register-form';
 import { cookies } from 'next/headers';
 import { getClient } from '@/apollo/client';
-import { updateUserStatusSchema } from '@/lib/validation-schema/update-user-status-form';
-import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import {
+  Enum_Userspermissionsuser_Account_Status,
+  InputMaybe,
+} from '@/lib/gql/graphql';
+import { revalidatePath } from 'next/cache';
 
 const client = getClient();
 
@@ -17,6 +18,11 @@ export const registerUser = async (formData: FormData) => {
   const userType = formData.get('userType') as string;
   const businessNumber = formData.get('businessNumber') as string;
   const businessName = formData.get('businessName') as string;
+  const street = formData.get('street') as string;
+  const suburb = formData.get('suburb') as string;
+  const state = formData.get('state') as string;
+  const postalCode = formData.get('postalCode') as string;
+  const phone = formData.get('phone') as string;
 
   try {
     const response = await client.mutate({
@@ -26,9 +32,14 @@ export const registerUser = async (formData: FormData) => {
           email,
           username,
           password,
+          businessName,
           businessNumber,
           userType,
-          businessName,
+          phone,
+          street,
+          suburb,
+          state: state,
+          postalCode: postalCode,
         },
       },
     });
@@ -41,17 +52,18 @@ export const registerUser = async (formData: FormData) => {
       data: response.data,
     };
   } catch (error: any) {
+    console.error(error);
     return { success: false, error: error.message };
   }
 };
 
-export async function loginUser({
+export const loginUser = async ({
   email,
   password,
 }: {
   email: string;
   password: string;
-}) {
+}) => {
   try {
     const cookieStore = cookies();
     const response = await client.mutate({
@@ -91,6 +103,7 @@ export async function loginUser({
 
     const newUser = {
       ...user,
+      role: userRes.data.user?.role,
       account_detail: {
         name: userDetails?.name,
       },
@@ -131,46 +144,45 @@ export async function loginUser({
 
     return { success: true, data: { token, user: newUser } }; // Return success indicator
   } catch (error: any) {
-    console.error('GraphQL Query Error:', error);
+    if (error.cause.response.status === 401) {
+      return { success: false, error: 'Please wait for approval' };
+    }
     return { success: false, error: error.message };
   }
-}
+};
 
-export const updateAccountStatus = safeAction
-  .schema(updateUserStatusSchema)
-  .action(
-    async ({
-      parsedInput: { userId, email, accountStatus, odooId, userPricingLevel },
-    }) => {
-      const cookieStore = await cookies();
-      const token = cookieStore.get('a-token');
+export const updateAccountStatus = async (
+  userId: string,
+  accountStatus: string
+) => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('a-token');
 
-      try {
-        const response = await client.mutate({
-          mutation: USERS_OPERATIONS.Mutations.updateUserAccountStatus,
-          variables: {
-            data: {
-              email: email,
-              accountStatus: accountStatus,
-              user: {
-                odooId: odooId,
-                userPricingLevel: userPricingLevel,
-              },
-            },
-          },
-          context: {
-            headers: {
-              Authorization: `Bearer ${token?.value}`,
-            },
-          },
-        });
-        revalidatePath(`/admin/dashboard/users/${userId}`);
-        return response?.data?.userApproval;
-      } catch (error) {
-        console.error('GraphQL Query Error:', error);
-      }
+  try {
+    const response = await client.mutate({
+      mutation: USERS_OPERATIONS.Mutations.updateUser,
+      variables: {
+        documentId: userId,
+        data: {
+          account_status:
+            accountStatus as InputMaybe<Enum_Userspermissionsuser_Account_Status>,
+        },
+      },
+      context: {
+        headers: {
+          Authorization: `Bearer ${token?.value}`,
+        },
+      },
+    });
+    if (response.errors) {
+      throw new Error(response.errors[0].message);
     }
-  );
+    revalidatePath(`/admin/dashboard/users/${userId}`);
+  } catch (error: any) {
+    console.error('GraphQL Query Error:', error);
+    throw Error(error.message);
+  }
+};
 
 export const getUsers = async () => {
   const cookieStore = await cookies();
@@ -214,6 +226,7 @@ export const getUserDetails = async (documentId: string) => {
     return response?.data?.usersPermissionsUser;
   } catch (error) {
     console.error('GraphQL Query Error:', error);
+    return null;
   }
 };
 
@@ -223,4 +236,40 @@ export const logoutUser = async () => {
   cookieStore.delete('a-user');
   cookieStore.delete('reduxState');
   redirect('/auth/login');
+};
+
+export const approveUser = async (formData: FormData) => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('a-token');
+
+  const documentId = formData.get('documentId') as string;
+  const accountStatus = formData.get('accountStatus') as string;
+  const odooUserId = formData.get('odooUserId') as string;
+  const userLevel = formData.get('userLevel') as string;
+  const userType = formData.get('userType') as string;
+
+  try {
+    const response = await client.mutate({
+      mutation: USERS_OPERATIONS.Mutations.approveUser,
+      variables: {
+        documentId,
+        data: {
+          userType,
+          userLevel,
+          odooUserId,
+          accountStatus: accountStatus,
+        },
+      },
+      context: {
+        headers: {
+          Authorization: `Bearer ${token?.value}`,
+        },
+      },
+    });
+
+    return { data: response.data };
+  } catch (error: any) {
+    console.error(error.message);
+    return { error: error.message };
+  }
 };

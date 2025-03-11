@@ -6,29 +6,31 @@ import {
   TableBody,
 } from '@/components/ui/table';
 import React from 'react';
-import UserTableRow from './rows/UserTableRow';
+import UserRequestTableRow from './rows/UserRequestTableRow';
 import { UsersPermissionsUsersQuery } from '@/lib/gql/graphql';
 
-interface UserTableProps {
+interface UserRequestTableProps {
   data?: UsersPermissionsUsersQuery['usersPermissionsUsers'];
 }
-const UsersTable: React.FC<UserTableProps> = ({ data }) => {
+const UsersRequestTable: React.FC<UserRequestTableProps> = ({ data }) => {
   return (
     <Table>
       <TableHeader>
         <TableRow>
           <TableHead>Email</TableHead>
-          <TableHead>Role</TableHead>
+          <TableHead>Username</TableHead>
+          <TableHead>Business Name</TableHead>
+          <TableHead>Business Number</TableHead>
           <TableHead>Status</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {data?.map?.((user) => {
-          return <UserTableRow key={user?.documentId} user={user} />;
+          return <UserRequestTableRow key={user?.documentId} user={user} />;
         })}
       </TableBody>
     </Table>
   );
 };
 
-export default UsersTable;
+export default UsersRequestTable;

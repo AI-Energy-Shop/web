@@ -27,9 +27,6 @@ import {
   UsersPermissionsUserQuery,
 } from '@/lib/gql/graphql';
 import { Save } from 'lucide-react';
-import { useAction } from 'next-safe-action/hooks';
-import { updateAccountStatus } from '@/app/actions/user';
-import { toast } from 'sonner';
 
 type UserProfileFormProps = {
   user: UsersPermissionsUserQuery['usersPermissionsUser'];
@@ -53,83 +50,44 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
     },
   });
 
-  const { execute, status } = useAction(updateAccountStatus, {
-    onSuccess(result) {
-      if (result.data?.error) {
-        toast.error(
-          "Status updated to 'Approved'. This change is final and cannot be undone."
-        );
-      }
-    },
-    onError(error) {
-      console.log(error);
-      toast.error('Something went wrong. Please try again later.');
-    },
-  });
+  // const { execute, status } = useAction(updateAccountStatus, {
+  //   onSuccess(result) {
+  //     if (result.data?.error) {
+  //       toast.error(
+  //         "Status updated to 'Approved'. This change is final and cannot be undone."
+  //       );
+  //     }
+  //   },
+  //   onError(error) {
+  //     console.log(error);
+  //     toast.error('Something went wrong. Please try again later.');
+  //   },
+  // });
 
-  async function onSubmit(values: z.infer<typeof userProfileSchema>) {
-    const isStatusChanged = form.formState.dirtyFields.status;
-    const isOdooIdChanged = form.formState.dirtyFields.odooId;
-    const isUserPricingLevelChanged = form.formState.dirtyFields.level;
+  // async function onSubmit(values: z.infer<typeof userProfileSchema>) {
+  //   const isStatusChanged = form.formState.dirtyFields.status;
+  //   const isOdooIdChanged = form.formState.dirtyFields.odooId;
+  //   const isUserPricingLevelChanged = form.formState.dirtyFields.level;
 
-    try {
-      if (isStatusChanged || isOdooIdChanged || isUserPricingLevelChanged) {
-        await execute({
-          userId: user?.documentId!,
-          email: values.email,
-          accountStatus: values.status,
-          odooId: values.odooId,
-          userPricingLevel: values.level,
-        });
-      }
-    } catch (error) {
-      toast.error('Something went wrong. Please try again later.');
-    }
-  }
+  //   try {
+  //     if (isStatusChanged || isOdooIdChanged || isUserPricingLevelChanged) {
+  //       await execute({
+  //         userId: user?.documentId!,
+  //         email: values.email,
+  //         accountStatus: values.status,
+  //         odooId: values.odooId,
+  //         userPricingLevel: values.level,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     toast.error('Something went wrong. Please try again later.');
+  //   }
+  // }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form className="space-y-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          <FormField
-            control={form.control}
-            name="firstName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>First Name</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="middleName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Middle Name</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="lastName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Last Name</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="email"

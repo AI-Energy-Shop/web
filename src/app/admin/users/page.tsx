@@ -1,34 +1,53 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Ban, KeyRound, Search, User, UserPlus } from 'lucide-react';
 import React from 'react';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { getUsers } from '@/app/actions/user';
 import Components from '@/components';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-const UserManagement = async () => {
-  const users = await getUsers();
+export default async function AdminUsersPage() {
+  const data = await getUsers();
 
   const overviewCards = [
     {
       icon: <User />,
       title: 'Total Users',
-      value: users?.usersPermissionsUsers.length.toString(),
+      value: data?.usersPermissionsUsers.length.toString(),
     },
     {
       icon: <KeyRound />,
       title: 'Pending',
-      value: users?.usersPermissionsUsers
+      value: data?.usersPermissionsUsers
         ?.filter?.((item) => item?.account_status === 'PENDING')
         .length.toString(),
     },
     {
       icon: <UserPlus />,
       title: 'New Users (This Month)',
-      value: users?.usersPermissionsUsers.length,
+      value: data?.usersPermissionsUsers.length,
     },
     { icon: <Ban />, title: 'Suspended Users', value: '10' },
   ];
+
+  const appovedUsers = data?.usersPermissionsUsers.filter(
+    (user) => user?.account_status === 'APPROVED'
+  );
+
+  const customers = data?.usersPermissionsUsers.filter(
+    (user) => user?.role?.name === 'CUSTOMER'
+  );
+
+  const pendingCustomers = data?.usersPermissionsUsers.filter((user) => {
+    return (
+      (user?.role === null && user?.account_status === 'PENDING') ||
+      user?.account_status === 'REVIEWING'
+    );
+  });
+
+  const deniedUsers = data?.usersPermissionsUsers.filter(
+    (user) => user?.account_status === 'DENIED'
+  );
 
   return (
     <>
@@ -62,17 +81,31 @@ const UserManagement = async () => {
         </div>
 
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0">
-            <CardTitle>Recent Users</CardTitle>
-            <Button>Add New User</Button>
-          </CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0"></CardHeader>
           <CardContent>
-            <Components.Tables.UsersTable data={users?.usersPermissionsUsers} />
+            <Tabs defaultValue="user" className="w-full">
+              <TabsList>
+                <TabsTrigger value="user">Users</TabsTrigger>
+                <TabsTrigger value="customers">Customers</TabsTrigger>
+                <TabsTrigger value="request">Request</TabsTrigger>
+                <TabsTrigger value="denied">Denied</TabsTrigger>
+              </TabsList>
+              <TabsContent value="user">
+                <Components.Tables.UsersTable data={appovedUsers} />
+              </TabsContent>
+              <TabsContent value="customers">
+                <Components.Tables.UsersTable data={customers} />
+              </TabsContent>
+              <TabsContent value="request">
+                <Components.Tables.UsersRequestTable data={pendingCustomers} />
+              </TabsContent>
+              <TabsContent value="denied">
+                <Components.Tables.UsersRequestTable data={deniedUsers} />
+              </TabsContent>
+            </Tabs>
           </CardContent>
         </Card>
       </div>
     </>
   );
-};
-
-export default UserManagement;
+}
