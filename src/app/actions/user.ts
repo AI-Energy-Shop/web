@@ -57,13 +57,13 @@ export const registerUser = async (formData: FormData) => {
   }
 };
 
-export async function loginUser({
+export const loginUser = async ({
   email,
   password,
 }: {
   email: string;
   password: string;
-}) {
+}) => {
   try {
     const cookieStore = cookies();
     const response = await client.mutate({
@@ -149,13 +149,12 @@ export async function loginUser({
     }
     return { success: false, error: error.message };
   }
-}
+};
 
 export const updateAccountStatus = async (
   userId: string,
   accountStatus: string
 ) => {
-  console.log('updateAccountStatus', userId);
   const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
@@ -175,9 +174,13 @@ export const updateAccountStatus = async (
         },
       },
     });
+    if (response.errors) {
+      throw new Error(response.errors[0].message);
+    }
     revalidatePath(`/admin/dashboard/users/${userId}`);
-  } catch (error) {
+  } catch (error: any) {
     console.error('GraphQL Query Error:', error);
+    throw Error(error.message);
   }
 };
 
