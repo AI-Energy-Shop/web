@@ -5,7 +5,6 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import { useRouter } from 'next/navigation';
 
 const UserRequestTableRow = ({ user }: { user: any }) => {
-  console.log(user);
   const router = useRouter();
 
   const handleClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
