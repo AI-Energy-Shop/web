@@ -66,6 +66,7 @@ export const loginUser = async ({
 }) => {
   try {
     const cookieStore = cookies();
+
     const response = await client.mutate({
       mutation: USERS_OPERATIONS.Mutations.loginUser,
       variables: {
@@ -78,7 +79,7 @@ export const loginUser = async ({
     });
 
     if (!response.data?.login) {
-      return { success: false, error: 'Login failed' };
+      return { error: 'Login failed' };
     }
 
     const token = response?.data.login.jwt;
@@ -142,12 +143,13 @@ export const loginUser = async ({
       // secure: process.env.NODE_ENV === 'production' ? true : false,
     });
 
-    return { success: true, data: { token, user: newUser } }; // Return success indicator
+    return { data: { token, user: newUser } }; // Return success indicator
   } catch (error: any) {
-    if (error.cause.response.status === 401) {
-      return { success: false, error: 'Please wait for approval' };
+    console.error(error.message);
+    if (error && error?.cause?.response?.status === 401) {
+      return { error: 'Please wait for approval' };
     }
-    return { success: false, error: error.message };
+    return { error: error.message };
   }
 };
 

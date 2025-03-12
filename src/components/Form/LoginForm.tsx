@@ -27,60 +27,62 @@ const LoginForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = async (data: LoginFormData) => {
-    const { success, error, data: userData } = await loginUser(data);
-    if (success) {
-      dispatch(
-        setMe({
-          id: userData?.user?.id || '',
-          email: userData?.user?.email || '',
-          username: userData?.user?.username || '',
-          blocked: userData?.user?.blocked || false,
-          confirmed: userData?.user?.confirmed || null,
-          shipping_addresses: userData?.user.shipping_addresses || [],
-          name: {
-            first_name: userData?.user?.account_detail?.name?.first_name || '',
-            middle_name:
-              userData?.user?.account_detail?.name?.middle_name || '',
-            last_name: userData?.user?.account_detail?.name?.last_name || '',
-          },
-          // account_detail: {
-          //   user_level: userData?.user?.account_detail?.user_level || '',
-          //   business_name: userData?.user?.account_detail?.business_name || '',
-          // },
-        })
-      );
+    const { error, data: userData } = await loginUser(data);
 
-      dispatch(
-        setWarehouseLocation({
-          address: {
-            city: userData?.user?.warehouse_location?.address?.city || '',
-            street: userData?.user?.warehouse_location?.address?.street || '',
-            suburb: userData?.user?.warehouse_location?.address?.suburb || '',
-            state_territory:
-              userData?.user?.warehouse_location?.address?.state_territory ||
-              '',
-            postcode:
-              userData?.user?.warehouse_location?.address?.postcode || '',
-            country: userData?.user?.warehouse_location?.address?.country || '',
-          },
-        })
-      );
-
-      dispatch(setToken(userData?.token || ''));
-    } else {
+    if (error) {
       toast({
         title: error,
         variant: 'destructive',
       });
     }
 
-    switch (userData?.user.role?.name) {
-      case 'SALES':
-        router.push('/admin');
-        break;
-      default:
-        router.push('/products');
-        break;
+    dispatch(
+      setMe({
+        id: userData?.user?.id || '',
+        email: userData?.user?.email || '',
+        username: userData?.user?.username || '',
+        blocked: userData?.user?.blocked || false,
+        confirmed: userData?.user?.confirmed || null,
+        shipping_addresses: userData?.user.shipping_addresses || [],
+        name: {
+          first_name: userData?.user?.account_detail?.name?.first_name || '',
+          middle_name: userData?.user?.account_detail?.name?.middle_name || '',
+          last_name: userData?.user?.account_detail?.name?.last_name || '',
+        },
+        // account_detail: {
+        //   user_level: userData?.user?.account_detail?.user_level || '',
+        //   business_name: userData?.user?.account_detail?.business_name || '',
+        // },
+      })
+    );
+
+    dispatch(
+      setWarehouseLocation({
+        address: {
+          city: userData?.user?.warehouse_location?.address?.city || '',
+          street: userData?.user?.warehouse_location?.address?.street || '',
+          suburb: userData?.user?.warehouse_location?.address?.suburb || '',
+          state_territory:
+            userData?.user?.warehouse_location?.address?.state_territory || '',
+          postcode: userData?.user?.warehouse_location?.address?.postcode || '',
+          country: userData?.user?.warehouse_location?.address?.country || '',
+        },
+      })
+    );
+
+    dispatch(setToken(userData?.token || ''));
+    // Handle navigation based on role
+    const route =
+      userData?.user.role?.name === 'SALES' ? '/admin' : '/products';
+
+    // Use replace instead of push for more reliable navigation
+    router.replace(route);
+
+    // Fallback navigation if replace doesn't work
+    if (process.env.NODE_ENV === 'production') {
+      setTimeout(() => {
+        window.location.href = route;
+      }, 100);
     }
   };
 
