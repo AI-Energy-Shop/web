@@ -13,6 +13,6 @@ export const userApprovalSchema = z.object({
   phone: z.string().min(1, { message: 'Required' }),
   userType: z.string().min(1, { message: 'Required' }),
   userLevel: z.string().min(1, { message: 'Required' }),
-  odooUserId: z.string().min(1, { message: 'Required' }),
+  odooUserId: z.string().nullable(),
   accountStatus: z.string().min(1, { message: 'Required' }),
 });

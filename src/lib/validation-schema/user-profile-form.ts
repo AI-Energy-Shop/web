@@ -8,9 +8,9 @@ export const userProfileSchema = z.object({
   level: z.string(),
   status: z.string(),
   phone: z.string(),
-  company: z.string(),
   odooId: z.string(),
   type: z.string(),
-  australianBusinessNumber: z.string(),
+  company: z.string(),
+  companyNumber: z.string(),
   address: z.string(),
 });

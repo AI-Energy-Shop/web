@@ -29,7 +29,7 @@ const useProductDetails = (product: ProductDetails) => {
           vendor: currentProduct.vendor,
           odoo_product_id: currentProduct.odoo_product_id,
           price_list: currentProduct.price_list,
-          inventory: currentProduct.inventory,
+          // inventory: currentProduct.inventory,
           specification: currentProduct.specification,
           key_features: currentProduct.key_features,
           files: currentProduct.files,
