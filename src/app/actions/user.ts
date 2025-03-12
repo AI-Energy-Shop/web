@@ -179,7 +179,7 @@ export const updateAccountStatus = async (
     if (response.errors) {
       throw new Error(response.errors[0].message);
     }
-    revalidatePath(`/admin/dashboard/users/${userId}`);
+    revalidatePath(`/admin/users/${userId}`);
   } catch (error: any) {
     console.error('GraphQL Query Error:', error);
     throw Error(error.message);
@@ -269,6 +269,7 @@ export const approveUser = async (formData: FormData) => {
       },
     });
 
+    revalidatePath('/admin/users');
     return { data: response.data };
   } catch (error: any) {
     console.error(error.message);

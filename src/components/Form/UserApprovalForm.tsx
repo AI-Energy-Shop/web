@@ -42,6 +42,15 @@ interface UserApprovalFormProps {
   };
 }
 
+type RenderSelectFieldProps = {
+  name: keyof z.infer<typeof userApprovalSchema>;
+  label: string;
+  disabled: boolean;
+  required: boolean;
+  placeholder: string;
+  data: { value: string; label: string }[];
+};
+
 const UserApprovalForm: React.FC<UserApprovalFormProps> = (props) => {
   const router = useRouter();
   const { toast } = useToast();
@@ -58,8 +67,9 @@ const UserApprovalForm: React.FC<UserApprovalFormProps> = (props) => {
       suburb: props.defaultValues.suburb,
       state: props.defaultValues.state,
       postalCode: props.defaultValues.postalCode,
-      phone: props.defaultValues.phone,
-      userType: props.defaultValues.userType,
+      phone:
+        props.defaultValues.phone === 'null' ? '' : props.defaultValues.phone,
+      userType: props.defaultValues.userType.toLowerCase(),
       accountStatus: 'REVIEWING',
       userLevel: '',
       odooUserId: '',
@@ -78,7 +88,9 @@ const UserApprovalForm: React.FC<UserApprovalFormProps> = (props) => {
 
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value);
+      if (value !== null) {
+        formData.append(key, value);
+      }
     });
     const { data: approveData, error } = await approveUser(formData);
 
@@ -99,7 +111,8 @@ const UserApprovalForm: React.FC<UserApprovalFormProps> = (props) => {
   const renderTextField = (
     name: keyof z.infer<typeof userApprovalSchema>,
     label: string,
-    disabled: boolean = false
+    disabled: boolean = false,
+    required: boolean = true
   ) => {
     return (
       <FormField
@@ -109,10 +122,16 @@ const UserApprovalForm: React.FC<UserApprovalFormProps> = (props) => {
           <FormItem>
             <FormLabel className="">
               {label}
-              <span className="text-red-500">*</span>
+              {required && <span className="text-red-500">*</span>}
             </FormLabel>
             <FormControl>
-              <Input {...field} disabled={disabled} />
+              <Input
+                {...field}
+                disabled={disabled}
+                value={field.value || ''}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -121,122 +140,121 @@ const UserApprovalForm: React.FC<UserApprovalFormProps> = (props) => {
     );
   };
 
-  return (
-    <>
-      {/* <Dialogs.Registration
-        open={showModal}
-        onOpenChange={() => setShowModal(false)}
-        userData={userDetails}
-        execute={execute}
-      /> */}
-      <div className="">
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className="space-y-8"
-          >
-            <div className="space-y-4">
-              <div className="grid grid-cols-4 gap-5">
-                {renderTextField('businessName', 'Business Name', true)}
-                {renderTextField('businessNumber', 'ABN / ACN', true)}
-                {renderTextField('username', 'Username', true)}
-                {renderTextField('email', 'Email', true)}
-                {renderTextField('street', 'Street', true)}
-                {renderTextField('suburb', 'Suburb', true)}
-                {renderTextField('state', 'State', true)}
-                {renderTextField('postalCode', 'Postal Code', true)}
-                {renderTextField('phone', 'Phone', true)}
-                <FormField
-                  control={form.control}
-                  name="userType"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>User Type</FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select user type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="installer">INSTALLER</SelectItem>
-                            <SelectItem value="retailer">RETAILER</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="userLevel"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>User Level</FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select user level" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="SMALL">SMALL</SelectItem>
-                            <SelectItem value="MID-SIZED">MID SIZE</SelectItem>
-                            <SelectItem value="VIP">VIP</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                {renderTextField('odooUserId', 'Odoo User ID', false)}
-                <FormField
-                  control={form.control}
-                  name="accountStatus"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Account Status</FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select user level" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="REVIEWING">REVIEWING</SelectItem>
-                            <SelectItem value="APPROVED">APPROVED</SelectItem>
-                            <SelectItem value="DENIED">DENIED</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <Button type="submit">Submit</Button>
-              <Button
-                type="button"
-                variant="destructive"
-                onClick={() => router.push('/admin/users')}
+  const renderSelectField = ({
+    name,
+    label,
+    disabled,
+    required,
+    placeholder,
+    data,
+  }: RenderSelectFieldProps) => {
+    return (
+      <FormField
+        control={form.control}
+        name={name}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>
+              {label} {required && <span className="text-red-500">*</span>}
+            </FormLabel>
+            <FormControl>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field?.value || ''}
+                disabled={disabled}
               >
-                Cancel
-              </Button>
+                <SelectTrigger>
+                  <SelectValue placeholder={placeholder} />
+                </SelectTrigger>
+                <SelectContent>
+                  {data.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    );
+  };
+
+  const userLevelData = [
+    { value: 'SMALL', label: 'SMALL' },
+    { value: 'MID-SIZED', label: 'MID SIZE' },
+    { value: 'VIP', label: 'VIP' },
+  ];
+
+  const accountStatusData = [
+    { value: 'REVIEWING', label: 'REVIEWING' },
+    { value: 'APPROVED', label: 'APPROVED' },
+    { value: 'CREATE_APPROVED', label: 'CREATE ACCOUNT & APPROVED' },
+    { value: 'DENIED', label: 'DENIED' },
+  ];
+
+  const userTypeData = [
+    { value: 'installer', label: 'INSTALLER' },
+    { value: 'retailer', label: 'RETAILER' },
+  ];
+
+  return (
+    <div className="w-full">
+      <Form {...form}>
+        <form className="space-y-8" onSubmit={form.handleSubmit(handleSubmit)}>
+          <div className="space-y-4">
+            <div className="grid grid-cols-4 gap-5">
+              {renderTextField('businessName', 'Business Name', true)}
+              {renderTextField('businessNumber', 'ABN / ACN', true)}
+              {renderTextField('username', 'Username', true)}
+              {renderTextField('email', 'Email', true)}
+              {renderTextField('street', 'Street', true)}
+              {renderTextField('suburb', 'Suburb', true)}
+              {renderTextField('state', 'State', true)}
+              {renderTextField('postalCode', 'Postal Code', true)}
+              {renderTextField('phone', 'Phone', true)}
+              {renderSelectField({
+                disabled: true,
+                required: true,
+                name: 'userType',
+                label: 'User Type',
+                data: userTypeData,
+                placeholder: 'Select user type',
+              })}
+              {renderSelectField({
+                required: true,
+                disabled: false,
+                name: 'userLevel',
+                label: 'User Level',
+                data: userLevelData,
+                placeholder: 'Select user level',
+              })}
+              {renderTextField('odooUserId', 'Odoo User ID', false, false)}
+              {renderSelectField({
+                disabled: false,
+                required: true,
+                name: 'accountStatus',
+                label: 'Account Status',
+                data: accountStatusData,
+                placeholder: 'Select account status',
+              })}
             </div>
-          </form>
-        </Form>
-      </div>
-    </>
+          </div>
+          <div className="flex gap-4">
+            <Button type="submit">Submit</Button>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={() => router.push('/admin/users')}
+            >
+              Cancel
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </div>
   );
 };
 

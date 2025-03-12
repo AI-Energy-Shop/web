@@ -44,7 +44,8 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
       level: user?.account_detail?.level || '',
       status: user?.account_status || '',
       phone: '',
-      company: '',
+      company: user?.business_name || '',
+      companyNumber: user?.business_number || '',
       odooId: user?.account_detail?.odoo_user_id || '',
       address: '',
     },
@@ -202,7 +203,7 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
           />
           <FormField
             control={form.control}
-            name="australianBusinessNumber"
+            name="companyNumber"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Australian Business Number</FormLabel>

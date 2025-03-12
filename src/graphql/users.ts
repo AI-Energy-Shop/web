@@ -64,12 +64,12 @@ const schema = {
           business_number
           user_type
           phone
-          address {
-            id
-            street
+          addresses {
+            documentId
+            street1
             suburb
             state_territory
-            postcode
+            zip_code
             country
             isActive
             phone

@@ -73,6 +73,43 @@ export type AccountDetailInput = {
   warehouse_location?: InputMaybe<ComponentElementsWarehouseLocationInput>;
 };
 
+export type AddressFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<AddressFiltersInput>>>;
+  city?: InputMaybe<StringFilterInput>;
+  country?: InputMaybe<StringFilterInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  documentId?: InputMaybe<IdFilterInput>;
+  isActive?: InputMaybe<BooleanFilterInput>;
+  locale?: InputMaybe<StringFilterInput>;
+  localizations?: InputMaybe<AddressFiltersInput>;
+  not?: InputMaybe<AddressFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<AddressFiltersInput>>>;
+  phone?: InputMaybe<StringFilterInput>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  state_territory?: InputMaybe<StringFilterInput>;
+  street1?: InputMaybe<StringFilterInput>;
+  street2?: InputMaybe<StringFilterInput>;
+  suburb?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  users?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  zip_code?: InputMaybe<StringFilterInput>;
+};
+
+export type AddressInput = {
+  city?: InputMaybe<Scalars['String']['input']>;
+  country?: InputMaybe<Scalars['String']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  locale?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  state_territory?: InputMaybe<Scalars['String']['input']>;
+  street1?: InputMaybe<Scalars['String']['input']>;
+  street2?: InputMaybe<Scalars['String']['input']>;
+  suburb?: InputMaybe<Scalars['String']['input']>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  zip_code?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type ApprovedUserInput = {
   accountStatus: Scalars['String']['input'];
   odooUserId: Scalars['String']['input'];
@@ -210,20 +247,6 @@ export type ComponentElementsInputFiltersInput = {
   placeholder?: InputMaybe<StringFilterInput>;
   required?: InputMaybe<BooleanFilterInput>;
   type?: InputMaybe<StringFilterInput>;
-};
-
-export type ComponentElementsInventoryFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<ComponentElementsInventoryFiltersInput>>>;
-  location?: InputMaybe<StringFilterInput>;
-  not?: InputMaybe<ComponentElementsInventoryFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<ComponentElementsInventoryFiltersInput>>>;
-  quantity?: InputMaybe<IntFilterInput>;
-};
-
-export type ComponentElementsInventoryInput = {
-  id?: InputMaybe<Scalars['ID']['input']>;
-  location?: InputMaybe<Scalars['String']['input']>;
-  quantity?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type ComponentElementsKeyFeaturesFiltersInput = {
@@ -598,6 +621,7 @@ export type InventoryFiltersInput = {
   location?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<InventoryFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<InventoryFiltersInput>>>;
+  products?: InputMaybe<ProductFiltersInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   quantity?: InputMaybe<IntFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
@@ -606,6 +630,7 @@ export type InventoryFiltersInput = {
 export type InventoryInput = {
   locale?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
+  products?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -720,7 +745,7 @@ export type ProductFiltersInput = {
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
-  inventory?: InputMaybe<ComponentElementsInventoryFiltersInput>;
+  inventories?: InputMaybe<InventoryFiltersInput>;
   key_features?: InputMaybe<ComponentElementsKeyFeaturesFiltersInput>;
   locale?: InputMaybe<StringFilterInput>;
   localizations?: InputMaybe<ProductFiltersInput>;
@@ -741,7 +766,7 @@ export type ProductInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   files?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   images?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  inventory?: InputMaybe<Array<InputMaybe<ComponentElementsInventoryInput>>>;
+  inventories?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   key_features?: InputMaybe<
     Array<InputMaybe<ComponentElementsKeyFeaturesInput>>
   >;
@@ -983,12 +1008,13 @@ export type UsersPermissionsRoleInput = {
 export type UsersPermissionsUserFiltersInput = {
   account_detail?: InputMaybe<AccountDetailFiltersInput>;
   account_status?: InputMaybe<StringFilterInput>;
-  address?: InputMaybe<ComponentElementsAddressFiltersInput>;
+  addresses?: InputMaybe<AddressFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<UsersPermissionsUserFiltersInput>>>;
   blocked?: InputMaybe<BooleanFilterInput>;
   business_name?: InputMaybe<StringFilterInput>;
   business_number?: InputMaybe<StringFilterInput>;
   confirmationToken?: InputMaybe<StringFilterInput>;
+  createAccountRequest?: InputMaybe<DateTimeFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
   email?: InputMaybe<StringFilterInput>;
@@ -1012,11 +1038,12 @@ export type UsersPermissionsUserFiltersInput = {
 export type UsersPermissionsUserInput = {
   account_detail?: InputMaybe<Scalars['ID']['input']>;
   account_status?: InputMaybe<Enum_Userspermissionsuser_Account_Status>;
-  address?: InputMaybe<ComponentElementsAddressInput>;
+  addresses?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   blocked?: InputMaybe<Scalars['Boolean']['input']>;
   business_name?: InputMaybe<Scalars['String']['input']>;
   business_number?: InputMaybe<Scalars['String']['input']>;
   confirmationToken?: InputMaybe<Scalars['String']['input']>;
+  createAccountRequest?: InputMaybe<Scalars['DateTime']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   locale?: InputMaybe<Scalars['String']['input']>;
   orders?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
@@ -1328,12 +1355,11 @@ export type ProductsQuery = {
       max_quantity?: any | null;
       user_level?: Enum_Componentelementsprice_User_Level | null;
     } | null> | null;
-    inventory?: Array<{
-      __typename?: 'ComponentElementsInventory';
-      id: string;
+    inventories: Array<{
+      __typename?: 'Inventory';
       location?: string | null;
       quantity?: number | null;
-    } | null> | null;
+    } | null>;
     specification?: Array<{
       __typename?: 'ComponentElementsSpecification';
       id: string;
@@ -1391,12 +1417,11 @@ export type GetProductQuery = {
       max_quantity?: any | null;
       user_level?: Enum_Componentelementsprice_User_Level | null;
     } | null> | null;
-    inventory?: Array<{
-      __typename?: 'ComponentElementsInventory';
-      id: string;
+    inventories: Array<{
+      __typename?: 'Inventory';
       location?: string | null;
       quantity?: number | null;
-    } | null> | null;
+    } | null>;
     specification?: Array<{
       __typename?: 'ComponentElementsSpecification';
       id: string;
@@ -1445,12 +1470,11 @@ export type CreateProductMutation = {
     createdAt?: any | null;
     updatedAt?: any | null;
     publishedAt?: any | null;
-    inventory?: Array<{
-      __typename?: 'ComponentElementsInventory';
-      id: string;
+    inventories: Array<{
+      __typename?: 'Inventory';
       location?: string | null;
       quantity?: number | null;
-    } | null> | null;
+    } | null>;
     price_list?: Array<{
       __typename?: 'ComponentElementsPrice';
       id: string;
@@ -1517,12 +1541,11 @@ export type CustomProductUpdateMutation = {
       max_quantity?: any | null;
       user_level?: Enum_Componentelementsprice_User_Level | null;
     } | null> | null;
-    inventory?: Array<{
-      __typename?: 'ComponentElementsInventory';
-      id: string;
+    inventories: Array<{
+      __typename?: 'Inventory';
       location?: string | null;
       quantity?: number | null;
-    } | null> | null;
+    } | null>;
     specification?: Array<{
       __typename?: 'ComponentElementsSpecification';
       id: string;
@@ -1629,18 +1652,18 @@ export type UsersPermissionsUsersQuery = {
     business_number?: string | null;
     user_type?: string | null;
     phone?: string | null;
-    address?: {
-      __typename?: 'ComponentElementsAddress';
-      id: string;
-      street?: string | null;
+    addresses: Array<{
+      __typename?: 'Address';
+      documentId: string;
+      street1?: string | null;
       suburb?: string | null;
       state_territory?: string | null;
-      postcode?: string | null;
+      zip_code?: string | null;
       country?: string | null;
       isActive?: boolean | null;
       phone?: string | null;
       city?: string | null;
-    } | null;
+    } | null>;
     account_detail?: {
       __typename?: 'AccountDetail';
       documentId: string;
@@ -2861,11 +2884,10 @@ export const ProductsDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'inventory' },
+                  name: { kind: 'Name', value: 'inventories' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'location' },
@@ -3027,11 +3049,10 @@ export const GetProductDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'inventory' },
+                  name: { kind: 'Name', value: 'inventories' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'location' },
@@ -3171,11 +3192,10 @@ export const CreateProductDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'inventory' },
+                  name: { kind: 'Name', value: 'inventories' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'location' },
@@ -3387,11 +3407,10 @@ export const CustomProductUpdateDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'inventory' },
+                  name: { kind: 'Name', value: 'inventories' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'location' },
@@ -3725,14 +3744,17 @@ export const UsersPermissionsUsersDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'address' },
+                  name: { kind: 'Name', value: 'addresses' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'street' },
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'street1' },
                       },
                       {
                         kind: 'Field',
@@ -3744,7 +3766,7 @@ export const UsersPermissionsUsersDocument = {
                       },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'postcode' },
+                        name: { kind: 'Name', value: 'zip_code' },
                       },
                       {
                         kind: 'Field',

@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { getUserDetails, updateAccountStatus } from '@/app/actions/user';
-import UserProfileForm from '@/components/Form/UserProfile';
+import UserProfileForm from '@/components/Form/UserProfileForm';
 import UserApprovalForm from '@/components/Form/UserApprovalForm';
 
 type AdminDashboardUserPageProps = {
@@ -49,9 +49,7 @@ const AdminDashboardUserPage = async (props: AdminDashboardUserPageProps) => {
         <Card>
           <CardHeader className="space-y-1">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-2xl font-bold">
-                Customer Details
-              </CardTitle>
+              <CardTitle className="text-2xl font-bold">User Details</CardTitle>
               <Badge variant={userBadgeVariant}>{user?.account_status}</Badge>
             </div>
             <CardDescription>View and edit user information</CardDescription>
