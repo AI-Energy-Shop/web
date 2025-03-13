@@ -25,9 +25,7 @@ const UserIconButton = () => {
     >
       <User className="h-5 w-5" />
       {user ? (
-        <p className="text-sm font-normal">
-          {user?.account_detail?.business_name}
-        </p>
+        <p className="text-sm font-normal">{user?.business_name}</p>
       ) : (
         <p className="text-sm font-normal">Profile</p>
       )}

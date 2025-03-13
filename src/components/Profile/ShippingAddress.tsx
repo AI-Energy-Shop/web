@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   CardContent,
@@ -14,11 +14,40 @@ import { MapPin } from 'lucide-react';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { ShippingAddress as ShippingAddressType } from '@/store/features/cart';
+import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
+const shippingAddressSchema = z.object({
+  street1: z.string(),
+  street2: z.string(),
+  city: z.string(),
+  state_territory: z.string(),
+  zip_code: z.string(),
+  country: z.string(),
+});
 const ShippingAddress = () => {
-  const shippingAddress = useSelector(
-    (state: RootState) => state.cart.shippingAddress
+  const shippingAddresses = useSelector(
+    (state: RootState) => state.me.me?.account_detail?.shipping_addresses
   );
+
+  const address = shippingAddresses?.find(
+    (address) => address.isActive === true
+  );
+
+  const form = useForm<z.infer<typeof shippingAddressSchema>>({
+    resolver: zodResolver(shippingAddressSchema),
+    defaultValues: {
+      street1: address?.street1 || '',
+      street2: address?.street2 || '',
+      city: address?.city || '',
+      state_territory: address?.state || '',
+      zip_code: address?.zipCode || '',
+      country: address?.country || '',
+    },
+  });
 
   return (
     <Card id="shippingAddress">
@@ -32,32 +61,100 @@ const ShippingAddress = () => {
             <MapPin className="h-4 w-4 text-muted-foreground" />
             Shipping
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="city">City</Label>
-              <Input value={shippingAddress?.city} />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="street">Street</Label>
-              <Input value={shippingAddress?.street} />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="suburb">Suburb</Label>
-              <Input value={shippingAddress?.suburb} />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="state_territory">State/Territory</Label>
-              <Input value={shippingAddress?.state_territory} />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="postcode">Postcode</Label>
-              <Input value={shippingAddress?.postcode} />
-            </div>
-          </div>
+          <Form {...form}>
+            <form>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-2">
+                  <FormField
+                    control={form.control}
+                    name="street1"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Street 1</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <FormField
+                    control={form.control}
+                    name="street2"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Street 2</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <FormField
+                    control={form.control}
+                    name="city"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>City</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <FormField
+                    control={form.control}
+                    name="state_territory"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>State/Territory</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <FormField
+                    control={form.control}
+                    name="zip_code"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Zip Code</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <FormField
+                    control={form.control}
+                    name="country"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Country</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </form>
+          </Form>
         </div>
       </CardContent>
       <CardFooter className="flex justify-end">
-        <Button type="submit">Save Changes</Button>
+        {/* <Button type="submit">Save Changes</Button> */}
       </CardFooter>
     </Card>
   );

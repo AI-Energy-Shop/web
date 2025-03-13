@@ -1,19 +1,26 @@
 'use client';
-import React, { useEffect, useState } from 'react';
 import Profile from './Profile';
-import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
-import { Me } from '@/store/features/me';
-import { ADMIN_SIDE_NAVIGATIONS } from '@/constant';
 import NavList from './NavList';
+import { RootState } from '@/store/store';
+import { logoutUser } from '@/app/actions/user';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Me, removeUserData } from '@/store/features/me';
+import { ADMIN_SIDE_NAVIGATIONS } from '@/constant';
 
 const AdminSideNavigation = () => {
   const me = useSelector((state: RootState) => state.me.me);
   const [user, setUser] = useState<Me | undefined>(undefined);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setUser(me);
   }, [me]);
+
+  const handleLogout = () => {
+    dispatch(removeUserData());
+    logoutUser();
+  };
 
   return (
     <aside className="h-full w-full border p-4 ">
@@ -26,7 +33,7 @@ const AdminSideNavigation = () => {
           data={ADMIN_SIDE_NAVIGATIONS}
           className="h-full flex-col items-baseline"
         />
-        <Profile user={user} handleLogout={() => {}} />
+        <Profile user={user} handleLogout={handleLogout} />
       </div>
     </aside>
   );

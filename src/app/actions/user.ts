@@ -82,8 +82,8 @@ export const loginUser = async ({
       },
     });
 
-    if (!response.data?.login) {
-      return { error: 'Login failed' };
+    if (response.errors || !response.data) {
+      return { error: response.errors?.[0]?.message || 'Login failed' };
     }
 
     const token = response?.data.login.jwt;
@@ -109,26 +109,32 @@ export const loginUser = async ({
     const newUser = {
       ...user,
       role: userRes.data.user?.role,
+      user_level: userDetails?.level,
+      business_name: userRes.data.user?.business_name,
+      business_number: userRes.data.user?.business_number,
+      user_type: userRes.data.user?.user_type,
+      phone: userRes.data.user?.phone,
       account_detail: {
         name: userDetails?.name,
+        shipping_addresses:
+          userDetails?.shipping_addresses?.map((address) => ({
+            id: address?.documentId,
+            name: {
+              first_name: address?.name?.first_name,
+              middle_name: address?.name?.middle_name,
+              last_name: address?.name?.last_name,
+            },
+            street1: address?.street1,
+            street2: address?.street2,
+            city: address?.city,
+            state: address?.state,
+            zip_code: address?.zip_code,
+            phone: address?.phone,
+            country: address?.country,
+            isActive: address?.isActive,
+          })) || [],
       },
       warehouse_location: userDetails?.warehouse_location,
-      shipping_addresses:
-        userDetails?.shipping_addresses?.map((address) => ({
-          id: address?.id,
-          name: {
-            first_name: address?.name?.first_name,
-            middle_name: address?.name?.middle_name,
-            last_name: address?.name?.last_name,
-          },
-          street: address?.street,
-          suburb: address?.suburb,
-          state_territory: address?.state_territory,
-          postcode: address?.postcode,
-          phone: address?.phone,
-          country: address?.country,
-          isActive: address?.isActive,
-        })) || [],
     };
 
     cookieStore.set('a-token', token!, {

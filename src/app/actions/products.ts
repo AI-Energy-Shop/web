@@ -8,6 +8,7 @@ import {
   CustomProductUpdateMutationVariables,
   CreateProductMutationVariables,
   ProductsQueryVariables,
+  ProductsQuery,
 } from '@/lib/gql/graphql';
 
 const client = getClient();
@@ -36,29 +37,23 @@ export const product = async (id: string) => {
   }
 };
 
-export const products = async (variables?: ProductsQueryVariables) => {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('a-token');
-
+export const products = async (
+  variables?: ProductsQueryVariables
+): Promise<FetchResult<ProductsQuery>> => {
   try {
     const res = await client.query({
       query: PRODUCT_OPERATIONS.Query.products,
       fetchPolicy: 'no-cache',
-      context: {
-        headers: {
-          Authorization: `Bearer ${token?.value}`,
-        },
-      },
       variables,
     });
 
-    if (!res?.data) {
-      throw new Error('No products found');
+    if (res?.errors) {
+      throw new Error(res?.errors[0].message);
     }
 
-    return res.data;
+    return res;
   } catch (error: any) {
-    console.log("ERROR fetching product's:", error.message);
+    console.error("ERROR product's:", error.message);
     return error;
   }
 };

@@ -11,7 +11,7 @@ import { loginUser } from '@/app/actions/user';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/useToast';
 import { useDispatch } from 'react-redux';
-import { setMe, setToken } from '@/store/features/me';
+import { setMe, setMeAdmin, setToken } from '@/store/features/me';
 import { setWarehouseLocation } from '@/store/features/cart';
 
 interface LoginFormData {
@@ -26,54 +26,89 @@ const LoginForm = () => {
   const { toast } = useToast();
   const dispatch = useDispatch();
 
-  const handleSubmit = async (data: LoginFormData) => {
-    const { error, data: userData } = await loginUser(data);
+  const handleSubmit = async (loginData: LoginFormData) => {
+    const { error, data } = await loginUser(loginData);
 
     if (error) {
       toast({
         title: error,
         variant: 'destructive',
       });
+      return;
     }
 
-    dispatch(
-      setMe({
-        id: userData?.user?.id || '',
-        email: userData?.user?.email || '',
-        username: userData?.user?.username || '',
-        blocked: userData?.user?.blocked || false,
-        confirmed: userData?.user?.confirmed || null,
-        shipping_addresses: userData?.user.shipping_addresses || [],
-        name: {
-          first_name: userData?.user?.account_detail?.name?.first_name || '',
-          middle_name: userData?.user?.account_detail?.name?.middle_name || '',
-          last_name: userData?.user?.account_detail?.name?.last_name || '',
-        },
-        // account_detail: {
-        //   user_level: userData?.user?.account_detail?.user_level || '',
-        //   business_name: userData?.user?.account_detail?.business_name || '',
-        // },
-      })
-    );
+    const roleName = data?.user.role?.name;
 
-    dispatch(
-      setWarehouseLocation({
-        address: {
-          city: userData?.user?.warehouse_location?.address?.city || '',
-          street: userData?.user?.warehouse_location?.address?.street || '',
-          suburb: userData?.user?.warehouse_location?.address?.suburb || '',
-          state_territory:
-            userData?.user?.warehouse_location?.address?.state_territory || '',
-          postcode: userData?.user?.warehouse_location?.address?.postcode || '',
-          country: userData?.user?.warehouse_location?.address?.country || '',
-        },
-      })
-    );
+    if (!roleName) {
+      toast({
+        title: 'Please for the sales to approve your account',
+        variant: 'destructive',
+      });
+      return;
+    }
 
-    dispatch(setToken(userData?.token || ''));
+    if (roleName === 'SALES') {
+      dispatch(
+        setMeAdmin({
+          id: data?.user?.id || '',
+          email: data?.user?.email || '',
+          username: data?.user?.username,
+          confirmed: data?.user?.confirmed || null,
+        })
+      );
+    } else if (roleName === 'CUSTOMER') {
+      dispatch(
+        setWarehouseLocation({
+          address: {
+            city: data?.user?.warehouse_location?.address?.city || '',
+            street1: data?.user?.warehouse_location?.address?.street || '',
+            state_territory:
+              data?.user?.warehouse_location?.address?.state_territory || '',
+            postcode: data?.user?.warehouse_location?.address?.postcode || '',
+            country: data?.user?.warehouse_location?.address?.country || '',
+          },
+        })
+      );
+
+      dispatch(
+        setMe({
+          id: data?.user?.id || '',
+          email: data?.user?.email || '',
+          username: data?.user?.username || '',
+          blocked: data?.user?.blocked || false,
+          confirmed: data?.user?.confirmed || null,
+          business_name: data?.user?.business_name || '',
+          business_number: data?.user?.business_number || '',
+          user_type: data?.user?.user_type || '',
+          phone: data?.user?.phone || '',
+          account_detail: {
+            level: data?.user?.user_level || '',
+            name: {
+              first_name: data?.user?.account_detail?.name?.first_name || '',
+              middle_name: data?.user?.account_detail?.name?.middle_name || '',
+              last_name: data?.user?.account_detail?.name?.last_name || '',
+            },
+            shipping_addresses:
+              data?.user.account_detail.shipping_addresses.map((address) => {
+                return {
+                  id: address.id,
+                  street1: address.street1,
+                  street2: address.street2,
+                  city: address.city,
+                  state: address.state,
+                  zipCode: address.zip_code,
+                  country: address.country,
+                  isActive: address.isActive,
+                };
+              }),
+          },
+        })
+      );
+    }
+
+    dispatch(setToken(data?.token || ''));
     // Handle navigation based on role
-    const route =
-      userData?.user.role?.name === 'SALES' ? '/admin' : '/products';
+    const route = roleName === 'SALES' ? '/admin' : '/products';
 
     // Use replace instead of push for more reliable navigation
     router.replace(route);

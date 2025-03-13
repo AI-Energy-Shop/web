@@ -13,8 +13,7 @@ export interface Cart {
 export interface WarehouseLocation {
   address: {
     city: string;
-    street: string;
-    suburb: string;
+    street1: string;
     state_territory: string;
     postcode: string;
     country: string;
@@ -25,10 +24,11 @@ export interface ShippingAddress {
   id: string;
   company: string;
   city: string;
-  street: string;
-  suburb: string;
+  street1: string;
+  street2: string;
   state_territory: string;
   postcode: string;
+  country: string;
 }
 
 export interface DeliveryOption {

@@ -10,8 +10,30 @@ const schema = {
           account_status
           blocked
           username
+          business_name
+          business_number
+          user_type
+          phone
           role {
             name
+          }
+          addresses {
+            documentId
+            street1
+            street2
+            state
+            city
+            zip_code
+            country
+            phone
+            isActive
+            name {
+              first_name
+              middle_name
+              last_name
+            }
+            createdAt
+            updatedAt
           }
           account_detail {
             phone
@@ -22,17 +44,18 @@ const schema = {
               last_name
             }
             shipping_addresses {
-              id
+              documentId
               phone
               name {
                 first_name
                 middle_name
                 last_name
               }
-              street
-              suburb
-              state_territory
-              postcode
+              street1
+              street2
+              city
+              state
+              zip_code
               country
               isActive
             }
@@ -133,13 +156,6 @@ const schema = {
     `),
   },
   Mutations: {
-    registerUser: graphql(`
-      mutation RegisterUser($data: RegisterUserInput!) {
-        registerUser(data: $data) {
-          documentId
-        }
-      }
-    `),
     loginUser: graphql(`
       mutation Login($input: UsersPermissionsLoginInput!) {
         login(input: $input) {
@@ -151,6 +167,13 @@ const schema = {
             blocked
             username
           }
+        }
+      }
+    `),
+    registerUser: graphql(`
+      mutation RegisterUser($data: RegisterUserInput!) {
+        registerUser(data: $data) {
+          documentId
         }
       }
     `),

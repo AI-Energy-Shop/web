@@ -2,11 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import ProductCard from './ProductCard';
 import Filters from './filter/Filters';
-import DropdownOptions from './options/DropdownOptions';
 import ProductPagination from './ProductPagination';
-import { Product } from '@/lib/types';
-import { useSearchParams, useRouter } from 'next/navigation';
-
+import { ProductsQuery } from '@/lib/gql/graphql';
+import SortOption from './options/SortOption';
 interface Filter {
   id: string;
   key: string;
@@ -14,7 +12,7 @@ interface Filter {
 }
 
 interface ProductListProps {
-  data: Product[];
+  data?: ProductsQuery['products'];
   start?: number;
   limit?: number;
   currentPage: number;
@@ -28,7 +26,6 @@ const Products: React.FC<ProductListProps> = ({
   pageSize,
   category,
 }) => {
-  const [warehouse, setWarehouse] = useState('SYD');
   const [currentFilter, setCurrentFilter] = useState<Filter[]>([]);
   const [filterCopy, setFilterCopy] = useState<Filter[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<
@@ -40,8 +37,8 @@ const Products: React.FC<ProductListProps> = ({
       if (selectedFilters.length === 0) {
         return true; // Return all products if no filters are selected
       }
-      return product.specification.some((spec) =>
-        selectedFilters.some((f) => f.value === spec.value)
+      return product?.specification?.some((spec) =>
+        selectedFilters.some((f) => f.value === spec?.value)
       );
     })
     .slice();
@@ -63,30 +60,21 @@ const Products: React.FC<ProductListProps> = ({
     console.log(sort);
   };
 
-  const handleWarehouseChange = (warehouse: string) => {
-    setWarehouse(warehouse);
-  };
-
-  const renderProductCard = (product: Product) => {
-    const inventory = product.inventory.find((inv) =>
-      inv.location.includes(warehouse)
-    );
-    const price = product.price_list.find(
-      (price) => price.user_level === 'SMALL'
-    );
+  const renderProductCard = (product: ProductsQuery['products'][0]) => {
+    if (!product) return null;
 
     return (
       <ProductCard
         key={product.documentId}
-        id={product.documentId}
-        image={product.images[0]?.url || ''}
-        category={product.category}
-        imageAlt={product.images[0]?.name || ''}
-        name={`${product.name.slice(0, 45)}`}
-        model={product.model}
-        price={price}
-        inventory={inventory}
-        odoo_product_id={product.model}
+        documentId={product.documentId}
+        images={product.images}
+        name={`${product?.name?.slice(0, 45)}`}
+        model={product?.model || ''}
+        price_list={product?.price_list}
+        inventories={product?.inventories}
+        odoo_product_id={product?.model || ''}
+        files={product?.files}
+        category={product?.category}
       />
     );
   };
@@ -110,24 +98,29 @@ const Products: React.FC<ProductListProps> = ({
         'Product Warranty',
       ];
 
-      const test = data.flatMap((product) =>
-        product.specification.filter((spec) => filterOptions.includes(spec.key))
+      const specifications = data.flatMap((product) =>
+        product?.specification?.filter((spec) =>
+          filterOptions.includes(spec?.key || '')
+        )
       );
 
-      const combinedSpecifications = test.reduce((acc: any, spec: any) => {
-        if (!acc[spec.key]) {
-          acc[spec.key] = {
-            id: spec.id,
-            key: spec.key,
-            value: [],
-            __typename: spec.__typename,
-          };
-        }
-        if (!acc[spec.key].value.includes(spec.value)) {
-          acc[spec.key].value.push(spec.value);
-        }
-        return acc;
-      }, {});
+      const combinedSpecifications = specifications.reduce(
+        (acc: any, spec: any) => {
+          if (!acc[spec.key]) {
+            acc[spec.key] = {
+              id: spec.id,
+              key: spec.key,
+              value: [],
+              __typename: spec.__typename,
+            };
+          }
+          if (!acc[spec.key].value.includes(spec.value)) {
+            acc[spec.key].value.push(spec.value);
+          }
+          return acc;
+        },
+        {}
+      );
 
       const uniqueSpecifications = Object.values(
         combinedSpecifications
@@ -145,10 +138,9 @@ const Products: React.FC<ProductListProps> = ({
         onFilterChange={handleFilterChange}
       />
       <div className="flex-1">
-        <DropdownOptions
-          onWarehouseChange={handleWarehouseChange}
-          onSortChange={handleSortChange}
-        />
+        <div className="flex justify-end gap-2 m-2">
+          <SortOption onSortChange={handleSortChange} />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {currentProducts?.map(renderProductCard)}
         </div>

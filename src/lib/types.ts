@@ -182,38 +182,6 @@ export type CartType = {
   createdAt: string;
 };
 
-export interface Product {
-  documentId: string;
-  name: string;
-  description: string;
-  category: string;
-  vendor: string;
-  odoo_product_id: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  model: string;
-  images: {
-    documentId: string | number;
-    url: string;
-    name: string;
-  }[];
-  price_list: {
-    price: number;
-    sale_price: number;
-    user_level: string;
-  }[];
-  inventory: {
-    location: string;
-    quantity: number;
-  }[];
-  specification: {
-    key: string;
-    value: string;
-  }[];
-  __typename: string;
-}
-
 export type ShippingDetailsTypes = {
   companyName?: string;
   shippingAddress?: {
