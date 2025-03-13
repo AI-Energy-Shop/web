@@ -18,10 +18,12 @@ export const registerUser = async (formData: FormData) => {
   const userType = formData.get('userType') as string;
   const businessNumber = formData.get('businessNumber') as string;
   const businessName = formData.get('businessName') as string;
-  const street = formData.get('street') as string;
-  const suburb = formData.get('suburb') as string;
+  const street1 = formData.get('street1') as string;
+  const street2 = formData.get('street2') as string;
+  const city = formData.get('city') as string;
   const state = formData.get('state') as string;
-  const postalCode = formData.get('postalCode') as string;
+  const zipCode = formData.get('zipCode') as string;
+  const country = formData.get('country') as string;
   const phone = formData.get('phone') as string;
 
   try {
@@ -36,16 +38,18 @@ export const registerUser = async (formData: FormData) => {
           businessNumber,
           userType,
           phone,
-          street,
-          suburb,
-          state: state,
-          postalCode: postalCode,
+          street1,
+          street2,
+          state,
+          city,
+          country,
+          zipCode,
         },
       },
     });
 
     if (response.errors) {
-      return { success: false, error: response.errors[0].message };
+      return { error: response.errors[0].message };
     }
 
     return {
@@ -53,7 +57,7 @@ export const registerUser = async (formData: FormData) => {
     };
   } catch (error: any) {
     console.error(error);
-    return { success: false, error: error.message };
+    return { error: error.message };
   }
 };
 

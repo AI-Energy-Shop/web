@@ -67,8 +67,9 @@ const schema = {
           addresses {
             documentId
             street1
-            suburb
-            state_territory
+            street2
+            city
+            state
             zip_code
             country
             isActive

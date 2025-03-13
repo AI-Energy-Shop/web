@@ -30,25 +30,27 @@ import { useRouter } from 'next/navigation';
 interface SignupFormProps {}
 
 const SignupForm: React.FC<SignupFormProps> = () => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const { toast } = useToast();
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof registerUserSchema>>({
     resolver: zodResolver(registerUserSchema),
     defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
       businessName: '',
       businessNumber: '',
       userType: '',
-      email: '',
-      username: '',
-      password: '',
-      confirmPassword: '',
-      street: '',
-      suburb: '',
-      state: '',
-      postalCode: '',
       phone: '',
+      street1: '',
+      street2: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      country: 'Australia',
     },
   });
 
@@ -60,7 +62,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
         formData.append(key, value);
       });
 
-      const { error, data: regsData } = await registerUser(formData);
+      const { error } = await registerUser(formData);
 
       if (error) {
         toast({
@@ -102,17 +104,25 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     );
   };
 
-  const renderTextField = (
-    name: keyof z.infer<typeof registerUserSchema>,
-    label: string
-  ) => {
+  const renderTextField = ({
+    name,
+    label,
+    required = true,
+  }: {
+    name: keyof z.infer<typeof registerUserSchema>;
+    label: string;
+    required?: boolean;
+  }) => {
     return (
       <FormField
         control={form.control}
         name={name}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>{label}</FormLabel>
+            <FormLabel>
+              {label}
+              {required && <span className="text-red-500">*</span>}
+            </FormLabel>
             <FormControl>
               <Input {...field} />
             </FormControl>
@@ -140,8 +150,8 @@ const SignupForm: React.FC<SignupFormProps> = () => {
           >
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-2">
-                {renderTextField('username', 'Username')}
-                {renderTextField('email', 'Email')}
+                {renderTextField({ name: 'username', label: 'Username' })}
+                {renderTextField({ name: 'email', label: 'Email' })}
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <FormField
@@ -204,8 +214,14 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                 />
               </div>
               <div className="grid grid-cols-3 gap-2">
-                {renderTextField('businessName', 'Business Name')}
-                {renderTextField('businessNumber', 'Business Number')}
+                {renderTextField({
+                  name: 'businessName',
+                  label: 'Business Name',
+                })}
+                {renderTextField({
+                  name: 'businessNumber',
+                  label: 'Business Number',
+                })}
                 <FormField
                   control={form.control}
                   name="userType"
@@ -232,11 +248,17 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                 />
               </div>
               <div className="grid grid-cols-3 gap-2">
-                {renderTextField('phone', 'Phone Number')}
-                {renderTextField('street', 'Street')}
-                {renderTextField('suburb', 'Suburb')}
-                {renderTextField('state', 'State')}
-                {renderTextField('postalCode', 'Postal Code')}
+                {renderTextField({ name: 'phone', label: 'Contact Number' })}
+                {renderTextField({ name: 'street1', label: 'Street1' })}
+                {renderTextField({ name: 'street2', label: 'Street2' })}
+                {renderTextField({ name: 'city', label: 'City' })}
+                {renderTextField({ name: 'state', label: 'State' })}
+                {renderTextField({ name: 'zipCode', label: 'Zip Code' })}
+                {renderTextField({
+                  name: 'country',
+                  label: 'Country',
+                  required: false,
+                })}
               </div>
 
               <div className="flex items-center space-x-2">

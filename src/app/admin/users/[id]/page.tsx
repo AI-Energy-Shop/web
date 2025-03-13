@@ -19,10 +19,12 @@ type AdminDashboardUserPageProps = {
     businessName: string;
     businessNumber: string;
     phone: string;
-    street: string;
-    suburb: string;
+    street1: string;
+    street2: string;
+    city: string;
+    country: string;
     state: string;
-    postalCode: string;
+    zipCode: string;
     userType: string;
   }>;
 };

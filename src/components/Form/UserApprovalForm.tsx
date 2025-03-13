@@ -34,10 +34,12 @@ interface UserApprovalFormProps {
     businessName: string;
     businessNumber: string;
     phone: string;
-    street: string;
-    suburb: string;
+    street1: string;
+    street2: string;
+    city: string;
+    country: string;
     state: string;
-    postalCode: string;
+    zipCode: string;
     userType: string;
   };
 }
@@ -63,10 +65,12 @@ const UserApprovalForm: React.FC<UserApprovalFormProps> = (props) => {
       businessNumber: props.defaultValues.businessNumber,
       username: props.defaultValues.username,
       email: props.defaultValues.email,
-      street: props.defaultValues.street,
-      suburb: props.defaultValues.suburb,
+      street1: props.defaultValues.street1,
+      street2: props.defaultValues.street2,
+      city: props.defaultValues.city,
       state: props.defaultValues.state,
-      postalCode: props.defaultValues.postalCode,
+      country: props.defaultValues.country,
+      zipCode: props.defaultValues.zipCode,
       phone:
         props.defaultValues.phone === 'null' ? '' : props.defaultValues.phone,
       userType: props.defaultValues.userType.toLowerCase(),
@@ -210,10 +214,12 @@ const UserApprovalForm: React.FC<UserApprovalFormProps> = (props) => {
               {renderTextField('businessNumber', 'ABN / ACN', true)}
               {renderTextField('username', 'Username', true)}
               {renderTextField('email', 'Email', true)}
-              {renderTextField('street', 'Street', true)}
-              {renderTextField('suburb', 'Suburb', true)}
+              {renderTextField('street1', 'Street 1', true)}
+              {renderTextField('street2', 'Street 2', true)}
+              {renderTextField('city', 'City', true)}
               {renderTextField('state', 'State', true)}
-              {renderTextField('postalCode', 'Postal Code', true)}
+              {renderTextField('zipCode', 'Postal Code', true)}
+              {renderTextField('country', 'Country', true)}
               {renderTextField('phone', 'Phone', true)}
               {renderSelectField({
                 disabled: true,

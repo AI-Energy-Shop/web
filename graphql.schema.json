@@ -1023,7 +1023,7 @@
             "deprecationReason": null
           },
           {
-            "name": "state_territory",
+            "name": "state",
             "description": null,
             "args": [],
             "type": {
@@ -1048,18 +1048,6 @@
           },
           {
             "name": "street2",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "suburb",
             "description": null,
             "args": [],
             "type": {
@@ -1426,7 +1414,7 @@
             "deprecationReason": null
           },
           {
-            "name": "state_territory",
+            "name": "state",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -1451,18 +1439,6 @@
           },
           {
             "name": "street2",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFilterInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "suburb",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -1594,7 +1570,7 @@
             "deprecationReason": null
           },
           {
-            "name": "state_territory",
+            "name": "state",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -1619,18 +1595,6 @@
           },
           {
             "name": "street2",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "suburb",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -18231,6 +18195,38 @@
             "deprecationReason": null
           },
           {
+            "name": "city",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "country",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "email",
             "description": null,
             "type": {
@@ -18279,22 +18275,6 @@
             "deprecationReason": null
           },
           {
-            "name": "postalCode",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "state",
             "description": null,
             "type": {
@@ -18311,7 +18291,7 @@
             "deprecationReason": null
           },
           {
-            "name": "street",
+            "name": "street1",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -18327,7 +18307,7 @@
             "deprecationReason": null
           },
           {
-            "name": "suburb",
+            "name": "street2",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -18360,6 +18340,22 @@
           },
           {
             "name": "username",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "zipCode",
             "description": null,
             "type": {
               "kind": "NON_NULL",

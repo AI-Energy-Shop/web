@@ -86,10 +86,9 @@ export type AddressFiltersInput = {
   or?: InputMaybe<Array<InputMaybe<AddressFiltersInput>>>;
   phone?: InputMaybe<StringFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
-  state_territory?: InputMaybe<StringFilterInput>;
+  state?: InputMaybe<StringFilterInput>;
   street1?: InputMaybe<StringFilterInput>;
   street2?: InputMaybe<StringFilterInput>;
-  suburb?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   users?: InputMaybe<UsersPermissionsUserFiltersInput>;
   zip_code?: InputMaybe<StringFilterInput>;
@@ -102,10 +101,9 @@ export type AddressInput = {
   locale?: InputMaybe<Scalars['String']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
-  state_territory?: InputMaybe<Scalars['String']['input']>;
+  state?: InputMaybe<Scalars['String']['input']>;
   street1?: InputMaybe<Scalars['String']['input']>;
   street2?: InputMaybe<Scalars['String']['input']>;
-  suburb?: InputMaybe<Scalars['String']['input']>;
   users?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   zip_code?: InputMaybe<Scalars['String']['input']>;
 };
@@ -790,15 +788,17 @@ export enum PublicationStatus {
 export type RegisterUserInput = {
   businessName: Scalars['String']['input'];
   businessNumber: Scalars['String']['input'];
+  city: Scalars['String']['input'];
+  country: Scalars['String']['input'];
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
   phone: Scalars['String']['input'];
-  postalCode: Scalars['String']['input'];
   state: Scalars['String']['input'];
-  street: Scalars['String']['input'];
-  suburb: Scalars['String']['input'];
+  street1: Scalars['String']['input'];
+  street2: Scalars['String']['input'];
   userType: Scalars['String']['input'];
   username: Scalars['String']['input'];
+  zipCode: Scalars['String']['input'];
 };
 
 export type ReviewWorkflowsWorkflowFiltersInput = {
@@ -1656,13 +1656,13 @@ export type UsersPermissionsUsersQuery = {
       __typename?: 'Address';
       documentId: string;
       street1?: string | null;
-      suburb?: string | null;
-      state_territory?: string | null;
+      street2?: string | null;
+      city?: string | null;
+      state?: string | null;
       zip_code?: string | null;
       country?: string | null;
       isActive?: boolean | null;
       phone?: string | null;
-      city?: string | null;
     } | null>;
     account_detail?: {
       __typename?: 'AccountDetail';
@@ -3758,12 +3758,10 @@ export const UsersPermissionsUsersDocument = {
                       },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'suburb' },
+                        name: { kind: 'Name', value: 'street2' },
                       },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'state_territory' },
-                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'state' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'zip_code' },

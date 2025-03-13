@@ -16,7 +16,7 @@ const UserRequestTableRow = ({
     const id = e.currentTarget.getAttribute('data-id');
     const address = user?.addresses.find((address: any) => address?.isActive);
     router.push(
-      `/admin/users/${id}?type=request&email=${user?.email}&username=${user?.username}&userType=${user?.user_type}&businessName=${user?.business_name}&businessNumber=${user?.business_number}&street=${address?.street1}&state=${address?.state_territory}&suburb=${address?.suburb}&postalCode=${address?.zip_code}&phone=${user?.phone}`
+      `/admin/users/${id}?type=request&email=${user?.email}&username=${user?.username}&userType=${user?.user_type}&businessName=${user?.business_name}&businessNumber=${user?.business_number}&street1=${address?.street1}&street2=${address?.street2}&state=${address?.state}&city=${address?.city}&zipCode=${address?.zip_code}&country=${address?.country}&phone=${user?.phone}`
     );
   };
 
