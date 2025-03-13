@@ -17,7 +17,7 @@ export default async function CategoryPage({
   const { category } = await params;
   const { start, limit, page, pageSize } = await searchParams;
 
-  const { products: productsData } = await products({
+  const { data } = await products({
     filters: {
       category: {
         contains: capitalizeAllFirstChar(category.replace('-', ' ')),
@@ -39,7 +39,7 @@ export default async function CategoryPage({
         <PageTitle title="All Products" />
         {/* <Brands brands={brands} /> */}
         <Products
-          data={productsData}
+          data={data?.products}
           currentPage={Number(page) || 1}
           pageSize={Number(pageSize) || 8}
           category={capitalizeAllFirstChar(category.replace('-', ' '))}

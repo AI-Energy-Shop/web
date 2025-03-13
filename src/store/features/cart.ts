@@ -14,8 +14,8 @@ export interface WarehouseLocation {
   address: {
     city: string;
     street1: string;
-    state_territory: string;
-    postcode: string;
+    state: string;
+    zipCode: string;
     country: string;
   };
 }
@@ -26,9 +26,10 @@ export interface ShippingAddress {
   city: string;
   street1: string;
   street2: string;
-  state_territory: string;
-  postcode: string;
+  state: string;
+  zipCode: string;
   country: string;
+  phone: string;
 }
 
 export interface DeliveryOption {

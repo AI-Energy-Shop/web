@@ -75,14 +75,12 @@ const OrderSummary: React.FC<OrderSummaryProps> = () => {
     return (
       <div>
         <h1 className="font-bold">Selected Location:</h1>
-        <h2 className="font-semibold">{warehouse?.address.city}</h2>
+        <h2 className="font-semibold italic">{warehouse?.address.city}</h2>
         <p className="text-xs">
-          <span className="mx-1 text-sm">{warehouse?.address.street},</span>
-          <span className="mx-1 text-sm">{warehouse?.address.suburb},</span>
-          <span className="mx-1 text-sm">
-            {warehouse?.address.state_territory},
-          </span>
-          <span className="mx-1 text-sm">{warehouse?.address.postcode}</span>
+          <span className="mx-1 text-sm">{warehouse?.address.street1},</span>
+          <span className="mx-1 text-sm">{warehouse?.address.city},</span>
+          <span className="mx-1 text-sm">{warehouse?.address.state},</span>
+          <span className="mx-1 text-sm">{warehouse?.address.zipCode}</span>
         </p>
       </div>
     );
@@ -93,26 +91,26 @@ const OrderSummary: React.FC<OrderSummaryProps> = () => {
       <div>
         <h1 className="font-semibold">Shipping:</h1>
         <h2 className="text-sm">
-          {user?.shipping_addresses?.map((address) => {
+          <span className="block font-semibold italic">
+            {user?.business_name}
+          </span>
+          {user?.account_detail?.shipping_addresses?.map((address) => {
             if (address.isActive) {
               return (
-                <span key={address.id}>
-                  <span className="block font-semibold">{address.company}</span>
-                  <span className="mr-1 text-sm">{address.street},</span>
-                  <span className="mx-1 text-sm">{address.suburb},</span>
-                  <span className="mx-1 text-sm">
-                    {address.state_territory}
-                  </span>
-                  <span className="mx-1 text-sm">{address.postcode}</span>
+                <span key={address.id} className="mr-1 text-sm">
+                  {`${address.street1}, ${address.street2}, ${address.city}, ${address.state}, ${address.zipCode}`}
                 </span>
               );
             }
           })}
         </h2>
-        <p className="text-xs italic">
-          <span className="mr-1 font-thin">{delivery?.title}</span>
-          <span className="mx-1 font-thin">({delivery?.description})</span>
-        </p>
+        {delivery && (
+          <p className="text-xs italic">
+            <span className="mr-1 font-thin">
+              {delivery?.title} ({delivery?.description})
+            </span>
+          </p>
+        )}
       </div>
     );
   };
@@ -163,6 +161,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = () => {
       </div>
     );
   };
+
   return (
     <div className="bg-white ml-8">
       <h1 className="p-2 text-xl font-black text-white bg-black">

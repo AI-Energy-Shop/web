@@ -1,7 +1,7 @@
-import { Product } from '@/lib/types';
+import { ProductsQuery } from '@/lib/gql/graphql';
 
 export const getProductSpecification = (
-  products?: Product[],
+  products?: ProductsQuery['products'][],
   key?: string
 ): { id: string; name: string; value: string }[] => {
   return (

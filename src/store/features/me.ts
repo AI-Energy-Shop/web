@@ -10,6 +10,7 @@ export interface ShippingAddress {
   country?: string | null;
   isActive?: boolean | null;
   company?: string | null;
+  phone?: string | null;
   name?: {
     first_name?: string | null;
     middle_name?: string | null;

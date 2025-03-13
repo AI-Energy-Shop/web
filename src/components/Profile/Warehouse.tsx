@@ -62,14 +62,14 @@ const Warehouse = () => {
             <div className="space-y-2">
               <Label htmlFor="state_territory">State/Territory</Label>
               <Input
-                value={warehouse?.address?.state_territory || ''}
+                value={warehouse?.address?.state || ''}
                 onChange={() => {}}
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="postcode">Postcode</Label>
               <Input
-                value={warehouse?.address?.postcode || ''}
+                value={warehouse?.address?.zipCode || ''}
                 onChange={() => {}}
               />
             </div>

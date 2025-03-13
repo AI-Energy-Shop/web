@@ -62,9 +62,9 @@ const LoginForm = () => {
           address: {
             city: data?.user?.warehouse_location?.address?.city || '',
             street1: data?.user?.warehouse_location?.address?.street || '',
-            state_territory:
+            state:
               data?.user?.warehouse_location?.address?.state_territory || '',
-            postcode: data?.user?.warehouse_location?.address?.postcode || '',
+            zipCode: data?.user?.warehouse_location?.address?.postcode || '',
             country: data?.user?.warehouse_location?.address?.country || '',
           },
         })
@@ -99,6 +99,7 @@ const LoginForm = () => {
                   zipCode: address.zip_code,
                   country: address.country,
                   isActive: address.isActive,
+                  phone: address.phone,
                 };
               }),
           },
