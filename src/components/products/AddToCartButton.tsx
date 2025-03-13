@@ -5,9 +5,8 @@ import ProductQuantity from './ProductQuantity';
 import { addToCart } from '@/app/actions/cart';
 import { useForm } from 'react-hook-form';
 import { useToast } from '@/hooks/useToast';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setCart } from '@/store/features/cart';
-import { RootState } from '@/store/store';
 import { useRouter } from 'next/navigation';
 
 interface AddToCartButtonProps {
@@ -17,6 +16,8 @@ interface AddToCartButtonProps {
   odoo_product_id?: string;
   model?: string;
   image?: string;
+  isLoggedIn: boolean;
+  inventory: number;
 }
 
 interface AddToCartFormData {
@@ -35,15 +36,16 @@ const AddToCartButton = ({
   odoo_product_id,
   model,
   image,
+  isLoggedIn,
+  inventory,
 }: AddToCartButtonProps) => {
   const form = useForm<AddToCartFormData>();
   const { toast } = useToast();
   const dispatch = useDispatch();
-  const me = useSelector((state: RootState) => state.me.me);
   const router = useRouter();
 
   const onSubmit = async (data: AddToCartFormData) => {
-    if (!me) {
+    if (!isLoggedIn) {
       router.push('/auth/login');
       return;
     }
@@ -51,6 +53,14 @@ const AddToCartButton = ({
     if (data.quantity === '') {
       toast({
         title: 'Quantity cannot be 0',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (inventory <= 0) {
+      toast({
+        title: 'Out of Stock',
         variant: 'destructive',
       });
       return;

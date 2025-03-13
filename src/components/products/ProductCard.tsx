@@ -8,7 +8,6 @@ import { GetProductQuery } from '@/lib/gql/graphql';
 import { cn } from '@/lib/utils';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import { Me } from '@/store/features/me';
 
 const ProductCard: React.FC<GetProductQuery['getProduct']> = (props) => {
   const me = useSelector((state: RootState) => state.me.me);
@@ -105,6 +104,8 @@ const ProductCard: React.FC<GetProductQuery['getProduct']> = (props) => {
         odoo_product_id={props?.model || ''}
         model={props?.model || ''}
         image={props?.images[0]?.url || ''}
+        inventory={inventory}
+        isLoggedIn={isLoggedIn}
       />
     </div>
   );
