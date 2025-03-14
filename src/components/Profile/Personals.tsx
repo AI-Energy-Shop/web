@@ -9,21 +9,19 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { User } from 'lucide-react';
+import { ChartNoAxesCombined } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Mail, Phone, Shield } from 'lucide-react';
-import { Building2, Image as ImageIcon } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userProfileSchema } from '@/lib/validation-schema/user-profile-form';
 import { z } from 'zod';
 import { Form, FormField, FormItem, FormLabel, FormControl } from '../ui/form';
+import ImageUploadInput from './ImageUploadInput';
 interface UserData {
   name?: {
     first_name?: string;
@@ -51,7 +49,7 @@ const Personals = () => {
       email: me?.email,
       username: me?.username,
       phone: me?.phone,
-      type: me?.user_type,
+      type: me?.user_type?.toUpperCase(),
       companyName: me?.business_name,
       companyNumber: me?.business_number,
     },
@@ -69,8 +67,26 @@ const Personals = () => {
     userLevel: '',
   });
 
+  const [imageUrl, setImageUrl] = useState<string>('');
+
   const onSubmit = (data: z.infer<typeof userProfileSchema>) => {
     console.log(data);
+  };
+
+  const handleImageChange = (url: string) => {
+    setImageUrl(url);
+    // toast({
+    //   title: 'Success',
+    //   description: 'Profile image updated successfully',
+    // });
+  };
+
+  const handleImageRemove = () => {
+    setImageUrl('');
+    // toast({
+    //   title: 'Success',
+    //   description: 'Profile image removed successfully',
+    // });
   };
 
   useEffect(() => {
@@ -88,11 +104,19 @@ const Personals = () => {
         <CardDescription>Your personal and company information</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Read-only fields */}
+        <div className="col-start-4 space-y-2">
+          <div className="flex items-center gap-2">
+            <ChartNoAxesCombined className="h-4 w-4 text-muted-foreground" />
+            <Label htmlFor="userLevel">User Level</Label>
+          </div>
+          <Badge variant="outline" className="my-[8px] h-[36px]">
+            {readOnlyData.level}
+          </Badge>
+        </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid grid-cols-4 gap-4">
-              <div className="space-y-2 flex flex-col">
+              <div className="space-y-2 flex flex-col justify-between">
                 <FormField
                   control={form.control}
                   name="companyName"
@@ -120,14 +144,12 @@ const Personals = () => {
               </div>
               <div className="space-y-2 flex flex-col items-center">
                 <div className="flex items-center gap-2">
-                  <ImageIcon className="h-4 w-4 text-muted-foreground" />
                   <Label htmlFor="companyName">Company Logo</Label>
                 </div>
-                <Image
-                  src="/no-product-image.jpg"
-                  alt="Company Logo"
-                  width={150}
-                  height={150}
+                <ImageUploadInput
+                  form={form}
+                  onChange={handleImageChange}
+                  onRemove={handleImageRemove}
                 />
               </div>
             </div>
@@ -149,6 +171,18 @@ const Personals = () => {
                 />
                 <FormField
                   control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Username</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
@@ -161,34 +195,26 @@ const Personals = () => {
                 />
                 <FormField
                   control={form.control}
-                  name="telephone"
+                  name="type"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Telephone</FormLabel>
+                      <FormLabel>User Type</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
                     </FormItem>
                   )}
                 />
-
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <Shield className="h-4 w-4 text-muted-foreground" />
-                    <Label htmlFor="userLevel">User Level</Label>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Badge variant="outline">{readOnlyData.level}</Badge>
-                  </div>
-                </div>
               </div>
             </div>
+            <Separator className="my-4" />
+            {form.formState.isDirty && (
+              <Button type="submit">Save Changes</Button>
+            )}
           </form>
         </Form>
       </CardContent>
-      {/* <CardFooter className="flex justify-end">
-        <Button type="submit">Save Changes</Button>
-      </CardFooter> */}
+      <CardFooter className="flex justify-end"></CardFooter>
     </Card>
   );
 };
