@@ -1,5 +1,5 @@
 'use client';
-import { userProfileSchema } from '@/lib/validation-schema/user-profile-form';
+import { userAdminProfileSchema } from '@/lib/validation-schema/user-profile-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -34,12 +34,9 @@ type UserProfileFormProps = {
 
 const UserProfileForm = ({ user }: UserProfileFormProps) => {
   // TODO (ROI) there is no phone data, address and company
-  const form = useForm<z.infer<typeof userProfileSchema>>({
-    resolver: zodResolver(userProfileSchema),
+  const form = useForm<z.infer<typeof userAdminProfileSchema>>({
+    resolver: zodResolver(userAdminProfileSchema),
     defaultValues: {
-      // firstName: user?.account_detail?.name?.first_name || '',
-      // middleName: user?.account_detail?.name?.middle_name || '',
-      // lastName: user?.account_detail?.name?.last_name || '',
       email: user?.email || '',
       level: user?.account_detail?.level || '',
       status: user?.account_status || '',

@@ -31,7 +31,7 @@ const LoginForm = () => {
 
     if (error) {
       toast({
-        title: error,
+        title: error.replace('identifier', 'email'),
         variant: 'destructive',
       });
       return;

@@ -244,10 +244,16 @@ export const getUserDetails = async (documentId: string) => {
 
 export const logoutUser = async () => {
   const cookieStore = await cookies();
+
+  // Clear all auth-related cookies
   cookieStore.delete('a-token');
   cookieStore.delete('a-user');
-  cookieStore.delete('reduxState');
-  redirect('/auth/login');
+
+  // Revalidate relevant paths
+  revalidatePath('/', 'layout');
+
+  // Return instead of redirect to handle on client
+  return { success: true };
 };
 
 export const approveUser = async (formData: FormData) => {

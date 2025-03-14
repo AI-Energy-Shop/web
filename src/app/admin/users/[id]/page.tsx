@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { getUserDetails, updateAccountStatus } from '@/app/actions/user';
-import UserProfileForm from '@/components/Form/UserProfileForm';
+import AdminUserProfileForm from '@/components/Form/AdminUserProfileForm';
 import UserApprovalForm from '@/components/Form/UserApprovalForm';
 
 type AdminDashboardUserPageProps = {
@@ -73,7 +73,7 @@ const AdminDashboardUserPage = async (props: AdminDashboardUserPageProps) => {
                 />
               )}
               {searchParams.type === 'approved' && (
-                <UserProfileForm user={user} />
+                <AdminUserProfileForm user={user} />
               )}
             </div>
           </CardContent>
