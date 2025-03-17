@@ -18,8 +18,8 @@ const Profile = ({ user, handleLogout }: ProfileProps) => {
         <Avatar>
           <AvatarImage src="/placeholder-avatar.jpg" alt="User Avatar" />
           <AvatarFallback>
-            {user?.name?.first_name?.charAt(0)}
-            {user?.name?.last_name?.charAt(0)}
+            {user?.account_detail?.name?.first_name?.charAt(0)}
+            {user?.account_detail?.name?.last_name?.charAt(0)}
           </AvatarFallback>
         </Avatar>
         <div>

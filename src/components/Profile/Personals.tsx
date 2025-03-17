@@ -9,17 +9,19 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { User } from 'lucide-react';
+import { ChartNoAxesCombined } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Mail, Phone, Shield } from 'lucide-react';
-import { Building2, Image as ImageIcon } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import Image from 'next/image';
-
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { userProfileSchema } from '@/lib/validation-schema/user-profile-form';
+import { z } from 'zod';
+import { Form, FormField, FormItem, FormLabel, FormControl } from '../ui/form';
+import ImageUploadInput from './ImageUploadInput';
 interface UserData {
   name?: {
     first_name?: string;
@@ -37,6 +39,21 @@ interface UserData {
 
 const Personals = () => {
   const me = useSelector((state: RootState) => state.me.me);
+  const [readOnlyData, setReadOnlyData] = useState<{ level?: string }>({
+    level: '',
+  });
+
+  const form = useForm<z.infer<typeof userProfileSchema>>({
+    resolver: zodResolver(userProfileSchema),
+    defaultValues: {
+      email: me?.email,
+      username: me?.username,
+      phone: me?.phone,
+      type: me?.user_type?.toUpperCase(),
+      companyName: me?.business_name,
+      companyNumber: me?.business_number,
+    },
+  });
 
   const [userData, setUserData] = useState<UserData>({
     name: {
@@ -50,13 +67,32 @@ const Personals = () => {
     userLevel: '',
   });
 
+  const [imageUrl, setImageUrl] = useState<string>('');
+
+  const onSubmit = (data: z.infer<typeof userProfileSchema>) => {
+    console.log(data);
+  };
+
+  const handleImageChange = (url: string) => {
+    setImageUrl(url);
+    // toast({
+    //   title: 'Success',
+    //   description: 'Profile image updated successfully',
+    // });
+  };
+
+  const handleImageRemove = () => {
+    setImageUrl('');
+    // toast({
+    //   title: 'Success',
+    //   description: 'Profile image removed successfully',
+    // });
+  };
+
   useEffect(() => {
     if (me) {
-      setUserData({
-        name: me.name || undefined,
-        companyName: me.account_detail?.business_name || '',
-        email: me.email || '',
-        userLevel: me.account_detail?.user_level || '',
+      setReadOnlyData({
+        level: me?.account_detail?.level,
       });
     }
   }, [me]);
@@ -68,130 +104,117 @@ const Personals = () => {
         <CardDescription>Your personal and company information</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Read-only fields */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="flex space-x-2">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <User className="h-4 w-4 text-muted-foreground" />
-                <Label htmlFor="name">Name</Label>
-              </div>
-              <Input
-                id="name"
-                value={userData.name?.first_name}
-                readOnly
-                className="bg-muted cursor-not-allowed"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Label htmlFor="middle_name">Middle Name</Label>
-              </div>
-              <Input
-                id="middle_name"
-                value={userData.name?.middle_name}
-                readOnly
-                className="bg-muted cursor-not-allowed"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Label htmlFor="middle_name">Middle Name</Label>
-              </div>
-              <Input
-                id="last_name"
-                value={userData.name?.last_name}
-                readOnly
-                className="bg-muted cursor-not-allowed"
-              />
-            </div>
+        <div className="col-start-4 space-y-2">
+          <div className="flex items-center gap-2">
+            <ChartNoAxesCombined className="h-4 w-4 text-muted-foreground" />
+            <Label htmlFor="userLevel">User Level</Label>
           </div>
-          <div className="space-y-2 flex flex-col items-center">
-            <div className="flex items-center gap-2">
-              <ImageIcon className="h-4 w-4 text-muted-foreground" />
-              <Label htmlFor="companyName">Company Logo</Label>
-            </div>
-            <Image
-              src="/no-product-image.jpg"
-              alt="Company Logo"
-              width={150}
-              height={150}
-            />
-          </div>
-          <div className="space-y-2 flex flex-col">
-            <div className="flex items-center gap-2">
-              <Building2 className="h-4 w-4 text-muted-foreground" />
-              <Label htmlFor="companyName">Company Name</Label>
-            </div>
-            <Input
-              id="companyName"
-              value={userData.companyName}
-              readOnly
-              className="bg-muted cursor-not-allowed"
-            />
-          </div>
+          <Badge variant="outline" className="my-[8px] h-[36px]">
+            {readOnlyData.level}
+          </Badge>
         </div>
-
-        <Separator className="my-4" />
-        <div className="space-y-4">
-          <h3 className="text-sm font-medium">Contact Information</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-muted-foreground" />
-                <Label htmlFor="email">Email</Label>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="grid grid-cols-4 gap-4">
+              <div className="space-y-2 flex flex-col justify-between">
+                <FormField
+                  control={form.control}
+                  name="companyName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Company Name</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="companyNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Company Number</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
               </div>
-              <Input
-                id="email"
-                value={userData.email}
-                readOnly
-                className="bg-muted cursor-not-allowed"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-muted-foreground" />
-                <Label htmlFor="phone">Phone</Label>
-              </div>
-              <Input
-                id="phone"
-                value={userData.phone}
-                readOnly
-                className="bg-muted cursor-not-allowed"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-muted-foreground" />
-                <Label htmlFor="telephone">Telephone</Label>
-              </div>
-              <Input
-                id="telephone"
-                value={userData.telephone}
-                readOnly
-                className="bg-muted cursor-not-allowed"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Shield className="h-4 w-4 text-muted-foreground" />
-                <Label htmlFor="userLevel">User Level</Label>
-              </div>
-              <div className="flex items-center gap-2">
-                <Badge variant="outline">{userData.userLevel}</Badge>
+              <div className="space-y-2 flex flex-col items-center">
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="companyName">Company Logo</Label>
+                </div>
+                <ImageUploadInput
+                  form={form}
+                  onChange={handleImageChange}
+                  onRemove={handleImageRemove}
+                />
               </div>
             </div>
-          </div>
-        </div>
+            <Separator className="my-4" />
+            <div className="space-y-4">
+              <h3 className="text-sm font-medium">Contact Information</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Username</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="type"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>User Type</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+            <Separator className="my-4" />
+            {form.formState.isDirty && (
+              <Button type="submit">Save Changes</Button>
+            )}
+          </form>
+        </Form>
       </CardContent>
-      {/* <CardFooter className="flex justify-end">
-        <Button type="submit">Save Changes</Button>
-      </CardFooter> */}
+      <CardFooter className="flex justify-end"></CardFooter>
     </Card>
   );
 };

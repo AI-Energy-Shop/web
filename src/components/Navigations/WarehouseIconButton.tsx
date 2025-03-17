@@ -20,19 +20,28 @@ const WarehouseIconButton = () => {
     }
   }, [warehouseLocation]);
 
+  // If no user data, show login link instead
+  if (!warehouseLocationState) {
+    return (
+      <Link
+        href="/auth/login"
+        className="flex flex-col items-center m-0 w-auto h-auto px-1"
+      >
+        <Warehouse className="h-5 w-5" />
+        <span className="text-sm font-normal">Warehouse</span>
+      </Link>
+    );
+  }
+
   return (
     <Link
       href="/profile#warehouseAddress"
       className="flex flex-col items-center m-0 w-auto h-auto px-1"
     >
       <Warehouse className="h-5 w-5" />
-      {warehouseLocationState ? (
-        <p className="text-sm font-normal">
-          {warehouseLocationState.address.city}
-        </p>
-      ) : (
-        <p className="text-sm font-normal">Warehouse</p>
-      )}
+      <span className="text-sm font-normal">
+        {warehouseLocationState.address.city}
+      </span>
     </Link>
   );
 };

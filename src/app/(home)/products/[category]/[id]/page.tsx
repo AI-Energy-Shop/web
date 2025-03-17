@@ -24,7 +24,7 @@ async function ProductPage({ params }: { params: { id: string } }) {
     user_level: price?.user_level ?? undefined,
   }));
 
-  const pickLocation = productData?.inventory?.[0]?.id;
+  const pickLocation = productData?.inventories?.[0]?.location;
 
   return (
     <main className="bg-yellow-light-yellow">

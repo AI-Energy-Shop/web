@@ -13,7 +13,10 @@ const UserTableRow = ({
   const router = useRouter();
 
   const handleClick = (id: string) => {
-    router.push(`/admin/users/${id}`);
+    const address = user?.addresses.find((address) => address?.isActive);
+    router.push(
+      `/admin/users/${id}?type=approved&email=${user?.email}&username=${user?.username}&userType=${user?.user_type}&businessName=${user?.business_name}&businessNumber=${user?.business_number}&street1=${address?.street1}&street2=${address?.street2}&state=${address?.state}&city=${address?.city}&zipCode=${address?.zip_code}&country=${address?.country}&phone=${address?.phone}`
+    );
   };
 
   const userBadgeVariant =

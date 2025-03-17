@@ -18,10 +18,12 @@ export const registerUser = async (formData: FormData) => {
   const userType = formData.get('userType') as string;
   const businessNumber = formData.get('businessNumber') as string;
   const businessName = formData.get('businessName') as string;
-  const street = formData.get('street') as string;
-  const suburb = formData.get('suburb') as string;
+  const street1 = formData.get('street1') as string;
+  const street2 = formData.get('street2') as string;
+  const city = formData.get('city') as string;
   const state = formData.get('state') as string;
-  const postalCode = formData.get('postalCode') as string;
+  const zipCode = formData.get('zipCode') as string;
+  const country = formData.get('country') as string;
   const phone = formData.get('phone') as string;
 
   try {
@@ -36,16 +38,18 @@ export const registerUser = async (formData: FormData) => {
           businessNumber,
           userType,
           phone,
-          street,
-          suburb,
-          state: state,
-          postalCode: postalCode,
+          street1,
+          street2,
+          state,
+          city,
+          country,
+          zipCode,
         },
       },
     });
 
     if (response.errors) {
-      return { success: false, error: response.errors[0].message };
+      return { error: response.errors[0].message };
     }
 
     return {
@@ -53,7 +57,7 @@ export const registerUser = async (formData: FormData) => {
     };
   } catch (error: any) {
     console.error(error);
-    return { success: false, error: error.message };
+    return { error: error.message };
   }
 };
 
@@ -78,8 +82,8 @@ export const loginUser = async ({
       },
     });
 
-    if (!response.data?.login) {
-      return { error: 'Login failed' };
+    if (response.errors || !response.data) {
+      return { error: response.errors?.[0]?.message || 'Login failed' };
     }
 
     const token = response?.data.login.jwt;
@@ -105,26 +109,32 @@ export const loginUser = async ({
     const newUser = {
       ...user,
       role: userRes.data.user?.role,
+      user_level: userDetails?.level,
+      business_name: userRes.data.user?.business_name,
+      business_number: userRes.data.user?.business_number,
+      user_type: userRes.data.user?.user_type,
+      phone: userRes.data.user?.phone,
       account_detail: {
         name: userDetails?.name,
+        shipping_addresses:
+          userDetails?.shipping_addresses?.map((address) => ({
+            id: address?.documentId,
+            name: {
+              first_name: address?.name?.first_name,
+              middle_name: address?.name?.middle_name,
+              last_name: address?.name?.last_name,
+            },
+            street1: address?.street1,
+            street2: address?.street2,
+            city: address?.city,
+            state: address?.state,
+            zip_code: address?.zip_code,
+            phone: address?.phone,
+            country: address?.country,
+            isActive: address?.isActive,
+          })) || [],
       },
       warehouse_location: userDetails?.warehouse_location,
-      shipping_addresses:
-        userDetails?.shipping_addresses?.map((address) => ({
-          id: address?.id,
-          name: {
-            first_name: address?.name?.first_name,
-            middle_name: address?.name?.middle_name,
-            last_name: address?.name?.last_name,
-          },
-          street: address?.street,
-          suburb: address?.suburb,
-          state_territory: address?.state_territory,
-          postcode: address?.postcode,
-          phone: address?.phone,
-          country: address?.country,
-          isActive: address?.isActive,
-        })) || [],
     };
 
     cookieStore.set('a-token', token!, {
@@ -179,7 +189,7 @@ export const updateAccountStatus = async (
     if (response.errors) {
       throw new Error(response.errors[0].message);
     }
-    revalidatePath(`/admin/dashboard/users/${userId}`);
+    revalidatePath(`/admin/users/${userId}`);
   } catch (error: any) {
     console.error('GraphQL Query Error:', error);
     throw Error(error.message);
@@ -234,10 +244,16 @@ export const getUserDetails = async (documentId: string) => {
 
 export const logoutUser = async () => {
   const cookieStore = await cookies();
+
+  // Clear all auth-related cookies
   cookieStore.delete('a-token');
   cookieStore.delete('a-user');
-  cookieStore.delete('reduxState');
-  redirect('/auth/login');
+
+  // Revalidate relevant paths
+  revalidatePath('/', 'layout');
+
+  // Return instead of redirect to handle on client
+  return { success: true };
 };
 
 export const approveUser = async (formData: FormData) => {
@@ -269,6 +285,7 @@ export const approveUser = async (formData: FormData) => {
       },
     });
 
+    revalidatePath('/admin/users');
     return { data: response.data };
   } catch (error: any) {
     console.error(error.message);

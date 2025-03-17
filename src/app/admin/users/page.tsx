@@ -3,10 +3,18 @@ import { Ban, KeyRound, Search, User, UserPlus } from 'lucide-react';
 import React from 'react';
 import { Input } from '@/components/ui/input';
 import { getUsers } from '@/app/actions/user';
-import Components from '@/components';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import UsersTab from '@/components/custom-ui/Tabs/UsersTab';
 
-export default async function AdminUsersPage() {
+interface AdminUsersPageProps {
+  searchParams: {
+    [key: string]: string | string[] | undefined;
+  };
+}
+
+export default async function AdminUsersPage({
+  searchParams,
+}: AdminUsersPageProps) {
+  const tab = searchParams.tab as string;
   const data = await getUsers();
 
   const overviewCards = [
@@ -54,7 +62,7 @@ export default async function AdminUsersPage() {
       <header className="bg-white dark:bg-gray-800 shadow">
         <div className="max-w-full mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
-            Clients
+            Users
           </h1>
           <div className="relative">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
@@ -83,26 +91,13 @@ export default async function AdminUsersPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0"></CardHeader>
           <CardContent>
-            <Tabs defaultValue="user" className="w-full">
-              <TabsList>
-                <TabsTrigger value="user">Users</TabsTrigger>
-                <TabsTrigger value="customers">Customers</TabsTrigger>
-                <TabsTrigger value="request">Request</TabsTrigger>
-                <TabsTrigger value="denied">Denied</TabsTrigger>
-              </TabsList>
-              <TabsContent value="user">
-                <Components.Tables.UsersTable data={appovedUsers} />
-              </TabsContent>
-              <TabsContent value="customers">
-                <Components.Tables.UsersTable data={customers} />
-              </TabsContent>
-              <TabsContent value="request">
-                <Components.Tables.UsersRequestTable data={pendingCustomers} />
-              </TabsContent>
-              <TabsContent value="denied">
-                <Components.Tables.UsersRequestTable data={deniedUsers} />
-              </TabsContent>
-            </Tabs>
+            <UsersTab
+              tab={tab}
+              appovedUsers={appovedUsers || []}
+              customers={customers || []}
+              pendingCustomers={pendingCustomers || []}
+              deniedUsers={deniedUsers || []}
+            />
           </CardContent>
         </Card>
       </div>

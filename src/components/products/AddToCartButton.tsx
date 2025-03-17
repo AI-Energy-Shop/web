@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { useToast } from '@/hooks/useToast';
 import { useDispatch } from 'react-redux';
 import { setCart } from '@/store/features/cart';
+import { useRouter } from 'next/navigation';
 
 interface AddToCartButtonProps {
   id: string | number;
@@ -15,6 +16,8 @@ interface AddToCartButtonProps {
   odoo_product_id?: string;
   model?: string;
   image?: string;
+  isLoggedIn: boolean;
+  inventory: number;
 }
 
 interface AddToCartFormData {
@@ -33,12 +36,20 @@ const AddToCartButton = ({
   odoo_product_id,
   model,
   image,
+  isLoggedIn,
+  inventory,
 }: AddToCartButtonProps) => {
   const form = useForm<AddToCartFormData>();
   const { toast } = useToast();
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const onSubmit = async (data: AddToCartFormData) => {
+    if (!isLoggedIn) {
+      router.push('/auth/login');
+      return;
+    }
+
     if (data.quantity === '') {
       toast({
         title: 'Quantity cannot be 0',
@@ -47,14 +58,19 @@ const AddToCartButton = ({
       return;
     }
 
+    if (inventory <= 0) {
+      toast({
+        title: 'Out of Stock',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     const formData = new FormData();
-    formData.append('id', data.id);
-    formData.append('title', data.title);
-    formData.append('price', data.price.toString());
-    formData.append('odoo_product_id', data.odoo_product_id);
-    formData.append('model', data.model);
-    formData.append('image', data.image);
-    formData.append('quantity', data.quantity.toString());
+    Array.from(formData.entries()).forEach(([key, value]) => {
+      formData.append(key, value as string);
+    });
+
     const {
       success,
       error,

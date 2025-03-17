@@ -1,5 +1,5 @@
 'use client';
-import { userProfileSchema } from '@/lib/validation-schema/user-profile-form';
+import { userAdminProfileSchema } from '@/lib/validation-schema/user-profile-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -34,17 +34,15 @@ type UserProfileFormProps = {
 
 const UserProfileForm = ({ user }: UserProfileFormProps) => {
   // TODO (ROI) there is no phone data, address and company
-  const form = useForm<z.infer<typeof userProfileSchema>>({
-    resolver: zodResolver(userProfileSchema),
+  const form = useForm<z.infer<typeof userAdminProfileSchema>>({
+    resolver: zodResolver(userAdminProfileSchema),
     defaultValues: {
-      firstName: user?.account_detail?.name?.first_name || '',
-      middleName: user?.account_detail?.name?.middle_name || '',
-      lastName: user?.account_detail?.name?.last_name || '',
       email: user?.email || '',
       level: user?.account_detail?.level || '',
       status: user?.account_status || '',
-      phone: '',
-      company: '',
+      phone: user?.account_detail?.phone || '',
+      companyName: user?.business_name || '',
+      companyNumber: user?.business_number || '',
       odooId: user?.account_detail?.odoo_user_id || '',
       address: '',
     },
@@ -202,7 +200,7 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
           />
           <FormField
             control={form.control}
-            name="australianBusinessNumber"
+            name="companyNumber"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Australian Business Number</FormLabel>

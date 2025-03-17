@@ -14,11 +14,21 @@ import { MapPin } from 'lucide-react';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { WarehouseLocation } from '@/store/features/cart';
+import { useState, useEffect } from 'react';
 
 const Warehouse = () => {
   const warehouseLocation = useSelector(
     (state: RootState) => state.cart.warehouseLocation
   );
+
+  const [warehouse, setWarehouse] = useState<WarehouseLocation | null>(null);
+
+  useEffect(() => {
+    if (warehouseLocation) {
+      setWarehouse(warehouseLocation);
+    }
+  }, [warehouseLocation]);
 
   return (
     <Card id="warehouseAddress">
@@ -36,30 +46,45 @@ const Warehouse = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
+              <Label htmlFor="street1">Street 1</Label>
+              <Input
+                value={warehouseLocation?.address?.street1 || ''}
+                onChange={() => {}}
+              />
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="city">City</Label>
-              <Input value={warehouseLocation?.address?.city} />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="street">Street</Label>
-              <Input value={warehouseLocation?.address?.street} />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="suburb">Suburb</Label>
-              <Input value={warehouseLocation?.address?.suburb} />
+              <Input
+                value={warehouse?.address?.city || ''}
+                onChange={() => {}}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="state_territory">State/Territory</Label>
-              <Input value={warehouseLocation?.address?.state_territory} />
+              <Input
+                value={warehouse?.address?.state || ''}
+                onChange={() => {}}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="postcode">Postcode</Label>
-              <Input value={warehouseLocation?.address?.postcode} />
+              <Input
+                value={warehouse?.address?.zipCode || ''}
+                onChange={() => {}}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="postcode">Country</Label>
+              <Input
+                value={warehouse?.address?.country || ''}
+                onChange={() => {}}
+              />
             </div>
           </div>
         </div>
       </CardContent>
       <CardFooter className="flex justify-end">
-        <Button type="submit">Save Changes</Button>
+        {/* <Button type="submit">Save Changes</Button> */}
       </CardFooter>
     </Card>
   );

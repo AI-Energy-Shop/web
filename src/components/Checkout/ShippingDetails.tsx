@@ -38,7 +38,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
   const dispatch = useDispatch();
   const stepper = useSelector((state: RootState) => state.cart.paymentStep);
   const shipping = useSelector(
-    (state: RootState) => state.me.me?.shipping_addresses
+    (state: RootState) => state.me.me?.account_detail?.shipping_addresses
   );
   const [shippingOptions, setShippingOptions] =
     useState<ShippingOptions>(SHIPPING_OPTIONS);
@@ -138,8 +138,8 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
           <div>
             <h1 className="font-bold">{item.company}</h1>
             <h1>
-              {item.street}, {item.suburb}, {item.state_territory}{' '}
-              {item.postcode}
+              {item.street1}, {item.street2}, {item.city}, {item.state}{' '}
+              {item.zipCode}
             </h1>
             <h1>
               {item.name?.first_name} {item.name?.last_name} - {item.phone}

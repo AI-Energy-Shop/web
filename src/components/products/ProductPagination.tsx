@@ -10,8 +10,6 @@ import {
 } from '@/components/ui/pagination';
 import { useQuery } from '@apollo/client';
 import PRODUCT_OPRATIONS from '@/graphql/products';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
 interface ProductPaginationProps {
   currentPage: number;
   limit?: number;
@@ -26,7 +24,6 @@ const ProductPagination = ({
   pageSize,
   category,
 }: ProductPaginationProps) => {
-  const token = useSelector((state: RootState) => state.me.token);
   const variables = {
     filters: {
       category: {
@@ -36,11 +33,6 @@ const ProductPagination = ({
   };
 
   const { data } = useQuery(PRODUCT_OPRATIONS.Query.products, {
-    context: {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
     variables: category ? variables : {},
   });
 

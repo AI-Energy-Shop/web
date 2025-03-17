@@ -1,6 +1,8 @@
+import LogoutButton from '@/components/Profile/LogoutButton';
 import Personals from '@/components/Profile/Personals';
 import ShippingAddress from '@/components/Profile/ShippingAddress';
 import Warehouse from '@/components/Profile/Warehouse';
+import { Button } from '@/components/ui/button';
 import React from 'react';
 
 const ProfilePage = () => {
@@ -15,6 +17,7 @@ const ProfilePage = () => {
             <ShippingAddress />
             <Warehouse />
           </div>
+          <LogoutButton />
         </div>
       </div>
     </main>

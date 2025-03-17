@@ -23,8 +23,7 @@ const schema = {
             max_quantity
             user_level
           }
-          inventory {
-            id
+          inventories {
             location
             quantity
           }
@@ -76,8 +75,7 @@ const schema = {
             max_quantity
             user_level
           }
-          inventory {
-            id
+          inventories {
             location
             quantity
           }
@@ -122,8 +120,7 @@ const schema = {
           category
           vendor
           odoo_product_id
-          inventory {
-            id
+          inventories {
             location
             quantity
           }
@@ -181,8 +178,7 @@ const schema = {
             max_quantity
             user_level
           }
-          inventory {
-            id
+          inventories {
             location
             quantity
           }

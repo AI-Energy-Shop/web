@@ -52,7 +52,7 @@ export type AccountDetailFiltersInput = {
   payment_options?: InputMaybe<ComponentElementsPaymentOptionFiltersInput>;
   phone?: InputMaybe<StringFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
-  shipping_addresses?: InputMaybe<ComponentElementsShippingAddressFiltersInput>;
+  shipping_addresses?: InputMaybe<AddressFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   warehouse_location?: InputMaybe<ComponentElementsWarehouseLocationFiltersInput>;
 };
@@ -67,10 +67,45 @@ export type AccountDetailInput = {
   >;
   phone?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
-  shipping_addresses?: InputMaybe<
-    Array<InputMaybe<ComponentElementsShippingAddressInput>>
-  >;
+  shipping_addresses?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   warehouse_location?: InputMaybe<ComponentElementsWarehouseLocationInput>;
+};
+
+export type AddressFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<AddressFiltersInput>>>;
+  city?: InputMaybe<StringFilterInput>;
+  country?: InputMaybe<StringFilterInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  documentId?: InputMaybe<IdFilterInput>;
+  isActive?: InputMaybe<BooleanFilterInput>;
+  locale?: InputMaybe<StringFilterInput>;
+  localizations?: InputMaybe<AddressFiltersInput>;
+  name?: InputMaybe<ComponentElementsNameFiltersInput>;
+  not?: InputMaybe<AddressFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<AddressFiltersInput>>>;
+  phone?: InputMaybe<StringFilterInput>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  state?: InputMaybe<StringFilterInput>;
+  street1?: InputMaybe<StringFilterInput>;
+  street2?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  users?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  zip_code?: InputMaybe<StringFilterInput>;
+};
+
+export type AddressInput = {
+  city?: InputMaybe<Scalars['String']['input']>;
+  country?: InputMaybe<Scalars['String']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  locale?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<ComponentElementsNameInput>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  state?: InputMaybe<Scalars['String']['input']>;
+  street1?: InputMaybe<Scalars['String']['input']>;
+  street2?: InputMaybe<Scalars['String']['input']>;
+  users?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  zip_code?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ApprovedUserInput = {
@@ -212,20 +247,6 @@ export type ComponentElementsInputFiltersInput = {
   type?: InputMaybe<StringFilterInput>;
 };
 
-export type ComponentElementsInventoryFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<ComponentElementsInventoryFiltersInput>>>;
-  location?: InputMaybe<StringFilterInput>;
-  not?: InputMaybe<ComponentElementsInventoryFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<ComponentElementsInventoryFiltersInput>>>;
-  quantity?: InputMaybe<IntFilterInput>;
-};
-
-export type ComponentElementsInventoryInput = {
-  id?: InputMaybe<Scalars['ID']['input']>;
-  location?: InputMaybe<Scalars['String']['input']>;
-  quantity?: InputMaybe<Scalars['Int']['input']>;
-};
-
 export type ComponentElementsKeyFeaturesFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ComponentElementsKeyFeaturesFiltersInput>>>;
   feature?: InputMaybe<StringFilterInput>;
@@ -296,38 +317,6 @@ export type ComponentElementsPriceInput = {
   price?: InputMaybe<Scalars['Float']['input']>;
   sale_price?: InputMaybe<Scalars['Float']['input']>;
   user_level?: InputMaybe<Enum_Componentelementsprice_User_Level>;
-};
-
-export type ComponentElementsShippingAddressFiltersInput = {
-  and?: InputMaybe<
-    Array<InputMaybe<ComponentElementsShippingAddressFiltersInput>>
-  >;
-  city?: InputMaybe<StringFilterInput>;
-  country?: InputMaybe<StringFilterInput>;
-  isActive?: InputMaybe<BooleanFilterInput>;
-  name?: InputMaybe<ComponentElementsNameFiltersInput>;
-  not?: InputMaybe<ComponentElementsShippingAddressFiltersInput>;
-  or?: InputMaybe<
-    Array<InputMaybe<ComponentElementsShippingAddressFiltersInput>>
-  >;
-  phone?: InputMaybe<StringFilterInput>;
-  postcode?: InputMaybe<StringFilterInput>;
-  state_territory?: InputMaybe<StringFilterInput>;
-  street?: InputMaybe<StringFilterInput>;
-  suburb?: InputMaybe<StringFilterInput>;
-};
-
-export type ComponentElementsShippingAddressInput = {
-  city?: InputMaybe<Scalars['String']['input']>;
-  country?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['ID']['input']>;
-  isActive?: InputMaybe<Scalars['Boolean']['input']>;
-  name?: InputMaybe<ComponentElementsNameInput>;
-  phone?: InputMaybe<Scalars['String']['input']>;
-  postcode?: InputMaybe<Scalars['String']['input']>;
-  state_territory?: InputMaybe<Scalars['String']['input']>;
-  street?: InputMaybe<Scalars['String']['input']>;
-  suburb?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ComponentElementsShippingFiltersInput = {
@@ -598,6 +587,7 @@ export type InventoryFiltersInput = {
   location?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<InventoryFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<InventoryFiltersInput>>>;
+  products?: InputMaybe<ProductFiltersInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   quantity?: InputMaybe<IntFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
@@ -606,6 +596,7 @@ export type InventoryFiltersInput = {
 export type InventoryInput = {
   locale?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
+  products?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -720,7 +711,7 @@ export type ProductFiltersInput = {
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
-  inventory?: InputMaybe<ComponentElementsInventoryFiltersInput>;
+  inventories?: InputMaybe<InventoryFiltersInput>;
   key_features?: InputMaybe<ComponentElementsKeyFeaturesFiltersInput>;
   locale?: InputMaybe<StringFilterInput>;
   localizations?: InputMaybe<ProductFiltersInput>;
@@ -741,7 +732,7 @@ export type ProductInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   files?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   images?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  inventory?: InputMaybe<Array<InputMaybe<ComponentElementsInventoryInput>>>;
+  inventories?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   key_features?: InputMaybe<
     Array<InputMaybe<ComponentElementsKeyFeaturesInput>>
   >;
@@ -765,15 +756,17 @@ export enum PublicationStatus {
 export type RegisterUserInput = {
   businessName: Scalars['String']['input'];
   businessNumber: Scalars['String']['input'];
+  city: Scalars['String']['input'];
+  country: Scalars['String']['input'];
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
   phone: Scalars['String']['input'];
-  postalCode: Scalars['String']['input'];
   state: Scalars['String']['input'];
-  street: Scalars['String']['input'];
-  suburb: Scalars['String']['input'];
+  street1: Scalars['String']['input'];
+  street2: Scalars['String']['input'];
   userType: Scalars['String']['input'];
   username: Scalars['String']['input'];
+  zipCode: Scalars['String']['input'];
 };
 
 export type ReviewWorkflowsWorkflowFiltersInput = {
@@ -983,12 +976,13 @@ export type UsersPermissionsRoleInput = {
 export type UsersPermissionsUserFiltersInput = {
   account_detail?: InputMaybe<AccountDetailFiltersInput>;
   account_status?: InputMaybe<StringFilterInput>;
-  address?: InputMaybe<ComponentElementsAddressFiltersInput>;
+  addresses?: InputMaybe<AddressFiltersInput>;
   and?: InputMaybe<Array<InputMaybe<UsersPermissionsUserFiltersInput>>>;
   blocked?: InputMaybe<BooleanFilterInput>;
   business_name?: InputMaybe<StringFilterInput>;
   business_number?: InputMaybe<StringFilterInput>;
   confirmationToken?: InputMaybe<StringFilterInput>;
+  createAccountRequest?: InputMaybe<DateTimeFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
   email?: InputMaybe<StringFilterInput>;
@@ -1012,11 +1006,12 @@ export type UsersPermissionsUserFiltersInput = {
 export type UsersPermissionsUserInput = {
   account_detail?: InputMaybe<Scalars['ID']['input']>;
   account_status?: InputMaybe<Enum_Userspermissionsuser_Account_Status>;
-  address?: InputMaybe<ComponentElementsAddressInput>;
+  addresses?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   blocked?: InputMaybe<Scalars['Boolean']['input']>;
   business_name?: InputMaybe<Scalars['String']['input']>;
   business_number?: InputMaybe<Scalars['String']['input']>;
   confirmationToken?: InputMaybe<Scalars['String']['input']>;
+  createAccountRequest?: InputMaybe<Scalars['DateTime']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   locale?: InputMaybe<Scalars['String']['input']>;
   orders?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
@@ -1328,12 +1323,11 @@ export type ProductsQuery = {
       max_quantity?: any | null;
       user_level?: Enum_Componentelementsprice_User_Level | null;
     } | null> | null;
-    inventory?: Array<{
-      __typename?: 'ComponentElementsInventory';
-      id: string;
+    inventories: Array<{
+      __typename?: 'Inventory';
       location?: string | null;
       quantity?: number | null;
-    } | null> | null;
+    } | null>;
     specification?: Array<{
       __typename?: 'ComponentElementsSpecification';
       id: string;
@@ -1391,12 +1385,11 @@ export type GetProductQuery = {
       max_quantity?: any | null;
       user_level?: Enum_Componentelementsprice_User_Level | null;
     } | null> | null;
-    inventory?: Array<{
-      __typename?: 'ComponentElementsInventory';
-      id: string;
+    inventories: Array<{
+      __typename?: 'Inventory';
       location?: string | null;
       quantity?: number | null;
-    } | null> | null;
+    } | null>;
     specification?: Array<{
       __typename?: 'ComponentElementsSpecification';
       id: string;
@@ -1445,12 +1438,11 @@ export type CreateProductMutation = {
     createdAt?: any | null;
     updatedAt?: any | null;
     publishedAt?: any | null;
-    inventory?: Array<{
-      __typename?: 'ComponentElementsInventory';
-      id: string;
+    inventories: Array<{
+      __typename?: 'Inventory';
       location?: string | null;
       quantity?: number | null;
-    } | null> | null;
+    } | null>;
     price_list?: Array<{
       __typename?: 'ComponentElementsPrice';
       id: string;
@@ -1517,12 +1509,11 @@ export type CustomProductUpdateMutation = {
       max_quantity?: any | null;
       user_level?: Enum_Componentelementsprice_User_Level | null;
     } | null> | null;
-    inventory?: Array<{
-      __typename?: 'ComponentElementsInventory';
-      id: string;
+    inventories: Array<{
+      __typename?: 'Inventory';
       location?: string | null;
       quantity?: number | null;
-    } | null> | null;
+    } | null>;
     specification?: Array<{
       __typename?: 'ComponentElementsSpecification';
       id: string;
@@ -1566,7 +1557,31 @@ export type UserQuery = {
     account_status?: Enum_Userspermissionsuser_Account_Status | null;
     blocked?: boolean | null;
     username: string;
+    business_name?: string | null;
+    business_number?: string | null;
+    user_type?: string | null;
+    phone?: string | null;
     role?: { __typename?: 'UsersPermissionsRole'; name: string } | null;
+    addresses: Array<{
+      __typename?: 'Address';
+      documentId: string;
+      street1?: string | null;
+      street2?: string | null;
+      state?: string | null;
+      city?: string | null;
+      zip_code?: string | null;
+      country?: string | null;
+      phone?: string | null;
+      isActive?: boolean | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      name?: {
+        __typename?: 'ComponentElementsName';
+        first_name?: string | null;
+        middle_name?: string | null;
+        last_name?: string | null;
+      } | null;
+    } | null>;
     account_detail?: {
       __typename?: 'AccountDetail';
       phone?: string | null;
@@ -1577,14 +1592,15 @@ export type UserQuery = {
         middle_name?: string | null;
         last_name?: string | null;
       } | null;
-      shipping_addresses?: Array<{
-        __typename?: 'ComponentElementsShippingAddress';
-        id: string;
+      shipping_addresses: Array<{
+        __typename?: 'Address';
+        documentId: string;
         phone?: string | null;
-        street?: string | null;
-        suburb?: string | null;
-        state_territory?: string | null;
-        postcode?: string | null;
+        street1?: string | null;
+        street2?: string | null;
+        city?: string | null;
+        state?: string | null;
+        zip_code?: string | null;
         country?: string | null;
         isActive?: boolean | null;
         name?: {
@@ -1593,7 +1609,7 @@ export type UserQuery = {
           middle_name?: string | null;
           last_name?: string | null;
         } | null;
-      } | null> | null;
+      } | null>;
       warehouse_location?: {
         __typename?: 'ComponentElementsWarehouseLocation';
         title?: string | null;
@@ -1629,18 +1645,18 @@ export type UsersPermissionsUsersQuery = {
     business_number?: string | null;
     user_type?: string | null;
     phone?: string | null;
-    address?: {
-      __typename?: 'ComponentElementsAddress';
-      id: string;
-      street?: string | null;
-      suburb?: string | null;
-      state_territory?: string | null;
-      postcode?: string | null;
+    addresses: Array<{
+      __typename?: 'Address';
+      documentId: string;
+      street1?: string | null;
+      street2?: string | null;
+      city?: string | null;
+      state?: string | null;
+      zip_code?: string | null;
       country?: string | null;
       isActive?: boolean | null;
       phone?: string | null;
-      city?: string | null;
-    } | null;
+    } | null>;
     account_detail?: {
       __typename?: 'AccountDetail';
       documentId: string;
@@ -1703,18 +1719,6 @@ export type UsersPermissionsUserQuery = {
   } | null;
 };
 
-export type RegisterUserMutationVariables = Exact<{
-  data: RegisterUserInput;
-}>;
-
-export type RegisterUserMutation = {
-  __typename?: 'Mutation';
-  registerUser?: {
-    __typename?: 'UsersPermissionsUser';
-    documentId: string;
-  } | null;
-};
-
 export type LoginMutationVariables = Exact<{
   input: UsersPermissionsLoginInput;
 }>;
@@ -1733,6 +1737,18 @@ export type LoginMutation = {
       username: string;
     };
   };
+};
+
+export type RegisterUserMutationVariables = Exact<{
+  data: RegisterUserInput;
+}>;
+
+export type RegisterUserMutation = {
+  __typename?: 'Mutation';
+  registerUser?: {
+    __typename?: 'UsersPermissionsUser';
+    documentId: string;
+  } | null;
 };
 
 export type ApprovedUserMutationVariables = Exact<{
@@ -2861,11 +2877,10 @@ export const ProductsDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'inventory' },
+                  name: { kind: 'Name', value: 'inventories' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'location' },
@@ -3027,11 +3042,10 @@ export const GetProductDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'inventory' },
+                  name: { kind: 'Name', value: 'inventories' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'location' },
@@ -3171,11 +3185,10 @@ export const CreateProductDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'inventory' },
+                  name: { kind: 'Name', value: 'inventories' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'location' },
@@ -3387,11 +3400,10 @@ export const CustomProductUpdateDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'inventory' },
+                  name: { kind: 'Name', value: 'inventories' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'location' },
@@ -3526,11 +3538,86 @@ export const UserDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'username' } },
                 {
                   kind: 'Field',
+                  name: { kind: 'Name', value: 'business_name' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'business_number' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'user_type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'role' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'addresses' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'street1' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'street2' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'state' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'zip_code' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'country' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isActive' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'name' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'first_name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'middle_name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'last_name' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
                     ],
                   },
                 },
@@ -3571,7 +3658,7 @@ export const UserDocument = {
                           selections: [
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
+                              name: { kind: 'Name', value: 'documentId' },
                             },
                             {
                               kind: 'Field',
@@ -3603,19 +3690,23 @@ export const UserDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'street' },
+                              name: { kind: 'Name', value: 'street1' },
                             },
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'suburb' },
+                              name: { kind: 'Name', value: 'street2' },
                             },
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'state_territory' },
+                              name: { kind: 'Name', value: 'city' },
                             },
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'postcode' },
+                              name: { kind: 'Name', value: 'state' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'zip_code' },
                             },
                             {
                               kind: 'Field',
@@ -3725,26 +3816,27 @@ export const UsersPermissionsUsersDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'address' },
+                  name: { kind: 'Name', value: 'addresses' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'street' },
+                        name: { kind: 'Name', value: 'documentId' },
                       },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'suburb' },
+                        name: { kind: 'Name', value: 'street1' },
                       },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'state_territory' },
+                        name: { kind: 'Name', value: 'street2' },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'state' } },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'postcode' },
+                        name: { kind: 'Name', value: 'zip_code' },
                       },
                       {
                         kind: 'Field',
@@ -3982,57 +4074,6 @@ export const UsersPermissionsUserDocument = {
   UsersPermissionsUserQuery,
   UsersPermissionsUserQueryVariables
 >;
-export const RegisterUserDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'RegisterUser' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'RegisterUserInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'registerUser' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'data' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'data' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  RegisterUserMutation,
-  RegisterUserMutationVariables
->;
 export const LoginDocument = {
   kind: 'Document',
   definitions: [
@@ -4107,6 +4148,57 @@ export const LoginDocument = {
     },
   ],
 } as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
+export const RegisterUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'RegisterUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'RegisterUserInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'registerUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  RegisterUserMutation,
+  RegisterUserMutationVariables
+>;
 export const ApprovedUserDocument = {
   kind: 'Document',
   definitions: [
