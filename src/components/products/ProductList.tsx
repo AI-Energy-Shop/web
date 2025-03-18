@@ -61,9 +61,7 @@ const Products: React.FC<ProductListProps> = ({
   };
 
   const renderProductCard = (product: ProductsQuery['products'][0]) => {
-    if (!product) return null;
-
-    return <ProductCard key={product.documentId} product={product} />;
+    return <ProductCard key={product?.documentId} product={product} />;
   };
 
   useEffect(() => {

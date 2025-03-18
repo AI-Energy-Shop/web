@@ -10,10 +10,7 @@ import { setCart } from '@/store/features/cart';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import useMe from '@/hooks/useMe';
 import { Form, FormField } from '../ui/form';
-import { ProductQuery } from '@/lib/gql/graphql';
-import useCart from '@/hooks/useCart';
 
 const addToCartFormSchema = z.object({
   id: z.string(),
@@ -21,61 +18,41 @@ const addToCartFormSchema = z.object({
   model: z.string(),
   image: z.string(),
   odoo_product_id: z.string(),
-  price: z.string(), // Make sure this is number, not string
+  price: z.number(), // Make sure this is number, not string
   quantity: z.number().min(0), // Make sure this is number
 });
 
 interface CardAddToCartButtonProps {
-  product: ProductQuery['product'];
-  // id: string;
-  // image: string;
-  // title: string;
-  // model: string;
-  // odoo_product_id: string;
-  // stocks: number;
-  // price: number;
+  id: string;
+  image: string;
+  title: string;
+  model: string;
+  odoo_product_id: string;
+  stocks: number;
+  productPrice: number;
 }
 const CardAddToCartButton = ({
-  // id,
-  // image,
-  // title,
-  // model,
-  // odoo_product_id,
-  // stocks,
-  // price,
-  product,
+  id,
+  image,
+  title,
+  model,
+  odoo_product_id,
+  stocks,
+  productPrice,
 }: CardAddToCartButtonProps) => {
   const dispatch = useDispatch();
   const { toast } = useToast();
   const router = useRouter();
-  const { me } = useMe();
-  const { warehouse } = useCart();
-
-  const inventory = product?.inventories.find(
-    (inventory) => inventory?.name === warehouse?.address.city
-  );
-
-  const stocks = inventory?.quantity || 0;
-
-  const itemPrice = product?.price_lists?.find(
-    (price) => price?.user_level === me?.account_detail?.level
-  );
-
-  const salePrice = itemPrice?.sale_price || 0;
-  const regularPrice = itemPrice?.price || 0;
-  const productPrice = salePrice ? salePrice : regularPrice;
-
-  console.log('productPrice:', productPrice);
 
   const form = useForm<z.infer<typeof addToCartFormSchema>>({
     resolver: zodResolver(addToCartFormSchema),
     defaultValues: {
-      id: product?.documentId || '',
-      title: product?.name || '',
-      model: product?.model || '',
-      image: product?.images[0]?.url || '',
-      odoo_product_id: product?.odoo_product_id || '',
-      price: productPrice.toString(),
+      id,
+      title,
+      model,
+      image,
+      odoo_product_id,
+      price: Number(productPrice),
       quantity: 0,
     },
   });
@@ -145,7 +122,7 @@ const CardAddToCartButton = ({
       <FormField
         name={name}
         control={form.control}
-        render={({ field }) => <Input type="hidden" {...field} />}
+        render={({ field }) => <Input {...field} />}
       />
     );
   };
@@ -168,20 +145,7 @@ const CardAddToCartButton = ({
         {renderHiddenInput('odoo_product_id')}
         <ProductQuantity form={form} />
         <Button
-          // type="button"
           type="submit"
-          // onClick={() => {
-          //   console.log('props:', {
-          //     id,
-          //     image,
-          //     title,
-          //     model,
-          //     odoo_product_id,
-          //     price,
-          //     quantity: 0,
-          //   });
-          //   console.log('defaultValues:', form.formState.defaultValues);
-          // }}
           disabled={isDisabled}
           className="w-full mt-2 bg-[#1b1b3b] text-white"
         >
