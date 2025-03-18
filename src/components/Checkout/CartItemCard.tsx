@@ -108,22 +108,28 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
             size="icon"
             variant="ghost"
             className="bg-gray-200 rounded-none w-full h-full border-x border-x-black"
+            onClick={() => onReduceQuant(id)}
           >
             <Minus />
           </Button>
         </div>
-        <Input className="flex-2 rounded-none text-center h-12" />
+        <Input
+          className="flex-2 rounded-none text-center h-12"
+          value={quantity}
+          onChange={(e) => onChange(id, e)}
+        />
         <div className="flex-1">
           <Button
             size="icon"
             variant="ghost"
             className="bg-gray-200 rounded-none w-full h-full border-x border-x-black"
+            onClick={() => onAddQuant(id)}
           >
             <Plus />
           </Button>
         </div>
         <div className="flex-3 text-right pr-2">
-          <p>$2,000.40</p>
+          <p>{getCartItemSubtotal(price, quantity)}</p>
           <p className="text-[14px]">ex.GST</p>
         </div>
       </div>
