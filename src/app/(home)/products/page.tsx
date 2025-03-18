@@ -15,12 +15,7 @@ export default async function ProductsPage({
 }) {
   const { start, limit, page, pageSize } = await searchParams;
 
-  const { data } = await products({
-    pagination: {
-      page: page ? Number(page) : INITIAL_PAGE,
-      pageSize: pageSize ? Number(pageSize) : INITIAL_PAGE_SIZE,
-    },
-  });
+  const { data } = await products();
 
   return (
     <div className="min-h-screen bg-[#fdf6ed]">

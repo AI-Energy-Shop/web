@@ -1,11 +1,11 @@
 'use client';
-import { muktaVaani } from '@/app/font';
 import { formatCurrency } from '@/utils/currency';
-import BulkPrices from './BulkPrices';
+import { muktaVaani } from '@/app/font';
+import useMe from '@/hooks/useMe';
 
 interface ProductPriceProps {
   priceList?: {
-    id?: string;
+    documentId?: string;
     price?: number;
     sale_price?: number;
     min_quantity?: number;
@@ -15,23 +15,14 @@ interface ProductPriceProps {
 }
 
 function ProductPrice({ priceList }: ProductPriceProps) {
-  const productPrice = priceList?.find(
-    (price) => price?.user_level === 'SMALL'
+  const { me } = useMe();
+
+  const price = priceList?.find(
+    (price) => price?.user_level === me?.account_detail?.level
   );
 
-  // const initialCost = productPrice?.sale_price || productPrice?.price;
-
-  // const [qty, setQty] = useState<number>(0);
-
-  // const totalCost = initialCost! * qty;
-
-  const bulkPrices = priceList?.filter((prices) => {
-    if (prices.user_level === 'SMALL') {
-      if (prices.min_quantity || prices.max_quantity) {
-        return prices;
-      }
-    }
-  });
+  const salePrice = price?.sale_price;
+  const regularPrice = price?.price;
 
   return (
     <div
@@ -40,23 +31,19 @@ function ProductPrice({ priceList }: ProductPriceProps) {
       <div className="flex justify-between">
         <div className="leading-6">
           <h2 className="text-gray-500 line-through font-light md:text-[28px]">
-            {productPrice?.sale_price
-              ? formatCurrency(productPrice?.price, 'AUD')
-              : ''}
+            {regularPrice ? formatCurrency(regularPrice, 'USD') : ''}
           </h2>
           <h1 className="font-medium md:mt-1">
             <span className=" text-[40px]">
-              {productPrice?.sale_price
-                ? formatCurrency(productPrice?.sale_price, 'AUD')
-                : formatCurrency(productPrice?.price, 'AUD')}
+              {salePrice
+                ? formatCurrency(salePrice, 'USD')
+                : formatCurrency(regularPrice, 'USD')}
             </span>
             <span className="max-md:text-[12px] max-md:block">ex.GST</span>
           </h1>
         </div>
         <div className="w-24 bg-red-500 h-8 md:hidden"></div>
       </div>
-
-      <BulkPrices prices={bulkPrices} />
     </div>
   );
 }

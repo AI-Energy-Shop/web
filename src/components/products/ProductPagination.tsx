@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/pagination';
 import { useQuery } from '@apollo/client';
 import PRODUCT_OPRATIONS from '@/graphql/products';
+import { ProductsQuery } from '@/lib/gql/graphql';
 interface ProductPaginationProps {
   currentPage: number;
   limit?: number;
@@ -32,11 +33,11 @@ const ProductPagination = ({
     },
   };
 
-  const { data } = useQuery(PRODUCT_OPRATIONS.Query.products, {
+  const { data } = useQuery<ProductsQuery>(PRODUCT_OPRATIONS.Query.products, {
     variables: category ? variables : {},
   });
 
-  const productLength = data?.products.length || 0;
+  const productLength = data?.products?.length || 0;
   const totalPages = Math.ceil(productLength / pageSize);
 
   return (

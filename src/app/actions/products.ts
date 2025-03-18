@@ -7,24 +7,21 @@ import {
   CreateProductMutation,
   CustomProductUpdateMutationVariables,
   CreateProductMutationVariables,
-  ProductsQueryVariables,
   ProductsQuery,
+  ProductQuery,
+  PaginationArg,
+  ProductFiltersInput,
 } from '@/lib/gql/graphql';
 
 const client = getClient();
 
-export const product = async (id: string) => {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('a-token');
-
+export const product = async (
+  id: string
+): Promise<FetchResult<ProductQuery>> => {
   try {
     const res = await client.query({
       query: PRODUCT_OPERATIONS.Query.product,
-      context: {
-        headers: {
-          Authorization: `Bearer ${token?.value}`,
-        },
-      },
+      fetchPolicy: 'no-cache',
       variables: {
         documentId: id,
       },
@@ -32,24 +29,21 @@ export const product = async (id: string) => {
 
     return res;
   } catch (error: any) {
-    console.log('ERROR fetching product:', error.message);
+    console.error('ERROR FETCHING PRODUCT:', error);
     return error;
   }
 };
 
-export const products = async (
-  variables?: ProductsQueryVariables
-): Promise<FetchResult<ProductsQuery>> => {
+export const products = async (variables?: {
+  filters: ProductFiltersInput;
+  pagination: PaginationArg;
+}): Promise<FetchResult<ProductsQuery>> => {
   try {
     const res = await client.query({
       query: PRODUCT_OPERATIONS.Query.products,
       fetchPolicy: 'no-cache',
-      variables,
+      variables: variables,
     });
-
-    if (res?.errors) {
-      throw new Error(res?.errors[0].message);
-    }
 
     return res;
   } catch (error: any) {

@@ -13,19 +13,42 @@ const schema = {
           description
           category
           vendor
-          odoo_product_id
           model
-          price_list {
-            id
+          odoo_product_id
+          product_brand_image {
+            documentId
+            name
+            alternativeText
+            width
+            height
+            mime
+            url
+          }
+          price_lists {
+            documentId
             price
             sale_price
             min_quantity
             max_quantity
             user_level
           }
-          inventories {
-            location
-            quantity
+          files {
+            documentId
+            name
+            alternativeText
+            width
+            height
+            mime
+            url
+          }
+          images {
+            documentId
+            name
+            alternativeText
+            width
+            height
+            mime
+            url
           }
           specification {
             id
@@ -36,19 +59,14 @@ const schema = {
             id
             feature
           }
-          files {
+          inventories {
             documentId
             name
-            url
-            mime
-            ext
-          }
-          images {
-            documentId
-            name
-            url
-            mime
-            ext
+            location_code
+            quantity
+            createdAt
+            updatedAt
+            publishedAt
           }
           createdAt
           updatedAt
@@ -57,27 +75,49 @@ const schema = {
       }
     `),
     product: graphql(`
-      query GetProduct($documentId: ID!) {
-        getProduct(documentId: $documentId) {
+      query Product($documentId: ID!) {
+        product(documentId: $documentId) {
           documentId
           name
-          model
           description
-          vendor
           category
-          odoo_product_id
+          vendor
           model
-          price_list {
-            id
+          odoo_product_id
+          product_brand_image {
+            documentId
+            name
+            alternativeText
+            width
+            height
+            mime
+            url
+          }
+          price_lists {
+            documentId
             price
             sale_price
             min_quantity
             max_quantity
             user_level
           }
-          inventories {
-            location
-            quantity
+          files {
+            documentId
+            name
+            alternativeText
+            width
+            height
+            mime
+            url
+          }
+          images {
+            documentId
+            name
+            alternativeText
+            width
+            height
+            mime
+            url
           }
           specification {
             id
@@ -88,19 +128,14 @@ const schema = {
             id
             feature
           }
-          files {
+          inventories {
             documentId
-            mime
             name
-            url
-            alternativeText
-          }
-          images {
-            documentId
-            mime
-            name
-            url
-            alternativeText
+            location_code
+            quantity
+            createdAt
+            updatedAt
+            publishedAt
           }
           createdAt
           updatedAt
@@ -121,12 +156,13 @@ const schema = {
           vendor
           odoo_product_id
           inventories {
-            location
+            location_code
             quantity
           }
-          price_list {
-            id
+          price_lists {
+            documentId
             price
+            sale_price
             min_quantity
             max_quantity
             user_level
@@ -170,8 +206,8 @@ const schema = {
           category
           vendor
           odoo_product_id
-          price_list {
-            id
+          price_lists {
+            documentId
             price
             sale_price
             min_quantity
@@ -179,7 +215,8 @@ const schema = {
             user_level
           }
           inventories {
-            location
+            documentId
+            location_code
             quantity
           }
           specification {

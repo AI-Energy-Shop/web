@@ -24,29 +24,9 @@ import FileUpload from '../Upload/FileUpload';
 import SpecificationItem from './SpecificationItem';
 import useProductDetails from './useProductDetails';
 import KeyFeatureItem from './KeyFeatureItem';
+import { ProductQuery } from '@/lib/gql/graphql';
 
-export type ProductDetails = {
-  documentId: string;
-  name: string;
-  description: string;
-  category: string;
-  vendor: string;
-  odoo_product_id: string;
-  // collections: string;
-  // tags: string;
-  price_list: any[];
-  specification: any[];
-  inventory: any[];
-  key_features: any[];
-  images: any[];
-  files: any[];
-  status: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-};
-
-const ProductsDetails = ({ product }: { product: ProductDetails }) => {
+const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
   const {
     loading,
     productCopy,

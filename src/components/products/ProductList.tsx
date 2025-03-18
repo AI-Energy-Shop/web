@@ -63,20 +63,7 @@ const Products: React.FC<ProductListProps> = ({
   const renderProductCard = (product: ProductsQuery['products'][0]) => {
     if (!product) return null;
 
-    return (
-      <ProductCard
-        key={product.documentId}
-        documentId={product.documentId}
-        images={product.images}
-        name={`${product?.name?.slice(0, 45)}`}
-        model={product?.model || ''}
-        price_list={product?.price_list}
-        inventories={product?.inventories}
-        odoo_product_id={product?.model || ''}
-        files={product?.files}
-        category={product?.category}
-      />
-    );
+    return <ProductCard key={product.documentId} product={product} />;
   };
 
   useEffect(() => {

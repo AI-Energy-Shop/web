@@ -31,23 +31,20 @@ export async function getCartItems(): Promise<CartsQuery> {
 export async function addToCart(formData: FormData) {
   const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;
+
+  const title = formData.get('title') as string;
   const model = formData.get('model') as string;
   const quantity = Number(formData.get('quantity'));
-  const title = formData.get('title') as string;
   const price = Number(formData.get('price'));
-  const odoo_product_id = formData.get('odoo_product_id') as string;
   const image = formData.get('image') as string;
+  const odoo_product_id = formData.get('odoo_product_id') as string;
 
-  const variables = {
-    data: {
-      title: title,
-      price: price,
-      quantity: quantity,
-      model: model,
-      odoo_product_id,
-      image: image,
-    },
-  };
+  // console.log('price:', price);
+  // console.log('quantity:', quantity);
+  // console.log('title:', title);
+  // console.log('model:', model);
+  // console.log('image:', image);
+  // console.log('odoo_product_id:', odoo_product_id);
 
   try {
     const { data: cartData } = await client.query({
@@ -85,7 +82,7 @@ export async function addToCart(formData: FormData) {
           data: {
             title: cartItem.item.title,
             price: cartItem.item.price,
-            quantity: cartItem.item.quantity + variables.data.quantity,
+            quantity: cartItem.item.quantity + quantity,
             odoo_product_id: cartItem.item.odoo_product_id,
             model: cartItem.item.model,
             image: cartItem.item.image,
@@ -95,7 +92,6 @@ export async function addToCart(formData: FormData) {
 
       if (res.errors) {
         return {
-          success: false,
           error: res.errors[0].message,
         };
       }
@@ -106,12 +102,22 @@ export async function addToCart(formData: FormData) {
           id: cartItem.documentId,
           name: cartItem.item.title,
           price: cartItem.item.price,
-          quantity: cartItem.item.quantity + variables.data.quantity,
+          quantity: cartItem.item.quantity + quantity,
           image: cartItem.item.image,
         },
-        success: true,
       };
     }
+
+    const variables = {
+      data: {
+        title: title,
+        price: price,
+        quantity: quantity,
+        model: model,
+        odoo_product_id,
+        image: image,
+      },
+    };
 
     const res = await client.mutate({
       context: {
@@ -125,7 +131,6 @@ export async function addToCart(formData: FormData) {
 
     if (res.errors) {
       return {
-        success: false,
         error: res.errors[0].message,
       };
     }
@@ -138,14 +143,30 @@ export async function addToCart(formData: FormData) {
         quantity: quantity,
         image: image,
         model: model,
+        odoo_product_id: odoo_product_id,
       },
-      success: true,
       message: 'Item added to cart',
     };
   } catch (error: any) {
-    console.error('GraphQL Mutation Error:', error.message);
+    console.error('GraphQL Mutation Error:', error);
     return {
       error: error.message,
     };
   }
+}
+
+export async function testAddToCart(formData: FormData) {
+  const title = formData.get('title') as string;
+  const model = formData.get('model') as string;
+  const quantity = Number(formData.get('quantity'));
+  const price = Number(formData.get('price'));
+  const image = formData.get('image') as string;
+  const odoo_product_id = formData.get('odoo_product_id') as string;
+
+  console.log('price:', price);
+  console.log('quantity:', quantity);
+  console.log('title:', title);
+  console.log('model:', model);
+  console.log('image:', image);
+  console.log('odoo_product_id:', odoo_product_id);
 }

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { type Cart } from '@/store/features/cart';
 
 interface CartNotificationProps {
-  carts?: any[];
+  carts?: Cart[];
 }
 
 const CartNotification: React.FC<CartNotificationProps> = ({ carts }) => {

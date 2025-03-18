@@ -11,16 +11,16 @@ export default async function ProductManagement(props: {
     redirect('/not-found');
   }
 
-  const { data, error } = await product(params.id);
+  const { data, errors } = await product(params.id);
 
-  if (error) {
-    return <div>ERROR {error.toString()} </div>;
+  if (errors) {
+    return <div>ERROR {errors.toString()} </div>;
   }
 
   return (
     <Suspense fallback={<p>Loading...</p>}>
       <div className="h-auto w-full bg-gray-100 dark:bg-gray-900">
-        <Components.Cards.ProductsDetails product={data?.getProduct} />
+        <Components.Cards.ProductsDetails product={data?.product} />
       </div>
     </Suspense>
   );

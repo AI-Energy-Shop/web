@@ -1,9 +1,9 @@
 'use client';
+import useBreakpoint from '../../../../hooks/useBreakpoints';
 import Image from 'next/image';
 import React from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import useBreakpoint from '../../../../hooks/useBreakpoints';
 import type { SliderSlide } from '@/lib/types';
 import { CustomDot } from './CustomDot';
 
@@ -118,6 +118,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
                   className="object-cover object-center"
                   src={item?.image?.url}
                   alt={item?.image?.alternativeText || ''}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
               </div>
             );

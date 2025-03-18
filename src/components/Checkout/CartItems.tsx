@@ -1,9 +1,8 @@
 'use client';
 import React from 'react';
-import { formatCurrency } from '@/utils/cart';
-// import { CartType } from '@/lib/types';
-import CartItemCard from '@/components/Checkout/CartItemCard';
 import { Cart } from '@/store/features/cart';
+import { formatCurrency } from '@/utils/cart';
+import CartItemCard from '@/components/Checkout/CartItemCard';
 
 const CartItems = ({
   data,
@@ -27,7 +26,7 @@ const CartItems = ({
             id={item.id}
             image={item.image}
             title={item.name}
-            refId={item.model}
+            model={item.model}
             price={item.price}
             gst={formatCurrency(item?.price * 0.1, 'USD')}
             quantity={item.quantity}

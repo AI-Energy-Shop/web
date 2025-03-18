@@ -1,9 +1,9 @@
+'use client';
 import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenu,
 } from '@radix-ui/react-dropdown-menu';
-import { CircleAlert, ChevronDown } from 'lucide-react';
 import React from 'react';
 import {
   Table,
@@ -13,20 +13,46 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { CircleAlert, ChevronDown } from 'lucide-react';
+import { ProductQuery } from '@/lib/gql/graphql';
+import useMe from '@/hooks/useMe';
 
 interface BulkPricesProps {
-  prices: any;
+  product: ProductQuery['product'];
 }
 
-const BulkPrices = ({ prices }: BulkPricesProps) => {
+const BulkPrices = ({ product }: BulkPricesProps) => {
+  const { me } = useMe();
+
+  const priceList = product?.price_lists?.map((price) => ({
+    id: price?.documentId,
+    price: price?.price ?? undefined,
+    sale_price: price?.sale_price ?? undefined,
+    min_quantity: price?.min_quantity ?? undefined,
+    max_quantity: price?.max_quantity ?? undefined,
+    user_level: price?.user_level ?? undefined,
+  }));
+
+  const bulkPrices = priceList?.filter((price) => {
+    if (price.user_level === me?.account_detail?.level) {
+      if (price.min_quantity || price.max_quantity) {
+        return price;
+      }
+    }
+  });
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="w-full md:w-80 h-8 md:h-8 text-center relative border border-black rounded-lg font-medium">
-        <CircleAlert className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4" />
+      <DropdownMenuTrigger className="w-full md:w-80 h-12 md:h-12 text-center relative border border-black rounded-2xl font-medium select-none">
+        <CircleAlert
+          fill="black"
+          color="white"
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4"
+        />
         <span>Bulk Pricing available</span>
         <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2  w-4 h-4" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[92vw] md:w-80">
+      <DropdownMenuContent className="w-[92vw] md:w-80 bg-white">
         <Table>
           <TableHeader>
             <TableRow>
@@ -35,7 +61,7 @@ const BulkPrices = ({ prices }: BulkPricesProps) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {prices?.map((data: any) => (
+            {bulkPrices?.map((data: any) => (
               <TableRow key={data?.id}>
                 <TableCell>{`${data?.min_quantity}-${data?.max_quantity}`}</TableCell>
                 <TableCell>{data?.price}</TableCell>
