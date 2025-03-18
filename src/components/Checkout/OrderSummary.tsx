@@ -11,6 +11,7 @@ import {
 } from '@/store/features/cart';
 import { formatCurrency } from '@/utils/currency';
 import { getCartTotals } from '@/utils/cart';
+import { roundToTwoDecimals } from '@/utils/rountTwoDecimals';
 interface OrderSummaryProps {
   // shippingDetails: any;
   // subtotal?: string;
@@ -119,7 +120,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = () => {
     return (
       <div className="flex justify-between items-center">
         <h1>Sub-total (ex. GST)</h1>
-        <p>{subtotal}</p>
+        <p>{roundToTwoDecimals(subtotal)}</p>
       </div>
     );
   };
