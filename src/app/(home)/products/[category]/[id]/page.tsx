@@ -13,15 +13,6 @@ async function ProductPage({ params }: { params: { id: string } }) {
   const id = (await params).id;
   const { data } = await product(id);
 
-  const priceList = data?.product?.price_lists?.map((price) => ({
-    documentId: price?.documentId,
-    price: price?.price ?? undefined,
-    sale_price: price?.sale_price ?? undefined,
-    min_quantity: price?.min_quantity ?? undefined,
-    max_quantity: price?.max_quantity ?? undefined,
-    user_level: price?.user_level ?? undefined,
-  }));
-
   return (
     <main className="bg-yellow-light-yellow">
       <Breadcrumb />
@@ -44,7 +35,7 @@ async function ProductPage({ params }: { params: { id: string } }) {
             <Carousel.ProductCarousel product={data?.product} />
           </div>
           <div className="md:basis-[51.75%] md:max-w-[51.75%]">
-            <ProductPrice priceList={priceList} />
+            <ProductPrice product={data?.product} />
             <BulkPrices product={data?.product} />
             <ShopProductStockQuantities product={data?.product} />
             <ProductAddToCartButton product={data?.product} />
