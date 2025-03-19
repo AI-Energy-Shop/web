@@ -2,29 +2,27 @@
 import { z } from 'zod';
 import React from 'react';
 import useMe from '@/hooks/useMe';
+import { Input } from '../ui/input';
 import { firaSans } from '@/app/font';
+import useCart from '@/hooks/useCart';
 import { Button } from '../ui/button';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { Minus, Plus } from 'lucide-react';
+import { useToast } from '@/hooks/useToast';
 import { ProductQuery } from '@/lib/gql/graphql';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { addToCartFormSchema } from '@/lib/validation-schema/add-to-cart-form';
 import { Form, FormControl, FormField, FormItem } from '../ui/form';
-import { Input } from '../ui/input';
-import { Minus, Plus } from 'lucide-react';
-import useCart from '@/hooks/useCart';
-import { addToCart } from '@/app/actions/cart';
-import { useToast } from '@/hooks/useToast';
-import { setCart } from '@/store/features/cart';
-import { useDispatch } from 'react-redux';
+import { addToCartFormSchema } from '@/lib/validation-schema/add-to-cart-form';
+
 interface ProductAddToCartButtonProps {
   product: ProductQuery['product'];
 }
 
 const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
   const { me } = useMe();
-  const { warehouse } = useCart();
   const { toast } = useToast();
-  const dispatch = useDispatch();
+  const { warehouse, addToCart } = useCart();
 
   const priceList = product?.price_lists?.map((price) => ({
     documentId: price?.documentId,
@@ -104,36 +102,19 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
       });
       return;
     }
-    const formData = new FormData();
-    Object.entries(onValid).forEach(([key, value]) => {
-      formData.append(key, value as string);
+
+    addToCart({
+      variables: {
+        data: {
+          title: onValid.title,
+          price: onValid.price,
+          quantity: onValid.quantity,
+          model: onValid.model,
+          odoo_product_id: onValid.odoo_product_id,
+          image: onValid.image,
+        },
+      },
     });
-    const res = await addToCart(formData);
-
-    if (res?.errors) {
-      toast({
-        title: res.errors[0].message,
-        variant: 'destructive',
-      });
-    }
-
-    toast({
-      title: `${onValid.title} added to cart`,
-      description: 'Your cart has been updated',
-    });
-
-    dispatch(
-      setCart({
-        id: onValid.id,
-        name: onValid.title,
-        price: onValid.price,
-        quantity: Number(onValid.quantity),
-        image: onValid.image,
-        odoo_product_id: onValid.odoo_product_id,
-        model: onValid.model,
-      })
-    );
-    form.reset();
   };
 
   const renderHiddenInput = ({
@@ -162,7 +143,6 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
         {/* <PickupLocation product={product} pickLocation={pickLocation} /> */}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            {/* <form action={testAddToCart}> */}
             {renderHiddenInput({ name: 'id' })}
             {renderHiddenInput({ name: 'image' })}
             {renderHiddenInput({ name: 'title' })}
