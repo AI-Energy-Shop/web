@@ -20,7 +20,7 @@ const Categories: React.FC<CategoriesProps> = ({ categories }) => {
   return (
     <div className="w-full bg-[#f5efe6] p-5">
       <div className="w-full lg:max-w-[1200px] mx-auto">
-        <div className="w-full h-[100px] py-5 flex items-center justify-between gap-10 lg:gap-0 overflow-x-auto">
+        <div className="w-full h-[100px] flex items-center justify-between gap-10 lg:gap-0 overflow-x-auto">
           {categories.map((category) => (
             <Link
               className="w-full h-full"
@@ -33,7 +33,7 @@ const Categories: React.FC<CategoriesProps> = ({ categories }) => {
                     fill
                     alt={category.name}
                     src={category.icon || '/placeholder.svg'}
-                    // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="opacity-6 absolute top-0 left-0 w-full h-full object-fit"
                   />
                 </div>
