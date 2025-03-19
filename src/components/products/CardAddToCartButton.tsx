@@ -1,16 +1,17 @@
 'use client';
+import { z } from 'zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import ProductQuantity from './ProductQuantity';
-import { addToCart, testAddToCart } from '@/app/actions/cart';
 import { useForm } from 'react-hook-form';
 import { useToast } from '@/hooks/useToast';
 import { useDispatch } from 'react-redux';
-import { setCart } from '@/store/features/cart';
 import { useRouter } from 'next/navigation';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormField } from '../ui/form';
+import { setCart } from '@/store/features/cart';
+import ProductQuantity from './ProductQuantity';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { addToCart, testAddToCart } from '@/app/actions/cart';
+import useMe from '@/hooks/useMe';
 
 const addToCartFormSchema = z.object({
   id: z.string(),
@@ -43,6 +44,7 @@ const CardAddToCartButton = ({
   const dispatch = useDispatch();
   const { toast } = useToast();
   const router = useRouter();
+  const { me } = useMe();
 
   const form = useForm<z.infer<typeof addToCartFormSchema>>({
     resolver: zodResolver(addToCartFormSchema),
@@ -58,61 +60,82 @@ const CardAddToCartButton = ({
   });
 
   const onSubmit = async (data: z.infer<typeof addToCartFormSchema>) => {
-    console.log('data:', data);
-    // if (!me) {
-    //   router.push('/auth/login');
-    //   return;
-    // }
+    try {
+      if (!me) {
+        router.push('/auth/login');
+        return;
+      }
 
-    // if (data.quantity === 0 || data.quantity === null) {
-    //   toast({
-    //     title: 'Quantity cannot be 0',
-    //     variant: 'destructive',
-    //   });
-    //   return;
-    // }
+      if (data.quantity === 0 || data.quantity === null) {
+        toast({
+          title: 'Quantity cannot be 0',
+          variant: 'destructive',
+        });
+        return;
+      }
 
-    // if (stocks <= 0) {
-    //   toast({
-    //     title: 'Out of Stock',
-    //     variant: 'destructive',
-    //   });
-    //   return;
-    // }
+      if (stocks <= 0) {
+        toast({
+          title: 'Out of Stock',
+          variant: 'destructive',
+        });
+        return;
+      }
 
-    // const formData = new FormData();
-    // Object.entries({ ...data, price: price }).forEach(([key, value]) => {
-    //   formData.append(key, value as string);
-    // });
-    // const { error, data: cartData } = await addToCart(formData);
-    // console.log('cartData:', cartData);
-    // if (error) {
-    //   toast({
-    //     title: error,
-    //     variant: 'destructive',
-    //   });
-    //   return;
-    // }
-    // toast({
-    //   title: `${data.title} added to cart`,
-    //   description: 'Your cart has been updated',
-    //   style: {
-    //     backgroundColor: 'green',
-    //     color: '#fff',
-    //   },
-    //   duration: 5000,
-    // });
-    // dispatch(
-    //   setCart({
-    //     id: cartData?.id || '',
-    //     name: cartData?.name || '',
-    //     price: cartData?.price || 0,
-    //     quantity: Number(cartData?.quantity) || 0,
-    //     image: cartData?.image || '',
-    //     odoo_product_id: cartData?.odoo_product_id || '',
-    //     model: cartData?.model || '',
-    //   })
-    // );
+      // Match the working pattern exactly
+      const formData = new FormData();
+      const submitData = {
+        ...data,
+        price: data.quantity * Number(productPrice), // Calculate total price
+      };
+
+      Object.entries(submitData).forEach(([key, value]) => {
+        formData.append(key, value as string);
+      });
+
+      const res = await addToCart(formData);
+
+      // Match the error handling pattern
+      if (res?.errors) {
+        toast({
+          title: res.errors[0].message,
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      toast({
+        title: `${data.title} added to cart`,
+        description: 'Your cart has been updated',
+        style: {
+          backgroundColor: 'green',
+          color: '#fff',
+        },
+        duration: 5000,
+      });
+
+      // Update cart state using the response data
+      if (res?.data?.addToCart) {
+        dispatch(
+          setCart({
+            id: res.data.addToCart.id,
+            name: res.data.addToCart.title,
+            price: res.data.addToCart.price,
+            quantity: Number(res.data.addToCart.quantity),
+            image: res.data.addToCart.image,
+            odoo_product_id: res.data.addToCart.odoo_product_id,
+            model: res.data.addToCart.model,
+          })
+        );
+      }
+    } catch (error) {
+      console.error('Add to cart error:', error);
+      toast({
+        title: 'Error adding to cart',
+        description: 'Please try again',
+        variant: 'destructive',
+      });
+    }
   };
 
   const renderHiddenInput = (
@@ -122,21 +145,17 @@ const CardAddToCartButton = ({
       <FormField
         name={name}
         control={form.control}
-        render={({ field }) => <Input {...field} />}
+        render={({ field }) => <Input type="hidden" {...field} />}
       />
     );
   };
 
   const isDisabled = stocks <= 0;
 
-  if (Object.entries(form.formState.errors).length > 0) {
-    console.log(form.formState.errors);
-  }
-
   return (
     <Form {...form}>
+      {/* <form action={testAddToCart}> */}
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        {/* <form action={testAddToCart}> */}
         {renderHiddenInput('id')}
         {renderHiddenInput('image')}
         {renderHiddenInput('title')}

@@ -12,7 +12,7 @@ import { Form, FormControl, FormField, FormItem } from '../ui/form';
 import { Input } from '../ui/input';
 import { Minus, Plus } from 'lucide-react';
 import useCart from '@/hooks/useCart';
-import { addToCart, testAddToCart } from '@/app/actions/cart';
+import { addToCart } from '@/app/actions/cart';
 import { useToast } from '@/hooks/useToast';
 import { setCart } from '@/store/features/cart';
 import { useDispatch } from 'react-redux';
@@ -97,20 +97,28 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
       });
       return;
     }
+    if (onValid.quantity <= 0) {
+      toast({
+        title: 'Quantity cannot be 0',
+        variant: 'destructive',
+      });
+      return;
+    }
     const formData = new FormData();
     Object.entries(onValid).forEach(([key, value]) => {
       formData.append(key, value as string);
     });
-    const { error, data: cartData } = await addToCart(formData);
-    if (error) {
+    const res = await addToCart(formData);
+
+    if (res?.errors) {
       toast({
-        title: error,
+        title: res.errors[0].message,
         variant: 'destructive',
       });
     }
 
     toast({
-      title: `${cartData?.name} added to cart`,
+      title: `${onValid.title} added to cart`,
       description: 'Your cart has been updated',
     });
 
@@ -125,6 +133,7 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
         model: onValid.model,
       })
     );
+    form.reset();
   };
 
   const renderHiddenInput = ({
@@ -146,10 +155,6 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
       />
     );
   };
-
-  if (Object.entries(form.formState.errors).length > 0) {
-    console.log(form.formState.errors);
-  }
 
   return (
     <div className="bg-yellow-light-yellow max-md:px-4 md:bg-white md:mt-6">

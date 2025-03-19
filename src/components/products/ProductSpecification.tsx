@@ -1,8 +1,8 @@
 import { firaSans, muktaVaani } from '@/app/font';
-import { GetProductQuery } from '@/lib/gql/graphql';
+import { ProductQuery } from '@/lib/gql/graphql';
 
 interface ProductSpecificationProps {
-  productData: GetProductQuery['getProduct'];
+  productData: ProductQuery['product'];
 }
 
 function ProductSpecification({ productData }: ProductSpecificationProps) {

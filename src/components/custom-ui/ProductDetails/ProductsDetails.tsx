@@ -62,12 +62,12 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
           <Link href="/admin/dashboard/products">
             <ChevronLeft className="h-4 w-4" />
           </Link>
-          <h1 className="text-base font-bold">{currentProduct.name}</h1>
+          <h1 className="text-base font-bold">{currentProduct?.name}</h1>
         </div>
         <div className="flex items-center space-x-2">
-          <Select
+          {/* <Select
             onValueChange={handleProductStatusChange}
-            value={currentProduct.status}
+            value={currentProduct?.status}
             defaultValue="draft"
           >
             <SelectTrigger className="min-w-[150px]">
@@ -81,9 +81,9 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                 <p className="text-sm">Publish</p>
               </SelectItem>
             </SelectContent>
-          </Select>
+          </Select> */}
 
-          {!objectIsEqual(productCopy, currentProduct) && (
+          {/* {!objectIsEqual(productCopy, currentProduct) && (
             <>
               <Button variant="destructive" onClick={handleDiscardChanges}>
                 Discard
@@ -101,7 +101,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                 )}
               </Button>
             </>
-          )}
+          )} */}
         </div>
       </div>
 
@@ -120,14 +120,14 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                     id="name"
                     name="name"
                     onChange={handleInputChange}
-                    value={currentProduct.name}
+                    value={currentProduct?.name}
                     placeholder="Enter product title"
                   />
                 </div>
                 <div className="min-h-[300px]">
                   <Label htmlFor="description">Description</Label>
                   <RichTextEditor
-                    description={currentProduct.description}
+                    description={currentProduct?.description || ''}
                     setDescription={handleDescriptionChange}
                     iconSize={15}
                     className="min-h-[200px] m-2 focus:outline-none"
@@ -142,9 +142,9 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
               <CardTitle>Media</CardTitle>
             </CardHeader>
             <CardContent>
-              <FileUpload
+              {/* <FileUpload
                 accept="image/*"
-                data={currentProduct.images || []}
+                data={currentProduct?.images || []}
                 dataModalFilters={{
                   mimeTypes: [
                     'image/jpeg',
@@ -159,7 +159,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                 useExistingButtonLabel="Use existing Image"
                 onFileRemove={handleImageRemove}
                 onSelectedFiles={handleImagesSelected}
-              />
+              /> */}
             </CardContent>
           </Card>
 
@@ -168,21 +168,21 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
               <CardTitle>Files</CardTitle>
             </CardHeader>
             <CardContent>
-              <FileUpload
-                data={currentProduct.files || []}
+              {/* <FileUpload
+                data={currentProduct?.files || []}
                 accept="application/pdf"
                 uploadNewFileLabel="Upload new File"
                 useExistingButtonLabel="Use existing File"
                 dataModalFilters={{ mimeTypes: ['application/pdf'] }}
                 onFileRemove={handleFileRemove}
                 onSelectedFiles={handleFilesSelected}
-              />
+              /> */}
             </CardContent>
           </Card>
 
           <ListInput
             title="Key Features"
-            data={currentProduct.key_features}
+            data={currentProduct?.key_features || []}
             addButtonLabel="Add"
             onAddList={handleAddKeyFeatureItem}
             onChange={handleOnInputChange}
@@ -192,7 +192,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
 
           <ListInput
             title="Specification"
-            data={currentProduct.specification}
+            data={currentProduct?.specification || []}
             addButtonLabel="Add"
             onAddList={handleAddSpecsItem}
             onChange={handleOnInputChange}
@@ -202,7 +202,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
 
           <ListInput
             title="Inventory"
-            data={currentProduct.inventory}
+            data={currentProduct?.inventories || []}
             addButtonLabel="Add"
             onAddList={handleAddInventoryItem}
             onChange={handleOnInputChange}
@@ -217,7 +217,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
 
           <ListInput
             title="Price List"
-            data={currentProduct.price_list}
+            data={currentProduct?.price_lists || []}
             addButtonLabel="Add"
             onAddList={handleAddPriceItem}
             onChange={handleOnInputChange}
@@ -244,7 +244,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                   name="odoo_product_id"
                   placeholder="Enter product odoo id"
                   onChange={handleInputChange}
-                  value={currentProduct.odoo_product_id}
+                  value={currentProduct?.odoo_product_id || ''}
                 />
               </div>
             </CardContent>
@@ -261,7 +261,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                   name="category"
                   placeholder="Enter product category"
                   onChange={handleInputChange}
-                  value={currentProduct.category}
+                  value={currentProduct?.category || ''}
                 />
               </div>
               <div>
@@ -270,7 +270,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                   id="vendor"
                   name="vendor"
                   placeholder="Enter vendor name"
-                  value={currentProduct.vendor}
+                  value={currentProduct?.vendor || ''}
                   onChange={handleInputChange}
                 />
               </div>
@@ -281,7 +281,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                   name="collections"
                   placeholder="Add to collections"
                   onChange={handleInputChange}
-                  value={currentProduct.collections}
+                  value={currentProduct?.collections || ''}
                 />
               </div>
               <div>
@@ -291,7 +291,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                   name="tags"
                   placeholder="Add tags"
                   onChange={handleInputChange}
-                  value={currentProduct.tags}
+                  value={currentProduct?.tags || ''}
                 />
               </div> */}
             </CardContent>
