@@ -105,7 +105,7 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
 
   useEffect(() => {
     form.setValue('price', productPrice * form.watch('quantity')); //DIRTY FIX
-  }, [productPrice, form.watch('quantity')]);
+  }, [productPrice, form, form.watch('quantity')]);
 
   const renderPriceAndStock = () => {
     if (!me) {
