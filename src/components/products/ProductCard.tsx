@@ -191,14 +191,18 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
           {renderHiddenInput('model')}
           {renderHiddenInput('price')}
           {renderHiddenInput('odoo_product_id')}
-          <ProductQuantity form={form} />
-          <Button
-            type="submit"
-            disabled={stocks <= 0}
-            className="w-full mt-2 bg-[#1b1b3b] text-white"
-          >
-            {stocks <= 0 ? 'Out of Stock' : `Add to Cart`}
-          </Button>
+          {me && (
+            <>
+              <ProductQuantity form={form} />
+              <Button
+                type="submit"
+                disabled={stocks <= 0}
+                className="w-full mt-2 bg-[#1b1b3b] text-white"
+              >
+                {stocks <= 0 ? 'Out of Stock' : `Add to Cart`}
+              </Button>
+            </>
+          )}
         </form>
       </Form>
     </div>
