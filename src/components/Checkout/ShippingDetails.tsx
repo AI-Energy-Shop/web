@@ -249,12 +249,12 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
             }
           })}
 
-          <div className="ae-mobile-container px-2 mt-4 lg:bg-white lg:-mt-4 lg:py-4 ">
+          <div className="ae-mobile-container px-2 mt-4 lg:bg-white lg:-mt-4 py-4">
             <Button
               onClick={handleContinueClick}
-              className="mx-auto px-12 block rounded-2xl bg-pink-darker-pink hover:bg-pink-darker-pink/90"
+              className="mx-auto px-12 block rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
             >
-              Continue to Shipping
+              Continue to Payment
             </Button>
           </div>
         </div>
