@@ -1,6 +1,5 @@
 'use client';
 import { formatCurrency } from '@/utils/currency';
-import CardAddToCartButton from './CardAddToCartButton';
 import { ProductsQuery } from '@/lib/gql/graphql';
 import useMe from '@/hooks/useMe';
 import Image from 'next/image';
@@ -15,14 +14,8 @@ import { z } from 'zod';
 import { Input } from '../ui/input';
 import ProductQuantity from './ProductQuantity';
 import { Button } from '../ui/button';
-import { useDispatch } from 'react-redux';
 import { useToast } from '@/hooks/useToast';
 import { useRouter } from 'next/navigation';
-import { setCart, setShowCartWindow } from '@/store/features/cart';
-import CART_OPERATIONS from '@/graphql/cart';
-import { useMutation } from '@apollo/client';
-
-const CART_WINDOW_TIMEOUT = 3000;
 
 type ProductCardproduct = {
   product?: ProductsQuery['products'][0] | null;
@@ -41,43 +34,8 @@ const addToCartFormSchema = z.object({
 const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
   const router = useRouter();
   const { toast } = useToast();
-  const { me, token } = useMe();
-  const dispatch = useDispatch();
-  const { warehouse } = useCart();
-  const [addToCart] = useMutation(CART_OPERATIONS.Mutation.addToCart, {
-    context: {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-    onCompleted: (data) => {
-      console.log(data);
-      dispatch(setShowCartWindow(true));
-      setTimeout(() => {
-        dispatch(setShowCartWindow(false));
-      }, CART_WINDOW_TIMEOUT);
-      dispatch(
-        setCart({
-          id: data?.addToCart?.item?.id || '',
-          name: data?.addToCart?.item?.title || '',
-          model: data?.addToCart?.item?.model || '',
-          price: data?.addToCart?.item?.price || 0,
-          image: data?.addToCart?.item?.image || '',
-          quantity: Number(data?.addToCart?.item?.quantity) || 0,
-          odoo_product_id: data?.addToCart?.item?.odoo_product_id || '',
-        })
-      );
-    },
-    onError: (error) => {
-      if (error) {
-        toast({
-          title: error?.message,
-          variant: 'destructive',
-        });
-        return;
-      }
-    },
-  });
+  const { me } = useMe();
+  const { warehouse, addToCart } = useCart();
 
   const stocks =
     product?.inventories.find(
@@ -135,11 +93,11 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
       variables: {
         data: {
           title: data.title,
+          model: data.model,
+          image: data.image,
           price: data.price,
           quantity: data.quantity,
-          model: data.model,
           odoo_product_id: data.odoo_product_id,
-          image: data.image,
         },
       },
     });
@@ -227,7 +185,6 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
       </Link>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          {/* <form action={testAddToCart}> */}
           {renderHiddenInput('id')}
           {renderHiddenInput('image')}
           {renderHiddenInput('title')}
