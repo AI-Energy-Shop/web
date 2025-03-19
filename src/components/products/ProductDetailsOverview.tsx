@@ -1,9 +1,9 @@
 import { muktaVaani } from '@/app/font';
-import { GetProductQuery } from '@/lib/gql/graphql';
+import { ProductQuery } from '@/lib/gql/graphql';
 import DOMPurify from 'isomorphic-dompurify';
 
 interface ProductDetailsOverviewProps {
-  productData: GetProductQuery['getProduct'];
+  productData: ProductQuery['product'];
 }
 
 function ProductDetailsOverview({ productData }: ProductDetailsOverviewProps) {
