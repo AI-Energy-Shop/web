@@ -28,6 +28,10 @@ const ProductPrice: React.FC<ProductPriceProps> = ({ product }) => {
   const salePrice = price?.sale_price;
   const regularPrice = price?.price;
 
+  if (!me) {
+    return null;
+  }
+
   return (
     <div
       className={`${muktaVaani.className} ae-mobile-container mx-auto max-md:px-4 pb-4`}
