@@ -61,12 +61,18 @@ const BulkPrices = ({ product }: BulkPricesProps) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {bulkPrices?.map((data: any) => (
-              <TableRow key={data?.id}>
-                <TableCell>{`${data?.min_quantity}-${data?.max_quantity}`}</TableCell>
-                <TableCell>{data?.price}</TableCell>
+            {!me ? (
+              <TableRow>
+                <TableCell>Login to view bulk pricing</TableCell>
               </TableRow>
-            ))}
+            ) : (
+              bulkPrices?.map((data: any) => (
+                <TableRow key={data?.id}>
+                  <TableCell>{`${data?.min_quantity}-${data?.max_quantity}`}</TableCell>
+                  <TableCell>{data?.price}</TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </DropdownMenuContent>

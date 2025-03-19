@@ -137,6 +137,16 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
     );
   };
 
+  if (!me) {
+    return (
+      <div className="w-full h-20 flex justify-center items-center">
+        <span className="text-sm row-span-1 text-[#1b1b3b]">
+          Login to view price
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-yellow-light-yellow max-md:px-4 md:bg-white md:mt-6">
       <div className="mx-auto">
