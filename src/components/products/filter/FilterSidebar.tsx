@@ -14,7 +14,7 @@ interface FiltersProps {
 const FilterSidebar: React.FC<FiltersProps> = (props) => {
   const { filters, selectedFilters, onFilterChange } = props;
   return (
-    <div className="w-64 flex-shrink-0">
+    <div className="w-64 flex-shrink-0 hidden md:block">
       <div className="text-sm font-medium mb-4">Filter:</div>
       {filters.map?.((filter, index) => (
         <FilterItem

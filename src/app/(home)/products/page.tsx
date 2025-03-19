@@ -4,6 +4,7 @@ import Categories from '@/components/products/Categories';
 import { products } from '@/app/actions/products';
 import { PRODUCT_CATEGORIES } from '@/constant';
 import PageTitle from '@/components/products/PageTitle';
+import Brands from '@/components/products/Brands';
 
 const INITIAL_PAGE = 1;
 const INITIAL_PAGE_SIZE = 12;
@@ -21,9 +22,9 @@ export default async function ProductsPage({
     <div className="min-h-screen bg-[#fdf6ed]">
       <Breadcrumb />
       <Categories categories={PRODUCT_CATEGORIES} />
-      <div className="max-w-[1200px] mx-auto py-2">
+      <div className="max-w-[1200px] mx-auto p-5 md:p-5 lg:p-5 flex flex-col gap-5 lg:gap-5">
         <PageTitle title="All Products" />
-        {/* <Brands brands={brands} /> */}
+        <Brands products={data?.products} />
         <ProductList
           data={data?.products}
           start={Number(start) || undefined}

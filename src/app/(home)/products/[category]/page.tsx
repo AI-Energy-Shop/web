@@ -1,4 +1,4 @@
-import Products from '@/components/products/ProductList';
+import ProductList from '@/components/products/ProductList';
 import Breadcrumb from '@/components/products/Breadcrumb';
 import Categories from '@/components/products/Categories';
 import Brands from '@/components/products/Brands';
@@ -35,10 +35,10 @@ export default async function CategoryPage({
     <div className="min-h-screen bg-[#fdf6ed]">
       <Breadcrumb />
       <Categories categories={PRODUCT_CATEGORIES} />
-      <div className="max-w-[1200px] mx-auto py-2">
+      <div className="max-w-[1200px] mx-auto p-5 md:p-5 lg:p-5 flex flex-col lg:gap-5">
         <PageTitle title="All Products" />
-        {/* <Brands brands={brands} /> */}
-        <Products
+        <Brands products={data?.products} />
+        <ProductList
           data={data?.products}
           currentPage={Number(page) || 1}
           pageSize={Number(pageSize) || 8}
