@@ -6,28 +6,28 @@ import {
   SelectContent,
   SelectItem,
 } from '../ui/select';
-import React, { useState } from 'react';
-import { cn } from '@/lib/utils';
-import CartItems from './CartItems';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
-import { Textarea } from '../ui/textarea';
-import { Check, FilePenLine } from 'lucide-react';
 import { WAREHOUSE_LOCATIONS } from '@/constant/shipping';
+import { Check, FilePenLine } from 'lucide-react';
 import {
   setPaymentStep,
   setCartQuantity,
   removeCart,
 } from '@/store/features/cart';
+import { Textarea } from '../ui/textarea';
 import ModalWrapper from './ModalWrapper';
-import useCart from '@/hooks/useCart';
 import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import useCart from '@/hooks/useCart';
+import { Button } from '../ui/button';
+import CartItems from './CartItems';
+import { Input } from '../ui/input';
+import { cn } from '@/lib/utils';
 
 interface ReviewItemsProps {}
 
 const ReviewItems: React.FC<ReviewItemsProps> = () => {
   const dispatch = useDispatch();
-  const { carts, paymentStep } = useCart();
+  const { carts, paymentStep, removeItemFromCart } = useCart();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [toRemoveItemId, setToRemoveItemId] = useState<string>('');
 
@@ -77,8 +77,9 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   };
 
   const handleConfirmRemove = () => {
-    dispatch(removeCart({ id: toRemoveItemId }));
-    setShowModal(false);
+    // dispatch(removeCart({ id: toRemoveItemId }));
+    // setShowModal(false);
+    removeItemFromCart({ variables: { documentId: toRemoveItemId } });
   };
 
   const renderHeader = () => (

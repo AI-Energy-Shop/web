@@ -60,6 +60,20 @@ const useCart = () => {
     },
   });
 
+  const [removeItemFromCart] = useMutation(
+    CartOperation.Mutation.removeFromCart,
+    {
+      context: {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+      onCompleted: (data) => {
+        console.log(data);
+      },
+    }
+  );
+
   useEffect(() => {
     setShowCartWindowState(isShowCartWindow);
     return () => {
@@ -92,6 +106,7 @@ const useCart = () => {
     paymentStep,
     showCartWindow,
     addToCart,
+    removeItemFromCart,
   };
 };
 
