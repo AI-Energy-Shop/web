@@ -8,13 +8,13 @@ const Breadcrumb = () => {
   const pathSegments = pathname.split('/').filter(Boolean);
 
   return (
-    <div className="max-w-[1200px] mx-auto py-4">
+    <div className="max-w-[1200px] mx-auto px-3 py-1 md:p-5 lg:p-5">
       <div className="text-sm">
         {pathSegments.map((segment, index) => {
           const path = `/${pathSegments.slice(0, index + 1).join('/')}`;
           return (
             <React.Fragment key={path}>
-              <span>/</span>
+              <span>{` > `}</span>
               <Link href={path} className="hover:underline">
                 {capitalizeFirstChar(
                   decodeURIComponent(segment.replace(/-/g, ' '))

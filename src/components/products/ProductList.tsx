@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import ProductCard from './ProductCard';
-import Filters from './filter/Filters';
+import FilterSidebar from './filter/FilterSidebar';
 import ProductPagination from './ProductPagination';
 import { ProductsQuery } from '@/lib/gql/graphql';
 import SortOption from './options/SortOption';
@@ -117,7 +117,7 @@ const Products: React.FC<ProductListProps> = ({
 
   return (
     <div className="products flex gap-8">
-      <Filters
+      <FilterSidebar
         selectedFilters={selectedFilters}
         filters={currentFilter}
         onFilterChange={handleFilterChange}
@@ -126,7 +126,7 @@ const Products: React.FC<ProductListProps> = ({
         <div className="flex justify-end gap-2 m-2">
           <SortOption onSortChange={handleSortChange} />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4">
           {currentProducts?.map(renderProductCard)}
         </div>
         <ProductPagination
