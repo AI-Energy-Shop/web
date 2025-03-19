@@ -10,7 +10,7 @@ interface CartItemCardProps {
   id: string;
   image?: string;
   title?: string;
-  refId?: string;
+  model?: string;
   price?: number;
   quantity?: number;
   gst?: string;
@@ -24,7 +24,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
   id,
   image,
   title,
-  refId,
+  model,
   price,
   quantity = 0,
   gst,
@@ -57,7 +57,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
         <div className="flex-1">
           <p className="text-[10px] text-green-700">In Stock (22)</p>
           <h1 className="text-[14px] font-bold">{title}</h1>
-          <p className="font-thin text-[14px]">{refId}</p>
+          <p className="font-thin text-[14px]">{model}</p>
         </div>
         <div className="flex-1 self-center">
           <h2>{gst}</h2>
@@ -108,22 +108,28 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
             size="icon"
             variant="ghost"
             className="bg-gray-200 rounded-none w-full h-full border-x border-x-black"
+            onClick={() => onReduceQuant(id)}
           >
             <Minus />
           </Button>
         </div>
-        <Input className="flex-2 rounded-none text-center h-12" />
+        <Input
+          className="flex-2 rounded-none text-center h-12"
+          value={quantity}
+          onChange={(e) => onChange(id, e)}
+        />
         <div className="flex-1">
           <Button
             size="icon"
             variant="ghost"
             className="bg-gray-200 rounded-none w-full h-full border-x border-x-black"
+            onClick={() => onAddQuant(id)}
           >
             <Plus />
           </Button>
         </div>
         <div className="flex-3 text-right pr-2">
-          <p>$2,000.40</p>
+          <p>{getCartItemSubtotal(price, quantity)}</p>
           <p className="text-[14px]">ex.GST</p>
         </div>
       </div>

@@ -8,7 +8,6 @@ import DynamicSections from './DynamicSections';
 import Tables from './custom-ui/Table';
 import Cards from './custom-ui/Cards';
 import MediaUpload from './custom-ui/Upload/FileUpload';
-import CartDetails from './Checkout/CartDetails.test';
 import ReduxProvider from './ReduxProvider';
 import ReviewItems from './Checkout/ReviewItems';
 const Components = {
@@ -17,7 +16,6 @@ const Components = {
   Sections,
   Forms,
   Sliders,
-  CartDetails,
   NavigationProvider,
   LoadingAnimation,
   DynamicSections,

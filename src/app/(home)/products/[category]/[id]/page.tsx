@@ -1,22 +1,20 @@
+import ShopProductStockQuantities from '@/components/products/ShopProductStockQuantities';
 import ProductDescription from '@/components/products/ProductDescription';
 import RelatedProducts from '@/components/products/RelatedProducts';
 import ProductPrice from '@/components/products/ProductPrice';
-import { frontPageGetProduct } from '@/app/actions/products';
+import BulkPrices from '@/components/products/BulkPrices';
 import Breadcrumb from '@/components/products/Breadcrumb';
-import AddToCart from '@/components/products/AddToCart';
+import ProductAddToCartButton from '@/components/products/ProductAddToCartButton';
 import Carousel from '@/components/custom-ui/Carousel';
-import { cookies } from 'next/headers';
+import { product } from '@/app/actions/products';
 import { firaSans } from '@/app/font';
-
+import { cn } from '@/lib/utils';
 async function ProductPage({ params }: { params: { id: string } }) {
   const id = (await params).id;
-  const token = (await cookies()).get('a-token')?.value;
-  const { data, error, loading } = await frontPageGetProduct(id);
+  const { data } = await product(id);
 
-  const productData = data?.getProduct;
-
-  const priceList = productData?.price_list?.map((price) => ({
-    id: price?.id,
+  const priceList = data?.product?.price_lists?.map((price) => ({
+    documentId: price?.documentId,
     price: price?.price ?? undefined,
     sale_price: price?.sale_price ?? undefined,
     min_quantity: price?.min_quantity ?? undefined,
@@ -24,43 +22,37 @@ async function ProductPage({ params }: { params: { id: string } }) {
     user_level: price?.user_level ?? undefined,
   }));
 
-  const pickLocation = productData?.inventories?.[0]?.location;
-
   return (
     <main className="bg-yellow-light-yellow">
       <Breadcrumb />
       <section className="bg-white max-w-[1200px] mx-auto px-4 py-8">
         <div
-          className={`${firaSans.className} max-md:px-4 ae-mobile-container md:px-12 md:p-6`}
+          className={cn(
+            `${firaSans.className} max-md:px-4 ae-mobile-container md:px-12 md:p-6`
+          )}
         >
           <h1 className="text-2xl max-sm:pt-2 md:text-4xl font-bold">
-            {productData?.name}
+            {data?.product?.name}
           </h1>
-          <p className="font-medium text-lg md:text-2xl italic">ASW5000-S-G2</p>
+          <p className="font-medium text-lg md:text-2xl italic">
+            {data?.product?.model}
+          </p>
         </div>
 
         <div className="md:flex md:justify-between md:px-12 md:pb-5">
           <div className="ae-mobile-container max-md:w-4/5 max-md:max-w-96 md:basis-[40%] md:max-w-[40%]">
-            <Carousel.ProductCarousel productData={productData} />
+            <Carousel.ProductCarousel product={data?.product} />
           </div>
           <div className="md:basis-[51.75%] md:max-w-[51.75%]">
             <ProductPrice priceList={priceList} />
-            <AddToCart
-              id={productData?.odoo_product_id}
-              productData={productData}
-              pickLocation={pickLocation}
-              priceList={priceList}
-              image={productData?.images?.[0]?.url}
-              productTitle={productData?.name ?? ''}
-              odooProductId={productData?.odoo_product_id ?? ''}
-              referenceId={'MODEL ID'}
-              token={token}
-            />
+            <BulkPrices product={data?.product} />
+            <ShopProductStockQuantities product={data?.product} />
+            <ProductAddToCartButton product={data?.product} />
           </div>
         </div>
       </section>
 
-      <ProductDescription productData={productData} />
+      <ProductDescription productData={data?.product} />
       <RelatedProducts />
     </main>
   );

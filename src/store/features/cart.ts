@@ -45,6 +45,7 @@ export interface InitialState {
   warehouseLocation?: WarehouseLocation;
   shippingAddress?: ShippingAddress;
   deliveryOptions?: DeliveryOption;
+  showCartWindow: boolean;
 }
 
 const initialState: InitialState = {
@@ -53,6 +54,7 @@ const initialState: InitialState = {
   warehouseLocation: undefined,
   shippingAddress: undefined,
   deliveryOptions: undefined,
+  showCartWindow: false,
 };
 
 export const cartSlice = createSlice({
@@ -98,6 +100,12 @@ export const cartSlice = createSlice({
     setPaymentStep: (state, { payload }: { payload: number; type: string }) => {
       state.paymentStep = payload;
     },
+    setShowCartWindow: (
+      state,
+      { payload }: { payload: boolean; type: string }
+    ) => {
+      state.showCartWindow = payload;
+    },
   },
 });
 
@@ -107,6 +115,7 @@ export const {
   setPaymentStep,
   setCartQuantity,
   setWarehouseLocation,
+  setShowCartWindow,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

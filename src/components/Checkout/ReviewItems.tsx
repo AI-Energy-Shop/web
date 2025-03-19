@@ -6,16 +6,13 @@ import {
   SelectContent,
   SelectItem,
 } from '../ui/select';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 import CartItems from './CartItems';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { RootState } from '@/store/store';
 import { Textarea } from '../ui/textarea';
 import { Check, FilePenLine } from 'lucide-react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Cart } from '@/store/features/cart';
 import { WAREHOUSE_LOCATIONS } from '@/constant/shipping';
 import {
   setPaymentStep,
@@ -23,15 +20,14 @@ import {
   removeCart,
 } from '@/store/features/cart';
 import ModalWrapper from './ModalWrapper';
+import useCart from '@/hooks/useCart';
+import { useDispatch } from 'react-redux';
 
 interface ReviewItemsProps {}
 
 const ReviewItems: React.FC<ReviewItemsProps> = () => {
   const dispatch = useDispatch();
-  const paymentStep = useSelector((state: RootState) => state.cart.paymentStep);
-  const carts = useSelector((state: RootState) => state.cart.carts);
-  const [data, setData] = useState<Cart[]>([]);
-  const [step, setStep] = useState<number>(0);
+  const { carts, paymentStep } = useCart();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [toRemoveItemId, setToRemoveItemId] = useState<string>('');
 
@@ -44,19 +40,19 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   };
 
   const handleContinueClick = () => {
-    if (data.length === 0) return;
-    dispatch(setPaymentStep(step + 1));
+    if (carts.length === 0) return;
+    dispatch(setPaymentStep(paymentStep + 1));
   };
 
   const handleChange = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
-    const cart = data.find((cart) => cart.id === id);
+    const cart = carts.find((cart) => cart.id === id);
     if (cart) {
       dispatch(setCartQuantity({ id, quantity: parseInt(e.target.value) }));
     }
   };
 
   const handleReduceQuant = (id: string) => {
-    const cart = data.find((cart) => cart.id === id);
+    const cart = carts.find((cart) => cart.id === id);
     if (cart) {
       if (cart.quantity <= 1) {
         setShowModal(!showModal);
@@ -68,7 +64,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   };
 
   const handleAddQuant = (id: string) => {
-    const cart = data.find((cart) => cart.id === id);
+    const cart = carts.find((cart) => cart.id === id);
     if (cart) {
       dispatch(setCartQuantity({ id, quantity: cart.quantity + 1 }));
     }
@@ -84,16 +80,11 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
     setShowModal(false);
   };
 
-  useEffect(() => {
-    setData(carts);
-    setStep(paymentStep);
-  }, [carts, paymentStep]);
-
   const renderHeader = () => (
     <div className="bg-yellow-aes-yellow py-3">
       <div className="ae-mobile-container px-2 md:px-12 text-white flex items-center gap-x-2 relative">
         <h1 className="text-lg font-bold">Review Items</h1>
-        {step > 1 && (
+        {paymentStep > 1 && (
           <>
             <span className="bg-green-500 rounded-full p-0.5">
               <Check className="w-4 h-4" />
@@ -110,37 +101,6 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
           </>
         )}
       </div>
-    </div>
-  );
-
-  const renderCartItems = () => {
-    if (data.length === 0) return null;
-    return (
-      <CartItems
-        data={data}
-        onChange={handleChange}
-        onReduceQuant={handleReduceQuant}
-        onAddQuant={handleAddQuant}
-        onRemove={handleRemove}
-      />
-    );
-  };
-
-  const renderLocationSelection = () => (
-    <div className="max-sm:space-y-4 md:px-12 md:flex md:items-center md:justify-between">
-      <h1 className="font-semibold">Selected Location:</h1>
-      <Select onValueChange={handleLocationChange}>
-        <SelectTrigger className="w-full md:w-8/12">
-          <SelectValue placeholder={WAREHOUSE_LOCATIONS[0].title} />
-        </SelectTrigger>
-        <SelectContent>
-          {WAREHOUSE_LOCATIONS.map((location) => (
-            <SelectItem key={location.id} value={location.id.toString()}>
-              {location.title}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
     </div>
   );
 
@@ -167,7 +127,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   const renderButton = () => (
     <div className="ae-mobile-container px-2 mt-4 lg:bg-white lg:-mt-4 lg:py-4">
       <Button
-        disabled={data.length === 0}
+        disabled={carts.length === 0}
         className="mx-auto px-12 block rounded-2xl bg-pink-darker-pink hover:bg-pink-darker-pink/90"
         onClick={handleContinueClick}
       >
@@ -180,9 +140,33 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
     <section className="w-full h-auto">
       {renderHeader()}
       <div className="bg-white">
-        <div className={`space-y-4 pt-4 ${step === 1 ? 'block' : 'hidden'}`}>
-          {renderLocationSelection()}
-          {renderCartItems()}
+        <div
+          className={cn(
+            `space-y-4 pt-4 ${paymentStep === 1 ? 'block' : 'hidden'}`
+          )}
+        >
+          <div className="max-sm:space-y-4 md:px-12 md:flex md:items-center md:justify-between">
+            <h1 className="font-semibold">Selected Location:</h1>
+            <Select onValueChange={handleLocationChange}>
+              <SelectTrigger className="w-full md:w-8/12">
+                <SelectValue placeholder={WAREHOUSE_LOCATIONS[0].title} />
+              </SelectTrigger>
+              <SelectContent>
+                {WAREHOUSE_LOCATIONS.map((location) => (
+                  <SelectItem key={location.id} value={location.id.toString()}>
+                    {location.title}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <CartItems
+            data={carts}
+            onChange={handleChange}
+            onReduceQuant={handleReduceQuant}
+            onAddQuant={handleAddQuant}
+            onRemove={handleRemove}
+          />
           {renderVoucherCode()}
           {renderButton()}
         </div>

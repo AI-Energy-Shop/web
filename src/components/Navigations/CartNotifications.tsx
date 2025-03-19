@@ -1,14 +1,24 @@
 'use client';
 import Image from 'next/image';
 import { type Cart } from '@/store/features/cart';
+import { cn } from '@/lib/utils';
+import useCart from '@/hooks/useCart';
 
 interface CartNotificationProps {
-  carts?: any[];
+  carts?: Cart[];
 }
 
 const CartNotification: React.FC<CartNotificationProps> = ({ carts }) => {
+  const { showCartWindow } = useCart();
   return (
-    <div className="absolute right-0 top-11 bg-white shadow-lg hidden group-hover:block">
+    <div
+      className={cn(
+        `absolute right-0 top-11 bg-white shadow-lg opacity-0 transition-all ease-in-out duration-300 ${
+          !showCartWindow ? 'opacity-0 hidden' : 'opacity-100 block'
+        }`
+        // `absolute right-0 top-11 bg-white shadow-lg block`
+      )}
+    >
       <div className="text-lg min-w-[250px] font-semibold bg-[#29294d] p-2 text-white text-center">
         Added to Cart
       </div>

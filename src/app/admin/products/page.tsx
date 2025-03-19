@@ -38,9 +38,9 @@ const ProductsPage = async () => {
                     <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
                       Total Products
                     </dt>
-                    <dd className="text-lg font-medium text-gray-900 dark:text-white">
-                      {data?.products.length}
-                    </dd>
+                    <div className="text-lg font-medium text-gray-900 dark:text-white">
+                      {/* {data?.products.length} */}
+                    </div>
                   </dl>
                 </div>
               </div>
@@ -118,7 +118,7 @@ const ProductsPage = async () => {
             </Button>
           </div>
           <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg">
-            <Components.Tables.ProductsTable products={data?.products} />
+            <Components.Tables.ProductsTable products={[]} />
           </div>
         </div>
       </div>

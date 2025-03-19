@@ -1,40 +1,156 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import { formatCurrency } from '@/utils/currency';
+import CardAddToCartButton from './CardAddToCartButton';
+import { ProductsQuery } from '@/lib/gql/graphql';
+import useMe from '@/hooks/useMe';
 import Image from 'next/image';
 import Link from 'next/link';
-import { formatCurrency } from '@/utils/currency';
-import AddToCartButton from './AddToCartButton';
-import { GetProductQuery } from '@/lib/gql/graphql';
 import { cn } from '@/lib/utils';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
+import React, { useEffect } from 'react';
+import useCart from '@/hooks/useCart';
+import { Form, FormField } from '../ui/form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Input } from '../ui/input';
+import ProductQuantity from './ProductQuantity';
+import { Button } from '../ui/button';
+import { useDispatch } from 'react-redux';
+import { useToast } from '@/hooks/useToast';
+import { useRouter } from 'next/navigation';
+import { setCart, setShowCartWindow } from '@/store/features/cart';
+import CART_OPERATIONS from '@/graphql/cart';
+import { useMutation } from '@apollo/client';
 
-const ProductCard: React.FC<GetProductQuery['getProduct']> = (props) => {
-  const me = useSelector((state: RootState) => state.me.me);
+const CART_WINDOW_TIMEOUT = 3000;
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+type ProductCardproduct = {
+  product?: ProductsQuery['products'][0] | null;
+};
+
+const addToCartFormSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  model: z.string(),
+  image: z.string(),
+  odoo_product_id: z.string(),
+  price: z.number(), // Make sure this is number, not string
+  quantity: z.number().min(0), // Make sure this is number
+});
+
+const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
+  const router = useRouter();
+  const { toast } = useToast();
+  const { me, token } = useMe();
+  const dispatch = useDispatch();
+  const { warehouse } = useCart();
+  const [addToCart] = useMutation(CART_OPERATIONS.Mutation.addToCart, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+    onCompleted: (data) => {
+      console.log(data);
+      dispatch(setShowCartWindow(true));
+      setTimeout(() => {
+        dispatch(setShowCartWindow(false));
+      }, CART_WINDOW_TIMEOUT);
+      dispatch(
+        setCart({
+          id: data?.addToCart?.item?.id || '',
+          name: data?.addToCart?.item?.title || '',
+          model: data?.addToCart?.item?.model || '',
+          price: data?.addToCart?.item?.price || 0,
+          image: data?.addToCart?.item?.image || '',
+          quantity: Number(data?.addToCart?.item?.quantity) || 0,
+          odoo_product_id: data?.addToCart?.item?.odoo_product_id || '',
+        })
+      );
+    },
+    onError: (error) => {
+      if (error) {
+        toast({
+          title: error?.message,
+          variant: 'destructive',
+        });
+        return;
+      }
+    },
+  });
+
+  const stocks =
+    product?.inventories.find(
+      (inventory) => inventory?.name === warehouse?.address.city
+    )?.quantity || 0;
+
+  const itemPrice = product?.price_lists?.find(
+    (price) => price?.user_level === me?.account_detail?.level
+  );
+
+  const salePrice = itemPrice?.sale_price;
+  const regularPrice = itemPrice?.price;
+
+  // More explicit price calculation
+  const productPrice = salePrice || regularPrice || 0;
+
+  const form = useForm<z.infer<typeof addToCartFormSchema>>({
+    resolver: zodResolver(addToCartFormSchema),
+    defaultValues: {
+      id: product?.documentId || '',
+      title: product?.name || '',
+      model: product?.model || '',
+      image: product?.images[0]?.url || '',
+      odoo_product_id: product?.odoo_product_id || '',
+      price: productPrice || 0,
+      quantity: 0,
+    },
+  });
+
+  const productLink = `/products/${product?.category?.toLowerCase()?.replaceAll(' ', '-')}/${product?.documentId}`;
+
+  const onSubmit = async (data: z.infer<typeof addToCartFormSchema>) => {
+    if (!me) {
+      router.push('/auth/login');
+      return;
+    }
+
+    if (data.quantity === 0 || data.quantity === null) {
+      toast({
+        title: 'Quantity cannot be 0',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (stocks <= 0) {
+      toast({
+        title: 'Out of Stock',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    addToCart({
+      variables: {
+        data: {
+          title: data.title,
+          price: data.price,
+          quantity: data.quantity,
+          model: data.model,
+          odoo_product_id: data.odoo_product_id,
+          image: data.image,
+        },
+      },
+    });
+  };
 
   useEffect(() => {
-    if (me) {
-      setIsLoggedIn(true);
-    }
-  }, [me]);
+    form.setValue('price', productPrice * form.watch('quantity')); //DIRTY FIX
+  }, [productPrice, form.watch('quantity')]);
 
-  const salePrice =
-    props?.price_list?.find((price) => price?.user_level === 'SMALL')
-      ?.sale_price || 0;
-  const currentPrice =
-    salePrice > 0
-      ? salePrice
-      : props?.price_list?.find((price) => price?.user_level === 'SMALL')
-          ?.price || 0;
-
-  const inventory =
-    props?.inventories.find((inventory) => inventory?.location === 'Warehouse')
-      ?.quantity || 0;
-
-  const renderPriceAndStock = (isLoggedIn: boolean) => {
-    if (!isLoggedIn) {
+  const renderPriceAndStock = () => {
+    if (!me) {
       return (
         <div className="grid grid-cols-1 my-3">
           <span className="text-sm row-span-1 text-[#1b1b3b]">
@@ -47,21 +163,21 @@ const ProductCard: React.FC<GetProductQuery['getProduct']> = (props) => {
     return (
       <div className="grid grid-cols-1 grid-rows-3">
         <span className="text-sm text-gray-400 line-through row-span-1">
-          {salePrice
-            ? formatCurrency(props?.price_list?.[0]?.price || 0, 'AUD')
+          {itemPrice?.sale_price
+            ? formatCurrency(itemPrice.sale_price, 'USD')
             : null}
         </span>
         <p className="text-md font-bold row-span-1 block h-auto">
-          {formatCurrency(currentPrice, 'AUD')}{' '}
+          {formatCurrency(itemPrice?.price || 0, 'USD')}{' '}
           <span className="text-xs font-normal">ex.GST</span>
         </p>
         <span
           className={cn(
-            `${inventory > 0 ? 'text-green-900' : 'text-red-900'} text-sm  row-span-1`
+            `${stocks > 0 ? 'text-green-900' : 'text-red-900'} text-sm  row-span-1`
           )}
         >
-          {inventory > 0 ? (
-            <span className="text-green-900">In Stock ({inventory})</span>
+          {stocks > 0 ? (
+            <span className="text-green-900">In Stock ({stocks})</span>
           ) : (
             <span className="text-red-900">Out of Stock</span>
           )}
@@ -70,7 +186,17 @@ const ProductCard: React.FC<GetProductQuery['getProduct']> = (props) => {
     );
   };
 
-  const productLink = `/products/${props?.category?.toLowerCase()?.replaceAll(' ', '-')}/${props?.documentId}`;
+  const renderHiddenInput = (
+    name: keyof z.infer<typeof addToCartFormSchema>
+  ) => {
+    return (
+      <FormField
+        name={name}
+        control={form.control}
+        render={({ field }) => <Input type="hidden" {...field} />}
+      />
+    );
+  };
 
   return (
     <div className="bg-white p-4 rounded-lg">
@@ -79,8 +205,8 @@ const ProductCard: React.FC<GetProductQuery['getProduct']> = (props) => {
           {/* IMAGE */}
           <div className="aspect-[3/4] relative bg-[#e6e6e6]">
             <Image
-              src={props?.images[0]?.url || ''}
-              alt={props?.images[0]?.name || ''}
+              src={product?.images[0]?.url || ''}
+              alt={product?.images[0]?.name || ''}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-contain w-auto h-auto bg-transparent mix-blend-multiply"
@@ -88,25 +214,36 @@ const ProductCard: React.FC<GetProductQuery['getProduct']> = (props) => {
           </div>
           {/* NAME AND MODEL */}
           <div className="flex flex-col justify-between">
-            <h3 className="font-medium text-sm mb-1 text-pretty">
-              <span>{props?.name}</span>
+            <h3
+              className="font-medium text-sm mb-1 text-pretty"
+              title={product?.name}
+            >
+              <span>{product?.name.slice(0, 51)}</span>
             </h3>
-            <p className="text-sm font-thin italic">{props?.model}</p>
+            <p className="text-sm font-thin italic">{product?.model}</p>
           </div>
-          {/* PRICE AND STOCK */}
-          {renderPriceAndStock(isLoggedIn)}
+          {renderPriceAndStock()}
         </div>
       </Link>
-      <AddToCartButton
-        id={props?.documentId || ''}
-        name={props?.name || ''}
-        currentPrice={currentPrice}
-        odoo_product_id={props?.model || ''}
-        model={props?.model || ''}
-        image={props?.images[0]?.url || ''}
-        inventory={inventory}
-        isLoggedIn={isLoggedIn}
-      />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          {/* <form action={testAddToCart}> */}
+          {renderHiddenInput('id')}
+          {renderHiddenInput('image')}
+          {renderHiddenInput('title')}
+          {renderHiddenInput('model')}
+          {renderHiddenInput('price')}
+          {renderHiddenInput('odoo_product_id')}
+          <ProductQuantity form={form} />
+          <Button
+            type="submit"
+            disabled={stocks <= 0}
+            className="w-full mt-2 bg-[#1b1b3b] text-white"
+          >
+            {stocks <= 0 ? 'Out of Stock' : `Add to Cart`}
+          </Button>
+        </form>
+      </Form>
     </div>
   );
 };

@@ -17,8 +17,8 @@ const persistMiddleware: Middleware = (store) => (next) => (action) => {
       me: state.me,
       cart: state.cart,
     }),
-    { expires: 7 }
-  ); // Expires in 7 days
+    { expires: 60 * 60 * 12 }
+  ); // Expires in 12 hours
 
   return result;
 };

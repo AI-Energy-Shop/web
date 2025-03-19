@@ -6,14 +6,14 @@ import Carousel, { ResponsiveType } from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import ButtonGroup from './ButtonGroup';
 import RightButton from './RightButton';
-import { GetProductQuery } from '@/lib/gql/graphql';
+import { ProductQuery } from '@/lib/gql/graphql';
 import CustomDot from './CustomDot';
 
 interface ImageCarouselProps {
-  productData: GetProductQuery['getProduct'];
+  product: ProductQuery['product'];
 }
 
-const ImageCarousel: React.FC<ImageCarouselProps> = ({ productData }) => {
+const ImageCarousel: React.FC<ImageCarouselProps> = ({ product }) => {
   const responsive: ResponsiveType = {
     desktop: {
       breakpoint: {
@@ -55,16 +55,15 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ productData }) => {
           customDot={<CustomDot />}
           dotListClass="space-x-1 top-[213px]"
         >
-          {productData?.images.map((image, index) => (
+          {product?.images.map((image, index) => (
             <div key={index} className="h-52 relative">
               <Image
-                priority
                 fill
+                loading="lazy"
                 src={image?.url!}
-                alt={
-                  image?.alternativeText || image?.name || 'image of product'
-                }
+                alt={image?.alternativeText || ''}
                 className="object-contain object-center"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
               />
             </div>
           ))}
@@ -73,20 +72,32 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ productData }) => {
 
       {/* tablet/desktop carousel */}
       <div className=" w-full relative h-full hidden md:block">
-        <div className="w-32 h-12 bg-red-500 mx-auto"></div>
+        <div className="w-32 h-12 mx-auto">
+          {product?.product_brand_image?.url && (
+            <Image
+              width={128}
+              height={48}
+              loading="lazy"
+              src={product?.product_brand_image?.url}
+              className="object-contain object-center w-full h-full"
+              alt={product?.product_brand_image?.alternativeText || ''}
+            />
+          )}
+        </div>
 
         <div className="mt-3">
           <div className="h-72 relative">
             <Image
               priority
               fill
-              src={productData?.images[index]?.url!}
+              src={product?.images[index]?.url || ''}
               alt={
-                productData?.images[index]?.alternativeText ||
-                productData?.images[index]?.name ||
+                product?.images[index]?.alternativeText ||
+                product?.images[index]?.name ||
                 'image of product'
               }
               className="object-contain object-center"
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
             />
           </div>
 
@@ -98,15 +109,15 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ productData }) => {
               customButtonGroup={<RightButton />}
               className="overflow-hidden"
             >
-              {productData?.images?.map((image, i) => (
+              {product?.images?.map?.((image, i) => (
                 <div
                   key={i}
                   className={`relative h-20 mr-2  rounded-xl ${index === i && 'border border-black'} cursor-pointer`}
                   onClick={() => setIndex(i)}
                 >
                   <Image
-                    priority
                     fill
+                    loading="lazy"
                     src={image?.url!}
                     alt={
                       image?.alternativeText ||
@@ -114,6 +125,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ productData }) => {
                       'image of product'
                     }
                     className="object-contain p-1 rounded-xl"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   />
                 </div>
               ))}
