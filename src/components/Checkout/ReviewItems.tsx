@@ -47,7 +47,8 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   const handleChange = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
     const cart = carts.find((cart) => cart.id === id);
     if (cart) {
-      dispatch(setCartQuantity({ id, quantity: parseInt(e.target.value) }));
+      const value = e.target.value === '' ? 0 : parseInt(e.target.value, 10);
+      dispatch(setCartQuantity({ id, quantity: value }));
     }
   };
 
@@ -125,7 +126,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   );
 
   const renderButton = () => (
-    <div className="ae-mobile-container px-2 mt-4 lg:bg-white lg:-mt-4 lg:py-4">
+    <div className="ae-mobile-container px-2 mt-4 lg:bg-white lg:-mt-4 py-4">
       <Button
         disabled={carts.length === 0}
         className="mx-auto px-12 block rounded-2xl bg-pink-darker-pink hover:bg-pink-darker-pink/90"
