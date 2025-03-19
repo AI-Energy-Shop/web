@@ -68,8 +68,7 @@ export const cartSlice = createSlice({
         );
 
         if (existingCartItem) {
-          // if cart item already exists, update the quantity
-          existingCartItem.quantity += payload.quantity;
+          existingCartItem.quantity = payload.quantity; // if cart item already exists, update the quantity
         } else {
           state.carts?.push(payload);
         }

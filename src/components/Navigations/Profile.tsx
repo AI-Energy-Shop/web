@@ -16,7 +16,7 @@ const Profile = ({ user, handleLogout }: ProfileProps) => {
     <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
       <div className="flex items-center space-x-4">
         <Avatar>
-          <AvatarImage src="/placeholder-avatar.jpg" alt="User Avatar" />
+          {/* <AvatarImage src="/placeholder-avatar.jpg" alt="User Avatar" /> */}
           <AvatarFallback>
             {user?.account_detail?.name?.first_name?.charAt(0)}
             {user?.account_detail?.name?.last_name?.charAt(0)}
