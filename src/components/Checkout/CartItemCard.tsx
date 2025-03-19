@@ -95,7 +95,12 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
             <p className="text-[12px]">ex.GST</p>
           </div>
         </div>
-        <Button size="icon" variant="ghost" className="self-center md:hidden">
+        <Button
+          size="icon"
+          variant="ghost"
+          className="self-center md:hidden"
+          onClick={() => onRemove(id)}
+        >
           <Trash2 className="w-5 h-5" color="red" />
         </Button>
       </div>

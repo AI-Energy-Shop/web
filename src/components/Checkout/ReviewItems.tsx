@@ -47,7 +47,8 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   const handleChange = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
     const cart = carts.find((cart) => cart.id === id);
     if (cart) {
-      dispatch(setCartQuantity({ id, quantity: parseInt(e.target.value) }));
+      const value = e.target.value === '' ? 0 : parseInt(e.target.value, 10);
+      dispatch(setCartQuantity({ id, quantity: value }));
     }
   };
 
