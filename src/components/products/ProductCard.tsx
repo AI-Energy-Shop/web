@@ -15,6 +15,14 @@ import { z } from 'zod';
 import { Input } from '../ui/input';
 import ProductQuantity from './ProductQuantity';
 import { Button } from '../ui/button';
+import { useDispatch } from 'react-redux';
+import { useToast } from '@/hooks/useToast';
+import { useRouter } from 'next/navigation';
+import { setCart, setShowCartWindow } from '@/store/features/cart';
+import CART_OPERATIONS from '@/graphql/cart';
+import { useMutation } from '@apollo/client';
+
+const CART_WINDOW_TIMEOUT = 3000;
 
 type ProductCardproduct = {
   product?: ProductsQuery['products'][0] | null;
@@ -31,8 +39,45 @@ const addToCartFormSchema = z.object({
 });
 
 const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
-  const { me } = useMe();
+  const router = useRouter();
+  const { toast } = useToast();
+  const { me, token } = useMe();
+  const dispatch = useDispatch();
   const { warehouse } = useCart();
+  const [addToCart] = useMutation(CART_OPERATIONS.Mutation.addToCart, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+    onCompleted: (data) => {
+      console.log(data);
+      dispatch(setShowCartWindow(true));
+      setTimeout(() => {
+        dispatch(setShowCartWindow(false));
+      }, CART_WINDOW_TIMEOUT);
+      dispatch(
+        setCart({
+          id: data?.addToCart?.item?.id || '',
+          name: data?.addToCart?.item?.title || '',
+          model: data?.addToCart?.item?.model || '',
+          price: data?.addToCart?.item?.price || 0,
+          image: data?.addToCart?.item?.image || '',
+          quantity: Number(data?.addToCart?.item?.quantity) || 0,
+          odoo_product_id: data?.addToCart?.item?.odoo_product_id || '',
+        })
+      );
+    },
+    onError: (error) => {
+      if (error) {
+        toast({
+          title: error?.message,
+          variant: 'destructive',
+        });
+        return;
+      }
+    },
+  });
 
   const stocks =
     product?.inventories.find(
@@ -43,13 +88,11 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
     (price) => price?.user_level === me?.account_detail?.level
   );
 
+  const salePrice = itemPrice?.sale_price;
+  const regularPrice = itemPrice?.price;
+
   // More explicit price calculation
-  const productPrice = (() => {
-    if (!itemPrice) return 0;
-    return itemPrice.sale_price && itemPrice.sale_price > 0
-      ? itemPrice.sale_price
-      : itemPrice.price || 0;
-  })();
+  const productPrice = salePrice || regularPrice || 0;
 
   const form = useForm<z.infer<typeof addToCartFormSchema>>({
     resolver: zodResolver(addToCartFormSchema),
@@ -67,12 +110,44 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
   const productLink = `/products/${product?.category?.toLowerCase()?.replaceAll(' ', '-')}/${product?.documentId}`;
 
   const onSubmit = async (data: z.infer<typeof addToCartFormSchema>) => {
-    console.log('data:', data);
+    if (!me) {
+      router.push('/auth/login');
+      return;
+    }
+
+    if (data.quantity === 0 || data.quantity === null) {
+      toast({
+        title: 'Quantity cannot be 0',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (stocks <= 0) {
+      toast({
+        title: 'Out of Stock',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    addToCart({
+      variables: {
+        data: {
+          title: data.title,
+          price: data.price,
+          quantity: data.quantity,
+          model: data.model,
+          odoo_product_id: data.odoo_product_id,
+          image: data.image,
+        },
+      },
+    });
   };
 
   useEffect(() => {
-    form.setValue('price', productPrice); //DIRTY FIX
-  }, [productPrice]);
+    form.setValue('price', productPrice * form.watch('quantity')); //DIRTY FIX
+  }, [productPrice, form.watch('quantity')]);
 
   const renderPriceAndStock = () => {
     if (!me) {

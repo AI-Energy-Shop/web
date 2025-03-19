@@ -1,12 +1,11 @@
 'use server';
-
+import { cookies } from 'next/headers';
 import { getClient } from '@/apollo/client';
 import CART_OPERATIONS from '@/graphql/cart';
-import { CartsQuery } from '@/lib/gql/graphql';
-import { cookies } from 'next/headers';
-const client = getClient();
+import { AddToCartMutation } from '@/lib/gql/graphql';
 
-export async function getCartItems(): Promise<CartsQuery> {
+const client = getClient();
+export async function getCartItems() {
   const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;
   try {
@@ -34,90 +33,74 @@ export async function addToCart(formData: FormData) {
 
   const title = formData.get('title') as string;
   const model = formData.get('model') as string;
-  const quantity = Number(formData.get('quantity'));
-  const price = Number(formData.get('price'));
   const image = formData.get('image') as string;
+  const price = Number(formData.get('price'));
+  const quantity = Number(formData.get('quantity'));
   const odoo_product_id = formData.get('odoo_product_id') as string;
 
-  // console.log('price:', price);
-  // console.log('quantity:', quantity);
-  // console.log('title:', title);
-  // console.log('model:', model);
-  // console.log('image:', image);
-  // console.log('odoo_product_id:', odoo_product_id);
+  console.log({ title, price, quantity, model, odoo_product_id, image, token });
 
   try {
-    const { data: cartData } = await client.query({
-      query: CART_OPERATIONS.Query.carts,
-      context: {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-      variables: {
-        filters: {
-          item: {
-            model: {
-              eq: model,
-            },
-          },
-        },
-      },
-    });
+    // const { data: cartData } = await client.query({
+    //   query: CART_OPERATIONS.Query.carts,
+    //   context: {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   },
+    //   variables: {
+    //     filters: {
+    //       item: {
+    //         model: {
+    //           eq: model,
+    //         },
+    //       },
+    //     },
+    //   },
+    // });
+    // const cartItem = cartData?.carts?.find?.(
+    //   (cart: any) => cart.item.model === model
+    // );
+    // if (cartItem) {
+    //   const res = await client.mutate({
+    //     context: {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     },
+    //     mutation: CART_OPERATIONS.Mutation.updateCart,
+    //     variables: {
+    //       documentId: cartItem.documentId,
+    //       data: {
+    //         title: cartItem.item.title,
+    //         price: cartItem.item.price,
+    //         quantity: cartItem.item.quantity + quantity,
+    //         odoo_product_id: cartItem.item.odoo_product_id,
+    //         model: cartItem.item.model,
+    //         image: cartItem.item.image,
+    //       },
+    //     },
+    //   });
+    //   if (res.errors) {
+    //     return {
+    //       error: res.errors[0].message,
+    //     };
+    //   }
+    //   return {
+    //     message: 'Item updated in cart',
+    //     data: {
+    //       id: cartItem.documentId,
+    //       name: cartItem.item.title,
+    //       price: cartItem.item.price,
+    //       quantity: cartItem.item.quantity + quantity,
+    //       image: cartItem.item.image,
+    //     },
+    //   };
+    // }
 
-    const cartItem = cartData?.carts?.find?.(
-      (cart: any) => cart.item.model === model
-    );
-
-    if (cartItem) {
-      const res = await client.mutate({
-        context: {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-        mutation: CART_OPERATIONS.Mutation.updateCart,
-        variables: {
-          documentId: cartItem.documentId,
-          data: {
-            title: cartItem.item.title,
-            price: cartItem.item.price,
-            quantity: cartItem.item.quantity + quantity,
-            odoo_product_id: cartItem.item.odoo_product_id,
-            model: cartItem.item.model,
-            image: cartItem.item.image,
-          },
-        },
-      });
-
-      if (res.errors) {
-        return {
-          error: res.errors[0].message,
-        };
-      }
-
-      return {
-        message: 'Item updated in cart',
-        data: {
-          id: cartItem.documentId,
-          name: cartItem.item.title,
-          price: cartItem.item.price,
-          quantity: cartItem.item.quantity + quantity,
-          image: cartItem.item.image,
-        },
-      };
+    if (!token) {
+      throw new Error('Authentication required');
     }
-
-    const variables = {
-      data: {
-        title: title,
-        price: price,
-        quantity: quantity,
-        model: model,
-        odoo_product_id,
-        image: image,
-      },
-    };
 
     const res = await client.mutate({
       context: {
@@ -126,32 +109,22 @@ export async function addToCart(formData: FormData) {
         },
       },
       mutation: CART_OPERATIONS.Mutation.addToCart,
-      variables,
+      variables: {
+        data: {
+          title,
+          price,
+          quantity,
+          model,
+          odoo_product_id,
+          image,
+        },
+      },
     });
 
-    if (res.errors) {
-      return {
-        error: res.errors[0].message,
-      };
-    }
-
-    return {
-      data: {
-        id: res.data?.addToCart?.documentId,
-        name: title,
-        price: price,
-        quantity: quantity,
-        image: image,
-        model: model,
-        odoo_product_id: odoo_product_id,
-      },
-      message: 'Item added to cart',
-    };
+    return res;
   } catch (error: any) {
-    console.error('GraphQL Mutation Error:', error);
-    return {
-      error: error.message,
-    };
+    console.error('AddToCart Mutation Error:', error.message);
+    return error.message;
   }
 }
 

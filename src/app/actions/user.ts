@@ -163,6 +163,20 @@ export const loginUser = async ({
   }
 };
 
+export const logoutUser = async () => {
+  const cookieStore = await cookies();
+
+  // Clear all auth-related cookies
+  cookieStore.delete('a-token');
+  cookieStore.delete('a-user');
+
+  // Revalidate relevant paths
+  revalidatePath('/', 'layout');
+
+  // Return instead of redirect to handle on client
+  return { success: true };
+};
+
 export const updateAccountStatus = async (
   userId: string,
   accountStatus: string
@@ -240,20 +254,6 @@ export const getUserDetails = async (documentId: string) => {
     console.error('GraphQL Query Error:', error);
     return null;
   }
-};
-
-export const logoutUser = async () => {
-  const cookieStore = await cookies();
-
-  // Clear all auth-related cookies
-  cookieStore.delete('a-token');
-  cookieStore.delete('a-user');
-
-  // Revalidate relevant paths
-  revalidatePath('/', 'layout');
-
-  // Return instead of redirect to handle on client
-  return { success: true };
 };
 
 export const approveUser = async (formData: FormData) => {
