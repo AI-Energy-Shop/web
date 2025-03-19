@@ -2,20 +2,24 @@
 import { formatCurrency } from '@/utils/currency';
 import { muktaVaani } from '@/app/font';
 import useMe from '@/hooks/useMe';
+import Image from 'next/image';
+import { ProductQuery } from '@/lib/gql/graphql';
 
 interface ProductPriceProps {
-  priceList?: {
-    documentId?: string;
-    price?: number;
-    sale_price?: number;
-    min_quantity?: number;
-    max_quantity?: number;
-    user_level?: string;
-  }[];
+  product: ProductQuery['product'];
 }
 
-function ProductPrice({ priceList }: ProductPriceProps) {
+const ProductPrice: React.FC<ProductPriceProps> = ({ product }) => {
   const { me } = useMe();
+
+  const priceList = product?.price_lists?.map((price) => ({
+    documentId: price?.documentId,
+    price: price?.price ?? undefined,
+    sale_price: price?.sale_price ?? undefined,
+    min_quantity: price?.min_quantity ?? undefined,
+    max_quantity: price?.max_quantity ?? undefined,
+    user_level: price?.user_level ?? undefined,
+  }));
 
   const price = priceList?.find(
     (price) => price?.user_level === me?.account_detail?.level
@@ -42,10 +46,21 @@ function ProductPrice({ priceList }: ProductPriceProps) {
             <span className="max-md:text-[12px] max-md:block">ex.GST</span>
           </h1>
         </div>
-        <div className="w-24 bg-red-500 h-8 md:hidden"></div>
+        <div className="w-24 h-8 md:hidden">
+          {product?.product_brand_image?.url && (
+            <Image
+              width={128}
+              height={48}
+              loading="lazy"
+              src={product?.product_brand_image?.url}
+              className="object-contain object-center w-full h-full"
+              alt={product?.product_brand_image?.alternativeText || ''}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default ProductPrice;
