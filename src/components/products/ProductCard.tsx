@@ -92,12 +92,14 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
     addToCart({
       variables: {
         data: {
-          title: data.title,
-          model: data.model,
-          image: data.image,
-          price: data.price,
-          quantity: data.quantity,
-          odoo_product_id: data.odoo_product_id,
+          item: {
+            title: data.title,
+            model: data.model,
+            image: data.image,
+            price: data.price,
+            quantity: data.quantity,
+            odoo_product_id: data.odoo_product_id,
+          },
         },
       },
     });
@@ -176,7 +178,7 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
               className="font-medium text-sm mb-1 text-pretty"
               title={product?.name}
             >
-              <span>{product?.name.slice(0, 51)}</span>
+              <span>{product?.name.slice(0, 40)} . . .</span>
             </h3>
             <p className="text-sm font-thin italic">{product?.model}</p>
           </div>

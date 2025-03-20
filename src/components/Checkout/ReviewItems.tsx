@@ -29,7 +29,9 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   const dispatch = useDispatch();
   const { carts, paymentStep, removeItemFromCart } = useCart();
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [toRemoveItemId, setToRemoveItemId] = useState<string>('');
+  const [toRemoveItemId, setToRemoveItemId] = useState<string | undefined>(
+    undefined
+  );
 
   const handleEditClick = () => {
     dispatch(setPaymentStep(1));
@@ -77,9 +79,8 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   };
 
   const handleConfirmRemove = () => {
-    // dispatch(removeCart({ id: toRemoveItemId }));
-    // setShowModal(false);
-    removeItemFromCart({ variables: { documentId: toRemoveItemId } });
+    removeItemFromCart(toRemoveItemId);
+    setShowModal(false);
   };
 
   const renderHeader = () => (

@@ -7,7 +7,6 @@ import { firaSans } from '@/app/font';
 import useCart from '@/hooks/useCart';
 import { Button } from '../ui/button';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { Minus, Plus } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 import { ProductQuery } from '@/lib/gql/graphql';
@@ -106,12 +105,14 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
     addToCart({
       variables: {
         data: {
-          title: onValid.title,
-          price: onValid.price,
-          quantity: onValid.quantity,
-          model: onValid.model,
-          odoo_product_id: onValid.odoo_product_id,
-          image: onValid.image,
+          item: {
+            title: onValid.title,
+            model: onValid.model,
+            image: onValid.image,
+            price: onValid.price,
+            quantity: onValid.quantity,
+            odoo_product_id: onValid.odoo_product_id,
+          },
         },
       },
     });

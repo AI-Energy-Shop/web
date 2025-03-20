@@ -35,7 +35,9 @@ const FilterItem: React.FC<FilterItemProps> = ({
   };
 
   const [isOpen, setIsOpen] = useState(
-    value.some((item) => selectedFilters.some((f) => f.value === item))
+    index === 0
+      ? true
+      : value.some((item) => selectedFilters.some((f) => f.value === item))
   );
 
   return (
