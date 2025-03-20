@@ -177,7 +177,7 @@
 }
 
 .no-spinner {
-  -moz-appearance: textfield; /* Firefox */
+  -moz-appearance: textfield !important; /* Firefox */
   -webkit-appearance: none; /* Chrome, Safari, Edge */
   appearance: none; /* General property */
 }
