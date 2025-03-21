@@ -22,14 +22,14 @@ const CartItems = ({
       {data?.map?.((item) => {
         return (
           <CartItemCard
-            key={item.id}
-            id={item.id}
-            image={item.image}
-            title={item.name}
-            model={item.model}
-            price={item.price}
-            gst={formatCurrency(item?.price * 0.1, 'USD')}
-            quantity={item.quantity}
+            key={item.documentId}
+            id={item.documentId}
+            image={item.item.image}
+            title={item.item.name}
+            model={item.item.model}
+            price={item.item.price}
+            gst={formatCurrency(item?.item?.price * 0.1, 'USD')}
+            quantity={item.item.quantity}
             onAddQuant={onAddQuant}
             onReduceQuant={onReduceQuant}
             onChange={onChange}

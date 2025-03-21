@@ -17,6 +17,18 @@ const schema = {
           role {
             name
           }
+          carts {
+            documentId
+            item {
+              productID
+              title
+              quantity
+              price
+              odoo_product_id
+              model
+              image
+            }
+          }
           addresses {
             documentId
             street1

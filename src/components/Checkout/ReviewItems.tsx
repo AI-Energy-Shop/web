@@ -7,12 +7,8 @@ import {
   SelectItem,
 } from '../ui/select';
 import { WAREHOUSE_LOCATIONS } from '@/constant/shipping';
+import { setPaymentStep, setCarts } from '@/store/features/cart';
 import { Check, FilePenLine } from 'lucide-react';
-import {
-  setPaymentStep,
-  setCartQuantity,
-  removeCart,
-} from '@/store/features/cart';
 import { Textarea } from '../ui/textarea';
 import ModalWrapper from './ModalWrapper';
 import { useDispatch } from 'react-redux';
@@ -29,7 +25,9 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   const dispatch = useDispatch();
   const { carts, paymentStep, removeItemFromCart } = useCart();
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [toRemoveItemId, setToRemoveItemId] = useState<string>('');
+  const [toRemoveItemId, setToRemoveItemId] = useState<string | undefined>(
+    undefined
+  );
 
   const handleEditClick = () => {
     dispatch(setPaymentStep(1));
@@ -45,29 +43,64 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   };
 
   const handleChange = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
-    const cart = carts.find((cart) => cart.id === id);
+    const cart = carts.find((cart) => cart.documentId === id);
     if (cart) {
       const value = e.target.value === '' ? 0 : parseInt(e.target.value, 10);
-      dispatch(setCartQuantity({ id, quantity: value }));
+      dispatch(
+        setCarts(
+          carts.map((cart) => {
+            if (cart.documentId === id)
+              return {
+                ...cart,
+                item: { ...cart.item, quantity: value },
+              };
+            return cart;
+          })
+        )
+      );
     }
   };
 
   const handleReduceQuant = (id: string) => {
-    const cart = carts.find((cart) => cart.id === id);
+    const cart = carts.find((cart) => cart.documentId === id);
     if (cart) {
-      if (cart.quantity <= 1) {
+      if (cart.item.quantity <= 1) {
         setShowModal(!showModal);
         setToRemoveItemId(id);
       } else {
-        dispatch(setCartQuantity({ id, quantity: cart.quantity - 1 }));
+        dispatch(
+          setCarts(
+            carts.map((cart) => {
+              if (cart.documentId === id) {
+                return {
+                  ...cart,
+                  item: { ...cart.item, quantity: cart.item.quantity - 1 },
+                };
+              }
+              return cart;
+            })
+          )
+        );
       }
     }
   };
 
   const handleAddQuant = (id: string) => {
-    const cart = carts.find((cart) => cart.id === id);
+    const cart = carts.find((cart) => cart.documentId === id);
     if (cart) {
-      dispatch(setCartQuantity({ id, quantity: cart.quantity + 1 }));
+      dispatch(
+        setCarts(
+          carts.map((cart) => {
+            if (cart.documentId === id) {
+              return {
+                ...cart,
+                item: { ...cart.item, quantity: cart.item.quantity + 1 },
+              };
+            }
+            return cart;
+          })
+        )
+      );
     }
   };
 
@@ -77,9 +110,9 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   };
 
   const handleConfirmRemove = () => {
-    // dispatch(removeCart({ id: toRemoveItemId }));
-    // setShowModal(false);
+    if (!toRemoveItemId) return;
     removeItemFromCart({ variables: { documentId: toRemoveItemId } });
+    setShowModal(false);
   };
 
   const renderHeader = () => (

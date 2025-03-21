@@ -1,8 +1,9 @@
 import { graphql } from '@/lib/gql';
+import { gql } from '@apollo/client';
 
 const schema = {
   Query: {
-    carts: graphql(`
+    carts: gql(`
       query Carts($filters: CartFiltersInput, $pagination: PaginationArg) {
         carts(filters: $filters, pagination: $pagination) {
           documentId
@@ -17,18 +18,17 @@ const schema = {
           }
           createdAt
           updatedAt
-          publishedAt
         }
       }
     `),
   },
   Mutation: {
-    addToCart: graphql(`
-      mutation AddToCart($data: CartItemInput!) {
-        addToCart(data: $data) {
+    createCart: gql(`
+      mutation CreateCart($data: CartInput!) {
+        createCart(data: $data) {
           documentId
           item {
-            id
+            productID
             title
             quantity
             price
@@ -41,32 +41,33 @@ const schema = {
           }
           createdAt
           updatedAt
-          publishedAt
         }
       }
     `),
-    updateCart: graphql(`
-      mutation UpdateCart($documentId: ID!, $data: CartItemInput!) {
+    updateCart: gql(`
+      mutation UpdateCart($documentId: ID!, $data: CartInput!) {
         updateCart(documentId: $documentId, data: $data) {
           documentId
           item {
-            id
+            productID
             title
+            quantity
             price
+            odoo_product_id
             model
             image
-            quantity
-            odoo_product_id
+          }
+          user {
+            username
           }
           createdAt
           updatedAt
-          publishedAt
         }
       }
     `),
-    removeFromCart: graphql(`
-      mutation DeleteCartItem($documentId: ID!) {
-        deleteCartItem(documentId: $documentId) {
+    deleteCart: graphql(`
+      mutation DeleteCart($documentId: ID!) {
+        deleteCart(documentId: $documentId) {
           documentId
         }
       }

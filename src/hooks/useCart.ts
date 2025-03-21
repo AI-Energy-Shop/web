@@ -1,13 +1,20 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { useEffect, useState } from 'react';
-import { Cart, WarehouseLocation } from '@/store/features/cart';
 import { useMutation } from '@apollo/client';
 import CartOperation from '@/graphql/cart';
 import { useToast } from './useToast';
 import useMe from './useMe';
 import { CART_WINDOW_TIMEOUT } from '@/constant/cart';
-import { setCart, setShowCartWindow } from '@/store/features/cart';
+import { clearCart, setCart, setShowCartWindow } from '@/store/features/cart';
+import { Cart, removeCart, WarehouseLocation } from '@/store/features/cart';
+import {
+  CreateCartMutation,
+  CreateCartMutationVariables,
+  UpdateCartMutation,
+} from '@/lib/gql/graphql';
+// import { removeCartItem } from '@/app/actions/cart';
+
 const useCart = () => {
   const { token } = useMe();
   const { toast } = useToast();
@@ -24,30 +31,37 @@ const useCart = () => {
   const [paymentStep, setPaymentStep] = useState<number>(0);
   const [showCartWindow, setShowCartWindowState] = useState<boolean>(false);
 
-  const [addToCart] = useMutation(CartOperation.Mutation.addToCart, {
+  const [addToCart] = useMutation<
+    CreateCartMutation,
+    CreateCartMutationVariables
+  >(CartOperation.Mutation.createCart, {
     context: {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     },
     onCompleted: (data) => {
-      console.log(data);
+      console.log('Add to cart', data);
+
+      dispatch(
+        setCart({
+          documentId: data?.createCart?.documentId || '',
+          item: {
+            productID: data?.createCart?.item?.productID || '',
+            name: data?.createCart?.item?.title || '',
+            model: data?.createCart?.item?.model || '',
+            price: data?.createCart?.item?.price || 0,
+            image: data?.createCart?.item?.image || '',
+            quantity: Number(data?.createCart?.item?.quantity) || 0,
+            odoo_product_id: data?.createCart?.item?.odoo_product_id || '',
+          },
+        })
+      );
+
       dispatch(setShowCartWindow(true));
       setTimeout(() => {
         dispatch(setShowCartWindow(false));
       }, CART_WINDOW_TIMEOUT);
-
-      dispatch(
-        setCart({
-          id: data?.addToCart?.item?.id || '',
-          name: data?.addToCart?.item?.title || '',
-          model: data?.addToCart?.item?.model || '',
-          price: data?.addToCart?.item?.price || 0,
-          image: data?.addToCart?.item?.image || '',
-          quantity: Number(data?.addToCart?.item?.quantity) || 0,
-          odoo_product_id: data?.addToCart?.item?.odoo_product_id || '',
-        })
-      );
     },
     onError: (error) => {
       if (error) {
@@ -59,9 +73,8 @@ const useCart = () => {
       }
     },
   });
-
-  const [removeItemFromCart] = useMutation(
-    CartOperation.Mutation.removeFromCart,
+  const [updateCartItem] = useMutation<UpdateCartMutation>(
+    CartOperation.Mutation.updateCart,
     {
       context: {
         headers: {
@@ -69,10 +82,69 @@ const useCart = () => {
         },
       },
       onCompleted: (data) => {
-        console.log(data);
+        console.log('Update cart', data);
+
+        dispatch(
+          setCart({
+            documentId: data?.updateCart?.documentId || '',
+            item: {
+              productID: data?.updateCart?.item?.productID || '',
+              name: data?.updateCart?.item?.title || '',
+              model: data?.updateCart?.item?.model || '',
+              price: data?.updateCart?.item?.price || 0,
+              image: data?.updateCart?.item?.image || '',
+              quantity: Number(data?.updateCart?.item?.quantity) || 0,
+              odoo_product_id: data?.updateCart?.item?.odoo_product_id || '',
+            },
+          })
+        );
+
+        dispatch(setShowCartWindow(true));
+        setTimeout(() => {
+          dispatch(setShowCartWindow(false));
+        }, CART_WINDOW_TIMEOUT);
+      },
+      onError: (error) => {
+        if (error) {
+          toast({
+            title: error?.message,
+            variant: 'destructive',
+          });
+          return;
+        }
       },
     }
   );
+
+  const [removeItemFromCart] = useMutation(CartOperation.Mutation.deleteCart, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+    onCompleted: (data) => {
+      console.log(data);
+      if (data.deleteCart && data.deleteCart.documentId) {
+        dispatch(removeCart({ id: data.deleteCart?.documentId }));
+      }
+    },
+  });
+
+  const clearCartItems = () => {
+    dispatch(clearCart());
+  };
+
+  // const removeItemFromCart = async (id: string) => {
+  //   if (!id) {
+  //     toast({
+  //       title: 'No item to remove',
+  //       variant: 'destructive',
+  //     });
+  //     return;
+  //   }
+
+  //   // const { data } = await removeCartItem(id);
+  // };
 
   useEffect(() => {
     setShowCartWindowState(isShowCartWindow);
@@ -107,6 +179,8 @@ const useCart = () => {
     showCartWindow,
     addToCart,
     removeItemFromCart,
+    updateCartItem,
+    clearCartItems,
   };
 };
 

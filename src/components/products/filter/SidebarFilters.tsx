@@ -11,7 +11,7 @@ interface FiltersProps {
   onFilterChange: (key: string, value: string) => void;
 }
 
-const FilterSidebar: React.FC<FiltersProps> = (props) => {
+const SidebarFilters: React.FC<FiltersProps> = (props) => {
   const { filters, selectedFilters, onFilterChange } = props;
   return (
     <div className="w-64 flex-shrink-0 hidden md:block">
@@ -30,4 +30,4 @@ const FilterSidebar: React.FC<FiltersProps> = (props) => {
   );
 };
 
-export default FilterSidebar;
+export default SidebarFilters;
