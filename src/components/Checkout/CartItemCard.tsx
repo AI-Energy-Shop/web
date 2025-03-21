@@ -3,7 +3,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { getCartItemSubtotal } from '@/utils/cart';
+import { formatCurrency } from '@/utils/cart';
 import { Minus, Plus, Trash2 } from 'lucide-react';
 
 interface CartItemCardProps {
@@ -11,7 +11,7 @@ interface CartItemCardProps {
   image?: string;
   title?: string;
   model?: string;
-  price?: number;
+  price: number;
   quantity?: number;
   gst?: string;
   onAddQuant: (id: string) => void;
@@ -91,7 +91,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
             </Button>
           </div>
           <div className="text-center">
-            <p>{getCartItemSubtotal(price, quantity)}</p>
+            <p>{formatCurrency(Number(price * quantity), 'USD')}</p>
             <p className="text-[12px]">ex.GST</p>
           </div>
         </div>
@@ -104,6 +104,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
           <Trash2 className="w-5 h-5" color="red" />
         </Button>
       </div>
+      {/* MOBILE */}
       <div className="flex border border-black md:hidden">
         <div className="flex-2 text-center bg-gray-300 place-content-center place-items-center">
           QTY
@@ -134,7 +135,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
           </Button>
         </div>
         <div className="flex-3 text-right pr-2">
-          <p>{getCartItemSubtotal(price, quantity)}</p>
+          <p>{formatCurrency(Number(price * quantity), 'USD')}</p>
           <p className="text-[14px]">ex.GST</p>
         </div>
       </div>

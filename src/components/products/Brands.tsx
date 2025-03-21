@@ -18,8 +18,6 @@ const Brands: React.FC<BrandsProps> = ({ products }) => {
     (image, index, self) => self.indexOf(image) === index
   );
 
-  console.log(uniqueBrandImages);
-
   return (
     <div className="my-8">
       <h1 className="text-2xl font-bold text-center mb-4">Brands:</h1>

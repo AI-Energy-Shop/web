@@ -7,7 +7,6 @@ import { firaSans } from '@/app/font';
 import useCart from '@/hooks/useCart';
 import { Button } from '../ui/button';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { Minus, Plus } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 import { ProductQuery } from '@/lib/gql/graphql';
@@ -22,7 +21,7 @@ interface ProductAddToCartButtonProps {
 const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
   const { me } = useMe();
   const { toast } = useToast();
-  const { warehouse, addToCart } = useCart();
+  const { carts, warehouse, addToCart, updateCartItem } = useCart();
 
   const priceList = product?.price_lists?.map((price) => ({
     documentId: price?.documentId,
@@ -103,15 +102,41 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
       return;
     }
 
+    const cartItem = carts.find((cart) => cart.item.productID === onValid?.id);
+
+    if (cartItem) {
+      updateCartItem({
+        variables: {
+          documentId: cartItem.documentId,
+          data: {
+            item: {
+              productID: cartItem.item.productID,
+              title: cartItem.item.name,
+              model: cartItem.item.model,
+              image: cartItem.item.image,
+              price: cartItem.item.price + onValid.price,
+              quantity: cartItem.item.quantity + onValid.quantity,
+              odoo_product_id: cartItem.item.odoo_product_id,
+            },
+          },
+        },
+      });
+      return;
+    }
+
     addToCart({
       variables: {
         data: {
-          title: onValid.title,
-          price: onValid.price,
-          quantity: onValid.quantity,
-          model: onValid.model,
-          odoo_product_id: onValid.odoo_product_id,
-          image: onValid.image,
+          item: {
+            productID: onValid.id,
+            title: onValid.title,
+            model: onValid.model,
+            image: onValid.image,
+            price: onValid.price,
+            quantity: onValid.quantity,
+            odoo_product_id: onValid.odoo_product_id,
+          },
+          user: me?.id,
         },
       },
     });

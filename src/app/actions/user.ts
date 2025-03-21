@@ -134,6 +134,7 @@ export const loginUser = async ({
             isActive: address?.isActive,
           })) || [],
       },
+      carts: userRes.data.user?.carts || [],
       warehouse_location: userDetails?.warehouse_location,
     };
 
