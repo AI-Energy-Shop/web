@@ -10,7 +10,6 @@ import { Form, FormField } from '../ui/form';
 import { setCart } from '@/store/features/cart';
 import ProductQuantity from './ProductQuantity';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { addToCart, testAddToCart } from '@/app/actions/cart';
 import useMe from '@/hooks/useMe';
 
 const addToCartFormSchema = z.object({
@@ -59,84 +58,7 @@ const CardAddToCartButton = ({
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof addToCartFormSchema>) => {
-    try {
-      if (!me) {
-        router.push('/auth/login');
-        return;
-      }
-
-      if (data.quantity === 0 || data.quantity === null) {
-        toast({
-          title: 'Quantity cannot be 0',
-          variant: 'destructive',
-        });
-        return;
-      }
-
-      if (stocks <= 0) {
-        toast({
-          title: 'Out of Stock',
-          variant: 'destructive',
-        });
-        return;
-      }
-
-      // Match the working pattern exactly
-      const formData = new FormData();
-      const submitData = {
-        ...data,
-        price: data.quantity * Number(productPrice), // Calculate total price
-      };
-
-      Object.entries(submitData).forEach(([key, value]) => {
-        formData.append(key, value as string);
-      });
-
-      const res = await addToCart(formData);
-
-      // Match the error handling pattern
-      if (res?.errors) {
-        toast({
-          title: res.errors[0].message,
-          variant: 'destructive',
-        });
-        return;
-      }
-
-      toast({
-        title: `${data.title} added to cart`,
-        description: 'Your cart has been updated',
-        style: {
-          backgroundColor: 'green',
-          color: '#fff',
-        },
-        duration: 5000,
-      });
-
-      // Update cart state using the response data
-      if (res?.data?.addToCart) {
-        dispatch(
-          setCart({
-            id: res.data.addToCart.id,
-            name: res.data.addToCart.title,
-            price: res.data.addToCart.price,
-            quantity: Number(res.data.addToCart.quantity),
-            image: res.data.addToCart.image,
-            odoo_product_id: res.data.addToCart.odoo_product_id,
-            model: res.data.addToCart.model,
-          })
-        );
-      }
-    } catch (error) {
-      console.error('Add to cart error:', error);
-      toast({
-        title: 'Error adding to cart',
-        description: 'Please try again',
-        variant: 'destructive',
-      });
-    }
-  };
+  const onSubmit = async (data: z.infer<typeof addToCartFormSchema>) => {};
 
   const renderHiddenInput = (
     name: keyof z.infer<typeof addToCartFormSchema>
