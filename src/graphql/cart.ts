@@ -25,41 +25,47 @@ const schema = {
   Mutation: {
     createCart: gql(`
       mutation CreateCart($data: CartInput!) {
-      createCart(data: $data) {    
-        documentId
-        item {
-          id
-          image
-          model
-          odoo_product_id
-          price
-          quantity
-          title
-        }
-        createdAt
-        updatedAt
-      }
-    }
-    `),
-    updateCart: gql(`
-      mutation UpdateCart($documentId: ID!, $data: CartInput!) {
-        updateCart(documentId: $documentId, data: $data) {
+        createCart(data: $data) {
           documentId
           item {
-            id
-            image
-            model
-            odoo_product_id
-            price
-            quantity
+            productID
             title
+            quantity
+            price
+            odoo_product_id
+            model
+            image
+          }
+          user {
+            username
           }
           createdAt
           updatedAt
         }
       }
     `),
-    removeFromCart: graphql(`
+    updateCart: gql(`
+      mutation UpdateCart($documentId: ID!, $data: CartInput!) {
+        updateCart(documentId: $documentId, data: $data) {
+          documentId
+          item {
+            productID
+            title
+            quantity
+            price
+            odoo_product_id
+            model
+            image
+          }
+          user {
+            username
+          }
+          createdAt
+          updatedAt
+        }
+      }
+    `),
+    deleteCart: graphql(`
       mutation DeleteCart($documentId: ID!) {
         deleteCart(documentId: $documentId) {
           documentId

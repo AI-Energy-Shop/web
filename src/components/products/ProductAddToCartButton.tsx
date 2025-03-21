@@ -21,7 +21,7 @@ interface ProductAddToCartButtonProps {
 const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
   const { me } = useMe();
   const { toast } = useToast();
-  const { warehouse, addToCart } = useCart();
+  const { carts, warehouse, addToCart, updateCartItem } = useCart();
 
   const priceList = product?.price_lists?.map((price) => ({
     documentId: price?.documentId,
@@ -102,10 +102,33 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
       return;
     }
 
+    const cartItem = carts.find((cart) => cart.item.productID === onValid?.id);
+
+    if (cartItem) {
+      updateCartItem({
+        variables: {
+          documentId: cartItem.documentId,
+          data: {
+            item: {
+              productID: cartItem.item.productID,
+              title: cartItem.item.name,
+              model: cartItem.item.model,
+              image: cartItem.item.image,
+              price: cartItem.item.price + onValid.price,
+              quantity: cartItem.item.quantity + onValid.quantity,
+              odoo_product_id: cartItem.item.odoo_product_id,
+            },
+          },
+        },
+      });
+      return;
+    }
+
     addToCart({
       variables: {
         data: {
           item: {
+            productID: onValid.id,
             title: onValid.title,
             model: onValid.model,
             image: onValid.image,
@@ -113,6 +136,7 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
             quantity: onValid.quantity,
             odoo_product_id: onValid.odoo_product_id,
           },
+          user: me?.id,
         },
       },
     });

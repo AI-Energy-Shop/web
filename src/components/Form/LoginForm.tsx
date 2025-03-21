@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/useToast';
 import { useDispatch } from 'react-redux';
 import { setMe, setMeAdmin, setToken } from '@/store/features/me';
-import { setWarehouseLocation } from '@/store/features/cart';
+import { setCarts, setWarehouseLocation } from '@/store/features/cart';
 
 interface LoginFormData {
   email: string;
@@ -69,6 +69,22 @@ const LoginForm = () => {
           },
         })
       );
+
+      if (data && data?.user && data?.user?.carts) {
+        const cartsData = data.user.carts.map((cart) => ({
+          documentId: cart?.documentId || '',
+          item: {
+            productID: cart?.item?.productID || '',
+            name: cart?.item?.title || '',
+            model: cart?.item?.model || '',
+            image: cart?.item?.image || '',
+            price: cart?.item?.price || 0,
+            quantity: cart?.item?.quantity || 0,
+            odoo_product_id: cart?.item?.odoo_product_id || '',
+          },
+        }));
+        dispatch(setCarts([...cartsData]));
+      }
 
       dispatch(
         setMe({

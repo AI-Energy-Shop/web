@@ -35,7 +35,7 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
   const router = useRouter();
   const { toast } = useToast();
   const { me } = useMe();
-  const { warehouse, addToCart } = useCart();
+  const { carts, warehouse, addToCart, updateCartItem } = useCart();
 
   const stocks =
     product?.inventories.find(
@@ -60,7 +60,7 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
       model: product?.model || '',
       image: product?.images[0]?.url || '',
       odoo_product_id: product?.odoo_product_id || '',
-      price: productPrice || 0,
+      price: 0,
       quantity: 0,
     },
   });
@@ -89,10 +89,33 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
       return;
     }
 
+    const cartItem = carts.find((cart) => cart.item.productID === data?.id);
+
+    if (cartItem) {
+      updateCartItem({
+        variables: {
+          documentId: cartItem.documentId,
+          data: {
+            item: {
+              odoo_product_id: cartItem.item.odoo_product_id,
+              productID: cartItem.item.productID,
+              title: cartItem.item.name,
+              model: cartItem.item.model,
+              image: cartItem.item.image,
+              price: cartItem.item.price + data.price,
+              quantity: cartItem.item.quantity + data.quantity,
+            },
+          },
+        },
+      });
+      return;
+    }
+
     addToCart({
       variables: {
         data: {
           item: {
+            productID: data.id,
             title: data.title,
             model: data.model,
             image: data.image,
@@ -100,6 +123,7 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
             quantity: data.quantity,
             odoo_product_id: data.odoo_product_id,
           },
+          user: me.id,
         },
       },
     });
@@ -123,12 +147,10 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
     return (
       <div className="grid grid-cols-1 grid-rows-3">
         <span className="text-sm text-gray-400 line-through row-span-1">
-          {itemPrice?.sale_price
-            ? formatCurrency(itemPrice.sale_price, 'USD')
-            : null}
+          {itemPrice?.price ? formatCurrency(itemPrice.price, 'USD') : null}
         </span>
         <p className="text-md font-bold row-span-1 block h-auto">
-          {formatCurrency(itemPrice?.price || 0, 'USD')}{' '}
+          {formatCurrency(productPrice || 0, 'USD')}{' '}
           <span className="text-xs font-normal">ex.GST</span>
         </p>
         <span

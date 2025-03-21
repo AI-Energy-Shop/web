@@ -26,31 +26,6 @@ export async function getCartItems() {
   }
 }
 
-export async function removeCartItem(id: string) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('a-token')?.value;
-
-  try {
-    const res = await client.mutate({
-      mutation: CART_OPERATIONS.Mutation.removeFromCart,
-      variables: {
-        documentId: id,
-      },
-      context: {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-    });
-
-    console.log(res);
-
-    return res;
-  } catch (error: any) {
-    console.error('GraphQL Mutation Error:', error.message);
-  }
-}
-
 export async function testAddToCart(formData: FormData) {
   const title = formData.get('title') as string;
   const model = formData.get('model') as string;
