@@ -10,10 +10,9 @@ interface ProductQuantityProps {
 
 const ProductQuantity = ({ form }: ProductQuantityProps) => {
   const handleIncrement = () => {
-    const quantity = form?.getValues('quantity');
+    const quantity = Number(form?.getValues('quantity')) || 0; // Ensure it's a number
     form?.setValue('quantity', quantity + 1);
   };
-
   const handleDecrement = () => {
     const quantity = form?.getValues('quantity');
 
