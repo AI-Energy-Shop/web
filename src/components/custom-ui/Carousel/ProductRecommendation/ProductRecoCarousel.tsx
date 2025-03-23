@@ -10,14 +10,14 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import Image from 'next/image';
 import { Minus, Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { firaSans, muktaVaani } from '@/app/font';
 import CustomButton from './CustomButton';
 import CustomDot from './CustomDot';
-import { Input } from '@/components/ui/input';
-import { useQuery } from '@apollo/client';
-import PRODUCT_OPERATIONS from '@/graphql/products';
 import useMe from '@/hooks/useMe';
+import { useQuery } from '@apollo/client';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { firaSans, muktaVaani } from '@/app/font';
+import PRODUCT_OPERATIONS from '@/graphql/products';
 
 const responsive = {
   desktop: {
@@ -46,7 +46,9 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
     variables: {
       filters: {
         category: {
-          contains: relatedProductType,
+          slug: {
+            contains: relatedProductType,
+          },
         },
       },
     },

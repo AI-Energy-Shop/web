@@ -7,7 +7,7 @@ interface RelatedProductsProps {
 }
 
 const RelatedProducts = ({ data }: RelatedProductsProps) => {
-  const relatedProducts = data?.category;
+  const relatedProductCategory = data?.category?.slug;
 
   return (
     <section className="bg-yellow-light-yellow pt-6 pb-12 ">
@@ -16,7 +16,9 @@ const RelatedProducts = ({ data }: RelatedProductsProps) => {
           Related Products
         </h1>
         <div className="ae-non-mobile-container md:px-12">
-          <Carousel.ProductRecoCarousel relatedProductType={relatedProducts} />
+          <Carousel.ProductRecoCarousel
+            relatedProductType={relatedProductCategory}
+          />
         </div>
       </div>
     </section>

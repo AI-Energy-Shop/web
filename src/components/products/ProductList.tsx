@@ -109,8 +109,8 @@ const Products: React.FC<ProductListProps> = ({ data, category }) => {
   return (
     <div className="products flex gap-8">
       <SidebarFilters
-        selectedFilters={selectedFilters}
         filters={currentFilter}
+        selectedFilters={selectedFilters}
         onFilterChange={handleFilterChange}
       />
       <div className="flex-1">

@@ -73,14 +73,14 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ product }) => {
       {/* tablet/desktop carousel */}
       <div className=" w-full relative h-full hidden md:block">
         <div className="w-32 h-12 mx-auto">
-          {product?.product_brand_image?.url && (
+          {product?.brand?.image?.url && (
             <Image
               width={128}
               height={48}
               loading="lazy"
-              src={product?.product_brand_image?.url}
+              src={`${product?.brand?.image?.url}`}
               className="object-contain object-center w-full h-full"
-              alt={product?.product_brand_image?.alternativeText || ''}
+              alt={`${product?.brand?.image?.alternativeText}`}
             />
           )}
         </div>
