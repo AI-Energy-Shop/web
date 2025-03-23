@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import ShopProductStockQuantities from '@/components/products/ShopProductStockQuantities';
 import ProductDescription from '@/components/products/ProductDescription';
 import RelatedProducts from '@/components/products/RelatedProducts';

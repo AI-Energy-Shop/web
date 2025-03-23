@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { INITIAL_PAGE, INITIAL_PAGE_SIZE } from '@/constant';
 import ProductList from '@/components/products/ProductList';
 import Breadcrumb from '@/components/products/Breadcrumb';
