@@ -73,3 +73,6 @@ export const FILTERS = [
   { name: 'Key Features' },
   { name: 'Product Warranty' },
 ];
+
+export const INITIAL_PAGE = 1;
+export const INITIAL_PAGE_SIZE = 12;

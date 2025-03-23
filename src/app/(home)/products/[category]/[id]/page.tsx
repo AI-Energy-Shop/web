@@ -44,7 +44,7 @@ async function ProductPage({ params }: { params: { id: string } }) {
       </section>
 
       <ProductDescription productData={data?.product} />
-      <RelatedProducts />
+      <RelatedProducts data={data?.product} />
     </main>
   );
 }

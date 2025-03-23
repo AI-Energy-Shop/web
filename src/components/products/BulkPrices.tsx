@@ -69,7 +69,11 @@ const BulkPrices = ({ product }: BulkPricesProps) => {
               bulkPrices?.map((data: any) => (
                 <TableRow key={data?.id}>
                   <TableCell>{`${data?.min_quantity}-${data?.max_quantity}`}</TableCell>
-                  <TableCell>{data?.price}</TableCell>
+                  <TableCell>
+                    {data?.sale_price
+                      ? `${data?.sale_price}`
+                      : `${data?.price}`}
+                  </TableCell>
                 </TableRow>
               ))
             )}

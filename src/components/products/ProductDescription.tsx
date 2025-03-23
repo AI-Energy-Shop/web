@@ -42,7 +42,7 @@ function ProductDescription({ productData }: ProductDescriptionProps) {
                 Key Features
               </AccordionTrigger>
               <AccordionContent className="px-6 pt-4 pb-5 bg-gray-50">
-                <ProductKeyFeatures />
+                <ProductKeyFeatures data={productData} />
               </AccordionContent>
             </AccordionItem>
 
@@ -96,7 +96,7 @@ function ProductDescription({ productData }: ProductDescriptionProps) {
             <div className="flex justify-between">
               <div className="basis-[50%]">
                 <ProductDetailsOverview productData={productData} />
-                <ProductKeyFeatures />
+                <ProductKeyFeatures data={productData} />
               </div>
               <div className="basis-[35%]">
                 <ProductSpecification productData={productData} />
