@@ -30,8 +30,7 @@ const CartButton: React.FC<CartButtonProps> = ({ cartStyle = 'text' }) => {
         </>
       )}
 
-      {/* {carts.length > 0 && <CartNotification carts={carts} />} */}
-      <CartNotification carts={carts} />
+      {carts.length > 0 && <CartNotification carts={carts} />}
     </Link>
   );
 };
