@@ -1,26 +1,40 @@
 import { Middleware } from '@reduxjs/toolkit';
-import { setCookie, removeCookie } from '@/utils/cookies';
+import jsCookie from 'js-cookie';
 
-export const cookieMiddleware: Middleware = (store) => (next) => (action) => {
-  const result = next(action);
+export const cookieMiddleware: Middleware =
+  (store) => (next) => (action: any) => {
+    const result = next(action);
 
-  // Save specific parts of the state to cookies after each action
-  const state = store.getState();
-
-  // Handle logout action
-
-  // Save me state
-  if (state.me) {
-    setCookie('me', JSON.stringify(state.me));
-    if (state.me.token) {
-      setCookie('token', state.me.token);
+    if (action.type === 'me/logout') {
+      jsCookie.remove('reduxState');
+      return result;
     }
-  }
 
-  // Save cart state
-  if (state.cart) {
-    setCookie('cart', JSON.stringify(state.cart));
-  }
+    // Save specific parts of the state to cookies after each action
+    const state = store.getState();
 
-  return result;
+    const expiringDate = new Date(Date.now() + 60 * 60 * 12 * 1000); // expire for 12 hours
+
+    jsCookie.set(
+      'reduxState',
+      JSON.stringify({
+        me: state.me,
+        cart: state.cart,
+      }),
+      { expires: expiringDate }
+    );
+
+    return result;
+  };
+
+const me = jsCookie.get('reduxState')
+  ? JSON.parse(jsCookie.get('reduxState')!).me
+  : undefined;
+const cart = jsCookie.get('reduxState')
+  ? JSON.parse(jsCookie.get('reduxState')!).cart
+  : undefined;
+// Get initial state from jsCookie
+export const PRELOADED_STATE = {
+  me: me,
+  cart: cart,
 };
