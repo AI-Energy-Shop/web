@@ -70,9 +70,11 @@ export const meSlice = createSlice({
       state.meAdmin = undefined;
       state.token = undefined;
     },
+    logout: () => {},
   },
 });
 
-export const { setMe, setMeAdmin, setToken, removeUserData } = meSlice.actions;
+export const { setMe, setMeAdmin, setToken, removeUserData, logout } =
+  meSlice.actions;
 
 export default meSlice.reducer;

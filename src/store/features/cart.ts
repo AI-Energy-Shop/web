@@ -88,9 +88,6 @@ export const cartSlice = createSlice({
         (cart) => cart.documentId !== payload.id
       );
     },
-    clearCart: (state) => {
-      state.carts = [];
-    },
     setWarehouseLocation: (
       state,
       { payload }: { payload: WarehouseLocation; type: string }
@@ -116,7 +113,6 @@ export const {
   setPaymentStep,
   setWarehouseLocation,
   setShowCartWindow,
-  clearCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
