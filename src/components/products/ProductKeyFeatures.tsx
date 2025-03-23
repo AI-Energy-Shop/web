@@ -1,12 +1,6 @@
 import { firaSans } from '@/app/font';
 import { ProductQuery } from '@/lib/gql/graphql';
 
-interface KeyFeatures {
-  id: string;
-  name: string;
-  description: string;
-}
-
 interface ProductKeyFeaturesProps {
   data?: ProductQuery['product'];
 }
