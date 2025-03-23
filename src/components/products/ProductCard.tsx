@@ -65,7 +65,7 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
     },
   });
 
-  const productLink = `/products/${product?.category?.toLowerCase()?.replaceAll(' ', '-')}/${product?.documentId}`;
+  const productLink = `/products/${product?.category?.slug}/${product?.documentId}`;
 
   const onSubmit = async (data: z.infer<typeof addToCartFormSchema>) => {
     if (!me) {
