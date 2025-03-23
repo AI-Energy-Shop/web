@@ -3,11 +3,7 @@ import Breadcrumb from '@/components/products/Breadcrumb';
 import Categories from '@/components/products/Categories';
 import Brands from '@/components/products/Brands';
 import { products } from '@/app/actions/products';
-import {
-  INITIAL_PAGE,
-  INITIAL_PAGE_SIZE,
-  PRODUCT_CATEGORIES,
-} from '@/constant';
+import { INITIAL_PAGE, INITIAL_PAGE_SIZE } from '@/constant';
 import { capitalizeAllFirstChar } from '@/utils/string';
 import PageTitle from '@/components/products/PageTitle';
 
@@ -26,7 +22,9 @@ export default async function CategoryPage({
   const { data } = await products({
     filters: {
       category: {
-        contains: categoryName,
+        slug: {
+          contains: category,
+        },
       },
     },
     pagination: {
@@ -38,10 +36,10 @@ export default async function CategoryPage({
   return (
     <div className="min-h-screen bg-[#fdf6ed]">
       <Breadcrumb />
-      <Categories categories={PRODUCT_CATEGORIES} />
+      <Categories />
       <div className="max-w-[1200px] mx-auto p-5 md:p-5 lg:p-5 flex flex-col lg:gap-5">
         <PageTitle title="All Products" />
-        <Brands products={data?.products} />
+        <Brands />
         <ProductList data={data?.products} category={categoryName} />
       </div>
     </div>

@@ -261,7 +261,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                   name="category"
                   placeholder="Enter product category"
                   onChange={handleInputChange}
-                  value={currentProduct?.category || ''}
+                  value={`${currentProduct?.category?.slug}`}
                 />
               </div>
               <div>

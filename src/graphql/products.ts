@@ -1,4 +1,5 @@
 import { graphql } from '@/lib/gql';
+import { gql } from '@apollo/client';
 
 const schema = {
   Query: {
@@ -11,18 +12,35 @@ const schema = {
           documentId
           name
           description
-          category
           vendor
           model
           odoo_product_id
-          product_brand_image {
-            documentId
+          category {
+            title
+            slug
+            image {
+              documentId
+              name
+              alternativeText
+              width
+              height
+              mime
+              url
+            }
+          }
+
+          brand {
             name
-            alternativeText
-            width
-            height
-            mime
             url
+            image {
+              documentId
+              name
+              alternativeText
+              width
+              height
+              mime
+              url
+            }
           }
           price_lists {
             documentId
@@ -80,18 +98,34 @@ const schema = {
           documentId
           name
           description
-          category
           vendor
           model
           odoo_product_id
-          product_brand_image {
-            documentId
+          category {
+            title
+            slug
+            image {
+              documentId
+              name
+              alternativeText
+              width
+              height
+              mime
+              url
+            }
+          }
+          brand {
             name
-            alternativeText
-            width
-            height
-            mime
             url
+            image {
+              documentId
+              name
+              alternativeText
+              width
+              height
+              mime
+              url
+            }
           }
           price_lists {
             documentId
@@ -143,6 +177,40 @@ const schema = {
         }
       }
     `),
+    brands: gql(`
+      query Brands($filters: BrandFiltersInput) {
+        brands(filters: $filters) {
+          documentId
+          name
+          url
+          image {
+            name
+            alternativeText
+            mime
+            url
+            width
+            height
+          }
+        }
+      }
+    `),
+    categories: gql(`
+      query Categories {
+        categories {
+          documentId
+          title
+          slug
+          image {
+            name
+            alternativeText
+            mime
+            url
+            width
+            height
+          }
+        }
+      }
+    `),
   },
   Mutation: {
     createProduct: graphql(`
@@ -152,9 +220,21 @@ const schema = {
           name
           model
           description
-          category
           vendor
           odoo_product_id
+          brand {
+            name
+            url
+            image {
+              documentId
+              name
+              alternativeText
+              width
+              height
+              mime
+              url
+            }
+          }
           inventories {
             location_code
             quantity
@@ -203,9 +283,31 @@ const schema = {
           name
           model
           description
-          category
           vendor
           odoo_product_id
+          category {
+            title
+            slug
+            image {
+              name
+              alternativeText
+              mime
+              url
+              width
+              height
+            }
+          }
+          brand {
+            name
+            url
+            image {
+              documentId
+              name
+              alternativeText
+              width
+              height
+            }
+          }
           price_lists {
             documentId
             price

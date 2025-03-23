@@ -20,7 +20,7 @@ export default async function ProductManagement(props: {
   return (
     <Suspense fallback={<p>Loading...</p>}>
       <div className="h-auto w-full bg-gray-100 dark:bg-gray-900">
-        <Components.Cards.ProductsDetails product={data?.product} />
+        {/* <Components.Cards.ProductsDetails product={data?.product} /> */}
       </div>
     </Suspense>
   );
