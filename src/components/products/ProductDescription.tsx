@@ -96,7 +96,7 @@ function ProductDescription({ productData }: ProductDescriptionProps) {
             <div className="flex justify-between">
               <div className="basis-[50%]">
                 <ProductDetailsOverview productData={productData} />
-                {/* <ProductKeyFeatures data={productData} /> */}
+                <ProductKeyFeatures data={productData} />
               </div>
               <div className="basis-[35%]">
                 <ProductSpecification productData={productData} />
