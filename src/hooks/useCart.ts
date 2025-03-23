@@ -6,14 +6,13 @@ import CartOperation from '@/graphql/cart';
 import { useToast } from './useToast';
 import useMe from './useMe';
 import { CART_WINDOW_TIMEOUT } from '@/constant/cart';
-import { clearCart, setCart, setShowCartWindow } from '@/store/features/cart';
+import { setCart, setShowCartWindow } from '@/store/features/cart';
 import { Cart, removeCart, WarehouseLocation } from '@/store/features/cart';
 import {
   CreateCartMutation,
   CreateCartMutationVariables,
   UpdateCartMutation,
 } from '@/lib/gql/graphql';
-// import { removeCartItem } from '@/app/actions/cart';
 
 const useCart = () => {
   const { token } = useMe();
@@ -73,6 +72,7 @@ const useCart = () => {
       }
     },
   });
+
   const [updateCartItem] = useMutation<UpdateCartMutation>(
     CartOperation.Mutation.updateCart,
     {
@@ -130,22 +130,6 @@ const useCart = () => {
     },
   });
 
-  const clearCartItems = () => {
-    dispatch(clearCart());
-  };
-
-  // const removeItemFromCart = async (id: string) => {
-  //   if (!id) {
-  //     toast({
-  //       title: 'No item to remove',
-  //       variant: 'destructive',
-  //     });
-  //     return;
-  //   }
-
-  //   // const { data } = await removeCartItem(id);
-  // };
-
   useEffect(() => {
     setShowCartWindowState(isShowCartWindow);
     return () => {
@@ -180,7 +164,6 @@ const useCart = () => {
     addToCart,
     removeItemFromCart,
     updateCartItem,
-    clearCartItems,
   };
 };
 
