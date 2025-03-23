@@ -235,9 +235,12 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
               </div>
               <Button
                 type="submit"
+                disabled={!stocks?.quantity || stocks?.quantity == 0}
                 className={`${firaSans.className} max-md:mt-3 max-md:mb-5 w-full py-6 bg-blue-navy-blue hover:bg-blue-navy-blue/90 rounded-full font-bold md:basis-[57.98%] text-[20px] md:text-[28px] md:rounded-lg md:h-16`}
               >
-                Add to Cart
+                {stocks?.quantity || (stocks?.quantity && stocks?.quantity > 0)
+                  ? 'Add to Cart'
+                  : 'Out of Stock'}
               </Button>
             </div>
           </form>
