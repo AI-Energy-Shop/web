@@ -18,6 +18,7 @@ import { Input } from '@/components/ui/input';
 import { useQuery } from '@apollo/client';
 import PRODUCT_OPERATIONS from '@/graphql/products';
 import useMe from '@/hooks/useMe';
+
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
@@ -40,6 +41,7 @@ interface ProductRecoCarouselProps {
 
 function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
   const { me } = useMe();
+
   const { data, loading } = useQuery(PRODUCT_OPERATIONS.Query.products, {
     variables: {
       filters: {
@@ -49,8 +51,6 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
       },
     },
   });
-
-  console.log(data);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -78,26 +78,22 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
               (price) => price?.user_level === me?.account_detail?.level
             );
 
-            console.log(itemPrice);
-
             return (
               <Card key={index} className="p-3">
                 <CardHeader className="p-0 w-3/4 mx-auto">
                   <div className="h-28 relative">
                     <Image
-                      priority
                       fill
-                      src={item?.name || ''}
+                      loading="lazy"
                       alt="product image"
+                      src={item?.images[0]?.url || ''}
                       className="object-contain object-center"
                     />
                   </div>
                 </CardHeader>
                 <CardContent className={`${firaSans.className} p-0 mt-2`}>
-                  <h1 className="font-medium">
-                    Solplanet 6kW S-G2 Series Single Phase Inverter
-                  </h1>
-                  <h2 className="font-light text-[14px]">ASW6000-S-G2</h2>
+                  <h1 className="font-medium">{item?.name}</h1>
+                  <h2 className="font-light text-[14px]">{item?.model}</h2>
                   <h3
                     className={`${muktaVaani.className} font-medium text-[10px] line-through mt-2`}
                   >
@@ -165,8 +161,6 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
               (price) => price?.user_level === me?.account_detail?.level
             );
 
-            console.log(itemPrice);
-
             return (
               <Card key={index} className="p-4">
                 <CardHeader className="p-0 w-[75%] mx-auto mb-8">
@@ -182,10 +176,8 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
                   </div>
                 </CardHeader>
                 <CardContent className={`p-0 ${firaSans.className}`}>
-                  <h1 className="font-medium">
-                    Solplanet 6kW S-G2 Series Single Phase Inverter
-                  </h1>
-                  <h2 className="font-light text-sm mb-3">ASW6000-S-G2</h2>
+                  <h1 className="font-medium">{item?.name}</h1>
+                  <h2 className="font-light text-sm mb-3">{item?.model}</h2>
                   <h3
                     className={`text-sm line-through font-medium ${muktaVaani.className}`}
                   >
