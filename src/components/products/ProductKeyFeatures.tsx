@@ -1,6 +1,19 @@
 import { firaSans } from '@/app/font';
+import { ProductQuery } from '@/lib/gql/graphql';
 
-function ProductKeyFeatures() {
+interface KeyFeatures {
+  id: string;
+  name: string;
+  description: string;
+}
+
+interface ProductKeyFeaturesProps {
+  data?: ProductQuery['product'];
+}
+
+function ProductKeyFeatures({ data }: ProductKeyFeaturesProps) {
+  const keyFeatures = data?.key_features;
+
   return (
     <div className="md:w-4/5 md:mt-8">
       <h1
@@ -9,22 +22,9 @@ function ProductKeyFeatures() {
         Key Features
       </h1>
       <ul className="list-disc px-4 md:px-0">
-        <li>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
-          molestias?
-        </li>
-        <li>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
-          molestias?
-        </li>
-        <li>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
-          molestias?
-        </li>
-        <li>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
-          molestias?
-        </li>
+        {keyFeatures?.map((feature) => (
+          <li key={feature?.id}>{feature?.feature}</li>
+        ))}
       </ul>
     </div>
   );

@@ -11,20 +11,18 @@ import {
 import { useQuery } from '@apollo/client';
 import PRODUCT_OPRATIONS from '@/graphql/products';
 import { ProductsQuery } from '@/lib/gql/graphql';
+import { useSearchParams } from 'next/navigation';
+import { INITIAL_PAGE, INITIAL_PAGE_SIZE } from '@/constant';
+
 interface ProductPaginationProps {
-  currentPage: number;
-  limit?: number;
-  start?: number;
-  pageSize: number;
   category?: string;
 }
 
-const ProductPagination = ({
-  currentPage,
-  limit,
-  pageSize,
-  category,
-}: ProductPaginationProps) => {
+const ProductPagination = ({ category }: ProductPaginationProps) => {
+  const searchParams = useSearchParams();
+  const page = Number(searchParams.get('page')) || INITIAL_PAGE;
+  const pageSize = Number(searchParams.get('pageSize')) || INITIAL_PAGE_SIZE;
+
   const variables = {
     filters: {
       category: {
@@ -33,9 +31,16 @@ const ProductPagination = ({
     },
   };
 
-  const { data } = useQuery<ProductsQuery>(PRODUCT_OPRATIONS.Query.products, {
-    variables: category ? variables : {},
-  });
+  const { data, loading } = useQuery<ProductsQuery>(
+    PRODUCT_OPRATIONS.Query.products,
+    {
+      variables: category ? variables : {},
+    }
+  );
+
+  if (loading) {
+    return null;
+  }
 
   const productLength = data?.products?.length || 0;
   const totalPages = Math.ceil(productLength / pageSize);
@@ -46,16 +51,17 @@ const ProductPagination = ({
         <PaginationItem className="list-none">
           <PaginationPrevious href={`/products/#`} />
         </PaginationItem>
-        {Array.from({ length: totalPages || 0 }, (_, index) => (
-          <PaginationItem key={index} className="list-none">
-            <PaginationLink
-              isActive={currentPage === index + 1}
-              href={`/products?page=${index + 1}&pageSize=${pageSize}`}
-            >
-              {index + 1}
-            </PaginationLink>
-          </PaginationItem>
-        ))}
+        {totalPages &&
+          Array.from({ length: totalPages }, (_, index) => (
+            <PaginationItem key={index} className="list-none">
+              <PaginationLink
+                isActive={page === index + 1}
+                href={`/products?page=${index + 1}&pageSize=${pageSize}`}
+              >
+                {index + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
         <PaginationItem className="list-none">
           <PaginationNext href={`/products/#`} />
         </PaginationItem>

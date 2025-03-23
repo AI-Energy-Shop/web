@@ -13,19 +13,10 @@ interface Filter {
 
 interface ProductListProps {
   data?: ProductsQuery['products'];
-  start?: number;
-  limit?: number;
-  currentPage: number;
-  pageSize: number;
   category?: string;
 }
 
-const Products: React.FC<ProductListProps> = ({
-  data,
-  currentPage,
-  pageSize,
-  category,
-}) => {
+const Products: React.FC<ProductListProps> = ({ data, category }) => {
   const [currentFilter, setCurrentFilter] = useState<Filter[]>([]);
   const [filterCopy, setFilterCopy] = useState<Filter[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<
@@ -129,11 +120,7 @@ const Products: React.FC<ProductListProps> = ({
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4">
           {currentProducts?.map(renderProductCard)}
         </div>
-        <ProductPagination
-          currentPage={currentPage}
-          pageSize={pageSize}
-          category={category}
-        />
+        <ProductPagination category={category} />
       </div>
     </div>
   );
