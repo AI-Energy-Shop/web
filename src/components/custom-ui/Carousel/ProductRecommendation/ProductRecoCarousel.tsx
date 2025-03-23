@@ -15,7 +15,9 @@ import { firaSans, muktaVaani } from '@/app/font';
 import CustomButton from './CustomButton';
 import CustomDot from './CustomDot';
 import { Input } from '@/components/ui/input';
-
+import { useQuery } from '@apollo/client';
+import PRODUCT_OPERATIONS from '@/graphql/products';
+import useMe from '@/hooks/useMe';
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
@@ -32,7 +34,28 @@ const responsive = {
   },
 };
 
-function ProductRecoCarousel() {
+interface ProductRecoCarouselProps {
+  relatedProductType?: string | null;
+}
+
+function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
+  const { me } = useMe();
+  const { data, loading } = useQuery(PRODUCT_OPERATIONS.Query.products, {
+    variables: {
+      filters: {
+        category: {
+          contains: relatedProductType,
+        },
+      },
+    },
+  });
+
+  console.log(data);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       {/* Mobile Carousel */}
@@ -50,7 +73,13 @@ function ProductRecoCarousel() {
           containerClass="carousel-container"
           itemClass=" w-[45.5%] px-2"
         >
-          {new Array(10).fill(0).map((_, index) => {
+          {data?.products.map?.((item, index) => {
+            const itemPrice = item?.price_lists.find(
+              (price) => price?.user_level === me?.account_detail?.level
+            );
+
+            console.log(itemPrice);
+
             return (
               <Card key={index} className="p-3">
                 <CardHeader className="p-0 w-3/4 mx-auto">
@@ -58,7 +87,7 @@ function ProductRecoCarousel() {
                     <Image
                       priority
                       fill
-                      src={'/images/background/Weiheng Tianwu AIO-Mobile.png'}
+                      src={item?.name || ''}
                       alt="product image"
                       className="object-contain object-center"
                     />
@@ -72,11 +101,15 @@ function ProductRecoCarousel() {
                   <h3
                     className={`${muktaVaani.className} font-medium text-[10px] line-through mt-2`}
                   >
-                    $1250.20
+                    ${itemPrice?.price?.toFixed(2)}
                   </h3>
                   <h3 className={`${muktaVaani.className} font-medium`}>
-                    <span>$1,160</span>
-                    <span className="text-[12px]">.00</span>
+                    <span>
+                      $
+                      {itemPrice?.sale_price
+                        ? itemPrice?.sale_price?.toFixed(2)
+                        : itemPrice?.price?.toFixed(2)}
+                    </span>
                     <span className="text-[10px]">ex.GST</span>
                   </h3>
                 </CardContent>
@@ -127,17 +160,24 @@ function ProductRecoCarousel() {
           itemClass="w-[21.5%] px-2"
           className="z-10"
         >
-          {new Array(25).fill(0).map((_, index) => {
+          {data?.products?.map((item, index) => {
+            const itemPrice = item?.price_lists.find(
+              (price) => price?.user_level === me?.account_detail?.level
+            );
+
+            console.log(itemPrice);
+
             return (
               <Card key={index} className="p-4">
                 <CardHeader className="p-0 w-[75%] mx-auto mb-8">
                   <div className="h-32 relative">
                     <Image
-                      priority
                       fill
-                      src={'/images/background/Weiheng Tianwu AIO-Mobile.png'}
+                      loading="lazy"
                       alt="product image"
+                      src={item?.images[0]?.url || ''}
                       className="object-contain object-center"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 20vw"
                     />
                   </div>
                 </CardHeader>
@@ -149,11 +189,15 @@ function ProductRecoCarousel() {
                   <h3
                     className={`text-sm line-through font-medium ${muktaVaani.className}`}
                   >
-                    $1250.20
+                    ${itemPrice?.price?.toFixed(2)}
                   </h3>
                   <h3 className={`${muktaVaani.className} font-medium mb-4`}>
-                    <span className="text-xl">$1,160</span>
-                    <span>.00 </span>
+                    <span className="text-xl">
+                      $
+                      {itemPrice?.sale_price
+                        ? itemPrice?.sale_price?.toFixed(2)
+                        : itemPrice?.price?.toFixed(2)}
+                    </span>
                     <span className="text-xs">ex.GST</span>
                   </h3>
                 </CardContent>

@@ -1,6 +1,14 @@
 import React from 'react';
 import Carousel from '../custom-ui/Carousel';
-const RelatedProducts = () => {
+import { ProductQuery } from '@/lib/gql/graphql';
+
+interface RelatedProductsProps {
+  data?: ProductQuery['product'];
+}
+
+const RelatedProducts = ({ data }: RelatedProductsProps) => {
+  const relatedProducts = data?.category;
+
   return (
     <section className="bg-yellow-light-yellow pt-6 pb-12 ">
       <div>
@@ -8,7 +16,7 @@ const RelatedProducts = () => {
           Related Products
         </h1>
         <div className="ae-non-mobile-container md:px-12">
-          <Carousel.ProductRecoCarousel />
+          <Carousel.ProductRecoCarousel relatedProductType={relatedProducts} />
         </div>
       </div>
     </section>
