@@ -21,7 +21,10 @@ export const cookieMiddleware: Middleware =
         me: state.me,
         cart: state.cart,
       }),
-      { expires: expiringDate }
+      {
+        expires: expiringDate,
+        httpOnly: process.env.NODE_ENV === 'production' ? true : false,
+      }
     );
 
     return result;

@@ -75,8 +75,10 @@ export type AddressFiltersInput = {
   createdAt?: InputMaybe<DateTimeFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
   isActive?: InputMaybe<BooleanFilterInput>;
+  mobile?: InputMaybe<StringFilterInput>;
   name?: InputMaybe<ComponentElementsNameFiltersInput>;
   not?: InputMaybe<AddressFiltersInput>;
+  odoo_address_id?: InputMaybe<StringFilterInput>;
   or?: InputMaybe<Array<InputMaybe<AddressFiltersInput>>>;
   phone?: InputMaybe<StringFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
@@ -93,7 +95,9 @@ export type AddressInput = {
   city?: InputMaybe<Scalars['String']['input']>;
   country?: InputMaybe<Scalars['String']['input']>;
   isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  mobile?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<ComponentElementsNameInput>;
+  odoo_address_id?: InputMaybe<Scalars['String']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   state?: InputMaybe<Scalars['String']['input']>;
@@ -244,6 +248,24 @@ export type ComponentElementsCartItemInput = {
   productID?: InputMaybe<Scalars['String']['input']>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ComponentElementsCreditFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentElementsCreditFiltersInput>>>;
+  limit?: InputMaybe<FloatFilterInput>;
+  not?: InputMaybe<ComponentElementsCreditFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentElementsCreditFiltersInput>>>;
+  paymentTerms?: InputMaybe<DateTimeFilterInput>;
+  totalOverdue?: InputMaybe<FloatFilterInput>;
+  totalReceivable?: InputMaybe<FloatFilterInput>;
+};
+
+export type ComponentElementsCreditInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  paymentTerms?: InputMaybe<Scalars['DateTime']['input']>;
+  totalOverdue?: InputMaybe<Scalars['Float']['input']>;
+  totalReceivable?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type ComponentElementsDeliveryOptionFiltersInput = {
@@ -968,6 +990,7 @@ export type UsersPermissionsUserFiltersInput = {
   carts?: InputMaybe<CartFiltersInput>;
   createAccountRequest?: InputMaybe<DateTimeFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  credit?: InputMaybe<ComponentElementsCreditFiltersInput>;
   documentId?: InputMaybe<IdFilterInput>;
   email?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<UsersPermissionsUserFiltersInput>;
@@ -992,6 +1015,7 @@ export type UsersPermissionsUserInput = {
   business_number?: InputMaybe<Scalars['String']['input']>;
   carts?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   createAccountRequest?: InputMaybe<Scalars['DateTime']['input']>;
+  credit?: InputMaybe<ComponentElementsCreditInput>;
   email?: InputMaybe<Scalars['String']['input']>;
   image_logo?: InputMaybe<Scalars['ID']['input']>;
   orders?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
@@ -1683,13 +1707,13 @@ export type CustomProductUpdateMutation = {
   } | null;
 };
 
-export type UserQueryVariables = Exact<{
-  filters?: InputMaybe<UserFiltersInput>;
+export type UsersPermissionsUserQueryVariables = Exact<{
+  documentId: Scalars['ID']['input'];
 }>;
 
-export type UserQuery = {
+export type UsersPermissionsUserQuery = {
   __typename?: 'Query';
-  user?: {
+  usersPermissionsUser?: {
     __typename?: 'UsersPermissionsUser';
     documentId: string;
     email: string;
@@ -1739,6 +1763,7 @@ export type UserQuery = {
       __typename?: 'AccountDetail';
       phone?: string | null;
       level?: Enum_Accountdetail_Level | null;
+      odoo_user_id?: string | null;
       name?: {
         __typename?: 'ComponentElementsName';
         first_name?: string | null;
@@ -1826,52 +1851,6 @@ export type UsersPermissionsUsersQuery = {
   } | null>;
 };
 
-export type UsersPermissionsUserQueryVariables = Exact<{
-  documentId: Scalars['ID']['input'];
-}>;
-
-export type UsersPermissionsUserQuery = {
-  __typename?: 'Query';
-  usersPermissionsUser?: {
-    __typename?: 'UsersPermissionsUser';
-    documentId: string;
-    username: string;
-    email: string;
-    provider?: string | null;
-    blocked?: boolean | null;
-    account_status?: Enum_Userspermissionsuser_Account_Status | null;
-    business_name?: string | null;
-    business_number?: string | null;
-    role?: { __typename?: 'UsersPermissionsRole'; name: string } | null;
-    account_detail?: {
-      __typename?: 'AccountDetail';
-      documentId: string;
-      level?: Enum_Accountdetail_Level | null;
-      phone?: string | null;
-      odoo_user_id?: string | null;
-      name?: {
-        __typename?: 'ComponentElementsName';
-        first_name?: string | null;
-        middle_name?: string | null;
-        last_name?: string | null;
-      } | null;
-      warehouse_location?: {
-        __typename?: 'ComponentElementsWarehouseLocation';
-        title?: string | null;
-        address?: {
-          __typename?: 'ComponentElementsAddress';
-          city?: string | null;
-          street?: string | null;
-          suburb?: string | null;
-          state_territory?: string | null;
-          postcode?: string | null;
-          country?: string | null;
-        } | null;
-      } | null;
-    } | null;
-  } | null;
-};
-
 export type LoginMutationVariables = Exact<{
   input: UsersPermissionsLoginInput;
 }>;
@@ -1883,7 +1862,7 @@ export type LoginMutation = {
     jwt?: string | null;
     user: {
       __typename?: 'UsersPermissionsMe';
-      id: string;
+      documentId: string;
       email?: string | null;
       confirmed?: boolean | null;
       blocked?: boolean | null;
@@ -4173,23 +4152,23 @@ export const CustomProductUpdateDocument = {
   CustomProductUpdateMutation,
   CustomProductUpdateMutationVariables
 >;
-export const UserDocument = {
+export const UsersPermissionsUserDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'User' },
+      name: { kind: 'Name', value: 'UsersPermissionsUser' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'filters' },
+            name: { kind: 'Name', value: 'documentId' },
           },
           type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'UserFiltersInput' },
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
           },
         },
       ],
@@ -4198,14 +4177,14 @@ export const UserDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'user' },
+            name: { kind: 'Name', value: 'usersPermissionsUser' },
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'filters' },
+                name: { kind: 'Name', value: 'documentId' },
                 value: {
                   kind: 'Variable',
-                  name: { kind: 'Name', value: 'filters' },
+                  name: { kind: 'Name', value: 'documentId' },
                 },
               },
             ],
@@ -4365,6 +4344,10 @@ export const UserDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'level' } },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'odoo_user_id' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'name' },
                         selectionSet: {
                           kind: 'SelectionSet',
@@ -4400,30 +4383,6 @@ export const UserDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'first_name' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: {
-                                      kind: 'Name',
-                                      value: 'middle_name',
-                                    },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'last_name' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
                               name: { kind: 'Name', value: 'street1' },
                             },
                             {
@@ -4449,6 +4408,30 @@ export const UserDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'isActive' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'first_name' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'middle_name',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'last_name' },
+                                  },
+                                ],
+                              },
                             },
                           ],
                         },
@@ -4512,7 +4495,10 @@ export const UserDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<UserQuery, UserQueryVariables>;
+} as unknown as DocumentNode<
+  UsersPermissionsUserQuery,
+  UsersPermissionsUserQueryVariables
+>;
 export const UsersPermissionsUsersDocument = {
   kind: 'Document',
   definitions: [
@@ -4642,172 +4628,6 @@ export const UsersPermissionsUsersDocument = {
   UsersPermissionsUsersQuery,
   UsersPermissionsUsersQueryVariables
 >;
-export const UsersPermissionsUserDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'UsersPermissionsUser' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'documentId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'usersPermissionsUser' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'documentId' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'documentId' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'provider' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'blocked' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'account_status' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'business_name' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'business_number' },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'role' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'account_detail' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'documentId' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'level' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'odoo_user_id' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'name' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'first_name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'middle_name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'last_name' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'warehouse_location' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'address' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'city' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'street' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'suburb' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: {
-                                      kind: 'Name',
-                                      value: 'state_territory',
-                                    },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'postcode' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'country' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  UsersPermissionsUserQuery,
-  UsersPermissionsUserQueryVariables
->;
 export const LoginDocument = {
   kind: 'Document',
   definitions: [
@@ -4857,7 +4677,10 @@ export const LoginDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'email' } },
                       {
                         kind: 'Field',

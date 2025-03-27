@@ -2,9 +2,9 @@ import { graphql } from '@/lib/gql';
 
 const schema = {
   Queries: {
-    user: graphql(`
-      query User($filters: UserFiltersInput) {
-        user(filters: $filters) {
+    usersPermissionsUser: graphql(`
+      query UsersPermissionsUser($documentId: ID!) {
+        usersPermissionsUser(documentId: $documentId) {
           documentId
           email
           account_status
@@ -50,6 +50,7 @@ const schema = {
           account_detail {
             phone
             level
+            odoo_user_id
             name {
               first_name
               middle_name
@@ -58,11 +59,6 @@ const schema = {
             shipping_addresses {
               documentId
               phone
-              name {
-                first_name
-                middle_name
-                last_name
-              }
               street1
               street2
               city
@@ -70,6 +66,11 @@ const schema = {
               zip_code
               country
               isActive
+              name {
+                first_name
+                middle_name
+                last_name
+              }
             }
             warehouse_location {
               title
@@ -127,53 +128,53 @@ const schema = {
         }
       }
     `),
-    userDetails: graphql(`
-      query UsersPermissionsUser($documentId: ID!) {
-        usersPermissionsUser(documentId: $documentId) {
-          documentId
-          username
-          email
-          provider
-          blocked
-          account_status
-          business_name
-          business_number
-          role {
-            name
-          }
-          account_detail {
-            documentId
-            level
-            phone
-            odoo_user_id
-            name {
-              first_name
-              middle_name
-              last_name
-            }
-            warehouse_location {
-              title
-              address {
-                city
-                street
-                suburb
-                state_territory
-                postcode
-                country
-              }
-            }
-          }
-        }
-      }
-    `),
+    // userDetails: graphql(`
+    //   query UsersPermissionsUser($documentId: ID!) {
+    //     usersPermissionsUser(documentId: $documentId) {
+    //       documentId
+    //       username
+    //       email
+    //       provider
+    //       blocked
+    //       account_status
+    //       business_name
+    //       business_number
+    //       role {
+    //         name
+    //       }
+    //       account_detail {
+    //         documentId
+    //         level
+    //         phone
+    //         odoo_user_id
+    //         name {
+    //           first_name
+    //           middle_name
+    //           last_name
+    //         }
+    //         warehouse_location {
+    //           title
+    //           address {
+    //             city
+    //             street
+    //             suburb
+    //             state_territory
+    //             postcode
+    //             country
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // `),
   },
   Mutations: {
-    loginUser: graphql(`
+    login: graphql(`
       mutation Login($input: UsersPermissionsLoginInput!) {
         login(input: $input) {
           jwt
           user {
-            id
+            documentId
             email
             confirmed
             blocked
