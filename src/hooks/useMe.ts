@@ -1,5 +1,4 @@
 'use client';
-import { UserQuery } from '@/lib/gql/graphql';
 import { Me } from '@/store/features/me';
 import { RootState } from '@/store/store';
 import { useEffect, useState } from 'react';

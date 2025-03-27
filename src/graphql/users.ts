@@ -50,6 +50,7 @@ const schema = {
           account_detail {
             phone
             level
+            odoo_user_id
             name {
               first_name
               middle_name
