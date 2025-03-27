@@ -28,7 +28,6 @@ const schema = {
               url
             }
           }
-
           brand {
             name
             url
