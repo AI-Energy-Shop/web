@@ -107,7 +107,7 @@ const LoginForm = () => {
             confirmed: data?.user?.confirmed || null,
             business_name: data?.user?.business_name || '',
             business_number: data?.user?.business_number || '',
-            user_type: data?.user?.user_type || '',
+            business_type: data?.user?.business_type || '',
             phone: data?.user?.phone || '',
             account_detail: {
               level: data?.user?.user_level || '',

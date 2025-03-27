@@ -131,7 +131,7 @@ export interface GetPageQuery {
 export type AccountDetail = {
   documentId: string;
   level: string;
-  user_type: string; // Changed to camelCase for consistency
+  business_type: string; // Changed to camelCase for consistency
   odooId: string; // Changed to camelCase for consistency
   first_name: string; // Changed to camelCase for consistency
   middle_name: string; // Changed to camelCase for consistency
