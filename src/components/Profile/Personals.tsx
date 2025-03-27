@@ -49,7 +49,7 @@ const Personals = () => {
       email: me?.email,
       username: me?.username,
       phone: me?.phone,
-      type: me?.user_type?.toUpperCase(),
+      type: me?.business_type?.toUpperCase(),
       companyName: me?.business_name,
       companyNumber: me?.business_number,
     },

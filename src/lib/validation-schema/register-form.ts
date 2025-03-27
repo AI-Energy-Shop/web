@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const registerUserSchema = z.object({
   businessName: z.string().min(1, { message: 'Required' }),
   businessNumber: z.string().min(1, { message: 'Required' }),
-  userType: z.string().min(1, { message: 'Required' }),
+  businessType: z.string().min(1, { message: 'Required' }),
   username: z.string().min(1, { message: 'Required' }),
   email: z.string().email(),
   phone: z.string().min(1, { message: 'Required' }),

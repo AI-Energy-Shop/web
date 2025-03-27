@@ -18,6 +18,7 @@ type AdminDashboardUserPageProps = {
     username: string;
     businessName: string;
     businessNumber: string;
+    businessType: string;
     phone: string;
     street1: string;
     street2: string;
@@ -25,7 +26,6 @@ type AdminDashboardUserPageProps = {
     country: string;
     state: string;
     zipCode: string;
-    userType: string;
   }>;
 };
 

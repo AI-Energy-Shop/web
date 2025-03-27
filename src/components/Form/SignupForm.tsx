@@ -43,7 +43,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
       confirmPassword: '',
       businessName: '',
       businessNumber: '',
-      userType: '',
+      businessType: '',
       phone: '',
       street1: '',
       street2: '',
@@ -224,10 +224,10 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                 })}
                 <FormField
                   control={form.control}
-                  name="userType"
+                  name="businessType"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>User Type</FormLabel>
+                      <FormLabel>Business Type</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}

@@ -110,9 +110,9 @@ export type AddressInput = {
 
 export type ApprovedUserInput = {
   accountStatus: Scalars['String']['input'];
+  businessType: Scalars['String']['input'];
   odooUserId: Scalars['String']['input'];
   userLevel: Scalars['String']['input'];
-  userType: Scalars['String']['input'];
 };
 
 export type BooleanFilterInput = {
@@ -780,6 +780,7 @@ export enum PublicationStatus {
 export type RegisterUserInput = {
   businessName: Scalars['String']['input'];
   businessNumber: Scalars['String']['input'];
+  businessType: Scalars['String']['input'];
   city: Scalars['String']['input'];
   country: Scalars['String']['input'];
   email: Scalars['String']['input'];
@@ -788,7 +789,6 @@ export type RegisterUserInput = {
   state: Scalars['String']['input'];
   street1: Scalars['String']['input'];
   street2: Scalars['String']['input'];
-  userType: Scalars['String']['input'];
   username: Scalars['String']['input'];
   zipCode: Scalars['String']['input'];
 };
@@ -987,6 +987,7 @@ export type UsersPermissionsUserFiltersInput = {
   blocked?: InputMaybe<BooleanFilterInput>;
   business_name?: InputMaybe<StringFilterInput>;
   business_number?: InputMaybe<StringFilterInput>;
+  business_type?: InputMaybe<StringFilterInput>;
   carts?: InputMaybe<CartFiltersInput>;
   createAccountRequest?: InputMaybe<DateTimeFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -1002,7 +1003,6 @@ export type UsersPermissionsUserFiltersInput = {
   role?: InputMaybe<UsersPermissionsRoleFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   user_notifications?: InputMaybe<UserNotificationFiltersInput>;
-  user_type?: InputMaybe<StringFilterInput>;
   username?: InputMaybe<StringFilterInput>;
 };
 
@@ -1013,6 +1013,7 @@ export type UsersPermissionsUserInput = {
   blocked?: InputMaybe<Scalars['Boolean']['input']>;
   business_name?: InputMaybe<Scalars['String']['input']>;
   business_number?: InputMaybe<Scalars['String']['input']>;
+  business_type?: InputMaybe<Scalars['String']['input']>;
   carts?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   createAccountRequest?: InputMaybe<Scalars['DateTime']['input']>;
   credit?: InputMaybe<ComponentElementsCreditInput>;
@@ -1025,7 +1026,6 @@ export type UsersPermissionsUserInput = {
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   role?: InputMaybe<Scalars['ID']['input']>;
   user_notifications?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  user_type?: InputMaybe<Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1722,7 +1722,7 @@ export type UsersPermissionsUserQuery = {
     username: string;
     business_name?: string | null;
     business_number?: string | null;
-    user_type?: string | null;
+    business_type?: string | null;
     phone?: string | null;
     role?: { __typename?: 'UsersPermissionsRole'; name: string } | null;
     carts: Array<{
@@ -1821,7 +1821,7 @@ export type UsersPermissionsUsersQuery = {
     account_status?: Enum_Userspermissionsuser_Account_Status | null;
     business_name?: string | null;
     business_number?: string | null;
-    user_type?: string | null;
+    business_type?: string | null;
     phone?: string | null;
     addresses: Array<{
       __typename?: 'Address';
@@ -4207,7 +4207,10 @@ export const UsersPermissionsUserDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'business_number' },
                 },
-                { kind: 'Field', name: { kind: 'Name', value: 'user_type' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'business_type' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
                 {
                   kind: 'Field',
@@ -4532,7 +4535,10 @@ export const UsersPermissionsUsersDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'business_number' },
                 },
-                { kind: 'Field', name: { kind: 'Name', value: 'user_type' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'business_type' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
                 {
                   kind: 'Field',

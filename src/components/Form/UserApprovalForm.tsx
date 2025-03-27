@@ -24,15 +24,20 @@ import {
 } from '../ui/select';
 import { userApprovalSchema } from '@/lib/validation-schema/user-approval';
 import { useRouter } from 'next/navigation';
+import {
+  ACCOUNT_STATUS_DATA,
+  USER_LEVEL_DATA,
+  USER_TYPE_DATA,
+} from '@/constant/user';
 
 interface UserApprovalFormProps {
   documentId: string;
   defaultValues: {
-    type: string;
     email: string;
     username: string;
     businessName: string;
     businessNumber: string;
+    businessType: string;
     phone: string;
     street1: string;
     street2: string;
@@ -40,7 +45,6 @@ interface UserApprovalFormProps {
     country: string;
     state: string;
     zipCode: string;
-    userType: string;
   };
 }
 
@@ -73,7 +77,7 @@ const UserApprovalForm: React.FC<UserApprovalFormProps> = (props) => {
       zipCode: props.defaultValues.zipCode,
       phone:
         props.defaultValues.phone === 'null' ? '' : props.defaultValues.phone,
-      userType: props.defaultValues.userType.toLowerCase(),
+      businessType: props.defaultValues.businessType.toLowerCase(),
       accountStatus: 'REVIEWING',
       userLevel: '',
       odooUserId: '',
@@ -186,24 +190,6 @@ const UserApprovalForm: React.FC<UserApprovalFormProps> = (props) => {
     );
   };
 
-  const userLevelData = [
-    { value: 'SMALL', label: 'SMALL' },
-    { value: 'MID-SIZED', label: 'MID SIZE' },
-    { value: 'VIP', label: 'VIP' },
-  ];
-
-  const accountStatusData = [
-    { value: 'REVIEWING', label: 'REVIEWING' },
-    { value: 'APPROVED', label: 'APPROVED' },
-    { value: 'CREATE_APPROVED', label: 'CREATE ACCOUNT & APPROVED' },
-    { value: 'DENIED', label: 'DENIED' },
-  ];
-
-  const userTypeData = [
-    { value: 'installer', label: 'INSTALLER' },
-    { value: 'retailer', label: 'RETAILER' },
-  ];
-
   return (
     <div className="w-full">
       <Form {...form}>
@@ -224,17 +210,17 @@ const UserApprovalForm: React.FC<UserApprovalFormProps> = (props) => {
               {renderSelectField({
                 disabled: true,
                 required: true,
-                name: 'userType',
-                label: 'User Type',
-                data: userTypeData,
-                placeholder: 'Select user type',
+                name: 'businessType',
+                label: 'Business Type',
+                data: USER_TYPE_DATA,
+                placeholder: 'Select business type',
               })}
               {renderSelectField({
                 required: true,
                 disabled: false,
                 name: 'userLevel',
                 label: 'User Level',
-                data: userLevelData,
+                data: USER_LEVEL_DATA,
                 placeholder: 'Select user level',
               })}
               {renderTextField('odooUserId', 'Odoo User ID', false, false)}
@@ -243,7 +229,7 @@ const UserApprovalForm: React.FC<UserApprovalFormProps> = (props) => {
                 required: true,
                 name: 'accountStatus',
                 label: 'Account Status',
-                data: accountStatusData,
+                data: ACCOUNT_STATUS_DATA,
                 placeholder: 'Select account status',
               })}
             </div>
