@@ -47,80 +47,100 @@ const LoginForm = () => {
       return;
     }
 
-    if (roleName === 'SALES') {
-      dispatch(
-        setMeAdmin({
-          id: data?.user?.id || '',
-          email: data?.user?.email || '',
-          username: data?.user?.username,
-          confirmed: data?.user?.confirmed || null,
-        })
-      );
-    } else if (roleName === 'CUSTOMER') {
-      dispatch(
-        setWarehouseLocation({
-          address: {
-            city: data?.user?.warehouse_location?.address?.city || '',
-            street1: data?.user?.warehouse_location?.address?.street || '',
-            state:
-              data?.user?.warehouse_location?.address?.state_territory || '',
-            zipCode: data?.user?.warehouse_location?.address?.postcode || '',
-            country: data?.user?.warehouse_location?.address?.country || '',
-          },
-        })
-      );
-
-      if (data && data?.user && data?.user?.carts) {
-        const cartsData = data.user.carts.map((cart) => ({
-          documentId: cart?.documentId || '',
-          item: {
-            productID: cart?.item?.productID || '',
-            name: cart?.item?.title || '',
-            model: cart?.item?.model || '',
-            image: cart?.item?.image || '',
-            price: cart?.item?.price || 0,
-            quantity: cart?.item?.quantity || 0,
-            odoo_product_id: cart?.item?.odoo_product_id || '',
-          },
-        }));
-        dispatch(setCarts([...cartsData]));
-      }
-
-      dispatch(
-        setMe({
-          id: data?.user?.id || '',
-          email: data?.user?.email || '',
-          username: data?.user?.username || '',
-          blocked: data?.user?.blocked || false,
-          confirmed: data?.user?.confirmed || null,
-          business_name: data?.user?.business_name || '',
-          business_number: data?.user?.business_number || '',
-          user_type: data?.user?.user_type || '',
-          phone: data?.user?.phone || '',
-          account_detail: {
-            level: data?.user?.user_level || '',
-            name: {
-              first_name: data?.user?.account_detail?.name?.first_name || '',
-              middle_name: data?.user?.account_detail?.name?.middle_name || '',
-              last_name: data?.user?.account_detail?.name?.last_name || '',
+    switch (roleName) {
+      case 'SALES':
+        dispatch(
+          setMeAdmin({
+            id: data?.user?.documentId || '',
+            email: data?.user?.email || '',
+            username: data?.user?.username,
+            confirmed: data?.user?.confirmed || null,
+          })
+        );
+        break;
+      case 'ADMIN':
+        dispatch(
+          setMeAdmin({
+            id: data?.user?.documentId || '',
+            email: data?.user?.email || '',
+            username: data?.user?.username,
+            confirmed: data?.user?.confirmed || null,
+          })
+        );
+        break;
+      case 'CUSTOMER':
+        dispatch(
+          setWarehouseLocation({
+            address: {
+              city: data?.user?.warehouse_location?.address?.city || '',
+              street1: data?.user?.warehouse_location?.address?.street || '',
+              state:
+                data?.user?.warehouse_location?.address?.state_territory || '',
+              zipCode: data?.user?.warehouse_location?.address?.postcode || '',
+              country: data?.user?.warehouse_location?.address?.country || '',
             },
-            shipping_addresses:
-              data?.user.account_detail.shipping_addresses.map((address) => {
-                return {
-                  id: address.id,
-                  street1: address.street1,
-                  street2: address.street2,
-                  city: address.city,
-                  state: address.state,
-                  zipCode: address.zip_code,
-                  country: address.country,
-                  isActive: address.isActive,
-                  phone: address.phone,
-                };
-              }),
-          },
-        })
-      );
+          })
+        );
+
+        if (data && data?.user && data?.user?.carts) {
+          const cartsData = data.user.carts.map((cart) => ({
+            documentId: cart?.documentId || '',
+            item: {
+              productID: cart?.item?.productID || '',
+              name: cart?.item?.title || '',
+              model: cart?.item?.model || '',
+              image: cart?.item?.image || '',
+              price: cart?.item?.price || 0,
+              quantity: cart?.item?.quantity || 0,
+              odoo_product_id: cart?.item?.odoo_product_id || '',
+            },
+          }));
+          dispatch(setCarts([...cartsData]));
+        }
+
+        dispatch(
+          setMe({
+            id: data?.user?.documentId || '',
+            email: data?.user?.email || '',
+            username: data?.user?.username || '',
+            blocked: data?.user?.blocked || false,
+            confirmed: data?.user?.confirmed || null,
+            business_name: data?.user?.business_name || '',
+            business_number: data?.user?.business_number || '',
+            user_type: data?.user?.user_type || '',
+            phone: data?.user?.phone || '',
+            account_detail: {
+              level: data?.user?.user_level || '',
+              name: {
+                first_name: data?.user?.account_detail?.name?.first_name || '',
+                middle_name:
+                  data?.user?.account_detail?.name?.middle_name || '',
+                last_name: data?.user?.account_detail?.name?.last_name || '',
+              },
+              shipping_addresses:
+                data?.user.account_detail.shipping_addresses.map((address) => {
+                  return {
+                    id: address.id,
+                    street1: address.street1,
+                    street2: address.street2,
+                    city: address.city,
+                    state: address.state,
+                    zipCode: address.zip_code,
+                    country: address.country,
+                    isActive: address.isActive,
+                    phone: address.phone,
+                  };
+                }),
+            },
+          })
+        );
+        break;
+      default:
+        toast({
+          title: 'Please for the sales to approve your account',
+          variant: 'destructive',
+        });
+        break;
     }
 
     dispatch(setToken(data?.token || ''));

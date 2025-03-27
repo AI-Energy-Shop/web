@@ -69,10 +69,8 @@ export const loginUser = async ({
   password: string;
 }) => {
   try {
-    const cookieStore = cookies();
-
     const response = await client.mutate({
-      mutation: USERS_OPERATIONS.Mutations.loginUser,
+      mutation: USERS_OPERATIONS.Mutations.login,
       variables: {
         input: {
           identifier: email,
@@ -88,14 +86,11 @@ export const loginUser = async ({
 
     const token = response?.data.login.jwt;
     const user = response?.data.login.user;
-
+    const cookieStore = cookies();
     const userRes = await client.query({
-      query: USERS_OPERATIONS.Queries.user,
+      query: USERS_OPERATIONS.Queries.usersPermissionsUser,
       variables: {
-        filters: {
-          username: user.username,
-          email: user.email,
-        },
+        documentId: user.documentId,
       },
       context: {
         headers: {
@@ -104,20 +99,20 @@ export const loginUser = async ({
       },
     });
 
-    const userDetails = userRes?.data.user?.account_detail;
+    const userDetails = userRes?.data.usersPermissionsUser?.account_detail;
 
     const newUser = {
       ...user,
-      role: userRes.data.user?.role,
+      role: userRes.data.usersPermissionsUser?.role,
       user_level: userDetails?.level,
-      business_name: userRes.data.user?.business_name,
-      business_number: userRes.data.user?.business_number,
-      user_type: userRes.data.user?.user_type,
-      phone: userRes.data.user?.phone,
+      business_name: userRes.data.usersPermissionsUser?.business_name,
+      business_number: userRes.data.usersPermissionsUser?.business_number,
+      user_type: userRes.data.usersPermissionsUser?.user_type,
+      phone: userRes.data.usersPermissionsUser?.phone,
       account_detail: {
         name: userDetails?.name,
         shipping_addresses:
-          userDetails?.shipping_addresses?.map((address) => ({
+          userDetails?.shipping_addresses?.map((address: any) => ({
             id: address?.documentId,
             name: {
               first_name: address?.name?.first_name,
@@ -134,25 +129,20 @@ export const loginUser = async ({
             isActive: address?.isActive,
           })) || [],
       },
-      carts: userRes.data.user?.carts || [],
+      carts: userRes.data.usersPermissionsUser?.carts || [],
       warehouse_location: userDetails?.warehouse_location,
     };
 
-    cookieStore.set('a-token', token!, {
+    const cookieOptions = {
       path: '/',
       maxAge: 60 * 60 * 12, // 12 hours
       httpOnly: true,
       // sameSite: 'strict',
       // secure: process.env.NODE_ENV === 'production' ? true : false,
-    });
+    };
 
-    cookieStore.set('a-user', JSON.stringify(user!), {
-      path: '/',
-      maxAge: 60 * 60 * 12, // 12 hours
-      httpOnly: true,
-      // sameSite: 'strict',
-      // secure: process.env.NODE_ENV === 'production' ? true : false,
-    });
+    cookieStore.set('a-token', token!, cookieOptions);
+    cookieStore.set('a-user', JSON.stringify(user!), cookieOptions);
 
     return { data: { token, user: newUser } }; // Return success indicator
   } catch (error: any) {
@@ -238,7 +228,7 @@ export const getUserDetails = async (documentId: string) => {
 
   try {
     const response = await client.query({
-      query: USERS_OPERATIONS.Queries.userDetails,
+      query: USERS_OPERATIONS.Queries.usersPermissionsUser,
       variables: {
         documentId,
       },
