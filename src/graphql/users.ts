@@ -12,7 +12,7 @@ const schema = {
           username
           business_name
           business_number
-          user_type
+          business_type
           phone
           role {
             name
@@ -98,7 +98,7 @@ const schema = {
           account_status
           business_name
           business_number
-          user_type
+          business_type
           phone
           addresses {
             documentId

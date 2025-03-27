@@ -27,7 +27,7 @@ export interface Me {
   user_level?: string;
   business_name?: string;
   business_number?: string;
-  user_type?: string;
+  business_type?: string;
   phone?: string;
   account_detail?: {
     level?: string;

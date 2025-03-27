@@ -71,7 +71,7 @@ function RegistrationDialog({
           <div className="grid grid-cols-3 items-center gap-4">
             <p className="text-sm font-medium text-gray-500">User Type</p>
             <p className="col-span-2 text-sm text-gray-700">
-              {userData?.userType}
+              {userData?.businessType}
             </p>
           </div>
           <div className="grid grid-cols-3 items-center gap-4">

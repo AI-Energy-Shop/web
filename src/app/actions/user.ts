@@ -15,7 +15,7 @@ export const registerUser = async (formData: FormData) => {
   const email = formData.get('email') as string;
   const username = formData.get('username') as string;
   const password = formData.get('password') as string;
-  const userType = formData.get('userType') as string;
+  const businessType = formData.get('businessType') as string;
   const businessNumber = formData.get('businessNumber') as string;
   const businessName = formData.get('businessName') as string;
   const street1 = formData.get('street1') as string;
@@ -36,7 +36,7 @@ export const registerUser = async (formData: FormData) => {
           password,
           businessName,
           businessNumber,
-          userType,
+          businessType,
           phone,
           street1,
           street2,
@@ -87,6 +87,7 @@ export const loginUser = async ({
     const token = response?.data.login.jwt;
     const user = response?.data.login.user;
     const cookieStore = cookies();
+
     const userRes = await client.query({
       query: USERS_OPERATIONS.Queries.usersPermissionsUser,
       variables: {
@@ -107,7 +108,7 @@ export const loginUser = async ({
       user_level: userDetails?.level,
       business_name: userRes.data.usersPermissionsUser?.business_name,
       business_number: userRes.data.usersPermissionsUser?.business_number,
-      user_type: userRes.data.usersPermissionsUser?.user_type,
+      business_type: userRes.data.usersPermissionsUser?.business_type,
       phone: userRes.data.usersPermissionsUser?.phone,
       account_detail: {
         name: userDetails?.name,
@@ -146,7 +147,7 @@ export const loginUser = async ({
 
     return { data: { token, user: newUser } }; // Return success indicator
   } catch (error: any) {
-    console.error(error.message);
+    console.error('LOGIN ERROR: ', error.message);
     if (error && error?.cause?.response?.status === 401) {
       return { error: 'Please wait for approval' };
     }
@@ -255,7 +256,7 @@ export const approveUser = async (formData: FormData) => {
   const accountStatus = formData.get('accountStatus') as string;
   const odooUserId = formData.get('odooUserId') as string;
   const userLevel = formData.get('userLevel') as string;
-  const userType = formData.get('userType') as string;
+  const businessType = formData.get('businessType') as string;
 
   try {
     const response = await client.mutate({
@@ -263,7 +264,7 @@ export const approveUser = async (formData: FormData) => {
       variables: {
         documentId,
         data: {
-          userType,
+          businessType,
           userLevel,
           odooUserId,
           accountStatus: accountStatus,
