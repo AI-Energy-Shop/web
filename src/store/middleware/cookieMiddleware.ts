@@ -23,7 +23,7 @@ export const cookieMiddleware: Middleware =
       }),
       {
         expires: expiringDate,
-        httpOnly: process.env.NODE_ENV === 'production' ? true : false,
+        // httpOnly: process.env.NODE_ENV === 'production' ? true : false,
       }
     );
 
