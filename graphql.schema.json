@@ -2415,17 +2415,13 @@
             "deprecationReason": null
           },
           {
-            "name": "item",
+            "name": "product",
             "description": null,
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "ComponentElementsCartItem",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Product",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -2437,6 +2433,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "DateTime",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "quantity",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
               "ofType": null
             },
             "isDeprecated": false,
@@ -2572,18 +2580,6 @@
             "deprecationReason": null
           },
           {
-            "name": "item",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ComponentElementsCartItemFiltersInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "not",
             "description": null,
             "type": {
@@ -2612,11 +2608,35 @@
             "deprecationReason": null
           },
           {
+            "name": "product",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ProductFiltersInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "publishedAt",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "DateTimeFilterInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "quantity",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "IntFilterInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -2660,11 +2680,11 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "item",
+            "name": "product",
             "description": null,
             "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ComponentElementsCartItemInput",
+              "kind": "SCALAR",
+              "name": "ID",
               "ofType": null
             },
             "defaultValue": null,
@@ -2677,6 +2697,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "DateTime",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "quantity",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
               "ofType": null
             },
             "defaultValue": null,

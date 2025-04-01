@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { CalendarIcon, Check, FilePenLine, MoveRight } from 'lucide-react';
 import { DynamicIcon } from 'lucide-react/dynamic';
@@ -10,73 +10,37 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
 import { formatDate } from '@/utils/formatDate';
 import { Calendar } from '@/components/ui/calendar';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-import {
-  DELIVERY_OPTIONS,
-  SHIPPING_OPTIONS,
-  ShippingOptions,
-} from '@/constant/shipping';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '@/store/store';
+import { DELIVERY_OPTIONS } from '@/constant/shipping';
 import Link from 'next/link';
-import { type ShippingAddress } from '@/store/features/me';
-import { setPaymentStep } from '@/store/features/cart';
-interface ShippingDetailsProps {}
+import useMe from '@/hooks/useMe';
+import useCart from '@/hooks/useCart';
 
-const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
-  const date = new Date();
-  const dispatch = useDispatch();
-  const stepper = useSelector((state: RootState) => state.cart.paymentStep);
-  const shipping = useSelector(
-    (state: RootState) => state.me.me?.account_detail?.shipping_addresses
-  );
-  const [shippingOptions, setShippingOptions] =
-    useState<ShippingOptions>(SHIPPING_OPTIONS);
-  const [shippingAddress, setShippingAddress] = useState<
-    ShippingAddress[] | undefined
-  >(undefined);
-
-  const [step, setStep] = useState<number>(0);
-
-  const handleShippingMethodClick = (index: number) => {
-    console.log('Shipping Options', index);
-    setShippingOptions(
-      shippingOptions.map((item, i) => ({
-        ...item,
-        active: i === index,
-      }))
-    );
-  };
-
-  const handleContinueClick = () => {
-    dispatch(setPaymentStep(3));
-  };
-
-  const handleEditClick = () => {
-    dispatch(setPaymentStep(2));
-  };
+const ShippingDetails = () => {
+  const { user } = useMe();
+  const {
+    paymentStep,
+    shippingOptions,
+    date,
+    handleShippingMethodClick,
+    handleContinueClick,
+    handleEditClick,
+  } = useCart();
 
   const renderHeader = () => {
     return (
       <div className="bg-pink-darker-pink py-3">
         <div className="ae-mobile-container px-2 md:px-12 text-white flex items-center gap-x-2 relative">
           <h1 className="text-lg font-bold">Shipping</h1>
-          {step > 2 && (
+          {paymentStep > 2 && (
             <span className="bg-green-500 rounded-full p-0.5">
               <Check className="w-4 h-4" />
             </span>
           )}
-          {step > 2 && (
+          {paymentStep > 2 && (
             <div
               onClick={handleEditClick}
               className="absolute cursor-pointer right-0 md:right-4 flex items-center gap-x-1 top-1/2 transform -translate-y-1/2"
@@ -117,7 +81,9 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
   };
 
   const renderShippingAddress = (value: string) => {
-    const item = shippingAddress?.find((item) => item.isActive);
+    const item = user?.account_detail?.shipping_addresses?.find(
+      (item) => item.isActive
+    );
 
     return (
       <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12">
@@ -195,7 +161,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
                       >
                         <CalendarIcon className="h-5 w-5 text-muted-foreground" />
                         <span className="text-lg text-muted-foreground">
-                          {date ? formatDate(date) : 'Select date'}
+                          {/* {date ? formatDate(date) : 'Select date'} */}
                         </span>
                       </Button>
                     </PopoverTrigger>
@@ -226,16 +192,15 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = () => {
     );
   };
 
-  useEffect(() => {
-    setShippingAddress(shipping);
-    setStep(stepper);
-  }, [shipping, stepper]);
-
   return (
     <section className="w-full h-auto">
       {renderHeader()}
       <div className="bg-white">
-        <div className={`space-y-4 pt-4 ${step === 2 ? 'block' : 'hidden'}`}>
+        <div
+          className={cn(
+            `space-y-4 pt-4 ${paymentStep === 2 ? 'block' : 'hidden'}`
+          )}
+        >
           {renderDeliveryMethodOptions()}
           {shippingOptions?.map((item) => {
             if (item.active) {

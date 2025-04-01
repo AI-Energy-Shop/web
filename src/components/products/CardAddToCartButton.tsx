@@ -7,53 +7,24 @@ import { useToast } from '@/hooks/useToast';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { Form, FormField } from '../ui/form';
-import { setCart } from '@/store/features/cart';
 import ProductQuantity from './ProductQuantity';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useMe from '@/hooks/useMe';
 
 const addToCartFormSchema = z.object({
   id: z.string(),
-  title: z.string(),
-  model: z.string(),
-  image: z.string(),
-  odoo_product_id: z.string(),
-  price: z.number(), // Make sure this is number, not string
   quantity: z.number().min(0), // Make sure this is number
 });
 
 interface CardAddToCartButtonProps {
   id: string;
-  image: string;
-  title: string;
-  model: string;
-  odoo_product_id: string;
   stocks: number;
-  productPrice: number;
 }
-const CardAddToCartButton = ({
-  id,
-  image,
-  title,
-  model,
-  odoo_product_id,
-  stocks,
-  productPrice,
-}: CardAddToCartButtonProps) => {
-  const dispatch = useDispatch();
-  const { toast } = useToast();
-  const router = useRouter();
-  const { me } = useMe();
-
+const CardAddToCartButton = ({ id, stocks }: CardAddToCartButtonProps) => {
   const form = useForm<z.infer<typeof addToCartFormSchema>>({
     resolver: zodResolver(addToCartFormSchema),
     defaultValues: {
       id,
-      title,
-      model,
-      image,
-      odoo_product_id,
-      price: Number(productPrice),
       quantity: 0,
     },
   });
@@ -76,14 +47,8 @@ const CardAddToCartButton = ({
 
   return (
     <Form {...form}>
-      {/* <form action={testAddToCart}> */}
       <form onSubmit={form.handleSubmit(onSubmit)}>
         {renderHiddenInput('id')}
-        {renderHiddenInput('image')}
-        {renderHiddenInput('title')}
-        {renderHiddenInput('model')}
-        {renderHiddenInput('price')}
-        {renderHiddenInput('odoo_product_id')}
         <ProductQuantity form={form} />
         <Button
           type="submit"

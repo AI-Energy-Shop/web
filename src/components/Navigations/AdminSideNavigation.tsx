@@ -5,7 +5,7 @@ import { RootState } from '@/store/store';
 import { logoutUser } from '@/app/actions/user';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Me, removeUserData } from '@/store/features/me';
+import { Me, logout } from '@/store/features/me';
 import { ADMIN_SIDE_NAVIGATIONS } from '@/constant';
 
 const AdminSideNavigation = () => {
@@ -18,7 +18,7 @@ const AdminSideNavigation = () => {
   }, [me]);
 
   const handleLogout = () => {
-    dispatch(removeUserData());
+    dispatch(logout());
     logoutUser();
   };
 

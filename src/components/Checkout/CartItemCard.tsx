@@ -13,6 +13,7 @@ interface CartItemCardProps {
   model?: string;
   price: number;
   quantity?: number;
+  stock?: number;
   gst?: string;
   onAddQuant: (id: string) => void;
   onReduceQuant: (id: string) => void;
@@ -27,6 +28,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
   model,
   price,
   quantity = 0,
+  stock = 0,
   gst,
   onChange,
   onAddQuant,
@@ -55,7 +57,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
           />
         </div>
         <div className="flex-1">
-          <p className="text-[10px] text-green-700">In Stock (22)</p>
+          <p className="text-[10px] text-green-700">In Stock ({stock})</p>
           <h1 className="text-[14px] font-bold">{title}</h1>
           <p className="font-thin text-[14px]">{model}</p>
         </div>

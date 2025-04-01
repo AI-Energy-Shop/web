@@ -114,7 +114,7 @@ export const loginUser = async ({
         name: userDetails?.name,
         shipping_addresses:
           userDetails?.shipping_addresses?.map((address: any) => ({
-            id: address?.documentId,
+            documentId: address?.documentId,
             name: {
               first_name: address?.name?.first_name,
               middle_name: address?.name?.middle_name,
@@ -164,9 +164,7 @@ export const logoutUser = async () => {
 
   // Revalidate relevant paths
   revalidatePath('/', 'layout');
-
-  // Return instead of redirect to handle on client
-  return { success: true };
+  redirect('/auth/login');
 };
 
 export const updateAccountStatus = async (

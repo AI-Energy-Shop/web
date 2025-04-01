@@ -1,25 +1,17 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import Image from 'next/image';
 import { Label } from '@/components/ui/label';
 import { MoveRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
+import useCart from '@/hooks/useCart';
 
 interface PaymentProps {}
 
 const Payment: React.FC<PaymentProps> = ({}) => {
-  const [paymentOption, setPaymentOption] = useState<string>('');
-
-  const stepper = useSelector((state: RootState) => state.cart.paymentStep);
-  const [step, setStep] = useState<number>(0);
-
-  useEffect(() => {
-    setStep(stepper);
-  }, [stepper]);
+  const { paymentStep, paymentOption } = useCart();
 
   return (
     <section>
@@ -28,7 +20,7 @@ const Payment: React.FC<PaymentProps> = ({}) => {
           Payment
         </h1>
       </div>
-      <div className={`bg-white py-4 ${step < 3 ? 'hidden' : 'block'}`}>
+      <div className={`bg-white py-4 ${paymentStep < 3 ? 'hidden' : 'block'}`}>
         <div className="ae-mobile-container space-y-4">
           <div className="border border-blue-navy-blue rounded-xl p-2 md:mx-12">
             <h1 className="font-bold">Payment Method</h1>
@@ -124,7 +116,7 @@ const Payment: React.FC<PaymentProps> = ({}) => {
         </div>
       </div>
 
-      {step === 3 && (
+      {paymentStep === 3 && (
         <div className="my-4">
           <div className="ae-mobile-container px-2 mt-4">
             <Button

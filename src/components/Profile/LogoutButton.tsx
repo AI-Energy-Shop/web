@@ -6,11 +6,13 @@ import { Button } from '../ui/button';
 import { useDispatch } from 'react-redux';
 import { logout } from '@/store/features/me';
 import { useRouter } from 'next/navigation';
+import { removeCartsData } from '@/store/features/cart';
 const LogoutButton = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const handleLogout = async () => {
     dispatch(logout());
+    dispatch(removeCartsData());
     await logoutUser();
     router.refresh();
     router.push('/auth/login');

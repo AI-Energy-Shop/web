@@ -19,15 +19,34 @@ const schema = {
           }
           carts {
             documentId
-            item {
-              productID
-              title
-              quantity
-              price
-              odoo_product_id
+            quantity
+            product {
+              documentId
+              name
               model
-              image
+              odoo_product_id
+              price_lists {
+                price
+                sale_price
+                min_quantity
+                max_quantity
+                user_level
+              }
+              inventories {
+                documentId
+                name
+                location_code
+                quantity
+              }
+              images {
+                url
+                alternativeText
+                width
+                height
+              }
             }
+            createdAt
+            updatedAt
           }
           addresses {
             documentId
@@ -128,45 +147,6 @@ const schema = {
         }
       }
     `),
-    // userDetails: graphql(`
-    //   query UsersPermissionsUser($documentId: ID!) {
-    //     usersPermissionsUser(documentId: $documentId) {
-    //       documentId
-    //       username
-    //       email
-    //       provider
-    //       blocked
-    //       account_status
-    //       business_name
-    //       business_number
-    //       role {
-    //         name
-    //       }
-    //       account_detail {
-    //         documentId
-    //         level
-    //         phone
-    //         odoo_user_id
-    //         name {
-    //           first_name
-    //           middle_name
-    //           last_name
-    //         }
-    //         warehouse_location {
-    //           title
-    //           address {
-    //             city
-    //             street
-    //             suburb
-    //             state_territory
-    //             postcode
-    //             country
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }
-    // `),
   },
   Mutations: {
     login: graphql(`

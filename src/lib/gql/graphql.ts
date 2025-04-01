@@ -165,17 +165,19 @@ export type CartFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<CartFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
-  item?: InputMaybe<ComponentElementsCartItemFiltersInput>;
   not?: InputMaybe<CartFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<CartFiltersInput>>>;
+  product?: InputMaybe<ProductFiltersInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  quantity?: InputMaybe<IntFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   user?: InputMaybe<UsersPermissionsUserFiltersInput>;
 };
 
 export type CartInput = {
-  item?: InputMaybe<ComponentElementsCartItemInput>;
+  product?: InputMaybe<Scalars['ID']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  quantity?: InputMaybe<Scalars['Int']['input']>;
   user?: InputMaybe<Scalars['ID']['input']>;
 };
 
@@ -1039,18 +1041,41 @@ export type CartsQuery = {
   carts: Array<{
     __typename?: 'Cart';
     documentId: string;
+    quantity?: number | null;
     createdAt?: any | null;
     updatedAt?: any | null;
-    item: {
-      __typename?: 'ComponentElementsCartItem';
-      id: string;
-      title: string;
-      quantity: number;
-      price: number;
-      odoo_product_id: string;
+    product?: {
+      __typename?: 'Product';
+      documentId: string;
+      name: string;
       model: string;
-      image: string;
-    };
+      odoo_product_id?: string | null;
+      price_lists: Array<{
+        __typename?: 'Price';
+        price?: number | null;
+        min_quantity?: number | null;
+        max_quantity?: number | null;
+      } | null>;
+      inventories: Array<{
+        __typename?: 'Inventory';
+        documentId: string;
+        name?: string | null;
+        location_code?: string | null;
+        quantity?: number | null;
+      } | null>;
+      images: Array<{
+        __typename?: 'UploadFile';
+        url: string;
+        alternativeText?: string | null;
+        width?: number | null;
+        height?: number | null;
+      } | null>;
+    } | null;
+    user?: {
+      __typename?: 'UsersPermissionsUser';
+      documentId: string;
+      username: string;
+    } | null;
   } | null>;
 };
 
@@ -1063,19 +1088,43 @@ export type CreateCartMutation = {
   createCart?: {
     __typename?: 'Cart';
     documentId: string;
+    quantity?: number | null;
     createdAt?: any | null;
     updatedAt?: any | null;
-    item: {
-      __typename?: 'ComponentElementsCartItem';
-      productID: string;
-      title: string;
-      quantity: number;
-      price: number;
-      odoo_product_id: string;
+    product?: {
+      __typename?: 'Product';
+      documentId: string;
+      odoo_product_id?: string | null;
+      name: string;
       model: string;
-      image: string;
-    };
-    user?: { __typename?: 'UsersPermissionsUser'; username: string } | null;
+      price_lists: Array<{
+        __typename?: 'Price';
+        price?: number | null;
+        sale_price?: number | null;
+        min_quantity?: number | null;
+        max_quantity?: number | null;
+        user_level?: string | null;
+      } | null>;
+      inventories: Array<{
+        __typename?: 'Inventory';
+        documentId: string;
+        name?: string | null;
+        location_code?: string | null;
+        quantity?: number | null;
+      } | null>;
+      images: Array<{
+        __typename?: 'UploadFile';
+        url: string;
+        alternativeText?: string | null;
+        width?: number | null;
+        height?: number | null;
+      } | null>;
+    } | null;
+    user?: {
+      __typename?: 'UsersPermissionsUser';
+      documentId: string;
+      username: string;
+    } | null;
   } | null;
 };
 
@@ -1089,19 +1138,43 @@ export type UpdateCartMutation = {
   updateCart?: {
     __typename?: 'Cart';
     documentId: string;
+    quantity?: number | null;
     createdAt?: any | null;
     updatedAt?: any | null;
-    item: {
-      __typename?: 'ComponentElementsCartItem';
-      productID: string;
-      title: string;
-      quantity: number;
-      price: number;
-      odoo_product_id: string;
+    product?: {
+      __typename?: 'Product';
+      documentId: string;
+      name: string;
       model: string;
-      image: string;
-    };
-    user?: { __typename?: 'UsersPermissionsUser'; username: string } | null;
+      odoo_product_id?: string | null;
+      price_lists: Array<{
+        __typename?: 'Price';
+        price?: number | null;
+        sale_price?: number | null;
+        min_quantity?: number | null;
+        max_quantity?: number | null;
+        user_level?: string | null;
+      } | null>;
+      inventories: Array<{
+        __typename?: 'Inventory';
+        documentId: string;
+        name?: string | null;
+        location_code?: string | null;
+        quantity?: number | null;
+      } | null>;
+      images: Array<{
+        __typename?: 'UploadFile';
+        url: string;
+        alternativeText?: string | null;
+        width?: number | null;
+        height?: number | null;
+      } | null>;
+    } | null;
+    user?: {
+      __typename?: 'UsersPermissionsUser';
+      documentId: string;
+      username: string;
+    } | null;
   } | null;
 };
 
@@ -1728,16 +1801,38 @@ export type UsersPermissionsUserQuery = {
     carts: Array<{
       __typename?: 'Cart';
       documentId: string;
-      item: {
-        __typename?: 'ComponentElementsCartItem';
-        productID: string;
-        title: string;
-        quantity: number;
-        price: number;
-        odoo_product_id: string;
+      quantity?: number | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      product?: {
+        __typename?: 'Product';
+        documentId: string;
+        name: string;
         model: string;
-        image: string;
-      };
+        odoo_product_id?: string | null;
+        price_lists: Array<{
+          __typename?: 'Price';
+          price?: number | null;
+          sale_price?: number | null;
+          min_quantity?: number | null;
+          max_quantity?: number | null;
+          user_level?: string | null;
+        } | null>;
+        inventories: Array<{
+          __typename?: 'Inventory';
+          documentId: string;
+          name?: string | null;
+          location_code?: string | null;
+          quantity?: number | null;
+        } | null>;
+        images: Array<{
+          __typename?: 'UploadFile';
+          url: string;
+          alternativeText?: string | null;
+          width?: number | null;
+          height?: number | null;
+        } | null>;
+      } | null;
     } | null>;
     addresses: Array<{
       __typename?: 'Address';
@@ -1971,26 +2066,112 @@ export const CartsDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'item' },
+                  name: { kind: 'Name', value: 'product' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'quantity' },
+                        name: { kind: 'Name', value: 'documentId' },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'model' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'odoo_product_id' },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'model' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'image' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'price_lists' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'price' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'min_quantity' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'max_quantity' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'inventories' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'documentId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'location_code' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'quantity' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'images' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'url' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'alternativeText' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'width' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'height' },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'quantity' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
               ],
@@ -2043,26 +2224,99 @@ export const CreateCartDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'item' },
+                  name: { kind: 'Name', value: 'product' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'productID' },
+                        name: { kind: 'Name', value: 'documentId' },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'quantity' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'price' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'odoo_product_id' },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'model' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'image' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'price_lists' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'price' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'sale_price' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'min_quantity' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'max_quantity' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user_level' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'inventories' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'documentId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'location_code' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'quantity' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'images' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'url' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'alternativeText' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'width' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'height' },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -2074,11 +2328,16 @@ export const CreateCartDocument = {
                     selections: [
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'username' },
                       },
                     ],
                   },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'quantity' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
               ],
@@ -2150,26 +2409,99 @@ export const UpdateCartDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'item' },
+                  name: { kind: 'Name', value: 'product' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'productID' },
+                        name: { kind: 'Name', value: 'documentId' },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'quantity' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'model' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'odoo_product_id' },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'model' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'image' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'price_lists' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'price' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'sale_price' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'min_quantity' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'max_quantity' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'user_level' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'inventories' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'documentId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'location_code' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'quantity' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'images' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'url' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'alternativeText' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'width' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'height' },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -2181,11 +2513,16 @@ export const UpdateCartDocument = {
                     selections: [
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'username' },
                       },
                     ],
                   },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'quantity' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
               ],
@@ -4234,29 +4571,21 @@ export const UsersPermissionsUserDocument = {
                       },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'item' },
+                        name: { kind: 'Name', value: 'quantity' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'product' },
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'productID' },
+                              name: { kind: 'Name', value: 'documentId' },
                             },
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'title' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'quantity' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'price' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'odoo_product_id' },
+                              name: { kind: 'Name', value: 'name' },
                             },
                             {
                               kind: 'Field',
@@ -4264,10 +4593,109 @@ export const UsersPermissionsUserDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'image' },
+                              name: { kind: 'Name', value: 'odoo_product_id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'price_lists' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'price' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'sale_price' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'min_quantity',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'max_quantity',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'user_level' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'inventories' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'documentId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'location_code',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'quantity' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'images' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'url' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'alternativeText',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'width' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'height' },
+                                  },
+                                ],
+                              },
                             },
                           ],
                         },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
                       },
                     ],
                   },
