@@ -7,8 +7,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '../ui/button';
-import { registerUserSchema } from '@/lib/validation-schema/register-form';
 import { z } from 'zod';
+import { registerUserSchema } from '@/lib/validation-schema/auth-forms';
 
 type RegistrationDialogProps = {
   open: boolean;

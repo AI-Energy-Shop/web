@@ -7,15 +7,34 @@ const schema = {
       query Carts($filters: CartFiltersInput, $pagination: PaginationArg) {
         carts(filters: $filters, pagination: $pagination) {
           documentId
-          item {
-            id
-            title
-            quantity
-            price
-            odoo_product_id
+          product {
+            documentId
+            name
             model
-            image
+            odoo_product_id
+            price_lists {
+              price
+              min_quantity
+              max_quantity
+            }
+            inventories {
+              documentId
+              name
+              location_code
+              quantity
+            }
+            images {
+              url
+              alternativeText
+              width
+              height
+            }
           }
+          user {
+            documentId
+            username
+          }
+          quantity
           createdAt
           updatedAt
         }
@@ -27,39 +46,75 @@ const schema = {
       mutation CreateCart($data: CartInput!) {
         createCart(data: $data) {
           documentId
-          item {
-            productID
-            title
-            quantity
-            price
+          product {
+            documentId
             odoo_product_id
+            name
             model
-            image
+            price_lists {
+              price
+              sale_price
+              min_quantity
+              max_quantity
+              user_level
+            }
+            inventories {
+              documentId
+              name
+              location_code
+              quantity
+            }
+            images {
+              url
+              alternativeText
+              width
+              height
+            }
           }
           user {
+            documentId
             username
           }
+          quantity
           createdAt
           updatedAt
-        }
+        }  
       }
     `),
     updateCart: gql(`
       mutation UpdateCart($documentId: ID!, $data: CartInput!) {
         updateCart(documentId: $documentId, data: $data) {
           documentId
-          item {
-            productID
-            title
-            quantity
-            price
-            odoo_product_id
+          product {
+            documentId
+            name
             model
-            image
+            odoo_product_id
+            price_lists {
+              price
+              sale_price
+              min_quantity
+              max_quantity
+              user_level
+            }
+            inventories {
+              documentId
+              name
+              location_code
+              quantity
+            }
+            images {
+              url
+              alternativeText
+              width
+              height
+            }
           }
           user {
+            documentId
             username
           }
+          quantity
           createdAt
           updatedAt
         }

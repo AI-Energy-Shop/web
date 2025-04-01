@@ -1,76 +1,17 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
-import { Me } from '@/store/features/me';
-import {
-  WarehouseLocation,
-  ShippingAddress,
-  DeliveryOption,
-  Cart,
-} from '@/store/features/cart';
+import React from 'react';
 import { formatCurrency } from '@/utils/currency';
 import { getCartTotals } from '@/utils/cart';
 import { roundToTwoDecimals } from '@/utils/rountTwoDecimals';
-interface OrderSummaryProps {
-  // shippingDetails: any;
-  // subtotal?: string;
-  // cardSubCharge?: string;
-  // shippingFee?: string;
-  // gst?: string;
-  // total?: string;
-}
+import useCart from '@/hooks/useCart';
+import useMe from '@/hooks/useMe';
+
+interface OrderSummaryProps {}
 
 const OrderSummary: React.FC<OrderSummaryProps> = () => {
-  const [user, setUser] = useState<Me | undefined>(undefined);
-  const [carts, setCarts] = useState<Cart[]>([]);
-  const [warehouse, setWarehouse] = useState<WarehouseLocation | undefined>(
-    undefined
-  );
-  const [delivery, setDeliveryOptions] = useState<DeliveryOption | undefined>(
-    undefined
-  );
-  const me = useSelector((state: RootState) => state.me.me);
-  const cartItems = useSelector((state: RootState) => state.cart.carts);
-  const warehouseLocation = useSelector(
-    (state: RootState) => state.cart.warehouseLocation
-  );
-  const shippingAddress = useSelector(
-    (state: RootState) => state.cart.shippingAddress
-  );
-  const deliveryOptions = useSelector(
-    (state: RootState) => state.cart.deliveryOptions
-  );
-
-  useEffect(() => {
-    if (me) {
-      setUser(me);
-    }
-    if (warehouseLocation) {
-      setWarehouse(warehouseLocation);
-    }
-    if (deliveryOptions) {
-      setDeliveryOptions(deliveryOptions);
-    }
-    if (cartItems) {
-      setCarts(cartItems);
-    }
-  }, [me, warehouseLocation, shippingAddress, deliveryOptions, cartItems]);
-
-  // shippingFee={formatCurrency(deliveryFee, 'USD')}
-  // cardSubCharge={formatCurrency(
-  //   shippingDetails?.paymentOption?.price || 0.0,
-  //   'USD'
-  // )}
-  // gst={formatCurrency(totalGst, 'USD')}
-  // subtotal={formatCurrency(subtotal, 'USD')}
-  // total={formatCurrency(total, 'USD')}
-
-  const { subtotal, totalGst, total } = getCartTotals(
-    carts,
-    deliveryOptions?.price,
-    0.0
-  );
+  const { user } = useMe();
+  const { carts, warehouse, shippingOptions } = useCart();
+  const { subtotal, totalGst, total } = getCartTotals(carts, 0.0, 0.0);
 
   const renderSelectedWarehouseLocation = () => {
     return (
@@ -95,23 +36,28 @@ const OrderSummary: React.FC<OrderSummaryProps> = () => {
           <span className="block font-semibold italic">
             {user?.business_name}
           </span>
-          {user?.account_detail?.shipping_addresses?.map((address) => {
+          {user?.account_detail?.shipping_addresses?.map?.((address, index) => {
             if (address.isActive) {
               return (
-                <span key={address.id} className="mr-1 text-sm">
+                <span key={index} className="mr-1 text-sm">
                   {`${address.street1}, ${address.street2}, ${address.city}, ${address.state}, ${address.zipCode}`}
                 </span>
               );
             }
           })}
         </h2>
-        {delivery && (
-          <p className="text-xs italic">
-            <span className="mr-1 font-thin">
-              {delivery?.title} ({delivery?.description})
-            </span>
-          </p>
-        )}
+        {shippingOptions &&
+          shippingOptions.map((option) => {
+            if (option.active) {
+              return (
+                <p key={option.id} className="text-xs italic">
+                  <span className="mr-1 font-thin">
+                    {option?.title} ({option?.value})
+                  </span>
+                </p>
+              );
+            }
+          })}
       </div>
     );
   };
@@ -129,7 +75,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = () => {
     return (
       <div className="flex justify-between items-center">
         <h1>Delivery</h1>
-        <p>{formatCurrency(deliveryOptions?.price, 'USD')}</p>
+        <p>{formatCurrency(0, 'USD')}</p>
       </div>
     );
   };

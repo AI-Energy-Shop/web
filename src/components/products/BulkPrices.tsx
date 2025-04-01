@@ -22,7 +22,7 @@ interface BulkPricesProps {
 }
 
 const BulkPrices = ({ product }: BulkPricesProps) => {
-  const { me } = useMe();
+  const { user } = useMe();
 
   const priceList = product?.price_lists?.map((price) => ({
     id: price?.documentId,
@@ -34,7 +34,7 @@ const BulkPrices = ({ product }: BulkPricesProps) => {
   }));
 
   const bulkPrices = priceList?.filter((price) => {
-    if (price.user_level === me?.account_detail?.level) {
+    if (price.user_level === user?.account_detail?.level) {
       if (price.min_quantity || price.max_quantity) {
         return price;
       }
@@ -61,7 +61,7 @@ const BulkPrices = ({ product }: BulkPricesProps) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {!me ? (
+            {!user ? (
               <TableRow>
                 <TableCell>Login to view bulk pricing</TableCell>
               </TableRow>

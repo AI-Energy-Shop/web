@@ -1,15 +1,10 @@
-import React, { useState } from 'react';
-import { z } from 'zod';
+import React from 'react';
 import Link from 'next/link';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { useForm } from 'react-hook-form';
 import { Checkbox } from '../ui/checkbox';
 import { Eye, EyeOff } from 'lucide-react';
-import { useToast } from '@/hooks/useToast';
-import { registerUser } from '@/app/actions/user';
-import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Form,
   FormControl,
@@ -25,70 +20,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select';
-import { registerUserSchema } from '@/lib/validation-schema/register-form';
-import { useRouter } from 'next/navigation';
+import useAuth from '@/hooks/useAuth';
+import { RegisterFormData } from '@/lib/validation-schema/auth-forms';
 interface SignupFormProps {}
 
 const SignupForm: React.FC<SignupFormProps> = () => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { toast } = useToast();
-  const router = useRouter();
-
-  const form = useForm<z.infer<typeof registerUserSchema>>({
-    resolver: zodResolver(registerUserSchema),
-    defaultValues: {
-      username: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      businessName: '',
-      businessNumber: '',
-      businessType: '',
-      phone: '',
-      street1: '',
-      street2: '',
-      city: '',
-      state: '',
-      zipCode: '',
-      country: 'Australia',
-    },
-  });
-
-  const handleSubmit = async (data: z.infer<typeof registerUserSchema>) => {
-    try {
-      const formData = new FormData();
-
-      Object.entries(data).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
-
-      const { error } = await registerUser(formData);
-
-      if (error) {
-        toast({
-          title: 'Error',
-          description: error,
-          variant: 'destructive',
-        });
-        return;
-      }
-
-      toast({
-        title: 'Success',
-        description: 'Please check your email for email approval',
-        variant: 'default',
-      });
-
-      router.push('/auth/login');
-    } catch (error) {
-      console.error('Registration error:', error);
-      toast({
-        title: 'Error',
-        description: 'An unexpected error occurred. Please try again.',
-        variant: 'destructive',
-      });
-    }
-  };
+  const { showPassword, registerForm, handleRegisterSubmit, setShowPassword } =
+    useAuth();
 
   const renderBottomContent = () => {
     return (
@@ -109,13 +47,13 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     label,
     required = true,
   }: {
-    name: keyof z.infer<typeof registerUserSchema>;
+    name: keyof RegisterFormData;
     label: string;
     required?: boolean;
   }) => {
     return (
       <FormField
-        control={form.control}
+        control={registerForm.control}
         name={name}
         render={({ field }) => (
           <FormItem>
@@ -143,9 +81,9 @@ const SignupForm: React.FC<SignupFormProps> = () => {
         execute={execute}
       /> */}
       <div className="">
-        <Form {...form}>
+        <Form {...registerForm}>
           <form
-            onSubmit={form.handleSubmit(handleSubmit)}
+            onSubmit={registerForm.handleSubmit(handleRegisterSubmit)}
             className="space-y-8"
           >
             <div className="space-y-4">
@@ -155,7 +93,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <FormField
-                  control={form.control}
+                  control={registerForm.control}
                   name="password"
                   render={({ field }) => (
                     <FormItem>
@@ -184,7 +122,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                   )}
                 />
                 <FormField
-                  control={form.control}
+                  control={registerForm.control}
                   name="confirmPassword"
                   render={({ field }) => (
                     <FormItem>
@@ -223,7 +161,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                   label: 'Business Number',
                 })}
                 <FormField
-                  control={form.control}
+                  control={registerForm.control}
                   name="businessType"
                   render={({ field }) => (
                     <FormItem>

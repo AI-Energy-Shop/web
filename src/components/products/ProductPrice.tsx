@@ -10,7 +10,7 @@ interface ProductPriceProps {
 }
 
 const ProductPrice: React.FC<ProductPriceProps> = ({ product }) => {
-  const { me } = useMe();
+  const { user } = useMe();
 
   const priceList = product?.price_lists?.map((price) => ({
     documentId: price?.documentId,
@@ -22,13 +22,13 @@ const ProductPrice: React.FC<ProductPriceProps> = ({ product }) => {
   }));
 
   const price = priceList?.find(
-    (price) => price?.user_level === me?.account_detail?.level
+    (price) => price?.user_level === user?.account_detail?.level
   );
 
   const salePrice = price?.sale_price;
   const regularPrice = price?.price;
 
-  if (!me) {
+  if (!user) {
     return null;
   }
 

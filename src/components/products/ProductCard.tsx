@@ -5,7 +5,7 @@ import useMe from '@/hooks/useMe';
 import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import React, { useEffect } from 'react';
+import React from 'react';
 import useCart from '@/hooks/useCart';
 import { Form, FormField } from '../ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -23,19 +23,14 @@ type ProductCardproduct = {
 
 const addToCartFormSchema = z.object({
   id: z.string(),
-  title: z.string(),
-  model: z.string(),
-  image: z.string(),
-  odoo_product_id: z.string(),
-  price: z.number(), // Make sure this is number, not string
   quantity: z.number().min(0), // Make sure this is number
 });
 
 const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
-  const router = useRouter();
-  const { toast } = useToast();
-  const { me } = useMe();
   const { carts, warehouse, addToCart, updateCartItem } = useCart();
+  const { toast } = useToast();
+  const router = useRouter();
+  const { user } = useMe();
 
   const stocks =
     product?.inventories.find(
@@ -43,7 +38,7 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
     )?.quantity || 0;
 
   const itemPrice = product?.price_lists?.find(
-    (price) => price?.user_level === me?.account_detail?.level
+    (price) => price?.user_level === user?.account_detail?.level
   );
 
   const salePrice = itemPrice?.sale_price;
@@ -56,11 +51,6 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
     resolver: zodResolver(addToCartFormSchema),
     defaultValues: {
       id: product?.documentId || '',
-      title: product?.name || '',
-      model: product?.model || '',
-      image: product?.images[0]?.url || '',
-      odoo_product_id: product?.odoo_product_id || '',
-      price: 0,
       quantity: 0,
     },
   });
@@ -68,7 +58,7 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
   const productLink = `/products/${product?.category?.slug}/${product?.documentId}`;
 
   const onSubmit = async (data: z.infer<typeof addToCartFormSchema>) => {
-    if (!me) {
+    if (!user) {
       router.push('/auth/login');
       return;
     }
@@ -89,52 +79,28 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
       return;
     }
 
-    const cartItem = carts.find((cart) => cart.item.productID === data?.id);
+    const cartItem = carts.find(
+      (cart) => cart?.product?.documentId === data.id
+    );
 
-    if (cartItem) {
+    if (cartItem && cartItem?.product) {
       updateCartItem({
-        variables: {
-          documentId: cartItem.documentId,
-          data: {
-            item: {
-              odoo_product_id: cartItem.item.odoo_product_id,
-              productID: cartItem.item.productID,
-              title: cartItem.item.name,
-              model: cartItem.item.model,
-              image: cartItem.item.image,
-              price: cartItem.item.price + data.price,
-              quantity: cartItem.item.quantity + data.quantity,
-            },
-          },
-        },
+        cartId: cartItem.documentId,
+        product: cartItem.product.documentId,
+        quantity: cartItem.quantity + data.quantity,
       });
       return;
     }
 
-    addToCart({
-      variables: {
-        data: {
-          item: {
-            productID: data.id,
-            title: data.title,
-            model: data.model,
-            image: data.image,
-            price: data.price,
-            quantity: data.quantity,
-            odoo_product_id: data.odoo_product_id,
-          },
-          user: me.id,
-        },
-      },
+    await addToCart({
+      product: data.id,
+      quantity: data.quantity,
+      user: user?.id,
     });
   };
 
-  useEffect(() => {
-    form.setValue('price', productPrice * form.watch('quantity')); //DIRTY FIX
-  }, [productPrice, form.watch('quantity')]);
-
   const renderPriceAndStock = () => {
-    if (!me) {
+    if (!user) {
       return (
         <div className="grid grid-cols-1 my-3">
           <span className="text-sm row-span-1 text-[#1b1b3b]">
@@ -210,12 +176,7 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           {renderHiddenInput('id')}
-          {renderHiddenInput('image')}
-          {renderHiddenInput('title')}
-          {renderHiddenInput('model')}
-          {renderHiddenInput('price')}
-          {renderHiddenInput('odoo_product_id')}
-          {me && (
+          {user && (
             <>
               <ProductQuantity form={form} />
               <Button

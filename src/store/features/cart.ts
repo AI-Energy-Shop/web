@@ -1,16 +1,10 @@
+import { ProductQuery } from '@/lib/gql/graphql';
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface Cart {
   documentId: string;
-  item: {
-    productID: string;
-    name: string;
-    model: string;
-    price: number;
-    quantity: number;
-    image: string;
-    odoo_product_id: string;
-  };
+  quantity: number;
+  product: ProductQuery['product'];
 }
 
 export interface WarehouseLocation {
@@ -64,44 +58,43 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    setCart: (state, { payload }: { payload: Cart; type: string }) => {
-      if (payload) {
-        const existingCartItem = state.carts.find(
-          (cart) => cart.item.model === payload.item.model
-        );
-
-        if (existingCartItem) {
-          existingCartItem.item.quantity = payload.item.quantity; // if cart item already exists, update the quantity
-        } else {
-          state.carts?.push(payload);
-        }
+    setCart: (state, action) => {
+      const existingCart = state.carts.find(
+        (cart) => cart.documentId === action.payload.documentId
+      );
+      if (!existingCart) {
+        state.carts.push(action.payload);
+      } else {
+        existingCart.quantity = action.payload.quantity;
       }
     },
-    setCarts: (state, { payload }: { payload: Cart[]; type: string }) => {
-      state.carts = payload;
+    setCarts: (state, action) => {
+      state.carts = action.payload;
     },
-    removeCart: (
-      state,
-      { payload }: { payload: { id: string }; type: string }
-    ) => {
+    removeCart: (state, action) => {
       state.carts = state.carts.filter(
-        (cart) => cart.documentId !== payload.id
+        (cart) => cart.documentId !== action.payload.id
       );
     },
-    setWarehouseLocation: (
-      state,
-      { payload }: { payload: WarehouseLocation; type: string }
-    ) => {
-      state.warehouseLocation = payload;
+    setShowCartWindow: (state, action) => {
+      state.showCartWindow = action.payload;
     },
-    setPaymentStep: (state, { payload }: { payload: number; type: string }) => {
-      state.paymentStep = payload;
+    setWarehouseLocation: (state, action) => {
+      state.warehouseLocation = action.payload;
     },
-    setShowCartWindow: (
-      state,
-      { payload }: { payload: boolean; type: string }
-    ) => {
-      state.showCartWindow = payload;
+    setShippingAddress: (state, action) => {
+      state.shippingAddress = action.payload;
+    },
+    setPaymentStep: (state, action) => {
+      state.paymentStep = action.payload;
+    },
+    removeCartsData: (state) => {
+      state.carts = [];
+      state.paymentStep = 1;
+      state.warehouseLocation = undefined;
+      state.shippingAddress = undefined;
+      state.deliveryOptions = undefined;
+      state.showCartWindow = false;
     },
   },
 });
@@ -112,6 +105,7 @@ export const {
   removeCart,
   setPaymentStep,
   setWarehouseLocation,
+  removeCartsData,
   setShowCartWindow,
 } = cartSlice.actions;
 

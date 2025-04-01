@@ -1,166 +1,151 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import { useEffect, useState } from 'react';
-import { useMutation } from '@apollo/client';
-import CartOperation from '@/graphql/cart';
 import { useToast } from './useToast';
-import useMe from './useMe';
 import { CART_WINDOW_TIMEOUT } from '@/constant/cart';
-import { setCart, setShowCartWindow } from '@/store/features/cart';
-import { Cart, removeCart, WarehouseLocation } from '@/store/features/cart';
 import {
-  CreateCartMutation,
-  CreateCartMutationVariables,
-  UpdateCartMutation,
-} from '@/lib/gql/graphql';
+  setCart,
+  setPaymentStep,
+  setShowCartWindow,
+} from '@/store/features/cart';
+import {
+  addToCartAction,
+  removeItemFromCartAction,
+  updateCartItemAction,
+} from '@/app/actions/cart';
+import { ShippingOptions } from '@/constant/shipping';
+import { SHIPPING_OPTIONS } from '@/constant/shipping';
+import { removeCart } from '@/store/features/cart';
+import { ProductQuery } from '@/lib/gql/graphql';
+import { useState } from 'react';
 
 const useCart = () => {
-  const { token } = useMe();
+  const date = new Date();
   const { toast } = useToast();
   const dispatch = useDispatch();
-
-  const cartData = useSelector((state: RootState) => state.cart);
-  const cartsData = useSelector((state: RootState) => state.cart.carts);
-  const isShowCartWindow = useSelector(
+  const [shippingOptions, setShippingOptions] =
+    useState<ShippingOptions>(SHIPPING_OPTIONS);
+  const [paymentOption, setPaymentOption] = useState<string>('');
+  const carts = useSelector((state: RootState) => state.cart.carts);
+  const paymentStep = useSelector((state: RootState) => state.cart.paymentStep);
+  const warehouse = useSelector(
+    (state: RootState) => state.cart.warehouseLocation
+  );
+  const showCartWindow = useSelector(
     (state: RootState) => state.cart.showCartWindow
   );
 
-  const [carts, setCarts] = useState<Cart[]>([]);
-  const [warehouse, setWarehouse] = useState<WarehouseLocation>();
-  const [paymentStep, setPaymentStep] = useState<number>(0);
-  const [showCartWindow, setShowCartWindowState] = useState<boolean>(false);
+  const addToCart = async (data: {
+    product: string;
+    quantity: number;
+    user: string;
+  }) => {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value as string);
+    });
+    const res = await addToCartAction(formData);
+    if (res.error) {
+      console.log(res.error);
+      toast({
+        title: res.error,
+        variant: 'destructive',
+      });
+      return;
+    }
 
-  const [addToCart] = useMutation<
-    CreateCartMutation,
-    CreateCartMutationVariables
-  >(CartOperation.Mutation.createCart, {
-    context: {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-    onCompleted: (data) => {
-      console.log('Add to cart', data);
-
+    if (res.data) {
+      const { createCart } = res.data;
       dispatch(
         setCart({
-          documentId: data?.createCart?.documentId || '',
-          item: {
-            productID: data?.createCart?.item?.productID || '',
-            name: data?.createCart?.item?.title || '',
-            model: data?.createCart?.item?.model || '',
-            price: data?.createCart?.item?.price || 0,
-            image: data?.createCart?.item?.image || '',
-            quantity: Number(data?.createCart?.item?.quantity) || 0,
-            odoo_product_id: data?.createCart?.item?.odoo_product_id || '',
-          },
+          documentId: createCart?.documentId || '',
+          product: createCart?.product as ProductQuery['product'],
+          quantity: createCart?.quantity || 0,
         })
       );
-
       dispatch(setShowCartWindow(true));
       setTimeout(() => {
         dispatch(setShowCartWindow(false));
       }, CART_WINDOW_TIMEOUT);
-    },
-    onError: (error) => {
-      if (error) {
-        toast({
-          title: error?.message,
-          variant: 'destructive',
-        });
-        return;
-      }
-    },
-  });
-
-  const [updateCartItem] = useMutation<UpdateCartMutation>(
-    CartOperation.Mutation.updateCart,
-    {
-      context: {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-      onCompleted: (data) => {
-        console.log('Update cart', data);
-
-        dispatch(
-          setCart({
-            documentId: data?.updateCart?.documentId || '',
-            item: {
-              productID: data?.updateCart?.item?.productID || '',
-              name: data?.updateCart?.item?.title || '',
-              model: data?.updateCart?.item?.model || '',
-              price: data?.updateCart?.item?.price || 0,
-              image: data?.updateCart?.item?.image || '',
-              quantity: Number(data?.updateCart?.item?.quantity) || 0,
-              odoo_product_id: data?.updateCart?.item?.odoo_product_id || '',
-            },
-          })
-        );
-
-        dispatch(setShowCartWindow(true));
-        setTimeout(() => {
-          dispatch(setShowCartWindow(false));
-        }, CART_WINDOW_TIMEOUT);
-      },
-      onError: (error) => {
-        if (error) {
-          toast({
-            title: error?.message,
-            variant: 'destructive',
-          });
-          return;
-        }
-      },
     }
-  );
+  };
 
-  const [removeItemFromCart] = useMutation(CartOperation.Mutation.deleteCart, {
-    context: {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-    onCompleted: (data) => {
-      console.log(data);
-      if (data.deleteCart && data.deleteCart.documentId) {
-        dispatch(removeCart({ id: data.deleteCart?.documentId }));
-      }
-    },
-  });
-
-  useEffect(() => {
-    setShowCartWindowState(isShowCartWindow);
-    return () => {
-      setShowCartWindowState(false);
-    };
-  }, [isShowCartWindow]);
-
-  useEffect(() => {
-    if (cartsData) {
-      setCarts(cartsData);
+  const updateCartItem = async (data: {
+    cartId: string;
+    product: string;
+    quantity: number;
+  }) => {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value as string);
+    });
+    const res = await updateCartItemAction(formData);
+    if (res.error) {
+      console.log(res.error);
+      toast({
+        title: res.error,
+        variant: 'destructive',
+      });
+      return;
     }
-    return () => {
-      setCarts(cartsData);
-    };
-  }, [cartsData]);
 
-  useEffect(() => {
-    if (cartData) {
-      setPaymentStep(cartData.paymentStep);
-      setWarehouse(cartData.warehouseLocation);
+    dispatch(
+      setCart({
+        documentId: res?.data?.updateCart?.documentId || '',
+        product: res?.data?.updateCart?.product as ProductQuery['product'],
+        quantity: res?.data?.updateCart?.quantity || 0,
+      })
+    );
+
+    dispatch(setShowCartWindow(true));
+    setTimeout(() => {
+      dispatch(setShowCartWindow(false));
+    }, CART_WINDOW_TIMEOUT);
+  };
+
+  const removeItemFromCart = async (documentId: string) => {
+    const res = await removeItemFromCartAction(documentId);
+    if (res.error) {
+      toast({
+        title: res.error,
+        variant: 'destructive',
+      });
+      return;
     }
-    return () => {
-      setPaymentStep(0);
-    };
-  }, [cartData]);
+
+    if (res.data) {
+      const { deleteCart } = res.data;
+      dispatch(removeCart({ id: deleteCart?.documentId || '' }));
+    }
+  };
+
+  const handleShippingMethodClick = (index: number) => {
+    setShippingOptions(
+      shippingOptions.map((item, i) => ({
+        ...item,
+        active: i === index,
+      }))
+    );
+  };
+
+  const handleContinueClick = () => {
+    dispatch(setPaymentStep(3));
+  };
+
+  const handleEditClick = () => {
+    dispatch(setPaymentStep(2));
+  };
 
   return {
+    date,
     warehouse,
     carts,
     paymentStep,
     showCartWindow,
+    shippingOptions,
+    paymentOption,
+    handleEditClick,
+    handleShippingMethodClick,
+    handleContinueClick,
     addToCart,
     removeItemFromCart,
     updateCartItem,

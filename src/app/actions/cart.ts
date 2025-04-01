@@ -2,6 +2,14 @@
 import { cookies } from 'next/headers';
 import { getClient } from '@/apollo/client';
 import CART_OPERATIONS from '@/graphql/cart';
+import {
+  CreateCartMutation,
+  CreateCartMutationVariables,
+  DeleteCartMutation,
+  DeleteCartMutationVariables,
+  UpdateCartMutation,
+  UpdateCartMutationVariables,
+} from '@/lib/gql/graphql';
 
 const client = getClient();
 export async function getCartItems() {
@@ -26,18 +34,106 @@ export async function getCartItems() {
   }
 }
 
-export async function testAddToCart(formData: FormData) {
-  const title = formData.get('title') as string;
-  const model = formData.get('model') as string;
-  const quantity = Number(formData.get('quantity'));
-  const price = Number(formData.get('price'));
-  const image = formData.get('image') as string;
-  const odoo_product_id = formData.get('odoo_product_id') as string;
+export const addToCartAction = async (
+  formData: FormData
+): Promise<{
+  error?: string;
+  data?: CreateCartMutation | null;
+}> => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('a-token');
 
-  console.log('price:', price);
-  console.log('quantity:', quantity);
-  console.log('title:', title);
-  console.log('model:', model);
-  console.log('image:', image);
-  console.log('odoo_product_id:', odoo_product_id);
-}
+  try {
+    const response = await client.mutate<
+      CreateCartMutation,
+      CreateCartMutationVariables
+    >({
+      mutation: CART_OPERATIONS.Mutation.createCart,
+      context: {
+        headers: {
+          Authorization: `Bearer ${token?.value}`,
+        },
+      },
+      variables: {
+        data: {
+          product: formData.get('product') as string,
+          quantity: Number(formData.get('quantity')),
+          user: formData.get('user') as string,
+        },
+      },
+    });
+
+    return {
+      data: response.data,
+    };
+  } catch (error: any) {
+    console.error('addToCartAction Error:', error.message);
+    return {
+      error: error.message,
+    };
+  }
+};
+
+export const updateCartItemAction = async (formData: FormData) => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('a-token');
+
+  try {
+    const response = await client.mutate<
+      UpdateCartMutation,
+      UpdateCartMutationVariables
+    >({
+      mutation: CART_OPERATIONS.Mutation.updateCart,
+      context: {
+        headers: {
+          Authorization: `Bearer ${token?.value}`,
+        },
+      },
+      variables: {
+        documentId: formData.get('cartId') as string,
+        data: {
+          product: formData.get('product') as string,
+          quantity: Number(formData.get('quantity')),
+        },
+      },
+    });
+    return {
+      data: response.data,
+    };
+  } catch (error: any) {
+    console.error('updateCartItemAction Error:', error.message);
+    return {
+      error: error.message,
+    };
+  }
+};
+
+export const removeItemFromCartAction = async (documentId: string) => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('a-token');
+
+  try {
+    const response = await client.mutate<
+      DeleteCartMutation,
+      DeleteCartMutationVariables
+    >({
+      mutation: CART_OPERATIONS.Mutation.deleteCart,
+      context: {
+        headers: {
+          Authorization: `Bearer ${token?.value}`,
+        },
+      },
+      variables: {
+        documentId: documentId,
+      },
+    });
+    return {
+      data: response.data,
+    };
+  } catch (error: any) {
+    console.error('removeItemFromCartAction Error:', error.message);
+    return {
+      error: error.message,
+    };
+  }
+};

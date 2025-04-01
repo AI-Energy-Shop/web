@@ -19,7 +19,7 @@ interface ProductAddToCartButtonProps {
 }
 
 const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
-  const { me } = useMe();
+  const { user } = useMe();
   const { toast } = useToast();
   const { carts, warehouse, addToCart, updateCartItem } = useCart();
 
@@ -28,11 +28,9 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
     price: price?.price ?? undefined,
     sale_price: price?.sale_price ?? undefined,
     user_level: price?.user_level ?? undefined,
-    // min_quantity: price?.min_quantity ?? undefined,
-    // max_quantity: price?.max_quantity ?? undefined,
   }));
   const itemPrice = priceList?.find(
-    (price) => price?.user_level === me?.account_detail?.level
+    (price) => price?.user_level === user?.account_detail?.level
   );
 
   const salePrice = itemPrice?.sale_price;
@@ -49,38 +47,25 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
     defaultValues: {
       id: product?.documentId,
       quantity: 0,
-      price: productPrice,
-      title: product?.name ?? undefined,
-      model: product?.model ?? undefined,
-      image: product?.images?.[0]?.url ?? undefined,
-      odoo_product_id: product?.odoo_product_id ?? undefined,
     },
   });
 
   const handleIncrement = () => {
     const quantity = form.getValues('quantity');
-    const price = form.getValues('price');
-    const totalItemPrice = price + productPrice;
     form.setValue('quantity', quantity + 1);
-    form.setValue('price', totalItemPrice);
   };
 
   const handleDecrement = () => {
     const quantity = form.getValues('quantity');
-    const price = form.getValues('price');
-
     if (quantity > 0) {
       form.setValue('quantity', quantity - 1);
-      form.setValue('price', price - productPrice);
     }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
-    const price = form.getValues('price');
     if (!isNaN(value)) {
       form.setValue('quantity', value);
-      form.setValue('price', value * price);
     }
   };
 
@@ -102,43 +87,23 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
       return;
     }
 
-    const cartItem = carts.find((cart) => cart.item.productID === onValid?.id);
+    const cartItem = carts.find(
+      (cart) => cart.product?.documentId === onValid?.id
+    );
 
-    if (cartItem) {
+    if (cartItem && cartItem?.product) {
       updateCartItem({
-        variables: {
-          documentId: cartItem.documentId,
-          data: {
-            item: {
-              productID: cartItem.item.productID,
-              title: cartItem.item.name,
-              model: cartItem.item.model,
-              image: cartItem.item.image,
-              price: cartItem.item.price + onValid.price,
-              quantity: cartItem.item.quantity + onValid.quantity,
-              odoo_product_id: cartItem.item.odoo_product_id,
-            },
-          },
-        },
+        cartId: cartItem.documentId,
+        product: cartItem.product.documentId,
+        quantity: cartItem.quantity + onValid.quantity,
       });
       return;
     }
 
-    addToCart({
-      variables: {
-        data: {
-          item: {
-            productID: onValid.id,
-            title: onValid.title,
-            model: onValid.model,
-            image: onValid.image,
-            price: onValid.price,
-            quantity: onValid.quantity,
-            odoo_product_id: onValid.odoo_product_id,
-          },
-          user: me?.id,
-        },
-      },
+    await addToCart({
+      product: onValid.id,
+      quantity: onValid.quantity,
+      user: user?.id || '',
     });
   };
 
@@ -162,7 +127,7 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
     );
   };
 
-  if (!me) {
+  if (!user) {
     return (
       <div className="w-full h-20 flex justify-center items-center">
         <span className="text-sm row-span-1 text-[#1b1b3b]">
@@ -179,11 +144,6 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             {renderHiddenInput({ name: 'id' })}
-            {renderHiddenInput({ name: 'image' })}
-            {renderHiddenInput({ name: 'title' })}
-            {renderHiddenInput({ name: 'model' })}
-            {renderHiddenInput({ name: 'price' })}
-            {renderHiddenInput({ name: 'odoo_product_id' })}
             <div className="mx-auto text-center max-md:px-2 md:mt-6 md:py-2 md:flex md:justify-between">
               <div className="flex flex-col border rounded-lg overflow-hidden">
                 <div className="flex items-center border-b gap-0">
@@ -229,7 +189,7 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
                 </div>
                 <div className="text-lg font-semibold">
                   <span className="text-sm font-normal text-gray-500 ml-1">
-                    {Number(form.watch('price')).toFixed(2)} ex. GST
+                    {productPrice.toFixed(2)} ex. GST
                   </span>
                 </div>
               </div>
