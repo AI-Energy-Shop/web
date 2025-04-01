@@ -1,21 +1,31 @@
 import meReducer from './features/me';
+import { combineReducers } from 'redux';
 import cartReducer from './features/cart';
-import {
-  cookieMiddleware,
-  PRELOADED_STATE,
-} from './middleware/cookieMiddleware';
+import storage from 'redux-persist/lib/storage';
 import { configureStore } from '@reduxjs/toolkit';
+import { persistReducer, persistStore } from 'redux-persist';
+
+const rootReducer = combineReducers({
+  me: meReducer,
+  cart: cartReducer,
+});
+const persistConfig = {
+  key: 'root',
+  storage,
+  version: 1,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: {
-    me: meReducer,
-    cart: cartReducer,
-  },
-  preloadedState: PRELOADED_STATE,
-  middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(cookieMiddleware);
-  },
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
+
+export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 

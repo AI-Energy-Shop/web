@@ -52,7 +52,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
             if (cart.documentId === id)
               return {
                 ...cart,
-                item: { ...cart.item, quantity: value },
+                quantity: value,
               };
             return cart;
           })
@@ -64,7 +64,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   const handleReduceQuant = (id: string) => {
     const cart = carts.find((cart) => cart.documentId === id);
     if (cart) {
-      if (cart.item.quantity <= 1) {
+      if (cart.quantity <= 1) {
         setShowModal(!showModal);
         setToRemoveItemId(id);
       } else {
@@ -74,7 +74,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
               if (cart.documentId === id) {
                 return {
                   ...cart,
-                  item: { ...cart.item, quantity: cart.item.quantity - 1 },
+                  quantity: cart.quantity - 1,
                 };
               }
               return cart;
@@ -94,7 +94,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
             if (cart.documentId === id) {
               return {
                 ...cart,
-                item: { ...cart.item, quantity: cart.item.quantity + 1 },
+                quantity: cart.quantity + 1,
               };
             }
             return cart;
@@ -111,7 +111,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
 
   const handleConfirmRemove = () => {
     if (!toRemoveItemId) return;
-    removeItemFromCart({ variables: { documentId: toRemoveItemId } });
+    removeItemFromCart(toRemoveItemId);
     setShowModal(false);
   };
 

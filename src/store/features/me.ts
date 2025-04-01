@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface ShippingAddress {
-  id?: string | null;
+  documentId: string;
   street1?: string | null;
   street2?: string | null;
   city?: string | null;
@@ -43,38 +43,33 @@ export interface Me {
 export interface InitialState {
   me?: Me;
   meAdmin?: Me;
-  token?: string;
 }
 
 const initialState: InitialState = {
   me: undefined,
   meAdmin: undefined,
-  token: undefined,
 };
 
 export const meSlice = createSlice({
   name: 'me',
   initialState: initialState,
   reducers: {
-    setMe: (state, { payload, type }: { payload: Me; type: string }) => {
-      state.me = payload;
-    },
-    setMeAdmin: (state, { payload, type }: { payload: Me; type: string }) => {
-      state.meAdmin = payload;
-    },
-    setToken: (state, action) => {
-      state.token = action.payload;
-    },
-    removeUserData: (state) => {
-      state.me = undefined;
-      state.meAdmin = undefined;
-      state.token = undefined;
-    },
-    logout: () => {},
+    setMe: (state, { payload }: { payload: Me }) => ({
+      ...state,
+      me: payload,
+    }),
+    setMeAdmin: (state, { payload }: { payload: Me }) => ({
+      ...state,
+      meAdmin: payload,
+    }),
+    logout: (state) => ({
+      ...state,
+      me: undefined,
+      meAdmin: undefined,
+    }),
   },
 });
 
-export const { setMe, setMeAdmin, setToken, removeUserData, logout } =
-  meSlice.actions;
+export const { setMe, setMeAdmin, logout } = meSlice.actions;
 
 export default meSlice.reducer;

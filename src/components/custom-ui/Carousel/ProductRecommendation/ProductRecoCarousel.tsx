@@ -40,7 +40,7 @@ interface ProductRecoCarouselProps {
 }
 
 function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
-  const { me } = useMe();
+  const { user } = useMe();
 
   const { data, loading } = useQuery(PRODUCT_OPERATIONS.Query.products, {
     variables: {
@@ -77,7 +77,7 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
         >
           {data?.products.map?.((item, index) => {
             const itemPrice = item?.price_lists.find(
-              (price) => price?.user_level === me?.account_detail?.level
+              (price) => price?.user_level === user?.account_detail?.level
             );
 
             return (
@@ -160,7 +160,7 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
         >
           {data?.products?.map((item, index) => {
             const itemPrice = item?.price_lists.find(
-              (price) => price?.user_level === me?.account_detail?.level
+              (price) => price?.user_level === user?.account_detail?.level
             );
 
             return (
