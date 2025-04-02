@@ -1,10 +1,10 @@
+'use client';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -13,161 +13,138 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
-import { Dispatch, SetStateAction } from 'react';
+import StateComboBox from '../Address/StateComboBox';
+import CountryComboBox from '../Address/CountryComboBox';
 
 type AddressSchemaTypes = z.infer<typeof addressSchema>;
 
 interface AddressFormProps {
   address?: AddressSchemaTypes;
-  setAddresses: Dispatch<
-    SetStateAction<
-      {
-        name: string;
-        street: string;
-        locality: string;
-        state: string;
-        postCode: string;
-        country: string;
-        default: boolean;
-      }[]
-    >
-  >;
 }
 
-function AddressForm({ address, setAddresses }: AddressFormProps) {
+function AddressForm({ address }: AddressFormProps) {
   const form = useForm<AddressSchemaTypes>({
     resolver: zodResolver(addressSchema),
     defaultValues: {
-      name: address?.name || '',
-      street: address?.street || '',
-      locality: address?.locality || '',
-      state: address?.state || '',
-      postCode: address?.postCode || '',
-      country: address?.country || '',
-      default: address?.default || false,
+      title: '',
+      street1: '',
+      street2: '',
+      city: '',
+      state: '',
+      country: '',
+      zipCode: undefined,
+      mobile: '',
+      phone: '',
+      isActive: false,
     },
   });
 
-  function onSubmit(values: AddressSchemaTypes) {
-    if (!address) {
-      setAddresses((prev) => {
-        if (values.default) {
-          prev.map((address) => (address.default = false));
-          return [values, ...prev];
-        }
-
-        return [values, ...prev];
-      });
-    } else {
-      setAddresses((prev) => {
-        return prev.map((address) => {
-          if (address.name === values.name) {
-            return {
-              name: values.name,
-              street: values.street,
-              locality: values.locality,
-              state: values.state,
-              postCode: values.postCode,
-              country: values.country,
-              default: values.default,
-            };
-          } else {
-            return { ...address, default: false };
-          }
-        });
-      });
-    }
-  }
+  const onSubmit = (values: AddressSchemaTypes) => {};
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
         <FormField
           control={form.control}
-          name="name"
+          name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Address Name</FormLabel>
+              <FormLabel>
+                Address Name<span className="text-red-500">*</span>
+              </FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="street"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Street</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="flex items-center gap-x-2">
+        <div className="sm:flex sm:items-center sm:gap-x-2">
           <FormField
             control={form.control}
-            name="locality"
+            name="street1"
             render={({ field }) => (
-              <FormItem className="flex-1">
-                <FormLabel>Suburb/Locality</FormLabel>
+              <FormItem className="flex-1 relative">
+                <FormLabel>
+                  Street1<span className="text-red-500">*</span>
+                </FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
-            name="state"
+            name="street2"
             render={({ field }) => (
               <FormItem className="flex-1">
-                <FormLabel>State/Territory</FormLabel>
+                <FormLabel>Street2</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="city"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>City</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="sm:flex sm:items-end sm:gap-x-2 max-sm:space-y-2">
+          <FormField
+            control={form.control}
+            name="zipCode"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Zip</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <StateComboBox form={form} />
+          <CountryComboBox form={form} />
         </div>
 
         <div className="flex items-center gap-x-2">
           <FormField
             control={form.control}
-            name="postCode"
+            name="mobile"
             render={({ field }) => (
               <FormItem className="flex-1">
-                <FormLabel>Postcode</FormLabel>
+                <FormLabel>Mobile</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
-            name="country"
+            name="phone"
             render={({ field }) => (
               <FormItem className="flex-1">
-                <FormLabel>Country</FormLabel>
+                <FormLabel>Phone</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
         </div>
+
         <FormField
           control={form.control}
-          name="default"
+          name="isActive"
           render={({ field }) => (
             <FormItem className="flex items-center gap-x-2">
               <FormControl>

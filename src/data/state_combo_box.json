@@ -1,0 +1,6994 @@
+[
+  {
+    "id": 1174,
+    "display_name": "Tarapacá (CL)"
+  },
+  {
+    "id": 1149,
+    "display_name": "Amazonas (PE)"
+  },
+  {
+    "id": 683,
+    "display_name": "Архангай (MN)"
+  },
+  {
+    "id": 966,
+    "display_name": "Adana (TR)"
+  },
+  {
+    "id": 248,
+    "display_name": "Aveiro (PT)"
+  },
+  {
+    "id": 212,
+    "display_name": "Hokkaido (JP)"
+  },
+  {
+    "id": 1403,
+    "display_name": "Azuay (EC)"
+  },
+  {
+    "id": 203,
+    "display_name": "Aomori (JP)"
+  },
+  {
+    "id": 967,
+    "display_name": "Adıyaman (TR)"
+  },
+  {
+    "id": 249,
+    "display_name": "Beja (PT)"
+  },
+  {
+    "id": 1404,
+    "display_name": "Bolivar (EC)"
+  },
+  {
+    "id": 1175,
+    "display_name": "Antofagasta (CL)"
+  },
+  {
+    "id": 684,
+    "display_name": "Баян-Өлгий (MN)"
+  },
+  {
+    "id": 1150,
+    "display_name": "Áncash (PE)"
+  },
+  {
+    "id": 1151,
+    "display_name": "Apurímac (PE)"
+  },
+  {
+    "id": 1405,
+    "display_name": "Canar (EC)"
+  },
+  {
+    "id": 685,
+    "display_name": "Баянхонгор (MN)"
+  },
+  {
+    "id": 968,
+    "display_name": "Afyonkarahisar (TR)"
+  },
+  {
+    "id": 216,
+    "display_name": "Iwate (JP)"
+  },
+  {
+    "id": 1176,
+    "display_name": "Atacama (CL)"
+  },
+  {
+    "id": 250,
+    "display_name": "Braga (PT)"
+  },
+  {
+    "id": 686,
+    "display_name": "Булган (MN)"
+  },
+  {
+    "id": 1406,
+    "display_name": "Carchi (EC)"
+  },
+  {
+    "id": 1177,
+    "display_name": "Coquimbo (CL)"
+  },
+  {
+    "id": 224,
+    "display_name": "Miyagi (JP)"
+  },
+  {
+    "id": 251,
+    "display_name": "Bragança (PT)"
+  },
+  {
+    "id": 1152,
+    "display_name": "Arequipa (PE)"
+  },
+  {
+    "id": 969,
+    "display_name": "Ağrı (TR)"
+  },
+  {
+    "id": 970,
+    "display_name": "Amasya (TR)"
+  },
+  {
+    "id": 1407,
+    "display_name": "Cotopaxi (EC)"
+  },
+  {
+    "id": 1153,
+    "display_name": "Ayacucho (PE)"
+  },
+  {
+    "id": 202,
+    "display_name": "Akita (JP)"
+  },
+  {
+    "id": 1178,
+    "display_name": "Valparaíso (CL)"
+  },
+  {
+    "id": 252,
+    "display_name": "Castelo Branco (PT)"
+  },
+  {
+    "id": 687,
+    "display_name": "Говь-Алтай (MN)"
+  },
+  {
+    "id": 971,
+    "display_name": "Ankara (TR)"
+  },
+  {
+    "id": 253,
+    "display_name": "Coimbra (PT)"
+  },
+  {
+    "id": 1408,
+    "display_name": "Chimborazo (EC)"
+  },
+  {
+    "id": 688,
+    "display_name": "Дорноговь (MN)"
+  },
+  {
+    "id": 245,
+    "display_name": "Yamagata (JP)"
+  },
+  {
+    "id": 1154,
+    "display_name": "Cajamarca (PE)"
+  },
+  {
+    "id": 1179,
+    "display_name": "del Libertador Gral. Bernardo O'Higgins (CL)"
+  },
+  {
+    "id": 1409,
+    "display_name": "El Oro (EC)"
+  },
+  {
+    "id": 689,
+    "display_name": "Дорнод (MN)"
+  },
+  {
+    "id": 972,
+    "display_name": "Antalya (TR)"
+  },
+  {
+    "id": 1155,
+    "display_name": "Callao (PE)"
+  },
+  {
+    "id": 254,
+    "display_name": "Évora (PT)"
+  },
+  {
+    "id": 1180,
+    "display_name": "del Maule (CL)"
+  },
+  {
+    "id": 208,
+    "display_name": "Fukushima (JP)"
+  },
+  {
+    "id": 1410,
+    "display_name": "Esmeraldas (EC)"
+  },
+  {
+    "id": 214,
+    "display_name": "Ibaraki (JP)"
+  },
+  {
+    "id": 690,
+    "display_name": "Дундговь (MN)"
+  },
+  {
+    "id": 1156,
+    "display_name": "Cusco (PE)"
+  },
+  {
+    "id": 1181,
+    "display_name": "del BíoBio (CL)"
+  },
+  {
+    "id": 973,
+    "display_name": "Artvin (TR)"
+  },
+  {
+    "id": 255,
+    "display_name": "Faro (PT)"
+  },
+  {
+    "id": 1411,
+    "display_name": "Guayas (EC)"
+  },
+  {
+    "id": 1157,
+    "display_name": "Huancavelica (PE)"
+  },
+  {
+    "id": 691,
+    "display_name": "Завхан (MN)"
+  },
+  {
+    "id": 239,
+    "display_name": "Tochigi (JP)"
+  },
+  {
+    "id": 1182,
+    "display_name": "de la Araucania (CL)"
+  },
+  {
+    "id": 974,
+    "display_name": "Aydın (TR)"
+  },
+  {
+    "id": 256,
+    "display_name": "Guarda (PT)"
+  },
+  {
+    "id": 1110,
+    "display_name": "San José (CR)"
+  },
+  {
+    "id": 257,
+    "display_name": "Leiria (PT)"
+  },
+  {
+    "id": 692,
+    "display_name": "Өвөрхангай (MN)"
+  },
+  {
+    "id": 210,
+    "display_name": "Gunma (JP)"
+  },
+  {
+    "id": 1412,
+    "display_name": "Imbabura (EC)"
+  },
+  {
+    "id": 1183,
+    "display_name": "de los Lagos (CL)"
+  },
+  {
+    "id": 975,
+    "display_name": "Balıkesir (TR)"
+  },
+  {
+    "id": 1158,
+    "display_name": "Huánuco (PE)"
+  },
+  {
+    "id": 258,
+    "display_name": "Lisboa (PT)"
+  },
+  {
+    "id": 693,
+    "display_name": "Өмнөговь (MN)"
+  },
+  {
+    "id": 976,
+    "display_name": "Bilecik (TR)"
+  },
+  {
+    "id": 1184,
+    "display_name": "Aysén del Gral. Carlos Ibáñez del Campo (CL)"
+  },
+  {
+    "id": 1413,
+    "display_name": "Loja (EC)"
+  },
+  {
+    "id": 235,
+    "display_name": "Saitama (JP)"
+  },
+  {
+    "id": 1159,
+    "display_name": "Ica (PE)"
+  },
+  {
+    "id": 259,
+    "display_name": "Portalegre (PT)"
+  },
+  {
+    "id": 694,
+    "display_name": "Сүхбаатар (MN)"
+  },
+  {
+    "id": 1160,
+    "display_name": "Junin (PE)"
+  },
+  {
+    "id": 977,
+    "display_name": "Bingöl (TR)"
+  },
+  {
+    "id": 1414,
+    "display_name": "Los Rios (EC)"
+  },
+  {
+    "id": 1185,
+    "display_name": "Magallanes (CL)"
+  },
+  {
+    "id": 204,
+    "display_name": "Chiba (JP)"
+  },
+  {
+    "id": 260,
+    "display_name": "Porto (PT)"
+  },
+  {
+    "id": 695,
+    "display_name": "Сэлэнгэ (MN)"
+  },
+  {
+    "id": 978,
+    "display_name": "Bitlis (TR)"
+  },
+  {
+    "id": 243,
+    "display_name": "Tokyo (JP)"
+  },
+  {
+    "id": 1161,
+    "display_name": "La Libertad (PE)"
+  },
+  {
+    "id": 1186,
+    "display_name": "Metropolitana (CL)"
+  },
+  {
+    "id": 1415,
+    "display_name": "Manabi (EC)"
+  },
+  {
+    "id": 1187,
+    "display_name": "Los Ríos (CL)"
+  },
+  {
+    "id": 1416,
+    "display_name": "Morona Santiago (EC)"
+  },
+  {
+    "id": 979,
+    "display_name": "Bolu (TR)"
+  },
+  {
+    "id": 696,
+    "display_name": "Төв (MN)"
+  },
+  {
+    "id": 219,
+    "display_name": "Kanagawa (JP)"
+  },
+  {
+    "id": 261,
+    "display_name": "Santarém (PT)"
+  },
+  {
+    "id": 1162,
+    "display_name": "Lambayeque (PE)"
+  },
+  {
+    "id": 1417,
+    "display_name": "Napo (EC)"
+  },
+  {
+    "id": 1163,
+    "display_name": "Lima (PE)"
+  },
+  {
+    "id": 980,
+    "display_name": "Burdur (TR)"
+  },
+  {
+    "id": 1188,
+    "display_name": "Arica y Parinacota (CL)"
+  },
+  {
+    "id": 697,
+    "display_name": "Увс (MN)"
+  },
+  {
+    "id": 262,
+    "display_name": "Setúbal (PT)"
+  },
+  {
+    "id": 229,
+    "display_name": "Niigata (JP)"
+  },
+  {
+    "id": 1164,
+    "display_name": "Loreto (PE)"
+  },
+  {
+    "id": 242,
+    "display_name": "Toyama (JP)"
+  },
+  {
+    "id": 698,
+    "display_name": "Ховд (MN)"
+  },
+  {
+    "id": 1189,
+    "display_name": "del Ñuble (CL)"
+  },
+  {
+    "id": 263,
+    "display_name": "Viana do Castelo (PT)"
+  },
+  {
+    "id": 981,
+    "display_name": "Bursa (TR)"
+  },
+  {
+    "id": 1418,
+    "display_name": "Pastaza (EC)"
+  },
+  {
+    "id": 1419,
+    "display_name": "Pichincha (EC)"
+  },
+  {
+    "id": 982,
+    "display_name": "Çanakkale (TR)"
+  },
+  {
+    "id": 1165,
+    "display_name": "Madre de Dios (PE)"
+  },
+  {
+    "id": 699,
+    "display_name": "Хөвсгөл (MN)"
+  },
+  {
+    "id": 264,
+    "display_name": "Vila Real (PT)"
+  },
+  {
+    "id": 215,
+    "display_name": "Ishikawa (JP)"
+  },
+  {
+    "id": 983,
+    "display_name": "Çankırı (TR)"
+  },
+  {
+    "id": 700,
+    "display_name": "Хэнтий (MN)"
+  },
+  {
+    "id": 1420,
+    "display_name": "Tungurahua (EC)"
+  },
+  {
+    "id": 265,
+    "display_name": "Viseu (PT)"
+  },
+  {
+    "id": 1166,
+    "display_name": "Moquegua (PE)"
+  },
+  {
+    "id": 206,
+    "display_name": "Fukui (JP)"
+  },
+  {
+    "id": 247,
+    "display_name": "Yamanashi (JP)"
+  },
+  {
+    "id": 1421,
+    "display_name": "Zamora Chinchipe (EC)"
+  },
+  {
+    "id": 1167,
+    "display_name": "Pasco (PE)"
+  },
+  {
+    "id": 984,
+    "display_name": "Çorum (TR)"
+  },
+  {
+    "id": 701,
+    "display_name": "Дархан-Уул (MN)"
+  },
+  {
+    "id": 1111,
+    "display_name": "Alajuela (CR)"
+  },
+  {
+    "id": 226,
+    "display_name": "Nagano (JP)"
+  },
+  {
+    "id": 985,
+    "display_name": "Denizli (TR)"
+  },
+  {
+    "id": 702,
+    "display_name": "Орхон (MN)"
+  },
+  {
+    "id": 1168,
+    "display_name": "Piura (PE)"
+  },
+  {
+    "id": 266,
+    "display_name": "Açores (PT)"
+  },
+  {
+    "id": 1422,
+    "display_name": "Galapagos (EC)"
+  },
+  {
+    "id": 1423,
+    "display_name": "Sucumbios (EC)"
+  },
+  {
+    "id": 209,
+    "display_name": "Gifu (JP)"
+  },
+  {
+    "id": 986,
+    "display_name": "Diyarbakır (TR)"
+  },
+  {
+    "id": 1169,
+    "display_name": "Puno (PE)"
+  },
+  {
+    "id": 987,
+    "display_name": "Edirne (TR)"
+  },
+  {
+    "id": 1170,
+    "display_name": "San Martín (PE)"
+  },
+  {
+    "id": 238,
+    "display_name": "Shizuoka (JP)"
+  },
+  {
+    "id": 1424,
+    "display_name": "Orellana (EC)"
+  },
+  {
+    "id": 988,
+    "display_name": "Elazığ (TR)"
+  },
+  {
+    "id": 1425,
+    "display_name": "Santo Domingo de los Tsachilas (EC)"
+  },
+  {
+    "id": 703,
+    "display_name": "УБ - Хан Уул (MN)"
+  },
+  {
+    "id": 201,
+    "display_name": "Aichi (JP)"
+  },
+  {
+    "id": 1171,
+    "display_name": "Tacna (PE)"
+  },
+  {
+    "id": 1172,
+    "display_name": "Tumbes (PE)"
+  },
+  {
+    "id": 223,
+    "display_name": "Mie (JP)"
+  },
+  {
+    "id": 1426,
+    "display_name": "Santa Elena (EC)"
+  },
+  {
+    "id": 704,
+    "display_name": "УБ - Баянзүрх (MN)"
+  },
+  {
+    "id": 989,
+    "display_name": "Erzincan (TR)"
+  },
+  {
+    "id": 705,
+    "display_name": "УБ - Сүхбаатар (MN)"
+  },
+  {
+    "id": 990,
+    "display_name": "Erzurum (TR)"
+  },
+  {
+    "id": 1173,
+    "display_name": "Ucayali (PE)"
+  },
+  {
+    "id": 236,
+    "display_name": "Shiga (JP)"
+  },
+  {
+    "id": 991,
+    "display_name": "Eskişehir (TR)"
+  },
+  {
+    "id": 222,
+    "display_name": "Kyoto (JP)"
+  },
+  {
+    "id": 706,
+    "display_name": "УБ - Баянгол (MN)"
+  },
+  {
+    "id": 233,
+    "display_name": "Osaka (JP)"
+  },
+  {
+    "id": 707,
+    "display_name": "УБ - Багануур (MN)"
+  },
+  {
+    "id": 992,
+    "display_name": "Gaziantep (TR)"
+  },
+  {
+    "id": 993,
+    "display_name": "Giresun (TR)"
+  },
+  {
+    "id": 708,
+    "display_name": "УБ - Багахангай (MN)"
+  },
+  {
+    "id": 213,
+    "display_name": "Hyogo (JP)"
+  },
+  {
+    "id": 709,
+    "display_name": "УБ - Налайх (MN)"
+  },
+  {
+    "id": 994,
+    "display_name": "Gümüşhane (TR)"
+  },
+  {
+    "id": 228,
+    "display_name": "Nara (JP)"
+  },
+  {
+    "id": 1113,
+    "display_name": "Cartago (CR)"
+  },
+  {
+    "id": 995,
+    "display_name": "Hakkari (TR)"
+  },
+  {
+    "id": 244,
+    "display_name": "Wakayama (JP)"
+  },
+  {
+    "id": 267,
+    "display_name": "Madeira (PT)"
+  },
+  {
+    "id": 996,
+    "display_name": "Hatay (TR)"
+  },
+  {
+    "id": 241,
+    "display_name": "Tottori (JP)"
+  },
+  {
+    "id": 997,
+    "display_name": "Isparta (TR)"
+  },
+  {
+    "id": 710,
+    "display_name": "Говьсүмбэр (MN)"
+  },
+  {
+    "id": 237,
+    "display_name": "Shimane (JP)"
+  },
+  {
+    "id": 231,
+    "display_name": "Okayama (JP)"
+  },
+  {
+    "id": 998,
+    "display_name": "Mersin (TR)"
+  },
+  {
+    "id": 211,
+    "display_name": "Hiroshima (JP)"
+  },
+  {
+    "id": 711,
+    "display_name": "УБ - Сонгино Хайрхан (MN)"
+  },
+  {
+    "id": 999,
+    "display_name": "İstanbul (TR)"
+  },
+  {
+    "id": 1000,
+    "display_name": "İzmir (TR)"
+  },
+  {
+    "id": 246,
+    "display_name": "Yamaguchi (JP)"
+  },
+  {
+    "id": 712,
+    "display_name": "УБ - Чингэлтэй (MN)"
+  },
+  {
+    "id": 240,
+    "display_name": "Tokushima (JP)"
+  },
+  {
+    "id": 1001,
+    "display_name": "Kars (TR)"
+  },
+  {
+    "id": 1002,
+    "display_name": "Kastamonu (TR)"
+  },
+  {
+    "id": 217,
+    "display_name": "Kagawa (JP)"
+  },
+  {
+    "id": 1003,
+    "display_name": "Kayseri (TR)"
+  },
+  {
+    "id": 205,
+    "display_name": "Ehime (JP)"
+  },
+  {
+    "id": 220,
+    "display_name": "Kochi (JP)"
+  },
+  {
+    "id": 1004,
+    "display_name": "Kırklareli (TR)"
+  },
+  {
+    "id": 1112,
+    "display_name": "Heredia (CR)"
+  },
+  {
+    "id": 1005,
+    "display_name": "Kırşehir (TR)"
+  },
+  {
+    "id": 207,
+    "display_name": "Fukuoka (JP)"
+  },
+  {
+    "id": 234,
+    "display_name": "Saga (JP)"
+  },
+  {
+    "id": 1006,
+    "display_name": "Kocaeli (TR)"
+  },
+  {
+    "id": 1007,
+    "display_name": "Konya (TR)"
+  },
+  {
+    "id": 227,
+    "display_name": "Nagasaki (JP)"
+  },
+  {
+    "id": 221,
+    "display_name": "Kumamoto (JP)"
+  },
+  {
+    "id": 1008,
+    "display_name": "Kütahya (TR)"
+  },
+  {
+    "id": 230,
+    "display_name": "Oita (JP)"
+  },
+  {
+    "id": 1009,
+    "display_name": "Malatya (TR)"
+  },
+  {
+    "id": 225,
+    "display_name": "Miyazaki (JP)"
+  },
+  {
+    "id": 1010,
+    "display_name": "Manisa (TR)"
+  },
+  {
+    "id": 1011,
+    "display_name": "Kahramanmaraş (TR)"
+  },
+  {
+    "id": 218,
+    "display_name": "Kagoshima (JP)"
+  },
+  {
+    "id": 232,
+    "display_name": "Okinawa (JP)"
+  },
+  {
+    "id": 1012,
+    "display_name": "Mardin (TR)"
+  },
+  {
+    "id": 1013,
+    "display_name": "Muğla (TR)"
+  },
+  {
+    "id": 1014,
+    "display_name": "Muş (TR)"
+  },
+  {
+    "id": 1115,
+    "display_name": "Guanacaste (CR)"
+  },
+  {
+    "id": 1015,
+    "display_name": "Nevşehir (TR)"
+  },
+  {
+    "id": 1016,
+    "display_name": "Niğde (TR)"
+  },
+  {
+    "id": 1017,
+    "display_name": "Ordu (TR)"
+  },
+  {
+    "id": 1018,
+    "display_name": "Rize (TR)"
+  },
+  {
+    "id": 1019,
+    "display_name": "Sakarya (TR)"
+  },
+  {
+    "id": 1020,
+    "display_name": "Samsun (TR)"
+  },
+  {
+    "id": 1021,
+    "display_name": "Siirt (TR)"
+  },
+  {
+    "id": 1022,
+    "display_name": "Sinop (TR)"
+  },
+  {
+    "id": 1023,
+    "display_name": "Sivas (TR)"
+  },
+  {
+    "id": 1024,
+    "display_name": "Tekirdağ (TR)"
+  },
+  {
+    "id": 1114,
+    "display_name": "Puntarenas (CR)"
+  },
+  {
+    "id": 1025,
+    "display_name": "Tokat (TR)"
+  },
+  {
+    "id": 1026,
+    "display_name": "Trabzon (TR)"
+  },
+  {
+    "id": 1027,
+    "display_name": "Tunceli (TR)"
+  },
+  {
+    "id": 1028,
+    "display_name": "Şanlıurfa (TR)"
+  },
+  {
+    "id": 1029,
+    "display_name": "Uşak (TR)"
+  },
+  {
+    "id": 1030,
+    "display_name": "Van (TR)"
+  },
+  {
+    "id": 1031,
+    "display_name": "Yozgat (TR)"
+  },
+  {
+    "id": 1032,
+    "display_name": "Zonguldak (TR)"
+  },
+  {
+    "id": 1033,
+    "display_name": "Aksaray (TR)"
+  },
+  {
+    "id": 1034,
+    "display_name": "Bayburt (TR)"
+  },
+  {
+    "id": 1116,
+    "display_name": "Limón (CR)"
+  },
+  {
+    "id": 1035,
+    "display_name": "Karaman (TR)"
+  },
+  {
+    "id": 1036,
+    "display_name": "Kırıkkale (TR)"
+  },
+  {
+    "id": 1037,
+    "display_name": "Batman (TR)"
+  },
+  {
+    "id": 1038,
+    "display_name": "Şırnak (TR)"
+  },
+  {
+    "id": 1039,
+    "display_name": "Bartın (TR)"
+  },
+  {
+    "id": 1040,
+    "display_name": "Ardahan (TR)"
+  },
+  {
+    "id": 1041,
+    "display_name": "Iğdır (TR)"
+  },
+  {
+    "id": 1042,
+    "display_name": "Yalova (TR)"
+  },
+  {
+    "id": 1043,
+    "display_name": "Karabük (TR)"
+  },
+  {
+    "id": 1044,
+    "display_name": "Kilis (TR)"
+  },
+  {
+    "id": 1045,
+    "display_name": "Osmaniye (TR)"
+  },
+  {
+    "id": 1046,
+    "display_name": "Düzce (TR)"
+  },
+  {
+    "id": 569,
+    "display_name": "Salta (AR)"
+  },
+  {
+    "id": 420,
+    "display_name": "Alacant (Alicante) (ES)"
+  },
+  {
+    "id": 713,
+    "display_name": "Aberdeenshire (GB)"
+  },
+  {
+    "id": 714,
+    "display_name": "Angus (GB)"
+  },
+  {
+    "id": 715,
+    "display_name": "Argyll (GB)"
+  },
+  {
+    "id": 716,
+    "display_name": "Avon (GB)"
+  },
+  {
+    "id": 908,
+    "display_name": "Addis Ababa (ET)"
+  },
+  {
+    "id": 68,
+    "display_name": "Armed Forces Americas (US)"
+  },
+  {
+    "id": 533,
+    "display_name": "Alberta (CA)"
+  },
+  {
+    "id": 832,
+    "display_name": "Alba (RO)"
+  },
+  {
+    "id": 419,
+    "display_name": "Albacete (ES)"
+  },
+  {
+    "id": 1576,
+    "display_name": "Abqaiq (SA)"
+  },
+  {
+    "id": 1579,
+    "display_name": "Al Baha (SA)"
+  },
+  {
+    "id": 613,
+    "display_name": "Aceh (ID)"
+  },
+  {
+    "id": 71,
+    "display_name": "Acre (BR)"
+  },
+  {
+    "id": 1,
+    "display_name": "Australian Capital Territory (AU)"
+  },
+  {
+    "id": 98,
+    "display_name": "Republic of Adygeya (RU)"
+  },
+  {
+    "id": 69,
+    "display_name": "Armed Forces Europe (US)"
+  },
+  {
+    "id": 909,
+    "display_name": "Afar (ET)"
+  },
+  {
+    "id": 1478,
+    "display_name": "Aargau (CH)"
+  },
+  {
+    "id": 833,
+    "display_name": "Argeș (RO)"
+  },
+  {
+    "id": 306,
+    "display_name": "Agrigento (IT)"
+  },
+  {
+    "id": 1480,
+    "display_name": "Argovie (CH)"
+  },
+  {
+    "id": 1479,
+    "display_name": "Argovia (CH)"
+  },
+  {
+    "id": 485,
+    "display_name": "Aguascalientes (MX)"
+  },
+  {
+    "id": 946,
+    "display_name": "Armagh (IE)"
+  },
+  {
+    "id": 1581,
+    "display_name": "Al Hada (SA)"
+  },
+  {
+    "id": 1575,
+    "display_name": "Abha (SA)"
+  },
+  {
+    "id": 1469,
+    "display_name": "Appenzell Innerrhoden (CH)"
+  },
+  {
+    "id": 1471,
+    "display_name": "Appenzell Rhodes-Intérieures (CH)"
+  },
+  {
+    "id": 1470,
+    "display_name": "Appenzello Interno (CH)"
+  },
+  {
+    "id": 547,
+    "display_name": "Ajman (AE)"
+  },
+  {
+    "id": 1618,
+    "display_name": "Jouf (SA)"
+  },
+  {
+    "id": 10,
+    "display_name": "Alaska (US)"
+  },
+  {
+    "id": 1586,
+    "display_name": "Al Kharj (SA)"
+  },
+  {
+    "id": 307,
+    "display_name": "Alessandria (IT)"
+  },
+  {
+    "id": 99,
+    "display_name": "Altai Republic (RU)"
+  },
+  {
+    "id": 421,
+    "display_name": "Almería (ES)"
+  },
+  {
+    "id": 9,
+    "display_name": "Alabama (US)"
+  },
+  {
+    "id": 72,
+    "display_name": "Alagoas (BR)"
+  },
+  {
+    "id": 1583,
+    "display_name": "Al Hasa (SA)"
+  },
+  {
+    "id": 1588,
+    "display_name": "Al Khobar (SA)"
+  },
+  {
+    "id": 100,
+    "display_name": "Altai Krai (RU)"
+  },
+  {
+    "id": 273,
+    "display_name": "Alexandria (EG)"
+  },
+  {
+    "id": 910,
+    "display_name": "Amhara (ET)"
+  },
+  {
+    "id": 74,
+    "display_name": "Amazonas (BR)"
+  },
+  {
+    "id": 945,
+    "display_name": "Antrim (IE)"
+  },
+  {
+    "id": 678,
+    "display_name": "Amazonas (CO)"
+  },
+  {
+    "id": 1590,
+    "display_name": "Al Muajjiz (SA)"
+  },
+  {
+    "id": 101,
+    "display_name": "Amur Oblast (RU)"
+  },
+  {
+    "id": 308,
+    "display_name": "Ancona (IT)"
+  },
+  {
+    "id": 577,
+    "display_name": "Andaman and Nicobar (IN)"
+  },
+  {
+    "id": 650,
+    "display_name": "Antioquia (CO)"
+  },
+  {
+    "id": 309,
+    "display_name": "Aosta (IT)"
+  },
+  {
+    "id": 311,
+    "display_name": "Ascoli Piceno (IT)"
+  },
+  {
+    "id": 578,
+    "display_name": "Andhra Pradesh (IN)"
+  },
+  {
+    "id": 73,
+    "display_name": "Amapá (BR)"
+  },
+  {
+    "id": 70,
+    "display_name": "Armed Forces Pacific (US)"
+  },
+  {
+    "id": 350,
+    "display_name": "L'Aquila (IT)"
+  },
+  {
+    "id": 1634,
+    "display_name": "Qaisumah (SA)"
+  },
+  {
+    "id": 1587,
+    "display_name": "Al Khobar (SA)"
+  },
+  {
+    "id": 310,
+    "display_name": "Arezzo (IT)"
+  },
+  {
+    "id": 579,
+    "display_name": "Arunachal Pradesh (IN)"
+  },
+  {
+    "id": 1466,
+    "display_name": "Appenzell Ausserrhoden (CH)"
+  },
+  {
+    "id": 1668,
+    "display_name": "Artigas (UY)"
+  },
+  {
+    "id": 834,
+    "display_name": "Arad (RO)"
+  },
+  {
+    "id": 12,
+    "display_name": "Arkansas (US)"
+  },
+  {
+    "id": 1468,
+    "display_name": "Appenzell Rhodes-Extérieures (CH)"
+  },
+  {
+    "id": 1467,
+    "display_name": "Appenzello Esterno (CH)"
+  },
+  {
+    "id": 674,
+    "display_name": "Arauca (CO)"
+  },
+  {
+    "id": 102,
+    "display_name": "Arkhangelsk Oblast (RU)"
+  },
+  {
+    "id": 1596,
+    "display_name": "Ar Rass (SA)"
+  },
+  {
+    "id": 580,
+    "display_name": "Assam (IN)"
+  },
+  {
+    "id": 60,
+    "display_name": "American Samoa (US)"
+  },
+  {
+    "id": 1598,
+    "display_name": "Asfan (SA)"
+  },
+  {
+    "id": 285,
+    "display_name": "Aswan (EG)"
+  },
+  {
+    "id": 1594,
+    "display_name": "Al Shuqaiq (SA)"
+  },
+  {
+    "id": 103,
+    "display_name": "Astrakhan Oblast (RU)"
+  },
+  {
+    "id": 286,
+    "display_name": "Asyut (EG)"
+  },
+  {
+    "id": 312,
+    "display_name": "Asti (IT)"
+  },
+  {
+    "id": 651,
+    "display_name": "Atlántico (CO)"
+  },
+  {
+    "id": 517,
+    "display_name": "Auckland (NZ)"
+  },
+  {
+    "id": 1595,
+    "display_name": "Al 'Uthmaniyah (SA)"
+  },
+  {
+    "id": 313,
+    "display_name": "Avellino (IT)"
+  },
+  {
+    "id": 423,
+    "display_name": "Ávila (ES)"
+  },
+  {
+    "id": 179,
+    "display_name": "Alta Verapaz (GT)"
+  },
+  {
+    "id": 1662,
+    "display_name": "Waisumah (SA)"
+  },
+  {
+    "id": 11,
+    "display_name": "Arizona (US)"
+  },
+  {
+    "id": 546,
+    "display_name": "Abu Dhabi (AE)"
+  },
+  {
+    "id": 1118,
+    "display_name": "Azua (DO)"
+  },
+  {
+    "id": 554,
+    "display_name": "Buenos Aires (AR)"
+  },
+  {
+    "id": 835,
+    "display_name": "București (RO)"
+  },
+  {
+    "id": 426,
+    "display_name": "Barcelona (ES)"
+  },
+  {
+    "id": 717,
+    "display_name": "Ayrshire (GB)"
+  },
+  {
+    "id": 718,
+    "display_name": "Banffshire (GB)"
+  },
+  {
+    "id": 719,
+    "display_name": "Bedfordshire (GB)"
+  },
+  {
+    "id": 720,
+    "display_name": "Berkshire (GB)"
+  },
+  {
+    "id": 721,
+    "display_name": "Berwickshire (GB)"
+  },
+  {
+    "id": 314,
+    "display_name": "Bari (IT)"
+  },
+  {
+    "id": 269,
+    "display_name": "Red Sea (EG)"
+  },
+  {
+    "id": 424,
+    "display_name": "Badajoz (ES)"
+  },
+  {
+    "id": 104,
+    "display_name": "Republic of Bashkortostan (RU)"
+  },
+  {
+    "id": 75,
+    "display_name": "Bahia (BR)"
+  },
+  {
+    "id": 614,
+    "display_name": "Bali (ID)"
+  },
+  {
+    "id": 1580,
+    "display_name": "Al Bahah (SA)"
+  },
+  {
+    "id": 1119,
+    "display_name": "Bahoruco (DO)"
+  },
+  {
+    "id": 1120,
+    "display_name": "Barahona (DO)"
+  },
+  {
+    "id": 615,
+    "display_name": "Bangka Belitung (ID)"
+  },
+  {
+    "id": 836,
+    "display_name": "Bacău (RO)"
+  },
+  {
+    "id": 534,
+    "display_name": "British Columbia (CA)"
+  },
+  {
+    "id": 486,
+    "display_name": "Baja California (MX)"
+  },
+  {
+    "id": 487,
+    "display_name": "Baja California Sur (MX)"
+  },
+  {
+    "id": 1599,
+    "display_name": "Badanah (SA)"
+  },
+  {
+    "id": 617,
+    "display_name": "Bengkulu (ID)"
+  },
+  {
+    "id": 1430,
+    "display_name": "Bern (CH)"
+  },
+  {
+    "id": 1432,
+    "display_name": "Berne (CH)"
+  },
+  {
+    "id": 1431,
+    "display_name": "Berna (CH)"
+  },
+  {
+    "id": 105,
+    "display_name": "Belgorod Oblast (RU)"
+  },
+  {
+    "id": 318,
+    "display_name": "Bergamo (IT)"
+  },
+  {
+    "id": 270,
+    "display_name": "Beheira (EG)"
+  },
+  {
+    "id": 837,
+    "display_name": "Bihor (RO)"
+  },
+  {
+    "id": 1600,
+    "display_name": "Bisha (SA)"
+  },
+  {
+    "id": 319,
+    "display_name": "Biella (IT)"
+  },
+  {
+    "id": 466,
+    "display_name": "Bizkaia (Vizcaya) (ES)"
+  },
+  {
+    "id": 316,
+    "display_name": "Belluno (IT)"
+  },
+  {
+    "id": 1460,
+    "display_name": "Basel-Landschaft (CH)"
+  },
+  {
+    "id": 1462,
+    "display_name": "Bâle-Campagne (CH)"
+  },
+  {
+    "id": 1461,
+    "display_name": "Basilea-Campagna (CH)"
+  },
+  {
+    "id": 838,
+    "display_name": "Bistrița-Năsăud (RO)"
+  },
+  {
+    "id": 317,
+    "display_name": "Benevento (IT)"
+  },
+  {
+    "id": 911,
+    "display_name": "Benishangul-Gumuz (ET)"
+  },
+  {
+    "id": 287,
+    "display_name": "Beni Suef (EG)"
+  },
+  {
+    "id": 320,
+    "display_name": "Bologna (IT)"
+  },
+  {
+    "id": 653,
+    "display_name": "Bolívar (CO)"
+  },
+  {
+    "id": 518,
+    "display_name": "Bay of Plenty (NZ)"
+  },
+  {
+    "id": 654,
+    "display_name": "Boyacá (CO)"
+  },
+  {
+    "id": 963,
+    "display_name": "Bonaire (NL)"
+  },
+  {
+    "id": 964,
+    "display_name": "Saba (NL)"
+  },
+  {
+    "id": 965,
+    "display_name": "Sint Eustatius (NL)"
+  },
+  {
+    "id": 323,
+    "display_name": "Brindisi (IT)"
+  },
+  {
+    "id": 581,
+    "display_name": "Bihar (IN)"
+  },
+  {
+    "id": 839,
+    "display_name": "Brăila (RO)"
+  },
+  {
+    "id": 1601,
+    "display_name": "Buraydah (SA)"
+  },
+  {
+    "id": 106,
+    "display_name": "Bryansk Oblast (RU)"
+  },
+  {
+    "id": 322,
+    "display_name": "Brescia (IT)"
+  },
+  {
+    "id": 1457,
+    "display_name": "Basel-Stadt (CH)"
+  },
+  {
+    "id": 1459,
+    "display_name": "Bâle-Ville (CH)"
+  },
+  {
+    "id": 1458,
+    "display_name": "Basilea-Città (CH)"
+  },
+  {
+    "id": 616,
+    "display_name": "Banten (ID)"
+  },
+  {
+    "id": 315,
+    "display_name": "Barletta-Andria-Trani (IT)"
+  },
+  {
+    "id": 840,
+    "display_name": "Botoșani (RO)"
+  },
+  {
+    "id": 427,
+    "display_name": "Burgos (ES)"
+  },
+  {
+    "id": 107,
+    "display_name": "Republic of Buryatia (RU)"
+  },
+  {
+    "id": 1602,
+    "display_name": "Buraydah (SA)"
+  },
+  {
+    "id": 841,
+    "display_name": "Brașov (RO)"
+  },
+  {
+    "id": 180,
+    "display_name": "Baja Verapaz (GT)"
+  },
+  {
+    "id": 842,
+    "display_name": "Buzău (RO)"
+  },
+  {
+    "id": 321,
+    "display_name": "Bolzano (IT)"
+  },
+  {
+    "id": 417,
+    "display_name": "A Coruña (La Coruña) (ES)"
+  },
+  {
+    "id": 553,
+    "display_name": "Ciudad Autónoma de Buenos Aires (AR)"
+  },
+  {
+    "id": 278,
+    "display_name": "Cairo (EG)"
+  },
+  {
+    "id": 922,
+    "display_name": "Cork (IE)"
+  },
+  {
+    "id": 722,
+    "display_name": "Buckinghamshire (GB)"
+  },
+  {
+    "id": 723,
+    "display_name": "Caithness (GB)"
+  },
+  {
+    "id": 724,
+    "display_name": "Cambridgeshire (GB)"
+  },
+  {
+    "id": 725,
+    "display_name": "Channel Islands (GB)"
+  },
+  {
+    "id": 726,
+    "display_name": "Cheshire (GB)"
+  },
+  {
+    "id": 727,
+    "display_name": "Clackmannanshire (GB)"
+  },
+  {
+    "id": 1669,
+    "display_name": "Canelones (UY)"
+  },
+  {
+    "id": 429,
+    "display_name": "Cádiz (ES)"
+  },
+  {
+    "id": 13,
+    "display_name": "California (US)"
+  },
+  {
+    "id": 324,
+    "display_name": "Cagliari (IT)"
+  },
+  {
+    "id": 655,
+    "display_name": "Caldas (CO)"
+  },
+  {
+    "id": 490,
+    "display_name": "Campeche (MX)"
+  },
+  {
+    "id": 519,
+    "display_name": "Canterbury (NZ)"
+  },
+  {
+    "id": 656,
+    "display_name": "Caquetá (CO)"
+  },
+  {
+    "id": 675,
+    "display_name": "Casanare (CO)"
+  },
+  {
+    "id": 657,
+    "display_name": "Cauca (CO)"
+  },
+  {
+    "id": 326,
+    "display_name": "Campobasso (IT)"
+  },
+  {
+    "id": 428,
+    "display_name": "Cáceres (ES)"
+  },
+  {
+    "id": 76,
+    "display_name": "Ceará (BR)"
+  },
+  {
+    "id": 432,
+    "display_name": "Ceuta (ES)"
+  },
+  {
+    "id": 921,
+    "display_name": "Clare (IE)"
+  },
+  {
+    "id": 328,
+    "display_name": "Caserta (IT)"
+  },
+  {
+    "id": 108,
+    "display_name": "Chechen Republic (RU)"
+  },
+  {
+    "id": 658,
+    "display_name": "Cesar (CO)"
+  },
+  {
+    "id": 583,
+    "display_name": "Chattisgarh (IN)"
+  },
+  {
+    "id": 331,
+    "display_name": "Chieti (IT)"
+  },
+  {
+    "id": 582,
+    "display_name": "Chandigarh (IN)"
+  },
+  {
+    "id": 109,
+    "display_name": "Chelyabinsk Oblast (RU)"
+  },
+  {
+    "id": 488,
+    "display_name": "Chihuahua (MX)"
+  },
+  {
+    "id": 661,
+    "display_name": "Chocó (CO)"
+  },
+  {
+    "id": 492,
+    "display_name": "Chiapas (MX)"
+  },
+  {
+    "id": 110,
+    "display_name": "Chukotka Autonomous Okrug (RU)"
+  },
+  {
+    "id": 327,
+    "display_name": "Carbonia-Iglesias (IT)"
+  },
+  {
+    "id": 843,
+    "display_name": "Cluj (RO)"
+  },
+  {
+    "id": 325,
+    "display_name": "Caltanissetta (IT)"
+  },
+  {
+    "id": 844,
+    "display_name": "Călărași (RO)"
+  },
+  {
+    "id": 1670,
+    "display_name": "Cerro Largo (UY)"
+  },
+  {
+    "id": 181,
+    "display_name": "Chimaltenango (GT)"
+  },
+  {
+    "id": 493,
+    "display_name": "Ciudad de México (MX)"
+  },
+  {
+    "id": 920,
+    "display_name": "Cavan (IE)"
+  },
+  {
+    "id": 336,
+    "display_name": "Cuneo (IT)"
+  },
+  {
+    "id": 14,
+    "display_name": "Colorado (US)"
+  },
+  {
+    "id": 1671,
+    "display_name": "Colonia (UY)"
+  },
+  {
+    "id": 434,
+    "display_name": "Córdoba (ES)"
+  },
+  {
+    "id": 332,
+    "display_name": "Como (IT)"
+  },
+  {
+    "id": 491,
+    "display_name": "Coahuila (MX)"
+  },
+  {
+    "id": 489,
+    "display_name": "Colima (MX)"
+  },
+  {
+    "id": 659,
+    "display_name": "Córdoba (CO)"
+  },
+  {
+    "id": 182,
+    "display_name": "Chiquimula (GT)"
+  },
+  {
+    "id": 334,
+    "display_name": "Cremona (IT)"
+  },
+  {
+    "id": 433,
+    "display_name": "Ciudad Real (ES)"
+  },
+  {
+    "id": 431,
+    "display_name": "Castelló (Castellón) (ES)"
+  },
+  {
+    "id": 845,
+    "display_name": "Caraș Severin (RO)"
+  },
+  {
+    "id": 333,
+    "display_name": "Cosenza (IT)"
+  },
+  {
+    "id": 329,
+    "display_name": "Catania (IT)"
+  },
+  {
+    "id": 15,
+    "display_name": "Connecticut (US)"
+  },
+  {
+    "id": 846,
+    "display_name": "Constanța (RO)"
+  },
+  {
+    "id": 111,
+    "display_name": "Chuvash Republic (RU)"
+  },
+  {
+    "id": 435,
+    "display_name": "Cuenca (ES)"
+  },
+  {
+    "id": 660,
+    "display_name": "Cundinamarca (CO)"
+  },
+  {
+    "id": 847,
+    "display_name": "Covasna (RO)"
+  },
+  {
+    "id": 919,
+    "display_name": "Carlow (IE)"
+  },
+  {
+    "id": 330,
+    "display_name": "Catanzaro (IT)"
+  },
+  {
+    "id": 926,
+    "display_name": "Dublin (IE)"
+  },
+  {
+    "id": 571,
+    "display_name": "San Luis (AR)"
+  },
+  {
+    "id": 728,
+    "display_name": "Cleveland (GB)"
+  },
+  {
+    "id": 729,
+    "display_name": "Clwyd (GB)"
+  },
+  {
+    "id": 730,
+    "display_name": "County Antrim (GB)"
+  },
+  {
+    "id": 731,
+    "display_name": "County Armagh (GB)"
+  },
+  {
+    "id": 732,
+    "display_name": "County Down (GB)"
+  },
+  {
+    "id": 112,
+    "display_name": "Republic of Dagestan (RU)"
+  },
+  {
+    "id": 1121,
+    "display_name": "Dajabón (DO)"
+  },
+  {
+    "id": 1578,
+    "display_name": "Ad Dawadami (SA)"
+  },
+  {
+    "id": 848,
+    "display_name": "Dâmbovița (RO)"
+  },
+  {
+    "id": 17,
+    "display_name": "District of Columbia (US)"
+  },
+  {
+    "id": 652,
+    "display_name": "Bogotá (CO)"
+  },
+  {
+    "id": 585,
+    "display_name": "Daman and Diu (IN)"
+  },
+  {
+    "id": 16,
+    "display_name": "Delaware (US)"
+  },
+  {
+    "id": 1390,
+    "display_name": "Brandenburg (DE)"
+  },
+  {
+    "id": 1389,
+    "display_name": "Berlin (DE)"
+  },
+  {
+    "id": 1387,
+    "display_name": "Baden-Württemberg (DE)"
+  },
+  {
+    "id": 1388,
+    "display_name": "Bayern (DE)"
+  },
+  {
+    "id": 1391,
+    "display_name": "Bremen (DE)"
+  },
+  {
+    "id": 1393,
+    "display_name": "Hessen (DE)"
+  },
+  {
+    "id": 1392,
+    "display_name": "Hamburg (DE)"
+  },
+  {
+    "id": 1394,
+    "display_name": "Mecklenburg-Vorpommern (DE)"
+  },
+  {
+    "id": 1395,
+    "display_name": "Niedersachsen (DE)"
+  },
+  {
+    "id": 1396,
+    "display_name": "Nordrhein-Westfalen (DE)"
+  },
+  {
+    "id": 1397,
+    "display_name": "Rheinland-Pfalz (DE)"
+  },
+  {
+    "id": 1401,
+    "display_name": "Schleswig-Holstein (DE)"
+  },
+  {
+    "id": 1398,
+    "display_name": "Saarland (DE)"
+  },
+  {
+    "id": 1399,
+    "display_name": "Sachsen (DE)"
+  },
+  {
+    "id": 1400,
+    "display_name": "Sachsen-Anhalt (DE)"
+  },
+  {
+    "id": 1402,
+    "display_name": "Thüringen (DE)"
+  },
+  {
+    "id": 77,
+    "display_name": "Distrito Federal (BR)"
+  },
+  {
+    "id": 1603,
+    "display_name": "Dhahran (SA)"
+  },
+  {
+    "id": 1604,
+    "display_name": "Dhuba (SA)"
+  },
+  {
+    "id": 849,
+    "display_name": "Dolj (RO)"
+  },
+  {
+    "id": 268,
+    "display_name": "Dakahlia (EG)"
+  },
+  {
+    "id": 586,
+    "display_name": "Delhi (IN)"
+  },
+  {
+    "id": 925,
+    "display_name": "Donegal (IE)"
+  },
+  {
+    "id": 1577,
+    "display_name": "Ad Dammam (SA)"
+  },
+  {
+    "id": 1117,
+    "display_name": "Distrito Nacional (DO)"
+  },
+  {
+    "id": 584,
+    "display_name": "Dadra and Nagar Haveli (IN)"
+  },
+  {
+    "id": 947,
+    "display_name": "Down (IE)"
+  },
+  {
+    "id": 951,
+    "display_name": "Drenthe (NL)"
+  },
+  {
+    "id": 912,
+    "display_name": "Dire Dawa (ET)"
+  },
+  {
+    "id": 289,
+    "display_name": "Damietta (EG)"
+  },
+  {
+    "id": 548,
+    "display_name": "Dubai (AE)"
+  },
+  {
+    "id": 1672,
+    "display_name": "Durazno (UY)"
+  },
+  {
+    "id": 1122,
+    "display_name": "Duarte (DO)"
+  },
+  {
+    "id": 494,
+    "display_name": "Durango (MX)"
+  },
+  {
+    "id": 560,
+    "display_name": "Entre Ríos (AR)"
+  },
+  {
+    "id": 733,
+    "display_name": "County Durham (GB)"
+  },
+  {
+    "id": 734,
+    "display_name": "County Fermanagh (GB)"
+  },
+  {
+    "id": 735,
+    "display_name": "County Londonderry (GB)"
+  },
+  {
+    "id": 736,
+    "display_name": "County Tyrone (GB)"
+  },
+  {
+    "id": 737,
+    "display_name": "Cornwall (GB)"
+  },
+  {
+    "id": 1633,
+    "display_name": "Nejran (SA)"
+  },
+  {
+    "id": 297,
+    "display_name": "Eastern Cape (ZA)"
+  },
+  {
+    "id": 1190,
+    "display_name": "Harjumaa (EE)"
+  },
+  {
+    "id": 1191,
+    "display_name": "Hiiumaa (EE)"
+  },
+  {
+    "id": 1192,
+    "display_name": "Ida-Virumaa (EE)"
+  },
+  {
+    "id": 1193,
+    "display_name": "Jõgevamaa (EE)"
+  },
+  {
+    "id": 1194,
+    "display_name": "Järvamaa (EE)"
+  },
+  {
+    "id": 1195,
+    "display_name": "Läänemaa (EE)"
+  },
+  {
+    "id": 1196,
+    "display_name": "Lääne-Virumaa (EE)"
+  },
+  {
+    "id": 1197,
+    "display_name": "Põlvamaa (EE)"
+  },
+  {
+    "id": 1198,
+    "display_name": "Pärnumaa (EE)"
+  },
+  {
+    "id": 1199,
+    "display_name": "Raplamaa (EE)"
+  },
+  {
+    "id": 1200,
+    "display_name": "Saaremaa (EE)"
+  },
+  {
+    "id": 1201,
+    "display_name": "Tartumaa (EE)"
+  },
+  {
+    "id": 1202,
+    "display_name": "Valgamaa (EE)"
+  },
+  {
+    "id": 1203,
+    "display_name": "Viljandimaa (EE)"
+  },
+  {
+    "id": 1204,
+    "display_name": "Võrumaa (EE)"
+  },
+  {
+    "id": 1663,
+    "display_name": "Wedjh (SA)"
+  },
+  {
+    "id": 1123,
+    "display_name": "Elías Piña (DO)"
+  },
+  {
+    "id": 1606,
+    "display_name": "Gassim (SA)"
+  },
+  {
+    "id": 1124,
+    "display_name": "El Seibo (DO)"
+  },
+  {
+    "id": 337,
+    "display_name": "Enna (IT)"
+  },
+  {
+    "id": 183,
+    "display_name": "El Progreso (GT)"
+  },
+  {
+    "id": 78,
+    "display_name": "Espírito Santo (BR)"
+  },
+  {
+    "id": 184,
+    "display_name": "Escuintla (GT)"
+  },
+  {
+    "id": 1125,
+    "display_name": "Espaillat (DO)"
+  },
+  {
+    "id": 564,
+    "display_name": "La Rioja (AR)"
+  },
+  {
+    "id": 738,
+    "display_name": "Cumbria (GB)"
+  },
+  {
+    "id": 739,
+    "display_name": "Derbyshire (GB)"
+  },
+  {
+    "id": 740,
+    "display_name": "Devon (GB)"
+  },
+  {
+    "id": 741,
+    "display_name": "Dorset (GB)"
+  },
+  {
+    "id": 742,
+    "display_name": "Dumfriesshire (GB)"
+  },
+  {
+    "id": 342,
+    "display_name": "Forlì-Cesena (IT)"
+  },
+  {
+    "id": 1674,
+    "display_name": "Florida (UY)"
+  },
+  {
+    "id": 339,
+    "display_name": "Ferrara (IT)"
+  },
+  {
+    "id": 341,
+    "display_name": "Foggia (IT)"
+  },
+  {
+    "id": 948,
+    "display_name": "Fermanagh (IE)"
+  },
+  {
+    "id": 340,
+    "display_name": "Firenze (IT)"
+  },
+  {
+    "id": 1334,
+    "display_name": "Ahvenanmaa (FI)"
+  },
+  {
+    "id": 1335,
+    "display_name": "Etelä-Karjala (FI)"
+  },
+  {
+    "id": 1336,
+    "display_name": "Etelä-Pohjanmaa (FI)"
+  },
+  {
+    "id": 1337,
+    "display_name": "Etelä-Savo (FI)"
+  },
+  {
+    "id": 1338,
+    "display_name": "Kainuu (FI)"
+  },
+  {
+    "id": 1339,
+    "display_name": "Kanta-Häme (FI)"
+  },
+  {
+    "id": 1340,
+    "display_name": "Keski-Pohjanmaa (FI)"
+  },
+  {
+    "id": 1341,
+    "display_name": "Keski-Suomi (FI)"
+  },
+  {
+    "id": 1342,
+    "display_name": "Kymenlaakso (FI)"
+  },
+  {
+    "id": 1343,
+    "display_name": "Lappi (FI)"
+  },
+  {
+    "id": 1344,
+    "display_name": "Pirkanmaa (FI)"
+  },
+  {
+    "id": 1345,
+    "display_name": "Pohjanmaa (FI)"
+  },
+  {
+    "id": 1346,
+    "display_name": "Pohjois-Karjala (FI)"
+  },
+  {
+    "id": 1347,
+    "display_name": "Pohjois-Pohjanmaa (FI)"
+  },
+  {
+    "id": 1348,
+    "display_name": "Pohjois-Savo (FI)"
+  },
+  {
+    "id": 1349,
+    "display_name": "Päijät-Häme (FI)"
+  },
+  {
+    "id": 1350,
+    "display_name": "Satakunta (FI)"
+  },
+  {
+    "id": 1351,
+    "display_name": "Uusimaa (FI)"
+  },
+  {
+    "id": 1352,
+    "display_name": "Varsinais-Suomi (FI)"
+  },
+  {
+    "id": 1605,
+    "display_name": "Fiji (SA)"
+  },
+  {
+    "id": 952,
+    "display_name": "Flevoland (NL)"
+  },
+  {
+    "id": 18,
+    "display_name": "Florida (US)"
+  },
+  {
+    "id": 338,
+    "display_name": "Fermo (IT)"
+  },
+  {
+    "id": 61,
+    "display_name": "Federated States of Micronesia (US)"
+  },
+  {
+    "id": 953,
+    "display_name": "Friesland (NL)"
+  },
+  {
+    "id": 1451,
+    "display_name": "Freiburg (CH)"
+  },
+  {
+    "id": 343,
+    "display_name": "Frosinone (IT)"
+  },
+  {
+    "id": 1453,
+    "display_name": "Fribourg (CH)"
+  },
+  {
+    "id": 1452,
+    "display_name": "Friburgo (CH)"
+  },
+  {
+    "id": 298,
+    "display_name": "Free State (ZA)"
+  },
+  {
+    "id": 1673,
+    "display_name": "Flores (UY)"
+  },
+  {
+    "id": 549,
+    "display_name": "Fujairah (AE)"
+  },
+  {
+    "id": 271,
+    "display_name": "Faiyum (EG)"
+  },
+  {
+    "id": 927,
+    "display_name": "Galway (IE)"
+  },
+  {
+    "id": 574,
+    "display_name": "Santiago Del Estero (AR)"
+  },
+  {
+    "id": 743,
+    "display_name": "Dunbartonshire (GB)"
+  },
+  {
+    "id": 744,
+    "display_name": "Dyfed (GB)"
+  },
+  {
+    "id": 745,
+    "display_name": "East Lothian (GB)"
+  },
+  {
+    "id": 746,
+    "display_name": "East Sussex (GB)"
+  },
+  {
+    "id": 747,
+    "display_name": "Essex (GB)"
+  },
+  {
+    "id": 587,
+    "display_name": "Goa (IN)"
+  },
+  {
+    "id": 19,
+    "display_name": "Georgia (US)"
+  },
+  {
+    "id": 444,
+    "display_name": "Las Palmas (ES)"
+  },
+  {
+    "id": 344,
+    "display_name": "Genova (IT)"
+  },
+  {
+    "id": 1493,
+    "display_name": "Genf (CH)"
+  },
+  {
+    "id": 954,
+    "display_name": "Gelderland (NL)"
+  },
+  {
+    "id": 1495,
+    "display_name": "Genève (CH)"
+  },
+  {
+    "id": 1494,
+    "display_name": "Ginevra (CH)"
+  },
+  {
+    "id": 272,
+    "display_name": "Gharbia (EG)"
+  },
+  {
+    "id": 436,
+    "display_name": "Girona (Gerona) (ES)"
+  },
+  {
+    "id": 520,
+    "display_name": "Gisborne (NZ)"
+  },
+  {
+    "id": 1617,
+    "display_name": "Jizan (SA)"
+  },
+  {
+    "id": 588,
+    "display_name": "Gujarat (IN)"
+  },
+  {
+    "id": 850,
+    "display_name": "Gorj (RO)"
+  },
+  {
+    "id": 1445,
+    "display_name": "Glarus (CH)"
+  },
+  {
+    "id": 851,
+    "display_name": "Galați (RO)"
+  },
+  {
+    "id": 1447,
+    "display_name": "Glaris (CH)"
+  },
+  {
+    "id": 1446,
+    "display_name": "Glanora (CH)"
+  },
+  {
+    "id": 913,
+    "display_name": "Gambella Peoples (ET)"
+  },
+  {
+    "id": 618,
+    "display_name": "Gorontalo (ID)"
+  },
+  {
+    "id": 345,
+    "display_name": "Gorizia (IT)"
+  },
+  {
+    "id": 79,
+    "display_name": "Goiás (BR)"
+  },
+  {
+    "id": 299,
+    "display_name": "Gauteng (ZA)"
+  },
+  {
+    "id": 955,
+    "display_name": "Groningen (NL)"
+  },
+  {
+    "id": 1475,
+    "display_name": "Graubünden (CH)"
+  },
+  {
+    "id": 437,
+    "display_name": "Granada (ES)"
+  },
+  {
+    "id": 346,
+    "display_name": "Grosseto (IT)"
+  },
+  {
+    "id": 852,
+    "display_name": "Giurgiu (RO)"
+  },
+  {
+    "id": 1477,
+    "display_name": "Grisons (CH)"
+  },
+  {
+    "id": 1476,
+    "display_name": "Grigioni (CH)"
+  },
+  {
+    "id": 495,
+    "display_name": "Guerrero (MX)"
+  },
+  {
+    "id": 62,
+    "display_name": "Guam (US)"
+  },
+  {
+    "id": 438,
+    "display_name": "Guadalajara (ES)"
+  },
+  {
+    "id": 496,
+    "display_name": "Guanajuato (MX)"
+  },
+  {
+    "id": 185,
+    "display_name": "Guatemala (GT)"
+  },
+  {
+    "id": 679,
+    "display_name": "Guainía (CO)"
+  },
+  {
+    "id": 680,
+    "display_name": "Guaviare (CO)"
+  },
+  {
+    "id": 275,
+    "display_name": "Giza (EG)"
+  },
+  {
+    "id": 440,
+    "display_name": "Huelva (ES)"
+  },
+  {
+    "id": 556,
+    "display_name": "Chaco (AR)"
+  },
+  {
+    "id": 748,
+    "display_name": "Fife (GB)"
+  },
+  {
+    "id": 749,
+    "display_name": "Gloucestershire (GB)"
+  },
+  {
+    "id": 750,
+    "display_name": "Gwent (GB)"
+  },
+  {
+    "id": 751,
+    "display_name": "Gwynedd (GB)"
+  },
+  {
+    "id": 1582,
+    "display_name": "Al Hadithah (SA)"
+  },
+  {
+    "id": 1146,
+    "display_name": "Hato Mayor (DO)"
+  },
+  {
+    "id": 1609,
+    "display_name": "Hail (SA)"
+  },
+  {
+    "id": 1608,
+    "display_name": "Hafar al Batin (SA)"
+  },
+  {
+    "id": 853,
+    "display_name": "Hunedoara (RO)"
+  },
+  {
+    "id": 1135,
+    "display_name": "Hermanas Mirabal (DO)"
+  },
+  {
+    "id": 20,
+    "display_name": "Hawaii (US)"
+  },
+  {
+    "id": 497,
+    "display_name": "Hidalgo (MX)"
+  },
+  {
+    "id": 1687,
+    "display_name": "Hong Kong Island (HK)"
+  },
+  {
+    "id": 521,
+    "display_name": "Hawke's Bay (NZ)"
+  },
+  {
+    "id": 1612,
+    "display_name": "Hofuf (SA)"
+  },
+  {
+    "id": 590,
+    "display_name": "Himachal Pradesh (IN)"
+  },
+  {
+    "id": 914,
+    "display_name": "Harrari Peoples (ET)"
+  },
+  {
+    "id": 854,
+    "display_name": "Harghita (RO)"
+  },
+  {
+    "id": 589,
+    "display_name": "Haryana (IN)"
+  },
+  {
+    "id": 290,
+    "display_name": "Helwan (EG)"
+  },
+  {
+    "id": 441,
+    "display_name": "Huesca (ES)"
+  },
+  {
+    "id": 186,
+    "display_name": "Huehuetenango (GT)"
+  },
+  {
+    "id": 662,
+    "display_name": "Huila (CO)"
+  },
+  {
+    "id": 1611,
+    "display_name": "Hazm Al Jalamid (SA)"
+  },
+  {
+    "id": 752,
+    "display_name": "Hampshire (GB)"
+  },
+  {
+    "id": 753,
+    "display_name": "Herefordshire (GB)"
+  },
+  {
+    "id": 754,
+    "display_name": "Hertfordshire (GB)"
+  },
+  {
+    "id": 755,
+    "display_name": "Inverness-Shire (GB)"
+  },
+  {
+    "id": 756,
+    "display_name": "Isle of Arran (GB)"
+  },
+  {
+    "id": 24,
+    "display_name": "Iowa (US)"
+  },
+  {
+    "id": 21,
+    "display_name": "Idaho (US)"
+  },
+  {
+    "id": 855,
+    "display_name": "Ilfov (RO)"
+  },
+  {
+    "id": 22,
+    "display_name": "Illinois (US)"
+  },
+  {
+    "id": 856,
+    "display_name": "Ialomița (RO)"
+  },
+  {
+    "id": 347,
+    "display_name": "Imperia (IT)"
+  },
+  {
+    "id": 113,
+    "display_name": "Republic of Ingushetia (RU)"
+  },
+  {
+    "id": 23,
+    "display_name": "Indiana (US)"
+  },
+  {
+    "id": 1126,
+    "display_name": "Independencia (DO)"
+  },
+  {
+    "id": 114,
+    "display_name": "Irkutsk Oblast (RU)"
+  },
+  {
+    "id": 857,
+    "display_name": "Iași (RO)"
+  },
+  {
+    "id": 348,
+    "display_name": "Isernia (IT)"
+  },
+  {
+    "id": 274,
+    "display_name": "Ismailia (EG)"
+  },
+  {
+    "id": 115,
+    "display_name": "Ivanovo Oblast (RU)"
+  },
+  {
+    "id": 187,
+    "display_name": "Izabal (GT)"
+  },
+  {
+    "id": 442,
+    "display_name": "Jaén (ES)"
+  },
+  {
+    "id": 570,
+    "display_name": "San Juan (AR)"
+  },
+  {
+    "id": 757,
+    "display_name": "Isle of Barra (GB)"
+  },
+  {
+    "id": 758,
+    "display_name": "Isle of Benbecula (GB)"
+  },
+  {
+    "id": 759,
+    "display_name": "Isle of Bute (GB)"
+  },
+  {
+    "id": 760,
+    "display_name": "Isle of Canna (GB)"
+  },
+  {
+    "id": 761,
+    "display_name": "Isle of Coll (GB)"
+  },
+  {
+    "id": 620,
+    "display_name": "Jambi (ID)"
+  },
+  {
+    "id": 498,
+    "display_name": "Jalisco (MX)"
+  },
+  {
+    "id": 188,
+    "display_name": "Jalapa (GT)"
+  },
+  {
+    "id": 621,
+    "display_name": "Jawa Barat (ID)"
+  },
+  {
+    "id": 1585,
+    "display_name": "Al Jubayl Industrial City (SA)"
+  },
+  {
+    "id": 1613,
+    "display_name": "Jazan Economic City (SA)"
+  },
+  {
+    "id": 1614,
+    "display_name": "Jeddah (SA)"
+  },
+  {
+    "id": 592,
+    "display_name": "Jharkhand (IN)"
+  },
+  {
+    "id": 469,
+    "display_name": "Johor (MY)"
+  },
+  {
+    "id": 623,
+    "display_name": "Jawa Timur (ID)"
+  },
+  {
+    "id": 1615,
+    "display_name": "Jeddah Industrial City 2 & 3 (SA)"
+  },
+  {
+    "id": 591,
+    "display_name": "Jammu and Kashmir (IN)"
+  },
+  {
+    "id": 619,
+    "display_name": "Jakarta (ID)"
+  },
+  {
+    "id": 1737,
+    "display_name": "Ajloun (JO)"
+  },
+  {
+    "id": 1738,
+    "display_name": "Amman (JO)"
+  },
+  {
+    "id": 1739,
+    "display_name": "Aqaba (JO)"
+  },
+  {
+    "id": 1740,
+    "display_name": "Tafileh (JO)"
+  },
+  {
+    "id": 1741,
+    "display_name": "Zarqa (JO)"
+  },
+  {
+    "id": 1742,
+    "display_name": "Balqa (JO)"
+  },
+  {
+    "id": 1743,
+    "display_name": "Irbid (JO)"
+  },
+  {
+    "id": 1744,
+    "display_name": "Jerash (JO)"
+  },
+  {
+    "id": 1745,
+    "display_name": "Karak (JO)"
+  },
+  {
+    "id": 1746,
+    "display_name": "Mafraq (JO)"
+  },
+  {
+    "id": 1747,
+    "display_name": "Madaba (JO)"
+  },
+  {
+    "id": 1748,
+    "display_name": "Maan (JO)"
+  },
+  {
+    "id": 291,
+    "display_name": "South Sinai (EG)"
+  },
+  {
+    "id": 622,
+    "display_name": "Jawa Tengah (ID)"
+  },
+  {
+    "id": 1496,
+    "display_name": "Jura (CH)"
+  },
+  {
+    "id": 1497,
+    "display_name": "Giura (CH)"
+  },
+  {
+    "id": 1620,
+    "display_name": "Jubail (SA)"
+  },
+  {
+    "id": 1619,
+    "display_name": "Juaymah Terminal (SA)"
+  },
+  {
+    "id": 189,
+    "display_name": "Jutiapa (GT)"
+  },
+  {
+    "id": 1616,
+    "display_name": "Jeddah Yachts Club Port (SA)"
+  },
+  {
+    "id": 555,
+    "display_name": "Catamarca (AR)"
+  },
+  {
+    "id": 762,
+    "display_name": "Isle of Colonsay (GB)"
+  },
+  {
+    "id": 763,
+    "display_name": "Isle of Cumbrae (GB)"
+  },
+  {
+    "id": 764,
+    "display_name": "Isle of Eigg (GB)"
+  },
+  {
+    "id": 765,
+    "display_name": "Isle of Gigha (GB)"
+  },
+  {
+    "id": 766,
+    "display_name": "Isle of Harris (GB)"
+  },
+  {
+    "id": 593,
+    "display_name": "Karnataka (IN)"
+  },
+  {
+    "id": 1622,
+    "display_name": "King Abdullah City (SA)"
+  },
+  {
+    "id": 116,
+    "display_name": "Kamchatka Krai (RU)"
+  },
+  {
+    "id": 624,
+    "display_name": "Kalimantan Barat (ID)"
+  },
+  {
+    "id": 279,
+    "display_name": "Qalyubia (EG)"
+  },
+  {
+    "id": 117,
+    "display_name": "Kabardino-Balkarian Republic (RU)"
+  },
+  {
+    "id": 121,
+    "display_name": "Karachay–Cherkess Republic (RU)"
+  },
+  {
+    "id": 130,
+    "display_name": "Krasnodar Krai (RU)"
+  },
+  {
+    "id": 470,
+    "display_name": "Kedah (MY)"
+  },
+  {
+    "id": 929,
+    "display_name": "Kildare (IE)"
+  },
+  {
+    "id": 1690,
+    "display_name": "Baringo (KE)"
+  },
+  {
+    "id": 1691,
+    "display_name": "Bomet (KE)"
+  },
+  {
+    "id": 1692,
+    "display_name": "Bungoma (KE)"
+  },
+  {
+    "id": 1693,
+    "display_name": "Busia (KE)"
+  },
+  {
+    "id": 1694,
+    "display_name": "Elgeyo/Marakwet (KE)"
+  },
+  {
+    "id": 1695,
+    "display_name": "Embu (KE)"
+  },
+  {
+    "id": 1696,
+    "display_name": "Garissa (KE)"
+  },
+  {
+    "id": 1697,
+    "display_name": "Homa Bay (KE)"
+  },
+  {
+    "id": 1698,
+    "display_name": "Isiolo (KE)"
+  },
+  {
+    "id": 1699,
+    "display_name": "Kajiado (KE)"
+  },
+  {
+    "id": 1700,
+    "display_name": "Kakamega (KE)"
+  },
+  {
+    "id": 1701,
+    "display_name": "Kericho (KE)"
+  },
+  {
+    "id": 1702,
+    "display_name": "Kiambu (KE)"
+  },
+  {
+    "id": 1703,
+    "display_name": "Kilifi (KE)"
+  },
+  {
+    "id": 1704,
+    "display_name": "Kirinyaga (KE)"
+  },
+  {
+    "id": 1705,
+    "display_name": "Kisii (KE)"
+  },
+  {
+    "id": 1706,
+    "display_name": "Kisumu (KE)"
+  },
+  {
+    "id": 1707,
+    "display_name": "Kitui (KE)"
+  },
+  {
+    "id": 1708,
+    "display_name": "Kwale (KE)"
+  },
+  {
+    "id": 1709,
+    "display_name": "Laikipia (KE)"
+  },
+  {
+    "id": 1710,
+    "display_name": "Lamu (KE)"
+  },
+  {
+    "id": 1711,
+    "display_name": "Machakos (KE)"
+  },
+  {
+    "id": 1712,
+    "display_name": "Makueni (KE)"
+  },
+  {
+    "id": 1713,
+    "display_name": "Mandera (KE)"
+  },
+  {
+    "id": 1714,
+    "display_name": "Marsabit (KE)"
+  },
+  {
+    "id": 1715,
+    "display_name": "Meru (KE)"
+  },
+  {
+    "id": 1716,
+    "display_name": "Migori (KE)"
+  },
+  {
+    "id": 1717,
+    "display_name": "Mombasa (KE)"
+  },
+  {
+    "id": 1718,
+    "display_name": "Murang'a (KE)"
+  },
+  {
+    "id": 1719,
+    "display_name": "Nairobi City (KE)"
+  },
+  {
+    "id": 1720,
+    "display_name": "Nakuru (KE)"
+  },
+  {
+    "id": 1721,
+    "display_name": "Nandi (KE)"
+  },
+  {
+    "id": 1722,
+    "display_name": "Narok (KE)"
+  },
+  {
+    "id": 1723,
+    "display_name": "Nyamira (KE)"
+  },
+  {
+    "id": 1724,
+    "display_name": "Nyandarua (KE)"
+  },
+  {
+    "id": 1725,
+    "display_name": "Nyeri (KE)"
+  },
+  {
+    "id": 1726,
+    "display_name": "Samburu (KE)"
+  },
+  {
+    "id": 1727,
+    "display_name": "Siaya (KE)"
+  },
+  {
+    "id": 1728,
+    "display_name": "Taita/Taveta (KE)"
+  },
+  {
+    "id": 1729,
+    "display_name": "Tana River (KE)"
+  },
+  {
+    "id": 1730,
+    "display_name": "Tharaka-Nithi (KE)"
+  },
+  {
+    "id": 1731,
+    "display_name": "Trans Nzoia (KE)"
+  },
+  {
+    "id": 1732,
+    "display_name": "Turkana (KE)"
+  },
+  {
+    "id": 1733,
+    "display_name": "Uasin Gishu (KE)"
+  },
+  {
+    "id": 1734,
+    "display_name": "Vihiga (KE)"
+  },
+  {
+    "id": 1735,
+    "display_name": "Wajir (KE)"
+  },
+  {
+    "id": 1736,
+    "display_name": "West Pokot (KE)"
+  },
+  {
+    "id": 123,
+    "display_name": "Kemerovo Oblast (RU)"
+  },
+  {
+    "id": 1623,
+    "display_name": "King Fhad (SA)"
+  },
+  {
+    "id": 292,
+    "display_name": "Kafr el-Sheikh (EG)"
+  },
+  {
+    "id": 118,
+    "display_name": "Kaliningrad Oblast (RU)"
+  },
+  {
+    "id": 132,
+    "display_name": "Kurgan Oblast (RU)"
+  },
+  {
+    "id": 124,
+    "display_name": "Khabarovsk Krai (RU)"
+  },
+  {
+    "id": 126,
+    "display_name": "Khanty-Mansi Autonomous Okrug (RU)"
+  },
+  {
+    "id": 1589,
+    "display_name": "Al Khuraibah (SA)"
+  },
+  {
+    "id": 627,
+    "display_name": "Kalimantan Timur (ID)"
+  },
+  {
+    "id": 127,
+    "display_name": "Kirov Oblast (RU)"
+  },
+  {
+    "id": 125,
+    "display_name": "Republic of Khakassia (RU)"
+  },
+  {
+    "id": 930,
+    "display_name": "Kilkenny (IE)"
+  },
+  {
+    "id": 1624,
+    "display_name": "King Khalid (SA)"
+  },
+  {
+    "id": 119,
+    "display_name": "Republic of Kalmykia (RU)"
+  },
+  {
+    "id": 594,
+    "display_name": "Kerala (IN)"
+  },
+  {
+    "id": 1688,
+    "display_name": "Kowloon (HK)"
+  },
+  {
+    "id": 120,
+    "display_name": "Kaluga Oblast (RU)"
+  },
+  {
+    "id": 1621,
+    "display_name": "Khamis Mushayt (SA)"
+  },
+  {
+    "id": 294,
+    "display_name": "Qena (EG)"
+  },
+  {
+    "id": 128,
+    "display_name": "Komi Republic (RU)"
+  },
+  {
+    "id": 129,
+    "display_name": "Kostroma Oblast (RU)"
+  },
+  {
+    "id": 629,
+    "display_name": "Kepulauan Riau (ID)"
+  },
+  {
+    "id": 122,
+    "display_name": "Republic of Karelia (RU)"
+  },
+  {
+    "id": 335,
+    "display_name": "Crotone (IT)"
+  },
+  {
+    "id": 133,
+    "display_name": "Kursk Oblast (RU)"
+  },
+  {
+    "id": 625,
+    "display_name": "Kalimantan Selatan (ID)"
+  },
+  {
+    "id": 25,
+    "display_name": "Kansas (US)"
+  },
+  {
+    "id": 626,
+    "display_name": "Kalimantan Tengah (ID)"
+  },
+  {
+    "id": 471,
+    "display_name": "Kelantan (MY)"
+  },
+  {
+    "id": 628,
+    "display_name": "Kalimantan Utara (ID)"
+  },
+  {
+    "id": 472,
+    "display_name": "Kuala Lumpur (MY)"
+  },
+  {
+    "id": 928,
+    "display_name": "Kerry (IE)"
+  },
+  {
+    "id": 26,
+    "display_name": "Kentucky (US)"
+  },
+  {
+    "id": 131,
+    "display_name": "Krasnoyarsk Krai (RU)"
+  },
+  {
+    "id": 300,
+    "display_name": "KwaZulu-Natal (ZA)"
+  },
+  {
+    "id": 563,
+    "display_name": "La Pampa (AR)"
+  },
+  {
+    "id": 446,
+    "display_name": "Lleida (Lérida) (ES)"
+  },
+  {
+    "id": 767,
+    "display_name": "Isle of Iona (GB)"
+  },
+  {
+    "id": 768,
+    "display_name": "Isle of Islay (GB)"
+  },
+  {
+    "id": 769,
+    "display_name": "Isle of Jura (GB)"
+  },
+  {
+    "id": 770,
+    "display_name": "Isle of Lewis (GB)"
+  },
+  {
+    "id": 771,
+    "display_name": "Isle of Man (GB)"
+  },
+  {
+    "id": 27,
+    "display_name": "Louisiana (US)"
+  },
+  {
+    "id": 630,
+    "display_name": "Lampung (ID)"
+  },
+  {
+    "id": 1675,
+    "display_name": "Lavalleja (UY)"
+  },
+  {
+    "id": 1127,
+    "display_name": "La Altagracia (DO)"
+  },
+  {
+    "id": 663,
+    "display_name": "La Guajira (CO)"
+  },
+  {
+    "id": 473,
+    "display_name": "Labuan (MY)"
+  },
+  {
+    "id": 353,
+    "display_name": "Lecco (IT)"
+  },
+  {
+    "id": 595,
+    "display_name": "Lakshadweep (IN)"
+  },
+  {
+    "id": 933,
+    "display_name": "Longford (IE)"
+  },
+  {
+    "id": 445,
+    "display_name": "León (ES)"
+  },
+  {
+    "id": 352,
+    "display_name": "Lecce (IT)"
+  },
+  {
+    "id": 134,
+    "display_name": "Leningrad Oblast (RU)"
+  },
+  {
+    "id": 934,
+    "display_name": "Louth (IE)"
+  },
+  {
+    "id": 956,
+    "display_name": "Limburg (NL)"
+  },
+  {
+    "id": 354,
+    "display_name": "Livorno (IT)"
+  },
+  {
+    "id": 135,
+    "display_name": "Lipetsk Oblast (RU)"
+  },
+  {
+    "id": 1625,
+    "display_name": "Lith (SA)"
+  },
+  {
+    "id": 1584,
+    "display_name": "Al Jawf (SA)"
+  },
+  {
+    "id": 923,
+    "display_name": "Limerick (IE)"
+  },
+  {
+    "id": 932,
+    "display_name": "Leitrim (IE)"
+  },
+  {
+    "id": 443,
+    "display_name": "La Rioja (ES)"
+  },
+  {
+    "id": 355,
+    "display_name": "Lodi (IT)"
+  },
+  {
+    "id": 301,
+    "display_name": "Limpopo (ZA)"
+  },
+  {
+    "id": 1128,
+    "display_name": "La Romana (DO)"
+  },
+  {
+    "id": 931,
+    "display_name": "Laois (IE)"
+  },
+  {
+    "id": 351,
+    "display_name": "Latina (IT)"
+  },
+  {
+    "id": 1324,
+    "display_name": "Alytaus apskritis (LT)"
+  },
+  {
+    "id": 1326,
+    "display_name": "Klaipėdos apskritis (LT)"
+  },
+  {
+    "id": 1325,
+    "display_name": "Kauno apskritis (LT)"
+  },
+  {
+    "id": 1327,
+    "display_name": "Marijampolės apskritis (LT)"
+  },
+  {
+    "id": 1328,
+    "display_name": "Panevėžio apskritis (LT)"
+  },
+  {
+    "id": 1329,
+    "display_name": "Šiaulių apskritis (LT)"
+  },
+  {
+    "id": 1330,
+    "display_name": "Tauragės apskritis (LT)"
+  },
+  {
+    "id": 1331,
+    "display_name": "Telšių apskritis (LT)"
+  },
+  {
+    "id": 1332,
+    "display_name": "Utenos apskritis (LT)"
+  },
+  {
+    "id": 1333,
+    "display_name": "Vilniaus apskritis (LT)"
+  },
+  {
+    "id": 447,
+    "display_name": "Lugo (ES)"
+  },
+  {
+    "id": 1433,
+    "display_name": "Luzern (CH)"
+  },
+  {
+    "id": 356,
+    "display_name": "Lucca (IT)"
+  },
+  {
+    "id": 1435,
+    "display_name": "Lucerne (CH)"
+  },
+  {
+    "id": 1434,
+    "display_name": "Lucerna (CH)"
+  },
+  {
+    "id": 1129,
+    "display_name": "La Vega (DO)"
+  },
+  {
+    "id": 1205,
+    "display_name": "Aglonas novads (LV)"
+  },
+  {
+    "id": 1206,
+    "display_name": "Aizkraukles novads (LV)"
+  },
+  {
+    "id": 1207,
+    "display_name": "Aizputes novads (LV)"
+  },
+  {
+    "id": 1208,
+    "display_name": "Aknīstes novads (LV)"
+  },
+  {
+    "id": 1209,
+    "display_name": "Alojas novads (LV)"
+  },
+  {
+    "id": 1210,
+    "display_name": "Alsungas novads (LV)"
+  },
+  {
+    "id": 1211,
+    "display_name": "Alūksnes novads (LV)"
+  },
+  {
+    "id": 1212,
+    "display_name": "Amatas novads (LV)"
+  },
+  {
+    "id": 1213,
+    "display_name": "Apes novads (LV)"
+  },
+  {
+    "id": 1214,
+    "display_name": "Auces novads (LV)"
+  },
+  {
+    "id": 1215,
+    "display_name": "Ādažu novads (LV)"
+  },
+  {
+    "id": 1216,
+    "display_name": "Babītes novads (LV)"
+  },
+  {
+    "id": 1217,
+    "display_name": "Baldones novads (LV)"
+  },
+  {
+    "id": 1218,
+    "display_name": "Baltinavas novads (LV)"
+  },
+  {
+    "id": 1219,
+    "display_name": "Balvu novads (LV)"
+  },
+  {
+    "id": 1220,
+    "display_name": "Bauskas novads (LV)"
+  },
+  {
+    "id": 1221,
+    "display_name": "Beverīnas novads (LV)"
+  },
+  {
+    "id": 1222,
+    "display_name": "Brocēnu novads (LV)"
+  },
+  {
+    "id": 1223,
+    "display_name": "Burtnieku novads (LV)"
+  },
+  {
+    "id": 1224,
+    "display_name": "Carnikavas novads (LV)"
+  },
+  {
+    "id": 1225,
+    "display_name": "Cesvaines novads (LV)"
+  },
+  {
+    "id": 1226,
+    "display_name": "Cēsu novads (LV)"
+  },
+  {
+    "id": 1227,
+    "display_name": "Ciblas novads (LV)"
+  },
+  {
+    "id": 1228,
+    "display_name": "Dagdas novads (LV)"
+  },
+  {
+    "id": 1229,
+    "display_name": "Daugavpils novads (LV)"
+  },
+  {
+    "id": 1230,
+    "display_name": "Dobeles novads (LV)"
+  },
+  {
+    "id": 1231,
+    "display_name": "Dundagas novads (LV)"
+  },
+  {
+    "id": 1232,
+    "display_name": "Durbes novads (LV)"
+  },
+  {
+    "id": 1233,
+    "display_name": "Engures novads (LV)"
+  },
+  {
+    "id": 1234,
+    "display_name": "Ērgļu novads (LV)"
+  },
+  {
+    "id": 1235,
+    "display_name": "Garkalnes novads (LV)"
+  },
+  {
+    "id": 1236,
+    "display_name": "Grobiņas novads (LV)"
+  },
+  {
+    "id": 1237,
+    "display_name": "Gulbenes novads (LV)"
+  },
+  {
+    "id": 1238,
+    "display_name": "Iecavas novads (LV)"
+  },
+  {
+    "id": 1239,
+    "display_name": "Ikšķiles novads (LV)"
+  },
+  {
+    "id": 1240,
+    "display_name": "Ilūkstes novads (LV)"
+  },
+  {
+    "id": 1241,
+    "display_name": "Inčukalna novads (LV)"
+  },
+  {
+    "id": 1242,
+    "display_name": "Jaunjelgavas novads (LV)"
+  },
+  {
+    "id": 1243,
+    "display_name": "Jaunpiebalgas novads (LV)"
+  },
+  {
+    "id": 1244,
+    "display_name": "Jaunpils novads (LV)"
+  },
+  {
+    "id": 1245,
+    "display_name": "Jelgavas novads (LV)"
+  },
+  {
+    "id": 1246,
+    "display_name": "Jēkabpils novads (LV)"
+  },
+  {
+    "id": 1247,
+    "display_name": "Kandavas novads (LV)"
+  },
+  {
+    "id": 1248,
+    "display_name": "Kārsavas novads (LV)"
+  },
+  {
+    "id": 1249,
+    "display_name": "Kocēnu novads (LV)"
+  },
+  {
+    "id": 1250,
+    "display_name": "Kokneses novads (LV)"
+  },
+  {
+    "id": 1251,
+    "display_name": "Krāslavas novads (LV)"
+  },
+  {
+    "id": 1252,
+    "display_name": "Krimuldas novads (LV)"
+  },
+  {
+    "id": 1253,
+    "display_name": "Krustpils novads (LV)"
+  },
+  {
+    "id": 1254,
+    "display_name": "Kuldīgas novads (LV)"
+  },
+  {
+    "id": 1255,
+    "display_name": "Ķeguma novads (LV)"
+  },
+  {
+    "id": 1256,
+    "display_name": "Ķekavas novads (LV)"
+  },
+  {
+    "id": 1257,
+    "display_name": "Lielvārdes novads (LV)"
+  },
+  {
+    "id": 1258,
+    "display_name": "Limbažu novads (LV)"
+  },
+  {
+    "id": 1259,
+    "display_name": "Līgatnes novads (LV)"
+  },
+  {
+    "id": 1260,
+    "display_name": "Līvānu novads (LV)"
+  },
+  {
+    "id": 1261,
+    "display_name": "Lubānas novads (LV)"
+  },
+  {
+    "id": 1262,
+    "display_name": "Ludzas novads (LV)"
+  },
+  {
+    "id": 1263,
+    "display_name": "Madonas novads (LV)"
+  },
+  {
+    "id": 1264,
+    "display_name": "Mazsalacas novads (LV)"
+  },
+  {
+    "id": 1265,
+    "display_name": "Mālpils novads (LV)"
+  },
+  {
+    "id": 1266,
+    "display_name": "Mārupes novads (LV)"
+  },
+  {
+    "id": 1267,
+    "display_name": "Mērsraga novads (LV)"
+  },
+  {
+    "id": 1268,
+    "display_name": "Naukšēnu novads (LV)"
+  },
+  {
+    "id": 1269,
+    "display_name": "Neretas novads (LV)"
+  },
+  {
+    "id": 1270,
+    "display_name": "Nīcas novads (LV)"
+  },
+  {
+    "id": 1271,
+    "display_name": "Ogres novads (LV)"
+  },
+  {
+    "id": 1272,
+    "display_name": "Olaines novads (LV)"
+  },
+  {
+    "id": 1273,
+    "display_name": "Ozolnieku novads (LV)"
+  },
+  {
+    "id": 1274,
+    "display_name": "Pārgaujas novads (LV)"
+  },
+  {
+    "id": 1275,
+    "display_name": "Pāvilostas novads (LV)"
+  },
+  {
+    "id": 1276,
+    "display_name": "Pļaviņu novads (LV)"
+  },
+  {
+    "id": 1277,
+    "display_name": "Preiļu novads (LV)"
+  },
+  {
+    "id": 1278,
+    "display_name": "Priekules novads (LV)"
+  },
+  {
+    "id": 1279,
+    "display_name": "Priekuļu novads (LV)"
+  },
+  {
+    "id": 1280,
+    "display_name": "Raunas novads (LV)"
+  },
+  {
+    "id": 1281,
+    "display_name": "Rēzeknes novads (LV)"
+  },
+  {
+    "id": 1282,
+    "display_name": "Riebiņu novads (LV)"
+  },
+  {
+    "id": 1283,
+    "display_name": "Rojas novads (LV)"
+  },
+  {
+    "id": 1284,
+    "display_name": "Ropažu novads (LV)"
+  },
+  {
+    "id": 1285,
+    "display_name": "Rucavas novads (LV)"
+  },
+  {
+    "id": 1286,
+    "display_name": "Rugāju novads (LV)"
+  },
+  {
+    "id": 1287,
+    "display_name": "Rundāles novads (LV)"
+  },
+  {
+    "id": 1288,
+    "display_name": "Rūjienas novads (LV)"
+  },
+  {
+    "id": 1289,
+    "display_name": "Salas novads (LV)"
+  },
+  {
+    "id": 1290,
+    "display_name": "Salacgrīvas novads (LV)"
+  },
+  {
+    "id": 1291,
+    "display_name": "Salaspils novads (LV)"
+  },
+  {
+    "id": 1292,
+    "display_name": "Saldus novads (LV)"
+  },
+  {
+    "id": 1293,
+    "display_name": "Saulkrastu novads (LV)"
+  },
+  {
+    "id": 1294,
+    "display_name": "Sējas novads (LV)"
+  },
+  {
+    "id": 1295,
+    "display_name": "Siguldas novads (LV)"
+  },
+  {
+    "id": 1296,
+    "display_name": "Skrīveru novads (LV)"
+  },
+  {
+    "id": 1297,
+    "display_name": "Skrundas novads (LV)"
+  },
+  {
+    "id": 1298,
+    "display_name": "Smiltenes novads (LV)"
+  },
+  {
+    "id": 1299,
+    "display_name": "Stopiņu novads (LV)"
+  },
+  {
+    "id": 1300,
+    "display_name": "Strenču novads (LV)"
+  },
+  {
+    "id": 1301,
+    "display_name": "Talsu novads (LV)"
+  },
+  {
+    "id": 1302,
+    "display_name": "Tērvetes novads (LV)"
+  },
+  {
+    "id": 1303,
+    "display_name": "Tukuma novads (LV)"
+  },
+  {
+    "id": 1304,
+    "display_name": "Vaiņodes novads (LV)"
+  },
+  {
+    "id": 1305,
+    "display_name": "Valkas novads (LV)"
+  },
+  {
+    "id": 1306,
+    "display_name": "Varakļānu novads (LV)"
+  },
+  {
+    "id": 1307,
+    "display_name": "Vārkavas novads (LV)"
+  },
+  {
+    "id": 1308,
+    "display_name": "Vecpiebalgas novads (LV)"
+  },
+  {
+    "id": 1309,
+    "display_name": "Vecumnieku novads (LV)"
+  },
+  {
+    "id": 1310,
+    "display_name": "Ventspils novads (LV)"
+  },
+  {
+    "id": 1311,
+    "display_name": "Viesītes novads (LV)"
+  },
+  {
+    "id": 1312,
+    "display_name": "Viļakas novads (LV)"
+  },
+  {
+    "id": 1313,
+    "display_name": "Viļānu novads (LV)"
+  },
+  {
+    "id": 1314,
+    "display_name": "Zilupes novads (LV)"
+  },
+  {
+    "id": 1315,
+    "display_name": "Daugavpils (LV)"
+  },
+  {
+    "id": 1316,
+    "display_name": "Jelgava (LV)"
+  },
+  {
+    "id": 1317,
+    "display_name": "Jēkabpils (LV)"
+  },
+  {
+    "id": 1318,
+    "display_name": "Jūrmala (LV)"
+  },
+  {
+    "id": 1319,
+    "display_name": "Liepāja (LV)"
+  },
+  {
+    "id": 1320,
+    "display_name": "Rēzekne (LV)"
+  },
+  {
+    "id": 1321,
+    "display_name": "Rīga (LV)"
+  },
+  {
+    "id": 1323,
+    "display_name": "Ventspils (LV)"
+  },
+  {
+    "id": 1322,
+    "display_name": "Valmiera (LV)"
+  },
+  {
+    "id": 280,
+    "display_name": "Luxor (EG)"
+  },
+  {
+    "id": 949,
+    "display_name": "Londonderry (IE)"
+  },
+  {
+    "id": 448,
+    "display_name": "Madrid (ES)"
+  },
+  {
+    "id": 565,
+    "display_name": "Mendoza (AR)"
+  },
+  {
+    "id": 772,
+    "display_name": "Isle of Mull (GB)"
+  },
+  {
+    "id": 773,
+    "display_name": "Isle of North Uist (GB)"
+  },
+  {
+    "id": 826,
+    "display_name": "Orkney (GB)"
+  },
+  {
+    "id": 774,
+    "display_name": "Isle of Rhum (GB)"
+  },
+  {
+    "id": 775,
+    "display_name": "Isle of Scalpay (GB)"
+  },
+  {
+    "id": 42,
+    "display_name": "Massachusetts (US)"
+  },
+  {
+    "id": 449,
+    "display_name": "Málaga (ES)"
+  },
+  {
+    "id": 631,
+    "display_name": "Maluku (ID)"
+  },
+  {
+    "id": 80,
+    "display_name": "Maranhão (BR)"
+  },
+  {
+    "id": 1676,
+    "display_name": "Maldonado (UY)"
+  },
+  {
+    "id": 136,
+    "display_name": "Magadan Oblast (RU)"
+  },
+  {
+    "id": 664,
+    "display_name": "Magdalena (CO)"
+  },
+  {
+    "id": 1628,
+    "display_name": "Makkah (SA)"
+  },
+  {
+    "id": 1629,
+    "display_name": "Manailih (SA)"
+  },
+  {
+    "id": 365,
+    "display_name": "Monza e Brianza (IT)"
+  },
+  {
+    "id": 535,
+    "display_name": "Manitoba (CA)"
+  },
+  {
+    "id": 523,
+    "display_name": "Marlborough (NZ)"
+  },
+  {
+    "id": 1131,
+    "display_name": "Monte Cristi (DO)"
+  },
+  {
+    "id": 357,
+    "display_name": "Macerata (IT)"
+  },
+  {
+    "id": 41,
+    "display_name": "Maryland (US)"
+  },
+  {
+    "id": 137,
+    "display_name": "Mari El Republic (RU)"
+  },
+  {
+    "id": 28,
+    "display_name": "Maine (US)"
+  },
+  {
+    "id": 450,
+    "display_name": "Melilla (ES)"
+  },
+  {
+    "id": 362,
+    "display_name": "Messina (IT)"
+  },
+  {
+    "id": 1626,
+    "display_name": "Madinah (SA)"
+  },
+  {
+    "id": 665,
+    "display_name": "Meta (CO)"
+  },
+  {
+    "id": 501,
+    "display_name": "México (MX)"
+  },
+  {
+    "id": 83,
+    "display_name": "Minas Gerais (BR)"
+  },
+  {
+    "id": 597,
+    "display_name": "Maharashtra (IN)"
+  },
+  {
+    "id": 63,
+    "display_name": "Marshall Islands (US)"
+  },
+  {
+    "id": 858,
+    "display_name": "Mehedinți (RO)"
+  },
+  {
+    "id": 936,
+    "display_name": "Meath (IE)"
+  },
+  {
+    "id": 1631,
+    "display_name": "Muhayil (SA)"
+  },
+  {
+    "id": 43,
+    "display_name": "Michigan (US)"
+  },
+  {
+    "id": 363,
+    "display_name": "Milano (IT)"
+  },
+  {
+    "id": 499,
+    "display_name": "Michoacán (MX)"
+  },
+  {
+    "id": 1627,
+    "display_name": "Majma (SA)"
+  },
+  {
+    "id": 599,
+    "display_name": "Meghalaya (IN)"
+  },
+  {
+    "id": 474,
+    "display_name": "Melaka (MY)"
+  },
+  {
+    "id": 859,
+    "display_name": "Maramureș (RO)"
+  },
+  {
+    "id": 598,
+    "display_name": "Manipur (IN)"
+  },
+  {
+    "id": 44,
+    "display_name": "Minnesota (US)"
+  },
+  {
+    "id": 358,
+    "display_name": "Mantova (IT)"
+  },
+  {
+    "id": 937,
+    "display_name": "Monaghan (IE)"
+  },
+  {
+    "id": 277,
+    "display_name": "Minya (EG)"
+  },
+  {
+    "id": 276,
+    "display_name": "Monufia (EG)"
+  },
+  {
+    "id": 935,
+    "display_name": "Mayo (IE)"
+  },
+  {
+    "id": 1677,
+    "display_name": "Montevideo (UY)"
+  },
+  {
+    "id": 364,
+    "display_name": "Modena (IT)"
+  },
+  {
+    "id": 46,
+    "display_name": "Missouri (US)"
+  },
+  {
+    "id": 138,
+    "display_name": "Republic of Mordovia (RU)"
+  },
+  {
+    "id": 1144,
+    "display_name": "Monseñor Nouel (DO)"
+  },
+  {
+    "id": 500,
+    "display_name": "Morelos (MX)"
+  },
+  {
+    "id": 139,
+    "display_name": "Moscow Oblast (RU)"
+  },
+  {
+    "id": 140,
+    "display_name": "Moscow (RU)"
+  },
+  {
+    "id": 64,
+    "display_name": "Northern Mariana Islands (US)"
+  },
+  {
+    "id": 1145,
+    "display_name": "Monte Plata (DO)"
+  },
+  {
+    "id": 302,
+    "display_name": "Mpumalanga (ZA)"
+  },
+  {
+    "id": 596,
+    "display_name": "Madhya Pradesh (IN)"
+  },
+  {
+    "id": 82,
+    "display_name": "Mato Grosso do Sul (BR)"
+  },
+  {
+    "id": 860,
+    "display_name": "Mureș (RO)"
+  },
+  {
+    "id": 359,
+    "display_name": "Massa-Carrara (IT)"
+  },
+  {
+    "id": 45,
+    "display_name": "Mississippi (US)"
+  },
+  {
+    "id": 360,
+    "display_name": "Matera (IT)"
+  },
+  {
+    "id": 81,
+    "display_name": "Mato Grosso (BR)"
+  },
+  {
+    "id": 29,
+    "display_name": "Montana (US)"
+  },
+  {
+    "id": 293,
+    "display_name": "Matrouh (EG)"
+  },
+  {
+    "id": 1130,
+    "display_name": "María Trinidad Sánchez (DO)"
+  },
+  {
+    "id": 451,
+    "display_name": "Murcia (ES)"
+  },
+  {
+    "id": 632,
+    "display_name": "Maluku Utara (ID)"
+  },
+  {
+    "id": 1630,
+    "display_name": "Manfouha (SA)"
+  },
+  {
+    "id": 141,
+    "display_name": "Murmansk Oblast (RU)"
+  },
+  {
+    "id": 522,
+    "display_name": "Manawatu-Wanganui (NZ)"
+  },
+  {
+    "id": 600,
+    "display_name": "Mizoram (IN)"
+  },
+  {
+    "id": 566,
+    "display_name": "Misiones (AR)"
+  },
+  {
+    "id": 776,
+    "display_name": "Shetland Islands (GB)"
+  },
+  {
+    "id": 777,
+    "display_name": "Isle of Skye (GB)"
+  },
+  {
+    "id": 778,
+    "display_name": "Isle of South Uist (GB)"
+  },
+  {
+    "id": 779,
+    "display_name": "Isle of Tiree (GB)"
+  },
+  {
+    "id": 780,
+    "display_name": "Isle of Wight (GB)"
+  },
+  {
+    "id": 452,
+    "display_name": "Navarra (Nafarroa) (ES)"
+  },
+  {
+    "id": 366,
+    "display_name": "Napoli (IT)"
+  },
+  {
+    "id": 666,
+    "display_name": "Nariño (CO)"
+  },
+  {
+    "id": 502,
+    "display_name": "Nayarit (MX)"
+  },
+  {
+    "id": 957,
+    "display_name": "Noord-Brabant (NL)"
+  },
+  {
+    "id": 633,
+    "display_name": "Nusa Tenggara Barat (ID)"
+  },
+  {
+    "id": 536,
+    "display_name": "New Brunswick (CA)"
+  },
+  {
+    "id": 303,
+    "display_name": "Northern Cape (ZA)"
+  },
+  {
+    "id": 36,
+    "display_name": "North Carolina (US)"
+  },
+  {
+    "id": 37,
+    "display_name": "North Dakota (US)"
+  },
+  {
+    "id": 1491,
+    "display_name": "Neuenburg (CH)"
+  },
+  {
+    "id": 30,
+    "display_name": "Nebraska (US)"
+  },
+  {
+    "id": 1492,
+    "display_name": "Neuchâtel (CH)"
+  },
+  {
+    "id": 143,
+    "display_name": "Novgorod Oblast (RU)"
+  },
+  {
+    "id": 958,
+    "display_name": "Noord-Holland (NL)"
+  },
+  {
+    "id": 32,
+    "display_name": "New Hampshire (US)"
+  },
+  {
+    "id": 142,
+    "display_name": "Nizhny Novgorod Oblast (RU)"
+  },
+  {
+    "id": 33,
+    "display_name": "New Jersey (US)"
+  },
+  {
+    "id": 1632,
+    "display_name": "Najran (SA)"
+  },
+  {
+    "id": 601,
+    "display_name": "Nagaland (IN)"
+  },
+  {
+    "id": 537,
+    "display_name": "Newfoundland and Labrador (CA)"
+  },
+  {
+    "id": 503,
+    "display_name": "Nuevo León (MX)"
+  },
+  {
+    "id": 34,
+    "display_name": "New Mexico (US)"
+  },
+  {
+    "id": 367,
+    "display_name": "Novara (IT)"
+  },
+  {
+    "id": 1378,
+    "display_name": "Oslo (NO)"
+  },
+  {
+    "id": 1379,
+    "display_name": "Rogaland (NO)"
+  },
+  {
+    "id": 1376,
+    "display_name": "Møre og Romsdal (NO)"
+  },
+  {
+    "id": 1377,
+    "display_name": "Nordland (NO)"
+  },
+  {
+    "id": 1386,
+    "display_name": "Svalbard (NO)"
+  },
+  {
+    "id": 1385,
+    "display_name": "Jan Mayen (NO)"
+  },
+  {
+    "id": 1384,
+    "display_name": "Viken (NO)"
+  },
+  {
+    "id": 1375,
+    "display_name": "Innlandet (NO)"
+  },
+  {
+    "id": 1382,
+    "display_name": "Vestfold og Telemark (NO)"
+  },
+  {
+    "id": 1374,
+    "display_name": "Agder (NO)"
+  },
+  {
+    "id": 1383,
+    "display_name": "Vestland (NO)"
+  },
+  {
+    "id": 1381,
+    "display_name": "Trøndelag (NO)"
+  },
+  {
+    "id": 1380,
+    "display_name": "Troms og Finnmark / Romsa ja Finnmárku (NO)"
+  },
+  {
+    "id": 539,
+    "display_name": "Nova Scotia (CA)"
+  },
+  {
+    "id": 667,
+    "display_name": "Norte de Santander (CO)"
+  },
+  {
+    "id": 475,
+    "display_name": "Negeri Sembilan (MY)"
+  },
+  {
+    "id": 524,
+    "display_name": "Nelson (NZ)"
+  },
+  {
+    "id": 2,
+    "display_name": "New South Wales (AU)"
+  },
+  {
+    "id": 3,
+    "display_name": "Northern Territory (AU)"
+  },
+  {
+    "id": 538,
+    "display_name": "Northwest Territories (CA)"
+  },
+  {
+    "id": 861,
+    "display_name": "Neamț (RO)"
+  },
+  {
+    "id": 634,
+    "display_name": "Nusa Tenggara Timur (ID)"
+  },
+  {
+    "id": 1689,
+    "display_name": "New Territories (HK)"
+  },
+  {
+    "id": 525,
+    "display_name": "Northland (NZ)"
+  },
+  {
+    "id": 540,
+    "display_name": "Nunavut (CA)"
+  },
+  {
+    "id": 368,
+    "display_name": "Nuoro (IT)"
+  },
+  {
+    "id": 31,
+    "display_name": "Nevada (US)"
+  },
+  {
+    "id": 144,
+    "display_name": "Novosibirsk Oblast (RU)"
+  },
+  {
+    "id": 304,
+    "display_name": "North West (ZA)"
+  },
+  {
+    "id": 1442,
+    "display_name": "Nidwalden (CH)"
+  },
+  {
+    "id": 1444,
+    "display_name": "Nidwald (CH)"
+  },
+  {
+    "id": 1443,
+    "display_name": "Nidvaldo (CH)"
+  },
+  {
+    "id": 35,
+    "display_name": "New York (US)"
+  },
+  {
+    "id": 422,
+    "display_name": "Asturias (ES)"
+  },
+  {
+    "id": 827,
+    "display_name": "Isles of Scilly (GB)"
+  },
+  {
+    "id": 781,
+    "display_name": "Kent (GB)"
+  },
+  {
+    "id": 782,
+    "display_name": "Kincardineshire (GB)"
+  },
+  {
+    "id": 783,
+    "display_name": "Kinross-Shire (GB)"
+  },
+  {
+    "id": 504,
+    "display_name": "Oaxaca (MX)"
+  },
+  {
+    "id": 369,
+    "display_name": "Ogliastra (IT)"
+  },
+  {
+    "id": 38,
+    "display_name": "Ohio (US)"
+  },
+  {
+    "id": 39,
+    "display_name": "Oklahoma (US)"
+  },
+  {
+    "id": 145,
+    "display_name": "Omsk Oblast (RU)"
+  },
+  {
+    "id": 541,
+    "display_name": "Ontario (CA)"
+  },
+  {
+    "id": 371,
+    "display_name": "Oristano (IT)"
+  },
+  {
+    "id": 602,
+    "display_name": "Orissa (IN)"
+  },
+  {
+    "id": 40,
+    "display_name": "Oregon (US)"
+  },
+  {
+    "id": 915,
+    "display_name": "Oromia (ET)"
+  },
+  {
+    "id": 453,
+    "display_name": "Ourense (Orense) (ES)"
+  },
+  {
+    "id": 146,
+    "display_name": "Orenburg Oblast (RU)"
+  },
+  {
+    "id": 147,
+    "display_name": "Oryol Oblast (RU)"
+  },
+  {
+    "id": 862,
+    "display_name": "Olt (RO)"
+  },
+  {
+    "id": 370,
+    "display_name": "Olbia-Tempio (IT)"
+  },
+  {
+    "id": 526,
+    "display_name": "Otago (NZ)"
+  },
+  {
+    "id": 959,
+    "display_name": "Overijssel (NL)"
+  },
+  {
+    "id": 1439,
+    "display_name": "Obwalden (CH)"
+  },
+  {
+    "id": 1441,
+    "display_name": "Obwald (CH)"
+  },
+  {
+    "id": 1440,
+    "display_name": "Obvaldo (CH)"
+  },
+  {
+    "id": 938,
+    "display_name": "Offaly (IE)"
+  },
+  {
+    "id": 454,
+    "display_name": "Palencia (ES)"
+  },
+  {
+    "id": 561,
+    "display_name": "Formosa (AR)"
+  },
+  {
+    "id": 784,
+    "display_name": "Kirkcudbrightshire (GB)"
+  },
+  {
+    "id": 828,
+    "display_name": "Lanarkshire (GB)"
+  },
+  {
+    "id": 785,
+    "display_name": "Lancashire (GB)"
+  },
+  {
+    "id": 786,
+    "display_name": "Leicestershire (GB)"
+  },
+  {
+    "id": 787,
+    "display_name": "Lincolnshire (GB)"
+  },
+  {
+    "id": 47,
+    "display_name": "Pennsylvania (US)"
+  },
+  {
+    "id": 1678,
+    "display_name": "Paysandú (UY)"
+  },
+  {
+    "id": 635,
+    "display_name": "Papua (ID)"
+  },
+  {
+    "id": 84,
+    "display_name": "Pará (BR)"
+  },
+  {
+    "id": 373,
+    "display_name": "Palermo (IT)"
+  },
+  {
+    "id": 85,
+    "display_name": "Paraíba (BR)"
+  },
+  {
+    "id": 604,
+    "display_name": "Punjab (IN)"
+  },
+  {
+    "id": 636,
+    "display_name": "Papua Barat (ID)"
+  },
+  {
+    "id": 379,
+    "display_name": "Piacenza (IT)"
+  },
+  {
+    "id": 372,
+    "display_name": "Padova (IT)"
+  },
+  {
+    "id": 87,
+    "display_name": "Pernambuco (BR)"
+  },
+  {
+    "id": 378,
+    "display_name": "Pescara (IT)"
+  },
+  {
+    "id": 542,
+    "display_name": "Prince Edward Island (CA)"
+  },
+  {
+    "id": 1132,
+    "display_name": "Pedernales (DO)"
+  },
+  {
+    "id": 149,
+    "display_name": "Perm Krai (RU)"
+  },
+  {
+    "id": 1133,
+    "display_name": "Peravia (DO)"
+  },
+  {
+    "id": 190,
+    "display_name": "Petén (GT)"
+  },
+  {
+    "id": 376,
+    "display_name": "Perugia (IT)"
+  },
+  {
+    "id": 863,
+    "display_name": "Prahova (RO)"
+  },
+  {
+    "id": 476,
+    "display_name": "Pahang (MY)"
+  },
+  {
+    "id": 88,
+    "display_name": "Piauí (BR)"
+  },
+  {
+    "id": 380,
+    "display_name": "Pisa (IT)"
+  },
+  {
+    "id": 480,
+    "display_name": "Putrajaya (MY)"
+  },
+  {
+    "id": 478,
+    "display_name": "Perlis (MY)"
+  },
+  {
+    "id": 425,
+    "display_name": "Illes Balears (Islas Baleares) (ES)"
+  },
+  {
+    "id": 382,
+    "display_name": "Pordenone (IT)"
+  },
+  {
+    "id": 479,
+    "display_name": "Pulau Pinang (MY)"
+  },
+  {
+    "id": 148,
+    "display_name": "Penza Oblast (RU)"
+  },
+  {
+    "id": 384,
+    "display_name": "Prato (IT)"
+  },
+  {
+    "id": 455,
+    "display_name": "Pontevedra (ES)"
+  },
+  {
+    "id": 639,
+    "display_name": "Papua Pegunungan (ID)"
+  },
+  {
+    "id": 1134,
+    "display_name": "Puerto Plata (DO)"
+  },
+  {
+    "id": 86,
+    "display_name": "Paraná (BR)"
+  },
+  {
+    "id": 66,
+    "display_name": "Puerto Rico (US)"
+  },
+  {
+    "id": 374,
+    "display_name": "Parma (IT)"
+  },
+  {
+    "id": 150,
+    "display_name": "Primorsky Krai (RU)"
+  },
+  {
+    "id": 477,
+    "display_name": "Perak (MY)"
+  },
+  {
+    "id": 637,
+    "display_name": "Papua Selatan (ID)"
+  },
+  {
+    "id": 151,
+    "display_name": "Pskov Oblast (RU)"
+  },
+  {
+    "id": 381,
+    "display_name": "Pistoia (IT)"
+  },
+  {
+    "id": 638,
+    "display_name": "Papua Tengah (ID)"
+  },
+  {
+    "id": 288,
+    "display_name": "Port Said (EG)"
+  },
+  {
+    "id": 377,
+    "display_name": "Pesaro e Urbino (IT)"
+  },
+  {
+    "id": 505,
+    "display_name": "Puebla (MX)"
+  },
+  {
+    "id": 676,
+    "display_name": "Putumayo (CO)"
+  },
+  {
+    "id": 375,
+    "display_name": "Pavia (IT)"
+  },
+  {
+    "id": 65,
+    "display_name": "Palau (US)"
+  },
+  {
+    "id": 603,
+    "display_name": "Puducherry (IN)"
+  },
+  {
+    "id": 383,
+    "display_name": "Potenza (IT)"
+  },
+  {
+    "id": 567,
+    "display_name": "Neuquén (AR)"
+  },
+  {
+    "id": 829,
+    "display_name": "London (GB)"
+  },
+  {
+    "id": 788,
+    "display_name": "Merseyside (GB)"
+  },
+  {
+    "id": 789,
+    "display_name": "Mid Glamorgan (GB)"
+  },
+  {
+    "id": 830,
+    "display_name": "Midlothian (GB)"
+  },
+  {
+    "id": 790,
+    "display_name": "Middlesex (GB)"
+  },
+  {
+    "id": 1591,
+    "display_name": "Al Qahmah (SA)"
+  },
+  {
+    "id": 1635,
+    "display_name": "Qalsn (SA)"
+  },
+  {
+    "id": 543,
+    "display_name": "Quebec (CA)"
+  },
+  {
+    "id": 4,
+    "display_name": "Queensland (AU)"
+  },
+  {
+    "id": 1593,
+    "display_name": "Al Qurainah (SA)"
+  },
+  {
+    "id": 1636,
+    "display_name": "Qatif (SA)"
+  },
+  {
+    "id": 191,
+    "display_name": "Quetzaltenango (GT)"
+  },
+  {
+    "id": 507,
+    "display_name": "Querétaro (MX)"
+  },
+  {
+    "id": 192,
+    "display_name": "Quiché (GT)"
+  },
+  {
+    "id": 668,
+    "display_name": "Quindío (CO)"
+  },
+  {
+    "id": 1592,
+    "display_name": "Al Qunfudah (SA)"
+  },
+  {
+    "id": 1637,
+    "display_name": "Qurayyah (SA)"
+  },
+  {
+    "id": 568,
+    "display_name": "Río Negro (AR)"
+  },
+  {
+    "id": 791,
+    "display_name": "Morayshire (GB)"
+  },
+  {
+    "id": 792,
+    "display_name": "Nairnshire (GB)"
+  },
+  {
+    "id": 831,
+    "display_name": "Norfolk (GB)"
+  },
+  {
+    "id": 793,
+    "display_name": "North Humberside (GB)"
+  },
+  {
+    "id": 794,
+    "display_name": "North Yorkshire (GB)"
+  },
+  {
+    "id": 386,
+    "display_name": "Ravenna (IT)"
+  },
+  {
+    "id": 1638,
+    "display_name": "Rabigh (SA)"
+  },
+  {
+    "id": 1610,
+    "display_name": "Harad (SA)"
+  },
+  {
+    "id": 1597,
+    "display_name": "Arar (SA)"
+  },
+  {
+    "id": 1639,
+    "display_name": "Rafha (SA)"
+  },
+  {
+    "id": 1641,
+    "display_name": "Ras al Mishab (SA)"
+  },
+  {
+    "id": 1640,
+    "display_name": "Ras al Khafji (SA)"
+  },
+  {
+    "id": 1642,
+    "display_name": "Ras Al-Khair (SA)"
+  },
+  {
+    "id": 387,
+    "display_name": "Reggio Calabria (IT)"
+  },
+  {
+    "id": 388,
+    "display_name": "Reggio Emilia (IT)"
+  },
+  {
+    "id": 193,
+    "display_name": "Retalhuleu (GT)"
+  },
+  {
+    "id": 385,
+    "display_name": "Ragusa (IT)"
+  },
+  {
+    "id": 48,
+    "display_name": "Rhode Island (US)"
+  },
+  {
+    "id": 640,
+    "display_name": "Riau (ID)"
+  },
+  {
+    "id": 389,
+    "display_name": "Rieti (IT)"
+  },
+  {
+    "id": 669,
+    "display_name": "Risaralda (CO)"
+  },
+  {
+    "id": 89,
+    "display_name": "Rio de Janeiro (BR)"
+  },
+  {
+    "id": 605,
+    "display_name": "Rajasthan (IN)"
+  },
+  {
+    "id": 550,
+    "display_name": "Ras al-Khaimah (AE)"
+  },
+  {
+    "id": 391,
+    "display_name": "Roma (IT)"
+  },
+  {
+    "id": 1679,
+    "display_name": "Río Negro (UY)"
+  },
+  {
+    "id": 390,
+    "display_name": "Rimini (IT)"
+  },
+  {
+    "id": 939,
+    "display_name": "Roscommon (IE)"
+  },
+  {
+    "id": 90,
+    "display_name": "Rio Grande do Norte (BR)"
+  },
+  {
+    "id": 92,
+    "display_name": "Rondônia (BR)"
+  },
+  {
+    "id": 392,
+    "display_name": "Rovigo (IT)"
+  },
+  {
+    "id": 1681,
+    "display_name": "Rocha (UY)"
+  },
+  {
+    "id": 506,
+    "display_name": "Quintana Roo (MX)"
+  },
+  {
+    "id": 152,
+    "display_name": "Rostov Oblast (RU)"
+  },
+  {
+    "id": 93,
+    "display_name": "Roraima (BR)"
+  },
+  {
+    "id": 91,
+    "display_name": "Rio Grande do Sul (BR)"
+  },
+  {
+    "id": 1643,
+    "display_name": "Ras Tanura (SA)"
+  },
+  {
+    "id": 1644,
+    "display_name": "Riyadh (SA)"
+  },
+  {
+    "id": 1680,
+    "display_name": "Rivera (UY)"
+  },
+  {
+    "id": 153,
+    "display_name": "Ryazan Oblast (RU)"
+  },
+  {
+    "id": 1645,
+    "display_name": "Riyadh Dry Port (SA)"
+  },
+  {
+    "id": 430,
+    "display_name": "Cantabria (ES)"
+  },
+  {
+    "id": 573,
+    "display_name": "Santa Fe (AR)"
+  },
+  {
+    "id": 795,
+    "display_name": "Northamptonshire (GB)"
+  },
+  {
+    "id": 796,
+    "display_name": "Northumberland (GB)"
+  },
+  {
+    "id": 797,
+    "display_name": "Nottinghamshire (GB)"
+  },
+  {
+    "id": 798,
+    "display_name": "Oxfordshire (GB)"
+  },
+  {
+    "id": 799,
+    "display_name": "Peeblesshire (GB)"
+  },
+  {
+    "id": 645,
+    "display_name": "Sulawesi Utara (ID)"
+  },
+  {
+    "id": 154,
+    "display_name": "Sakha Republic (Yakutia) (RU)"
+  },
+  {
+    "id": 393,
+    "display_name": "Salerno (IT)"
+  },
+  {
+    "id": 456,
+    "display_name": "Salamanca (ES)"
+  },
+  {
+    "id": 1682,
+    "display_name": "Salto (UY)"
+  },
+  {
+    "id": 5,
+    "display_name": "South Australia (AU)"
+  },
+  {
+    "id": 194,
+    "display_name": "Sacatepéquez (GT)"
+  },
+  {
+    "id": 1646,
+    "display_name": "Safaniya (SA)"
+  },
+  {
+    "id": 155,
+    "display_name": "Sakhalin Oblast (RU)"
+  },
+  {
+    "id": 1648,
+    "display_name": "Salwá (SA)"
+  },
+  {
+    "id": 1136,
+    "display_name": "Samaná (DO)"
+  },
+  {
+    "id": 156,
+    "display_name": "Samara Oblast (RU)"
+  },
+  {
+    "id": 670,
+    "display_name": "Santander (CO)"
+  },
+  {
+    "id": 677,
+    "display_name": "San Andrés y Providencia (CO)"
+  },
+  {
+    "id": 158,
+    "display_name": "Saratov Oblast (RU)"
+  },
+  {
+    "id": 1649,
+    "display_name": "Sayhat (SA)"
+  },
+  {
+    "id": 646,
+    "display_name": "Sumatra Barat (ID)"
+  },
+  {
+    "id": 864,
+    "display_name": "Sibiu (RO)"
+  },
+  {
+    "id": 481,
+    "display_name": "Sabah (MY)"
+  },
+  {
+    "id": 1137,
+    "display_name": "San Cristóbal (DO)"
+  },
+  {
+    "id": 94,
+    "display_name": "Santa Catarina (BR)"
+  },
+  {
+    "id": 49,
+    "display_name": "South Carolina (US)"
+  },
+  {
+    "id": 50,
+    "display_name": "South Dakota (US)"
+  },
+  {
+    "id": 1148,
+    "display_name": "Santo Domingo (DO)"
+  },
+  {
+    "id": 96,
+    "display_name": "Sergipe (BR)"
+  },
+  {
+    "id": 459,
+    "display_name": "Sevilla (ES)"
+  },
+  {
+    "id": 159,
+    "display_name": "Republic of North Ossetia–Alania (RU)"
+  },
+  {
+    "id": 1364,
+    "display_name": "Stockholms län (SE)"
+  },
+  {
+    "id": 1368,
+    "display_name": "Västerbottens län (SE)"
+  },
+  {
+    "id": 1362,
+    "display_name": "Norrbottens län (SE)"
+  },
+  {
+    "id": 1366,
+    "display_name": "Uppsala län (SE)"
+  },
+  {
+    "id": 1365,
+    "display_name": "Södermanlands län (SE)"
+  },
+  {
+    "id": 1373,
+    "display_name": "Östergötlands län (SE)"
+  },
+  {
+    "id": 1359,
+    "display_name": "Jönköpings län (SE)"
+  },
+  {
+    "id": 1361,
+    "display_name": "Kronobergs län (SE)"
+  },
+  {
+    "id": 1360,
+    "display_name": "Kalmar län (SE)"
+  },
+  {
+    "id": 1355,
+    "display_name": "Gotlands län (SE)"
+  },
+  {
+    "id": 1353,
+    "display_name": "Blekinge län (SE)"
+  },
+  {
+    "id": 1363,
+    "display_name": "Skåne län (SE)"
+  },
+  {
+    "id": 1357,
+    "display_name": "Hallands län (SE)"
+  },
+  {
+    "id": 1371,
+    "display_name": "Västra Götalands län (SE)"
+  },
+  {
+    "id": 1367,
+    "display_name": "Värmlands län (SE)"
+  },
+  {
+    "id": 1372,
+    "display_name": "Örebro län (SE)"
+  },
+  {
+    "id": 1370,
+    "display_name": "Västmanlands län (SE)"
+  },
+  {
+    "id": 1354,
+    "display_name": "Dalarnas län (SE)"
+  },
+  {
+    "id": 1356,
+    "display_name": "Gävleborgs län (SE)"
+  },
+  {
+    "id": 1369,
+    "display_name": "Västernorrlands län (SE)"
+  },
+  {
+    "id": 1358,
+    "display_name": "Jämtlands län (SE)"
+  },
+  {
+    "id": 1472,
+    "display_name": "St. Gallen (CH)"
+  },
+  {
+    "id": 644,
+    "display_name": "Sulawesi Tenggara (ID)"
+  },
+  {
+    "id": 458,
+    "display_name": "Segovia (ES)"
+  },
+  {
+    "id": 1474,
+    "display_name": "Saint-Gall (CH)"
+  },
+  {
+    "id": 1473,
+    "display_name": "San Gallo (CH)"
+  },
+  {
+    "id": 483,
+    "display_name": "Selangor (MY)"
+  },
+  {
+    "id": 1463,
+    "display_name": "Schaffhausen (CH)"
+  },
+  {
+    "id": 551,
+    "display_name": "Sharjah (AE)"
+  },
+  {
+    "id": 1465,
+    "display_name": "Schaffhouse (CH)"
+  },
+  {
+    "id": 1464,
+    "display_name": "Sciaffusa (CH)"
+  },
+  {
+    "id": 1650,
+    "display_name": "Shadqam (SA)"
+  },
+  {
+    "id": 296,
+    "display_name": "Sohag (EG)"
+  },
+  {
+    "id": 282,
+    "display_name": "Al Sharqia (EG)"
+  },
+  {
+    "id": 1652,
+    "display_name": "Shuaibah (SA)"
+  },
+  {
+    "id": 1651,
+    "display_name": "Sharurah (SA)"
+  },
+  {
+    "id": 396,
+    "display_name": "Siena (IT)"
+  },
+  {
+    "id": 508,
+    "display_name": "Sinaloa (MX)"
+  },
+  {
+    "id": 295,
+    "display_name": "North Sinai (EG)"
+  },
+  {
+    "id": 1138,
+    "display_name": "San Juan (DO)"
+  },
+  {
+    "id": 1683,
+    "display_name": "San José (UY)"
+  },
+  {
+    "id": 865,
+    "display_name": "Sălaj (RO)"
+  },
+  {
+    "id": 1147,
+    "display_name": "San José de Ocoa (DO)"
+  },
+  {
+    "id": 544,
+    "display_name": "Saskatchewan (CA)"
+  },
+  {
+    "id": 606,
+    "display_name": "Sikkim (IN)"
+  },
+  {
+    "id": 1653,
+    "display_name": "Sulayel (SA)"
+  },
+  {
+    "id": 509,
+    "display_name": "San Luis Potosí (MX)"
+  },
+  {
+    "id": 916,
+    "display_name": "Somalia (ET)"
+  },
+  {
+    "id": 866,
+    "display_name": "Satu Mare (RO)"
+  },
+  {
+    "id": 195,
+    "display_name": "San Marcos (GT)"
+  },
+  {
+    "id": 160,
+    "display_name": "Smolensk Oblast (RU)"
+  },
+  {
+    "id": 642,
+    "display_name": "Sulawesi Selatan (ID)"
+  },
+  {
+    "id": 460,
+    "display_name": "Soria (ES)"
+  },
+  {
+    "id": 1684,
+    "display_name": "Soriano (UY)"
+  },
+  {
+    "id": 1454,
+    "display_name": "Solothurn (CH)"
+  },
+  {
+    "id": 940,
+    "display_name": "Sligo (IE)"
+  },
+  {
+    "id": 398,
+    "display_name": "Sondrio (IT)"
+  },
+  {
+    "id": 1456,
+    "display_name": "Soleure (CH)"
+  },
+  {
+    "id": 1455,
+    "display_name": "Soletta (CH)"
+  },
+  {
+    "id": 197,
+    "display_name": "Sololá (GT)"
+  },
+  {
+    "id": 510,
+    "display_name": "Sonora (MX)"
+  },
+  {
+    "id": 95,
+    "display_name": "São Paulo (BR)"
+  },
+  {
+    "id": 349,
+    "display_name": "La Spezia (IT)"
+  },
+  {
+    "id": 917,
+    "display_name": "Southern Peoples, Nations, and Nationalities (ET)"
+  },
+  {
+    "id": 157,
+    "display_name": "Saint Petersburg (RU)"
+  },
+  {
+    "id": 1139,
+    "display_name": "San Pedro de Macorís (DO)"
+  },
+  {
+    "id": 641,
+    "display_name": "Sulawesi Barat (ID)"
+  },
+  {
+    "id": 397,
+    "display_name": "Siracusa (IT)"
+  },
+  {
+    "id": 1140,
+    "display_name": "Sánchez Ramírez (DO)"
+  },
+  {
+    "id": 1142,
+    "display_name": "Santiago Rodríguez (DO)"
+  },
+  {
+    "id": 196,
+    "display_name": "Santa Rosa (GT)"
+  },
+  {
+    "id": 394,
+    "display_name": "Sassari (IT)"
+  },
+  {
+    "id": 439,
+    "display_name": "Gipuzkoa (Guipúzcoa) (ES)"
+  },
+  {
+    "id": 647,
+    "display_name": "Sumatra Selatan (ID)"
+  },
+  {
+    "id": 643,
+    "display_name": "Sulawesi Tengah (ID)"
+  },
+  {
+    "id": 161,
+    "display_name": "Stavropol Krai (RU)"
+  },
+  {
+    "id": 1141,
+    "display_name": "Santiago (DO)"
+  },
+  {
+    "id": 527,
+    "display_name": "Southland (NZ)"
+  },
+  {
+    "id": 283,
+    "display_name": "6th of October (EG)"
+  },
+  {
+    "id": 399,
+    "display_name": "Sud Sardegna (IT)"
+  },
+  {
+    "id": 648,
+    "display_name": "Sumatra Utara (ID)"
+  },
+  {
+    "id": 671,
+    "display_name": "Sucre (CO)"
+  },
+  {
+    "id": 198,
+    "display_name": "Suchitepéquez (GT)"
+  },
+  {
+    "id": 1647,
+    "display_name": "Salboukh (SA)"
+  },
+  {
+    "id": 284,
+    "display_name": "Suez (EG)"
+  },
+  {
+    "id": 867,
+    "display_name": "Suceava (RO)"
+  },
+  {
+    "id": 395,
+    "display_name": "Savona (IT)"
+  },
+  {
+    "id": 162,
+    "display_name": "Sverdlovsk Oblast (RU)"
+  },
+  {
+    "id": 482,
+    "display_name": "Sarawak (MY)"
+  },
+  {
+    "id": 1437,
+    "display_name": "Schwyz (CH)"
+  },
+  {
+    "id": 1438,
+    "display_name": "Svitto (CH)"
+  },
+  {
+    "id": 576,
+    "display_name": "Tucumán (AR)"
+  },
+  {
+    "id": 461,
+    "display_name": "Tarragona (ES)"
+  },
+  {
+    "id": 800,
+    "display_name": "Perthshire (GB)"
+  },
+  {
+    "id": 801,
+    "display_name": "Powys (GB)"
+  },
+  {
+    "id": 802,
+    "display_name": "Renfrewshire (GB)"
+  },
+  {
+    "id": 803,
+    "display_name": "Ross-Shire (GB)"
+  },
+  {
+    "id": 804,
+    "display_name": "Roxburghshire (GB)"
+  },
+  {
+    "id": 400,
+    "display_name": "Taranto (IT)"
+  },
+  {
+    "id": 164,
+    "display_name": "Republic of Tatarstan (RU)"
+  },
+  {
+    "id": 1685,
+    "display_name": "Tacuarembó (UY)"
+  },
+  {
+    "id": 511,
+    "display_name": "Tabasco (MX)"
+  },
+  {
+    "id": 513,
+    "display_name": "Tamaulipas (MX)"
+  },
+  {
+    "id": 163,
+    "display_name": "Tambov Oblast (RU)"
+  },
+  {
+    "id": 6,
+    "display_name": "Tasmania (AU)"
+  },
+  {
+    "id": 529,
+    "display_name": "Tasman (NZ)"
+  },
+  {
+    "id": 950,
+    "display_name": "Tyrone (IE)"
+  },
+  {
+    "id": 462,
+    "display_name": "Teruel (ES)"
+  },
+  {
+    "id": 401,
+    "display_name": "Teramo (IT)"
+  },
+  {
+    "id": 457,
+    "display_name": "Santa Cruz de Tenerife (ES)"
+  },
+  {
+    "id": 1657,
+    "display_name": "Tusdeer Free Zone (SA)"
+  },
+  {
+    "id": 1481,
+    "display_name": "Thurgau (CH)"
+  },
+  {
+    "id": 918,
+    "display_name": "Tigray (ET)"
+  },
+  {
+    "id": 1483,
+    "display_name": "Thurgovie (CH)"
+  },
+  {
+    "id": 1482,
+    "display_name": "Turgovia (CH)"
+  },
+  {
+    "id": 1498,
+    "display_name": "Bangkok (TH)"
+  },
+  {
+    "id": 1554,
+    "display_name": "Samut Prakan (TH)"
+  },
+  {
+    "id": 1533,
+    "display_name": "Nonthaburi (TH)"
+  },
+  {
+    "id": 1534,
+    "display_name": "Pathum Thani (TH)"
+  },
+  {
+    "id": 1543,
+    "display_name": "Phra Nakhon Si Ayutthaya (TH)"
+  },
+  {
+    "id": 1500,
+    "display_name": "Ang Thong (TH)"
+  },
+  {
+    "id": 1519,
+    "display_name": "Lopburi (TH)"
+  },
+  {
+    "id": 1559,
+    "display_name": "Sing Buri (TH)"
+  },
+  {
+    "id": 1504,
+    "display_name": "Chai Nat (TH)"
+  },
+  {
+    "id": 1557,
+    "display_name": "Saraburi (TH)"
+  },
+  {
+    "id": 1509,
+    "display_name": "Chonburi (TH)"
+  },
+  {
+    "id": 1550,
+    "display_name": "Rayong (TH)"
+  },
+  {
+    "id": 1506,
+    "display_name": "Chanthaburi (TH)"
+  },
+  {
+    "id": 1568,
+    "display_name": "Trat (TH)"
+  },
+  {
+    "id": 1503,
+    "display_name": "Chachoengsao (TH)"
+  },
+  {
+    "id": 1546,
+    "display_name": "Prachinburi (TH)"
+  },
+  {
+    "id": 1523,
+    "display_name": "Nakhon Nayok (TH)"
+  },
+  {
+    "id": 1552,
+    "display_name": "Sa Kaeo (TH)"
+  },
+  {
+    "id": 1526,
+    "display_name": "Nakhon Ratchasima (TH)"
+  },
+  {
+    "id": 1502,
+    "display_name": "Buriram (TH)"
+  },
+  {
+    "id": 1565,
+    "display_name": "Surin (TH)"
+  },
+  {
+    "id": 1560,
+    "display_name": "Sisaket (TH)"
+  },
+  {
+    "id": 1569,
+    "display_name": "Ubon Ratchathani (TH)"
+  },
+  {
+    "id": 1574,
+    "display_name": "Yasothon (TH)"
+  },
+  {
+    "id": 1505,
+    "display_name": "Chaiyaphum (TH)"
+  },
+  {
+    "id": 1499,
+    "display_name": "Amnat Charoen (TH)"
+  },
+  {
+    "id": 1501,
+    "display_name": "Bueng Kan (TH)"
+  },
+  {
+    "id": 1531,
+    "display_name": "Nong Bua Lamphu (TH)"
+  },
+  {
+    "id": 1514,
+    "display_name": "Khon Kaen (TH)"
+  },
+  {
+    "id": 1570,
+    "display_name": "Udon Thani (TH)"
+  },
+  {
+    "id": 1518,
+    "display_name": "Loei (TH)"
+  },
+  {
+    "id": 1532,
+    "display_name": "Nong Khai (TH)"
+  },
+  {
+    "id": 1521,
+    "display_name": "Maha Sarakham (TH)"
+  },
+  {
+    "id": 1551,
+    "display_name": "Roi Et (TH)"
+  },
+  {
+    "id": 1511,
+    "display_name": "Kalasin (TH)"
+  },
+  {
+    "id": 1553,
+    "display_name": "Sakon Nakhon (TH)"
+  },
+  {
+    "id": 1525,
+    "display_name": "Nakhon Phanom (TH)"
+  },
+  {
+    "id": 1522,
+    "display_name": "Mukdahan (TH)"
+  },
+  {
+    "id": 1507,
+    "display_name": "Chiang Mai (TH)"
+  },
+  {
+    "id": 1517,
+    "display_name": "Lamphun (TH)"
+  },
+  {
+    "id": 1516,
+    "display_name": "Lampang (TH)"
+  },
+  {
+    "id": 1572,
+    "display_name": "Uttaradit (TH)"
+  },
+  {
+    "id": 1544,
+    "display_name": "Phrae (TH)"
+  },
+  {
+    "id": 1529,
+    "display_name": "Nan (TH)"
+  },
+  {
+    "id": 1538,
+    "display_name": "Phayao (TH)"
+  },
+  {
+    "id": 1508,
+    "display_name": "Chiang Rai (TH)"
+  },
+  {
+    "id": 1520,
+    "display_name": "Mae Hong Son (TH)"
+  },
+  {
+    "id": 1527,
+    "display_name": "Nakhon Sawan (TH)"
+  },
+  {
+    "id": 1571,
+    "display_name": "Uthai Thani (TH)"
+  },
+  {
+    "id": 1512,
+    "display_name": "Kamphaeng Phet (TH)"
+  },
+  {
+    "id": 1566,
+    "display_name": "Tak (TH)"
+  },
+  {
+    "id": 1562,
+    "display_name": "Sukhothai (TH)"
+  },
+  {
+    "id": 1542,
+    "display_name": "Phitsanulok (TH)"
+  },
+  {
+    "id": 1541,
+    "display_name": "Phichit (TH)"
+  },
+  {
+    "id": 1539,
+    "display_name": "Phetchabun (TH)"
+  },
+  {
+    "id": 1549,
+    "display_name": "Ratchaburi (TH)"
+  },
+  {
+    "id": 1513,
+    "display_name": "Kanchanaburi (TH)"
+  },
+  {
+    "id": 1563,
+    "display_name": "Suphan Buri (TH)"
+  },
+  {
+    "id": 1524,
+    "display_name": "Nakhon Pathom (TH)"
+  },
+  {
+    "id": 1555,
+    "display_name": "Samut Sakhon (TH)"
+  },
+  {
+    "id": 1556,
+    "display_name": "Samut Songkhram (TH)"
+  },
+  {
+    "id": 1540,
+    "display_name": "Phetchaburi (TH)"
+  },
+  {
+    "id": 1547,
+    "display_name": "Prachuap Khiri Khan (TH)"
+  },
+  {
+    "id": 1528,
+    "display_name": "Nakhon Si Thammarat (TH)"
+  },
+  {
+    "id": 1515,
+    "display_name": "Krabi (TH)"
+  },
+  {
+    "id": 1536,
+    "display_name": "Phang Nga (TH)"
+  },
+  {
+    "id": 1545,
+    "display_name": "Phuket (TH)"
+  },
+  {
+    "id": 1564,
+    "display_name": "Surat Thani (TH)"
+  },
+  {
+    "id": 1548,
+    "display_name": "Ranong (TH)"
+  },
+  {
+    "id": 1510,
+    "display_name": "Chumphon (TH)"
+  },
+  {
+    "id": 1561,
+    "display_name": "Songkhla (TH)"
+  },
+  {
+    "id": 1558,
+    "display_name": "Satun (TH)"
+  },
+  {
+    "id": 1567,
+    "display_name": "Trang (TH)"
+  },
+  {
+    "id": 1537,
+    "display_name": "Phatthalung (TH)"
+  },
+  {
+    "id": 1535,
+    "display_name": "Pattani (TH)"
+  },
+  {
+    "id": 1573,
+    "display_name": "Yala (TH)"
+  },
+  {
+    "id": 1530,
+    "display_name": "Narathiwat (TH)"
+  },
+  {
+    "id": 1484,
+    "display_name": "Tessin (CH)"
+  },
+  {
+    "id": 1485,
+    "display_name": "Ticino (CH)"
+  },
+  {
+    "id": 1655,
+    "display_name": "Taif (SA)"
+  },
+  {
+    "id": 528,
+    "display_name": "Taranaki (NZ)"
+  },
+  {
+    "id": 868,
+    "display_name": "Tulcea (RO)"
+  },
+  {
+    "id": 512,
+    "display_name": "Tlaxcala (MX)"
+  },
+  {
+    "id": 869,
+    "display_name": "Timiș (RO)"
+  },
+  {
+    "id": 51,
+    "display_name": "Tennessee (US)"
+  },
+  {
+    "id": 405,
+    "display_name": "Trento (IT)"
+  },
+  {
+    "id": 607,
+    "display_name": "Tamil Nadu (IN)"
+  },
+  {
+    "id": 97,
+    "display_name": "Tocantins (BR)"
+  },
+  {
+    "id": 463,
+    "display_name": "Toledo (ES)"
+  },
+  {
+    "id": 403,
+    "display_name": "Torino (IT)"
+  },
+  {
+    "id": 672,
+    "display_name": "Tolima (CO)"
+  },
+  {
+    "id": 165,
+    "display_name": "Tomsk Oblast (RU)"
+  },
+  {
+    "id": 199,
+    "display_name": "Totonicapán (GT)"
+  },
+  {
+    "id": 404,
+    "display_name": "Trapani (IT)"
+  },
+  {
+    "id": 402,
+    "display_name": "Terni (IT)"
+  },
+  {
+    "id": 870,
+    "display_name": "Teleorman (RO)"
+  },
+  {
+    "id": 609,
+    "display_name": "Tripura (IN)"
+  },
+  {
+    "id": 941,
+    "display_name": "Tipperary (IE)"
+  },
+  {
+    "id": 484,
+    "display_name": "Terengganu (MY)"
+  },
+  {
+    "id": 407,
+    "display_name": "Trieste (IT)"
+  },
+  {
+    "id": 608,
+    "display_name": "Telangana (IN)"
+  },
+  {
+    "id": 1686,
+    "display_name": "Treinta y Tres (UY)"
+  },
+  {
+    "id": 1656,
+    "display_name": "Turaif (SA)"
+  },
+  {
+    "id": 166,
+    "display_name": "Tula Oblast (RU)"
+  },
+  {
+    "id": 1654,
+    "display_name": "Tabuk (SA)"
+  },
+  {
+    "id": 406,
+    "display_name": "Treviso (IT)"
+  },
+  {
+    "id": 167,
+    "display_name": "Tver Oblast (RU)"
+  },
+  {
+    "id": 52,
+    "display_name": "Texas (US)"
+  },
+  {
+    "id": 169,
+    "display_name": "Tyva Republic (RU)"
+  },
+  {
+    "id": 168,
+    "display_name": "Tyumen Oblast (RU)"
+  },
+  {
+    "id": 557,
+    "display_name": "Chubut (AR)"
+  },
+  {
+    "id": 805,
+    "display_name": "Selkirkshire (GB)"
+  },
+  {
+    "id": 806,
+    "display_name": "Shropshire (GB)"
+  },
+  {
+    "id": 807,
+    "display_name": "Somerset (GB)"
+  },
+  {
+    "id": 808,
+    "display_name": "South Glamorgan (GB)"
+  },
+  {
+    "id": 408,
+    "display_name": "Udine (IT)"
+  },
+  {
+    "id": 170,
+    "display_name": "Udmurtia (RU)"
+  },
+  {
+    "id": 1658,
+    "display_name": "Udhailiyah (SA)"
+  },
+  {
+    "id": 611,
+    "display_name": "Uttarakhand (IN)"
+  },
+  {
+    "id": 171,
+    "display_name": "Ulyanovsk Oblast (RU)"
+  },
+  {
+    "id": 610,
+    "display_name": "Uttar Pradesh (IN)"
+  },
+  {
+    "id": 552,
+    "display_name": "Umm al-Quwain (AE)"
+  },
+  {
+    "id": 1436,
+    "display_name": "Uri (CH)"
+  },
+  {
+    "id": 1607,
+    "display_name": "Gurayat (SA)"
+  },
+  {
+    "id": 53,
+    "display_name": "Utah (US)"
+  },
+  {
+    "id": 960,
+    "display_name": "Utrecht (NL)"
+  },
+  {
+    "id": 1660,
+    "display_name": "Unayzah (SA)"
+  },
+  {
+    "id": 464,
+    "display_name": "València (Valencia) (ES)"
+  },
+  {
+    "id": 575,
+    "display_name": "Tierra del Fuego (AR)"
+  },
+  {
+    "id": 809,
+    "display_name": "South Humberside (GB)"
+  },
+  {
+    "id": 810,
+    "display_name": "South Yorkshire (GB)"
+  },
+  {
+    "id": 811,
+    "display_name": "Staffordshire (GB)"
+  },
+  {
+    "id": 812,
+    "display_name": "Stirlingshire (GB)"
+  },
+  {
+    "id": 813,
+    "display_name": "Suffolk (GB)"
+  },
+  {
+    "id": 409,
+    "display_name": "Varese (IT)"
+  },
+  {
+    "id": 465,
+    "display_name": "Valladolid (ES)"
+  },
+  {
+    "id": 55,
+    "display_name": "Virginia (US)"
+  },
+  {
+    "id": 673,
+    "display_name": "Valle del Cauca (CO)"
+  },
+  {
+    "id": 1143,
+    "display_name": "Valverde (DO)"
+  },
+  {
+    "id": 681,
+    "display_name": "Vaupés (CO)"
+  },
+  {
+    "id": 411,
+    "display_name": "Verbano-Cusio-Ossola (IT)"
+  },
+  {
+    "id": 412,
+    "display_name": "Vercelli (IT)"
+  },
+  {
+    "id": 1486,
+    "display_name": "Waadt (CH)"
+  },
+  {
+    "id": 1487,
+    "display_name": "Vaud (CH)"
+  },
+  {
+    "id": 410,
+    "display_name": "Venezia (IT)"
+  },
+  {
+    "id": 514,
+    "display_name": "Veracruz (MX)"
+  },
+  {
+    "id": 173,
+    "display_name": "Volgograd Oblast (RU)"
+  },
+  {
+    "id": 415,
+    "display_name": "Vicenza (IT)"
+  },
+  {
+    "id": 418,
+    "display_name": "Araba/Álava (ES)"
+  },
+  {
+    "id": 67,
+    "display_name": "Virgin Islands (US)"
+  },
+  {
+    "id": 7,
+    "display_name": "Victoria (AU)"
+  },
+  {
+    "id": 682,
+    "display_name": "Vichada (CO)"
+  },
+  {
+    "id": 871,
+    "display_name": "Vâlcea (RO)"
+  },
+  {
+    "id": 172,
+    "display_name": "Vladimir Oblast (RU)"
+  },
+  {
+    "id": 1659,
+    "display_name": "Umm Lajj (SA)"
+  },
+  {
+    "id": 174,
+    "display_name": "Vologda Oblast (RU)"
+  },
+  {
+    "id": 872,
+    "display_name": "Vrancea (RO)"
+  },
+  {
+    "id": 1083,
+    "display_name": "Lai Châu (VN)"
+  },
+  {
+    "id": 1082,
+    "display_name": "Lào Cai (VN)"
+  },
+  {
+    "id": 1072,
+    "display_name": "Hà Giang (VN)"
+  },
+  {
+    "id": 1058,
+    "display_name": "Cao Bằng (VN)"
+  },
+  {
+    "id": 1097,
+    "display_name": "Sơn La (VN)"
+  },
+  {
+    "id": 1109,
+    "display_name": "Yên Bái (VN)"
+  },
+  {
+    "id": 1104,
+    "display_name": "Tuyên Quang (VN)"
+  },
+  {
+    "id": 1085,
+    "display_name": "Lạng Sơn (VN)"
+  },
+  {
+    "id": 1093,
+    "display_name": "Quảng Ninh (VN)"
+  },
+  {
+    "id": 1068,
+    "display_name": "Hòa Bình (VN)"
+  },
+  {
+    "id": 1087,
+    "display_name": "Ninh Bình (VN)"
+  },
+  {
+    "id": 1099,
+    "display_name": "Thái Bình (VN)"
+  },
+  {
+    "id": 1101,
+    "display_name": "Thanh Hóa (VN)"
+  },
+  {
+    "id": 1086,
+    "display_name": "Nghệ An (VN)"
+  },
+  {
+    "id": 1076,
+    "display_name": "Hà Tĩnh (VN)"
+  },
+  {
+    "id": 1092,
+    "display_name": "Quảng Bình (VN)"
+  },
+  {
+    "id": 1096,
+    "display_name": "Quảng Trị (VN)"
+  },
+  {
+    "id": 1105,
+    "display_name": "Thừa Thiên - Huế (VN)"
+  },
+  {
+    "id": 1094,
+    "display_name": "Quảng Nam (VN)"
+  },
+  {
+    "id": 1080,
+    "display_name": "Kon Tum (VN)"
+  },
+  {
+    "id": 1095,
+    "display_name": "Quảng Ngãi (VN)"
+  },
+  {
+    "id": 1067,
+    "display_name": "Gia Lai (VN)"
+  },
+  {
+    "id": 1049,
+    "display_name": "Bình Định (VN)"
+  },
+  {
+    "id": 1091,
+    "display_name": "Phú Yên (VN)"
+  },
+  {
+    "id": 1062,
+    "display_name": "Đắk Lắk (VN)"
+  },
+  {
+    "id": 1079,
+    "display_name": "Khánh Hòa (VN)"
+  },
+  {
+    "id": 1084,
+    "display_name": "Lâm Đồng (VN)"
+  },
+  {
+    "id": 1089,
+    "display_name": "Ninh Thuận (VN)"
+  },
+  {
+    "id": 1103,
+    "display_name": "Tây Ninh (VN)"
+  },
+  {
+    "id": 1064,
+    "display_name": "Đồng Nai (VN)"
+  },
+  {
+    "id": 1056,
+    "display_name": "Bình Thuận (VN)"
+  },
+  {
+    "id": 1081,
+    "display_name": "Long An (VN)"
+  },
+  {
+    "id": 1055,
+    "display_name": "Bà Rịa - Vũng Tàu (VN)"
+  },
+  {
+    "id": 1047,
+    "display_name": "An Giang (VN)"
+  },
+  {
+    "id": 1066,
+    "display_name": "Đồng Tháp (VN)"
+  },
+  {
+    "id": 1100,
+    "display_name": "Tiền Giang (VN)"
+  },
+  {
+    "id": 1078,
+    "display_name": "Kiên Giang (VN)"
+  },
+  {
+    "id": 1107,
+    "display_name": "Vĩnh Long (VN)"
+  },
+  {
+    "id": 1057,
+    "display_name": "Bến Tre (VN)"
+  },
+  {
+    "id": 1106,
+    "display_name": "Trà Vinh (VN)"
+  },
+  {
+    "id": 1098,
+    "display_name": "Sóc Trăng (VN)"
+  },
+  {
+    "id": 1051,
+    "display_name": "Bắc Kạn (VN)"
+  },
+  {
+    "id": 1050,
+    "display_name": "Bắc Giang (VN)"
+  },
+  {
+    "id": 1052,
+    "display_name": "Bạc Liêu (VN)"
+  },
+  {
+    "id": 1053,
+    "display_name": "Bắc Ninh (VN)"
+  },
+  {
+    "id": 1048,
+    "display_name": "Bình Dương (VN)"
+  },
+  {
+    "id": 1054,
+    "display_name": "Bình Phước (VN)"
+  },
+  {
+    "id": 1059,
+    "display_name": "Cà Mau (VN)"
+  },
+  {
+    "id": 1070,
+    "display_name": "Hải Dương (VN)"
+  },
+  {
+    "id": 1074,
+    "display_name": "Hà Nam (VN)"
+  },
+  {
+    "id": 1077,
+    "display_name": "Hưng Yên (VN)"
+  },
+  {
+    "id": 1088,
+    "display_name": "Nam Định (VN)"
+  },
+  {
+    "id": 1090,
+    "display_name": "Phú Thọ (VN)"
+  },
+  {
+    "id": 1102,
+    "display_name": "Thái Nguyên (VN)"
+  },
+  {
+    "id": 1108,
+    "display_name": "Vĩnh Phúc (VN)"
+  },
+  {
+    "id": 1061,
+    "display_name": "Điện Biên (VN)"
+  },
+  {
+    "id": 1065,
+    "display_name": "Đắk Nông (VN)"
+  },
+  {
+    "id": 1071,
+    "display_name": "Hậu Giang (VN)"
+  },
+  {
+    "id": 1060,
+    "display_name": "TP Cần Thơ (VN)"
+  },
+  {
+    "id": 1063,
+    "display_name": "TP Đà Nẵng (VN)"
+  },
+  {
+    "id": 1073,
+    "display_name": "Hà Nội (VN)"
+  },
+  {
+    "id": 1075,
+    "display_name": "TP Hải Phòng (VN)"
+  },
+  {
+    "id": 1069,
+    "display_name": "TP Hồ Chí Minh (VN)"
+  },
+  {
+    "id": 175,
+    "display_name": "Voronezh Oblast (RU)"
+  },
+  {
+    "id": 413,
+    "display_name": "Verona (IT)"
+  },
+  {
+    "id": 1488,
+    "display_name": "Wallis (CH)"
+  },
+  {
+    "id": 873,
+    "display_name": "Vaslui (RO)"
+  },
+  {
+    "id": 361,
+    "display_name": "Medio Campidano (IT)"
+  },
+  {
+    "id": 1490,
+    "display_name": "Valais (CH)"
+  },
+  {
+    "id": 1489,
+    "display_name": "Vallese (CH)"
+  },
+  {
+    "id": 416,
+    "display_name": "Viterbo (IT)"
+  },
+  {
+    "id": 54,
+    "display_name": "Vermont (US)"
+  },
+  {
+    "id": 414,
+    "display_name": "Vibo Valentia (IT)"
+  },
+  {
+    "id": 559,
+    "display_name": "Corrientes (AR)"
+  },
+  {
+    "id": 814,
+    "display_name": "Surrey (GB)"
+  },
+  {
+    "id": 815,
+    "display_name": "Sutherland (GB)"
+  },
+  {
+    "id": 816,
+    "display_name": "Tyne and Wear (GB)"
+  },
+  {
+    "id": 817,
+    "display_name": "Warwickshire (GB)"
+  },
+  {
+    "id": 818,
+    "display_name": "West Glamorgan (GB)"
+  },
+  {
+    "id": 8,
+    "display_name": "Western Australia (AU)"
+  },
+  {
+    "id": 56,
+    "display_name": "Washington (US)"
+  },
+  {
+    "id": 281,
+    "display_name": "New Valley (EG)"
+  },
+  {
+    "id": 1661,
+    "display_name": "Wadi ad Dawasir (SA)"
+  },
+  {
+    "id": 612,
+    "display_name": "West Bengal (IN)"
+  },
+  {
+    "id": 305,
+    "display_name": "Western Cape (ZA)"
+  },
+  {
+    "id": 924,
+    "display_name": "Waterford (IE)"
+  },
+  {
+    "id": 531,
+    "display_name": "Wellington (NZ)"
+  },
+  {
+    "id": 942,
+    "display_name": "Westmeath (IE)"
+  },
+  {
+    "id": 58,
+    "display_name": "Wisconsin (US)"
+  },
+  {
+    "id": 530,
+    "display_name": "Waikato (NZ)"
+  },
+  {
+    "id": 532,
+    "display_name": "West Coast (NZ)"
+  },
+  {
+    "id": 57,
+    "display_name": "West Virginia (US)"
+  },
+  {
+    "id": 944,
+    "display_name": "Wicklow (IE)"
+  },
+  {
+    "id": 943,
+    "display_name": "Wexford (IE)"
+  },
+  {
+    "id": 59,
+    "display_name": "Wyoming (US)"
+  },
+  {
+    "id": 558,
+    "display_name": "Córdoba (AR)"
+  },
+  {
+    "id": 819,
+    "display_name": "West Lothian (GB)"
+  },
+  {
+    "id": 820,
+    "display_name": "West Midlands (GB)"
+  },
+  {
+    "id": 821,
+    "display_name": "West Sussex (GB)"
+  },
+  {
+    "id": 822,
+    "display_name": "West Yorkshire (GB)"
+  },
+  {
+    "id": 823,
+    "display_name": "Wigtownshire (GB)"
+  },
+  {
+    "id": 562,
+    "display_name": "Jujuy (AR)"
+  },
+  {
+    "id": 824,
+    "display_name": "Wiltshire (GB)"
+  },
+  {
+    "id": 825,
+    "display_name": "Worcestershire (GB)"
+  },
+  {
+    "id": 176,
+    "display_name": "Yamalo-Nenets Autonomous Okrug (RU)"
+  },
+  {
+    "id": 177,
+    "display_name": "Yaroslavl Oblast (RU)"
+  },
+  {
+    "id": 1665,
+    "display_name": "Yanbu Industrial City (SA)"
+  },
+  {
+    "id": 178,
+    "display_name": "Jewish Autonomous Oblast (RU)"
+  },
+  {
+    "id": 1664,
+    "display_name": "Yanbu commercial city (SA)"
+  },
+  {
+    "id": 649,
+    "display_name": "Yogyakarta (ID)"
+  },
+  {
+    "id": 545,
+    "display_name": "Yukon (CA)"
+  },
+  {
+    "id": 515,
+    "display_name": "Yucatán (MX)"
+  },
+  {
+    "id": 572,
+    "display_name": "Santa Cruz (AR)"
+  },
+  {
+    "id": 468,
+    "display_name": "Zaragoza (ES)"
+  },
+  {
+    "id": 467,
+    "display_name": "Zamora (ES)"
+  },
+  {
+    "id": 516,
+    "display_name": "Zacatecas (MX)"
+  },
+  {
+    "id": 200,
+    "display_name": "Zacapa (GT)"
+  },
+  {
+    "id": 961,
+    "display_name": "Zeeland (NL)"
+  },
+  {
+    "id": 1448,
+    "display_name": "Zug (CH)"
+  },
+  {
+    "id": 1450,
+    "display_name": "Zoug (CH)"
+  },
+  {
+    "id": 1449,
+    "display_name": "Zugo (CH)"
+  },
+  {
+    "id": 1427,
+    "display_name": "Zürich (CH)"
+  },
+  {
+    "id": 962,
+    "display_name": "Zuid-Holland (NL)"
+  },
+  {
+    "id": 1429,
+    "display_name": "Zurich (CH)"
+  },
+  {
+    "id": 1428,
+    "display_name": "Zurigo (CH)"
+  },
+  {
+    "id": 1666,
+    "display_name": "Zilfi (SA)"
+  },
+  {
+    "id": 1667,
+    "display_name": "Zulayfayn (SA)"
+  },
+  {
+    "id": 874,
+    "display_name": "北京市 (CN)"
+  },
+  {
+    "id": 894,
+    "display_name": "河北省 (CN)"
+  },
+  {
+    "id": 905,
+    "display_name": "台湾省 (CN)"
+  },
+  {
+    "id": 900,
+    "display_name": "吉林省 (CN)"
+  },
+  {
+    "id": 888,
+    "display_name": "宁夏回族自治区 (CN)"
+  },
+  {
+    "id": 886,
+    "display_name": "新疆维吾尔自治区 (CN)"
+  },
+  {
+    "id": 896,
+    "display_name": "山西省 (CN)"
+  },
+  {
+    "id": 892,
+    "display_name": "广西壮族自治区 (CN)"
+  },
+  {
+    "id": 875,
+    "display_name": "上海市 (CN)"
+  },
+  {
+    "id": 877,
+    "display_name": "天津市 (CN)"
+  },
+  {
+    "id": 876,
+    "display_name": "浙江省 (CN)"
+  },
+  {
+    "id": 880,
+    "display_name": "重庆市 (CN)"
+  },
+  {
+    "id": 906,
+    "display_name": "香港特别行政区 (CN)"
+  },
+  {
+    "id": 887,
+    "display_name": "湖南省 (CN)"
+  },
+  {
+    "id": 897,
+    "display_name": "云南省 (CN)"
+  },
+  {
+    "id": 907,
+    "display_name": "澳门特别行政区 (CN)"
+  },
+  {
+    "id": 891,
+    "display_name": "海南省 (CN)"
+  },
+  {
+    "id": 901,
+    "display_name": "甘肃省 (CN)"
+  },
+  {
+    "id": 878,
+    "display_name": "安徽省 (CN)"
+  },
+  {
+    "id": 889,
+    "display_name": "广东省 (CN)"
+  },
+  {
+    "id": 904,
+    "display_name": "江苏省 (CN)"
+  },
+  {
+    "id": 884,
+    "display_name": "内蒙古自治区 (CN)"
+  },
+  {
+    "id": 890,
+    "display_name": "西藏自治区 (CN)"
+  },
+  {
+    "id": 893,
+    "display_name": "四川省 (CN)"
+  },
+  {
+    "id": 883,
+    "display_name": "河南省 (CN)"
+  },
+  {
+    "id": 881,
+    "display_name": "江西省 (CN)"
+  },
+  {
+    "id": 898,
+    "display_name": "辽宁省 (CN)"
+  },
+  {
+    "id": 885,
+    "display_name": "湖北省 (CN)"
+  },
+  {
+    "id": 879,
+    "display_name": "福建省 (CN)"
+  },
+  {
+    "id": 899,
+    "display_name": "陕西省 (CN)"
+  },
+  {
+    "id": 903,
+    "display_name": "青海省 (CN)"
+  },
+  {
+    "id": 882,
+    "display_name": "山东省 (CN)"
+  },
+  {
+    "id": 902,
+    "display_name": "黑龙江省 (CN)"
+  },
+  {
+    "id": 895,
+    "display_name": "贵州省 (CN)"
+  }
+]
