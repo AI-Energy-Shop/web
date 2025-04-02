@@ -14,6 +14,10 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 const documents = {
+  '\n      query Address($documentId: ID!) {\n        usersPermissionsUser(documentId: $documentId) {\n          addresses {\n            city\n            country\n            documentId\n            isActive\n            mobile\n            odoo_address_id\n            phone\n            createdAt\n            state\n            street1\n            street2\n            title\n            zip_code\n          }\n        }\n      }\n    ':
+    types.AddressDocument,
+  '\n      mutation CreateAddress($data: AddressInput!) {\n        createAddress(data: $data) {\n          documentId\n        }\n      }\n    ':
+    types.CreateAddressDocument,
   '\n      query Carts($filters: CartFiltersInput, $pagination: PaginationArg) {\n        carts(filters: $filters, pagination: $pagination) {\n          documentId\n          product {\n            documentId\n            name\n            model\n            odoo_product_id\n            price_lists {\n              price\n              min_quantity\n              max_quantity\n            }\n            inventories {\n              documentId\n              name\n              location_code\n              quantity\n            }\n            images {\n              url\n              alternativeText\n              width\n              height\n            }\n          }\n          user {\n            documentId\n            username\n          }\n          quantity\n          createdAt\n          updatedAt\n        }\n      }\n    ':
     types.CartsDocument,
   '\n      mutation CreateCart($data: CartInput!) {\n        createCart(data: $data) {\n          documentId\n          product {\n            documentId\n            odoo_product_id\n            name\n            model\n            price_lists {\n              price\n              sale_price\n              min_quantity\n              max_quantity\n              user_level\n            }\n            inventories {\n              documentId\n              name\n              location_code\n              quantity\n            }\n            images {\n              url\n              alternativeText\n              width\n              height\n            }\n          }\n          user {\n            documentId\n            username\n          }\n          quantity\n          createdAt\n          updatedAt\n        }  \n      }\n    ':
@@ -70,6 +74,18 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      query Address($documentId: ID!) {\n        usersPermissionsUser(documentId: $documentId) {\n          addresses {\n            city\n            country\n            documentId\n            isActive\n            mobile\n            odoo_address_id\n            phone\n            createdAt\n            state\n            street1\n            street2\n            title\n            zip_code\n          }\n        }\n      }\n    '
+): (typeof documents)['\n      query Address($documentId: ID!) {\n        usersPermissionsUser(documentId: $documentId) {\n          addresses {\n            city\n            country\n            documentId\n            isActive\n            mobile\n            odoo_address_id\n            phone\n            createdAt\n            state\n            street1\n            street2\n            title\n            zip_code\n          }\n        }\n      }\n    '];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation CreateAddress($data: AddressInput!) {\n        createAddress(data: $data) {\n          documentId\n        }\n      }\n    '
+): (typeof documents)['\n      mutation CreateAddress($data: AddressInput!) {\n        createAddress(data: $data) {\n          documentId\n        }\n      }\n    '];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

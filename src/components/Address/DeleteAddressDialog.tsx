@@ -1,6 +1,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -22,6 +23,7 @@ function DeleteAddressDialog() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Are you sure you want to delete this?</DialogTitle>
+          <DialogDescription></DialogDescription>
         </DialogHeader>
         <div className="mt-4 flex justify-end gap-x-4">
           <Button variant="outline" onClick={() => setCloseDialog(false)}>

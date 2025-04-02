@@ -1,6 +1,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -20,6 +21,7 @@ function EditAddressDialog() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit Address</DialogTitle>
+          <DialogDescription></DialogDescription>
         </DialogHeader>
         <AddressForm />
       </DialogContent>

@@ -12,35 +12,20 @@ import {
 import { useState } from 'react';
 import EditAddressDialog from './EditAddressDialog';
 import DeleteAddressDialog from './DeleteAddressDialog';
+import { AddressQuery } from '@/lib/gql/graphql';
 
-function AddressList() {
-  const [addresses, setAdressess] = useState([
-    {
-      name: 'Home Address',
-      street: '123 Example Street',
-      locality: 'Sydney',
-      state: 'NSW',
-      postCode: '2000',
-      country: 'Australia',
-      default: true,
-    },
-    {
-      name: 'Office Address',
-      street: '123 Example Street',
-      locality: 'Sydney',
-      state: 'NSW',
-      postCode: '2000',
-      country: 'Australia',
-      default: false,
-    },
-  ]);
+type AddressListProps = {
+  data: AddressQuery;
+};
 
+function AddressList({ data }: AddressListProps) {
+  const addresses = data?.usersPermissionsUser?.addresses;
   return (
     <div className="space-y-4">
-      {addresses?.map((address, i) => (
+      {addresses?.map((address) => (
         <Card
-          key={i}
-          className={`relative border ${address.default && 'border-orange-orange bg-orange-orange/5'}`}
+          key={address?.documentId}
+          className={`relative border ${address?.isActive && 'border-orange-orange bg-orange-orange/5'}`}
         >
           <MapPin className="absolute left-5 top-[26px]" />
 
@@ -49,14 +34,16 @@ function AddressList() {
             <DeleteAddressDialog />
           </div>
           <CardHeader className="pl-16 max-sm:max-w-44">
-            <CardTitle className="text-lg">{address.name}</CardTitle>
+            <CardTitle className="text-lg">{address?.title}</CardTitle>
           </CardHeader>
           <CardContent className="pl-16">
-            <p>{`${address.street}`}</p>
-            <p>{`${address.state} ${address.locality} ${address.postCode}`}</p>
-            <p>{address.country}</p>
+            <p>{`${address?.street1}, ${address?.street2}`}</p>
+            <p>{`${address?.state} ${address?.city} ${address?.zip_code}`}</p>
+            <p>{address?.country}</p>
+            <p>{address?.mobile}</p>
+            <p>{address?.phone}</p>
           </CardContent>
-          {address.default && (
+          {address?.isActive && (
             <CardFooter className="pl-16 flex items-center gap-x-1 text-orange-orange">
               <Check className="w-5 h-5" />
               <p>Default address</p>

@@ -15,14 +15,17 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import StateComboBox from '../Address/StateComboBox';
 import CountryComboBox from '../Address/CountryComboBox';
+import { addNewAddress } from '@/app/actions/address';
+import { toast } from 'sonner';
 
 type AddressSchemaTypes = z.infer<typeof addressSchema>;
 
 interface AddressFormProps {
   address?: AddressSchemaTypes;
+  setCloseModal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function AddressForm({ address }: AddressFormProps) {
+function AddressForm({ address, setCloseModal }: AddressFormProps) {
   const form = useForm<AddressSchemaTypes>({
     resolver: zodResolver(addressSchema),
     defaultValues: {
@@ -39,7 +42,19 @@ function AddressForm({ address }: AddressFormProps) {
     },
   });
 
-  const onSubmit = (values: AddressSchemaTypes) => {};
+  const onSubmit = async (values: AddressSchemaTypes) => {
+    try {
+      if (!address) {
+        await addNewAddress(values);
+      }
+    } catch (error) {
+      toast.error('Server Error');
+    } finally {
+      if (setCloseModal) {
+        setCloseModal(false);
+      }
+    }
+  };
 
   return (
     <Form {...form}>
