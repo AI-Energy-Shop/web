@@ -1,11 +1,14 @@
 import { z } from 'zod';
 
 export const addressSchema = z.object({
-  name: z.string(),
-  street: z.string(),
-  locality: z.string(),
+  title: z.string().min(1),
+  street1: z.string().min(1),
+  street2: z.string(),
+  city: z.string(),
   state: z.string(),
-  postCode: z.string(),
   country: z.string(),
-  default: z.boolean(),
+  zipCode: z.number().optional(),
+  isActive: z.boolean(),
+  mobile: z.string(),
+  phone: z.string(),
 });
