@@ -10,14 +10,14 @@ import { Pencil } from 'lucide-react';
 import { Button } from '../ui/button';
 import AddressForm from '../Form/AddressForm';
 
-function EditAddressDialog() {
+type EditAddressDialogProps = {
+  openEditDialog: boolean;
+  setOpenEditDialog: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+function EditAddressDialog({}: EditAddressDialogProps) {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Pencil className="w-4 h-4" />
-        </Button>
-      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit Address</DialogTitle>

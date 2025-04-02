@@ -35,7 +35,7 @@ function AddressForm({ address, setCloseModal }: AddressFormProps) {
       city: '',
       state: '',
       country: '',
-      zipCode: undefined,
+      zip_code: '',
       mobile: '',
       phone: '',
       isActive: false,
@@ -116,7 +116,7 @@ function AddressForm({ address, setCloseModal }: AddressFormProps) {
         <div className="sm:flex sm:items-end sm:gap-x-2 max-sm:space-y-2">
           <FormField
             control={form.control}
-            name="zipCode"
+            name="zip_code"
             render={({ field }) => (
               <FormItem className="flex-1">
                 <FormLabel>Zip</FormLabel>

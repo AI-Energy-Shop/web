@@ -1067,6 +1067,18 @@ export type CreateAddressMutation = {
   createAddress?: { __typename?: 'Address'; documentId: string } | null;
 };
 
+export type DeleteAddressMutationVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+}>;
+
+export type DeleteAddressMutation = {
+  __typename?: 'Mutation';
+  deleteAddress?: {
+    __typename?: 'DeleteMutationResponse';
+    documentId: string;
+  } | null;
+};
+
 export type CartsQueryVariables = Exact<{
   filters?: InputMaybe<CartFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
@@ -2187,6 +2199,57 @@ export const CreateAddressDocument = {
 } as unknown as DocumentNode<
   CreateAddressMutation,
   CreateAddressMutationVariables
+>;
+export const DeleteAddressDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteAddress' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteAddress' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteAddressMutation,
+  DeleteAddressMutationVariables
 >;
 export const CartsDocument = {
   kind: 'Document',

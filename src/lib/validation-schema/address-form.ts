@@ -7,7 +7,7 @@ export const addressSchema = z.object({
   city: z.string(),
   state: z.string(),
   country: z.string(),
-  zipCode: z.number().optional(),
+  zip_code: z.string(),
   isActive: z.boolean(),
   mobile: z.string(),
   phone: z.string(),

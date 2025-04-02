@@ -33,6 +33,13 @@ const schema = {
         }
       }
     `),
+    deleteAddress: graphql(`
+      mutation DeleteAddress($documentId: ID!) {
+        deleteAddress(documentId: $documentId) {
+          documentId
+        }
+      }
+    `),
   },
 };
 

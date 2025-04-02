@@ -56,3 +56,27 @@ export async function addNewAddress(value: AddressSchemaTypes) {
 
   return res;
 }
+
+export async function deleteAddress(id: string) {
+  const cookieStore = cookies();
+  const token = cookieStore.get('a-token')?.value;
+  const Auser: Auser = JSON.parse(cookieStore.get('a-user')?.value!);
+
+  const res = await client.mutate({
+    mutation: ADDRESS_OPERATION.Mutation.deleteAddress,
+    context: {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+    variables: {
+      documentId: id,
+    },
+  });
+
+  if (res.data?.deleteAddress?.documentId) {
+    revalidatePath('/address');
+  }
+
+  return res;
+}
