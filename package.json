@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently -n \"FORMAT,NEXT\" -c \"yellow,green\" \"npm run format -- --watch\" \"next dev --turbo\"",
-    "build": "next build",
+    "dev": "next dev --turbo",
+    "build": "npm run format && next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",

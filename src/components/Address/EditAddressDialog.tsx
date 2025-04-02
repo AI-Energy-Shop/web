@@ -1,27 +1,35 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
-import { Pencil } from 'lucide-react';
-import { Button } from '../ui/button';
 import AddressForm from '../Form/AddressForm';
+import { AddressSchemaWithIdTypes } from './AddressList';
 
-function EditAddressDialog() {
+type EditAddressDialogProps = {
+  openEditDialog: boolean;
+  setOpenEditDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  updateAddressDetails: AddressSchemaWithIdTypes | undefined;
+};
+
+function EditAddressDialog({
+  openEditDialog,
+  setOpenEditDialog,
+  updateAddressDetails,
+}: EditAddressDialogProps) {
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Pencil className="w-4 h-4" />
-        </Button>
-      </DialogTrigger>
+    <Dialog open={openEditDialog} onOpenChange={setOpenEditDialog}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit Address</DialogTitle>
+          <DialogDescription></DialogDescription>
         </DialogHeader>
-        <AddressForm />
+        <AddressForm
+          address={updateAddressDetails}
+          setCloseModal={setOpenEditDialog}
+        />
       </DialogContent>
     </Dialog>
   );

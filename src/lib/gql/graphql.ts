@@ -1031,6 +1031,64 @@ export type UsersPermissionsUserInput = {
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type AddressQueryVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+}>;
+
+export type AddressQuery = {
+  __typename?: 'Query';
+  usersPermissionsUser?: {
+    __typename?: 'UsersPermissionsUser';
+    addresses: Array<{
+      __typename?: 'Address';
+      city?: string | null;
+      country?: string | null;
+      documentId: string;
+      isActive?: boolean | null;
+      mobile?: string | null;
+      odoo_address_id?: string | null;
+      phone?: string | null;
+      createdAt?: any | null;
+      state?: string | null;
+      street1?: string | null;
+      street2?: string | null;
+      title?: string | null;
+      zip_code?: string | null;
+    } | null>;
+  } | null;
+};
+
+export type CreateAddressMutationVariables = Exact<{
+  data: AddressInput;
+}>;
+
+export type CreateAddressMutation = {
+  __typename?: 'Mutation';
+  createAddress?: { __typename?: 'Address'; documentId: string } | null;
+};
+
+export type DeleteAddressMutationVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+}>;
+
+export type DeleteAddressMutation = {
+  __typename?: 'Mutation';
+  deleteAddress?: {
+    __typename?: 'DeleteMutationResponse';
+    documentId: string;
+  } | null;
+};
+
+export type UpdateAddressMutationVariables = Exact<{
+  data: AddressInput;
+  documentId: Scalars['ID']['input'];
+}>;
+
+export type UpdateAddressMutation = {
+  __typename?: 'Mutation';
+  updateAddress?: { __typename?: 'Address'; documentId: string } | null;
+};
+
 export type CartsQueryVariables = Exact<{
   filters?: InputMaybe<CartFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
@@ -2005,6 +2063,274 @@ export type UpdateUserMutation = {
   } | null;
 };
 
+export const AddressDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'Address' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'usersPermissionsUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'addresses' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'country' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isActive' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'mobile' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'odoo_address_id' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'state' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'street1' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'street2' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'zip_code' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AddressQuery, AddressQueryVariables>;
+export const CreateAddressDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateAddress' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'AddressInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createAddress' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateAddressMutation,
+  CreateAddressMutationVariables
+>;
+export const DeleteAddressDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteAddress' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteAddress' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteAddressMutation,
+  DeleteAddressMutationVariables
+>;
+export const UpdateAddressDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateAddress' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'AddressInput' },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateAddress' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateAddressMutation,
+  UpdateAddressMutationVariables
+>;
 export const CartsDocument = {
   kind: 'Document',
   definitions: [

@@ -15,31 +15,47 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import StateComboBox from '../Address/StateComboBox';
 import CountryComboBox from '../Address/CountryComboBox';
-
-type AddressSchemaTypes = z.infer<typeof addressSchema>;
+import { addNewAddress, updateAddress } from '@/app/actions/address';
+import { toast } from 'sonner';
+import { AddressSchemaWithIdTypes } from '../Address/AddressList';
 
 interface AddressFormProps {
-  address?: AddressSchemaTypes;
+  address?: AddressSchemaWithIdTypes;
+  setCloseModal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function AddressForm({ address }: AddressFormProps) {
-  const form = useForm<AddressSchemaTypes>({
+function AddressForm({ address, setCloseModal }: AddressFormProps) {
+  const form = useForm<AddressSchemaWithIdTypes>({
     resolver: zodResolver(addressSchema),
     defaultValues: {
-      title: '',
-      street1: '',
-      street2: '',
-      city: '',
-      state: '',
-      country: '',
-      zipCode: undefined,
-      mobile: '',
-      phone: '',
-      isActive: false,
+      title: address?.title || '',
+      street1: address?.street1 || '',
+      street2: address?.street2 || '',
+      city: address?.city || '',
+      state: address?.state || '',
+      country: address?.country || '',
+      zip_code: address?.zip_code || '',
+      mobile: address?.mobile || '',
+      phone: address?.phone || '',
+      isActive: address?.isActive || false,
     },
   });
 
-  const onSubmit = (values: AddressSchemaTypes) => {};
+  const onSubmit = async (values: AddressSchemaWithIdTypes) => {
+    try {
+      if (!address) {
+        await addNewAddress(values);
+      } else {
+        await updateAddress(address.id, values);
+      }
+    } catch (error) {
+      toast.error('Server Error');
+    } finally {
+      if (setCloseModal) {
+        setCloseModal(false);
+      }
+    }
+  };
 
   return (
     <Form {...form}>
@@ -101,7 +117,7 @@ function AddressForm({ address }: AddressFormProps) {
         <div className="sm:flex sm:items-end sm:gap-x-2 max-sm:space-y-2">
           <FormField
             control={form.control}
-            name="zipCode"
+            name="zip_code"
             render={({ field }) => (
               <FormItem className="flex-1">
                 <FormLabel>Zip</FormLabel>

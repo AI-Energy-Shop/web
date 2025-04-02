@@ -208,3 +208,9 @@ export type ShippingDetailsTypes = {
     price: number;
   };
 };
+
+export type Auser = {
+  documentId: string;
+  email: string;
+  username: string;
+};
