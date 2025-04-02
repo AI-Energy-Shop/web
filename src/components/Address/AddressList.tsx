@@ -13,22 +13,34 @@ import EditAddressDialog from './EditAddressDialog';
 import DeleteAddressDialog from './DeleteAddressDialog';
 import { AddressQuery } from '@/lib/gql/graphql';
 import { Button } from '../ui/button';
+import { addressSchema } from '@/lib/validation-schema/address-form';
+import { z } from 'zod';
 
 type AddressListProps = {
   data: AddressQuery;
+};
+
+type AddressSchemaTypes = z.infer<typeof addressSchema>;
+
+export type AddressSchemaWithIdTypes = AddressSchemaTypes & {
+  id: string;
 };
 
 function AddressList({ data }: AddressListProps) {
   const [deleteAddressId, setDeleteAddressId] = useState<string>('');
   const [openEditDialog, setOpenEditDialog] = useState<boolean>(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
+  const [updateAddressDetails, setUpdateAddressDetails] =
+    useState<AddressSchemaWithIdTypes>();
 
   const addresses = data?.usersPermissionsUser?.addresses;
+
   return (
     <div className="space-y-4">
       <EditAddressDialog
         openEditDialog={openEditDialog}
         setOpenEditDialog={setOpenEditDialog}
+        updateAddressDetails={updateAddressDetails}
       />
       <DeleteAddressDialog
         openDeleteDialog={openDeleteDialog}
@@ -42,7 +54,26 @@ function AddressList({ data }: AddressListProps) {
         >
           <MapPin className="absolute left-5 top-[26px]" />
           <div className="absolute right-6 top-5 space-x-4">
-            <Button variant="outline" size="icon">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => {
+                setUpdateAddressDetails({
+                  id: address?.documentId!,
+                  title: address?.title!,
+                  street1: address?.street1!,
+                  street2: address?.street2!,
+                  city: address?.city!,
+                  state: address?.state!,
+                  country: address?.country!,
+                  zip_code: address?.zip_code!,
+                  isActive: address?.isActive!,
+                  mobile: address?.mobile!,
+                  phone: address?.phone!,
+                });
+                setOpenEditDialog(true);
+              }}
+            >
               <Pencil className="w-4 h-4" />
             </Button>
             <Button

@@ -80,3 +80,30 @@ export async function deleteAddress(id: string) {
 
   return res;
 }
+
+export async function updateAddress(
+  documentId: string,
+  value: AddressSchemaTypes
+) {
+  const cookieStore = cookies();
+  const token = cookieStore.get('a-token')?.value;
+
+  const res = await client.mutate({
+    mutation: ADDRESS_OPERATION.Mutation.updateAddress,
+    context: {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+    variables: {
+      documentId,
+      data: { ...value },
+    },
+  });
+
+  if (res.data?.updateAddress?.documentId) {
+    revalidatePath('/address');
+  }
+
+  return res;
+}

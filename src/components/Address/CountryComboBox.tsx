@@ -25,13 +25,10 @@ import {
 } from '@/components/ui/form';
 import CountryList from '@/data/country_combo_box.json';
 import { UseFormReturn } from 'react-hook-form';
-import { addressSchema } from '@/lib/validation-schema/address-form';
-import { z } from 'zod';
-
-type AddressSchemaTypes = z.infer<typeof addressSchema>;
+import { AddressSchemaWithIdTypes } from './AddressList';
 
 interface CountryComboBoxProps {
-  form: UseFormReturn<AddressSchemaTypes, any, undefined>;
+  form: UseFormReturn<AddressSchemaWithIdTypes, any, undefined>;
 }
 
 export default function CountryComboBox({ form }: CountryComboBoxProps) {

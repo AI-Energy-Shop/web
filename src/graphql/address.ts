@@ -40,6 +40,13 @@ const schema = {
         }
       }
     `),
+    updateAddress: graphql(`
+      mutation UpdateAddress($data: AddressInput!, $documentId: ID!) {
+        updateAddress(data: $data, documentId: $documentId) {
+          documentId
+        }
+      }
+    `),
   },
 };
 

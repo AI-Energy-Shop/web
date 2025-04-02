@@ -20,6 +20,8 @@ const documents = {
     types.CreateAddressDocument,
   '\n      mutation DeleteAddress($documentId: ID!) {\n        deleteAddress(documentId: $documentId) {\n          documentId\n        }\n      }\n    ':
     types.DeleteAddressDocument,
+  '\n      mutation UpdateAddress($data: AddressInput!, $documentId: ID!) {\n        updateAddress(data: $data, documentId: $documentId) {\n          documentId\n        }\n      }\n    ':
+    types.UpdateAddressDocument,
   '\n      query Carts($filters: CartFiltersInput, $pagination: PaginationArg) {\n        carts(filters: $filters, pagination: $pagination) {\n          documentId\n          product {\n            documentId\n            name\n            model\n            odoo_product_id\n            price_lists {\n              price\n              min_quantity\n              max_quantity\n            }\n            inventories {\n              documentId\n              name\n              location_code\n              quantity\n            }\n            images {\n              url\n              alternativeText\n              width\n              height\n            }\n          }\n          user {\n            documentId\n            username\n          }\n          quantity\n          createdAt\n          updatedAt\n        }\n      }\n    ':
     types.CartsDocument,
   '\n      mutation CreateCart($data: CartInput!) {\n        createCart(data: $data) {\n          documentId\n          product {\n            documentId\n            odoo_product_id\n            name\n            model\n            price_lists {\n              price\n              sale_price\n              min_quantity\n              max_quantity\n              user_level\n            }\n            inventories {\n              documentId\n              name\n              location_code\n              quantity\n            }\n            images {\n              url\n              alternativeText\n              width\n              height\n            }\n          }\n          user {\n            documentId\n            username\n          }\n          quantity\n          createdAt\n          updatedAt\n        }  \n      }\n    ':
@@ -94,6 +96,12 @@ export function graphql(
 export function graphql(
   source: '\n      mutation DeleteAddress($documentId: ID!) {\n        deleteAddress(documentId: $documentId) {\n          documentId\n        }\n      }\n    '
 ): (typeof documents)['\n      mutation DeleteAddress($documentId: ID!) {\n        deleteAddress(documentId: $documentId) {\n          documentId\n        }\n      }\n    '];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation UpdateAddress($data: AddressInput!, $documentId: ID!) {\n        updateAddress(data: $data, documentId: $documentId) {\n          documentId\n        }\n      }\n    '
+): (typeof documents)['\n      mutation UpdateAddress($data: AddressInput!, $documentId: ID!) {\n        updateAddress(data: $data, documentId: $documentId) {\n          documentId\n        }\n      }\n    '];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

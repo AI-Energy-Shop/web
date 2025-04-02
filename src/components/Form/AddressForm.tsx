@@ -15,37 +15,38 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import StateComboBox from '../Address/StateComboBox';
 import CountryComboBox from '../Address/CountryComboBox';
-import { addNewAddress } from '@/app/actions/address';
+import { addNewAddress, updateAddress } from '@/app/actions/address';
 import { toast } from 'sonner';
-
-type AddressSchemaTypes = z.infer<typeof addressSchema>;
+import { AddressSchemaWithIdTypes } from '../Address/AddressList';
 
 interface AddressFormProps {
-  address?: AddressSchemaTypes;
+  address?: AddressSchemaWithIdTypes;
   setCloseModal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function AddressForm({ address, setCloseModal }: AddressFormProps) {
-  const form = useForm<AddressSchemaTypes>({
+  const form = useForm<AddressSchemaWithIdTypes>({
     resolver: zodResolver(addressSchema),
     defaultValues: {
-      title: '',
-      street1: '',
-      street2: '',
-      city: '',
-      state: '',
-      country: '',
-      zip_code: '',
-      mobile: '',
-      phone: '',
-      isActive: false,
+      title: address?.title || '',
+      street1: address?.street1 || '',
+      street2: address?.street2 || '',
+      city: address?.city || '',
+      state: address?.state || '',
+      country: address?.country || '',
+      zip_code: address?.zip_code || '',
+      mobile: address?.mobile || '',
+      phone: address?.phone || '',
+      isActive: address?.isActive || false,
     },
   });
 
-  const onSubmit = async (values: AddressSchemaTypes) => {
+  const onSubmit = async (values: AddressSchemaWithIdTypes) => {
     try {
       if (!address) {
         await addNewAddress(values);
+      } else {
+        await updateAddress(address.id, values);
       }
     } catch (error) {
       toast.error('Server Error');
