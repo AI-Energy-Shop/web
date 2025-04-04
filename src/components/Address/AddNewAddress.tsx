@@ -12,8 +12,13 @@ import AddressForm from '../Form/AddressForm';
 import { Button } from '../ui/button';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
+import { AddressQuery } from '@/lib/gql/graphql';
 
-function AddNewAddress() {
+type AddNewAddressProps = {
+  data: AddressQuery;
+};
+
+function AddNewAddress({ data }: AddNewAddressProps) {
   const [controlDialog, setControlDialog] = useState<boolean>(false);
 
   return (
@@ -31,7 +36,7 @@ function AddNewAddress() {
           <DialogTitle>Add New Address</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
-        <AddressForm setCloseModal={setControlDialog} />
+        <AddressForm setCloseModal={setControlDialog} allAddress={data} />
       </DialogContent>
     </Dialog>
   );
