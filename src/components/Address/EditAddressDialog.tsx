@@ -20,6 +20,7 @@ function EditAddressDialog({
   openEditDialog,
   setOpenEditDialog,
   updateAddressDetails,
+  address,
 }: EditAddressDialogProps) {
   return (
     <Dialog open={openEditDialog} onOpenChange={setOpenEditDialog}>
@@ -31,6 +32,7 @@ function EditAddressDialog({
         <AddressForm
           selectedAddressToUpdate={updateAddressDetails}
           setCloseModal={setOpenEditDialog}
+          allAddress={address}
         />
       </DialogContent>
     </Dialog>

@@ -27,12 +27,14 @@ interface AddressFormProps {
   allAddress?: AddressQuery;
 }
 
+type AddressSchemaTypes = z.infer<typeof addressSchema>;
+
 function AddressForm({
   selectedAddressToUpdate,
   setCloseModal,
   allAddress,
 }: AddressFormProps) {
-  const form = useForm<AddressSchemaWithIdTypes>({
+  const form = useForm<AddressSchemaTypes>({
     resolver: zodResolver(addressSchema),
     defaultValues: {
       title: selectedAddressToUpdate?.title || '',
@@ -48,7 +50,7 @@ function AddressForm({
     },
   });
 
-  const onSubmit = async (values: AddressSchemaWithIdTypes) => {
+  const onSubmit = async (values: AddressSchemaTypes) => {
     let doesFillingUpSuccess = true;
 
     try {
@@ -58,6 +60,7 @@ function AddressForm({
             (address) =>
               address?.title?.toLowerCase() === values.title?.toLowerCase()
           );
+
         if (doesHaveSameTitleAddress) {
           doesFillingUpSuccess = false;
 
@@ -68,8 +71,28 @@ function AddressForm({
         if (doesFillingUpSuccess) {
           await addNewAddress(values);
         }
-      } else {
-        await updateAddress(selectedAddressToUpdate.id, values);
+      }
+      if (selectedAddressToUpdate) {
+        const doesHaveSameTitleAddress =
+          allAddress?.usersPermissionsUser?.addresses.some((address) => {
+            if (address?.documentId === selectedAddressToUpdate.id) {
+              return false;
+            }
+            return (
+              address?.title?.toLowerCase() === values.title?.toLowerCase()
+            );
+          });
+
+        if (doesHaveSameTitleAddress) {
+          doesFillingUpSuccess = false;
+
+          form.setError('title', {
+            message: 'Duplicate title',
+          });
+        }
+        if (doesFillingUpSuccess) {
+          await updateAddress(selectedAddressToUpdate.id, values);
+        }
       }
     } catch (error) {
       toast.error('Server Error');
