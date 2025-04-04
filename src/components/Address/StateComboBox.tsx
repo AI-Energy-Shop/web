@@ -26,10 +26,13 @@ import {
 } from '@/components/ui/form';
 import StateList from '@/data/state_combo_box.json';
 import { UseFormReturn } from 'react-hook-form';
-import { AddressSchemaWithIdTypes } from './AddressList';
+import { addressSchema } from '@/lib/validation-schema/address-form';
+import { z } from 'zod';
+
+type AddressSchemaTypes = z.infer<typeof addressSchema>;
 
 interface StateComboBoxProps {
-  form: UseFormReturn<AddressSchemaWithIdTypes, any, undefined>;
+  form: UseFormReturn<AddressSchemaTypes, any, undefined>;
 }
 
 export default function StateComboBox({ form }: StateComboBoxProps) {

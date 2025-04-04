@@ -5,6 +5,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -18,40 +19,85 @@ import CountryComboBox from '../Address/CountryComboBox';
 import { addNewAddress, updateAddress } from '@/app/actions/address';
 import { toast } from 'sonner';
 import { AddressSchemaWithIdTypes } from '../Address/AddressList';
+import { AddressQuery } from '@/lib/gql/graphql';
 
 interface AddressFormProps {
-  address?: AddressSchemaWithIdTypes;
+  selectedAddressToUpdate?: AddressSchemaWithIdTypes;
   setCloseModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  allAddress?: AddressQuery;
 }
 
-function AddressForm({ address, setCloseModal }: AddressFormProps) {
-  const form = useForm<AddressSchemaWithIdTypes>({
+type AddressSchemaTypes = z.infer<typeof addressSchema>;
+
+function AddressForm({
+  selectedAddressToUpdate,
+  setCloseModal,
+  allAddress,
+}: AddressFormProps) {
+  const form = useForm<AddressSchemaTypes>({
     resolver: zodResolver(addressSchema),
     defaultValues: {
-      title: address?.title || '',
-      street1: address?.street1 || '',
-      street2: address?.street2 || '',
-      city: address?.city || '',
-      state: address?.state || '',
-      country: address?.country || '',
-      zip_code: address?.zip_code || '',
-      mobile: address?.mobile || '',
-      phone: address?.phone || '',
-      isActive: address?.isActive || false,
+      title: selectedAddressToUpdate?.title || '',
+      street1: selectedAddressToUpdate?.street1 || '',
+      street2: selectedAddressToUpdate?.street2 || '',
+      city: selectedAddressToUpdate?.city || '',
+      state: selectedAddressToUpdate?.state || '',
+      country: selectedAddressToUpdate?.country || '',
+      zip_code: selectedAddressToUpdate?.zip_code || '',
+      mobile: selectedAddressToUpdate?.mobile || '',
+      phone: selectedAddressToUpdate?.phone || '',
+      isActive: selectedAddressToUpdate?.isActive || false,
     },
   });
 
-  const onSubmit = async (values: AddressSchemaWithIdTypes) => {
+  const onSubmit = async (values: AddressSchemaTypes) => {
+    let doesFillingUpSuccess = true;
+
     try {
-      if (!address) {
-        await addNewAddress(values);
-      } else {
-        await updateAddress(address.id, values);
+      if (!selectedAddressToUpdate) {
+        const doesHaveSameTitleAddress =
+          allAddress?.usersPermissionsUser?.addresses.some(
+            (address) =>
+              address?.title?.toLowerCase() === values.title?.toLowerCase()
+          );
+
+        if (doesHaveSameTitleAddress) {
+          doesFillingUpSuccess = false;
+
+          form.setError('title', {
+            message: 'Duplicate title',
+          });
+        }
+        if (doesFillingUpSuccess) {
+          await addNewAddress(values);
+        }
+      }
+      if (selectedAddressToUpdate) {
+        const doesHaveSameTitleAddress =
+          allAddress?.usersPermissionsUser?.addresses.some((address) => {
+            if (address?.documentId === selectedAddressToUpdate.id) {
+              return false;
+            }
+            return (
+              address?.title?.toLowerCase() === values.title?.toLowerCase()
+            );
+          });
+
+        if (doesHaveSameTitleAddress) {
+          doesFillingUpSuccess = false;
+
+          form.setError('title', {
+            message: 'Duplicate title',
+          });
+        }
+        if (doesFillingUpSuccess) {
+          await updateAddress(selectedAddressToUpdate.id, values);
+        }
       }
     } catch (error) {
       toast.error('Server Error');
     } finally {
-      if (setCloseModal) {
+      if (setCloseModal && doesFillingUpSuccess) {
         setCloseModal(false);
       }
     }
@@ -71,6 +117,7 @@ function AddressForm({ address, setCloseModal }: AddressFormProps) {
               <FormControl>
                 <Input {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />

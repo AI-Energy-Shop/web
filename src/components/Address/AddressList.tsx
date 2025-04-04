@@ -41,6 +41,7 @@ function AddressList({ data }: AddressListProps) {
         openEditDialog={openEditDialog}
         setOpenEditDialog={setOpenEditDialog}
         updateAddressDetails={updateAddressDetails}
+        address={data}
       />
       <DeleteAddressDialog
         openDeleteDialog={openDeleteDialog}
