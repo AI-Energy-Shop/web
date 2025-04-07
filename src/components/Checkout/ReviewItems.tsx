@@ -18,6 +18,7 @@ import { Button } from '../ui/button';
 import CartItems from './CartItems';
 import { Input } from '../ui/input';
 import { cn } from '@/lib/utils';
+import { updateCartProductQuantity } from '@/app/actions/cart';
 
 interface ReviewItemsProps {}
 
@@ -46,6 +47,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
     const cart = carts.find((cart) => cart.documentId === id);
     if (cart) {
       const value = e.target.value === '' ? 0 : parseInt(e.target.value, 10);
+      updateCartProductQuantity(cart.documentId, value);
       dispatch(
         setCarts(
           carts.map((cart) => {
@@ -68,6 +70,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
         setShowModal(!showModal);
         setToRemoveItemId(id);
       } else {
+        updateCartProductQuantity(cart.documentId, cart.quantity - 1);
         dispatch(
           setCarts(
             carts.map((cart) => {
@@ -88,6 +91,8 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   const handleAddQuant = (id: string) => {
     const cart = carts.find((cart) => cart.documentId === id);
     if (cart) {
+      updateCartProductQuantity(cart.documentId, cart.quantity + 1);
+
       dispatch(
         setCarts(
           carts.map((cart) => {

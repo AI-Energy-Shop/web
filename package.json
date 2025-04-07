@@ -9,7 +9,7 @@
     "lint": "next lint",
     "format": "prettier --write .",
     "start:dev": "concurrently -n \"CODEGEN,NEXT\" -c \"blue,green\" \"npm run codegen\" \"npm run dev\"",
-    "codegen": "graphql-codegen --config --watch codegen.ts"
+    "codegen": "graphql-codegen --verbose --config --watch codegen.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",
