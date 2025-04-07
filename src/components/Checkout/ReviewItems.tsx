@@ -141,6 +141,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
 
   const handleConfirmRemove = () => {
     if (!toRemoveItemId) return;
+
     removeItemFromCart(toRemoveItemId);
     setShowModal(false);
   };

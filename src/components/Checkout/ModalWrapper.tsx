@@ -6,7 +6,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  // DialogTrigger,
 } from '@/components/ui/dialog';
 
 interface ModalProps {
@@ -27,7 +26,7 @@ const Modal: React.FC<ModalProps> = ({
   message,
 }) => {
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={onClose}>
       {/* <DialogTrigger asChild>
         <Button variant="outline">Edit Profile</Button>
       </DialogTrigger> */}
@@ -38,10 +37,12 @@ const Modal: React.FC<ModalProps> = ({
         </DialogHeader>
         <div className="grid gap-4 py-4">{message}</div>
         <DialogFooter>
-          <Button onClick={onClose}>Cancel</Button>
-          <Button variant="destructive" onClick={onConfirm}>
-            Remove
-          </Button>
+          <div className="flex flex-col gap-y-2 sm:block sm:space-x-4">
+            <Button onClick={onClose}>Cancel</Button>
+            <Button variant="destructive" onClick={onConfirm}>
+              Remove
+            </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
