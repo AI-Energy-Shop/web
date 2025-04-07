@@ -12,7 +12,7 @@ import { Check, FilePenLine } from 'lucide-react';
 import { Textarea } from '../ui/textarea';
 import ModalWrapper from './ModalWrapper';
 import { useDispatch } from 'react-redux';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import useCart from '@/hooks/useCart';
 import { Button } from '../ui/button';
 import CartItems from './CartItems';
@@ -29,6 +29,8 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   const [toRemoveItemId, setToRemoveItemId] = useState<string | undefined>(
     undefined
   );
+  const debounceTimer = useRef<NodeJS.Timeout | null>(null);
+  const DEBOUNCE_DELAY = 1500;
 
   const handleEditClick = () => {
     dispatch(setPaymentStep(1));
@@ -47,7 +49,16 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
     const cart = carts.find((cart) => cart.documentId === id);
     if (cart) {
       const value = e.target.value === '' ? 0 : parseInt(e.target.value, 10);
-      updateCartProductQuantity(cart.documentId, value);
+
+      // debounce functionality to delay network request when the value change so fast
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+
+      debounceTimer.current = setTimeout(() => {
+        updateCartProductQuantity(cart.documentId, value);
+      }, DEBOUNCE_DELAY);
+
       dispatch(
         setCarts(
           carts.map((cart) => {
@@ -70,7 +81,14 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
         setShowModal(!showModal);
         setToRemoveItemId(id);
       } else {
-        updateCartProductQuantity(cart.documentId, cart.quantity - 1);
+        // debounce functionality to delay network request when the value change so fast
+        if (debounceTimer.current) {
+          clearTimeout(debounceTimer.current);
+        }
+        debounceTimer.current = setTimeout(() => {
+          updateCartProductQuantity(cart.documentId, cart.quantity - 1);
+        }, DEBOUNCE_DELAY);
+
         dispatch(
           setCarts(
             carts.map((cart) => {
@@ -91,7 +109,14 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   const handleAddQuant = (id: string) => {
     const cart = carts.find((cart) => cart.documentId === id);
     if (cart) {
-      updateCartProductQuantity(cart.documentId, cart.quantity + 1);
+      // debounce functionality to delay network request when the value change so fast
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+
+      debounceTimer.current = setTimeout(() => {
+        updateCartProductQuantity(cart.documentId, cart.quantity + 1);
+      }, DEBOUNCE_DELAY);
 
       dispatch(
         setCarts(
