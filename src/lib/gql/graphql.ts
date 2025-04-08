@@ -1089,6 +1089,16 @@ export type UpdateAddressMutation = {
   updateAddress?: { __typename?: 'Address'; documentId: string } | null;
 };
 
+export type UpdateAddressIsActiveMutationVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+  data: AddressInput;
+}>;
+
+export type UpdateAddressIsActiveMutation = {
+  __typename?: 'Mutation';
+  updateAddress?: { __typename?: 'Address'; documentId: string } | null;
+};
+
 export type CartsQueryVariables = Exact<{
   filters?: InputMaybe<CartFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
@@ -2340,6 +2350,76 @@ export const UpdateAddressDocument = {
 } as unknown as DocumentNode<
   UpdateAddressMutation,
   UpdateAddressMutationVariables
+>;
+export const UpdateAddressIsActiveDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateAddressIsActive' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'AddressInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateAddress' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateAddressIsActiveMutation,
+  UpdateAddressIsActiveMutationVariables
 >;
 export const CartsDocument = {
   kind: 'Document',

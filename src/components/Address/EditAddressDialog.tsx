@@ -6,13 +6,13 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import AddressForm from '../Form/AddressForm';
-import { AddressSchemaWithIdTypes } from './AddressList';
+import { AddressSchemaWithDocumentIdTypes } from './AddressList';
 import { AddressQuery } from '@/lib/gql/graphql';
 
 type EditAddressDialogProps = {
   openEditDialog: boolean;
   setOpenEditDialog: React.Dispatch<React.SetStateAction<boolean>>;
-  updateAddressDetails: AddressSchemaWithIdTypes | undefined;
+  updateAddressDetails: AddressSchemaWithDocumentIdTypes | undefined;
   address: AddressQuery;
 };
 

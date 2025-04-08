@@ -25,7 +25,6 @@ import {
 } from '@/components/ui/form';
 import CountryList from '@/data/country_combo_box.json';
 import { UseFormReturn } from 'react-hook-form';
-import { AddressSchemaWithIdTypes } from './AddressList';
 import { addressSchema } from '@/lib/validation-schema/address-form';
 import { z } from 'zod';
 

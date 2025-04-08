@@ -22,8 +22,8 @@ type AddressListProps = {
 
 type AddressSchemaTypes = z.infer<typeof addressSchema>;
 
-export type AddressSchemaWithIdTypes = AddressSchemaTypes & {
-  id: string;
+export type AddressSchemaWithDocumentIdTypes = AddressSchemaTypes & {
+  documentId: string;
 };
 
 function AddressList({ data }: AddressListProps) {
@@ -31,7 +31,7 @@ function AddressList({ data }: AddressListProps) {
   const [openEditDialog, setOpenEditDialog] = useState<boolean>(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
   const [updateAddressDetails, setUpdateAddressDetails] =
-    useState<AddressSchemaWithIdTypes>();
+    useState<AddressSchemaWithDocumentIdTypes>();
 
   const addresses = data?.usersPermissionsUser?.addresses;
 
@@ -60,7 +60,7 @@ function AddressList({ data }: AddressListProps) {
               size="icon"
               onClick={() => {
                 setUpdateAddressDetails({
-                  id: address?.documentId!,
+                  documentId: address?.documentId!,
                   title: address?.title!,
                   street1: address?.street1!,
                   street2: address?.street2!,
