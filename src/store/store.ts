@@ -1,9 +1,9 @@
 import meReducer from './features/me';
 import { combineReducers } from 'redux';
 import cartReducer from './features/cart';
-import storage from 'redux-persist/lib/storage'; //local web storage
 import { configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
+import storage from './middleware/storage-middleware';
 
 const rootReducer = combineReducers({
   me: meReducer,
