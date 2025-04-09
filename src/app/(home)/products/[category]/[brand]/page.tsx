@@ -25,7 +25,8 @@ interface BrandSlugPageProps {
 const BrandSlugPage = async ({ params, searchParams }: BrandSlugPageProps) => {
   const paramsRes = await params;
   const searchParamsRes = await searchParams;
-  const { page, pageSize, brand } = searchParamsRes;
+  const page = Number(searchParamsRes.page) || INITIAL_PAGE;
+  const pageSize = Number(searchParamsRes.pageSize) || INITIAL_PAGE_SIZE;
 
   let filters: any = {};
 
@@ -35,10 +36,16 @@ const BrandSlugPage = async ({ params, searchParams }: BrandSlugPageProps) => {
       const value = searchParamsRes[key];
 
       if (key === 'brand') {
-        if (brand instanceof Array) {
-          filters = { ...filters, brand: { url: { in: brand } } };
+        if (searchParamsRes.brand instanceof Array) {
+          filters = {
+            ...filters,
+            brand: { url: { in: searchParamsRes.brand } },
+          };
         } else {
-          filters = { ...filters, brand: { url: { in: [brand] } } };
+          filters = {
+            ...filters,
+            brand: { url: { in: [searchParamsRes.brand] } },
+          };
         }
       } else {
         const capitalizeKey = capsAllFirstCharWithDash(key);
@@ -69,8 +76,8 @@ const BrandSlugPage = async ({ params, searchParams }: BrandSlugPageProps) => {
       ...filters,
     },
     pagination: {
-      page: Number(page) || INITIAL_PAGE,
-      pageSize: Number(pageSize) || INITIAL_PAGE_SIZE,
+      page,
+      pageSize,
     },
   });
 

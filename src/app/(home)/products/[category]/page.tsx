@@ -84,7 +84,7 @@ export default async function CategoryPage({
       <div className="max-w-[1200px] mx-auto p-5 md:p-5 lg:p-5 flex flex-col lg:gap-5">
         <PageTitle title={categoryName} />
         <Brands />
-        <ProductList data={data?.products} category={categoryName} />
+        <ProductList data={data?.products} />
       </div>
     </div>
   );

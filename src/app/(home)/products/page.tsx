@@ -19,6 +19,8 @@ export default async function ProductsPage({
 }) {
   const searchParamsRes = await searchParams;
   const { brand } = searchParamsRes;
+  const page = Number(searchParamsRes.page) || INITIAL_PAGE;
+  const pageSize = Number(searchParamsRes.pageSize) || INITIAL_PAGE_SIZE;
   let filters: any = {};
 
   Object.keys(searchParamsRes)
@@ -54,8 +56,8 @@ export default async function ProductsPage({
   const { data } = await products({
     filters,
     pagination: {
-      page: Number(searchParamsRes.page) || INITIAL_PAGE,
-      pageSize: Number(searchParamsRes.pageSize) || INITIAL_PAGE_SIZE,
+      page,
+      pageSize,
     },
   });
 
