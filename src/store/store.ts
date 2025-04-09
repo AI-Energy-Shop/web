@@ -2,19 +2,22 @@ import meReducer from './features/me';
 import { combineReducers } from 'redux';
 import cartReducer from './features/cart';
 import checkoutReducer from './features/checkout';
-import storage from 'redux-persist/lib/storage';
 import { configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
+import storage from './middleware/storage-middleware';
 
 const rootReducer = combineReducers({
   me: meReducer,
   cart: cartReducer,
   checkout: checkoutReducer,
 });
+
+// Redux Persist Config
 const persistConfig = {
   key: 'root',
   storage,
-  version: 1,
+  version: 6,
+  whitelist: ['me', 'cart'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
