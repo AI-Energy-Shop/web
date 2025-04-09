@@ -107,3 +107,21 @@ export async function updateAddress(
 
   return res;
 }
+
+export async function updateAddressIsActiveToFalse(documentId: string) {
+  const cookieStore = cookies();
+  const token = cookieStore.get('a-token')?.value;
+
+  await client.mutate({
+    mutation: ADDRESS_OPERATION.Mutation.makeAddressNotDefault,
+    context: {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+    variables: {
+      documentId,
+      data: { isActive: false },
+    },
+  });
+}

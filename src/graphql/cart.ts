@@ -127,6 +127,13 @@ const schema = {
         }
       }
     `),
+    updateQuantity: graphql(`
+      mutation UpdateQuantity($documentId: ID!, $data: CartInput!) {
+        updateCart(documentId: $documentId, data: $data) {
+          documentId
+        }
+      }
+    `),
   },
 };
 

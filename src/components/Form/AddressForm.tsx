@@ -5,6 +5,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -15,43 +16,117 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import StateComboBox from '../Address/StateComboBox';
 import CountryComboBox from '../Address/CountryComboBox';
-import { addNewAddress, updateAddress } from '@/app/actions/address';
+import {
+  addNewAddress,
+  updateAddress,
+  updateAddressIsActiveToFalse,
+} from '@/app/actions/address';
 import { toast } from 'sonner';
-import { AddressSchemaWithIdTypes } from '../Address/AddressList';
+import { AddressSchemaWithDocumentIdTypes } from '../Address/AddressList';
+import { AddressQuery } from '@/lib/gql/graphql';
 
 interface AddressFormProps {
-  address?: AddressSchemaWithIdTypes;
+  selectedAddressToUpdate?: AddressSchemaWithDocumentIdTypes;
   setCloseModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  allAddress?: AddressQuery;
 }
 
-function AddressForm({ address, setCloseModal }: AddressFormProps) {
-  const form = useForm<AddressSchemaWithIdTypes>({
+type AddressSchemaTypes = z.infer<typeof addressSchema>;
+
+function AddressForm({
+  selectedAddressToUpdate,
+  setCloseModal,
+  allAddress,
+}: AddressFormProps) {
+  const form = useForm<AddressSchemaTypes>({
     resolver: zodResolver(addressSchema),
     defaultValues: {
-      title: address?.title || '',
-      street1: address?.street1 || '',
-      street2: address?.street2 || '',
-      city: address?.city || '',
-      state: address?.state || '',
-      country: address?.country || '',
-      zip_code: address?.zip_code || '',
-      mobile: address?.mobile || '',
-      phone: address?.phone || '',
-      isActive: address?.isActive || false,
+      title: selectedAddressToUpdate?.title || '',
+      street1: selectedAddressToUpdate?.street1 || '',
+      street2: selectedAddressToUpdate?.street2 || '',
+      city: selectedAddressToUpdate?.city || '',
+      state: selectedAddressToUpdate?.state || '',
+      country: selectedAddressToUpdate?.country || '',
+      zip_code: selectedAddressToUpdate?.zip_code || '',
+      mobile: selectedAddressToUpdate?.mobile || '',
+      phone: selectedAddressToUpdate?.phone || '',
+      isActive: selectedAddressToUpdate?.isActive || false,
     },
   });
 
-  const onSubmit = async (values: AddressSchemaWithIdTypes) => {
+  const allAddressWithIsActiveTrue =
+    allAddress?.usersPermissionsUser?.addresses.filter(
+      (address) => address?.isActive === true
+    );
+
+  const onSubmit = async (values: AddressSchemaTypes) => {
+    let doesFillingUpSuccess = true;
+
     try {
-      if (!address) {
-        await addNewAddress(values);
-      } else {
-        await updateAddress(address.id, values);
+      if (!selectedAddressToUpdate) {
+        const doesHaveSameTitleAddress =
+          allAddress?.usersPermissionsUser?.addresses.some(
+            (address) =>
+              address?.title?.toLowerCase() === values.title?.toLowerCase()
+          );
+
+        if (doesHaveSameTitleAddress) {
+          doesFillingUpSuccess = false;
+
+          form.setError('title', {
+            message: 'Duplicate title',
+          });
+        }
+        if (doesFillingUpSuccess) {
+          if (values.isActive) {
+            allAddressWithIsActiveTrue?.forEach(async (address) => {
+              await updateAddressIsActiveToFalse(address?.documentId!);
+            });
+          }
+
+          await addNewAddress(values);
+        }
+      }
+      if (selectedAddressToUpdate) {
+        const doesHaveSameTitleAddress =
+          allAddress?.usersPermissionsUser?.addresses.some((address) => {
+            if (address?.documentId === selectedAddressToUpdate.documentId) {
+              return false;
+            }
+            return (
+              address?.title?.toLowerCase() === values.title?.toLowerCase()
+            );
+          });
+
+        if (doesHaveSameTitleAddress) {
+          doesFillingUpSuccess = false;
+
+          form.setError('title', {
+            message: 'Duplicate title',
+          });
+        }
+        if (doesFillingUpSuccess) {
+          if (values.isActive) {
+            const allAddressNotIncludingAddressYourUpdating =
+              allAddressWithIsActiveTrue?.filter(
+                (address) =>
+                  address?.documentId !== selectedAddressToUpdate.documentId
+              );
+
+            allAddressNotIncludingAddressYourUpdating?.forEach(
+              async (address) => {
+                await updateAddressIsActiveToFalse(address?.documentId!);
+              }
+            );
+          }
+
+          await updateAddress(selectedAddressToUpdate.documentId, values);
+        }
       }
     } catch (error) {
       toast.error('Server Error');
     } finally {
-      if (setCloseModal) {
+      if (setCloseModal && doesFillingUpSuccess) {
         setCloseModal(false);
       }
     }
@@ -71,6 +146,7 @@ function AddressForm({ address, setCloseModal }: AddressFormProps) {
               <FormControl>
                 <Input {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
