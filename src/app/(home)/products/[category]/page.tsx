@@ -33,7 +33,7 @@ export default async function CategoryPage({
     filters = {
       categories: {
         slug: {
-          eq: category,
+          in: [category],
         },
       },
     };
