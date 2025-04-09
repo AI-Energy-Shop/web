@@ -3,7 +3,11 @@ import Breadcrumb from '@/components/products/Breadcrumb';
 import Categories from '@/components/products/Categories';
 import Brands from '@/components/products/Brands';
 import { products } from '@/app/actions/products';
-import { INITIAL_PAGE, INITIAL_PAGE_SIZE } from '@/constant';
+import {
+  EXCLUDED_SEARCH_PARAMS,
+  INITIAL_PAGE,
+  INITIAL_PAGE_SIZE,
+} from '@/constant';
 import {
   capitalizeAllFirstChar,
   capsAllFirstCharWithDash,
@@ -35,33 +39,35 @@ export default async function CategoryPage({
     };
   }
 
-  Object.keys(searchParamsRes).forEach((key) => {
-    const value = searchParamsRes[key];
+  Object.keys(searchParamsRes)
+    .filter((key) => !EXCLUDED_SEARCH_PARAMS.includes(key))
+    .forEach((key) => {
+      const value = searchParamsRes[key];
 
-    if (key === 'brand') {
-      if (brand instanceof Array) {
-        filters = { ...filters, brand: { url: { in: brand } } };
+      if (key === 'brand') {
+        if (brand instanceof Array) {
+          filters = { ...filters, brand: { url: { in: brand } } };
+        } else {
+          filters = { ...filters, brand: { url: { in: [brand] } } };
+        }
       } else {
-        filters = { ...filters, brand: { url: { in: [brand] } } };
+        const capitalizeKey = capsAllFirstCharWithDash(key);
+        filters = {
+          ...filters,
+          specifications: {
+            ...filters?.specification,
+            key: {
+              eq: capitalizeKey,
+            },
+            value: {
+              in: Array.isArray(value)
+                ? value.map((val) => val.toLocaleLowerCase())
+                : [value?.toLocaleLowerCase()],
+            },
+          },
+        };
       }
-    } else {
-      const capitalizeKey = capsAllFirstCharWithDash(key);
-      filters = {
-        ...filters,
-        specifications: {
-          ...filters?.specification,
-          key: {
-            eq: capitalizeKey,
-          },
-          value: {
-            in: Array.isArray(value)
-              ? value.map((val) => val.toLocaleLowerCase())
-              : [value?.toLocaleLowerCase()],
-          },
-        },
-      };
-    }
-  });
+    });
 
   const { data } = await products({
     filters,

@@ -14,6 +14,11 @@ import {
   capsAllFirstCharWithDash,
   capsAllFirstCharWithUnderScore,
 } from '@/utils/string';
+import {
+  EXCLUDED_SEARCH_PARAMS,
+  INITIAL_PAGE,
+  INITIAL_PAGE_SIZE,
+} from '@/constant';
 
 export interface Filter {
   id: string;
@@ -32,9 +37,9 @@ export interface SelectedFilter {
 const useProductFilter = () => {
   const [filterOptions, setFilterOptions] = useState<Filter[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<SelectedFilter[]>([]);
-  const params = useParams();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const params = useParams();
   const router = useRouter();
 
   const exludedFilterOptions = useMemo(() => {
@@ -47,28 +52,30 @@ const useProductFilter = () => {
 
   const filters = () => {
     let f = {};
-    Object.entries(params).forEach(([key, value]) => {
-      if (key === 'brand') {
-        f = {
-          ...f,
-          [key]: {
-            url: {
-              eq: value,
+    Object.entries(params)
+      .filter(([key]) => !EXCLUDED_SEARCH_PARAMS.includes(key))
+      .forEach(([key, value]) => {
+        if (key === 'brand') {
+          f = {
+            ...f,
+            [key]: {
+              url: {
+                eq: value,
+              },
             },
-          },
-        };
-      }
-      if (key === 'category') {
-        f = {
-          ...f,
-          categories: {
-            slug: {
-              eq: value,
+          };
+        }
+        if (key === 'category') {
+          f = {
+            ...f,
+            categories: {
+              slug: {
+                eq: value,
+              },
             },
-          },
-        };
-      }
-    });
+          };
+        }
+      });
 
     return f;
   };
@@ -76,6 +83,10 @@ const useProductFilter = () => {
   const { data } = useQuery(PRODUCT_OPERATION.Query.products, {
     variables: {
       filters: filters(),
+      pagination: {
+        page: Number(searchParams.get('page')) || INITIAL_PAGE,
+        pageSize: Number(searchParams.get('pageSize')) || INITIAL_PAGE_SIZE,
+      },
     },
   });
 
