@@ -192,7 +192,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
 
           <ListInput
             title="Specification"
-            data={currentProduct?.specification || []}
+            data={currentProduct?.specifications || []}
             addButtonLabel="Add"
             onAddList={handleAddSpecsItem}
             onChange={handleOnInputChange}
@@ -261,7 +261,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                   name="category"
                   placeholder="Enter product category"
                   onChange={handleInputChange}
-                  value={`${currentProduct?.category?.slug}`}
+                  value={`${currentProduct?.categories?.[0]?.slug}`}
                 />
               </div>
               <div>

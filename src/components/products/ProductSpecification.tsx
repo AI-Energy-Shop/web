@@ -1,5 +1,6 @@
 import { firaSans, muktaVaani } from '@/app/font';
 import { ProductQuery } from '@/lib/gql/graphql';
+import { capsAllFirstCharWithDash } from '@/utils/string';
 
 interface ProductSpecificationProps {
   productData: ProductQuery['product'];
@@ -13,13 +14,17 @@ function ProductSpecification({ productData }: ProductSpecificationProps) {
       >
         Specifications
       </h1>
-      {productData?.specification?.map((data, index) => (
+      {productData?.specifications?.map((data, index) => (
         <div
-          key={data?.id}
+          key={data?.documentId}
           className={`flex items-center md:px-1 gap-x-2 py-2 ${muktaVaani.className} ${index % 2 === 0 ? 'bg-gray-200/80' : 'bg-gray-50'}`}
         >
-          <h1 className="flex-1 text-right font-semibold">{data?.key}</h1>
-          <h1 className="flex-1 text-left">{data?.value}</h1>
+          <h1 className="flex-1 text-right font-semibold">
+            {data?.key.replaceAll('_', ' ')}
+          </h1>
+          <h1 className="flex-1 text-left">
+            {capsAllFirstCharWithDash(data?.value || '')}
+          </h1>
         </div>
       ))}
     </>
