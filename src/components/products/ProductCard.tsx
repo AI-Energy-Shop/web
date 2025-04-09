@@ -55,7 +55,13 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
     },
   });
 
-  const productLink = `/products/${product?.category?.slug}/${product?.documentId}`;
+  const brand = product?.brand;
+  const firstCategory = product?.categories.find((_, index) => index === 0);
+  // const productSlug = product?.name.toLowerCase().replace(/ /g, '-');
+  const productSlug = product?.documentId;
+  const variantSlug = product?.documentId;
+
+  const productLink = `/products/${firstCategory?.slug}/${brand?.url}/${productSlug}`;
 
   const onSubmit = async (data: z.infer<typeof addToCartFormSchema>) => {
     if (!user) {
@@ -153,9 +159,10 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
           {/* IMAGE */}
           <div className="aspect-[3/4] relative bg-[#e6e6e6]">
             <Image
+              fill
+              priority
               src={product?.images[0]?.url || ''}
               alt={product?.images[0]?.name || ''}
-              fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-contain w-auto h-auto bg-transparent mix-blend-multiply"
             />

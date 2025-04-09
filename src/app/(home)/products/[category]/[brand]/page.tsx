@@ -1,39 +1,29 @@
-import ProductList from '@/components/products/ProductList';
-import Breadcrumb from '@/components/products/Breadcrumb';
-import Categories from '@/components/products/Categories';
-import Brands from '@/components/products/Brands';
 import { products } from '@/app/actions/products';
+import {
+  Brands,
+  Breadcrumb,
+  Categories,
+  PageTitle,
+  ProductList,
+} from '@/components/products';
 import { INITIAL_PAGE, INITIAL_PAGE_SIZE } from '@/constant';
 import {
   capitalizeAllFirstChar,
   capsAllFirstCharWithDash,
 } from '@/utils/string';
-import PageTitle from '@/components/products/PageTitle';
+import React from 'react';
 
-export default async function CategoryPage({
-  params,
-  searchParams,
-}: {
-  params: { category: string; brandSlug: string };
+interface BrandSlugPageProps {
+  params: Promise<{ category: string; brand: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  const { category } = await params;
+}
+
+const BrandSlugPage = async ({ params, searchParams }: BrandSlugPageProps) => {
+  const paramsRes = await params;
   const searchParamsRes = await searchParams;
   const { page, pageSize, brand } = searchParamsRes;
 
-  const categoryName = capitalizeAllFirstChar(category.replace('-', ' '));
-
   let filters: any = {};
-
-  if (category) {
-    filters = {
-      categories: {
-        slug: {
-          eq: category,
-        },
-      },
-    };
-  }
 
   Object.keys(searchParamsRes).forEach((key) => {
     const value = searchParamsRes[key];
@@ -64,22 +54,31 @@ export default async function CategoryPage({
   });
 
   const { data } = await products({
-    filters,
+    filters: {
+      brand: {
+        url: {
+          eq: paramsRes.brand,
+        },
+      },
+      ...filters,
+    },
     pagination: {
-      page: page ? Number(page) : INITIAL_PAGE,
-      pageSize: pageSize ? Number(pageSize) : INITIAL_PAGE_SIZE,
+      page: Number(page) || INITIAL_PAGE,
+      pageSize: Number(pageSize) || INITIAL_PAGE_SIZE,
     },
   });
 
   return (
-    <div className="min-h-screen">
+    <main className="w-full min-h-screen bg-[#fdf6ed]">
       <Breadcrumb />
       <Categories />
-      <div className="max-w-[1200px] mx-auto p-5 md:p-5 lg:p-5 flex flex-col lg:gap-5">
-        <PageTitle title={categoryName} />
-        <Brands />
-        <ProductList data={data?.products} category={categoryName} />
+      <div className="max-w-[1200px] mx-auto p-5 md:p-5 lg:p-5 flex flex-col gap-5 lg:gap-5">
+        <PageTitle title={capitalizeAllFirstChar(paramsRes.brand)} />
+        <Brands selectedBrands={[paramsRes.brand]} />
+        <ProductList data={data?.products} />
       </div>
-    </div>
+    </main>
   );
-}
+};
+
+export default BrandSlugPage;

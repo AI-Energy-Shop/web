@@ -45,7 +45,7 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
   const { data, loading } = useQuery(PRODUCT_OPERATIONS.Query.products, {
     variables: {
       filters: {
-        category: {
+        categories: {
           slug: {
             contains: relatedProductType,
           },

@@ -15,7 +15,7 @@ const schema = {
           vendor
           model
           odoo_product_id
-          category {
+          categories {
             title
             slug
             image {
@@ -29,6 +29,7 @@ const schema = {
             }
           }
           brand {
+            documentId
             name
             url
             image {
@@ -67,8 +68,8 @@ const schema = {
             mime
             url
           }
-          specification {
-            id
+          specifications {
+            documentId
             key
             value
           }
@@ -100,7 +101,7 @@ const schema = {
           vendor
           model
           odoo_product_id
-          category {
+          categories {
             title
             slug
             image {
@@ -114,6 +115,7 @@ const schema = {
             }
           }
           brand {
+            documentId
             name
             url
             image {
@@ -152,8 +154,8 @@ const schema = {
             mime
             url
           }
-          specification {
-            id
+          specifications {
+            documentId
             key
             value
           }
@@ -260,8 +262,8 @@ const schema = {
             url
             alternativeText
           }
-          specification {
-            id
+          specifications {
+            documentId
             key
             value
           }
@@ -284,7 +286,7 @@ const schema = {
           description
           vendor
           odoo_product_id
-          category {
+          categories {
             title
             slug
             image {
@@ -320,8 +322,8 @@ const schema = {
             location_code
             quantity
           }
-          specification {
-            id
+          specifications {
+            documentId
             key
             value
           }

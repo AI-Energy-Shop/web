@@ -6,6 +6,10 @@ import Categories from '@/components/products/Categories';
 import PageTitle from '@/components/products/PageTitle';
 import Brands from '@/components/products/Brands';
 import { products } from '@/app/actions/products';
+import {
+  capitalizeAllFirstChar,
+  capsAllFirstCharWithDash,
+} from '@/utils/string';
 
 export default async function ProductsPage({
   searchParams,
@@ -13,9 +17,40 @@ export default async function ProductsPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { page, pageSize } = await searchParams;
+  const searcchParamsRes = await searchParams;
+  const { brand } = searcchParamsRes;
+  let filters: any = {};
+
+  Object.keys(searcchParamsRes).forEach((key) => {
+    const value = searcchParamsRes[key];
+
+    if (key === 'brand') {
+      if (brand instanceof Array) {
+        filters = { ...filters, brand: { url: { in: brand } } };
+      } else {
+        filters = { ...filters, brand: { url: { in: [brand] } } };
+      }
+    } else {
+      const capitalizeKey = capsAllFirstCharWithDash(key);
+      filters = {
+        ...filters,
+        specifications: {
+          ...filters?.specification,
+          key: {
+            eq: capitalizeKey,
+          },
+          value: {
+            in: Array.isArray(value)
+              ? value.map((val) => val.toLocaleLowerCase())
+              : [value?.toLocaleLowerCase()],
+          },
+        },
+      };
+    }
+  });
 
   const { data } = await products({
-    filters: {},
+    filters,
     pagination: {
       page: Number(page) || INITIAL_PAGE,
       pageSize: Number(pageSize) || INITIAL_PAGE_SIZE,
@@ -23,7 +58,7 @@ export default async function ProductsPage({
   });
 
   return (
-    <div className="min-h-screen bg-[#fdf6ed]">
+    <div className="w-full min-h-screen">
       <Breadcrumb />
       <Categories />
       <div className="max-w-[1200px] mx-auto p-5 md:p-5 lg:p-5 flex flex-col gap-5 lg:gap-5">

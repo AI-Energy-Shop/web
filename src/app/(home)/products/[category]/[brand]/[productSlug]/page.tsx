@@ -1,21 +1,22 @@
 export const dynamic = 'force-dynamic';
-import ShopProductStockQuantities from '@/components/products/ShopProductStockQuantities';
-import ProductDescription from '@/components/products/ProductDescription';
-import RelatedProducts from '@/components/products/RelatedProducts';
-import ProductPrice from '@/components/products/ProductPrice';
-import BulkPrices from '@/components/products/BulkPrices';
-import Breadcrumb from '@/components/products/Breadcrumb';
-import ProductAddToCartButton from '@/components/products/ProductAddToCartButton';
-import Carousel from '@/components/custom-ui/Carousel';
 import { product } from '@/app/actions/products';
 import { firaSans } from '@/app/font';
+import Carousel from '@/components/custom-ui/Carousel';
+import { Breadcrumb } from '@/components/products';
+import BulkPrices from '@/components/products/BulkPrices';
+import ProductAddToCartButton from '@/components/products/ProductAddToCartButton';
+import ProductDescription from '@/components/products/ProductDescription';
+import ProductPrice from '@/components/products/ProductPrice';
+import RelatedProducts from '@/components/products/RelatedProducts';
+import ShopProductStockQuantities from '@/components/products/ShopProductStockQuantities';
 import { cn } from '@/lib/utils';
-async function ProductPage({ params }: { params: { id: string } }) {
-  const id = (await params).id;
-  const { data } = await product(id);
+
+async function VariantPage({ params }: { params: { productSlug: string } }) {
+  const productSlug = (await params).productSlug;
+  const { data } = await product(productSlug);
 
   return (
-    <main className="bg-yellow-light-yellow">
+    <main className="w-full min-h-screen">
       <Breadcrumb />
       <section className="bg-white max-w-[1200px] mx-auto px-4 py-8">
         <div
@@ -50,4 +51,4 @@ async function ProductPage({ params }: { params: { id: string } }) {
   );
 }
 
-export default ProductPage;
+export default VariantPage;
