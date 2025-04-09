@@ -15,7 +15,8 @@ export const FILTERS = [
   { name: 'Product Warranty' },
 ];
 
+export const EXCLUDED_FILTER_OPTIONS = ['Product Model'];
 export const EXCLUDED_SEARCH_PARAMS = ['page', 'pageSize'];
 
 export const INITIAL_PAGE = 1;
-export const INITIAL_PAGE_SIZE = 8;
+export const INITIAL_PAGE_SIZE = 16;
