@@ -15,14 +15,14 @@ const client = getClient();
 export async function getAddress() {
   const cookieStore = cookies();
   const token = cookieStore.get('a-token')?.value;
-  const Auser: Auser = JSON.parse(cookieStore.get('a-user')?.value!);
+  const aUser: Auser = JSON.parse(cookieStore.get('a-user')?.value!);
 
   const res = await client.query({
     query: ADDRESS_OPERATION.Query.address,
     variables: {
-      documentId: Auser.documentId,
+      documentId: aUser.documentId,
     },
-    fetchPolicy: 'no-cache',
+    fetchPolicy: 'network-only',
     context: {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -36,7 +36,7 @@ export async function getAddress() {
 export async function addNewAddress(value: AddressSchemaTypes) {
   const cookieStore = cookies();
   const token = cookieStore.get('a-token')?.value;
-  const Auser: Auser = JSON.parse(cookieStore.get('a-user')?.value!);
+  const aUser: Auser = JSON.parse(cookieStore.get('a-user')?.value!);
 
   const res = await client.mutate({
     mutation: ADDRESS_OPERATION.Mutation.addAdress,
@@ -46,7 +46,7 @@ export async function addNewAddress(value: AddressSchemaTypes) {
       },
     },
     variables: {
-      data: { ...value, users: [Auser.documentId] },
+      data: { ...value, users: [aUser.documentId] },
     },
   });
 
@@ -60,7 +60,6 @@ export async function addNewAddress(value: AddressSchemaTypes) {
 export async function deleteAddress(id: string) {
   const cookieStore = cookies();
   const token = cookieStore.get('a-token')?.value;
-  const Auser: Auser = JSON.parse(cookieStore.get('a-user')?.value!);
 
   const res = await client.mutate({
     mutation: ADDRESS_OPERATION.Mutation.deleteAddress,

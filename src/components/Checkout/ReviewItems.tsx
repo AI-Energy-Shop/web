@@ -19,10 +19,13 @@ import CartItems from './CartItems';
 import { Input } from '../ui/input';
 import { cn } from '@/lib/utils';
 import { updateCartProductQuantity } from '@/app/actions/cart';
+import { GetCartProductQuantityQuery } from '@/lib/gql/graphql';
 
-interface ReviewItemsProps {}
+interface ReviewItemsProps {
+  cartProductQuantity: GetCartProductQuantityQuery;
+}
 
-const ReviewItems: React.FC<ReviewItemsProps> = () => {
+const ReviewItems: React.FC<ReviewItemsProps> = ({ cartProductQuantity }) => {
   const dispatch = useDispatch();
   const { carts, paymentStep, removeItemFromCart } = useCart();
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -227,6 +230,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
             </Select>
           </div>
           <CartItems
+            cartProductQuantity={cartProductQuantity}
             data={carts}
             onChange={handleChange}
             onReduceQuant={handleReduceQuant}

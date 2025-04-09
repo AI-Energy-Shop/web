@@ -5,6 +5,16 @@ import { formatCurrency } from '@/utils/cart';
 import CartItemCard from '@/components/Checkout/CartItemCard';
 import useMe from '@/hooks/useMe';
 import useCart from '@/hooks/useCart';
+import { GetCartProductQuantityQuery } from '@/lib/gql/graphql';
+
+interface CartItemsProps {
+  data: Cart[];
+  onChange: (id: string, e: React.ChangeEvent<HTMLInputElement>) => void;
+  onReduceQuant: (id: string) => void;
+  onAddQuant: (id: string) => void;
+  onRemove: (id: string) => void;
+  cartProductQuantity: GetCartProductQuantityQuery;
+}
 
 const CartItems = ({
   data,
@@ -12,13 +22,8 @@ const CartItems = ({
   onAddQuant,
   onReduceQuant,
   onRemove,
-}: {
-  data: Cart[];
-  onChange: (id: string, e: React.ChangeEvent<HTMLInputElement>) => void;
-  onReduceQuant: (id: string) => void;
-  onAddQuant: (id: string) => void;
-  onRemove: (id: string) => void;
-}) => {
+  cartProductQuantity,
+}: CartItemsProps) => {
   const { user } = useMe();
   const { warehouse } = useCart();
 
@@ -35,6 +40,16 @@ const CartItems = ({
           (inventory) => inventory?.name === warehouse?.address.city
         );
 
+        const currentProduct =
+          cartProductQuantity.usersPermissionsUser?.carts.find(
+            (cart) => cart?.documentId === item.documentId
+          );
+
+        const currentProductQuantity =
+          currentProduct?.product?.inventories.find(
+            (location) => location?.name?.toLowerCase() === 'sydney'
+          )?.quantity;
+
         return (
           <CartItemCard
             key={item.documentId}
@@ -45,7 +60,7 @@ const CartItems = ({
             price={productPrice}
             gst={formatCurrency(productPrice * 0.1, 'USD')}
             quantity={item.quantity}
-            stock={stock?.quantity || 0}
+            stock={currentProductQuantity || 0}
             onAddQuant={onAddQuant}
             onReduceQuant={onReduceQuant}
             onChange={onChange}

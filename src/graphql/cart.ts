@@ -40,6 +40,24 @@ const schema = {
         }
       }
     `),
+    cartProductQuantity: graphql(`
+      query GetCartProductQuantity($documentId: ID!) {
+        usersPermissionsUser(documentId: $documentId) {
+          carts {
+            documentId
+            product {
+              documentId
+              inventories {
+                documentId
+                name
+                location_code
+                quantity
+              }
+            }
+          }
+        }
+      }
+    `),
   },
   Mutation: {
     createCart: gql(`
