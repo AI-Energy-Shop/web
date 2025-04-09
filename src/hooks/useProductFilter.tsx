@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import {
   useParams,
@@ -15,6 +15,7 @@ import {
   capsAllFirstCharWithUnderScore,
 } from '@/utils/string';
 import {
+  EXCLUDED_FILTER_OPTIONS,
   EXCLUDED_SEARCH_PARAMS,
   INITIAL_PAGE,
   INITIAL_PAGE_SIZE,
@@ -41,14 +42,6 @@ const useProductFilter = () => {
   const pathname = usePathname();
   const params = useParams();
   const router = useRouter();
-
-  const exludedFilterOptions = useMemo(() => {
-    const options = ['Product Model'];
-    if (params.brandSlug) {
-      options.push('Brand');
-    }
-    return options;
-  }, [params.brandSlug]);
 
   const filters = () => {
     let f = {};
@@ -80,7 +73,7 @@ const useProductFilter = () => {
     return f;
   };
 
-  const { data } = useQuery(PRODUCT_OPERATION.Query.products, {
+  useQuery(PRODUCT_OPERATION.Query.products, {
     variables: {
       filters: filters(),
       pagination: {
@@ -88,10 +81,7 @@ const useProductFilter = () => {
         pageSize: Number(searchParams.get('pageSize')) || INITIAL_PAGE_SIZE,
       },
     },
-  });
-
-  useEffect(() => {
-    if (data?.products) {
+    onCompleted: (data) => {
       const filterOpts: Filter[] = [];
 
       data.products?.forEach((product) =>
@@ -130,12 +120,12 @@ const useProductFilter = () => {
       ) as Filter[];
 
       const filteredFilterOptions = uniqueSpecifications.filter(
-        (option) => !exludedFilterOptions.includes(option.key)
+        (option) => !EXCLUDED_FILTER_OPTIONS.includes(option.key)
       );
 
       setFilterOptions(filteredFilterOptions);
-    }
-  }, [data, exludedFilterOptions]);
+    },
+  });
 
   const handleFilterChange = (key: string, value: string, id: string) => {
     setSelectedFilters((prevFilters) => {
