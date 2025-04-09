@@ -137,3 +137,26 @@ export const removeItemFromCartAction = async (documentId: string) => {
     };
   }
 };
+
+export const updateCartProductQuantity = async (
+  documentId: string,
+  quantity: number
+) => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('a-token');
+
+  await client.mutate({
+    mutation: CART_OPERATIONS.Mutation.updateQuantity,
+    context: {
+      headers: {
+        Authorization: `Bearer ${token?.value}`,
+      },
+    },
+    variables: {
+      documentId,
+      data: {
+        quantity,
+      },
+    },
+  });
+};

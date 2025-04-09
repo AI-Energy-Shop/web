@@ -22,6 +22,8 @@ const documents = {
     types.DeleteAddressDocument,
   '\n      mutation UpdateAddress($data: AddressInput!, $documentId: ID!) {\n        updateAddress(data: $data, documentId: $documentId) {\n          documentId\n        }\n      }\n    ':
     types.UpdateAddressDocument,
+  '\n      mutation UpdateAddressIsActive($documentId: ID!, $data: AddressInput!) {\n        updateAddress(documentId: $documentId, data: $data) {\n          documentId\n        }\n      }\n    ':
+    types.UpdateAddressIsActiveDocument,
   '\n      query Carts($filters: CartFiltersInput, $pagination: PaginationArg) {\n        carts(filters: $filters, pagination: $pagination) {\n          documentId\n          product {\n            documentId\n            name\n            model\n            odoo_product_id\n            price_lists {\n              price\n              min_quantity\n              max_quantity\n            }\n            inventories {\n              documentId\n              name\n              location_code\n              quantity\n            }\n            images {\n              url\n              alternativeText\n              width\n              height\n            }\n          }\n          user {\n            documentId\n            username\n          }\n          quantity\n          createdAt\n          updatedAt\n        }\n      }\n    ':
     types.CartsDocument,
   '\n      mutation CreateCart($data: CartInput!) {\n        createCart(data: $data) {\n          documentId\n          product {\n            documentId\n            odoo_product_id\n            name\n            model\n            price_lists {\n              price\n              sale_price\n              min_quantity\n              max_quantity\n              user_level\n            }\n            inventories {\n              documentId\n              name\n              location_code\n              quantity\n            }\n            images {\n              url\n              alternativeText\n              width\n              height\n            }\n          }\n          user {\n            documentId\n            username\n          }\n          quantity\n          createdAt\n          updatedAt\n        }  \n      }\n    ':
@@ -30,6 +32,8 @@ const documents = {
     types.UpdateCartDocument,
   '\n      mutation DeleteCart($documentId: ID!) {\n        deleteCart(documentId: $documentId) {\n          documentId\n        }\n      }\n    ':
     types.DeleteCartDocument,
+  '\n      mutation UpdateQuantity($documentId: ID!, $data: CartInput!) {\n        updateCart(documentId: $documentId, data: $data) {\n          documentId\n        }\n      }\n    ':
+    types.UpdateQuantityDocument,
   '\n      query Files($filters: FilesFiltersArgs) {\n        files(filters: $filters) {\n          documentId\n          name\n          alternativeText\n          caption\n          width\n          height\n          formats\n          hash\n          ext\n          mime\n          size\n          url\n          previewUrl\n          provider\n          provider_metadata\n        }\n      }\n    ':
     types.FilesDocument,
   '\n      mutation CreateOrder($data: OrderInput!) {\n        createOrder(data: $data) {\n          documentId\n          createdAt\n          updatedAt\n        }\n      }\n    ':
@@ -106,6 +110,12 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+  source: '\n      mutation UpdateAddressIsActive($documentId: ID!, $data: AddressInput!) {\n        updateAddress(documentId: $documentId, data: $data) {\n          documentId\n        }\n      }\n    '
+): (typeof documents)['\n      mutation UpdateAddressIsActive($documentId: ID!, $data: AddressInput!) {\n        updateAddress(documentId: $documentId, data: $data) {\n          documentId\n        }\n      }\n    '];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
   source: '\n      query Carts($filters: CartFiltersInput, $pagination: PaginationArg) {\n        carts(filters: $filters, pagination: $pagination) {\n          documentId\n          product {\n            documentId\n            name\n            model\n            odoo_product_id\n            price_lists {\n              price\n              min_quantity\n              max_quantity\n            }\n            inventories {\n              documentId\n              name\n              location_code\n              quantity\n            }\n            images {\n              url\n              alternativeText\n              width\n              height\n            }\n          }\n          user {\n            documentId\n            username\n          }\n          quantity\n          createdAt\n          updatedAt\n        }\n      }\n    '
 ): (typeof documents)['\n      query Carts($filters: CartFiltersInput, $pagination: PaginationArg) {\n        carts(filters: $filters, pagination: $pagination) {\n          documentId\n          product {\n            documentId\n            name\n            model\n            odoo_product_id\n            price_lists {\n              price\n              min_quantity\n              max_quantity\n            }\n            inventories {\n              documentId\n              name\n              location_code\n              quantity\n            }\n            images {\n              url\n              alternativeText\n              width\n              height\n            }\n          }\n          user {\n            documentId\n            username\n          }\n          quantity\n          createdAt\n          updatedAt\n        }\n      }\n    '];
 /**
@@ -126,6 +136,12 @@ export function graphql(
 export function graphql(
   source: '\n      mutation DeleteCart($documentId: ID!) {\n        deleteCart(documentId: $documentId) {\n          documentId\n        }\n      }\n    '
 ): (typeof documents)['\n      mutation DeleteCart($documentId: ID!) {\n        deleteCart(documentId: $documentId) {\n          documentId\n        }\n      }\n    '];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation UpdateQuantity($documentId: ID!, $data: CartInput!) {\n        updateCart(documentId: $documentId, data: $data) {\n          documentId\n        }\n      }\n    '
+): (typeof documents)['\n      mutation UpdateQuantity($documentId: ID!, $data: CartInput!) {\n        updateCart(documentId: $documentId, data: $data) {\n          documentId\n        }\n      }\n    '];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

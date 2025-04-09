@@ -47,6 +47,13 @@ const schema = {
         }
       }
     `),
+    makeAddressNotDefault: graphql(`
+      mutation UpdateAddressIsActive($documentId: ID!, $data: AddressInput!) {
+        updateAddress(documentId: $documentId, data: $data) {
+          documentId
+        }
+      }
+    `),
   },
 };
 
