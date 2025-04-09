@@ -29,7 +29,7 @@ export default async function CategoryPage({
 
   let filters: any = {};
 
-  if (category) {
+  if (category && category !== 'all') {
     filters = {
       categories: {
         slug: {
