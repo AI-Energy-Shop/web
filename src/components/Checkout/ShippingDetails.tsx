@@ -92,7 +92,7 @@ const ShippingDetails = () => {
             {value === 'delivery' ? 'Ship To:' : 'Pick Up From:'}
           </h1>
           <Link
-            href={`/shipping-addresses`}
+            href={`/address`}
             className="flex user-select-none items-center gap-x-1 relative border-b border-black"
           >
             <p className="text-[12px]">Change Address</p>

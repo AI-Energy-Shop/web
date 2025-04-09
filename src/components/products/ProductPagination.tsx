@@ -25,7 +25,7 @@ const ProductPagination = ({ category }: ProductPaginationProps) => {
 
   const variables = {
     filters: {
-      category: {
+      categories: {
         slug: {
           contains: category,
         },
