@@ -8,10 +8,9 @@ import SortOption from './options/SortOption';
 
 interface ProductListProps {
   data?: ProductsQuery['products'];
-  category?: string;
 }
 
-const Products: React.FC<ProductListProps> = ({ data, category }) => {
+const ProductsList: React.FC<ProductListProps> = ({ data }) => {
   return (
     <div className="products flex gap-8">
       <SidebarFilters />
@@ -24,10 +23,10 @@ const Products: React.FC<ProductListProps> = ({ data, category }) => {
             return <ProductCard key={product?.documentId} product={product} />;
           })}
         </div>
-        <ProductPagination category={category} />
+        <ProductPagination />
       </div>
     </div>
   );
 };
 
-export default Products;
+export default ProductsList;
