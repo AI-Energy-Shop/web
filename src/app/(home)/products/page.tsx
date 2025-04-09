@@ -1,59 +1,61 @@
 export const dynamic = 'force-dynamic';
-import { INITIAL_PAGE, INITIAL_PAGE_SIZE } from '@/constant';
+import {
+  INITIAL_PAGE,
+  INITIAL_PAGE_SIZE,
+  EXCLUDED_SEARCH_PARAMS,
+} from '@/constant';
 import ProductList from '@/components/products/ProductList';
 import Breadcrumb from '@/components/products/Breadcrumb';
+import { capsAllFirstCharWithDash } from '@/utils/string';
 import Categories from '@/components/products/Categories';
 import PageTitle from '@/components/products/PageTitle';
 import Brands from '@/components/products/Brands';
 import { products } from '@/app/actions/products';
-import {
-  capitalizeAllFirstChar,
-  capsAllFirstCharWithDash,
-} from '@/utils/string';
 
 export default async function ProductsPage({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const { page, pageSize } = await searchParams;
-  const searcchParamsRes = await searchParams;
-  const { brand } = searcchParamsRes;
+  const searchParamsRes = await searchParams;
+  const { brand } = searchParamsRes;
   let filters: any = {};
 
-  Object.keys(searcchParamsRes).forEach((key) => {
-    const value = searcchParamsRes[key];
+  Object.keys(searchParamsRes)
+    .filter((key) => !EXCLUDED_SEARCH_PARAMS.includes(key))
+    .forEach((key) => {
+      const value = searchParamsRes[key];
 
-    if (key === 'brand') {
-      if (brand instanceof Array) {
-        filters = { ...filters, brand: { url: { in: brand } } };
+      if (key === 'brand') {
+        if (brand instanceof Array) {
+          filters = { ...filters, brand: { url: { in: brand } } };
+        } else {
+          filters = { ...filters, brand: { url: { in: [brand] } } };
+        }
       } else {
-        filters = { ...filters, brand: { url: { in: [brand] } } };
+        const capitalizeKey = capsAllFirstCharWithDash(key);
+        filters = {
+          ...filters,
+          specifications: {
+            ...filters?.specification,
+            key: {
+              eq: capitalizeKey,
+            },
+            value: {
+              in: Array.isArray(value)
+                ? value.map((val) => val.toLocaleLowerCase())
+                : [value?.toLocaleLowerCase()],
+            },
+          },
+        };
       }
-    } else {
-      const capitalizeKey = capsAllFirstCharWithDash(key);
-      filters = {
-        ...filters,
-        specifications: {
-          ...filters?.specification,
-          key: {
-            eq: capitalizeKey,
-          },
-          value: {
-            in: Array.isArray(value)
-              ? value.map((val) => val.toLocaleLowerCase())
-              : [value?.toLocaleLowerCase()],
-          },
-        },
-      };
-    }
-  });
+    });
 
   const { data } = await products({
     filters,
     pagination: {
-      page: Number(page) || INITIAL_PAGE,
-      pageSize: Number(pageSize) || INITIAL_PAGE_SIZE,
+      page: Number(searchParamsRes.page) || INITIAL_PAGE,
+      pageSize: Number(searchParamsRes.pageSize) || INITIAL_PAGE_SIZE,
     },
   });
 
