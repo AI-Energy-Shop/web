@@ -20,6 +20,8 @@ import { Input } from '../ui/input';
 import { cn } from '@/lib/utils';
 import { updateCartProductQuantity } from '@/app/actions/cart';
 import { GetCartProductQuantityQuery } from '@/lib/gql/graphql';
+import { useCheckoutDispatch } from '@/hooks/useCheckout';
+import { setSelectedLocation } from '@/store/features/checkout';
 
 interface ReviewItemsProps {
   cartProductQuantity: GetCartProductQuantityQuery;
@@ -34,13 +36,17 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({ cartProductQuantity }) => {
   );
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
   const DEBOUNCE_DELAY = 1500;
+  const changeLocationDispatch = useCheckoutDispatch();
 
   const handleEditClick = () => {
     dispatch(setPaymentStep(1));
   };
 
   const handleLocationChange = (value: string) => {
-    // Handle location change
+    const productLocation = WAREHOUSE_LOCATIONS.find(
+      (location) => location.id === Number(value)
+    );
+    changeLocationDispatch(setSelectedLocation(productLocation!));
   };
 
   const handleContinueClick = () => {
