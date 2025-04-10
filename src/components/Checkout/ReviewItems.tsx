@@ -22,6 +22,7 @@ import { updateCartProductQuantity } from '@/app/actions/cart';
 import { GetCartProductQuantityQuery } from '@/lib/gql/graphql';
 import { useCheckoutDispatch } from '@/hooks/useCheckout';
 import { setSelectedLocation } from '@/store/features/checkout';
+import { useCheckoutSelector } from '@/hooks/useCheckout';
 
 interface ReviewItemsProps {
   cartProductQuantity: GetCartProductQuantityQuery;
@@ -37,6 +38,48 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({ cartProductQuantity }) => {
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
   const DEBOUNCE_DELAY = 1500;
   const changeLocationDispatch = useCheckoutDispatch();
+  const checkoutProductLocation = useCheckoutSelector(
+    (state) => state.checkout.selectedLocation
+  );
+  const checkIfProductLocationQuantityIsOkToProceed = () => {
+    const productWithNoStockInCurrentLocation =
+      cartProductQuantity.usersPermissionsUser?.carts.find((cartItem) => {
+        return cartItem?.product?.inventories.find((locationQuantity) => {
+          if (
+            locationQuantity?.name?.toLowerCase() ===
+              checkoutProductLocation?.name?.toLowerCase() &&
+            locationQuantity?.quantity! <= 0
+          ) {
+            return true;
+          }
+        });
+      });
+
+    return productWithNoStockInCurrentLocation ? true : false;
+  };
+
+  const checkIfCartQuantityIsExceeded = () => {
+    const isThereExceededCart =
+      cartProductQuantity?.usersPermissionsUser?.carts?.filter((cart) => {
+        const cartQty = carts?.find(
+          (staleCart) => staleCart.documentId === cart?.documentId
+        )?.quantity;
+
+        const productLocationInventory = cart?.product?.inventories?.find(
+          (loc) =>
+            loc?.name?.toLowerCase() ===
+            checkoutProductLocation?.name?.toLowerCase()
+        );
+
+        if ((cartQty || 0) > (productLocationInventory?.quantity || 0)) {
+          return true;
+        }
+
+        return false;
+      });
+
+    return (isThereExceededCart?.length || 0) > 0;
+  };
 
   const handleEditClick = () => {
     dispatch(setPaymentStep(1));
@@ -202,7 +245,11 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({ cartProductQuantity }) => {
   const renderButton = () => (
     <div className="ae-mobile-container px-2 mt-4 lg:bg-white lg:-mt-4 py-4">
       <Button
-        disabled={carts.length === 0}
+        disabled={
+          carts.length === 0 ||
+          checkIfProductLocationQuantityIsOkToProceed() ||
+          checkIfCartQuantityIsExceeded()
+        }
         className="mx-auto px-12 block rounded-2xl bg-pink-darker-pink hover:bg-pink-darker-pink/90"
         onClick={handleContinueClick}
       >

@@ -45,6 +45,7 @@ const schema = {
         usersPermissionsUser(documentId: $documentId) {
           carts {
             documentId
+            quantity
             product {
               documentId
               inventories {

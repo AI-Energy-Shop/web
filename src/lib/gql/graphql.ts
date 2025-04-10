@@ -1217,6 +1217,7 @@ export type GetCartProductQuantityQuery = {
     carts: Array<{
       __typename?: 'Cart';
       documentId: string;
+      quantity?: number | null;
       product?: {
         __typename?: 'Product';
         documentId: string;
@@ -2733,6 +2734,10 @@ export const GetCartProductQuantityDocument = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'quantity' },
                       },
                       {
                         kind: 'Field',
