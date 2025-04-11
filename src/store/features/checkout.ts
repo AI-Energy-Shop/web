@@ -1,8 +1,9 @@
 // store/reviewSlice.ts
 import { WAREHOUSE_LOCATIONS } from '@/constant/shipping';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Cart } from './cart';
 
-type ShippingType = 'delivery' | 'pickup';
+type ShippingType = string;
 type PaymentMethod = 'creditcard' | 'banktransfer' | 'accountcredit';
 
 export type WarehouseLocation = {
@@ -11,56 +12,45 @@ export type WarehouseLocation = {
   name: string;
 };
 
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-}
-
-interface DeliveryDetails {
-  shipTo: number | null;
-  deliveryOptions: string | null;
-  deliveryNotes: string | null;
-}
-
-interface PickupDetails {
-  pickFrom: string | null;
-  plannedPickupDate: string | null;
-  pickupNotes: string | null;
-}
-
 interface CheckoutState {
-  items: Product[];
+  items: Cart[];
   selectedLocation: WarehouseLocation;
   voucherCode: string;
   orderNotes: string;
   shippingType: ShippingType;
-  delivery: DeliveryDetails | null;
-  pickup: PickupDetails | null;
+  deliveryNotes: string;
+  pickUpNotes: string;
+  deliveryDetails: number | null;
+  pickupDetails: WarehouseLocation | null;
   paymentMethod: PaymentMethod;
+  shippingDate: string;
 }
 
 const initialState: CheckoutState = {
   items: [],
   selectedLocation: WAREHOUSE_LOCATIONS[0],
+  shippingDate: '',
   voucherCode: '',
   orderNotes: '',
+  deliveryNotes: '',
+  pickUpNotes: '',
   shippingType: 'delivery',
-  delivery: {
-    shipTo: null,
-    deliveryOptions: null,
-    deliveryNotes: null,
-  },
-  pickup: null,
+  deliveryDetails: null,
+  pickupDetails: WAREHOUSE_LOCATIONS[0],
   paymentMethod: 'creditcard',
 };
 
-const reviewSlice = createSlice({
+const checkoutSlice = createSlice({
   name: 'review',
   initialState,
   reducers: {
-    setItems(state, action: PayloadAction<Product[]>) {
+    setDeliveryNotes(state, action: PayloadAction<string>) {
+      state.deliveryNotes = action.payload;
+    },
+    setPickUpNotes(state, action: PayloadAction<string>) {
+      state.pickUpNotes = action.payload;
+    },
+    setItems(state, action: PayloadAction<Cart[]>) {
       state.items = action.payload;
     },
     setSelectedLocation(state, action: PayloadAction<WarehouseLocation>) {
@@ -74,31 +64,12 @@ const reviewSlice = createSlice({
     },
     setShippingType(state, action: PayloadAction<ShippingType>) {
       state.shippingType = action.payload;
-      if (action.payload === 'delivery') {
-        state.delivery = {
-          shipTo: null,
-          deliveryOptions: null,
-          deliveryNotes: null,
-        };
-        state.pickup = null;
-      } else {
-        state.pickup = {
-          pickFrom: null,
-          plannedPickupDate: null,
-          pickupNotes: null,
-        };
-        state.delivery = null;
-      }
     },
-    setDeliveryDetails(state, action: PayloadAction<DeliveryDetails>) {
-      if (state.shippingType === 'delivery') {
-        state.delivery = action.payload;
-      }
+    setDeliveryDetails(state, action: PayloadAction<number>) {
+      state.deliveryDetails = action.payload;
     },
-    setPickupDetails(state, action: PayloadAction<PickupDetails>) {
-      if (state.shippingType === 'pickup') {
-        state.pickup = action.payload;
-      }
+    setPickupDetails(state, action: PayloadAction<WarehouseLocation>) {
+      state.pickupDetails = action.payload;
     },
     setPaymentMethod(state, action: PayloadAction<PaymentMethod>) {
       state.paymentMethod = action.payload;
@@ -119,6 +90,8 @@ export const {
   setPickupDetails,
   setPaymentMethod,
   resetReview,
-} = reviewSlice.actions;
+  setPickUpNotes,
+  setDeliveryNotes,
+} = checkoutSlice.actions;
 
-export default reviewSlice.reducer;
+export default checkoutSlice.reducer;

@@ -111,7 +111,7 @@ export const SHIPPING_OPTIONS: ShippingOptions = [
   {
     id: 1,
     title: 'Pick Up',
-    value: 'pick_up',
+    value: 'pickup',
     active: false,
     icon: {
       type: 'building',

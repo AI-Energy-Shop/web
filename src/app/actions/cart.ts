@@ -167,7 +167,7 @@ export async function getCartProductQuantity() {
   const aUser: Auser = JSON.parse(cookieStore.get('a-user')?.value!);
 
   const res = await client.query({
-    query: CART_OPERATIONS.Query.cartProductQuantity,
+    query: CART_OPERATIONS.Query.checkoutUserData,
     fetchPolicy: 'network-only',
     context: {
       headers: {

@@ -5,7 +5,7 @@ import { formatCurrency } from '@/utils/cart';
 import CartItemCard from '@/components/Checkout/CartItemCard';
 import useMe from '@/hooks/useMe';
 import useCart from '@/hooks/useCart';
-import { GetCartProductQuantityQuery } from '@/lib/gql/graphql';
+import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
 import { useCheckoutSelector } from '@/hooks/useCheckout';
 
 interface CartItemsProps {
@@ -14,7 +14,7 @@ interface CartItemsProps {
   onReduceQuant: (id: string) => void;
   onAddQuant: (id: string) => void;
   onRemove: (id: string) => void;
-  cartProductQuantity: GetCartProductQuantityQuery;
+  cartProductQuantity: GetCheckoutUserDataQuery;
 }
 
 const CartItems = ({

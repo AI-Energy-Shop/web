@@ -1206,11 +1206,11 @@ export type CartsQuery = {
   } | null>;
 };
 
-export type GetCartProductQuantityQueryVariables = Exact<{
+export type GetCheckoutUserDataQueryVariables = Exact<{
   documentId: Scalars['ID']['input'];
 }>;
 
-export type GetCartProductQuantityQuery = {
+export type GetCheckoutUserDataQuery = {
   __typename?: 'Query';
   usersPermissionsUser?: {
     __typename?: 'UsersPermissionsUser';
@@ -1229,6 +1229,23 @@ export type GetCartProductQuantityQuery = {
           quantity?: number | null;
         } | null>;
       } | null;
+    } | null>;
+    addresses: Array<{
+      __typename?: 'Address';
+      documentId: string;
+      street1?: string | null;
+      street2?: string | null;
+      state?: string | null;
+      city?: string | null;
+      zip_code?: string | null;
+      country?: string | null;
+      phone?: string | null;
+      isActive?: boolean | null;
+      title?: string | null;
+      odoo_address_id?: string | null;
+      mobile?: string | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
     } | null>;
   } | null;
 };
@@ -2686,13 +2703,13 @@ export const CartsDocument = {
     },
   ],
 } as unknown as DocumentNode<CartsQuery, CartsQueryVariables>;
-export const GetCartProductQuantityDocument = {
+export const GetCheckoutUserDataDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'GetCartProductQuantity' },
+      name: { kind: 'Name', value: 'GetCheckoutUserData' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -2783,6 +2800,59 @@ export const GetCartProductQuantityDocument = {
                     ],
                   },
                 },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'addresses' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'street1' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'street2' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'state' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'zip_code' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'country' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isActive' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'odoo_address_id' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'mobile' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -2791,8 +2861,8 @@ export const GetCartProductQuantityDocument = {
     },
   ],
 } as unknown as DocumentNode<
-  GetCartProductQuantityQuery,
-  GetCartProductQuantityQueryVariables
+  GetCheckoutUserDataQuery,
+  GetCheckoutUserDataQueryVariables
 >;
 export const CreateCartDocument = {
   kind: 'Document',

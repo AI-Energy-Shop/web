@@ -19,16 +19,18 @@ import CartItems from './CartItems';
 import { Input } from '../ui/input';
 import { cn } from '@/lib/utils';
 import { updateCartProductQuantity } from '@/app/actions/cart';
-import { GetCartProductQuantityQuery } from '@/lib/gql/graphql';
+import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
 import { useCheckoutDispatch } from '@/hooks/useCheckout';
 import { setSelectedLocation } from '@/store/features/checkout';
 import { useCheckoutSelector } from '@/hooks/useCheckout';
 
 interface ReviewItemsProps {
-  cartProductQuantity: GetCartProductQuantityQuery;
+  checkoutUserData: GetCheckoutUserDataQuery;
 }
 
-const ReviewItems: React.FC<ReviewItemsProps> = ({ cartProductQuantity }) => {
+const ReviewItems: React.FC<ReviewItemsProps> = ({
+  checkoutUserData: cartProductQuantity,
+}) => {
   const dispatch = useDispatch();
   const { carts, paymentStep, removeItemFromCart } = useCart();
   const [showModal, setShowModal] = useState<boolean>(false);

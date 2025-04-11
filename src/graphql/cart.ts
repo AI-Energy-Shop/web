@@ -40,8 +40,8 @@ const schema = {
         }
       }
     `),
-    cartProductQuantity: graphql(`
-      query GetCartProductQuantity($documentId: ID!) {
+    checkoutUserData: graphql(`
+      query GetCheckoutUserData($documentId: ID!) {
         usersPermissionsUser(documentId: $documentId) {
           carts {
             documentId
@@ -55,6 +55,22 @@ const schema = {
                 quantity
               }
             }
+          }
+          addresses {
+            documentId
+            street1
+            street2
+            state
+            city
+            zip_code
+            country
+            phone
+            isActive
+            title
+            odoo_address_id
+            mobile
+            createdAt
+            updatedAt
           }
         }
       }

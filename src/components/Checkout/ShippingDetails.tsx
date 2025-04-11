@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { CalendarIcon, Check, FilePenLine, MoveRight } from 'lucide-react';
 import { DynamicIcon } from 'lucide-react/dynamic';
@@ -18,8 +18,22 @@ import { DELIVERY_OPTIONS } from '@/constant/shipping';
 import Link from 'next/link';
 import useMe from '@/hooks/useMe';
 import useCart from '@/hooks/useCart';
+import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
+import { useCheckoutSelector, useCheckoutDispatch } from '@/hooks/useCheckout';
+import PickUpLocationModal from './PickUpLocationModal';
+import {
+  setShippingType,
+  setPickUpNotes,
+  setDeliveryNotes,
+} from '@/store/features/checkout';
 
-const ShippingDetails = () => {
+interface ShippingDetailsProps {
+  checkoutUserData: GetCheckoutUserDataQuery;
+}
+
+const ShippingDetails: React.FC<ShippingDetailsProps> = ({
+  checkoutUserData,
+}) => {
   const { user } = useMe();
   const {
     paymentStep,
@@ -29,6 +43,26 @@ const ShippingDetails = () => {
     handleContinueClick,
     handleEditClick,
   } = useCart();
+
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const checkoutDispatch = useCheckoutDispatch();
+
+  const userCurrentAddress =
+    checkoutUserData?.usersPermissionsUser?.addresses?.find(
+      (address) => address?.isActive === true
+    );
+
+  const currentPickUpLocation = useCheckoutSelector(
+    (state) => state.checkout.pickupDetails
+  );
+
+  const pickUpNotes = useCheckoutSelector(
+    (state) => state.checkout.pickUpNotes
+  );
+
+  const deliveryNotes = useCheckoutSelector(
+    (state) => state.checkout.deliveryNotes
+  );
 
   const renderHeader = () => {
     return (
@@ -62,7 +96,10 @@ const ShippingDetails = () => {
         {shippingOptions.map((item, index) => (
           <div
             key={item.id}
-            onClick={() => handleShippingMethodClick(index)}
+            onClick={() => {
+              handleShippingMethodClick(index);
+              checkoutDispatch(setShippingType(item.value));
+            }}
             className={`basis-1/3 p-0.5 rounded-2xl cursor-pointer ${item.active ? 'gradient-effect' : 'bg-black opacity-50'}`}
           >
             <div className="bg-white rounded-2xl text-center p-2">
@@ -79,18 +116,11 @@ const ShippingDetails = () => {
       </div>
     );
   };
-
-  const renderShippingAddress = (value: string) => {
-    const item = user?.account_detail?.shipping_addresses?.find(
-      (item) => item.isActive
-    );
-
+  const renderShippingAddress = () => {
     return (
       <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12">
         <div className="flex items-center justify-between">
-          <h1 className="font-bold text-blue-navy-blue">
-            {value === 'delivery' ? 'Ship To:' : 'Pick Up From:'}
-          </h1>
+          <h1 className="font-bold text-blue-navy-blue">Ship To:</h1>
           <Link
             href={`/address`}
             className="flex user-select-none items-center gap-x-1 relative border-b border-black"
@@ -99,22 +129,59 @@ const ShippingDetails = () => {
             <MoveRight className="w-4" />
           </Link>
         </div>
-
-        {item?.isActive && (
-          <div>
-            <h1 className="font-bold">{item.company}</h1>
-            <h1>
-              {item.street1}, {item.street2}, {item.city}, {item.state}{' '}
-              {item.zipCode}
-            </h1>
-            <h1>
-              {item.name?.first_name} {item.name?.last_name} - {item.phone}
-            </h1>
-            <h1>Warehouse</h1>
+        {userCurrentAddress ? (
+          <div className="text-xs">
+            <h1 className="font-bold">{userCurrentAddress?.title}</h1>
+            <h2>{userCurrentAddress?.street1}</h2>
+            <h2>{userCurrentAddress?.street2}</h2>
+            <h2>
+              {userCurrentAddress?.city}, {userCurrentAddress?.state}{' '}
+              {userCurrentAddress?.zip_code}
+            </h2>
+            <h2>{userCurrentAddress?.country}</h2>
           </div>
+        ) : (
+          <h1 className="font-bold text-sm text-red-500">Pls Select Address</h1>
         )}
       </div>
     );
+  };
+
+  const renderPickUpAddress = () => {
+    return (
+      <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12">
+        <PickUpLocationModal
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+        />
+        <div className="flex items-center justify-between">
+          <h1 className="font-bold text-blue-navy-blue">Pick Up From:</h1>
+          <div
+            onClick={() => setIsModalOpen(true)}
+            className="flex user-select-none items-center gap-x-1 relative border-b border-black cursor-pointer"
+          >
+            <p className="text-[12px]">Change Address</p>
+            <MoveRight className="w-4" />
+          </div>
+        </div>
+        <div>
+          <h1 className="text-sm font-bold">
+            AI EneryShop - {currentPickUpLocation?.name.toUpperCase()} Warehouse
+          </h1>
+          <h2 className="text-sm">{currentPickUpLocation?.title}</h2>
+        </div>
+      </div>
+    );
+  };
+
+  const renderPickUpAddressOrShippingAddress = (value: string) => {
+    if (value === 'delivery') {
+      return renderShippingAddress();
+    }
+
+    if (value === 'pickup') {
+      return renderPickUpAddress();
+    }
   };
 
   const renderDeliveryOptions = () => {
@@ -187,7 +254,22 @@ const ShippingDetails = () => {
     return (
       <div className="md:px-12 pb-4">
         <h1 className="font-bold">Delivery Notes</h1>
-        <Textarea />
+        <Textarea
+          value={deliveryNotes}
+          onChange={(e) => checkoutDispatch(setDeliveryNotes(e.target.value))}
+        />
+      </div>
+    );
+  };
+
+  const renderPickUpNotes = () => {
+    return (
+      <div className="md:px-12 pb-4">
+        <h1 className="font-bold">PickUp Notes</h1>
+        <Textarea
+          value={pickUpNotes}
+          onChange={(e) => checkoutDispatch(setPickUpNotes(e.target.value))}
+        />
       </div>
     );
   };
@@ -206,9 +288,11 @@ const ShippingDetails = () => {
             if (item.active) {
               return (
                 <React.Fragment key={item.id}>
-                  {renderShippingAddress(item.value)}
+                  {renderPickUpAddressOrShippingAddress(item.value)}
                   {item.value === 'delivery' && renderDeliveryOptions()}
-                  {item.value === 'delivery' && renderDeliveryNotes()}
+                  {item.value === 'delivery'
+                    ? renderDeliveryNotes()
+                    : renderPickUpNotes()}
                 </React.Fragment>
               );
             }
