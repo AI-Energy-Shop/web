@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { CalendarIcon, Check, FilePenLine, MoveRight } from 'lucide-react';
 import { DynamicIcon } from 'lucide-react/dynamic';
@@ -14,17 +14,22 @@ import { formatDate } from '@/utils/formatDate';
 import { Calendar } from '@/components/ui/calendar';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-import { DELIVERY_OPTIONS } from '@/constant/shipping';
+import {
+  DELIVERY_OPTIONS,
+  PICK_UP_ESTIMATED_ARRIVAL_TIME,
+} from '@/constant/shipping';
 import Link from 'next/link';
 import useMe from '@/hooks/useMe';
 import useCart from '@/hooks/useCart';
 import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
 import { useCheckoutSelector, useCheckoutDispatch } from '@/hooks/useCheckout';
-import PickUpLocationModal from './PickUpLocationModal';
 import {
   setShippingType,
   setPickUpNotes,
   setDeliveryNotes,
+  ShippingType,
+  setDeliveryOptions,
+  setPickUpOptions,
 } from '@/store/features/checkout';
 
 interface ShippingDetailsProps {
@@ -38,13 +43,22 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
   const {
     paymentStep,
     shippingOptions,
-    date,
     handleShippingMethodClick,
     handleContinueClick,
     handleEditClick,
   } = useCart();
 
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [deliveryDate, setDeliveryDate] = React.useState<Date | undefined>(
+    new Date()
+  );
+  const [pickUpDate, setPickUpDate] = React.useState<Date | undefined>(
+    new Date()
+  );
+
+  const [deliveryRadioGroup, setDeliverRadioGroup] = React.useState<
+    string | undefined
+  >(undefined);
+
   const checkoutDispatch = useCheckoutDispatch();
 
   const userCurrentAddress =
@@ -53,7 +67,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     );
 
   const currentPickUpLocation = useCheckoutSelector(
-    (state) => state.checkout.pickupDetails
+    (state) => state.checkout.selectedLocation
   );
 
   const pickUpNotes = useCheckoutSelector(
@@ -63,6 +77,15 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
   const deliveryNotes = useCheckoutSelector(
     (state) => state.checkout.deliveryNotes
   );
+
+  const pickUpOptions = useCheckoutSelector(
+    (state) => state.checkout.pickupOptions
+  );
+
+  const TODAY = new Date();
+  TODAY.setHours(0, 0, 0, 0);
+
+  const MANUAL_QUOTATION_NEEDED = true;
 
   const renderHeader = () => {
     return (
@@ -98,7 +121,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
             key={item.id}
             onClick={() => {
               handleShippingMethodClick(index);
-              checkoutDispatch(setShippingType(item.value));
+              checkoutDispatch(setShippingType(item.value as ShippingType));
             }}
             className={`basis-1/3 p-0.5 rounded-2xl cursor-pointer ${item.active ? 'gradient-effect' : 'bg-black opacity-50'}`}
           >
@@ -150,19 +173,8 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
   const renderPickUpAddress = () => {
     return (
       <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12">
-        <PickUpLocationModal
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-        />
         <div className="flex items-center justify-between">
           <h1 className="font-bold text-blue-navy-blue">Pick Up From:</h1>
-          <div
-            onClick={() => setIsModalOpen(true)}
-            className="flex user-select-none items-center gap-x-1 relative border-b border-black cursor-pointer"
-          >
-            <p className="text-[12px]">Change Address</p>
-            <MoveRight className="w-4" />
-          </div>
         </div>
         <div>
           <h1 className="text-sm font-bold">
@@ -184,60 +196,117 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     }
   };
 
+  const handleChangeDeliveryOption = (value: string) => {
+    setDeliverRadioGroup(value);
+
+    if (value === '3') {
+      checkoutDispatch(
+        setDeliveryOptions({ type: 'manual', date: deliveryDate })
+      );
+    } else {
+      const data = DELIVERY_OPTIONS.find((delivery) => delivery.id === value);
+      const formattedData = `${data?.prefix}${data?.price} ${data?.label} ${data?.eta}`;
+
+      checkoutDispatch(
+        setDeliveryOptions({ type: 'auto', date: formattedData })
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (!deliveryDate) {
+      checkoutDispatch(setDeliveryOptions({ type: 'manual', date: undefined }));
+    }
+
+    if (deliveryRadioGroup === '3') {
+      checkoutDispatch(
+        setDeliveryOptions({ type: 'manual', date: deliveryDate })
+      );
+    }
+  }, [checkoutDispatch, deliveryDate, deliveryRadioGroup]);
+
   const renderDeliveryOptions = () => {
     return (
       <div className="border border-blue-navy-blue rounded-xl p-2 md:mx-12">
         <h1 className="font-bold">Delivery Options:</h1>
-        <RadioGroup onValueChange={() => {}}>
-          {DELIVERY_OPTIONS.map((item) => {
-            return (
-              <div
-                key={item.id}
-                className="flex items-center space-x-2 border-b border-b-gray-300"
-              >
-                <RadioGroupItem value={`${item.id}`} id={`${item.id}`} />
-                <Label htmlFor={`${item.id}`}>
-                  <div>
-                    <p>
-                      {item.prefix}
-                      {item.price} ex. GST
-                    </p>
-                    <p>
-                      {item.label} ({item.eta})
-                    </p>
-                  </div>
-                </Label>
+        <RadioGroup
+          value={deliveryRadioGroup}
+          onValueChange={handleChangeDeliveryOption}
+        >
+          <div className="relative">
+            {MANUAL_QUOTATION_NEEDED && (
+              <div className="absolute w-full h-full bg-pink-darker-pink flex flex-col justify-center items-center text-center text-white z-10">
+                <h1 className="font-bold text-xl">
+                  Soonest Available Delivery
+                </h1>
+                <p className="text-xs">
+                  some of your product needed to manually quoted
+                </p>
+                <p className="font-semibold">
+                  (or you can choose date below for specific date)
+                </p>
               </div>
-            );
-          })}
+            )}
+            {DELIVERY_OPTIONS.map((item) => {
+              return (
+                <div
+                  key={item.id}
+                  className="flex items-center space-x-2 border-b border-b-gray-300"
+                >
+                  <RadioGroupItem
+                    value={`${item.id}`}
+                    id={`${item.id}`}
+                    disabled={MANUAL_QUOTATION_NEEDED}
+                  />
+                  <Label htmlFor={`${item.id}`}>
+                    <div>
+                      <p>
+                        {item.prefix}
+                        {item.price} ex. GST
+                      </p>
+                      <p>
+                        {item.label} ({item.eta})
+                      </p>
+                    </div>
+                  </Label>
+                </div>
+              );
+            })}
+          </div>
 
           <div className="flex items-center space-x-2">
-            <RadioGroupItem value="4" id="4" disabled />
-            <Label htmlFor="4">
+            <RadioGroupItem value="3" id="3" />
+            <Label htmlFor="3">
               <div>
                 <p>TBC - Request delivery on specified date</p>
                 <div>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
+                        onClick={() => {
+                          setDeliverRadioGroup('3');
+                        }}
                         variant="ghost"
                         className={cn(
                           'w-fit justify-start gap-2 px-2 font-normal hover:bg-transparent',
-                          !date && 'text-muted-foreground'
+                          !deliveryDate && 'text-muted-foreground'
                         )}
                       >
                         <CalendarIcon className="h-5 w-5 text-muted-foreground" />
                         <span className="text-lg text-muted-foreground">
-                          {/* {date ? formatDate(date) : 'Select date'} */}
+                          {deliveryDate
+                            ? formatDate(deliveryDate)
+                            : 'Select date'}
                         </span>
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
                       <Calendar
                         mode="single"
-                        selected={date}
-                        onSelect={() => {}}
+                        selected={deliveryDate}
+                        onSelect={setDeliveryDate}
                         initialFocus
+                        disabled={{ before: TODAY }}
                       />
                     </PopoverContent>
                   </Popover>
@@ -246,6 +315,67 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
             </Label>
           </div>
         </RadioGroup>
+      </div>
+    );
+  };
+
+  const renderPickUpOptions = () => {
+    return (
+      <div className="border border-blue-navy-blue rounded-xl space-y-2 p-2 md:mx-12">
+        <div>
+          <h1 className="font-bold">Planned Pickup Date</h1>
+          <div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className={cn(
+                    'w-fit justify-start gap-2 px-2 font-normal hover:bg-transparent',
+                    !pickUpDate && 'text-muted-foreground'
+                  )}
+                >
+                  <CalendarIcon className="h-5 w-5 text-muted-foreground" />
+                  <span className="text-lg font-semibold">
+                    {pickUpDate ? formatDate(pickUpDate) : 'Select date'}
+                  </span>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={pickUpDate}
+                  onSelect={setPickUpDate}
+                  initialFocus
+                  disabled={{ before: TODAY }}
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <h1 className="font-bold">Estimated Arrival Time</h1>
+          <div className="flex flex-wrap justify-center items-center gap-6">
+            {PICK_UP_ESTIMATED_ARRIVAL_TIME.map((time) => (
+              <div
+                key={time.id}
+                className={`p-[2px] w-fit ${pickUpOptions?.estimatedArrivalTime === time.value ? 'gradient-effect' : 'border border-black opacity-80'}`}
+                onClick={() => {
+                  checkoutDispatch(
+                    setPickUpOptions({
+                      date: pickUpDate,
+                      estimatedArrivalTime: time.value,
+                    })
+                  );
+                }}
+              >
+                <Button className="bg-white hover:bg-white text-black rounded-none shadow-none">
+                  {time.value}
+                </Button>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   };
@@ -290,6 +420,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                 <React.Fragment key={item.id}>
                   {renderPickUpAddressOrShippingAddress(item.value)}
                   {item.value === 'delivery' && renderDeliveryOptions()}
+                  {item.value === 'pickup' && renderPickUpOptions()}
                   {item.value === 'delivery'
                     ? renderDeliveryNotes()
                     : renderPickUpNotes()}

@@ -13,6 +13,7 @@ export function capitalizeFirstChar(str: string) {
  * @param str - The input string to capitalize
  * @returns The string with first character of each word capitalized, or empty string if input is empty
  */
+
 export function capitalizeAllFirstChar(str: string) {
   if (!str) return ''; // Handle empty strings
   return str.split(' ').map(capitalizeFirstChar).join(' ');
