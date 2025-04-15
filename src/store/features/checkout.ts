@@ -57,7 +57,7 @@ const initialState: CheckoutState = {
   warehouseLocation: WAREHOUSE_LOCATIONS[0],
   deliveryOptions: null,
   pickupOptions: {
-    date: undefined,
+    date: NOW,
     estimatedArrivalTime: getPickUpOptionsBestTimeSlots(
       NOW,
       PICK_UP_ESTIMATED_ARRIVAL_TIME

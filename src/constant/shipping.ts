@@ -57,20 +57,33 @@ export const DELIVERY_OPTIONS = [
 ];
 
 const now = new Date();
-const date = [
-  new Date(now.getFullYear(), now.getMonth(), now.getDate(), 7, 30),
-  new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 0),
-  new Date(now.getFullYear(), now.getMonth(), now.getDate(), 11, 0),
-  new Date(now.getFullYear(), now.getMonth(), now.getDate(), 1, 0),
-  new Date(now.getFullYear(), now.getMonth(), now.getDate(), 3, 0),
-];
 
 export const PICK_UP_ESTIMATED_ARRIVAL_TIME = [
-  { id: 0, value: '7:30am - 9:00am', date: date[0] },
-  { id: 1, value: '9:00am - 11:00am', date: date[1] },
-  { id: 2, value: '11:00am - 1:00pm', date: date[2] },
-  { id: 3, value: '1:00pm - 3:00pm', date: date[3] },
-  { id: 4, value: '3:00pm - 5:00pm', date: date[4] },
+  {
+    id: 0,
+    value: '7:30am - 9:00am',
+    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 7, 30),
+  },
+  {
+    id: 1,
+    value: '9:00am - 11:00am',
+    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 0),
+  },
+  {
+    id: 2,
+    value: '11:00am - 1:00pm',
+    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 11, 0),
+  },
+  {
+    id: 3,
+    value: '1:00pm - 3:00pm',
+    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 13, 0),
+  },
+  {
+    id: 4,
+    value: '3:00pm - 5:00pm',
+    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 15, 0),
+  },
 ];
 
 export const SHIPPING_DETAILS = [

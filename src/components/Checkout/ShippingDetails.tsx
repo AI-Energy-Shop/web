@@ -52,6 +52,8 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     setPickUpOptions,
   } = useCheckout();
 
+  console.log({ warehouseLocation, pickUpNotes, deliveryNotes, pickUpOptions });
+
   const [deliveryDate, setDeliveryDate] = React.useState<Date | undefined>(
     new Date()
   );
@@ -299,7 +301,6 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
       </div>
     );
   };
-  console.log(pickUpOptions);
   const renderPickUpOptions = () => {
     return (
       <div className="border border-blue-navy-blue rounded-xl space-y-2 p-2 md:mx-12">
@@ -325,7 +326,14 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                 <Calendar
                   mode="single"
                   selected={pickUpDate}
-                  onSelect={setPickUpDate}
+                  onSelect={(e) => {
+                    setPickUpDate(e);
+                    setPickUpOptions({
+                      date: e,
+                      estimatedArrivalTime:
+                        pickUpOptions?.estimatedArrivalTime!,
+                    });
+                  }}
                   initialFocus
                   disabled={{ before: TODAY }}
                 />
@@ -355,6 +363,10 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
             ))}
           </div>
         </div>
+        <p className="text-center font-light text-sm">
+          NOTE: Order must be confirmed before pickup. Please allow 2-3 hours
+          after confirmation for the order to be ready for pick up.
+        </p>
       </div>
     );
   };
