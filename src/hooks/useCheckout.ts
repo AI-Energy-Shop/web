@@ -9,6 +9,8 @@ import {
   setPickUpNotes as setPickUpNotesFromSlice,
   PickUpOptions,
   setPickUpOptions as setPickUpOptionsFromSlice,
+  PaymentMethod,
+  setPaymentMethod as setPaymentMethodFromSlice,
 } from '@/store/features/checkout';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 
@@ -25,6 +27,10 @@ export const useCheckout = () => {
   const deliveryNotes = useAppSelector((state) => state.checkout.deliveryNotes);
 
   const pickUpOptions = useAppSelector((state) => state.checkout.pickupOptions);
+
+  const shippingType = useAppSelector((state) => state.checkout.shippingType);
+
+  const paymentMethod = useAppSelector((state) => state.checkout.paymentMethod);
 
   //Actions
   const setWarehouseLocation = (warehouse: WarehouseLocation) =>
@@ -46,16 +52,22 @@ export const useCheckout = () => {
   const setPickUpOptions = (pickUpOptions: PickUpOptions) =>
     dispatch(setPickUpOptionsFromSlice(pickUpOptions));
 
+  const setPaymentMethod = (paymentMethod: PaymentMethod) =>
+    dispatch(setPaymentMethodFromSlice(paymentMethod));
+
   return {
     warehouseLocation,
     pickUpNotes,
     deliveryNotes,
     pickUpOptions,
+    shippingType,
+    paymentMethod,
     setWarehouseLocation,
     setShippingType,
     setDeliveryOptions,
     setDeliveryNotes,
     setPickUpNotes,
     setPickUpOptions,
+    setPaymentMethod,
   };
 };

@@ -11,7 +11,7 @@ import { setPaymentStep, setCarts } from '@/store/features/cart';
 import { Check, FilePenLine } from 'lucide-react';
 import { Textarea } from '../ui/textarea';
 import ModalWrapper from './ModalWrapper';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useCart from '@/hooks/useCart';
 import { Button } from '../ui/button';
 import CartItems from './CartItems';
@@ -54,6 +54,11 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
 
     return productWithNoStockInCurrentLocation ? true : false;
   };
+
+  useEffect(() => {
+    dispatch(setPaymentStep(1));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const checkIfCartQuantityIsExceeded = () => {
     const isThereExceededCart =

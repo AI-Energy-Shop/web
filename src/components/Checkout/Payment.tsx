@@ -3,15 +3,16 @@ import React from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import Image from 'next/image';
 import { Label } from '@/components/ui/label';
-import { MoveRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import useCart from '@/hooks/useCart';
+import { useCheckout } from '@/hooks/useCheckout';
+import { PaymentMethod } from '@/store/features/checkout';
 
 interface PaymentProps {}
 
 const Payment: React.FC<PaymentProps> = ({}) => {
-  const { paymentStep, paymentOption } = useCart();
+  const { paymentStep } = useCart();
+  const { paymentMethod, setPaymentMethod } = useCheckout();
 
   return (
     <section>
@@ -24,11 +25,15 @@ const Payment: React.FC<PaymentProps> = ({}) => {
         <div className="ae-mobile-container space-y-4">
           <div className="border border-blue-navy-blue rounded-xl p-2 md:mx-12">
             <h1 className="font-bold">Payment Method</h1>
-            <RadioGroup className="space-y-1" onValueChange={() => {}}>
+            <RadioGroup
+              className="space-y-1"
+              value={paymentMethod}
+              onValueChange={(e) => setPaymentMethod(e as PaymentMethod)}
+            >
               <div className="flex items-center justify-between border-b border-b-gray-300 pb-2">
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="option-one" id="option-one" />
-                  <Label htmlFor="option-one">Credit Card</Label>
+                  <RadioGroupItem value="creditcard" id="creditcard" />
+                  <Label htmlFor="creditcard">Credit Card</Label>
                 </div>
                 <div className="flex items-center justify-end gap-x-1">
                   <Image
@@ -55,17 +60,17 @@ const Payment: React.FC<PaymentProps> = ({}) => {
                 </div>
               </div>
               <div className="flex items-center space-x-2 border-b border-b-gray-300 pb-2">
-                <RadioGroupItem value="option-two" id="option-two" />
-                <Label htmlFor="option-two">Bank Transfer</Label>
+                <RadioGroupItem value="banktransfer" id="banktransfer" />
+                <Label htmlFor="banktransfer">Bank Transfer</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="option-three" id="option-three" />
-                <Label htmlFor="option-three">Account Credit</Label>
+                <RadioGroupItem value="accountcredit" id="accountcredit" />
+                <Label htmlFor="accountcredit">Account Credit</Label>
               </div>
             </RadioGroup>
           </div>
 
-          <div className="max-lg:space-y-4 lg:flex lg:gap-x-4 lg:mx-12">
+          {/* <div className="max-lg:space-y-4 lg:flex lg:gap-x-4 lg:mx-12">
             <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12 lg:mx-0">
               <div className="flex items-center justify-between">
                 <h1 className="font-bold text-blue-navy-blue">Bill to:</h1>
@@ -81,8 +86,8 @@ const Payment: React.FC<PaymentProps> = ({}) => {
               </div>
             </div>
 
-            {/* Card Details */}
-            {paymentOption && (
+            Card Details
+            {paymentMethod && (
               <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12 lg:mx-0">
                 <div className="flex items-center justify-between">
                   <h1 className="font-bold">Card Details</h1>
@@ -112,7 +117,7 @@ const Payment: React.FC<PaymentProps> = ({}) => {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -122,7 +127,7 @@ const Payment: React.FC<PaymentProps> = ({}) => {
             <Button
               className="block mx-auto px-12 rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
               onClick={() => {}}
-              disabled={!paymentOption}
+              disabled={!paymentMethod}
             >
               <div className="md:flex md:gap-1">
                 <p>Submit Order</p>

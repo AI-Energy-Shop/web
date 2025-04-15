@@ -8,7 +8,11 @@ import { Cart } from './cart';
 import { getPickUpOptionsBestTimeSlots } from '@/utils/pickUpOptionsBestTimeSlot';
 
 export type ShippingType = 'delivery' | 'pickup';
-export type PaymentMethod = 'creditcard' | 'banktransfer' | 'accountcredit';
+export type PaymentMethod =
+  | 'creditcard'
+  | 'banktransfer'
+  | 'accountcredit'
+  | undefined;
 
 export type DeliveryOptions = {
   type: 'auto' | 'manual';
@@ -69,7 +73,7 @@ const initialState: CheckoutState = {
   pickUpNotes: '',
   shippingType: 'delivery',
   userDeliveryAddress: null,
-  paymentMethod: 'creditcard',
+  paymentMethod: undefined,
 };
 
 const checkoutSlice = createSlice({

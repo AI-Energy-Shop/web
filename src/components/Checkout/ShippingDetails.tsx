@@ -52,13 +52,11 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     setPickUpOptions,
   } = useCheckout();
 
-  console.log({ warehouseLocation, pickUpNotes, deliveryNotes, pickUpOptions });
-
   const [deliveryDate, setDeliveryDate] = React.useState<Date | undefined>(
-    new Date()
+    undefined
   );
   const [pickUpDate, setPickUpDate] = React.useState<Date | undefined>(
-    new Date()
+    undefined
   );
 
   const [deliveryRadioGroup, setDeliverRadioGroup] = React.useState<
