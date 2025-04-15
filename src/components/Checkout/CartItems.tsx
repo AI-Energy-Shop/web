@@ -4,9 +4,8 @@ import { Cart } from '@/store/features/cart';
 import { formatCurrency } from '@/utils/cart';
 import CartItemCard from '@/components/Checkout/CartItemCard';
 import useMe from '@/hooks/useMe';
-import useCart from '@/hooks/useCart';
 import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
-import { useCheckoutSelector } from '@/hooks/useCheckout';
+import { useCheckout } from '@/hooks/useCheckout';
 
 interface CartItemsProps {
   data: Cart[];
@@ -26,10 +25,7 @@ const CartItems = ({
   cartProductQuantity,
 }: CartItemsProps) => {
   const { user } = useMe();
-  const { warehouse } = useCart();
-  const productLocation = useCheckoutSelector(
-    (state) => state.checkout.selectedLocation
-  );
+  const { warehouseLocation } = useCheckout();
 
   return (
     <div className="space-y-8 pt-8 md:p-12">
@@ -49,7 +45,7 @@ const CartItems = ({
           currentProduct?.product?.inventories.find(
             (location) =>
               location?.name?.toLowerCase() ===
-              productLocation.name?.toLowerCase()
+              warehouseLocation.name?.toLowerCase()
           )?.quantity;
 
         return (

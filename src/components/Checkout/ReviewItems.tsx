@@ -11,7 +11,6 @@ import { setPaymentStep, setCarts } from '@/store/features/cart';
 import { Check, FilePenLine } from 'lucide-react';
 import { Textarea } from '../ui/textarea';
 import ModalWrapper from './ModalWrapper';
-import { useDispatch } from 'react-redux';
 import React, { useRef, useState } from 'react';
 import useCart from '@/hooks/useCart';
 import { Button } from '../ui/button';
@@ -20,9 +19,8 @@ import { Input } from '../ui/input';
 import { cn } from '@/lib/utils';
 import { updateCartProductQuantity } from '@/app/actions/cart';
 import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
-import { useCheckoutDispatch } from '@/hooks/useCheckout';
-import { setSelectedLocation } from '@/store/features/checkout';
-import { useCheckoutSelector } from '@/hooks/useCheckout';
+import { useCheckout } from '@/hooks/useCheckout';
+import { useAppDispatch } from '@/store/hooks';
 
 interface ReviewItemsProps {
   checkoutUserData: GetCheckoutUserDataQuery;
@@ -31,7 +29,7 @@ interface ReviewItemsProps {
 const ReviewItems: React.FC<ReviewItemsProps> = ({
   checkoutUserData: cartProductQuantity,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { carts, paymentStep, removeItemFromCart } = useCart();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [toRemoveItemId, setToRemoveItemId] = useState<string | undefined>(
@@ -39,17 +37,14 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
   );
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
   const DEBOUNCE_DELAY = 1500;
-  const changeLocationDispatch = useCheckoutDispatch();
-  const checkoutProductLocation = useCheckoutSelector(
-    (state) => state.checkout.selectedLocation
-  );
+  const { warehouseLocation, setWarehouseLocation } = useCheckout();
   const checkIfProductLocationQuantityIsOkToProceed = () => {
     const productWithNoStockInCurrentLocation =
       cartProductQuantity.usersPermissionsUser?.carts.find((cartItem) => {
         return cartItem?.product?.inventories.find((locationQuantity) => {
           if (
             locationQuantity?.name?.toLowerCase() ===
-              checkoutProductLocation?.name?.toLowerCase() &&
+              warehouseLocation?.name?.toLowerCase() &&
             locationQuantity?.quantity! <= 0
           ) {
             return true;
@@ -69,8 +64,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
 
         const productLocationInventory = cart?.product?.inventories?.find(
           (loc) =>
-            loc?.name?.toLowerCase() ===
-            checkoutProductLocation?.name?.toLowerCase()
+            loc?.name?.toLowerCase() === warehouseLocation?.name?.toLowerCase()
         );
 
         if ((cartQty || 0) > (productLocationInventory?.quantity || 0)) {
@@ -91,7 +85,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
     const productLocation = WAREHOUSE_LOCATIONS.find(
       (location) => location.id === Number(value)
     );
-    changeLocationDispatch(setSelectedLocation(productLocation!));
+    setWarehouseLocation(productLocation!);
   };
 
   const handleContinueClick = () => {

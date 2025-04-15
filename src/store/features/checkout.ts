@@ -8,13 +8,13 @@ import { Cart } from './cart';
 import { getPickUpOptionsBestTimeSlots } from '@/utils/pickUpOptionsBestTimeSlot';
 
 export type ShippingType = 'delivery' | 'pickup';
-type PaymentMethod = 'creditcard' | 'banktransfer' | 'accountcredit';
+export type PaymentMethod = 'creditcard' | 'banktransfer' | 'accountcredit';
 
-type DeliveryDetails = {
+export type DeliveryOptions = {
   type: 'auto' | 'manual';
   date: Date | string | undefined;
 };
-type PickUpDetails = {
+export type PickUpOptions = {
   estimatedArrivalTime: string;
   date: Date | undefined;
 };
@@ -25,7 +25,7 @@ export type WarehouseLocation = {
   name: string;
 };
 
-type UserDeliveryAddress = {
+export type UserDeliveryAddress = {
   odoo_address_id: number;
   title: string;
   street1: string;
@@ -36,9 +36,9 @@ type UserDeliveryAddress = {
   zip_code: string;
 };
 
-interface CheckoutState {
+type CheckoutState = {
   items: Cart[];
-  selectedLocation: WarehouseLocation;
+  warehouseLocation: WarehouseLocation;
   voucherCode: string;
   orderNotes: string;
   shippingType: ShippingType;
@@ -46,15 +46,15 @@ interface CheckoutState {
   pickUpNotes: string;
   userDeliveryAddress: UserDeliveryAddress | null;
   paymentMethod: PaymentMethod;
-  deliveryOptions: DeliveryDetails | null;
-  pickupOptions: PickUpDetails | null;
-}
+  deliveryOptions: DeliveryOptions | null;
+  pickupOptions: PickUpOptions | null;
+};
 
 const NOW = new Date();
 
 const initialState: CheckoutState = {
   items: [],
-  selectedLocation: WAREHOUSE_LOCATIONS[0],
+  warehouseLocation: WAREHOUSE_LOCATIONS[0],
   deliveryOptions: null,
   pickupOptions: {
     date: undefined,
@@ -79,10 +79,10 @@ const checkoutSlice = createSlice({
     setDeliveryNotes(state, action: PayloadAction<string>) {
       state.deliveryNotes = action.payload;
     },
-    setDeliveryOptions(state, action: PayloadAction<DeliveryDetails | null>) {
+    setDeliveryOptions(state, action: PayloadAction<DeliveryOptions | null>) {
       state.deliveryOptions = action.payload;
     },
-    setPickUpOptions(state, action: PayloadAction<PickUpDetails | null>) {
+    setPickUpOptions(state, action: PayloadAction<PickUpOptions | null>) {
       state.pickupOptions = action.payload;
     },
     setPickUpNotes(state, action: PayloadAction<string>) {
@@ -92,7 +92,7 @@ const checkoutSlice = createSlice({
       state.items = action.payload;
     },
     setSelectedLocation(state, action: PayloadAction<WarehouseLocation>) {
-      state.selectedLocation = action.payload;
+      state.warehouseLocation = action.payload;
     },
     setVoucherCode(state, action: PayloadAction<string>) {
       state.voucherCode = action.payload;

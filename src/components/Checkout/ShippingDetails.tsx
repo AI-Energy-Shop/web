@@ -19,18 +19,11 @@ import {
   PICK_UP_ESTIMATED_ARRIVAL_TIME,
 } from '@/constant/shipping';
 import Link from 'next/link';
-import useMe from '@/hooks/useMe';
 import useCart from '@/hooks/useCart';
 import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
-import { useCheckoutSelector, useCheckoutDispatch } from '@/hooks/useCheckout';
-import {
-  setShippingType,
-  setPickUpNotes,
-  setDeliveryNotes,
-  ShippingType,
-  setDeliveryOptions,
-  setPickUpOptions,
-} from '@/store/features/checkout';
+
+import { useCheckout } from '@/hooks/useCheckout';
+import { ShippingType } from '@/store/features/checkout';
 
 interface ShippingDetailsProps {
   checkoutUserData: GetCheckoutUserDataQuery;
@@ -39,7 +32,6 @@ interface ShippingDetailsProps {
 const ShippingDetails: React.FC<ShippingDetailsProps> = ({
   checkoutUserData,
 }) => {
-  const { user } = useMe();
   const {
     paymentStep,
     shippingOptions,
@@ -47,6 +39,18 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     handleContinueClick,
     handleEditClick,
   } = useCart();
+
+  const {
+    warehouseLocation,
+    pickUpNotes,
+    deliveryNotes,
+    pickUpOptions,
+    setShippingType,
+    setDeliveryOptions,
+    setPickUpNotes,
+    setDeliveryNotes,
+    setPickUpOptions,
+  } = useCheckout();
 
   const [deliveryDate, setDeliveryDate] = React.useState<Date | undefined>(
     new Date()
@@ -59,28 +63,10 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     string | undefined
   >(undefined);
 
-  const checkoutDispatch = useCheckoutDispatch();
-
   const userCurrentAddress =
     checkoutUserData?.usersPermissionsUser?.addresses?.find(
       (address) => address?.isActive === true
     );
-
-  const currentPickUpLocation = useCheckoutSelector(
-    (state) => state.checkout.selectedLocation
-  );
-
-  const pickUpNotes = useCheckoutSelector(
-    (state) => state.checkout.pickUpNotes
-  );
-
-  const deliveryNotes = useCheckoutSelector(
-    (state) => state.checkout.deliveryNotes
-  );
-
-  const pickUpOptions = useCheckoutSelector(
-    (state) => state.checkout.pickupOptions
-  );
 
   const TODAY = new Date();
   TODAY.setHours(0, 0, 0, 0);
@@ -121,7 +107,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
             key={item.id}
             onClick={() => {
               handleShippingMethodClick(index);
-              checkoutDispatch(setShippingType(item.value as ShippingType));
+              setShippingType(item.value as ShippingType);
             }}
             className={`basis-1/3 p-0.5 rounded-2xl cursor-pointer ${item.active ? 'gradient-effect' : 'bg-black opacity-50'}`}
           >
@@ -178,9 +164,9 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
         </div>
         <div>
           <h1 className="text-sm font-bold">
-            AI EneryShop - {currentPickUpLocation?.name.toUpperCase()} Warehouse
+            AI EneryShop - {warehouseLocation?.name.toUpperCase()} Warehouse
           </h1>
-          <h2 className="text-sm">{currentPickUpLocation?.title}</h2>
+          <h2 className="text-sm">{warehouseLocation?.title}</h2>
         </div>
       </div>
     );
@@ -200,30 +186,25 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     setDeliverRadioGroup(value);
 
     if (value === '3') {
-      checkoutDispatch(
-        setDeliveryOptions({ type: 'manual', date: deliveryDate })
-      );
+      setDeliveryOptions({ type: 'manual', date: deliveryDate });
     } else {
       const data = DELIVERY_OPTIONS.find((delivery) => delivery.id === value);
+
       const formattedData = `${data?.prefix}${data?.price} ${data?.label} ${data?.eta}`;
 
-      checkoutDispatch(
-        setDeliveryOptions({ type: 'auto', date: formattedData })
-      );
+      setDeliveryOptions({ type: 'auto', date: formattedData });
     }
   };
 
   useEffect(() => {
     if (!deliveryDate) {
-      checkoutDispatch(setDeliveryOptions({ type: 'manual', date: undefined }));
+      setDeliveryOptions({ type: 'manual', date: undefined });
     }
 
     if (deliveryRadioGroup === '3') {
-      checkoutDispatch(
-        setDeliveryOptions({ type: 'manual', date: deliveryDate })
-      );
+      setDeliveryOptions({ type: 'manual', date: deliveryDate });
     }
-  }, [checkoutDispatch, deliveryDate, deliveryRadioGroup]);
+  }, [deliveryDate, deliveryRadioGroup, setDeliveryOptions]);
 
   const renderDeliveryOptions = () => {
     return (
@@ -318,7 +299,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
       </div>
     );
   };
-
+  console.log(pickUpOptions);
   const renderPickUpOptions = () => {
     return (
       <div className="border border-blue-navy-blue rounded-xl space-y-2 p-2 md:mx-12">
@@ -361,12 +342,10 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                 key={time.id}
                 className={`p-[2px] w-fit ${pickUpOptions?.estimatedArrivalTime === time.value ? 'gradient-effect' : 'border border-black opacity-80'}`}
                 onClick={() => {
-                  checkoutDispatch(
-                    setPickUpOptions({
-                      date: pickUpDate,
-                      estimatedArrivalTime: time.value,
-                    })
-                  );
+                  setPickUpOptions({
+                    date: pickUpDate,
+                    estimatedArrivalTime: time.value,
+                  });
                 }}
               >
                 <Button className="bg-white hover:bg-white text-black rounded-none shadow-none">
@@ -386,7 +365,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
         <h1 className="font-bold">Delivery Notes</h1>
         <Textarea
           value={deliveryNotes}
-          onChange={(e) => checkoutDispatch(setDeliveryNotes(e.target.value))}
+          onChange={(e) => setDeliveryNotes(e.target.value)}
         />
       </div>
     );
@@ -398,7 +377,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
         <h1 className="font-bold">PickUp Notes</h1>
         <Textarea
           value={pickUpNotes}
-          onChange={(e) => checkoutDispatch(setPickUpNotes(e.target.value))}
+          onChange={(e) => setPickUpNotes(e.target.value)}
         />
       </div>
     );
