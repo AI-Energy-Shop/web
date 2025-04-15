@@ -5,7 +5,7 @@ import {
 } from '@/constant/shipping';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Cart } from './cart';
-import { getPickUpOptionsBestTimeSlots } from '@/utils/pickUpOptionsBestTimeSlot';
+import { getPickUpOptionsBestTimeSlots } from '@/components/Checkout/pickUpOptionsBestTimeSlot';
 
 export type ShippingType = 'delivery' | 'pickup';
 export type PaymentMethod =

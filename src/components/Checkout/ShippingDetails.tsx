@@ -24,6 +24,7 @@ import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
 
 import { useCheckout } from '@/hooks/useCheckout';
 import { ShippingType } from '@/store/features/checkout';
+import { isButtonClickable } from './isButtonClickable';
 
 interface ShippingDetailsProps {
   checkoutUserData: GetCheckoutUserDataQuery;
@@ -56,7 +57,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     undefined
   );
   const [pickUpDate, setPickUpDate] = React.useState<Date | undefined>(
-    undefined
+    new Date()
   );
 
   const [deliveryRadioGroup, setDeliverRadioGroup] = React.useState<
@@ -206,6 +207,13 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     }
   }, [deliveryDate, deliveryRadioGroup, setDeliveryOptions]);
 
+  useEffect(() => {
+    setPickUpOptions({
+      date: pickUpDate,
+      estimatedArrivalTime: pickUpOptions?.estimatedArrivalTime!,
+    });
+  }, [pickUpDate]);
+
   const renderDeliveryOptions = () => {
     return (
       <div className="border border-blue-navy-blue rounded-xl p-2 md:mx-12">
@@ -343,22 +351,32 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
         <div className="space-y-2">
           <h1 className="font-bold">Estimated Arrival Time</h1>
           <div className="flex flex-wrap justify-center items-center gap-6">
-            {PICK_UP_ESTIMATED_ARRIVAL_TIME.map((time) => (
-              <div
-                key={time.id}
-                className={`p-[2px] w-fit ${pickUpOptions?.estimatedArrivalTime === time.value ? 'gradient-effect' : 'border border-black opacity-80'}`}
-                onClick={() => {
-                  setPickUpOptions({
-                    date: pickUpDate,
-                    estimatedArrivalTime: time.value,
-                  });
-                }}
-              >
-                <Button className="bg-white hover:bg-white text-black rounded-none shadow-none">
-                  {time.value}
-                </Button>
-              </div>
-            ))}
+            {PICK_UP_ESTIMATED_ARRIVAL_TIME.map((time) => {
+              const isButtonAllowedToClick = isButtonClickable(
+                pickUpDate!,
+                time.date
+              );
+
+              return (
+                <div
+                  key={time.id}
+                  className={`p-[2px] w-fit ${pickUpOptions?.estimatedArrivalTime === time.value ? 'gradient-effect' : 'border border-black opacity-80'}
+                  ${isButtonAllowedToClick ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+                  onClick={() => {
+                    if (!isButtonAllowedToClick) return;
+
+                    setPickUpOptions({
+                      date: pickUpDate,
+                      estimatedArrivalTime: time.value,
+                    });
+                  }}
+                >
+                  <Button className="bg-white hover:bg-white text-black rounded-none shadow-none pointer-events-none">
+                    {time.value}
+                  </Button>
+                </div>
+              );
+            })}
           </div>
         </div>
         <p className="text-center font-light text-sm">
