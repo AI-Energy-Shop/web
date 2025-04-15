@@ -212,6 +212,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
       date: pickUpDate,
       estimatedArrivalTime: pickUpOptions?.estimatedArrivalTime!,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pickUpDate]);
 
   const renderDeliveryOptions = () => {
@@ -332,10 +333,10 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                 <Calendar
                   mode="single"
                   selected={pickUpDate}
-                  onSelect={(e) => {
-                    setPickUpDate(e);
+                  onSelect={(date) => {
+                    setPickUpDate(date);
                     setPickUpOptions({
-                      date: e,
+                      date,
                       estimatedArrivalTime:
                         pickUpOptions?.estimatedArrivalTime!,
                     });

@@ -6,7 +6,14 @@ export const isSameDay = (a: Date, b: Date): boolean => {
   );
 };
 
-export const isButtonClickable = (pickUpDate: Date, setDate: Date) => {
+export const isButtonClickable = (
+  pickUpDate: Date | undefined,
+  setDate: Date
+) => {
+  if (!pickUpDate) {
+    return false;
+  }
+
   if (isSameDay(pickUpDate, setDate)) {
     const todayTime = new Date().getHours();
 

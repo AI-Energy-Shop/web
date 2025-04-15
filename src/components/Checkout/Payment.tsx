@@ -14,6 +14,8 @@ const Payment: React.FC<PaymentProps> = ({}) => {
   const { paymentStep } = useCart();
   const { paymentMethod, setPaymentMethod } = useCheckout();
 
+  const QUOTATION_NEEDED = true;
+
   return (
     <section>
       <div className="bg-blue-navy-blue py-3">
