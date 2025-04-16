@@ -1270,6 +1270,7 @@ export type CreateCartMutation = {
       odoo_product_id: string;
       name: string;
       model: string;
+      quote_needed?: boolean | null;
       price_lists: Array<{
         __typename?: 'Price';
         price?: number | null;
@@ -1320,6 +1321,7 @@ export type UpdateCartMutation = {
       name: string;
       model: string;
       odoo_product_id: string;
+      quote_needed?: boolean | null;
       price_lists: Array<{
         __typename?: 'Price';
         price?: number | null;
@@ -1567,6 +1569,7 @@ export type ProductsQuery = {
     vendor?: string | null;
     model: string;
     odoo_product_id: string;
+    quote_needed?: boolean | null;
     createdAt?: any | null;
     updatedAt?: any | null;
     publishedAt?: any | null;
@@ -1668,6 +1671,7 @@ export type ProductQuery = {
     vendor?: string | null;
     model: string;
     odoo_product_id: string;
+    quote_needed?: boolean | null;
     createdAt?: any | null;
     updatedAt?: any | null;
     publishedAt?: any | null;
@@ -2925,6 +2929,10 @@ export const CreateCartDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'model' } },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'quote_needed' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'price_lists' },
                         selectionSet: {
                           kind: 'SelectionSet',
@@ -3107,6 +3115,10 @@ export const UpdateCartDocument = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'odoo_product_id' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'quote_needed' },
                       },
                       {
                         kind: 'Field',
@@ -4086,6 +4098,10 @@ export const ProductsDocument = {
                 },
                 {
                   kind: 'Field',
+                  name: { kind: 'Name', value: 'quote_needed' },
+                },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'categories' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -4385,6 +4401,10 @@ export const ProductDocument = {
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'odoo_product_id' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'quote_needed' },
                 },
                 {
                   kind: 'Field',

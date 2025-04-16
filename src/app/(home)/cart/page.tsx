@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { getCartProductQuantity } from '@/app/actions/cart';
 import CheckoutHeader from '@/components/Checkout/CheckoutHeader';
 import OrderSummary from '@/components/Checkout/OrderSummary';

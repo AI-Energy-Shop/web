@@ -15,7 +15,6 @@ import {
 import { ShippingOptions } from '@/constant/shipping';
 import { SHIPPING_OPTIONS } from '@/constant/shipping';
 import { removeCart } from '@/store/features/cart';
-import { ProductQuery } from '@/lib/gql/graphql';
 import { useState } from 'react';
 
 const useCart = () => {
@@ -32,6 +31,10 @@ const useCart = () => {
   );
   const showCartWindow = useSelector(
     (state: RootState) => state.cart.showCartWindow
+  );
+
+  const isCartNeededManualQuote = carts.some(
+    (cart) => cart.product.quote_needed === true
   );
 
   const addToCart = async (data: {
@@ -58,7 +61,7 @@ const useCart = () => {
       dispatch(
         setCart({
           documentId: createCart?.documentId || '',
-          product: createCart?.product as ProductQuery['product'],
+          product: createCart?.product,
           quantity: createCart?.quantity || 0,
         })
       );
@@ -91,7 +94,7 @@ const useCart = () => {
     dispatch(
       setCart({
         documentId: res?.data?.updateCart?.documentId || '',
-        product: res?.data?.updateCart?.product as ProductQuery['product'],
+        product: res?.data?.updateCart?.product,
         quantity: res?.data?.updateCart?.quantity || 0,
       })
     );
@@ -143,6 +146,7 @@ const useCart = () => {
     showCartWindow,
     shippingOptions,
     paymentOption,
+    isCartNeededManualQuote,
     handleEditClick,
     handleShippingMethodClick,
     handleContinueClick,

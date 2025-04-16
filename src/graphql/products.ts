@@ -15,6 +15,7 @@ const schema = {
           vendor
           model
           odoo_product_id
+          quote_needed
           categories {
             title
             slug
@@ -101,6 +102,7 @@ const schema = {
           vendor
           model
           odoo_product_id
+          quote_needed
           categories {
             title
             slug

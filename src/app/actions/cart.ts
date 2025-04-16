@@ -11,6 +11,7 @@ import {
   UpdateCartMutationVariables,
 } from '@/lib/gql/graphql';
 import { Auser } from '@/lib/types';
+import { revalidatePath } from 'next/cache';
 
 const client = getClient();
 export async function getCartItems() {
@@ -181,3 +182,7 @@ export async function getCartProductQuantity() {
 
   return res.data;
 }
+
+export const invalidateCartPath = async () => {
+  revalidatePath('/cart');
+};

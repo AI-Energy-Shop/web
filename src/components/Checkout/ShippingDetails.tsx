@@ -39,6 +39,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     handleShippingMethodClick,
     handleContinueClick,
     handleEditClick,
+    isCartNeededManualQuote,
   } = useCart();
 
   const {
@@ -71,8 +72,6 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
 
   const TODAY = new Date();
   TODAY.setHours(0, 0, 0, 0);
-
-  const MANUAL_QUOTATION_NEEDED = true;
 
   const renderHeader = () => {
     return (
@@ -224,7 +223,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
           onValueChange={handleChangeDeliveryOption}
         >
           <div className="relative">
-            {MANUAL_QUOTATION_NEEDED && (
+            {isCartNeededManualQuote && (
               <div className="absolute w-full h-full bg-pink-darker-pink flex flex-col justify-center items-center text-center text-white z-10">
                 <h1 className="font-bold text-xl">
                   Soonest Available Delivery
@@ -246,7 +245,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                   <RadioGroupItem
                     value={`${item.id}`}
                     id={`${item.id}`}
-                    disabled={MANUAL_QUOTATION_NEEDED}
+                    disabled={isCartNeededManualQuote}
                   />
                   <Label htmlFor={`${item.id}`}>
                     <div>
