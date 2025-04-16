@@ -9,9 +9,9 @@ import { getPickUpOptionsBestTimeSlots } from '@/components/Checkout/pickUpOptio
 
 export type ShippingType = 'delivery' | 'pickup';
 export type PaymentMethod =
-  | 'creditcard'
-  | 'banktransfer'
-  | 'accountcredit'
+  | 'credit_card'
+  | 'bank_transfer'
+  | 'account_credit'
   | undefined;
 
 export type DeliveryOptions = {

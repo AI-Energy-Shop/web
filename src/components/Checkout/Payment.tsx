@@ -33,12 +33,12 @@ const Payment: React.FC<PaymentProps> = ({}) => {
               <div className="flex items-center justify-between border-b border-b-gray-300 pb-2">
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem
-                    value="creditcard"
-                    id="creditcard"
+                    value="credit_card"
+                    id="credit_card"
                     disabled={isCartNeededManualQuote}
                   />
                   <Label
-                    htmlFor="creditcard"
+                    htmlFor="credit_card"
                     className={`flex items-center gap-2 ${isCartNeededManualQuote ? 'cursor-not-allowed ' : 'cursor-pointer'}`}
                   >
                     <span
@@ -82,12 +82,12 @@ const Payment: React.FC<PaymentProps> = ({}) => {
                 </div>
               </div>
               <div className="flex items-center space-x-2 border-b border-b-gray-300 pb-2">
-                <RadioGroupItem value="banktransfer" id="banktransfer" />
-                <Label htmlFor="banktransfer">Bank Transfer</Label>
+                <RadioGroupItem value="bank_transfer" id="bank_transfer" />
+                <Label htmlFor="bank_transfer">Bank Transfer</Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="accountcredit" id="accountcredit" />
-                <Label htmlFor="accountcredit">Account Credit</Label>
+                <RadioGroupItem value="account_credit" id="account_credit" />
+                <Label htmlFor="account_credit">Account Credit</Label>
               </div>
             </RadioGroup>
           </div>
