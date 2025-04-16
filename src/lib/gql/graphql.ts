@@ -764,6 +764,7 @@ export type ProductFiltersInput = {
   or?: InputMaybe<Array<InputMaybe<ProductFiltersInput>>>;
   price_lists?: InputMaybe<PriceFiltersInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  quote_needed?: InputMaybe<BooleanFilterInput>;
   specifications?: InputMaybe<SpecificationFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   variants?: InputMaybe<VariantFiltersInput>;
@@ -785,6 +786,7 @@ export type ProductInput = {
   odoo_product_id?: InputMaybe<Scalars['String']['input']>;
   price_lists?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  quote_needed?: InputMaybe<Scalars['Boolean']['input']>;
   specifications?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   variants?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   vendor?: InputMaybe<Scalars['String']['input']>;
@@ -1993,6 +1995,7 @@ export type UsersPermissionsUserQuery = {
         name: string;
         model: string;
         odoo_product_id: string;
+        quote_needed?: boolean | null;
         price_lists: Array<{
           __typename?: 'Price';
           price?: number | null;
@@ -5366,6 +5369,10 @@ export const UsersPermissionsUserDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'odoo_product_id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'quote_needed' },
                             },
                             {
                               kind: 'Field',

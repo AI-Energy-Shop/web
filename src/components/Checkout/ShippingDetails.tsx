@@ -233,7 +233,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                   some of your product needed to manually quoted
                 </p>
                 <p className="font-semibold">
-                  (or you can choose date below for specific date)
+                  (or you can choose specific date below)
                 </p>
               </div>
             )}

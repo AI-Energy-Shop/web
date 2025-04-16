@@ -25,6 +25,7 @@ const schema = {
               name
               model
               odoo_product_id
+              quote_needed
               price_lists {
                 price
                 sale_price

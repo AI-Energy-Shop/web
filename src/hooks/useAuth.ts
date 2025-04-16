@@ -5,7 +5,6 @@ import { useToast } from '@/hooks/useToast';
 import { useDispatch } from 'react-redux';
 import { setMe, setMeAdmin } from '@/store/features/me';
 import { setCarts, setWarehouseLocation } from '@/store/features/cart';
-import { ProductQuery } from '@/lib/gql/graphql';
 import {
   LoginFormData,
   loginResolver,
@@ -96,7 +95,7 @@ const useAuth = () => {
             setCarts([
               ...data?.user?.carts?.map?.((cart) => ({
                 documentId: cart?.documentId || '',
-                product: cart?.product as ProductQuery['product'],
+                product: cart?.product,
                 quantity: cart?.quantity || 0,
               })),
             ])

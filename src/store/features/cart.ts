@@ -1,10 +1,16 @@
-import { ProductQuery } from '@/lib/gql/graphql';
+import { UsersPermissionsUserQuery } from '@/lib/gql/graphql';
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface Cart {
   documentId: string;
   quantity: number;
-  product: ProductQuery['product'];
+  product: NonNullable<
+    NonNullable<
+      NonNullable<
+        UsersPermissionsUserQuery['usersPermissionsUser']
+      >['carts'][number]
+    >['product']
+  >;
 }
 
 export interface WarehouseLocation {

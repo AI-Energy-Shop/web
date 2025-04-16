@@ -11,10 +11,8 @@ import { PaymentMethod } from '@/store/features/checkout';
 interface PaymentProps {}
 
 const Payment: React.FC<PaymentProps> = ({}) => {
-  const { paymentStep } = useCart();
+  const { paymentStep, carts } = useCart();
   const { paymentMethod, setPaymentMethod } = useCheckout();
-
-  const QUOTATION_NEEDED = true;
 
   return (
     <section>
