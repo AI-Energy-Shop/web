@@ -360,8 +360,8 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
               return (
                 <div
                   key={time.id}
-                  className={`p-[2px] w-fit ${pickUpOptions?.estimatedArrivalTime === time.value ? 'gradient-effect' : 'border border-black opacity-80'}
-                  ${isButtonAllowedToClick ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+                  className={`p-[2px] w-fit ${pickUpOptions?.estimatedArrivalTime === time.value ? 'gradient-effect' : 'border border-black'}
+                  ${isButtonAllowedToClick ? 'cursor-pointer' : 'cursor-not-allowed opacity-20'}`}
                   onClick={() => {
                     if (!isButtonAllowedToClick) return;
 
