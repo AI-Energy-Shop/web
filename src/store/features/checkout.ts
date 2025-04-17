@@ -29,7 +29,7 @@ export type WarehouseLocation = {
   name: string;
 };
 
-export type UserDeliveryAddress = {
+export type ShippingAddress = {
   odoo_address_id: number;
   title: string;
   street1: string;
@@ -48,7 +48,7 @@ type CheckoutState = {
   shippingType: ShippingType;
   deliveryNotes: string;
   pickUpNotes: string;
-  userDeliveryAddress: UserDeliveryAddress | null;
+  shippingAddress: ShippingAddress | null;
   paymentMethod: PaymentMethod;
   deliveryOptions: DeliveryOptions | null;
   pickupOptions: PickUpOptions | null;
@@ -72,7 +72,7 @@ const initialState: CheckoutState = {
   deliveryNotes: '',
   pickUpNotes: '',
   shippingType: 'delivery',
-  userDeliveryAddress: null,
+  shippingAddress: null,
   paymentMethod: undefined,
 };
 
@@ -107,8 +107,8 @@ const checkoutSlice = createSlice({
     setShippingType(state, action: PayloadAction<ShippingType>) {
       state.shippingType = action.payload;
     },
-    setUserDeliveryDetails(state, action: PayloadAction<UserDeliveryAddress>) {
-      state.userDeliveryAddress = action.payload;
+    setUserDeliveryDetails(state, action: PayloadAction<ShippingAddress>) {
+      state.shippingAddress = action.payload;
     },
     setPaymentMethod(state, action: PayloadAction<PaymentMethod>) {
       state.paymentMethod = action.payload;
