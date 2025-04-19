@@ -3,13 +3,7 @@ import React from 'react';
 import { Plus } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { arrayIsEqual } from '@/lib/utils';
 
 interface ListInputProps {
@@ -68,11 +62,7 @@ const ListInput: React.FC<ListInputProps> = ({
             )} */}
           </div>
         </CardContent>
-        <CardFooter>
-          {!arrayIsEqual(data, list) && (
-            <Button onClick={() => handleSave(data)}>Save</Button>
-          )}
-        </CardFooter>
+        <CardFooter>{!arrayIsEqual(data, list) && <Button onClick={() => handleSave(data)}>Save</Button>}</CardFooter>
       </Card>
     </div>
   );

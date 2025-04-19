@@ -38,16 +38,10 @@ export function FileGrid({ files, selectedFiles, onSelect }: FileGridProps) {
           )}
 
           {file?.mime === 'application/pdf' && (
-            <iframe
-              src={file?.url || ''}
-              title={file?.name || ''}
-              className="h-full object-center z-0"
-            />
+            <iframe src={file?.url || ''} title={file?.name || ''} className="h-full object-center z-0" />
           )}
           <div className="bg-black w-full h-full z-10" />
-          <p className="absolute bottom-0 z-[9] text-[10px] hidden group-hover:block p-1 text-white">
-            {file.name}
-          </p>
+          <p className="absolute bottom-0 z-[9] text-[10px] hidden group-hover:block p-1 text-white">{file.name}</p>
           {/* <div className="absolute top-2 left-2 z-20">
             <Checkbox className="border-gray-400" />
           </div> */}

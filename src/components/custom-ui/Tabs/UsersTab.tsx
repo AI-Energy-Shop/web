@@ -12,13 +12,7 @@ interface UsersTabProps {
   deniedUsers: any[];
 }
 
-const UsersTab = ({
-  tab = 'user',
-  appovedUsers,
-  customers,
-  pendingCustomers,
-  deniedUsers,
-}: UsersTabProps) => {
+const UsersTab = ({ tab = 'user', appovedUsers, customers, pendingCustomers, deniedUsers }: UsersTabProps) => {
   const router = useRouter();
   const [tabValue, setTabValue] = useState(tab);
   const handleTabChange = (value: string) => {
@@ -32,11 +26,7 @@ const UsersTab = ({
   }, [tab]);
 
   return (
-    <Tabs
-      defaultValue={tabValue}
-      className="w-full"
-      onValueChange={handleTabChange}
-    >
+    <Tabs defaultValue={tabValue} className="w-full" onValueChange={handleTabChange}>
       <TabsList>
         <TabsTrigger value="user">Users</TabsTrigger>
         <TabsTrigger value="customers">Customers</TabsTrigger>

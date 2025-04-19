@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import Image from 'next/image';
@@ -76,9 +71,7 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
           itemClass=" w-[45.5%] px-2"
         >
           {data?.products.map?.((item, index) => {
-            const itemPrice = item?.price_lists.find(
-              (price) => price?.user_level === user?.account_detail?.level
-            );
+            const itemPrice = item?.price_lists.find((price) => price?.user_level === user?.account_detail?.level);
 
             return (
               <Card key={index} className="p-3">
@@ -96,17 +89,12 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
                 <CardContent className={`${firaSans.className} p-0 mt-2`}>
                   <h1 className="font-medium">{item?.name}</h1>
                   <h2 className="font-light text-[14px]">{item?.model}</h2>
-                  <h3
-                    className={`${muktaVaani.className} font-medium text-[10px] line-through mt-2`}
-                  >
+                  <h3 className={`${muktaVaani.className} font-medium text-[10px] line-through mt-2`}>
                     ${itemPrice?.price?.toFixed(2)}
                   </h3>
                   <h3 className={`${muktaVaani.className} font-medium`}>
                     <span>
-                      $
-                      {itemPrice?.sale_price
-                        ? itemPrice?.sale_price?.toFixed(2)
-                        : itemPrice?.price?.toFixed(2)}
+                      ${itemPrice?.sale_price ? itemPrice?.sale_price?.toFixed(2) : itemPrice?.price?.toFixed(2)}
                     </span>
                     <span className="text-[10px]">ex.GST</span>
                   </h3>
@@ -119,10 +107,7 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
                     >
                       <Minus />
                     </div>
-                    <Input
-                      className={`${muktaVaani.className} flex-3 h-full text-center no-spinner`}
-                      type="number"
-                    />
+                    <Input className={`${muktaVaani.className} flex-3 h-full text-center no-spinner`} type="number" />
 
                     <div
                       role="button"
@@ -159,9 +144,7 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
           className="z-10"
         >
           {data?.products?.map((item, index) => {
-            const itemPrice = item?.price_lists.find(
-              (price) => price?.user_level === user?.account_detail?.level
-            );
+            const itemPrice = item?.price_lists.find((price) => price?.user_level === user?.account_detail?.level);
 
             return (
               <Card key={index} className="p-4">
@@ -180,17 +163,12 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
                 <CardContent className={`p-0 ${firaSans.className}`}>
                   <h1 className="font-medium">{item?.name}</h1>
                   <h2 className="font-light text-sm mb-3">{item?.model}</h2>
-                  <h3
-                    className={`text-sm line-through font-medium ${muktaVaani.className}`}
-                  >
+                  <h3 className={`text-sm line-through font-medium ${muktaVaani.className}`}>
                     ${itemPrice?.price?.toFixed(2)}
                   </h3>
                   <h3 className={`${muktaVaani.className} font-medium mb-4`}>
                     <span className="text-xl">
-                      $
-                      {itemPrice?.sale_price
-                        ? itemPrice?.sale_price?.toFixed(2)
-                        : itemPrice?.price?.toFixed(2)}
+                      ${itemPrice?.sale_price ? itemPrice?.sale_price?.toFixed(2) : itemPrice?.price?.toFixed(2)}
                     </span>
                     <span className="text-xs">ex.GST</span>
                   </h3>
@@ -203,10 +181,7 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
                     >
                       <Minus />
                     </div>
-                    <Input
-                      className="flex-1 h-full text-center no-spinner"
-                      type="number"
-                    />
+                    <Input className="flex-1 h-full text-center no-spinner" type="number" />
 
                     <div
                       role="button"

@@ -1,12 +1,5 @@
 'use client';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { addressSchema } from '@/lib/validation-schema/address-form';
@@ -16,11 +9,7 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import StateComboBox from '../Address/StateComboBox';
 import CountryComboBox from '../Address/CountryComboBox';
-import {
-  addNewAddress,
-  updateAddress,
-  updateAddressIsActiveToFalse,
-} from '@/app/actions/address';
+import { addNewAddress, updateAddress, updateAddressIsActiveToFalse } from '@/app/actions/address';
 import { toast } from 'sonner';
 import { AddressSchemaWithDocumentIdTypes } from '../Address/AddressList';
 import { AddressQuery } from '@/lib/gql/graphql';
@@ -33,11 +22,7 @@ interface AddressFormProps {
 
 type AddressSchemaTypes = z.infer<typeof addressSchema>;
 
-function AddressForm({
-  selectedAddressToUpdate,
-  setCloseModal,
-  allAddress,
-}: AddressFormProps) {
+function AddressForm({ selectedAddressToUpdate, setCloseModal, allAddress }: AddressFormProps) {
   const form = useForm<AddressSchemaTypes>({
     resolver: zodResolver(addressSchema),
     defaultValues: {
@@ -54,21 +39,18 @@ function AddressForm({
     },
   });
 
-  const allAddressWithIsActiveTrue =
-    allAddress?.usersPermissionsUser?.addresses.filter(
-      (address) => address?.isActive === true
-    );
+  const allAddressWithIsActiveTrue = allAddress?.usersPermissionsUser?.addresses.filter(
+    (address) => address?.isActive === true
+  );
 
   const onSubmit = async (values: AddressSchemaTypes) => {
     let doesFillingUpSuccess = true;
 
     try {
       if (!selectedAddressToUpdate) {
-        const doesHaveSameTitleAddress =
-          allAddress?.usersPermissionsUser?.addresses.some(
-            (address) =>
-              address?.title?.toLowerCase() === values.title?.toLowerCase()
-          );
+        const doesHaveSameTitleAddress = allAddress?.usersPermissionsUser?.addresses.some(
+          (address) => address?.title?.toLowerCase() === values.title?.toLowerCase()
+        );
 
         if (doesHaveSameTitleAddress) {
           doesFillingUpSuccess = false;
@@ -88,15 +70,12 @@ function AddressForm({
         }
       }
       if (selectedAddressToUpdate) {
-        const doesHaveSameTitleAddress =
-          allAddress?.usersPermissionsUser?.addresses.some((address) => {
-            if (address?.documentId === selectedAddressToUpdate.documentId) {
-              return false;
-            }
-            return (
-              address?.title?.toLowerCase() === values.title?.toLowerCase()
-            );
-          });
+        const doesHaveSameTitleAddress = allAddress?.usersPermissionsUser?.addresses.some((address) => {
+          if (address?.documentId === selectedAddressToUpdate.documentId) {
+            return false;
+          }
+          return address?.title?.toLowerCase() === values.title?.toLowerCase();
+        });
 
         if (doesHaveSameTitleAddress) {
           doesFillingUpSuccess = false;
@@ -107,17 +86,13 @@ function AddressForm({
         }
         if (doesFillingUpSuccess) {
           if (values.isActive) {
-            const allAddressNotIncludingAddressYourUpdating =
-              allAddressWithIsActiveTrue?.filter(
-                (address) =>
-                  address?.documentId !== selectedAddressToUpdate.documentId
-              );
-
-            allAddressNotIncludingAddressYourUpdating?.forEach(
-              async (address) => {
-                await updateAddressIsActiveToFalse(address?.documentId!);
-              }
+            const allAddressNotIncludingAddressYourUpdating = allAddressWithIsActiveTrue?.filter(
+              (address) => address?.documentId !== selectedAddressToUpdate.documentId
             );
+
+            allAddressNotIncludingAddressYourUpdating?.forEach(async (address) => {
+              await updateAddressIsActiveToFalse(address?.documentId!);
+            });
           }
 
           await updateAddress(selectedAddressToUpdate.documentId, values);
@@ -240,20 +215,14 @@ function AddressForm({
           render={({ field }) => (
             <FormItem className="flex items-center gap-x-2">
               <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
+                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
               </FormControl>
               <FormLabel className="pb-1.5">Set as default address</FormLabel>
             </FormItem>
           )}
         />
 
-        <Button
-          type="submit"
-          className="w-full bg-blue-navy-blue hover:bg-blue-navy-blue/90 "
-        >
+        <Button type="submit" className="w-full bg-blue-navy-blue hover:bg-blue-navy-blue/90 ">
           Submit
         </Button>
       </form>

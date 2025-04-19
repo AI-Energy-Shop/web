@@ -8,9 +8,7 @@ interface NavigationProviderProps {
   children: React.ReactNode;
 }
 
-const NavigationProvider: React.FC<NavigationProviderProps> = ({
-  children,
-}) => {
+const NavigationProvider: React.FC<NavigationProviderProps> = ({ children }) => {
   const path = usePathname();
 
   return (

@@ -31,16 +31,8 @@ const CardAddToCartButton = ({ id, stocks }: CardAddToCartButtonProps) => {
 
   const onSubmit = async (data: z.infer<typeof addToCartFormSchema>) => {};
 
-  const renderHiddenInput = (
-    name: keyof z.infer<typeof addToCartFormSchema>
-  ) => {
-    return (
-      <FormField
-        name={name}
-        control={form.control}
-        render={({ field }) => <Input type="hidden" {...field} />}
-      />
-    );
+  const renderHiddenInput = (name: keyof z.infer<typeof addToCartFormSchema>) => {
+    return <FormField name={name} control={form.control} render={({ field }) => <Input type="hidden" {...field} />} />;
   };
 
   const isDisabled = stocks <= 0;
@@ -50,11 +42,7 @@ const CardAddToCartButton = ({ id, stocks }: CardAddToCartButtonProps) => {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         {renderHiddenInput('id')}
         <ProductQuantity form={form} />
-        <Button
-          type="submit"
-          disabled={isDisabled}
-          className="w-full mt-2 bg-[#1b1b3b] text-white"
-        >
+        <Button type="submit" disabled={isDisabled} className="w-full mt-2 bg-[#1b1b3b] text-white">
           {stocks <= 0 ? 'Out of Stock' : `Add to Cart`}
         </Button>
       </form>

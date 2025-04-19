@@ -7,9 +7,7 @@ async function CheckoutPage() {
   return (
     <main className="bg-yellow-light-yellow pb-12 relative">
       <CheckoutHeader />
-      <h1 className="text-xl font-bold ae-mobile-container ae-non-mobile-container py-4">
-        Checkout
-      </h1>
+      <h1 className="text-xl font-bold ae-mobile-container ae-non-mobile-container py-4">Checkout</h1>
 
       <div className="md:grid md:grid-cols-12 lg:w-[90vw] lg:mx-auto max-w-[1200px]">
         <div className="md:col-span-12 lg:col-span-8">

@@ -11,9 +11,7 @@ const NavList = ({ data, className }: NavListProps) => {
   const pathname = usePathname();
 
   return (
-    <nav
-      className={`hidden items-end h-full text-sm font-medium gap-3 lg:flex ${className}`}
-    >
+    <nav className={`hidden items-end h-full text-sm font-medium gap-3 lg:flex ${className}`}>
       {data.map((item, index) => {
         const isPath = pathname === item.href;
         return (

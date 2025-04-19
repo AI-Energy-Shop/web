@@ -33,11 +33,7 @@ const KeyFeatureItem = ({
         className="outline-none border-none shadow-none"
       />
       <div className="hidden group-hover:block">
-        <Button
-          onClick={() => onRemove(index, title)}
-          size="icon"
-          className="relative right-0"
-        >
+        <Button onClick={() => onRemove(index, title)} size="icon" className="relative right-0">
           <Trash2 className="h-3 w-3" />
         </Button>
       </div>

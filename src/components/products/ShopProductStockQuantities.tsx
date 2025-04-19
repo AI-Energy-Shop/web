@@ -5,13 +5,9 @@ import React from 'react';
 interface ShopProductStockQuantitiesProps {
   product: ProductQuery['product'];
 }
-const ShopProductStockQuantities = ({
-  product,
-}: ShopProductStockQuantitiesProps) => {
+const ShopProductStockQuantities = ({ product }: ShopProductStockQuantitiesProps) => {
   const getProductInventoryByLocation = (location: string) => {
-    const inventory = product?.inventories?.find(
-      (inventory) => inventory?.location_code === location
-    );
+    const inventory = product?.inventories?.find((inventory) => inventory?.location_code === location);
 
     return inventory;
   };
@@ -29,13 +25,9 @@ const ShopProductStockQuantities = ({
         </div>
         <div className="flex flex-col items-center">
           <span className="text-xs font-medium">
-            {melbourneStock?.quantity && melbourneStock?.quantity > 0
-              ? 'In Stock'
-              : 'Out of Stock'}
+            {melbourneStock?.quantity && melbourneStock?.quantity > 0 ? 'In Stock' : 'Out of Stock'}
           </span>
-          <span className="text-xs font-medium">
-            {melbourneStock?.quantity}
-          </span>
+          <span className="text-xs font-medium">{melbourneStock?.quantity}</span>
         </div>
       </div>
       <div className="border border-black rounded-2xl p-2 flex justify-between items-center col-span-3 col-start-5">
@@ -45,9 +37,7 @@ const ShopProductStockQuantities = ({
         </div>
         <div className="flex flex-col items-center">
           <span className="text-xs font-medium">
-            {sydneyStock?.quantity && sydneyStock?.quantity > 0
-              ? 'In Stock'
-              : 'Out of Stock'}
+            {sydneyStock?.quantity && sydneyStock?.quantity > 0 ? 'In Stock' : 'Out of Stock'}
           </span>
           <span className="text-xs font-medium">{sydneyStock?.quantity}</span>
         </div>
@@ -59,9 +49,7 @@ const ShopProductStockQuantities = ({
         </div>
         <div className="flex flex-col items-center">
           <span className="text-xs font-medium">
-            {brisbaneStock?.quantity && brisbaneStock?.quantity > 0
-              ? 'In Stock'
-              : 'Out of Stock'}
+            {brisbaneStock?.quantity && brisbaneStock?.quantity > 0 ? 'In Stock' : 'Out of Stock'}
           </span>
           <span className="text-xs font-medium">{brisbaneStock?.quantity}</span>
         </div>

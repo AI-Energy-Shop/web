@@ -62,17 +62,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
       {data?.length > 0 && (
         <div className="grid grid-cols-8 gap-4 px-1 py-3">
           {data.map((file) => (
-            <FilePreview
-              file={file}
-              key={file.documentId}
-              onRemove={() => onFileRemove(file.documentId)}
-            />
+            <FilePreview file={file} key={file.documentId} onRemove={() => onFileRemove(file.documentId)} />
           ))}
-          <Button
-            variant="outline"
-            className="w-full h-full"
-            onClick={() => setShowFilesModal(!showFilesModal)}
-          >
+          <Button variant="outline" className="w-full h-full" onClick={() => setShowFilesModal(!showFilesModal)}>
             <Plus />
           </Button>
         </div>

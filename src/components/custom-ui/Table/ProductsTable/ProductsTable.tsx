@@ -1,13 +1,6 @@
 'use client';
 import React, { Suspense } from 'react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useRouter } from 'next/navigation';
 import Product from './Product';
 
@@ -40,11 +33,7 @@ const ProductsTable: React.FC<ProductTableProps> = ({ products }) => {
             </TableRow>
           ) : (
             products?.map?.((product: any) => (
-              <Product
-                key={product.documentId}
-                product={product}
-                onClick={handleProductClick}
-              />
+              <Product key={product.documentId} product={product} onClick={handleProductClick} />
             ))
           )}
         </TableBody>

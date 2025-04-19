@@ -24,9 +24,7 @@ const Profile = ({ user, handleLogout }: ProfileProps) => {
         </Avatar>
         <div>
           <p className="text-sm font-medium text-gray-900 dark:text-white"></p>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
-            {user?.email}
-          </p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">{user?.email}</p>
         </div>
       </div>
       <div className="mt-4 flex justify-between p-0">
@@ -34,12 +32,7 @@ const Profile = ({ user, handleLogout }: ProfileProps) => {
           <Settings className="h-4 w-4" />
           Settings
         </Button>
-        <Button
-          size="sm"
-          className="p-1"
-          variant="ghost"
-          onClick={handleLogout}
-        >
+        <Button size="sm" className="p-1" variant="ghost" onClick={handleLogout}>
           <LogOut className="h-4 w-4" />
           Logout
         </Button>

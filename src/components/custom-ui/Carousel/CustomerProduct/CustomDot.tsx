@@ -10,16 +10,10 @@ const CustomDot = ({ onClick, carouselState, index }: DotProps) => {
 
   return (
     <div
-      className={cn(
-        `h-4 w-4 p-0.5 border-2 rounded-full ${index! >= totalDots && 'hidden'}`
-      )}
+      className={cn(`h-4 w-4 p-0.5 border-2 rounded-full ${index! >= totalDots && 'hidden'}`)}
       onClick={() => onClick!()} // Add hover animation
     >
-      <div
-        className={`w-full h-full rounded-full ${
-          isActive ? 'bg-slate-800' : ''
-        }`}
-      />
+      <div className={`w-full h-full rounded-full ${isActive ? 'bg-slate-800' : ''}`} />
     </div>
   );
 };

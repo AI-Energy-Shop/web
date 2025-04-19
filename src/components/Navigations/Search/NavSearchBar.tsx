@@ -5,14 +5,8 @@ import { Search } from 'lucide-react';
 import useSearchFilter from '@/hooks/useSearchFilter';
 import SearchResult from './SearchResult';
 const NavSearchBar = () => {
-  const {
-    handleInputChange,
-    searchQueryInput,
-    searchData,
-    isSearchFocused,
-    handleSearchFocus,
-    handleSearchBlur,
-  } = useSearchFilter();
+  const { handleInputChange, searchQueryInput, searchData, isSearchFocused, handleSearchFocus, handleSearchBlur } =
+    useSearchFilter();
 
   return (
     <>

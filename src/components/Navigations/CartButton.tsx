@@ -13,10 +13,7 @@ interface CartButtonProps {
 const CartButton: React.FC<CartButtonProps> = ({ cartStyle = 'text' }) => {
   const { carts } = useCart();
   return (
-    <Link
-      href="/cart"
-      className="flex flex-col items-center m-0 w-auto h-auto px-1 relative group"
-    >
+    <Link href="/cart" className="flex flex-col items-center m-0 w-auto h-auto px-1 relative group">
       <ShoppingCart className="h-5 w-5" />
       {cartStyle === 'icon' ? (
         <>
