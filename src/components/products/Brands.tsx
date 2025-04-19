@@ -12,8 +12,7 @@ interface BrandsProps {
 }
 
 const Brands: React.FC<BrandsProps> = ({ selectedBrands }) => {
-  const { collectionData, collectionLoading, handleBrandClick } =
-    useProductFilter();
+  const { collectionData, collectionLoading, handleBrandClick } = useProductFilter();
 
   const collection = collectionData?.collections.at(0);
   const products = collection?.products;

@@ -29,10 +29,7 @@ const AdminSideNavigation = () => {
           <h1>Admin Sidebar</h1>
         </div>
 
-        <NavList
-          data={ADMIN_SIDE_NAVIGATIONS}
-          className="h-full flex-col items-baseline"
-        />
+        <NavList data={ADMIN_SIDE_NAVIGATIONS} className="h-full flex-col items-baseline" />
         <Profile user={user} handleLogout={handleLogout} />
       </div>
     </aside>

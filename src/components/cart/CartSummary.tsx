@@ -7,12 +7,7 @@ interface CartSummaryProps {
   onCheckout?: () => void;
 }
 
-export const CartSummary: React.FC<CartSummaryProps> = ({
-  subtotal,
-  tax,
-  total,
-  onCheckout,
-}) => {
+export const CartSummary: React.FC<CartSummaryProps> = ({ subtotal, tax, total, onCheckout }) => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
       <h2 className="text-xl font-semibold mb-4">Order Summary</h2>

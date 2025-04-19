@@ -15,14 +15,7 @@ interface FilterItemProps {
   onFilterClick: (selectedFilterOption: SelectedFilter) => void;
 }
 
-const FilterItem: React.FC<FilterItemProps> = ({
-  id,
-  name,
-  value,
-  isOpen,
-  selectedFilters,
-  onFilterClick,
-}) => {
+const FilterItem: React.FC<FilterItemProps> = ({ id, name, value, isOpen, selectedFilters, onFilterClick }) => {
   const [open, setOpen] = useState(isOpen);
 
   //get unique values from value array
@@ -40,11 +33,7 @@ const FilterItem: React.FC<FilterItemProps> = ({
         onClick={() => onFilterClick({ id, key: name, value: item })}
         className="flex items-center gap-1 p-2 cursor-pointer transition-all duration-300 hover:bg-gray-100"
       >
-        <input
-          type="checkbox"
-          name={item}
-          checked={selectedFilters.some((filter) => filter.value === item)}
-        />
+        <input type="checkbox" name={item} checked={selectedFilters.some((filter) => filter.value === item)} />
         <Label className="text-sm font-normal">{item}</Label>
         <span className="text-xs text-gray-500">({count[item]})</span>
       </div>
@@ -56,11 +45,7 @@ const FilterItem: React.FC<FilterItemProps> = ({
       <div className="flex items-center justify-between p-1">
         <Label>{name}</Label>
         <Button variant="ghost" size="icon" onClick={() => setOpen(!open)}>
-          {open ? (
-            <ChevronUp className="h-4 w-4" />
-          ) : (
-            <ChevronDown className="h-4 w-4" />
-          )}
+          {open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
         </Button>
       </div>
 

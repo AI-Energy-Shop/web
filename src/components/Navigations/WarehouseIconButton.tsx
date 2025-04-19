@@ -7,12 +7,8 @@ import { RootState } from '@/store/store';
 import Link from 'next/link';
 import { WarehouseLocation } from '@/store/features/cart';
 const WarehouseIconButton = () => {
-  const warehouseLocation = useSelector(
-    (state: RootState) => state.cart.warehouseLocation
-  );
-  const [warehouseLocationState, setWarehouseLocationState] = useState<
-    WarehouseLocation | undefined
-  >(undefined);
+  const warehouseLocation = useSelector((state: RootState) => state.cart.warehouseLocation);
+  const [warehouseLocationState, setWarehouseLocationState] = useState<WarehouseLocation | undefined>(undefined);
 
   useEffect(() => {
     if (warehouseLocation) {
@@ -23,10 +19,7 @@ const WarehouseIconButton = () => {
   // If no user data, show login link instead
   if (!warehouseLocationState) {
     return (
-      <Link
-        href="/auth/login"
-        className="flex flex-col items-center m-0 w-auto h-auto px-1"
-      >
+      <Link href="/auth/login" className="flex flex-col items-center m-0 w-auto h-auto px-1">
         <Warehouse className="h-5 w-5" />
         <span className="text-sm font-normal">Warehouse</span>
       </Link>
@@ -34,14 +27,9 @@ const WarehouseIconButton = () => {
   }
 
   return (
-    <Link
-      href="/profile#warehouseAddress"
-      className="flex flex-col items-center m-0 w-auto h-auto px-1"
-    >
+    <Link href="/profile#warehouseAddress" className="flex flex-col items-center m-0 w-auto h-auto px-1">
       <Warehouse className="h-5 w-5" />
-      <span className="text-sm font-normal">
-        {warehouseLocationState.address.city}
-      </span>
+      <span className="text-sm font-normal">{warehouseLocationState.address.city}</span>
     </Link>
   );
 };

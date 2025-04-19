@@ -6,20 +6,10 @@ function ButtonGroup({ next, previous, goToSlide, ...rest }: ButtonGroupProps) {
   return (
     <div className="absolute -bottom-[8px] left-1/2 transform -translate-x-1/2">
       <div className="relative">
-        <Button
-          size="icon"
-          variant="ghost"
-          className="absolute -left-16 top-[-38px]"
-          onClick={() => previous!()}
-        >
+        <Button size="icon" variant="ghost" className="absolute -left-16 top-[-38px]" onClick={() => previous!()}>
           <ChevronLeft />
         </Button>
-        <Button
-          size="icon"
-          variant="ghost"
-          className="absolute right-[-63px] top-[-38px]"
-          onClick={() => next!()}
-        >
+        <Button size="icon" variant="ghost" className="absolute right-[-63px] top-[-38px]" onClick={() => next!()}>
           <ChevronRight />
         </Button>
       </div>

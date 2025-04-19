@@ -5,37 +5,20 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
 import { Eye, EyeOff } from 'lucide-react';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '../ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import useAuth from '@/hooks/useAuth';
 import { RegisterFormData } from '@/lib/validation-schema/auth-forms';
 interface SignupFormProps {}
 
 const SignupForm: React.FC<SignupFormProps> = () => {
-  const { showPassword, registerForm, handleRegisterSubmit, setShowPassword } =
-    useAuth();
+  const { showPassword, registerForm, handleRegisterSubmit, setShowPassword } = useAuth();
 
   const renderBottomContent = () => {
     return (
       <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
         Already have an account?{' '}
-        <Link
-          href="/auth/login"
-          className="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 font-medium"
-        >
+        <Link href="/auth/login" className="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 font-medium">
           Sign in
         </Link>
       </p>
@@ -82,10 +65,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
       /> */}
       <div className="">
         <Form {...registerForm}>
-          <form
-            onSubmit={registerForm.handleSubmit(handleRegisterSubmit)}
-            className="space-y-8"
-          >
+          <form onSubmit={registerForm.handleSubmit(handleRegisterSubmit)} className="space-y-8">
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-2">
                 {renderTextField({ name: 'username', label: 'Username' })}
@@ -100,20 +80,13 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                       <FormLabel>Password</FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <Input
-                            {...field}
-                            type={showPassword ? 'text' : 'password'}
-                          />
+                          <Input {...field} type={showPassword ? 'text' : 'password'} />
                           <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
                             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400"
                           >
-                            {showPassword ? (
-                              <EyeOff className="h-4 w-4" />
-                            ) : (
-                              <Eye className="h-4 w-4" />
-                            )}
+                            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                           </button>
                         </div>
                       </FormControl>
@@ -129,20 +102,13 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                       <FormLabel>Confirm Password</FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <Input
-                            {...field}
-                            type={showPassword ? 'text' : 'password'}
-                          />
+                          <Input {...field} type={showPassword ? 'text' : 'password'} />
                           <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
                             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400"
                           >
-                            {showPassword ? (
-                              <EyeOff className="h-4 w-4" />
-                            ) : (
-                              <Eye className="h-4 w-4" />
-                            )}
+                            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                           </button>
                         </div>
                       </FormControl>
@@ -166,10 +132,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Business Type</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Are you Installer or Retailer? " />
@@ -203,17 +166,11 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                 <Checkbox id="terms" required />
                 <Label htmlFor="terms" className="text-sm">
                   I agree to the{' '}
-                  <Link
-                    href="#"
-                    className="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400"
-                  >
+                  <Link href="#" className="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400">
                     Terms of Service{' '}
                   </Link>
                   and{' '}
-                  <Link
-                    href="#"
-                    className="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400"
-                  >
+                  <Link href="#" className="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400">
                     Privacy Policy
                   </Link>
                 </Label>

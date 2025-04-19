@@ -1,14 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartNoAxesCombined } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -146,11 +139,7 @@ const Personals = () => {
                 <div className="flex items-center gap-2">
                   <Label htmlFor="companyName">Company Logo</Label>
                 </div>
-                <ImageUploadInput
-                  form={form}
-                  onChange={handleImageChange}
-                  onRemove={handleImageRemove}
-                />
+                <ImageUploadInput form={form} onChange={handleImageChange} onRemove={handleImageRemove} />
               </div>
             </div>
             <Separator className="my-4" />
@@ -208,9 +197,7 @@ const Personals = () => {
               </div>
             </div>
             <Separator className="my-4" />
-            {form.formState.isDirty && (
-              <Button type="submit">Save Changes</Button>
-            )}
+            {form.formState.isDirty && <Button type="submit">Save Changes</Button>}
           </form>
         </Form>
       </CardContent>

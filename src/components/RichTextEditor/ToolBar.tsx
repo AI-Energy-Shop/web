@@ -45,13 +45,7 @@ interface Option {
   className: string;
 }
 
-const ToolBar = ({
-  editor,
-  iconSize,
-}: {
-  editor: Editor;
-  iconSize?: number;
-}) => {
+const ToolBar = ({ editor, iconSize }: { editor: Editor; iconSize?: number }) => {
   // State to track the selected icon for each group by index
   const [selectedIcons, setSelectedIcons] = useState<{
     [key: number]: JSX.Element | null;
@@ -68,43 +62,37 @@ const ToolBar = ({
           name: 'H1',
           icon: <Heading1 size={iconSize} />,
           isActive: false,
-          onClick: () =>
-            editor.chain().focus().toggleHeading({ level: 1 }).run(),
+          onClick: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
         },
         {
           name: 'H2',
           icon: <Heading2 size={iconSize} />,
           isActive: false,
-          onClick: () =>
-            editor.chain().focus().toggleHeading({ level: 2 }).run(),
+          onClick: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
         },
         {
           name: 'H3',
           icon: <Heading3 size={iconSize} />,
           isActive: false,
-          onClick: () =>
-            editor.chain().focus().toggleHeading({ level: 3 }).run(),
+          onClick: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
         },
         {
           name: 'H4',
           icon: <Heading4 size={iconSize} />,
           isActive: false,
-          onClick: () =>
-            editor.chain().focus().toggleHeading({ level: 4 }).run(),
+          onClick: () => editor.chain().focus().toggleHeading({ level: 4 }).run(),
         },
         {
           name: 'H5',
           icon: <Heading5 size={iconSize} />,
           isActive: false,
-          onClick: () =>
-            editor.chain().focus().toggleHeading({ level: 5 }).run(),
+          onClick: () => editor.chain().focus().toggleHeading({ level: 5 }).run(),
         },
         {
           name: 'H6',
           icon: <Heading6 size={iconSize} />,
           isActive: false,
-          onClick: () =>
-            editor.chain().focus().toggleHeading({ level: 6 }).run(),
+          onClick: () => editor.chain().focus().toggleHeading({ level: 6 }).run(),
         },
         // {
         //   name: "P",
@@ -114,8 +102,7 @@ const ToolBar = ({
         // },
       ],
       temporary_options: undefined,
-      className:
-        'bg-secondary flex gap-1 p-1 mt-2 rounded-md hidden group-hover:flex',
+      className: 'bg-secondary flex gap-1 p-1 mt-2 rounded-md hidden group-hover:flex',
     },
     {
       name: 'Bold',
@@ -151,8 +138,7 @@ const ToolBar = ({
       onClick: () => editor.chain().focus().toggleBulletList().run(),
       options: undefined,
       temporary_options: undefined,
-      className:
-        'bg-secondary flex gap-1 p-1 mt-2 rounded-md hidden group-hover:flex',
+      className: 'bg-secondary flex gap-1 p-1 mt-2 rounded-md hidden group-hover:flex',
     },
     {
       name: 'Ordered List',
@@ -161,8 +147,7 @@ const ToolBar = ({
       onClick: () => editor.chain().focus().toggleOrderedList().run(),
       options: undefined,
       temporary_options: undefined,
-      className:
-        'bg-secondary flex gap-1 p-1 mt-2 rounded-md hidden group-hover:flex',
+      className: 'bg-secondary flex gap-1 p-1 mt-2 rounded-md hidden group-hover:flex',
     },
     {
       name: 'Table',
@@ -183,10 +168,7 @@ const ToolBar = ({
     },
   ];
 
-  const handleClick = (
-    groupIndex: number,
-    item?: Option | SubOption | TempSubOption
-  ) => {
+  const handleClick = (groupIndex: number, item?: Option | SubOption | TempSubOption) => {
     if (item?.icon) {
       setSelectedIcons((prev) => ({
         ...prev,
@@ -228,12 +210,7 @@ const ToolBar = ({
               )}
             </div>
             {/* Toggle Button */}
-            <Toggle
-              title={item.name}
-              size="sm"
-              variant="outline"
-              onClick={() => handleClick(i, item)}
-            >
+            <Toggle title={item.name} size="sm" variant="outline" onClick={() => handleClick(i, item)}>
               {selectedIcons[i] || item.icon}
             </Toggle>
           </div>

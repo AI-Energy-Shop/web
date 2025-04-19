@@ -10,20 +10,10 @@ const FilePreview: FC<FilePreviewProps> = ({ file, onRemove }) => {
     <div className="relative group">
       <div className="aspect-square rounded-lg overflow-hidden bg-gray-100">
         {file.mime === 'application/pdf' && (
-          <iframe
-            src={file.url}
-            className="w-full h-full object-cover"
-            title="PDF Preview"
-          />
+          <iframe src={file.url} className="w-full h-full object-cover" title="PDF Preview" />
         )}
         {IMAGE_TYPES.includes(file.mime) && (
-          <Image
-            src={file.url}
-            alt="Preview"
-            className="w-full h-full object-cover"
-            width={100}
-            height={100}
-          />
+          <Image src={file.url} alt="Preview" className="w-full h-full object-cover" width={100} height={100} />
         )}
       </div>
 

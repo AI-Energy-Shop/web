@@ -14,9 +14,7 @@ const ContactDetails: React.FC<ContactDetailsProps> = ({ data }) => {
           <span className="text-white">{data?.left_sub_heading}</span>
         </div>
         <div className="top-light w-full p-5 flex flex-col items-center justify-center bg-yellow-aes-yellow">
-          <span className="text-blue-navy-blue uppercase">
-            {data?.right_heading}
-          </span>
+          <span className="text-blue-navy-blue uppercase">{data?.right_heading}</span>
           <span className="text-black">{data?.right_sub_heading}</span>
         </div>
       </div>

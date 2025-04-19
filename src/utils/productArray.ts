@@ -6,9 +6,7 @@ export const getProductSpecification = (
 ): { id: string; name: string; value: string }[] => {
   return (
     products?.flatMap((product: any) => {
-      const types = product.specification.find(
-        (spec: { key: string; value: string }) => spec.key.includes(key || '')
-      );
+      const types = product.specification.find((spec: { key: string; value: string }) => spec.key.includes(key || ''));
 
       return types
         ? [

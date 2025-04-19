@@ -59,9 +59,7 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     setCart: (state, action) => {
-      const existingCart = state.carts.find(
-        (cart) => cart.documentId === action.payload.documentId
-      );
+      const existingCart = state.carts.find((cart) => cart.documentId === action.payload.documentId);
       if (!existingCart) {
         state.carts.push(action.payload);
       } else {
@@ -72,9 +70,7 @@ export const cartSlice = createSlice({
       state.carts = action.payload;
     },
     removeCart: (state, action) => {
-      state.carts = state.carts.filter(
-        (cart) => cart.documentId !== action.payload.id
-      );
+      state.carts = state.carts.filter((cart) => cart.documentId !== action.payload.id);
     },
     setShowCartWindow: (state, action) => {
       state.showCartWindow = action.payload;

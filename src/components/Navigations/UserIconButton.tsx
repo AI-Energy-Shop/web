@@ -21,10 +21,7 @@ const UserIconButton = () => {
   // If no user data, show login link instead
   if (!user?.business_name) {
     return (
-      <Link
-        href="/auth/login"
-        className="flex flex-col items-center m-0 w-auto h-auto px-1"
-      >
+      <Link href="/auth/login" className="flex flex-col items-center m-0 w-auto h-auto px-1">
         <User className="h-5 w-5" />
         <p className="text-sm font-normal">Login</p>
       </Link>
@@ -32,10 +29,7 @@ const UserIconButton = () => {
   }
 
   return (
-    <Link
-      href="/profile"
-      className="flex flex-col items-center m-0 w-auto h-auto px-1"
-    >
+    <Link href="/profile" className="flex flex-col items-center m-0 w-auto h-auto px-1">
       <User className="h-5 w-5" />
       <p className="text-sm font-normal">{user.business_name}</p>
     </Link>

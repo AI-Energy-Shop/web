@@ -36,16 +36,13 @@ export function FileUploadZone({
     [onFiles]
   );
 
-  const handleFileInput = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
-      // Trigger form submission automatically
-      formRef.current?.requestSubmit();
+  const handleFileInput = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Trigger form submission automatically
+    formRef.current?.requestSubmit();
 
-      // Reset input
-      e.target.value = '';
-    },
-    []
-  );
+    // Reset input
+    e.target.value = '';
+  }, []);
 
   const handleFormSubmit = async (form: React.FormEvent<HTMLFormElement>) => {
     form.preventDefault(); // Prevent the default form submission
@@ -89,10 +86,7 @@ export function FileUploadZone({
           <div className="space-y-2">
             <div className="flex items-center justify-center gap-5">
               <p className="text-sm font-medium text-gray-700 flex items-center justify-center">
-                <label
-                  htmlFor="fileInput"
-                  className="text-black cursor-pointer text-xs border-b border-primary "
-                >
+                <label htmlFor="fileInput" className="text-black cursor-pointer text-xs border-b border-primary ">
                   {uploadNewFileLabel}
                 </label>
               </p>

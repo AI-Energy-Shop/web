@@ -16,9 +16,7 @@ const Logo = () => {
             priority
           />
         </div>
-        <p
-          className={` ${muktaVaani.className} text-[10px] text-purple-purp-aes font-black text-center italic`}
-        >
+        <p className={` ${muktaVaani.className} text-[10px] text-purple-purp-aes font-black text-center italic`}>
           AI ENERGY SHOP
         </p>
       </div>

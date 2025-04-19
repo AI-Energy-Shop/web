@@ -8,11 +8,9 @@ import { ProductQuery } from '@/lib/gql/graphql';
 const useProductDetails = (product: ProductQuery['product']) => {
   const [loading, setLoading] = useState(false);
 
-  const [currentProduct, setCurrentProduct] =
-    useState<ProductQuery['product']>(product);
+  const [currentProduct, setCurrentProduct] = useState<ProductQuery['product']>(product);
 
-  const [productCopy, setProductCopy] =
-    useState<ProductQuery['product']>(product);
+  const [productCopy, setProductCopy] = useState<ProductQuery['product']>(product);
 
   const handleClickSave = async () => {
     setLoading((loading) => !loading);
@@ -306,10 +304,7 @@ const useProductDetails = (product: ProductQuery['product']) => {
     // });
   };
 
-  const onRemoveList = (
-    index?: number,
-    title?: keyof ProductQuery['product']
-  ) => {
+  const onRemoveList = (index?: number, title?: keyof ProductQuery['product']) => {
     if (index === undefined || title === undefined || !currentProduct) {
       console.error('Invalid parameters or currentProduct is null');
       return;

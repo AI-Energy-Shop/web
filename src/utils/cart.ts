@@ -18,10 +18,7 @@ export const getCartSubtotal = (cartItems: Cart[]) => {
   }, 0);
 };
 
-export const getCartItemSubtotal = (
-  originalPrice?: number,
-  quantity?: number
-): string => {
+export const getCartItemSubtotal = (originalPrice?: number, quantity?: number): string => {
   if (!originalPrice || !quantity) return '0.00';
   const subtotal = originalPrice * quantity;
 
@@ -33,11 +30,7 @@ export const getCartItemSubtotal = (
   });
 };
 
-export const getCartTotals = (
-  cartItems: Cart[],
-  shippingFee?: number,
-  cardFee?: number
-) => {
+export const getCartTotals = (cartItems: Cart[], shippingFee?: number, cardFee?: number) => {
   const cartSubtotal = getCartSubtotal(cartItems);
   // Calculate GST for each component separately
   const cartGst = cartSubtotal * 0.1;

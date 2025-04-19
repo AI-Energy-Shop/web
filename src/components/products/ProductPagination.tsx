@@ -9,10 +9,7 @@ interface ProductPaginationProps {
   dataCount?: number;
   pageSize?: number;
 }
-const ProductPagination: React.FC<ProductPaginationProps> = ({
-  page,
-  pageSize,
-}) => {
+const ProductPagination: React.FC<ProductPaginationProps> = ({ page, pageSize }) => {
   const { collectionLoading, productCount, pathname } = useProductFilter();
 
   const pageSizeValue = pageSize || INITIAL_PAGE_SIZE;
@@ -28,9 +25,7 @@ const ProductPagination: React.FC<ProductPaginationProps> = ({
       <PaginationUI.PaginationContent className="p-0">
         <PaginationUI.PaginationItem className="list-none">
           {/* Go to first page */}
-          <PaginationUI.PaginationPrevious
-            href={`${pathname}?page=${1}&pageSize=${Number(pageSizeValue)}`}
-          />
+          <PaginationUI.PaginationPrevious href={`${pathname}?page=${1}&pageSize=${Number(pageSizeValue)}`} />
         </PaginationUI.PaginationItem>
         {totalPages &&
           Array.from({ length: totalPages }, (_, index) => (
@@ -45,9 +40,7 @@ const ProductPagination: React.FC<ProductPaginationProps> = ({
           ))}
         <PaginationUI.PaginationItem className="list-none">
           {/* Go to last page */}
-          <PaginationUI.PaginationNext
-            href={`${pathname}?page=${totalPages}&pageSize=${Number(pageSizeValue)}`}
-          />
+          <PaginationUI.PaginationNext href={`${pathname}?page=${totalPages}&pageSize=${Number(pageSizeValue)}`} />
         </PaginationUI.PaginationItem>
       </PaginationUI.PaginationContent>
     </PaginationUI.Pagination>

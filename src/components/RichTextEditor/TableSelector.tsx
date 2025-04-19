@@ -52,9 +52,7 @@ const TableSelector = () => {
         })}
       </div>
       <p className="mt-2">
-        {isLocked
-          ? `Selected: ${selectedRows} x ${selectedCols} (Click again to reselect)`
-          : `${rows} x ${cols}`}
+        {isLocked ? `Selected: ${selectedRows} x ${selectedCols} (Click again to reselect)` : `${rows} x ${cols}`}
       </p>
     </div>
   );

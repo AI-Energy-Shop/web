@@ -3,28 +3,10 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Package, DollarSign, ShoppingCart, Users } from 'lucide-react';
-import {
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '@/components/ui/chart';
+import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 
 const data = [
   { month: 'Jan', sales: 4000 },
@@ -46,9 +28,7 @@ export default function AnalyticsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total Products
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Total Products</CardTitle>
             <Package className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -75,9 +55,7 @@ export default function AnalyticsPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total Customers
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Total Customers</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -105,12 +83,7 @@ export default function AnalyticsPage() {
                 <XAxis dataKey="month" />
                 <YAxis />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <Line
-                  type="monotone"
-                  dataKey="sales"
-                  stroke="var(--color-sales)"
-                  strokeWidth={2}
-                />
+                <Line type="monotone" dataKey="sales" stroke="var(--color-sales)" strokeWidth={2} />
               </LineChart>
             </ResponsiveContainer>
           </ChartContainer>
@@ -140,9 +113,7 @@ export default function AnalyticsPage() {
                 <TableCell>$199.99</TableCell>
                 <TableCell>150</TableCell>
                 <TableCell>
-                  <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
-                    High Demand
-                  </span>
+                  <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">High Demand</span>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -151,9 +122,7 @@ export default function AnalyticsPage() {
                 <TableCell>$99.99</TableCell>
                 <TableCell>120</TableCell>
                 <TableCell>
-                  <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
-                    High Demand
-                  </span>
+                  <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">High Demand</span>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -162,9 +131,7 @@ export default function AnalyticsPage() {
                 <TableCell>$29.99</TableCell>
                 <TableCell>90</TableCell>
                 <TableCell>
-                  <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">
-                    Moderate
-                  </span>
+                  <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">Moderate</span>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -173,9 +140,7 @@ export default function AnalyticsPage() {
                 <TableCell>$299.99</TableCell>
                 <TableCell>75</TableCell>
                 <TableCell>
-                  <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">
-                    Moderate
-                  </span>
+                  <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">Moderate</span>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -184,9 +149,7 @@ export default function AnalyticsPage() {
                 <TableCell>$14.99</TableCell>
                 <TableCell>60</TableCell>
                 <TableCell>
-                  <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">
-                    Low Demand
-                  </span>
+                  <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Low Demand</span>
                 </TableCell>
               </TableRow>
             </TableBody>
