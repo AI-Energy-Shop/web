@@ -10,12 +10,7 @@ interface SearchResultProps {
   handleFocus: () => void;
   handleBlur: () => void;
 }
-const SearchResult = ({
-  searchQueryInput,
-  searchData,
-  isFocused,
-  handleBlur,
-}: SearchResultProps) => {
+const SearchResult = ({ searchQueryInput, searchData, isFocused, handleBlur }: SearchResultProps) => {
   return (
     <div
       onBlur={handleBlur}
@@ -23,9 +18,7 @@ const SearchResult = ({
     >
       <div className="max-w-[1200px] mx-auto h-full flex flex-col">
         <div className="flex items-center justify-between my-2 p-2">
-          <div className="text-sm font-bold">
-            Search Results: {searchData?.products?.length} results found
-          </div>
+          <div className="text-sm font-bold">Search Results: {searchData?.products?.length} results found</div>
           <div className="text-sm text-gray-500"></div>
         </div>
 
@@ -40,14 +33,8 @@ const SearchResult = ({
             const brand = item?.brand;
 
             return (
-              <Link
-                href={`/products/${category?.slug}/${brand?.url}/${item?.documentId}`}
-                key={item?.documentId}
-              >
-                <div
-                  key={item?.documentId}
-                  className="flex items-center gap-2 p-2 border-b"
-                >
+              <Link href={`/products/${category?.slug}/${brand?.url}/${item?.documentId}`} key={item?.documentId}>
+                <div key={item?.documentId} className="flex items-center gap-2 p-2 border-b">
                   <Image
                     src={item?.images.at(0)?.url ?? ''}
                     alt={item?.images.at(0)?.alternativeText ?? ''}

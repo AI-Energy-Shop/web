@@ -17,12 +17,7 @@ interface RichTextEditorProps {
   iconSize?: number;
 }
 
-const RichTextEditor: FC<RichTextEditorProps> = ({
-  description,
-  setDescription,
-  className,
-  iconSize,
-}) => {
+const RichTextEditor: FC<RichTextEditorProps> = ({ description, setDescription, className, iconSize }) => {
   const editor = useEditor({
     content: description,
     immediatelyRender: false,

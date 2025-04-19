@@ -2,16 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { useToast } from './useToast';
 import { CART_WINDOW_TIMEOUT } from '@/constant/cart';
-import {
-  setCart,
-  setPaymentStep,
-  setShowCartWindow,
-} from '@/store/features/cart';
-import {
-  addToCartAction,
-  removeItemFromCartAction,
-  updateCartItemAction,
-} from '@/app/actions/cart';
+import { setCart, setPaymentStep, setShowCartWindow } from '@/store/features/cart';
+import { addToCartAction, removeItemFromCartAction, updateCartItemAction } from '@/app/actions/cart';
 import { ShippingOptions } from '@/constant/shipping';
 import { SHIPPING_OPTIONS } from '@/constant/shipping';
 import { removeCart } from '@/store/features/cart';
@@ -22,23 +14,14 @@ const useCart = () => {
   const date = new Date();
   const { toast } = useToast();
   const dispatch = useDispatch();
-  const [shippingOptions, setShippingOptions] =
-    useState<ShippingOptions>(SHIPPING_OPTIONS);
+  const [shippingOptions, setShippingOptions] = useState<ShippingOptions>(SHIPPING_OPTIONS);
   const [paymentOption, setPaymentOption] = useState<string>('');
   const carts = useSelector((state: RootState) => state.cart.carts);
   const paymentStep = useSelector((state: RootState) => state.cart.paymentStep);
-  const warehouse = useSelector(
-    (state: RootState) => state.cart.warehouseLocation
-  );
-  const showCartWindow = useSelector(
-    (state: RootState) => state.cart.showCartWindow
-  );
+  const warehouse = useSelector((state: RootState) => state.cart.warehouseLocation);
+  const showCartWindow = useSelector((state: RootState) => state.cart.showCartWindow);
 
-  const addToCart = async (data: {
-    product: string;
-    quantity: number;
-    user: string;
-  }) => {
+  const addToCart = async (data: { product: string; quantity: number; user: string }) => {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value as string);
@@ -69,11 +52,7 @@ const useCart = () => {
     }
   };
 
-  const updateCartItem = async (data: {
-    cartId: string;
-    product: string;
-    quantity: number;
-  }) => {
+  const updateCartItem = async (data: { cartId: string; product: string; quantity: number }) => {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value as string);

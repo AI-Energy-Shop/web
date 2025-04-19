@@ -2,10 +2,7 @@
 import { cookies } from 'next/headers';
 import { getClient } from '@/apollo/client';
 import COLLECTIONS_OPERATIONS from '@/graphql/collections';
-import {
-  CollectionsWithProductsQuery,
-  CollectionsWithProductsQueryVariables,
-} from '@/lib/gql/graphql';
+import { CollectionsWithProductsQuery, CollectionsWithProductsQueryVariables } from '@/lib/gql/graphql';
 const client = getClient();
 
 export async function getCollectionWithProducts(

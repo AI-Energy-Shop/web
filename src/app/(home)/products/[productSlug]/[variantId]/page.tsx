@@ -19,17 +19,9 @@ async function VariantPage({ params }: { params: { variantId: string } }) {
     <main className="bg-yellow-light-yellow">
       <Breadcrumb />
       <section className="bg-white max-w-[1200px] mx-auto px-4 py-8">
-        <div
-          className={cn(
-            `${firaSans.className} max-md:px-4 ae-mobile-container md:px-12 md:p-6`
-          )}
-        >
-          <h1 className="text-2xl max-sm:pt-2 md:text-4xl font-bold">
-            {data?.product?.name}
-          </h1>
-          <p className="font-medium text-lg md:text-2xl italic">
-            {data?.product?.model}
-          </p>
+        <div className={cn(`${firaSans.className} max-md:px-4 ae-mobile-container md:px-12 md:p-6`)}>
+          <h1 className="text-2xl max-sm:pt-2 md:text-4xl font-bold">{data?.product?.name}</h1>
+          <p className="font-medium text-lg md:text-2xl italic">{data?.product?.model}</p>
         </div>
 
         <div className="md:flex md:justify-between md:px-12 md:pb-5">

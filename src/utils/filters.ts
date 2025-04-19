@@ -1,12 +1,6 @@
 import { EXCLUDED_SEARCH_PARAMS } from '@/constant';
 
-export const createProductsFilters = ({
-  params,
-  searchParams,
-}: {
-  params: any;
-  searchParams: any;
-}) => {
+export const createProductsFilters = ({ params, searchParams }: { params: any; searchParams: any }) => {
   let f = {};
   Object.entries({ ...params, ...searchParams })
     .filter(([key]) => !EXCLUDED_SEARCH_PARAMS.includes(key))

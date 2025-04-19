@@ -19,9 +19,7 @@ const AboutusSection: React.FC<AboutusSectionProps> = ({ data }) => {
         </h1>
         <div
           style={{
-            backgroundImage: data?.background_image?.url
-              ? `url('${data.background_image.url}')`
-              : '',
+            backgroundImage: data?.background_image?.url ? `url('${data.background_image.url}')` : '',
           }}
           className="
             w-full bg-center bg-cover
@@ -44,10 +42,7 @@ const AboutusSection: React.FC<AboutusSectionProps> = ({ data }) => {
             >
               {data.sub_heading}
             </h2>
-            <p
-              style={muktaVaani.style}
-              className="text-[14px] md:text-[16px] max-w-[70%] leading-[1.25] "
-            >
+            <p style={muktaVaani.style} className="text-[14px] md:text-[16px] max-w-[70%] leading-[1.25] ">
               {data.description}
             </p>
             <button

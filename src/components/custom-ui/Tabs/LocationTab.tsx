@@ -35,32 +35,21 @@ const LocationTab: React.FC<LocationTabProps> = ({ data }) => {
         {data.map(
           (tab) =>
             activeTab === tab.name && (
-              <div
-                key={tab.id}
-                className="w-full flex flex-col items-center justify-center"
-              >
+              <div key={tab.id} className="w-full flex flex-col items-center justify-center">
                 {/* ADDRESS */}
-                <h1 className="address w-[200px] text-center text-white">
-                  {tab.address}
-                </h1>
+                <h1 className="address w-[200px] text-center text-white">{tab.address}</h1>
 
                 {/* OPEN HOURS */}
                 <div className="font-bold my-5 text-white">
                   <h2 className="text-white text-center"> Monday - Friday</h2>
                   <div className="office-hours flex gap-5 ">
                     <div className="warehouse-hour flex flex-col">
-                      <span className="text-sm text-center">
-                        Warehouse Hours
-                      </span>
-                      <span className="text-sm font-normal">
-                        {tab.warehouse_time}
-                      </span>
+                      <span className="text-sm text-center">Warehouse Hours</span>
+                      <span className="text-sm font-normal">{tab.warehouse_time}</span>
                     </div>
                     <div className="office-hour flex flex-col">
                       <span className="text-sm text-center">Office Hours</span>
-                      <span className="text-sm font-normal">
-                        {tab.office_time}
-                      </span>
+                      <span className="text-sm font-normal">{tab.office_time}</span>
                     </div>
                   </div>
                 </div>

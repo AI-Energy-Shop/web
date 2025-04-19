@@ -7,28 +7,11 @@ import { useForm } from 'react-hook-form';
 import { useToast } from '@/hooks/useToast';
 import { approveUser } from '@/app/actions/user';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '../ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { userApprovalSchema } from '@/lib/validation-schema/user-approval';
 import { useRouter } from 'next/navigation';
-import {
-  ACCOUNT_STATUS_DATA,
-  USER_LEVEL_DATA,
-  USER_TYPE_DATA,
-} from '@/constant/user';
+import { ACCOUNT_STATUS_DATA, USER_LEVEL_DATA, USER_TYPE_DATA } from '@/constant/user';
 
 interface UserApprovalFormProps {
   documentId: string;
@@ -75,8 +58,7 @@ const UserApprovalForm: React.FC<UserApprovalFormProps> = (props) => {
       state: props.defaultValues.state,
       country: props.defaultValues.country,
       zipCode: props.defaultValues.zipCode,
-      phone:
-        props.defaultValues.phone === 'null' ? '' : props.defaultValues.phone,
+      phone: props.defaultValues.phone === 'null' ? '' : props.defaultValues.phone,
       businessType: props.defaultValues.businessType.toLowerCase(),
       accountStatus: 'REVIEWING',
       userLevel: '',
@@ -148,14 +130,7 @@ const UserApprovalForm: React.FC<UserApprovalFormProps> = (props) => {
     );
   };
 
-  const renderSelectField = ({
-    name,
-    label,
-    disabled,
-    required,
-    placeholder,
-    data,
-  }: RenderSelectFieldProps) => {
+  const renderSelectField = ({ name, label, disabled, required, placeholder, data }: RenderSelectFieldProps) => {
     return (
       <FormField
         control={form.control}
@@ -166,11 +141,7 @@ const UserApprovalForm: React.FC<UserApprovalFormProps> = (props) => {
               {label} {required && <span className="text-red-500">*</span>}
             </FormLabel>
             <FormControl>
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={field?.value || ''}
-                disabled={disabled}
-              >
+              <Select onValueChange={field.onChange} defaultValue={field?.value || ''} disabled={disabled}>
                 <SelectTrigger>
                   <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
@@ -236,11 +207,7 @@ const UserApprovalForm: React.FC<UserApprovalFormProps> = (props) => {
           </div>
           <div className="flex gap-4">
             <Button type="submit">Submit</Button>
-            <Button
-              type="button"
-              variant="destructive"
-              onClick={() => router.push('/admin/users')}
-            >
+            <Button type="button" variant="destructive" onClick={() => router.push('/admin/users')}>
               Cancel
             </Button>
           </div>

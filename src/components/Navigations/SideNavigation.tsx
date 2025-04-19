@@ -91,10 +91,7 @@ const SideNavigation = () => {
   const renderAuthButtons = () => {
     return (
       <div className="flex flex-col gap-2 items-center justify-center">
-        <Link
-          href="/auth/login"
-          className="p-1 w-full text-center font-medium bg-gray-100 dark:bg-gray-700 rounded-md"
-        >
+        <Link href="/auth/login" className="p-1 w-full text-center font-medium bg-gray-100 dark:bg-gray-700 rounded-md">
           Login
         </Link>
         <Link
@@ -117,15 +114,9 @@ const SideNavigation = () => {
         className={`fixed top-0 right-0 ${isOpen ? 'translate-x-0' : 'translate-x-full'} h-[100vh] w-[80%] p-4 pt-6 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col lg:hidden transition-transform duration-300 ease-in-out`}
       >
         <div className="h-full flex flex-col gap-4">
-          <div className="w-full flex items-center justify-between">
-            {renderSortSelection()}
-          </div>
+          <div className="w-full flex items-center justify-between">{renderSortSelection()}</div>
           {renderNavlist()}
-          {user ? (
-            <Profile user={user} handleLogout={handleLogout} />
-          ) : (
-            renderAuthButtons()
-          )}
+          {user ? <Profile user={user} handleLogout={handleLogout} /> : renderAuthButtons()}
         </div>
       </aside>
       {renderHamburgerButton()}

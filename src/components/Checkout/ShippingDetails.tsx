@@ -5,11 +5,7 @@ import { CalendarIcon, Check, FilePenLine, MoveRight } from 'lucide-react';
 import { DynamicIcon } from 'lucide-react/dynamic';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { formatDate } from '@/utils/formatDate';
 import { Calendar } from '@/components/ui/calendar';
 import { Textarea } from '@/components/ui/textarea';
@@ -21,14 +17,8 @@ import useCart from '@/hooks/useCart';
 
 const ShippingDetails = () => {
   const { user } = useMe();
-  const {
-    paymentStep,
-    shippingOptions,
-    date,
-    handleShippingMethodClick,
-    handleContinueClick,
-    handleEditClick,
-  } = useCart();
+  const { paymentStep, shippingOptions, date, handleShippingMethodClick, handleContinueClick, handleEditClick } =
+    useCart();
 
   const renderHeader = () => {
     return (
@@ -81,20 +71,13 @@ const ShippingDetails = () => {
   };
 
   const renderShippingAddress = (value: string) => {
-    const item = user?.account_detail?.shipping_addresses?.find(
-      (item) => item.isActive
-    );
+    const item = user?.account_detail?.shipping_addresses?.find((item) => item.isActive);
 
     return (
       <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12">
         <div className="flex items-center justify-between">
-          <h1 className="font-bold text-blue-navy-blue">
-            {value === 'delivery' ? 'Ship To:' : 'Pick Up From:'}
-          </h1>
-          <Link
-            href={`/address`}
-            className="flex user-select-none items-center gap-x-1 relative border-b border-black"
-          >
+          <h1 className="font-bold text-blue-navy-blue">{value === 'delivery' ? 'Ship To:' : 'Pick Up From:'}</h1>
+          <Link href={`/address`} className="flex user-select-none items-center gap-x-1 relative border-b border-black">
             <p className="text-[12px]">Change Address</p>
             <MoveRight className="w-4" />
           </Link>
@@ -104,8 +87,7 @@ const ShippingDetails = () => {
           <div>
             <h1 className="font-bold">{item.company}</h1>
             <h1>
-              {item.street1}, {item.street2}, {item.city}, {item.state}{' '}
-              {item.zipCode}
+              {item.street1}, {item.street2}, {item.city}, {item.state} {item.zipCode}
             </h1>
             <h1>
               {item.name?.first_name} {item.name?.last_name} - {item.phone}
@@ -124,10 +106,7 @@ const ShippingDetails = () => {
         <RadioGroup onValueChange={() => {}}>
           {DELIVERY_OPTIONS.map((item) => {
             return (
-              <div
-                key={item.id}
-                className="flex items-center space-x-2 border-b border-b-gray-300"
-              >
+              <div key={item.id} className="flex items-center space-x-2 border-b border-b-gray-300">
                 <RadioGroupItem value={`${item.id}`} id={`${item.id}`} />
                 <Label htmlFor={`${item.id}`}>
                   <div>
@@ -166,12 +145,7 @@ const ShippingDetails = () => {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
-                      <Calendar
-                        mode="single"
-                        selected={date}
-                        onSelect={() => {}}
-                        initialFocus
-                      />
+                      <Calendar mode="single" selected={date} onSelect={() => {}} initialFocus />
                     </PopoverContent>
                   </Popover>
                 </div>
@@ -196,11 +170,7 @@ const ShippingDetails = () => {
     <section className="w-full h-auto">
       {renderHeader()}
       <div className="bg-white">
-        <div
-          className={cn(
-            `space-y-4 pt-4 ${paymentStep === 2 ? 'block' : 'hidden'}`
-          )}
-        >
+        <div className={cn(`space-y-4 pt-4 ${paymentStep === 2 ? 'block' : 'hidden'}`)}>
           {renderDeliveryMethodOptions()}
           {shippingOptions?.map((item) => {
             if (item.active) {

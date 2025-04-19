@@ -29,18 +29,14 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
     sale_price: price?.sale_price ?? undefined,
     user_level: price?.user_level ?? undefined,
   }));
-  const itemPrice = priceList?.find(
-    (price) => price?.user_level === user?.account_detail?.level
-  );
+  const itemPrice = priceList?.find((price) => price?.user_level === user?.account_detail?.level);
 
   const salePrice = itemPrice?.sale_price;
   const regularPrice = itemPrice?.price;
 
   const productPrice = salePrice ? salePrice : regularPrice || 0;
 
-  const stocks = product?.inventories.find(
-    (inventory) => inventory?.name === warehouse?.address.city
-  );
+  const stocks = product?.inventories.find((inventory) => inventory?.name === warehouse?.address.city);
 
   const form = useForm<z.infer<typeof addToCartFormSchema>>({
     resolver: zodResolver(addToCartFormSchema),
@@ -87,9 +83,7 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
       return;
     }
 
-    const cartItem = carts.find(
-      (cart) => cart.product?.documentId === onValid?.id
-    );
+    const cartItem = carts.find((cart) => cart.product?.documentId === onValid?.id);
 
     if (cartItem && cartItem?.product) {
       updateCartItem({
@@ -107,11 +101,7 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
     });
   };
 
-  const renderHiddenInput = ({
-    name,
-  }: {
-    name: keyof z.infer<typeof addToCartFormSchema>;
-  }) => {
+  const renderHiddenInput = ({ name }: { name: keyof z.infer<typeof addToCartFormSchema> }) => {
     return (
       <FormField
         control={form.control}
@@ -130,9 +120,7 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
   if (!user) {
     return (
       <div className="w-full h-20 flex justify-center items-center">
-        <span className="text-sm row-span-1 text-[#1b1b3b]">
-          Login to view price
-        </span>
+        <span className="text-sm row-span-1 text-[#1b1b3b]">Login to view price</span>
       </div>
     );
   }
@@ -188,9 +176,7 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
                   </Button>
                 </div>
                 <div className="text-lg font-semibold">
-                  <span className="text-sm font-normal text-gray-500 ml-1">
-                    {productPrice.toFixed(2)} ex. GST
-                  </span>
+                  <span className="text-sm font-normal text-gray-500 ml-1">{productPrice.toFixed(2)} ex. GST</span>
                 </div>
               </div>
               <Button
@@ -198,9 +184,7 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
                 disabled={!stocks?.quantity || stocks?.quantity == 0}
                 className={`${firaSans.className} max-md:mt-3 max-md:mb-5 w-full py-6 bg-blue-navy-blue hover:bg-blue-navy-blue/90 rounded-full font-bold md:basis-[57.98%] text-[20px] md:text-[28px] md:rounded-lg md:h-16`}
               >
-                {stocks?.quantity || (stocks?.quantity && stocks?.quantity > 0)
-                  ? 'Add to Cart'
-                  : 'Out of Stock'}
+                {stocks?.quantity || (stocks?.quantity && stocks?.quantity > 0) ? 'Add to Cart' : 'Out of Stock'}
               </Button>
             </div>
           </form>

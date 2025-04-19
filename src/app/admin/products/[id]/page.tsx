@@ -3,9 +3,7 @@ import { redirect } from 'next/navigation';
 import Components from '@/components';
 import { Suspense } from 'react';
 
-export default async function ProductManagement(props: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function ProductManagement(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   if (!params.id) {
     redirect('/not-found');

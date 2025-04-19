@@ -1,18 +1,7 @@
 'use client';
-import {
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenu,
-} from '@radix-ui/react-dropdown-menu';
+import { DropdownMenuTrigger, DropdownMenuContent, DropdownMenu } from '@radix-ui/react-dropdown-menu';
 import React from 'react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { CircleAlert, ChevronDown } from 'lucide-react';
 import { ProductQuery } from '@/lib/gql/graphql';
 import useMe from '@/hooks/useMe';
@@ -69,11 +58,7 @@ const BulkPrices = ({ product }: BulkPricesProps) => {
               bulkPrices?.map((data: any) => (
                 <TableRow key={data?.id}>
                   <TableCell>{`${data?.min_quantity}-${data?.max_quantity}`}</TableCell>
-                  <TableCell>
-                    {data?.sale_price
-                      ? `${data?.sale_price}`
-                      : `${data?.price}`}
-                  </TableCell>
+                  <TableCell>{data?.sale_price ? `${data?.sale_price}` : `${data?.price}`}</TableCell>
                 </TableRow>
               ))
             )}

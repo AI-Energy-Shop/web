@@ -81,10 +81,7 @@ export async function deleteAddress(id: string) {
   return res;
 }
 
-export async function updateAddress(
-  documentId: string,
-  value: AddressSchemaTypes
-) {
+export async function updateAddress(documentId: string, value: AddressSchemaTypes) {
   const cookieStore = cookies();
   const token = cookieStore.get('a-token')?.value;
 

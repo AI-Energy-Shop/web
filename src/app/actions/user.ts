@@ -3,10 +3,7 @@ import USERS_OPERATIONS from '@/graphql/users';
 import { cookies } from 'next/headers';
 import { getClient } from '@/apollo/client';
 import { redirect } from 'next/navigation';
-import {
-  Enum_Userspermissionsuser_Account_Status,
-  InputMaybe,
-} from '@/lib/gql/graphql';
+import { Enum_Userspermissionsuser_Account_Status, InputMaybe } from '@/lib/gql/graphql';
 import { revalidatePath } from 'next/cache';
 
 const client = getClient();
@@ -61,13 +58,7 @@ export const registerUser = async (formData: FormData) => {
   }
 };
 
-export const loginUser = async ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}) => {
+export const loginUser = async ({ email, password }: { email: string; password: string }) => {
   try {
     const response = await client.mutate({
       mutation: USERS_OPERATIONS.Mutations.login,
@@ -167,10 +158,7 @@ export const logoutUser = async () => {
   redirect('/auth/login');
 };
 
-export const updateAccountStatus = async (
-  userId: string,
-  accountStatus: string
-) => {
+export const updateAccountStatus = async (userId: string, accountStatus: string) => {
   const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
@@ -180,8 +168,7 @@ export const updateAccountStatus = async (
       variables: {
         documentId: userId,
         data: {
-          account_status:
-            accountStatus as InputMaybe<Enum_Userspermissionsuser_Account_Status>,
+          account_status: accountStatus as InputMaybe<Enum_Userspermissionsuser_Account_Status>,
         },
       },
       context: {

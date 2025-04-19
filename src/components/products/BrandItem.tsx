@@ -9,13 +9,7 @@ interface BrandItemProps {
   onClick?: () => void;
 }
 
-const BrandItem: React.FC<BrandItemProps> = ({
-  name,
-  logo,
-  alt,
-  id,
-  onClick,
-}) => {
+const BrandItem: React.FC<BrandItemProps> = ({ name, logo, alt, id, onClick }) => {
   return (
     <div
       key={id}
@@ -24,14 +18,7 @@ const BrandItem: React.FC<BrandItemProps> = ({
       className="w-[120px] h-auto flex items-center justify-center cursor-pointer overflow-hidden"
     >
       {logo && (
-        <Image
-          priority
-          alt={alt}
-          src={logo}
-          width={100}
-          height={100}
-          className="w-full h-full object-contain"
-        />
+        <Image priority alt={alt} src={logo} width={100} height={100} className="w-full h-full object-contain" />
       )}
     </div>
   );

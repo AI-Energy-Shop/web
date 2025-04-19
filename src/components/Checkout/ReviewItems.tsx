@@ -1,11 +1,5 @@
 'use client';
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from '../ui/select';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select';
 import { WAREHOUSE_LOCATIONS } from '@/constant/shipping';
 import { setPaymentStep, setCarts } from '@/store/features/cart';
 import { Check, FilePenLine } from 'lucide-react';
@@ -26,9 +20,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   const dispatch = useDispatch();
   const { carts, paymentStep, removeItemFromCart } = useCart();
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [toRemoveItemId, setToRemoveItemId] = useState<string | undefined>(
-    undefined
-  );
+  const [toRemoveItemId, setToRemoveItemId] = useState<string | undefined>(undefined);
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
   const DEBOUNCE_DELAY = 1500;
 
@@ -177,9 +169,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
         <h1>Voucher Code:</h1>
         <div className="flex-1 flex">
           <Input className="rounded-none border border-blue-navy-blue" />
-          <Button className="bg-blue-navy-blue hover:bg-blue-navy-blue/90 rounded-none">
-            Apply
-          </Button>
+          <Button className="bg-blue-navy-blue hover:bg-blue-navy-blue/90 rounded-none">Apply</Button>
         </div>
       </div>
       <div className="h-0.5 w-full bg-black lg:hidden" />
@@ -206,11 +196,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
     <section className="w-full h-auto">
       {renderHeader()}
       <div className="bg-white">
-        <div
-          className={cn(
-            `space-y-4 pt-4 ${paymentStep === 1 ? 'block' : 'hidden'}`
-          )}
-        >
+        <div className={cn(`space-y-4 pt-4 ${paymentStep === 1 ? 'block' : 'hidden'}`)}>
           <div className="max-sm:space-y-4 md:px-12 md:flex md:items-center md:justify-between">
             <h1 className="font-semibold">Selected Location:</h1>
             <Select onValueChange={handleLocationChange}>

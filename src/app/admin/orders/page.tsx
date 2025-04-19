@@ -1,13 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   DropdownMenu,
@@ -16,13 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
-import {
-  ChevronDownIcon,
-  SearchIcon,
-  FilterIcon,
-  DownloadIcon,
-  PlusIcon,
-} from 'lucide-react';
+import { ChevronDownIcon, SearchIcon, FilterIcon, DownloadIcon, PlusIcon } from 'lucide-react';
 
 export default function OrderList() {
   return (
@@ -129,9 +116,7 @@ export default function OrderList() {
         </TableBody>
       </Table>
 
-      <p className="text-sm text-blue-600 mt-4 text-center">
-        Learn more about orders
-      </p>
+      <p className="text-sm text-blue-600 mt-4 text-center">Learn more about orders</p>
     </div>
   );
 }

@@ -16,9 +16,7 @@ const Payment: React.FC<PaymentProps> = ({}) => {
   return (
     <section>
       <div className="bg-blue-navy-blue py-3">
-        <h1 className="text-lg font-bold ae-mobile-container px-2 md:px-12 text-white">
-          Payment
-        </h1>
+        <h1 className="text-lg font-bold ae-mobile-container px-2 md:px-12 text-white">Payment</h1>
       </div>
       <div className={`bg-white py-4 ${paymentStep < 3 ? 'hidden' : 'block'}`}>
         <div className="ae-mobile-container space-y-4">
