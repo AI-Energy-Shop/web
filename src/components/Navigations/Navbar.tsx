@@ -1,6 +1,6 @@
 'use client';
 import NavList from './NavList';
-import NavSearchBar from './NavSearchBar';
+import NavSearchBar from './Search/NavSearchBar';
 import CartButton from './CartButton';
 import UserIconButton from './UserIconButton';
 import WarehouseIconButton from './WarehouseIconButton';

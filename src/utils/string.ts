@@ -27,7 +27,13 @@ export function capsAllFirstCharWithDash(str: string) {
   if (!str) return ''; // Handle empty strings
   return str.split('-').map(capitalizeFirstChar).join(' ');
 }
+
 export function capsAllFirstCharWithUnderScore(str: string) {
   if (!str) return ''; // Handle empty strings
   return str.split('_').map(capitalizeFirstChar).join(' ');
+}
+
+export function capsAllFirstCharWithSpace(str: string) {
+  if (!str) return ''; // Handle empty strings
+  return str.split('%20').map(capitalizeFirstChar).join(' ');
 }

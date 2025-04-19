@@ -1,5 +1,5 @@
 import meReducer from './features/me';
-import { combineReducers } from 'redux';
+import { combineReducers, createStore } from 'redux';
 import cartReducer from './features/cart';
 import { configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
@@ -14,14 +14,14 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: 'root',
   storage,
-  version: 6,
   whitelist: ['me', 'cart'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-
+// export const store = createStore(persistedReducer);
 export const store = configureStore({
-  reducer: persistedReducer,
+  // reducer: persistedReducer,
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,

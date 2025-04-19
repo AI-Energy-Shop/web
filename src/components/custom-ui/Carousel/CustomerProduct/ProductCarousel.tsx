@@ -38,7 +38,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ product }) => {
     },
   };
 
-  const [index, setIndex] = useState<number>(0);
+  const [selectedImage, setSelectedImage] = useState(0);
 
   return (
     <>
@@ -60,8 +60,8 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ product }) => {
               <Image
                 fill
                 loading="lazy"
-                src={image?.url!}
-                alt={image?.alternativeText || ''}
+                src={`${image?.url}`}
+                alt={`${image?.alternativeText}`}
                 className="object-contain object-center"
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
               />
@@ -90,12 +90,8 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ product }) => {
             <Image
               priority
               fill
-              src={product?.images[index]?.url || ''}
-              alt={
-                product?.images[index]?.alternativeText ||
-                product?.images[index]?.name ||
-                'image of product'
-              }
+              src={`${product?.images?.at(0)?.url}`}
+              alt={`${product?.images?.at(0)?.alternativeText}`}
               className="object-contain object-center"
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
             />
@@ -112,18 +108,14 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ product }) => {
               {product?.images?.map?.((image, i) => (
                 <div
                   key={i}
-                  className={`relative h-20 mr-2  rounded-xl ${index === i && 'border border-black'} cursor-pointer`}
-                  onClick={() => setIndex(i)}
+                  className={`relative h-20 mr-2  rounded-xl ${selectedImage === i && 'border border-black'} cursor-pointer`}
+                  onClick={() => setSelectedImage(i)}
                 >
                   <Image
                     fill
                     loading="lazy"
-                    src={image?.url!}
-                    alt={
-                      image?.alternativeText ||
-                      image?.name ||
-                      'image of product'
-                    }
+                    src={`${image?.url}`}
+                    alt={`${image?.alternativeText}`}
                     className="object-contain p-1 rounded-xl"
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   />
