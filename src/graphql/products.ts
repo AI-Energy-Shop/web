@@ -12,6 +12,7 @@ const schema = {
           documentId
           name
           description
+          product_type
           vendor
           model
           odoo_product_id
@@ -99,6 +100,7 @@ const schema = {
           name
           description
           vendor
+          product_type
           model
           odoo_product_id
           categories {
@@ -191,6 +193,13 @@ const schema = {
             url
             width
             height
+          }
+          products {
+            documentId
+            name
+            brand {
+              name
+            }
           }
         }
       }

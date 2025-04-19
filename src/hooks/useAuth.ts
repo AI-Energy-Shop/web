@@ -91,7 +91,6 @@ const useAuth = () => {
         break;
       case 'CUSTOMER':
         if (data?.user?.carts) {
-          console.log(data?.user?.carts);
           dispatch(
             setCarts([
               ...data?.user?.carts?.map?.((cart) => ({
