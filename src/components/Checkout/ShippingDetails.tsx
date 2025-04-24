@@ -1,7 +1,13 @@
 'use client';
 import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { CalendarIcon, Check, FilePenLine, MoveRight } from 'lucide-react';
+import {
+  CalendarIcon,
+  Check,
+  Divide,
+  FilePenLine,
+  MoveRight,
+} from 'lucide-react';
 import { DynamicIcon } from 'lucide-react/dynamic';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
@@ -26,6 +32,7 @@ import { useCheckout } from '@/hooks/useCheckout';
 import { ShippingType } from '@/store/features/checkout';
 import { isButtonClickable } from './isButtonClickable';
 import useCalculateDeliveryPricing from '@/hooks/useCalculateDeliveryPricing';
+import { Input } from '../ui/input';
 
 interface ShippingDetailsProps {
   checkoutUserData: GetCheckoutUserDataQuery;
@@ -245,7 +252,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                 </p>
               </div>
             )}
-            {DELIVERY_OPTIONS.map((item) => {
+            {/* {DELIVERY_OPTIONS.map((item) => {
               return (
                 <div
                   key={item.id}
@@ -269,8 +276,39 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                   </Label>
                 </div>
               );
-            })}
+            })} */}
+            <div>
+              <h2 className="text-sm italic">
+                Enter your delivery address for estimate pricing
+              </h2>
+              <div className="sm:flex sm:gap-x-2">
+                <div className="flex-1">
+                  <Label htmlFor="suburb">Suburb</Label>
+                  <Input
+                    type="text"
+                    id="suburb"
+                    placeholder="suburb"
+                    value={suburb}
+                    onChange={(e) => setSuburb(e.target.value)}
+                  />
+                </div>
+                <div className="flex-1">
+                  <Label htmlFor="postcode">Postcode</Label>
+                  <Input
+                    type="text"
+                    id="postcode"
+                    placeholder="postcode"
+                    value={postCode}
+                    onChange={(e) => setPostCode(e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
+
+          {error && <p className="text-center text-sm">{error}</p>}
+          {isLoading && <p className="text-center text-sm">searching...</p>}
+          {data.length > 0 && 'data'}
 
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="3" id="3" />

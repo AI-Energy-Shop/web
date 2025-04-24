@@ -23,6 +23,7 @@ const useCalculateDeliveryPricing = (suburb: string, postCode: string) => {
     timerRef.current = setTimeout(async () => {
       try {
         setIsLoading(true);
+        setData([]);
         setError('');
 
         const { error, data } = await calculateDeliveryPricing({
@@ -37,7 +38,7 @@ const useCalculateDeliveryPricing = (suburb: string, postCode: string) => {
         });
 
         if (error) {
-          setError('Please change your input');
+          setError('Please review your input');
         }
 
         if (data) {
