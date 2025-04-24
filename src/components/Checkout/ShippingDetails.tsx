@@ -25,6 +25,7 @@ import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
 import { useCheckout } from '@/hooks/useCheckout';
 import { ShippingType } from '@/store/features/checkout';
 import { isButtonClickable } from './isButtonClickable';
+import useCalculateDeliveryPricing from '@/hooks/useCalculateDeliveryPricing';
 
 interface ShippingDetailsProps {
   checkoutUserData: GetCheckoutUserDataQuery;
@@ -64,6 +65,14 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
   const [deliveryRadioGroup, setDeliverRadioGroup] = React.useState<
     string | undefined
   >(undefined);
+
+  const [suburb, setSuburb] = React.useState<string>('');
+  const [postCode, setPostCode] = React.useState<string>('');
+
+  const { data, isLoading, error } = useCalculateDeliveryPricing(
+    suburb,
+    postCode
+  );
 
   const userCurrentAddress =
     checkoutUserData?.usersPermissionsUser?.addresses?.find(
