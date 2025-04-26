@@ -176,7 +176,9 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
                   </Button>
                 </div>
                 <div className="text-lg font-semibold">
-                  <span className="text-sm font-normal text-gray-500 ml-1">{productPrice.toFixed(2)} ex. GST</span>
+                  <span className="text-sm font-normal text-gray-500 ml-1">
+                    {productPrice.toFixed(2)} ex. GST
+                  </span>
                 </div>
               </div>
               <Button
@@ -184,7 +186,9 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
                 disabled={!stocks?.quantity || stocks?.quantity == 0}
                 className={`${firaSans.className} max-md:mt-3 max-md:mb-5 w-full py-6 bg-blue-navy-blue hover:bg-blue-navy-blue/90 rounded-full font-bold md:basis-[57.98%] text-[20px] md:text-[28px] md:rounded-lg md:h-16`}
               >
-                {stocks?.quantity || (stocks?.quantity && stocks?.quantity > 0) ? 'Add to Cart' : 'Out of Stock'}
+                {stocks?.quantity || (stocks?.quantity && stocks?.quantity > 0)
+                  ? 'Add to Cart'
+                  : 'Out of Stock'}
               </Button>
             </div>
           </form>

@@ -27,8 +27,8 @@ export default async function ProductsPage({
   return (
     <div className="w-full min-h-screen">
       <div className="max-w-[1200px] mx-auto p-5 md:p-5 lg:p-5 flex flex-col gap-5 lg:gap-5">
-        <PageTitle title="All Products" />
-        <ProductList showFilters={false} data={data?.products} page={page} pageSize={pageSize} />
+        <PageTitle />
+        <ProductList data={data?.products} page={page} pageSize={pageSize} />
       </div>
     </div>
   );

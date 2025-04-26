@@ -32,7 +32,13 @@ const CardAddToCartButton = ({ id, stocks }: CardAddToCartButtonProps) => {
   const onSubmit = async (data: z.infer<typeof addToCartFormSchema>) => {};
 
   const renderHiddenInput = (name: keyof z.infer<typeof addToCartFormSchema>) => {
-    return <FormField name={name} control={form.control} render={({ field }) => <Input type="hidden" {...field} />} />;
+    return (
+      <FormField
+        name={name}
+        control={form.control}
+        render={({ field }) => <Input type="hidden" {...field} />}
+      />
+    );
   };
 
   const isDisabled = stocks <= 0;

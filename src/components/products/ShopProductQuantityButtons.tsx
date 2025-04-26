@@ -82,7 +82,9 @@ const ShopProductQuantityButtons: React.FC<ShopProductQuantityButtonsProps> = ({
   return (
     <div className="flex flex-col border rounded-lg overflow-hidden">
       <div className="flex items-center border-b gap-0">
-        <div className="h-8 w-12 text-sm font-medium flex items-center justify-center bg-gray-500 m-0">QTY</div>
+        <div className="h-8 w-12 text-sm font-medium flex items-center justify-center bg-gray-500 m-0">
+          QTY
+        </div>
         <Button
           type="button"
           variant="ghost"
@@ -127,7 +129,9 @@ const ShopProductQuantityButtons: React.FC<ShopProductQuantityButtonsProps> = ({
       </div>
       <div className="text-lg font-semibold">
         <input name="price" type="hidden" value={defaultPrice} />
-        <span className="text-sm font-normal text-gray-500 ml-1">{(price * quantity).toFixed(2)} ex. GST</span>
+        <span className="text-sm font-normal text-gray-500 ml-1">
+          {(price * quantity).toFixed(2)} ex. GST
+        </span>
       </div>
     </div>
   );

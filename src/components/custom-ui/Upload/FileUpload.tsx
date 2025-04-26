@@ -64,7 +64,11 @@ const FileUpload: React.FC<FileUploadProps> = ({
           {data.map((file) => (
             <FilePreview file={file} key={file.documentId} onRemove={() => onFileRemove(file.documentId)} />
           ))}
-          <Button variant="outline" className="w-full h-full" onClick={() => setShowFilesModal(!showFilesModal)}>
+          <Button
+            variant="outline"
+            className="w-full h-full"
+            onClick={() => setShowFilesModal(!showFilesModal)}
+          >
             <Plus />
           </Button>
         </div>

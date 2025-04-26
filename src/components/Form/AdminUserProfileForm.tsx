@@ -122,8 +122,12 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
                   </FormControl>
                   <SelectContent>
                     <SelectItem value={Enum_Userspermissionsuser_Account_Status.Pending}>Pending</SelectItem>
-                    <SelectItem value={Enum_Userspermissionsuser_Account_Status.Reviewing}>Reviewing</SelectItem>
-                    <SelectItem value={Enum_Userspermissionsuser_Account_Status.Approved}>Approved</SelectItem>
+                    <SelectItem value={Enum_Userspermissionsuser_Account_Status.Reviewing}>
+                      Reviewing
+                    </SelectItem>
+                    <SelectItem value={Enum_Userspermissionsuser_Account_Status.Approved}>
+                      Approved
+                    </SelectItem>
                     <SelectItem value={Enum_Userspermissionsuser_Account_Status.Denied}>Denied</SelectItem>
                   </SelectContent>
                 </Select>

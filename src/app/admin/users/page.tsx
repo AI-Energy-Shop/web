@@ -24,7 +24,9 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
     {
       icon: <KeyRound />,
       title: 'Pending',
-      value: data?.usersPermissionsUsers?.filter?.((item) => item?.account_status === 'PENDING').length.toString(),
+      value: data?.usersPermissionsUsers
+        ?.filter?.((item) => item?.account_status === 'PENDING')
+        .length.toString(),
     },
     {
       icon: <UserPlus />,
@@ -39,7 +41,9 @@ export default async function AdminUsersPage({ searchParams }: AdminUsersPagePro
   const customers = data?.usersPermissionsUsers.filter((user) => user?.role?.name === 'CUSTOMER');
 
   const pendingCustomers = data?.usersPermissionsUsers.filter((user) => {
-    return (user?.role === null && user?.account_status === 'PENDING') || user?.account_status === 'REVIEWING';
+    return (
+      (user?.role === null && user?.account_status === 'PENDING') || user?.account_status === 'REVIEWING'
+    );
   });
 
   const deniedUsers = data?.usersPermissionsUsers.filter((user) => user?.account_status === 'DENIED');

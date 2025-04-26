@@ -15,7 +15,7 @@ export const SORT_OPTIONS = [
 ];
 
 export const EXCLUDED_SEARCH_PARAMS = ['page', 'pageSize'];
-export const ACCEPTED_MAIN_FILTERS = ['Brand', 'Product Type'];
+export const ACCEPTED_MAIN_FILTERS = ['Product Type', 'Brand'];
 
 export const INITIAL_PAGE = 1;
 export const INITIAL_PAGE_SIZE = 12;

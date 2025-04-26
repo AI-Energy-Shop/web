@@ -38,7 +38,12 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
   return (
     <div className="space-y-4">
       <div className="flex ">
-        <Button size="icon" variant="ghost" className="hidden md:block md:self-center" onClick={() => onRemove(id)}>
+        <Button
+          size="icon"
+          variant="ghost"
+          className="hidden md:block md:self-center"
+          onClick={() => onRemove(id)}
+        >
           <Trash2 className="w-5 h-5 mx-auto" color="red" />
         </Button>
         <div className="relative flex-1 overflow-hidden">
@@ -109,7 +114,11 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
             <Minus />
           </Button>
         </div>
-        <Input className="flex-2 rounded-none text-center h-12" value={quantity} onChange={(e) => onChange(id, e)} />
+        <Input
+          className="flex-2 rounded-none text-center h-12"
+          value={quantity}
+          onChange={(e) => onChange(id, e)}
+        />
         <div className="flex-1">
           <Button
             size="icon"

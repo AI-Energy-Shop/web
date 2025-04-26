@@ -20,7 +20,9 @@ const DynamicSections: React.FC<DynamicSectionsProps> = ({ data }) => {
   return (
     <div className="w-full min-h-screen">
       <div className="inner-container w-full lg:max-w-[1200px] h-full mx-auto">
-        {slug !== '/' && <h1 className="page-title text-lg w-full text-center font-bold uppercase my-5">{title}</h1>}
+        {slug !== '/' && (
+          <h1 className="page-title text-lg w-full text-center font-bold uppercase my-5">{title}</h1>
+        )}
 
         {sections?.map((section: any, index) => {
           const DynamicSection = componentMap[section.__typename];

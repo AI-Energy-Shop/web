@@ -71,7 +71,9 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
           itemClass=" w-[45.5%] px-2"
         >
           {data?.products.map?.((item, index) => {
-            const itemPrice = item?.price_lists.find((price) => price?.user_level === user?.account_detail?.level);
+            const itemPrice = item?.price_lists.find(
+              (price) => price?.user_level === user?.account_detail?.level
+            );
 
             return (
               <Card key={index} className="p-3">
@@ -94,7 +96,10 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
                   </h3>
                   <h3 className={`${muktaVaani.className} font-medium`}>
                     <span>
-                      ${itemPrice?.sale_price ? itemPrice?.sale_price?.toFixed(2) : itemPrice?.price?.toFixed(2)}
+                      $
+                      {itemPrice?.sale_price
+                        ? itemPrice?.sale_price?.toFixed(2)
+                        : itemPrice?.price?.toFixed(2)}
                     </span>
                     <span className="text-[10px]">ex.GST</span>
                   </h3>
@@ -107,7 +112,10 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
                     >
                       <Minus />
                     </div>
-                    <Input className={`${muktaVaani.className} flex-3 h-full text-center no-spinner`} type="number" />
+                    <Input
+                      className={`${muktaVaani.className} flex-3 h-full text-center no-spinner`}
+                      type="number"
+                    />
 
                     <div
                       role="button"
@@ -144,7 +152,9 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
           className="z-10"
         >
           {data?.products?.map((item, index) => {
-            const itemPrice = item?.price_lists.find((price) => price?.user_level === user?.account_detail?.level);
+            const itemPrice = item?.price_lists.find(
+              (price) => price?.user_level === user?.account_detail?.level
+            );
 
             return (
               <Card key={index} className="p-4">
@@ -168,7 +178,10 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
                   </h3>
                   <h3 className={`${muktaVaani.className} font-medium mb-4`}>
                     <span className="text-xl">
-                      ${itemPrice?.sale_price ? itemPrice?.sale_price?.toFixed(2) : itemPrice?.price?.toFixed(2)}
+                      $
+                      {itemPrice?.sale_price
+                        ? itemPrice?.sale_price?.toFixed(2)
+                        : itemPrice?.price?.toFixed(2)}
                     </span>
                     <span className="text-xs">ex.GST</span>
                   </h3>

@@ -8,7 +8,9 @@ import Link from 'next/link';
 import { WarehouseLocation } from '@/store/features/cart';
 const WarehouseIconButton = () => {
   const warehouseLocation = useSelector((state: RootState) => state.cart.warehouseLocation);
-  const [warehouseLocationState, setWarehouseLocationState] = useState<WarehouseLocation | undefined>(undefined);
+  const [warehouseLocationState, setWarehouseLocationState] = useState<WarehouseLocation | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     if (warehouseLocation) {

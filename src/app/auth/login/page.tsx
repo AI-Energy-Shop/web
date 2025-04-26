@@ -15,11 +15,16 @@ const LoginPage = () => {
             className="w-auto h-auto object-contain object-center"
           />
         </div>
-        <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">Login to Your Account</h1>
+        <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
+          Login to Your Account
+        </h1>
         <LoginForm />
         <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
           Don&apos;t have an account?{' '}
-          <Link href="/auth/signup" className="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 font-medium">
+          <Link
+            href="/auth/signup"
+            className="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 font-medium"
+          >
             Sign up
           </Link>
         </p>

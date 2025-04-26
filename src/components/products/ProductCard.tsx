@@ -32,7 +32,8 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
   const router = useRouter();
   const { user } = useMe();
 
-  const stocks = product?.inventories.find((inventory) => inventory?.name === warehouse?.address.city)?.quantity || 0;
+  const stocks =
+    product?.inventories.find((inventory) => inventory?.name === warehouse?.address.city)?.quantity || 0;
 
   const itemPrice = product?.price_lists?.find((price) => price?.user_level === user?.account_detail?.level);
 
@@ -123,7 +124,13 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
   };
 
   const renderHiddenInput = (name: keyof z.infer<typeof addToCartFormSchema>) => {
-    return <FormField name={name} control={form.control} render={({ field }) => <Input type="hidden" {...field} />} />;
+    return (
+      <FormField
+        name={name}
+        control={form.control}
+        render={({ field }) => <Input type="hidden" {...field} />}
+      />
+    );
   };
 
   return (

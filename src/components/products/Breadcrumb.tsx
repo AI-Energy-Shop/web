@@ -1,9 +1,10 @@
 'use client';
-import Link from 'next/link';
 import React from 'react';
+import Link from 'next/link';
+import { ChevronRight } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { capsAllFirstCharWithSpace } from '@/utils/string';
-import { ChevronRight } from 'lucide-react';
+
 const Breadcrumb = () => {
   const pathname = usePathname();
   const pathSegments = pathname.split('/').filter(Boolean);

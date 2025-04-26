@@ -6,7 +6,12 @@ import { useDispatch } from 'react-redux';
 import { setMe, setMeAdmin } from '@/store/features/me';
 import { setCarts, setWarehouseLocation } from '@/store/features/cart';
 import { ProductQuery } from '@/lib/gql/graphql';
-import { LoginFormData, loginResolver, RegisterFormData, registerResolver } from '@/lib/validation-schema/auth-forms';
+import {
+  LoginFormData,
+  loginResolver,
+  RegisterFormData,
+  registerResolver,
+} from '@/lib/validation-schema/auth-forms';
 import { useState } from 'react';
 
 const useAuth = () => {

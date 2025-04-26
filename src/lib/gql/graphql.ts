@@ -5,8 +5,12 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = {
+  [_ in K]?: never;
+};
+export type Incremental<T> =
+  | T
+  | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string };
@@ -1357,7 +1361,12 @@ export type CollectionsQuery = {
     handle: string;
     sortOrder?: string | null;
     productCount?: any | null;
-    image?: { __typename?: 'UploadFile'; name: string; alternativeText?: string | null; url: string } | null;
+    image?: {
+      __typename?: 'UploadFile';
+      name: string;
+      alternativeText?: string | null;
+      url: string;
+    } | null;
   } | null>;
 };
 
@@ -1375,7 +1384,12 @@ export type CollectionsWithProductsQuery = {
     handle: string;
     sortOrder?: string | null;
     productCount?: any | null;
-    image?: { __typename?: 'UploadFile'; name: string; alternativeText?: string | null; url: string } | null;
+    image?: {
+      __typename?: 'UploadFile';
+      name: string;
+      alternativeText?: string | null;
+      url: string;
+    } | null;
     productFilters?: Array<{
       __typename?: 'ComponentElementsFilterRule';
       id: string;
@@ -1511,14 +1525,24 @@ export type CreateOrderMutationVariables = Exact<{
 
 export type CreateOrderMutation = {
   __typename?: 'Mutation';
-  createOrder?: { __typename?: 'Order'; documentId: string; createdAt?: any | null; updatedAt?: any | null } | null;
+  createOrder?: {
+    __typename?: 'Order';
+    documentId: string;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null;
 };
 
 export type PagesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type PagesQuery = {
   __typename?: 'Query';
-  pages: Array<{ __typename?: 'Page'; documentId: string; title?: string | null; slug?: string | null } | null>;
+  pages: Array<{
+    __typename?: 'Page';
+    documentId: string;
+    title?: string | null;
+    slug?: string | null;
+  } | null>;
 };
 
 export type GetPageQueryVariables = Exact<{
@@ -1565,7 +1589,12 @@ export type GetPageQuery = {
             placeholder?: string | null;
             required?: boolean | null;
           } | null> | null;
-          image?: { __typename?: 'UploadFile'; name: string; alternativeText?: string | null; url: string } | null;
+          image?: {
+            __typename?: 'UploadFile';
+            name: string;
+            alternativeText?: string | null;
+            url: string;
+          } | null;
         }
       | {
           __typename?: 'ComponentSectionsAbout';
@@ -1614,7 +1643,12 @@ export type GetPageQuery = {
             description?: string | null;
             link?: string | null;
             type?: Enum_Componentlayoutslide_Type | null;
-            image?: { __typename?: 'UploadFile'; name: string; alternativeText?: string | null; url: string } | null;
+            image?: {
+              __typename?: 'UploadFile';
+              name: string;
+              alternativeText?: string | null;
+              url: string;
+            } | null;
           } | null> | null;
         }
       | {
@@ -1925,7 +1959,11 @@ export type CreateProductMutation = {
         url: string;
       };
     } | null;
-    inventories: Array<{ __typename?: 'Inventory'; location_code?: string | null; quantity?: number | null } | null>;
+    inventories: Array<{
+      __typename?: 'Inventory';
+      location_code?: string | null;
+      quantity?: number | null;
+    } | null>;
     price_lists: Array<{
       __typename?: 'Price';
       documentId: string;
@@ -2282,7 +2320,10 @@ export const AddressDocument = {
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'documentId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
         },
       ],
       selectionSet: {
@@ -2342,7 +2383,10 @@ export const CreateAddressDocument = {
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'AddressInput' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'AddressInput' } },
+          },
         },
       ],
       selectionSet: {
@@ -2379,7 +2423,10 @@ export const DeleteAddressDocument = {
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'documentId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
         },
       ],
       selectionSet: {
@@ -2416,12 +2463,18 @@ export const UpdateAddressDocument = {
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'AddressInput' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'AddressInput' } },
+          },
         },
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'documentId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
         },
       ],
       selectionSet: {
@@ -2463,12 +2516,18 @@ export const UpdateAddressIsActiveDocument = {
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'documentId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
         },
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'AddressInput' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'AddressInput' } },
+          },
         },
       ],
       selectionSet: {
@@ -2624,7 +2683,10 @@ export const CreateCartDocument = {
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'CartInput' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'CartInput' } },
+          },
         },
       ],
       selectionSet: {
@@ -2730,12 +2792,18 @@ export const UpdateCartDocument = {
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'documentId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
         },
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'CartInput' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'CartInput' } },
+          },
         },
       ],
       selectionSet: {
@@ -2846,7 +2914,10 @@ export const DeleteCartDocument = {
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'documentId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
         },
       ],
       selectionSet: {
@@ -2883,12 +2954,18 @@ export const UpdateQuantityDocument = {
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'documentId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
         },
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'CartInput' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'CartInput' } },
+          },
         },
       ],
       selectionSet: {
@@ -3054,7 +3131,10 @@ export const CollectionsWithProductsDocument = {
                     {
                       kind: 'Argument',
                       name: { kind: 'Name', value: 'pagination' },
-                      value: { kind: 'Variable', name: { kind: 'Name', value: 'productsPagination' } },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'productsPagination' },
+                      },
                     },
                   ],
                   selectionSet: {
@@ -3083,7 +3163,10 @@ export const CollectionsWithProductsDocument = {
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                                  { kind: 'Field', name: { kind: 'Name', value: 'alternativeText' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'alternativeText' },
+                                  },
                                   { kind: 'Field', name: { kind: 'Name', value: 'width' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'height' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'mime' } },
@@ -3111,7 +3194,10 @@ export const CollectionsWithProductsDocument = {
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                                  { kind: 'Field', name: { kind: 'Name', value: 'alternativeText' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'alternativeText' },
+                                  },
                                   { kind: 'Field', name: { kind: 'Name', value: 'width' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'height' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'mime' } },
@@ -3286,7 +3372,10 @@ export const CreateOrderDocument = {
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'OrderInput' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'OrderInput' } },
+          },
         },
       ],
       selectionSet: {
@@ -3354,7 +3443,10 @@ export const GetPageDocument = {
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'slug' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          },
         },
       ],
       selectionSet: {
@@ -3402,9 +3494,15 @@ export const GetPageDocument = {
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'address' } },
-                                  { kind: 'Field', name: { kind: 'Name', value: 'warehouse_time' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'warehouse_time' },
+                                  },
                                   { kind: 'Field', name: { kind: 'Name', value: 'office_time' } },
-                                  { kind: 'Field', name: { kind: 'Name', value: 'google_maps_link' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'google_maps_link' },
+                                  },
                                   { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                                 ],
                               },
@@ -3432,7 +3530,10 @@ export const GetPageDocument = {
                                 kind: 'SelectionSet',
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                                  { kind: 'Field', name: { kind: 'Name', value: 'alternativeText' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'alternativeText' },
+                                  },
                                   { kind: 'Field', name: { kind: 'Name', value: 'url' } },
                                 ],
                               },
@@ -3459,7 +3560,10 @@ export const GetPageDocument = {
                       },
                       {
                         kind: 'InlineFragment',
-                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ComponentSectionsAbout' } },
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: { kind: 'Name', value: 'ComponentSectionsAbout' },
+                        },
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
@@ -3475,7 +3579,10 @@ export const GetPageDocument = {
                                 kind: 'SelectionSet',
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                                  { kind: 'Field', name: { kind: 'Name', value: 'alternativeText' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'alternativeText' },
+                                  },
                                   { kind: 'Field', name: { kind: 'Name', value: 'url' } },
                                 ],
                               },
@@ -3512,7 +3619,10 @@ export const GetPageDocument = {
                                       kind: 'SelectionSet',
                                       selections: [
                                         { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                                        { kind: 'Field', name: { kind: 'Name', value: 'alternativeText' } },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'alternativeText' },
+                                        },
                                         { kind: 'Field', name: { kind: 'Name', value: 'url' } },
                                       ],
                                     },
@@ -3526,7 +3636,10 @@ export const GetPageDocument = {
                       },
                       {
                         kind: 'InlineFragment',
-                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ComponentFormNewsletter' } },
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: { kind: 'Name', value: 'ComponentFormNewsletter' },
+                        },
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
@@ -3556,7 +3669,10 @@ export const GetPageDocument = {
                                 kind: 'SelectionSet',
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                                  { kind: 'Field', name: { kind: 'Name', value: 'alternativeText' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'alternativeText' },
+                                  },
                                   { kind: 'Field', name: { kind: 'Name', value: 'url' } },
                                 ],
                               },
@@ -3566,7 +3682,10 @@ export const GetPageDocument = {
                       },
                       {
                         kind: 'InlineFragment',
-                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ComponentFormInquiry' } },
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: { kind: 'Name', value: 'ComponentFormInquiry' },
+                        },
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
@@ -3592,7 +3711,10 @@ export const GetPageDocument = {
                       },
                       {
                         kind: 'InlineFragment',
-                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Error' } },
+                        typeCondition: {
+                          kind: 'NamedType',
+                          name: { kind: 'Name', value: 'Error' },
+                        },
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
@@ -3825,7 +3947,10 @@ export const ProductDocument = {
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'documentId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
         },
       ],
       selectionSet: {
@@ -4131,7 +4256,10 @@ export const CreateProductDocument = {
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ProductInput' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ProductInput' } },
+          },
         },
       ],
       selectionSet: {
@@ -4282,12 +4410,18 @@ export const CustomProductUpdateDocument = {
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'documentId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
         },
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ProductInput' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ProductInput' } },
+          },
         },
       ],
       selectionSet: {
@@ -4468,7 +4602,10 @@ export const UsersPermissionsUserDocument = {
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'documentId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
         },
       ],
       selectionSet: {
@@ -4556,7 +4693,10 @@ export const UsersPermissionsUserDocument = {
                                 kind: 'SelectionSet',
                                 selections: [
                                   { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-                                  { kind: 'Field', name: { kind: 'Name', value: 'alternativeText' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'alternativeText' },
+                                  },
                                   { kind: 'Field', name: { kind: 'Name', value: 'width' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'height' } },
                                 ],
@@ -4669,7 +4809,10 @@ export const UsersPermissionsUserDocument = {
                                   { kind: 'Field', name: { kind: 'Name', value: 'city' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'street' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'suburb' } },
-                                  { kind: 'Field', name: { kind: 'Name', value: 'state_territory' } },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'state_territory' },
+                                  },
                                   { kind: 'Field', name: { kind: 'Name', value: 'postcode' } },
                                   { kind: 'Field', name: { kind: 'Name', value: 'country' } },
                                 ],
@@ -4787,7 +4930,10 @@ export const LoginDocument = {
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
           type: {
             kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UsersPermissionsLoginInput' } },
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UsersPermissionsLoginInput' },
+            },
           },
         },
       ],
@@ -4889,7 +5035,10 @@ export const ApprovedUserDocument = {
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'documentId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
         },
       ],
       selectionSet: {
@@ -4934,7 +5083,10 @@ export const UpdateUserDocument = {
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'documentId' } },
-          type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
         },
         {
           kind: 'VariableDefinition',

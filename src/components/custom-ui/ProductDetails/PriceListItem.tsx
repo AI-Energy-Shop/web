@@ -22,7 +22,14 @@ interface PriceListItem {
   };
 }
 
-const PriceListItem: React.FC<PriceListItem> = ({ onRemove, onChange, onSelectChange, index, item, title }) => {
+const PriceListItem: React.FC<PriceListItem> = ({
+  onRemove,
+  onChange,
+  onSelectChange,
+  index,
+  item,
+  title,
+}) => {
   return (
     <div className="grid gap-4 p-4 border rounded-lg relative">
       <div>
