@@ -16,7 +16,7 @@ const nextConfig = {
     ],
   },
   transpilePackages: ['lucide-react'], // add this
-  reactStrictMode: false,
+  reactStrictMode: true,
 };
 
 export default nextConfig;

@@ -1,5 +1,5 @@
 export const dynamic = 'force-dynamic';
-import { product, products } from '@/app/actions/products';
+import { products } from '@/app/actions/products';
 import { firaSans } from '@/app/font';
 import Carousel from '@/components/custom-ui/Carousel';
 import { Breadcrumb } from '@/components/products';

@@ -30,9 +30,9 @@ export default async function CollectionsPage({
       <Breadcrumb />
       <Categories acceptedCollections={COLLECTIONS} />
       <div className="max-w-[1200px] mx-auto p-5 md:p-5 lg:p-5 flex flex-col gap-5 lg:gap-5">
-        <PageTitle title="All Collections" />
+        <PageTitle />
         <Brands />
-        <ProductList showFilters={false} data={data?.products} page={page} pageSize={pageSize} />
+        <ProductList data={data?.products} page={page} pageSize={pageSize} />
       </div>
     </div>
   );

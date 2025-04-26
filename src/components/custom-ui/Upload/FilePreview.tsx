@@ -13,7 +13,13 @@ const FilePreview: FC<FilePreviewProps> = ({ file, onRemove }) => {
           <iframe src={file.url} className="w-full h-full object-cover" title="PDF Preview" />
         )}
         {IMAGE_TYPES.includes(file.mime) && (
-          <Image src={file.url} alt="Preview" className="w-full h-full object-cover" width={100} height={100} />
+          <Image
+            src={file.url}
+            alt="Preview"
+            className="w-full h-full object-cover"
+            width={100}
+            height={100}
+          />
         )}
       </div>
 

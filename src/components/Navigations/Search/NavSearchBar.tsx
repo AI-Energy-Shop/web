@@ -4,9 +4,18 @@ import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import useSearchFilter from '@/hooks/useSearchFilter';
 import SearchResult from './SearchResult';
+
 const NavSearchBar = () => {
-  const { handleInputChange, searchQueryInput, searchData, isSearchFocused, handleSearchFocus, handleSearchBlur } =
-    useSearchFilter();
+  const {
+    searchData,
+    isSearchFocused,
+    searchQueryInput,
+    handleSearchBlur,
+    handleInputChange,
+    handleSearchFocus,
+    handleSearchResultClick,
+    handleSearchInputEnter,
+  } = useSearchFilter();
 
   return (
     <>
@@ -18,16 +27,18 @@ const NavSearchBar = () => {
             value={searchQueryInput}
             onChange={handleInputChange}
             onFocus={handleSearchFocus}
+            onKeyDown={handleSearchInputEnter}
             className="border-none focus-visible:ring-0 focus-visible:ring-offset-0"
           />
         </div>
       </div>
       <SearchResult
-        handleFocus={handleSearchFocus}
-        handleBlur={handleSearchBlur}
         isFocused={isSearchFocused}
         searchData={searchData}
         searchQueryInput={searchQueryInput}
+        handleBlur={handleSearchBlur}
+        handleFocus={handleSearchFocus}
+        handleClick={handleSearchResultClick}
       />
     </>
   );

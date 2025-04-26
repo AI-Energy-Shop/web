@@ -1,14 +1,16 @@
+'use client';
+
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import React from 'react';
 import { SORT_OPTIONS } from '@/constant/product';
+import useProductFilter from '@/hooks/useProductFilter';
+interface SortOptionProps {}
 
-interface SortOptionProps {
-  onSortChange: (sort: string) => void;
-}
+const SortOption: React.FC<SortOptionProps> = () => {
+  const { handleSortChange } = useProductFilter();
 
-const SortOption = ({ onSortChange }: SortOptionProps) => {
   return (
-    <Select defaultValue={SORT_OPTIONS[0].value} onValueChange={onSortChange}>
+    <Select defaultValue={SORT_OPTIONS[0].value} onValueChange={handleSortChange}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Sort by" />
       </SelectTrigger>

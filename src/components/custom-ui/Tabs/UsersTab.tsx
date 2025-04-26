@@ -12,7 +12,13 @@ interface UsersTabProps {
   deniedUsers: any[];
 }
 
-const UsersTab = ({ tab = 'user', appovedUsers, customers, pendingCustomers, deniedUsers }: UsersTabProps) => {
+const UsersTab = ({
+  tab = 'user',
+  appovedUsers,
+  customers,
+  pendingCustomers,
+  deniedUsers,
+}: UsersTabProps) => {
   const router = useRouter();
   const [tabValue, setTabValue] = useState(tab);
   const handleTabChange = (value: string) => {

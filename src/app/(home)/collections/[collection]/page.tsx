@@ -1,12 +1,7 @@
 import ProductList from '@/components/products/ProductList';
-import Breadcrumb from '@/components/products/Breadcrumb';
-import Categories from '@/components/products/Categories';
-import Brands from '@/components/products/Brands';
 import { EXCLUDED_SEARCH_PARAMS, INITIAL_PAGE, INITIAL_PAGE_SIZE } from '@/constant';
-import { capitalizeAllFirstChar, capsAllFirstCharWithDash } from '@/utils/string';
-import PageTitle from '@/components/products/PageTitle';
+import { capsAllFirstCharWithDash, capsAllFirstCharWithUnderScore } from '@/utils/string';
 import { getCollectionWithProducts } from '@/app/actions/collections';
-import { COLLECTIONS } from '@/constant/collections';
 
 export default async function CategoryPage({
   params,
@@ -19,8 +14,6 @@ export default async function CategoryPage({
   const searchParamsRes = await searchParams;
   const page = Number(searchParamsRes.page) || INITIAL_PAGE;
   const pageSize = Number(searchParamsRes.pageSize) || INITIAL_PAGE_SIZE;
-
-  const collectionName = capitalizeAllFirstChar(collection.replace('-', ' '));
 
   let filters: any = {};
 
@@ -63,7 +56,7 @@ export default async function CategoryPage({
             specifications: {
               ...filters?.specification,
               key: {
-                eq: capitalizeKey,
+                eq: capsAllFirstCharWithUnderScore(capitalizeKey),
               },
               value: {
                 in: Array.isArray(value) ? value.map((val) => val) : [value],
@@ -91,15 +84,13 @@ export default async function CategoryPage({
   const collections = res?.collections.at(0);
   const products = collections?.products || [];
 
+  if (!collection) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen">
-      <Breadcrumb />
-      <Categories acceptedCollections={COLLECTIONS} />
-      <div className="max-w-[1200px] mx-auto p-5 md:p-5 lg:p-5 flex flex-col lg:gap-5">
-        <PageTitle title={collectionName} />
-        <Brands />
-        <ProductList data={products} showFilters={true} />
-      </div>
+      <ProductList data={products} />
     </div>
   );
 }

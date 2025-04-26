@@ -4,7 +4,10 @@ export const CustomDot = ({ onClick, ...rest }: any) => {
   // active is provided by this lib for checking if the item is active or not.
 
   return (
-    <button className={`h-2 w-2 bg-slate-400 mx-1 my-3 rounded-lg ${active ? 'w-6' : ''}`} onClick={() => onClick()}>
+    <button
+      className={`h-2 w-2 bg-slate-400 mx-1 my-3 rounded-lg ${active ? 'w-6' : ''}`}
+      onClick={() => onClick()}
+    >
       {/* {React.Children.toArray(imageData)[index]} */}
     </button>
   );

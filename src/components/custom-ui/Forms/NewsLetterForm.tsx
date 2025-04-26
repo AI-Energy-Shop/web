@@ -66,10 +66,20 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = ({ data }) => {
       <form className="flex flex-col gap-5 bg-black px-5 py-4">
         <div className="inputs-container grid gap-5 grid-cols-4 md:p-10">
           <div className="col-span-2">
-            <InputGroup name="name" label="Name" inputType="TEXT" className="lg:flex-row items-center gap-3" />
+            <InputGroup
+              name="name"
+              label="Name"
+              inputType="TEXT"
+              className="lg:flex-row items-center gap-3"
+            />
           </div>
           <div className="col-span-2">
-            <InputGroup name="company" label="Company" inputType="TEXT" className="lg:flex-row items-center gap-3" />
+            <InputGroup
+              name="company"
+              label="Company"
+              inputType="TEXT"
+              className="lg:flex-row items-center gap-3"
+            />
           </div>
           <div className="col-span-4 md:col-start-2 md:col-span-2">
             <InputGroup

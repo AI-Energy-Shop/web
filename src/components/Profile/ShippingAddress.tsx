@@ -22,7 +22,9 @@ const shippingAddressSchema = z.object({
   country: z.string(),
 });
 const ShippingAddress = () => {
-  const shippingAddresses = useSelector((state: RootState) => state.me.me?.account_detail?.shipping_addresses);
+  const shippingAddresses = useSelector(
+    (state: RootState) => state.me.me?.account_detail?.shipping_addresses
+  );
 
   const address = shippingAddresses?.find((address) => address.isActive === true);
 
@@ -142,7 +144,9 @@ const ShippingAddress = () => {
           </Form>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-end">{/* <Button type="submit">Save Changes</Button> */}</CardFooter>
+      <CardFooter className="flex justify-end">
+        {/* <Button type="submit">Save Changes</Button> */}
+      </CardFooter>
     </Card>
   );
 };

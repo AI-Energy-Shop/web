@@ -17,10 +17,19 @@ const UserRequestTableRow = ({ user }: { user: UsersPermissionsUsersQuery['users
   };
 
   const userBadgeVariant =
-    user?.account_status === 'APPROVED' ? 'default' : user?.account_status === 'DENIED' ? 'destructive' : 'secondary';
+    user?.account_status === 'APPROVED'
+      ? 'default'
+      : user?.account_status === 'DENIED'
+        ? 'destructive'
+        : 'secondary';
 
   return (
-    <TableRow className="cursor-pointer" key={user?.documentId} onClick={handleClick} data-id={user?.documentId}>
+    <TableRow
+      className="cursor-pointer"
+      key={user?.documentId}
+      onClick={handleClick}
+      data-id={user?.documentId}
+    >
       <TableCell className="font-semibold">{user?.email}</TableCell>
       <TableCell>{user?.username}</TableCell>
       <TableCell>{user?.business_name}</TableCell>

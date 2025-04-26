@@ -18,7 +18,10 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     return (
       <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
         Already have an account?{' '}
-        <Link href="/auth/login" className="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 font-medium">
+        <Link
+          href="/auth/login"
+          className="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 font-medium"
+        >
           Sign in
         </Link>
       </p>

@@ -5,81 +5,103 @@ import { X } from 'lucide-react';
 import FilterItem from './FilterItem';
 import { Button } from '@/components/ui/button';
 import * as SelectUI from '@/components/ui/select';
-import { Filter, SelectedFilter } from '@/hooks/useProductFilter';
+import useProductFilter, { Filter, SelectedFilter } from '@/hooks/useProductFilter';
 import { capitalizeAllFirstChar } from '@/utils/string';
 
-interface FiltersProps {
+interface FilterListProps {
+  loading?: boolean;
   filterOptions: Filter[];
   selectedFilters: SelectedFilter[];
-  showMobileFilters: boolean;
-  setShowMobileFilters: (show: boolean) => void;
-  handleRemoveFilter: (filter: SelectedFilter) => void;
-  handleFilterClick: (filter: SelectedFilter) => void;
-  removeAllFilters: () => void;
+  onFilterClick: (selectedFilterOption: SelectedFilter) => void;
+  onRemoveFilter: (filter: SelectedFilter) => void;
+  onClearAll: () => void;
 }
 
-const SidebarFilters: React.FC<FiltersProps> = ({
+const FilterList: React.FC<FilterListProps> = ({
+  loading,
   filterOptions,
   selectedFilters,
-  showMobileFilters,
-  setShowMobileFilters,
-  handleRemoveFilter,
-  handleFilterClick,
-  removeAllFilters,
+  onFilterClick,
+  onRemoveFilter,
+  onClearAll,
 }) => {
+  return (
+    <>
+      <div className="text-sm font-medium mb-4 flex items-center justify-between">
+        <span className="text-gray-500">Filter:</span>
+        <Button
+          variant="ghost"
+          className="text-gray-500 underline cursor-pointer p-0 m-0 h-auto hover:bg-transparent"
+          onClick={onClearAll}
+        >
+          Remove All
+        </Button>
+      </div>
+
+      <div className="flex flex-wrap gap-1 h-auto">
+        {selectedFilters.map((filter) => (
+          <div
+            key={filter.id}
+            className="inline-flex items-center border pl-2 pr-1 py-1 rounded-2xl w-fit shrink-0 gap-1 group"
+          >
+            <span className="text-xs truncate max-w-[150px]">
+              {capitalizeAllFirstChar(filter.key)}: {filter.value.split('+').join(' ')}
+            </span>
+            <Button
+              className="p-0 w-6 h-6 rounded-full flex-shrink-0 transition-all duration-300 opacity-0 group-hover:opacity-100"
+              variant="ghost"
+              size="sm"
+              onClick={() => onRemoveFilter(filter)}
+            >
+              <X className="w-4 h-4" />
+            </Button>
+          </div>
+        ))}
+      </div>
+
+      <div className={`${loading ? 'opacity-50' : 'opacity-100'}`}>
+        {filterOptions.map?.((filter, index) => (
+          <FilterItem
+            key={filter.id}
+            id={filter.id}
+            name={filter.key}
+            options={filter.options}
+            isOpen={index === 0 || selectedFilters.some((f) => f.key === filter.key)}
+            selectedFilters={selectedFilters}
+            onFilterClick={onFilterClick}
+          />
+        ))}
+      </div>
+    </>
+  );
+};
+
+interface FiltersProps {}
+
+const SidebarFilters: React.FC<FiltersProps> = () => {
+  const {
+    loading,
+    filterOptions,
+    selectedFilters,
+    showMobileFilters,
+    removeAllFilters,
+    handleRemoveFilter,
+    handleFilterClick,
+    setShowMobileFilters,
+  } = useProductFilter();
+
   return (
     <>
       {/* DESKTOP FILTERS */}
       <div className="desktop w-64 flex-shrink-0 hidden md:block">
-        <div className="text-sm font-medium mb-4 flex items-center justify-between">
-          <span className="text-gray-500">Filter:</span>
-          <Button
-            variant="ghost"
-            className="text-gray-500 underline cursor-pointer p-0 m-0 h-auto hover:bg-transparent"
-            onClick={removeAllFilters}
-          >
-            Remove All
-          </Button>
-        </div>
-
-        <div className="flex flex-wrap gap-1 h-auto">
-          {selectedFilters.map((filter) => {
-            return (
-              <div
-                key={filter.id}
-                className="inline-flex items-center border pl-2 pr-1 py-1 rounded-2xl w-fit shrink-0 gap-1 group"
-              >
-                <span className="text-xs truncate max-w-[150px]">
-                  {capitalizeAllFirstChar(filter.key)}: {filter.value.split('+').join(' ')}
-                </span>
-                <Button
-                  className="p-0 w-6 h-6 rounded-full flex-shrink-0 transition-all duration-300 opacity-0 group-hover:opacity-100"
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => handleRemoveFilter(filter)}
-                >
-                  <X className="w-4 h-4" />
-                </Button>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* ONLY RETURN A OPTIONS OF VALUES ARE GREATER THAN 1 */}
-        {filterOptions.map?.((filter, index) => {
-          return (
-            <FilterItem
-              key={filter.id}
-              id={filter.id}
-              name={filter.key}
-              value={filter.value as string[]}
-              isOpen={index === 0 || selectedFilters.some((f) => f.key === filter.key)}
-              // isOpen={selectedFilters.some((f) => f.key === filter.key)}
-              selectedFilters={selectedFilters}
-              onFilterClick={handleFilterClick}
-            />
-          );
-        })}
+        <FilterList
+          loading={loading}
+          filterOptions={filterOptions}
+          selectedFilters={selectedFilters}
+          onFilterClick={handleFilterClick}
+          onRemoveFilter={handleRemoveFilter}
+          onClearAll={removeAllFilters}
+        />
       </div>
 
       {/* MOBILE FILTERS */}
@@ -107,55 +129,14 @@ const SidebarFilters: React.FC<FiltersProps> = ({
             </Button>
           </div>
           <div className="pt-5">
-            <div className="text-sm font-medium mb-4 flex items-center justify-between">
-              <span className="text-gray-500">Filter:</span>
-              <Button
-                variant="ghost"
-                className="text-gray-500 underline cursor-pointer p-0 m-0 h-auto hover:bg-transparent"
-                onClick={removeAllFilters}
-              >
-                Remove All
-              </Button>
-            </div>
-
-            <div className="flex flex-wrap gap-1 h-auto">
-              {selectedFilters.map((filter) => {
-                return (
-                  <div
-                    key={filter.id}
-                    className="inline-flex items-center border pl-2 pr-1 py-1 rounded-2xl w-fit shrink-0 gap-1 group"
-                  >
-                    <span className="text-xs truncate max-w-[150px]">
-                      {capitalizeAllFirstChar(filter.key)}: {filter.value.split('+').join(' ')}
-                    </span>
-                    <Button
-                      className="p-0 w-6 h-6 rounded-full flex-shrink-0 transition-all duration-300 opacity-0 group-hover:opacity-100"
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleRemoveFilter(filter)}
-                    >
-                      <X className="w-4 h-4" />
-                    </Button>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* ONLY RETURN A OPTIONS OF VALUES ARE GREATER THAN 1 */}
-            {filterOptions.map?.((filter, index) => {
-              return (
-                <FilterItem
-                  key={filter.id}
-                  id={filter.id}
-                  name={filter.key}
-                  value={filter.value as string[]}
-                  isOpen={index === 0 || selectedFilters.some((f) => f.key === filter.key)}
-                  // isOpen={selectedFilters.some((f) => f.key === filter.key)}
-                  selectedFilters={selectedFilters}
-                  onFilterClick={handleFilterClick}
-                />
-              );
-            })}
+            <FilterList
+              loading={loading}
+              filterOptions={filterOptions}
+              selectedFilters={selectedFilters}
+              onFilterClick={handleFilterClick}
+              onRemoveFilter={handleRemoveFilter}
+              onClearAll={removeAllFilters}
+            />
           </div>
         </div>
       </div>

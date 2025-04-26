@@ -202,7 +202,10 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
             onChange={handleOnInputChange}
             onSave={handleSaveCurrentInventory}
             childComponent={
-              <InventoryItem onRemove={onRemoveList} onChangeSelectLocation={onChangeInventoryInputLocation} />
+              <InventoryItem
+                onRemove={onRemoveList}
+                onChangeSelectLocation={onChangeInventoryInputLocation}
+              />
             }
           />
 

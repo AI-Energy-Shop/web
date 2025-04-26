@@ -25,11 +25,15 @@ const CartItems = ({
   return (
     <div className="space-y-8 pt-8 md:p-12">
       {data?.map?.((item) => {
-        const price = item?.product?.price_lists?.find((price) => price?.user_level === user?.account_detail?.level);
+        const price = item?.product?.price_lists?.find(
+          (price) => price?.user_level === user?.account_detail?.level
+        );
 
         const productPrice = price?.sale_price || price?.price || 0;
 
-        const stock = item.product?.inventories?.find((inventory) => inventory?.name === warehouse?.address.city);
+        const stock = item.product?.inventories?.find(
+          (inventory) => inventory?.name === warehouse?.address.city
+        );
 
         return (
           <CartItemCard

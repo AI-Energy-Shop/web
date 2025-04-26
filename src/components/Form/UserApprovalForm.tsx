@@ -130,7 +130,14 @@ const UserApprovalForm: React.FC<UserApprovalFormProps> = (props) => {
     );
   };
 
-  const renderSelectField = ({ name, label, disabled, required, placeholder, data }: RenderSelectFieldProps) => {
+  const renderSelectField = ({
+    name,
+    label,
+    disabled,
+    required,
+    placeholder,
+    data,
+  }: RenderSelectFieldProps) => {
     return (
       <FormField
         control={form.control}

@@ -32,7 +32,9 @@ const PickupLocation = ({ productData, pickLocation }: PickupLocationProps) => {
                 )}
                 <h1 className="font-medium text-[20px]">{location?.location}</h1>
                 <div className="text-right">
-                  <p className="font-semibold text-[16px]">{location?.quantity! < 1 ? 'Out of Stock' : `In Stock`}</p>
+                  <p className="font-semibold text-[16px]">
+                    {location?.quantity! < 1 ? 'Out of Stock' : `In Stock`}
+                  </p>
                   <p className="text-sm font-light text-[14px]">
                     {location?.quantity! > 100
                       ? 'Qty.100+'
