@@ -21,10 +21,14 @@ const CartNotification: React.FC<CartNotificationProps> = () => {
         }`
       )}
     >
-      <div className="text-lg min-w-[250px] font-semibold bg-[#29294d] p-2 text-white text-center">Added to Cart</div>
+      <div className="text-lg min-w-[250px] font-semibold bg-[#29294d] p-2 text-white text-center">
+        Added to Cart
+      </div>
       <div className="flex flex-col items-start rounded-sm">
         {carts?.map((cart) => {
-          const price = cart.product?.price_lists?.find((price) => price?.user_level === user?.account_detail?.level);
+          const price = cart.product?.price_lists?.find(
+            (price) => price?.user_level === user?.account_detail?.level
+          );
           return (
             <div key={cart.documentId} className="flex border p-3 justify-between">
               <div className="left w-20 h-20">

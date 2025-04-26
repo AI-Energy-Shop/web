@@ -91,7 +91,10 @@ const SideNavigation = () => {
   const renderAuthButtons = () => {
     return (
       <div className="flex flex-col gap-2 items-center justify-center">
-        <Link href="/auth/login" className="p-1 w-full text-center font-medium bg-gray-100 dark:bg-gray-700 rounded-md">
+        <Link
+          href="/auth/login"
+          className="p-1 w-full text-center font-medium bg-gray-100 dark:bg-gray-700 rounded-md"
+        >
           Login
         </Link>
         <Link

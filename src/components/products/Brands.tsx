@@ -12,10 +12,7 @@ interface BrandsProps {
 }
 
 const Brands: React.FC<BrandsProps> = ({ selectedBrands }) => {
-  const { collectionData, collectionLoading, handleBrandClick } = useProductFilter();
-
-  const collection = collectionData?.collections.at(0);
-  const products = collection?.products;
+  const { products, handleBrandClick } = useProductFilter();
 
   const uniqueBrands = React.useMemo(() => {
     if (!products) return [];
@@ -30,9 +27,9 @@ const Brands: React.FC<BrandsProps> = ({ selectedBrands }) => {
     return Array.from(brandsMap.values());
   }, [products]);
 
-  if (collectionLoading) {
+  if (products.length === 0) {
     return (
-      <div className="my-8">
+      <div className="mb-8 h-[100px]">
         <h1 className="text-2xl font-bold text-center mb-4">Brands</h1>
         <div className="w-full h-[100px] grid grid-cols-8 gap-5">
           <Skeleton className="w-full h-[100px]" />
@@ -49,7 +46,7 @@ const Brands: React.FC<BrandsProps> = ({ selectedBrands }) => {
   }
 
   return (
-    <div className="brands my-8">
+    <div className="brands mb-8 h-[100px]">
       <h1 className="text-2xl font-bold text-center mb-4">
         {selectedBrands && selectedBrands.length > 1 ? 'Brands' : 'Brand'}
       </h1>

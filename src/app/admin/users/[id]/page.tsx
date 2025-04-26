@@ -33,7 +33,11 @@ const AdminDashboardUserPage = async (props: AdminDashboardUserPageProps) => {
   }
 
   const userBadgeVariant =
-    user?.account_status === 'APPROVED' ? 'default' : user?.account_status === 'DENIED' ? 'destructive' : 'secondary';
+    user?.account_status === 'APPROVED'
+      ? 'default'
+      : user?.account_status === 'DENIED'
+        ? 'destructive'
+        : 'secondary';
 
   return (
     <div className="min-h-full bg-gray-100 dark:bg-gray-900">

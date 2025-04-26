@@ -38,7 +38,10 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
             } md:h-auto md:bg-transparent`}
           >
             {item.content.map((content: string, index: number) => (
-              <p key={index} className="p-4 bg-white md:bg-transparent md:text-white py-2 flex border-b2 text-nowrap">
+              <p
+                key={index}
+                className="p-4 bg-white md:bg-transparent md:text-white py-2 flex border-b2 text-nowrap"
+              >
                 {content}
               </p>
             ))}

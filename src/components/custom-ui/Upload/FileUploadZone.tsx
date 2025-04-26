@@ -86,7 +86,10 @@ export function FileUploadZone({
           <div className="space-y-2">
             <div className="flex items-center justify-center gap-5">
               <p className="text-sm font-medium text-gray-700 flex items-center justify-center">
-                <label htmlFor="fileInput" className="text-black cursor-pointer text-xs border-b border-primary ">
+                <label
+                  htmlFor="fileInput"
+                  className="text-black cursor-pointer text-xs border-b border-primary "
+                >
                   {uploadNewFileLabel}
                 </label>
               </p>

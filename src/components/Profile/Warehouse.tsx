@@ -57,7 +57,9 @@ const Warehouse = () => {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-end">{/* <Button type="submit">Save Changes</Button> */}</CardFooter>
+      <CardFooter className="flex justify-end">
+        {/* <Button type="submit">Save Changes</Button> */}
+      </CardFooter>
     </Card>
   );
 };

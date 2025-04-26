@@ -33,7 +33,9 @@ const Footer = () => {
           </div>
 
           <div className="w-full md:w-[30%] lg:w-[30%] h-auto flex flex-col gap-5 my-5 md:m-0">
-            <p className={`${firaSansFont.className} text-center font-bold text-white`}>Follow AI Energy Shop</p>
+            <p className={`${firaSansFont.className} text-center font-bold text-white`}>
+              Follow AI Energy Shop
+            </p>
             {/*END OF TEXT  */}
             <span className="flex justify-center items-center gap-9 text-white">
               <FaLinkedin size={30} />

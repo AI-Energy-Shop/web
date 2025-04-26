@@ -62,7 +62,9 @@ const ListInput: React.FC<ListInputProps> = ({
             )} */}
           </div>
         </CardContent>
-        <CardFooter>{!arrayIsEqual(data, list) && <Button onClick={() => handleSave(data)}>Save</Button>}</CardFooter>
+        <CardFooter>
+          {!arrayIsEqual(data, list) && <Button onClick={() => handleSave(data)}>Save</Button>}
+        </CardFooter>
       </Card>
     </div>
   );

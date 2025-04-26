@@ -16,7 +16,11 @@ const UserTableRow = ({ user }: { user: UsersPermissionsUsersQuery['usersPermiss
   };
 
   const userBadgeVariant =
-    user?.account_status === 'APPROVED' ? 'default' : user?.account_status === 'DENIED' ? 'destructive' : 'secondary';
+    user?.account_status === 'APPROVED'
+      ? 'default'
+      : user?.account_status === 'DENIED'
+        ? 'destructive'
+        : 'secondary';
 
   return (
     <TableRow className="cursor-pointer" key={user?.documentId} onClick={() => handleClick(user!.documentId)}>

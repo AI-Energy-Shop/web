@@ -17,8 +17,14 @@ import useCart from '@/hooks/useCart';
 
 const ShippingDetails = () => {
   const { user } = useMe();
-  const { paymentStep, shippingOptions, date, handleShippingMethodClick, handleContinueClick, handleEditClick } =
-    useCart();
+  const {
+    paymentStep,
+    shippingOptions,
+    date,
+    handleShippingMethodClick,
+    handleContinueClick,
+    handleEditClick,
+  } = useCart();
 
   const renderHeader = () => {
     return (
@@ -76,8 +82,13 @@ const ShippingDetails = () => {
     return (
       <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12">
         <div className="flex items-center justify-between">
-          <h1 className="font-bold text-blue-navy-blue">{value === 'delivery' ? 'Ship To:' : 'Pick Up From:'}</h1>
-          <Link href={`/address`} className="flex user-select-none items-center gap-x-1 relative border-b border-black">
+          <h1 className="font-bold text-blue-navy-blue">
+            {value === 'delivery' ? 'Ship To:' : 'Pick Up From:'}
+          </h1>
+          <Link
+            href={`/address`}
+            className="flex user-select-none items-center gap-x-1 relative border-b border-black"
+          >
             <p className="text-[12px]">Change Address</p>
             <MoveRight className="w-4" />
           </Link>

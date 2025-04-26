@@ -9,7 +9,11 @@ type DeleteAddressDialogProps = {
   deleteAddressId: string;
 };
 
-function DeleteAddressDialog({ openDeleteDialog, setOpenDeleteDialog, deleteAddressId }: DeleteAddressDialogProps) {
+function DeleteAddressDialog({
+  openDeleteDialog,
+  setOpenDeleteDialog,
+  deleteAddressId,
+}: DeleteAddressDialogProps) {
   const continueDeleteAddress = async () => {
     try {
       await deleteAddress(deleteAddressId);

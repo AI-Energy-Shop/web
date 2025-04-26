@@ -1,9 +1,11 @@
+import debounce from 'lodash/debounce';
 import { useCallback, useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
-import debounce from 'lodash/debounce';
 import PRODUCT_OPERATION from '@/graphql/products';
-
+import { ProductQuery } from '@/lib/gql/graphql';
+import { useRouter } from 'next/navigation';
 const useSearchFilter = () => {
+  const router = useRouter();
   const [searchQueryInput, setSearchQueryInput] = useState<string>('');
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
   const [searchProducts, { data: searchData }] = useLazyQuery(PRODUCT_OPERATION.Query.products);
@@ -43,11 +45,14 @@ const useSearchFilter = () => {
     }
   }, 500); // 500ms delay
 
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setSearchQueryInput(value);
-    debouncedSearch(value);
-  }, []);
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { value } = e.target;
+      setSearchQueryInput(value);
+      debouncedSearch(value);
+    },
+    [debouncedSearch]
+  );
 
   const handleSearchFocus = () => {
     setIsSearchFocused(!isSearchFocused);
@@ -57,13 +62,28 @@ const useSearchFilter = () => {
     setIsSearchFocused(false);
   };
 
+  const handleSearchInputEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      setIsSearchFocused(false);
+      router.push(`/search?search=${searchQueryInput}`);
+    }
+  };
+
+  const handleSearchResultClick = (product: ProductQuery['product']) => {
+    setIsSearchFocused(false);
+    setSearchQueryInput('');
+    router.push(`/products/${product?.name}`, { scroll: false });
+  };
+
   return {
     searchQueryInput,
     isSearchFocused,
     searchData,
+    handleSearchBlur,
     handleInputChange,
     handleSearchFocus,
-    handleSearchBlur,
+    handleSearchResultClick,
+    handleSearchInputEnter,
   };
 };
 

@@ -33,7 +33,9 @@ const ProductsPage = async () => {
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Total Products</dt>
+                    <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                      Total Products
+                    </dt>
                     <div className="text-lg font-medium text-gray-900 dark:text-white">
                       {/* {data?.products.length} */}
                     </div>
@@ -69,7 +71,9 @@ const ProductsPage = async () => {
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Total Orders</dt>
+                    <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                      Total Orders
+                    </dt>
                     <dd className="text-lg font-medium text-gray-900 dark:text-white">120</dd>
                   </dl>
                 </div>
@@ -84,7 +88,9 @@ const ProductsPage = async () => {
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Total Customers</dt>
+                    <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                      Total Customers
+                    </dt>
                     <dd className="text-lg font-medium text-gray-900 dark:text-white">250</dd>
                   </dl>
                 </div>
