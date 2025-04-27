@@ -38,7 +38,7 @@ const useCalculateDeliveryPricing = (suburb: string, postCode: string) => {
         });
 
         if (error) {
-          setError('Please review your input');
+          setError('Ensure your city and ZIP code are correct.');
         }
 
         if (data) {

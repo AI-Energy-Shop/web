@@ -33,6 +33,7 @@ import { ShippingType } from '@/store/features/checkout';
 import { isButtonClickable } from './isButtonClickable';
 import useCalculateDeliveryPricing from '@/hooks/useCalculateDeliveryPricing';
 import { Input } from '../ui/input';
+import LoadingSpinner from '../LoadingSpinner';
 
 interface ShippingDetailsProps {
   checkoutUserData: GetCheckoutUserDataQuery;
@@ -73,18 +74,15 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     string | undefined
   >(undefined);
 
-  const [suburb, setSuburb] = React.useState<string>('');
-  const [postCode, setPostCode] = React.useState<string>('');
-
-  const { data, isLoading, error } = useCalculateDeliveryPricing(
-    suburb,
-    postCode
-  );
-
   const userCurrentAddress =
     checkoutUserData?.usersPermissionsUser?.addresses?.find(
       (address) => address?.isActive === true
     );
+
+  const { data, isLoading, error } = useCalculateDeliveryPricing(
+    userCurrentAddress?.city || '',
+    userCurrentAddress?.zip_code || ''
+  );
 
   const TODAY = new Date();
   TODAY.setHours(0, 0, 0, 0);
@@ -277,38 +275,14 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                 </div>
               );
             })} */}
-            <div>
-              <h2 className="text-sm italic">
-                Enter your delivery address for estimate pricing
-              </h2>
-              <div className="sm:flex sm:gap-x-2">
-                <div className="flex-1">
-                  <Label htmlFor="suburb">Suburb</Label>
-                  <Input
-                    type="text"
-                    id="suburb"
-                    placeholder="suburb"
-                    value={suburb}
-                    onChange={(e) => setSuburb(e.target.value)}
-                  />
-                </div>
-                <div className="flex-1">
-                  <Label htmlFor="postcode">Postcode</Label>
-                  <Input
-                    type="text"
-                    id="postcode"
-                    placeholder="postcode"
-                    value={postCode}
-                    onChange={(e) => setPostCode(e.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
           </div>
 
-          {error && <p className="text-center text-sm">{error}</p>}
-          {isLoading && <p className="text-center text-sm">searching...</p>}
-          {data.length > 0 && 'data'}
+          {isLoading && <LoadingSpinner />}
+          {error && (
+            <p className="text-center text-sm text-red-500 font-bold">
+              {error}
+            </p>
+          )}
 
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="3" id="3" />
