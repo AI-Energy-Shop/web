@@ -17,7 +17,12 @@ type RegistrationDialogProps = {
   execute: (values: z.infer<typeof registerUserSchema>) => void;
 };
 
-function RegistrationDialog({ open, onOpenChange, userData, execute }: RegistrationDialogProps) {
+function RegistrationDialog({
+  open,
+  onOpenChange,
+  userData,
+  execute,
+}: RegistrationDialogProps) {
   const handleConfirm = () => {
     execute(userData!);
     onOpenChange(false);
@@ -28,38 +33,52 @@ function RegistrationDialog({ open, onOpenChange, userData, execute }: Registrat
         <DialogHeader>
           <DialogTitle>Review Your Information</DialogTitle>
           <DialogDescription>
-            Please review your details below. If you need to make any changes, close this dialog and edit your
-            information.
+            Please review your details below. If you need to make any changes,
+            close this dialog and edit your information.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-3 items-center gap-4">
             <p className="text-sm font-medium text-gray-500">First Name</p>
-            <p className="col-span-2 text-sm text-gray-700">{/* {userData?.firstName} */}</p>
+            <p className="col-span-2 text-sm text-gray-700">
+              {/* {userData?.firstName} */}
+            </p>
           </div>
           <div className="grid grid-cols-3 items-center gap-4">
             <p className="text-sm font-medium text-gray-500">Middle Name</p>
-            <p className="col-span-2 text-sm text-gray-700">{/* {userData?.middleName} */}</p>
+            <p className="col-span-2 text-sm text-gray-700">
+              {/* {userData?.middleName} */}
+            </p>
           </div>
           <div className="grid grid-cols-3 items-center gap-4">
             <p className="text-sm font-medium text-gray-500">Last Name</p>
-            <p className="col-span-2 text-sm text-gray-700">{/* {userData?.lastName} */}</p>
+            <p className="col-span-2 text-sm text-gray-700">
+              {/* {userData?.lastName} */}
+            </p>
           </div>
           <div className="grid grid-cols-3 items-center gap-4">
             <p className="text-sm font-medium text-gray-500">User Name</p>
-            <p className="col-span-2 text-sm text-gray-700">{userData?.username}</p>
+            <p className="col-span-2 text-sm text-gray-700">
+              {userData?.username}
+            </p>
           </div>
           <div className="grid grid-cols-3 items-center gap-4">
             <p className="text-sm font-medium text-gray-500">Email</p>
-            <p className="col-span-2 text-sm text-gray-700">{userData?.email}</p>
+            <p className="col-span-2 text-sm text-gray-700">
+              {userData?.email}
+            </p>
           </div>
           <div className="grid grid-cols-3 items-center gap-4">
             <p className="text-sm font-medium text-gray-500">User Type</p>
-            <p className="col-span-2 text-sm text-gray-700">{userData?.businessType}</p>
+            <p className="col-span-2 text-sm text-gray-700">
+              {userData?.businessType}
+            </p>
           </div>
           <div className="grid grid-cols-3 items-center gap-4">
             <p className="text-sm font-medium text-gray-500">ABN</p>
-            <p className="col-span-2 text-sm text-gray-700">{userData?.businessName}</p>
+            <p className="col-span-2 text-sm text-gray-700">
+              {userData?.businessName}
+            </p>
           </div>
         </div>
         <DialogFooter>

@@ -5,7 +5,11 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import { UsersPermissionsUsersQuery } from '@/lib/gql/graphql';
 import { useRouter } from 'next/navigation';
 
-const UserTableRow = ({ user }: { user: UsersPermissionsUsersQuery['usersPermissionsUsers'][0] }) => {
+const UserTableRow = ({
+  user,
+}: {
+  user: UsersPermissionsUsersQuery['usersPermissionsUsers'][0];
+}) => {
   const router = useRouter();
 
   const handleClick = (id: string) => {
@@ -23,7 +27,11 @@ const UserTableRow = ({ user }: { user: UsersPermissionsUsersQuery['usersPermiss
         : 'secondary';
 
   return (
-    <TableRow className="cursor-pointer" key={user?.documentId} onClick={() => handleClick(user!.documentId)}>
+    <TableRow
+      className="cursor-pointer"
+      key={user?.documentId}
+      onClick={() => handleClick(user!.documentId)}
+    >
       <TableCell>{user?.email}</TableCell>
       <TableCell>{user?.role?.name}</TableCell>
       <TableCell>

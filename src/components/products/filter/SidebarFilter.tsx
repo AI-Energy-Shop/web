@@ -22,7 +22,8 @@ const SidebarFilter: React.FC<SidebarFilterProps> = ({
       {selectedFilters.length > 0 && (
         <div className="flex items-center justify-between">
           <span className="text-sm text-gray-500">
-            {selectedFilters.length} filter{selectedFilters.length > 1 ? 's' : ''} applied
+            {selectedFilters.length} filter
+            {selectedFilters.length > 1 ? 's' : ''} applied
           </span>
           <Button
             variant="ghost"

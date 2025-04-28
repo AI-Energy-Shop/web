@@ -20,7 +20,10 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
   return (
     <div className="md:grid md:grid-cols-2 md:col-span-5 lg:col-span-3 lg:gap-6 lg:gap-x-9 lg:ml-4s ">
       {data.map((item: any) => (
-        <div className="w-ful justify-center border-b-2 md:border-none items-center  last:mb-0" key={item.id}>
+        <div
+          className="w-ful justify-center border-b-2 md:border-none items-center  last:mb-0"
+          key={item.id}
+        >
           {/* BUTTON */}
           <button
             style={firaSansFont.style}
@@ -28,7 +31,9 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
             onClick={() => setOpen(item.id === open ? null : item.id)}
           >
             {item.title}
-            <span className="md:hidden">{open === item.id ? <FaChevronUp /> : <FaChevronDown />}</span>
+            <span className="md:hidden">
+              {open === item.id ? <FaChevronUp /> : <FaChevronDown />}
+            </span>
           </button>
 
           {/* CONTENT */}

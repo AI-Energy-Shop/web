@@ -9,10 +9,14 @@ import Link from 'next/link';
 import useAuth from '@/hooks/useAuth';
 
 const LoginForm = () => {
-  const { loginForm, showPassword, setShowPassword, handleLoginSubmit } = useAuth();
+  const { loginForm, showPassword, setShowPassword, handleLoginSubmit } =
+    useAuth();
 
   return (
-    <form onSubmit={loginForm.handleSubmit(handleLoginSubmit)} className="space-y-4">
+    <form
+      onSubmit={loginForm.handleSubmit(handleLoginSubmit)}
+      className="space-y-4"
+    >
       <Input placeholder="Enter your email" {...loginForm.register('email')} />
 
       <div className="relative">
@@ -26,7 +30,11 @@ const LoginForm = () => {
           onClick={() => setShowPassword(!showPassword)}
           className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400"
         >
-          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+          {showPassword ? (
+            <EyeOff className="h-4 w-4" />
+          ) : (
+            <Eye className="h-4 w-4" />
+          )}
         </button>
       </div>
 
@@ -35,7 +43,10 @@ const LoginForm = () => {
           <Checkbox id="remember" />
           <Label htmlFor="remember">Remember me</Label>
         </div>
-        <Link href="#" className="text-sm text-indigo-500 hover:text-indigo-600 dark:text-indigo-400">
+        <Link
+          href="#"
+          className="text-sm text-indigo-500 hover:text-indigo-600 dark:text-indigo-400"
+        >
           Forgot password?
         </Link>
       </div>

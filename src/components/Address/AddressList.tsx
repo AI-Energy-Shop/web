@@ -1,7 +1,13 @@
 'use client';
 
 import { Check, MapPin, Pencil, Trash2 } from 'lucide-react';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { useState } from 'react';
 import EditAddressDialog from './EditAddressDialog';
 import DeleteAddressDialog from './DeleteAddressDialog';
@@ -24,7 +30,8 @@ function AddressList({ data }: AddressListProps) {
   const [deleteAddressId, setDeleteAddressId] = useState<string>('');
   const [openEditDialog, setOpenEditDialog] = useState<boolean>(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
-  const [updateAddressDetails, setUpdateAddressDetails] = useState<AddressSchemaWithDocumentIdTypes>();
+  const [updateAddressDetails, setUpdateAddressDetails] =
+    useState<AddressSchemaWithDocumentIdTypes>();
 
   const addresses = data?.usersPermissionsUser?.addresses;
 

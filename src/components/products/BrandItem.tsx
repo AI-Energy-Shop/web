@@ -9,7 +9,13 @@ interface BrandItemProps {
   onClick?: () => void;
 }
 
-const BrandItem: React.FC<BrandItemProps> = ({ name, logo, alt, id, onClick }) => {
+const BrandItem: React.FC<BrandItemProps> = ({
+  name,
+  logo,
+  alt,
+  id,
+  onClick,
+}) => {
   return (
     <div
       key={id}

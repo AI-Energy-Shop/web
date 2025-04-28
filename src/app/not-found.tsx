@@ -12,8 +12,8 @@ export default function NotFoundPage() {
               <span className="text-orange-500">Oops! Page Not Found</span>
             </h1>
             <p className="text-xl mb-8 text-gray-600 max-w-md">
-              It looks like the page you&apos;re looking for doesn&apos;t exist or has moved. Let&apos;s get
-              you back on track!
+              It looks like the page you&apos;re looking for doesn&apos;t exist
+              or has moved. Let&apos;s get you back on track!
             </p>
             <Button
               asChild

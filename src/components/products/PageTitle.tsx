@@ -5,7 +5,10 @@ import { capitalizeAllFirstChar } from '@/utils/string';
 
 const PageTitle = () => {
   const { collection } = useParams();
-  const title = collection === 'all' ? 'All Products' : capitalizeAllFirstChar(collection?.toString() || '');
+  const title =
+    collection === 'all'
+      ? 'All Products'
+      : capitalizeAllFirstChar(collection?.toString() || '');
   return <h1 className="text-4xl font-bold">{title}</h1>;
 };
 

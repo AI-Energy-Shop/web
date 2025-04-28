@@ -1,6 +1,13 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '../ui/card';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import { MapPin } from 'lucide-react';
@@ -26,7 +33,9 @@ const ShippingAddress = () => {
     (state: RootState) => state.me.me?.account_detail?.shipping_addresses
   );
 
-  const address = shippingAddresses?.find((address) => address.isActive === true);
+  const address = shippingAddresses?.find(
+    (address) => address.isActive === true
+  );
 
   const form = useForm<z.infer<typeof shippingAddressSchema>>({
     resolver: zodResolver(shippingAddressSchema),

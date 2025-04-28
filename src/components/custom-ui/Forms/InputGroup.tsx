@@ -28,7 +28,10 @@ const InputGroup: React.FC<InputGroupProps> = (props) => {
       )}
 
       {props.inputType === 'TEXTAREA' && (
-        <textarea className="w-full min-h-[200px] rounded-sm overflow-hidden" name={props.name} />
+        <textarea
+          className="w-full min-h-[200px] rounded-sm overflow-hidden"
+          name={props.name}
+        />
       )}
 
       {props.inputType === 'NUMBER' && (

@@ -25,7 +25,10 @@ const FilterItem: React.FC<FilterItemProps> = ({
 }) => {
   const [open, setOpen] = useState(isOpen);
 
-  const renderFilterItem = (option: { value: string; count: number }, index: number) => {
+  const renderFilterItem = (
+    option: { value: string; count: number },
+    index: number
+  ) => {
     return (
       <div
         key={index}
@@ -35,7 +38,9 @@ const FilterItem: React.FC<FilterItemProps> = ({
         <input
           type="checkbox"
           name={option.value}
-          checked={selectedFilters.some((filter) => filter.value === option.value)}
+          checked={selectedFilters.some(
+            (filter) => filter.value === option.value
+          )}
         />
         <Label className="text-sm font-normal">{option.value}</Label>
         <span className="text-xs text-gray-500">({option.count})</span>
@@ -48,7 +53,11 @@ const FilterItem: React.FC<FilterItemProps> = ({
       <div className="flex items-center justify-between p-1">
         <Label>{name.replaceAll('_', ' ')}</Label>
         <Button variant="ghost" size="icon" onClick={() => setOpen(!open)}>
-          {open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          {open ? (
+            <ChevronUp className="h-4 w-4" />
+          ) : (
+            <ChevronDown className="h-4 w-4" />
+          )}
         </Button>
       </div>
 

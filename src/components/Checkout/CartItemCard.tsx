@@ -97,13 +97,20 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
             <p className="text-[12px]">ex.GST</p>
           </div>
         </div>
-        <Button size="icon" variant="ghost" className="self-center md:hidden" onClick={() => onRemove(id)}>
+        <Button
+          size="icon"
+          variant="ghost"
+          className="self-center md:hidden"
+          onClick={() => onRemove(id)}
+        >
           <Trash2 className="w-5 h-5" color="red" />
         </Button>
       </div>
       {/* MOBILE */}
       <div className="flex border border-black md:hidden">
-        <div className="flex-2 text-center bg-gray-300 place-content-center place-items-center">QTY</div>
+        <div className="flex-2 text-center bg-gray-300 place-content-center place-items-center">
+          QTY
+        </div>
         <div className="flex-1">
           <Button
             size="icon"

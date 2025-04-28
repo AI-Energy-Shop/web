@@ -21,7 +21,9 @@ const ProductPrice: React.FC<ProductPriceProps> = ({ product }) => {
     user_level: price?.user_level ?? undefined,
   }));
 
-  const price = priceList?.find((price) => price?.user_level === user?.account_detail?.level);
+  const price = priceList?.find(
+    (price) => price?.user_level === user?.account_detail?.level
+  );
 
   const salePrice = price?.sale_price;
   const regularPrice = price?.price;
@@ -31,7 +33,9 @@ const ProductPrice: React.FC<ProductPriceProps> = ({ product }) => {
   }
 
   return (
-    <div className={`${muktaVaani.className} ae-mobile-container mx-auto max-md:px-4 pb-4`}>
+    <div
+      className={`${muktaVaani.className} ae-mobile-container mx-auto max-md:px-4 pb-4`}
+    >
       <div className="flex justify-between">
         <div className="leading-6">
           <h2 className="text-gray-500 line-through font-light md:text-[28px]">
@@ -39,7 +43,9 @@ const ProductPrice: React.FC<ProductPriceProps> = ({ product }) => {
           </h2>
           <h1 className="font-medium md:mt-1">
             <span className=" text-[40px]">
-              {salePrice ? formatCurrency(salePrice, 'USD') : formatCurrency(regularPrice, 'USD')}
+              {salePrice
+                ? formatCurrency(salePrice, 'USD')
+                : formatCurrency(regularPrice, 'USD')}
             </span>
             <span className="max-md:text-[12px] max-md:block">ex.GST</span>
           </h1>

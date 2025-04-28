@@ -3,7 +3,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { LOCATIONS } from '@/constant';
 import { on } from 'events';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 
@@ -39,7 +45,9 @@ const InventoryItem: React.FC<InventoryItemProps> = ({
             data-index={index}
             data-title={title}
             value={item?.location || ''}
-            onValueChange={(value) => onChangeSelectLocation(value, Number(index))}
+            onValueChange={(value) =>
+              onChangeSelectLocation(value, Number(index))
+            }
           >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select Location" />
@@ -74,7 +82,11 @@ const InventoryItem: React.FC<InventoryItemProps> = ({
         </div>
       </div>
       <div className="hidden group-hover:block">
-        <Button onClick={() => onRemove(index, title)} size="icon" className="relative right-0">
+        <Button
+          onClick={() => onRemove(index, title)}
+          size="icon"
+          className="relative right-0"
+        >
           <Trash2 className="h-3 w-3" />
         </Button>
       </div>

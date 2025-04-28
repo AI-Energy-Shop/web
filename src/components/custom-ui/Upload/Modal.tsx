@@ -4,7 +4,12 @@ import { useQuery } from '@apollo/client';
 import { FileGrid } from './FileGrid';
 import { FC, useState } from 'react';
 import { FileUploadZone } from './FileUploadZone';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ModalProps, FileType } from './types';
 
@@ -53,7 +58,11 @@ const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
             />
           </CardHeader>
           <CardContent className="flex-1 overflow-auto">
-            <FileGrid files={files} selectedFiles={selectedImageIds} onSelect={handleOnClick} />
+            <FileGrid
+              files={files}
+              selectedFiles={selectedImageIds}
+              onSelect={handleOnClick}
+            />
           </CardContent>
           <CardFooter className="flex-shrink-0 justify-end space-x-2">
             <Button onClick={onCancel} variant="destructive">

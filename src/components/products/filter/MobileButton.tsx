@@ -10,7 +10,11 @@ const MobileButton = () => {
 
   return (
     <div className="w-full block md:hidden">
-      <Button variant="outline" className="w-full" onClick={() => setShowMobileFilters(true)}>
+      <Button
+        variant="outline"
+        className="w-full"
+        onClick={() => setShowMobileFilters(true)}
+      >
         <SlidersHorizontal />
         Filter & Sort
       </Button>

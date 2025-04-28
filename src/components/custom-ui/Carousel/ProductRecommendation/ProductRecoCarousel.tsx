@@ -1,6 +1,11 @@
 'use client';
 
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@/components/ui/card';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import Image from 'next/image';
@@ -91,7 +96,9 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
                 <CardContent className={`${firaSans.className} p-0 mt-2`}>
                   <h1 className="font-medium">{item?.name}</h1>
                   <h2 className="font-light text-[14px]">{item?.model}</h2>
-                  <h3 className={`${muktaVaani.className} font-medium text-[10px] line-through mt-2`}>
+                  <h3
+                    className={`${muktaVaani.className} font-medium text-[10px] line-through mt-2`}
+                  >
                     ${itemPrice?.price?.toFixed(2)}
                   </h3>
                   <h3 className={`${muktaVaani.className} font-medium`}>
@@ -173,7 +180,9 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
                 <CardContent className={`p-0 ${firaSans.className}`}>
                   <h1 className="font-medium">{item?.name}</h1>
                   <h2 className="font-light text-sm mb-3">{item?.model}</h2>
-                  <h3 className={`text-sm line-through font-medium ${muktaVaani.className}`}>
+                  <h3
+                    className={`text-sm line-through font-medium ${muktaVaani.className}`}
+                  >
                     ${itemPrice?.price?.toFixed(2)}
                   </h3>
                   <h3 className={`${muktaVaani.className} font-medium mb-4`}>
@@ -194,7 +203,10 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
                     >
                       <Minus />
                     </div>
-                    <Input className="flex-1 h-full text-center no-spinner" type="number" />
+                    <Input
+                      className="flex-1 h-full text-center no-spinner"
+                      type="number"
+                    />
 
                     <div
                       role="button"
