@@ -32,6 +32,10 @@ export const useCheckout = () => {
 
   const paymentMethod = useAppSelector((state) => state.checkout.paymentMethod);
 
+  const deliveryOptions = useAppSelector(
+    (state) => state.checkout.deliveryOptions
+  );
+
   //Actions
   const setWarehouseLocation = (warehouse: WarehouseLocation) =>
     dispatch(setSelectedLocation(warehouse));
@@ -62,6 +66,7 @@ export const useCheckout = () => {
     pickUpOptions,
     shippingType,
     paymentMethod,
+    deliveryOptions,
     setWarehouseLocation,
     setShippingType,
     setDeliveryOptions,

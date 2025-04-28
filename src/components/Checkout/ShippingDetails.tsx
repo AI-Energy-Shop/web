@@ -186,14 +186,12 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
   };
 
   useEffect(() => {
-    if (!deliveryDate) {
-      setDeliveryOptions({ type: 'manual', date: undefined });
-    }
-
-    if (shippingDeliveryOptions === '3') {
-      setDeliveryOptions({ type: 'manual', date: deliveryDate });
-    }
-  }, [deliveryDate, shippingDeliveryOptions, setDeliveryOptions]);
+    setDeliveryOptions({
+      type: 'manual',
+      date: deliveryDate,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deliveryDate]);
 
   useEffect(() => {
     setPickUpOptions({
@@ -257,10 +255,6 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                   <Button
                     onClick={() => {
                       setShippingDeliveryOptions('manual');
-                      setDeliveryOptions({
-                        type: 'manual',
-                        date: deliveryDate,
-                      });
                     }}
                     variant="ghost"
                     className={cn(
