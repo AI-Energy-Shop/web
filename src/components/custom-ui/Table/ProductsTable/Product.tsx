@@ -10,7 +10,11 @@ interface ProductProps {
 
 const Product: React.FC<ProductProps> = ({ product, onClick }) => {
   return (
-    <TableRow key={product.documentId} onClick={() => onClick(product)} className="cursor-pointer">
+    <TableRow
+      key={product.documentId}
+      onClick={() => onClick(product)}
+      className="cursor-pointer"
+    >
       <TableCell>{product.name}</TableCell>
       <TableCell>{product.category}</TableCell>
       <TableCell>On stock</TableCell>
@@ -19,7 +23,9 @@ const Product: React.FC<ProductProps> = ({ product, onClick }) => {
       <TableCell>
         <span
           className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-            product.status === 'In Stock' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+            product.status === 'In Stock'
+              ? 'bg-green-100 text-green-800'
+              : 'bg-red-100 text-red-800'
           }`}
         >
           {product.status}

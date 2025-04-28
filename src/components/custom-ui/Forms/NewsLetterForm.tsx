@@ -55,7 +55,10 @@ const NewsLetterForm: React.FC<NewsLetterFormProps> = ({ data }) => {
                 fill
                 priority
                 sizes="100vh"
-                alt={data.image.url || `newsletter-bg-image${data.image.alternativeText}`}
+                alt={
+                  data.image.url ||
+                  `newsletter-bg-image${data.image.alternativeText}`
+                }
                 src={data.image.url}
                 className="w-auto h-auto object-cover"
               />

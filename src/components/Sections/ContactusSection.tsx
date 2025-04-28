@@ -26,7 +26,10 @@ const ContactusSection: React.FC<ContactusSectionProps> = ({ data }) => {
                 quality={100}
                 className="object-cover object-left"
                 src={data.background_image.url}
-                alt={data.background_image.alternativeText || data.background_image.name}
+                alt={
+                  data.background_image.alternativeText ||
+                  data.background_image.name
+                }
               />
             )}
           </div>

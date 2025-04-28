@@ -8,7 +8,11 @@ interface CartItemProps {
   onRemove?: (id: string) => void;
 }
 
-export const CartItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRemove }) => {
+export const CartItem: React.FC<CartItemProps> = ({
+  item,
+  onUpdateQuantity,
+  onRemove,
+}) => {
   const price = item.price || 0;
   const quantity = item.quantity || 0;
   return (

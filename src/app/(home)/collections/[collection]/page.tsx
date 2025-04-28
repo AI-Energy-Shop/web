@@ -1,6 +1,13 @@
 import ProductList from '@/components/products/ProductList';
-import { EXCLUDED_SEARCH_PARAMS, INITIAL_PAGE, INITIAL_PAGE_SIZE } from '@/constant';
-import { capsAllFirstCharWithDash, capsAllFirstCharWithUnderScore } from '@/utils/string';
+import {
+  EXCLUDED_SEARCH_PARAMS,
+  INITIAL_PAGE,
+  INITIAL_PAGE_SIZE,
+} from '@/constant';
+import {
+  capsAllFirstCharWithDash,
+  capsAllFirstCharWithUnderScore,
+} from '@/utils/string';
 import { getCollectionWithProducts } from '@/app/actions/collections';
 
 export default async function CategoryPage({

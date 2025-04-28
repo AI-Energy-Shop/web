@@ -5,7 +5,11 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import { UsersPermissionsUsersQuery } from '@/lib/gql/graphql';
 import { useRouter } from 'next/navigation';
 
-const UserRequestTableRow = ({ user }: { user: UsersPermissionsUsersQuery['usersPermissionsUsers'][0] }) => {
+const UserRequestTableRow = ({
+  user,
+}: {
+  user: UsersPermissionsUsersQuery['usersPermissionsUsers'][0];
+}) => {
   const router = useRouter();
 
   const handleClick = (e: React.MouseEvent<HTMLTableRowElement>) => {

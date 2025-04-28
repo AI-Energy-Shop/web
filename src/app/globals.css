@@ -15,12 +15,18 @@
 /* Your CSS file */
 .gradient-border-yellow {
   border-bottom: 4px solid;
-  border-image: linear-gradient(to right, rgba(249, 172, 10, 1) calc(50% - 416px + (600px * 0)));
+  border-image: linear-gradient(
+    to right,
+    rgba(249, 172, 10, 1) calc(50% - 416px + (600px * 0))
+  );
 }
 
 .gradient-border-red {
   border-bottom: 4px solid;
-  border-image: linear-gradient(to right, rgba(231, 20, 103, 1) calc(50% - 416px + (600px * 0.45)));
+  border-image: linear-gradient(
+    to right,
+    rgba(231, 20, 103, 1) calc(50% - 416px + (600px * 0.45))
+  );
 }
 
 .gradient-border-deep-red {

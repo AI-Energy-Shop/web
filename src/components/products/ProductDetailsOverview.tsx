@@ -9,7 +9,12 @@ interface ProductDetailsOverviewProps {
 function ProductDetailsOverview({ productData }: ProductDetailsOverviewProps) {
   const sanitizedHtml = DOMPurify.sanitize(productData?.description!);
 
-  return <div className={`${muktaVaani.className}`} dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />;
+  return (
+    <div
+      className={`${muktaVaani.className}`}
+      dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+    />
+  );
 }
 
 export default ProductDetailsOverview;

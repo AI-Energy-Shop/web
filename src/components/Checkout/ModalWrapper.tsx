@@ -17,7 +17,14 @@ interface ModalProps {
   message: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ open, onClose, onConfirm, title, description, message }) => {
+const Modal: React.FC<ModalProps> = ({
+  open,
+  onClose,
+  onConfirm,
+  title,
+  description,
+  message,
+}) => {
   return (
     <Dialog open={open} onOpenChange={onClose}>
       {/* <DialogTrigger asChild>

@@ -16,7 +16,10 @@ const Breadcrumb = () => {
           if (index === 0) {
             segment = 'Home';
           }
-          const path = index === 0 ? '/' : `/${pathSegments.slice(0, index + 1).join('/')}`;
+          const path =
+            index === 0
+              ? '/'
+              : `/${pathSegments.slice(0, index + 1).join('/')}`;
 
           return (
             <React.Fragment key={path}>

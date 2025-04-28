@@ -1,4 +1,10 @@
-import { Table, TableHeader, TableRow, TableHead, TableBody } from '@/components/ui/table';
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+} from '@/components/ui/table';
 import React from 'react';
 import UserTableRow from './rows/UserTableRow';
 import { UsersPermissionsUsersQuery } from '@/lib/gql/graphql';

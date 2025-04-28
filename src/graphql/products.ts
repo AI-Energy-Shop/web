@@ -4,7 +4,10 @@ import { gql } from '@apollo/client';
 const schema = {
   Query: {
     products: graphql(`
-      query Products($filters: ProductFiltersInput, $pagination: PaginationArg) {
+      query Products(
+        $filters: ProductFiltersInput
+        $pagination: PaginationArg
+      ) {
         products(filters: $filters, pagination: $pagination) {
           documentId
           name

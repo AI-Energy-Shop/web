@@ -22,7 +22,9 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
   }, []);
 
   return (
-    <header className={`z-50 w-full h-auto border-b bg-white ${isFixed ? 'fixed' : 'relative'}`}>
+    <header
+      className={`z-50 w-full h-auto border-b bg-white ${isFixed ? 'fixed' : 'relative'}`}
+    >
       <div className="flex max-w-[1200px] h-20 items-end justify-between mx-auto py-[0.5rem]">
         <Logo />
         <NavList data={NAV_LIST_ITEMS} />

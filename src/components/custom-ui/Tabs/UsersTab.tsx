@@ -32,7 +32,11 @@ const UsersTab = ({
   }, [tab]);
 
   return (
-    <Tabs defaultValue={tabValue} className="w-full" onValueChange={handleTabChange}>
+    <Tabs
+      defaultValue={tabValue}
+      className="w-full"
+      onValueChange={handleTabChange}
+    >
       <TabsList>
         <TabsTrigger value="user">Users</TabsTrigger>
         <TabsTrigger value="customers">Customers</TabsTrigger>

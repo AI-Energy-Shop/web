@@ -29,14 +29,18 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
     sale_price: price?.sale_price ?? undefined,
     user_level: price?.user_level ?? undefined,
   }));
-  const itemPrice = priceList?.find((price) => price?.user_level === user?.account_detail?.level);
+  const itemPrice = priceList?.find(
+    (price) => price?.user_level === user?.account_detail?.level
+  );
 
   const salePrice = itemPrice?.sale_price;
   const regularPrice = itemPrice?.price;
 
   const productPrice = salePrice ? salePrice : regularPrice || 0;
 
-  const stocks = product?.inventories.find((inventory) => inventory?.name === warehouse?.address?.city);
+  const stocks = product?.inventories.find(
+    (inventory) => inventory?.name === warehouse?.address?.city
+  );
 
   const form = useForm<z.infer<typeof addToCartFormSchema>>({
     resolver: zodResolver(addToCartFormSchema),
@@ -83,7 +87,9 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
       return;
     }
 
-    const cartItem = carts.find((cart) => cart.product?.documentId === onValid?.id);
+    const cartItem = carts.find(
+      (cart) => cart.product?.documentId === onValid?.id
+    );
 
     if (cartItem && cartItem?.product) {
       updateCartItem({
@@ -101,7 +107,11 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
     });
   };
 
-  const renderHiddenInput = ({ name }: { name: keyof z.infer<typeof addToCartFormSchema> }) => {
+  const renderHiddenInput = ({
+    name,
+  }: {
+    name: keyof z.infer<typeof addToCartFormSchema>;
+  }) => {
     return (
       <FormField
         control={form.control}
@@ -120,7 +130,9 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
   if (!user) {
     return (
       <div className="w-full h-20 flex justify-center items-center">
-        <span className="text-sm row-span-1 text-[#1b1b3b]">Login to view price</span>
+        <span className="text-sm row-span-1 text-[#1b1b3b]">
+          Login to view price
+        </span>
       </div>
     );
   }

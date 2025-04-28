@@ -1,4 +1,10 @@
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import AddressForm from '../Form/AddressForm';
 import { AddressSchemaWithDocumentIdTypes } from './AddressList';
 import { AddressQuery } from '@/lib/gql/graphql';

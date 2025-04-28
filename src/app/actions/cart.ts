@@ -44,7 +44,10 @@ export const addToCartAction = async (
   const token = cookieStore.get('a-token');
 
   try {
-    const response = await client.mutate<CreateCartMutation, CreateCartMutationVariables>({
+    const response = await client.mutate<
+      CreateCartMutation,
+      CreateCartMutationVariables
+    >({
       mutation: CART_OPERATIONS.Mutation.createCart,
       context: {
         headers: {
@@ -76,7 +79,10 @@ export const updateCartItemAction = async (formData: FormData) => {
   const token = cookieStore.get('a-token');
 
   try {
-    const response = await client.mutate<UpdateCartMutation, UpdateCartMutationVariables>({
+    const response = await client.mutate<
+      UpdateCartMutation,
+      UpdateCartMutationVariables
+    >({
       mutation: CART_OPERATIONS.Mutation.updateCart,
       context: {
         headers: {
@@ -107,7 +113,10 @@ export const removeItemFromCartAction = async (documentId: string) => {
   const token = cookieStore.get('a-token');
 
   try {
-    const response = await client.mutate<DeleteCartMutation, DeleteCartMutationVariables>({
+    const response = await client.mutate<
+      DeleteCartMutation,
+      DeleteCartMutationVariables
+    >({
       mutation: CART_OPERATIONS.Mutation.deleteCart,
       context: {
         headers: {
@@ -129,7 +138,10 @@ export const removeItemFromCartAction = async (documentId: string) => {
   }
 };
 
-export const updateCartProductQuantity = async (documentId: string, quantity: number) => {
+export const updateCartProductQuantity = async (
+  documentId: string,
+  quantity: number
+) => {
   const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 

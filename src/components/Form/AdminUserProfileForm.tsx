@@ -4,9 +4,22 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Textarea } from '../ui/textarea';
 import {
   Enum_Accountdetail_Level,
@@ -92,16 +105,25 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Level</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select a role" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value={Enum_Accountdetail_Level.Small}>SMALL</SelectItem>
-                    <SelectItem value={Enum_Accountdetail_Level.MidSized}>MID-SIZED</SelectItem>
-                    <SelectItem value={Enum_Accountdetail_Level.Vip}>VIP</SelectItem>
+                    <SelectItem value={Enum_Accountdetail_Level.Small}>
+                      SMALL
+                    </SelectItem>
+                    <SelectItem value={Enum_Accountdetail_Level.MidSized}>
+                      MID-SIZED
+                    </SelectItem>
+                    <SelectItem value={Enum_Accountdetail_Level.Vip}>
+                      VIP
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -114,21 +136,36 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Status</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select a status" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value={Enum_Userspermissionsuser_Account_Status.Pending}>Pending</SelectItem>
-                    <SelectItem value={Enum_Userspermissionsuser_Account_Status.Reviewing}>
+                    <SelectItem
+                      value={Enum_Userspermissionsuser_Account_Status.Pending}
+                    >
+                      Pending
+                    </SelectItem>
+                    <SelectItem
+                      value={Enum_Userspermissionsuser_Account_Status.Reviewing}
+                    >
                       Reviewing
                     </SelectItem>
-                    <SelectItem value={Enum_Userspermissionsuser_Account_Status.Approved}>
+                    <SelectItem
+                      value={Enum_Userspermissionsuser_Account_Status.Approved}
+                    >
                       Approved
                     </SelectItem>
-                    <SelectItem value={Enum_Userspermissionsuser_Account_Status.Denied}>Denied</SelectItem>
+                    <SelectItem
+                      value={Enum_Userspermissionsuser_Account_Status.Denied}
+                    >
+                      Denied
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -188,7 +225,11 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
             </FormItem>
           )}
         />
-        <Button disabled={status === 'executing'} type="submit" className="w-full">
+        <Button
+          disabled={status === 'executing'}
+          type="submit"
+          className="w-full"
+        >
           <Save className="w-4 h-4 mr-2" />
           Save Changes
         </Button>
