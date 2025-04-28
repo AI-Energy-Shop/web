@@ -32,7 +32,7 @@ const CartItems = ({
         const productPrice = price?.sale_price || price?.price || 0;
 
         const stock = item.product?.inventories?.find(
-          (inventory) => inventory?.name === warehouse?.address.city
+          (inventory) => inventory?.name === warehouse?.address?.city
         );
 
         return (

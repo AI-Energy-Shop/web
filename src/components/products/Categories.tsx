@@ -3,9 +3,8 @@ import React from 'react';
 import { Skeleton } from '../ui/skeleton';
 import { useQuery } from '@apollo/client';
 import COLLECTIONS_OPERATIONS from '@/graphql/collections';
-import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface CategoriesProps {
   acceptedCollections: string[];
@@ -13,6 +12,7 @@ interface CategoriesProps {
 }
 const Categories: React.FC<CategoriesProps> = ({ acceptedCollections, excludedCollections = ['all'] }) => {
   const pathname = usePathname();
+  const router = useRouter();
   const { data, loading } = useQuery(COLLECTIONS_OPERATIONS.Query.collections, {
     variables: {
       filters: {
@@ -49,16 +49,20 @@ const Categories: React.FC<CategoriesProps> = ({ acceptedCollections, excludedCo
     );
   }
 
+  const handleCollectionClick = (handle: string) => {
+    router.push(`/collections/${handle}`);
+  };
+
   return (
     <div className="w-full bg-[#f5efe6] p-5">
       <div className="w-full lg:max-w-[1200px] mx-auto">
         <div className="w-full h-[100px] flex items-center justify-between gap-10 lg:gap-0 overflow-x-auto">
           {data?.collections?.map?.((collection) => (
-            <Link
+            <div
+              className="w-full h-full cursor-pointer"
               key={`${collection?.documentId}`}
-              className="w-full h-full"
               title={`${collection?.title}`}
-              href={`/collections/${collection?.handle}`}
+              onClick={() => handleCollectionClick(`${collection?.handle}`)}
             >
               <div className="w-full h-full flex flex-col items-center gap-1">
                 <div className="w-full h-full relative">
@@ -75,7 +79,7 @@ const Categories: React.FC<CategoriesProps> = ({ acceptedCollections, excludedCo
                   {collection?.title}
                 </span>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </div>

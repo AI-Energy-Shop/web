@@ -44,7 +44,7 @@ const FilterItem: React.FC<FilterItemProps> = ({
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col cursor-pointer">
       <div className="flex items-center justify-between p-1">
         <Label>{name.replaceAll('_', ' ')}</Label>
         <Button variant="ghost" size="icon" onClick={() => setOpen(!open)}>

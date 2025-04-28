@@ -81,16 +81,16 @@ export default async function CategoryPage({
     },
   });
 
-  const collections = res?.collections.at(0);
-  const products = collections?.products || [];
+  const collectionData = res?.collections.at(0);
+  const products = collectionData?.products || [];
 
-  if (!collection) {
-    return null;
+  if (!collectionData) {
+    return 'No Product Data';
   }
 
   return (
     <div className="min-h-screen">
-      <ProductList data={products} />
+      <ProductList data={products} page={page} pageSize={pageSize} />
     </div>
   );
 }
