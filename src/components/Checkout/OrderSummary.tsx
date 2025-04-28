@@ -17,12 +17,12 @@ const OrderSummary: React.FC<OrderSummaryProps> = () => {
     return (
       <div>
         <h1 className="font-bold">Selected Location:</h1>
-        <h2 className="font-semibold italic">{warehouse?.address.city}</h2>
+        <h2 className="font-semibold italic">{warehouse?.address?.city}</h2>
         <p className="text-xs">
-          <span className="mx-1 text-sm">{warehouse?.address.street1},</span>
-          <span className="mx-1 text-sm">{warehouse?.address.city},</span>
-          <span className="mx-1 text-sm">{warehouse?.address.state},</span>
-          <span className="mx-1 text-sm">{warehouse?.address.zipCode}</span>
+          <span className="mx-1 text-sm">{warehouse?.address?.street1},</span>
+          <span className="mx-1 text-sm">{warehouse?.address?.city},</span>
+          <span className="mx-1 text-sm">{warehouse?.address?.state},</span>
+          <span className="mx-1 text-sm">{warehouse?.address?.zipCode}</span>
         </p>
       </div>
     );

@@ -1,12 +1,11 @@
 'use client';
-
-import React from 'react';
-import { X } from 'lucide-react';
-import FilterItem from './FilterItem';
-import { Button } from '@/components/ui/button';
-import * as SelectUI from '@/components/ui/select';
 import useProductFilter, { Filter, SelectedFilter } from '@/hooks/useProductFilter';
 import { capitalizeAllFirstChar } from '@/utils/string';
+import * as SelectUI from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import FilterItem from './FilterItem';
+import { X } from 'lucide-react';
+import React from 'react';
 
 interface FilterListProps {
   loading?: boolean;
@@ -71,6 +70,47 @@ const FilterList: React.FC<FilterListProps> = ({
             onFilterClick={onFilterClick}
           />
         ))}
+
+        {/* <Accordion type="multiple" className="w-full">
+          {filterOptions.map?.((filter, filterIndex) => (
+            <AccordionItem key={`${filter.id}`} value={`${filterIndex}`}>
+              <AccordionTrigger>
+                {filter.key.replaceAll('_', ' ')}
+              </AccordionTrigger>
+              <AccordionContent>
+                {filter.options.map((option, index) => {
+                  return (
+                    <div
+                      key={index}
+                      onClick={() =>
+                        onFilterClick({
+                          id: filter.id,
+                          key: filter.key,
+                          value: option.value,
+                        })
+                      }
+                      className="flex items-center gap-1 p-2 cursor-pointer transition-all duration-300 hover:bg-gray-100"
+                    >
+                      <input
+                        type="checkbox"
+                        name={option.value}
+                        checked={selectedFilters.some(
+                          (filter) => filter.value === option.value
+                        )}
+                      />
+                      <Label className="text-sm font-normal">
+                        {option.value}
+                      </Label>
+                      <span className="text-xs text-gray-500">
+                        ({option.count})
+                      </span>
+                    </div>
+                  );
+                })}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion> */}
       </div>
     </>
   );
