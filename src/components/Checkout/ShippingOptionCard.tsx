@@ -55,24 +55,32 @@ export default function ShippingOptionCard({
         </div>
       </div>
 
-      {open && (
-        <div className="flex flex-col gap-2 mt-4 text-sm text-gray-700 transition-all">
-          <div className="flex justify-between">
-            <span>Shipping</span>
-            <span>${route.consignmentTotal.totalSellBeforeTax.toFixed(2)}</span>
+      <div className="flex flex-col gap-2 mt-4 text-sm text-gray-700 transition-all">
+        {open && (
+          <div>
+            <div className="flex justify-between">
+              <span>Shipping</span>
+              <span>
+                ${route.consignmentTotal.totalSellBeforeTax.toFixed(2)}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span>Tax (GST)</span>
+              <span>
+                ${route.consignmentTotal.totalTaxSellPrice.toFixed(2)}
+              </span>
+            </div>
           </div>
-          <div className="flex justify-between">
-            <span>Tax (GST)</span>
-            <span>${route.consignmentTotal.totalTaxSellPrice.toFixed(2)}</span>
-          </div>
+        )}
 
-          <div className="flex justify-between items-center pt-2 mt-2 border-t">
-            <span className="text-base font-bold text-gray-800">Total</span>
-            <span className="text-base font-bold text-blue-navy-blue">
-              ${route.consignmentTotal.totalSellPrice.toFixed(2)}
-            </span>
-          </div>
+        <div className="flex justify-between items-center pt-2 mt-2 border-t">
+          <span className="text-base font-bold text-gray-800">Total</span>
+          <span className="text-base font-bold text-blue-navy-blue">
+            ${route.consignmentTotal.totalSellPrice.toFixed(2)}
+          </span>
+        </div>
 
+        {open && (
           <Button
             className="mt-4 w-full"
             onClick={() =>
@@ -83,8 +91,8 @@ export default function ShippingOptionCard({
           >
             Select this Option
           </Button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
