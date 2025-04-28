@@ -12,7 +12,6 @@ import {
 } from 'next/navigation';
 import {
   capsAllFirstCharWithDash,
-  capsAllFirstCharWithSpace,
   capsAllFirstCharWithUnderScore,
 } from '@/utils/string';
 import {
@@ -25,6 +24,7 @@ import {
   setCollectionFilters,
   setProductCount,
   setProductFilters,
+  setRevalidateCache,
   setSelectedFilters,
 } from '@/store/features/products';
 
@@ -53,6 +53,9 @@ const useProductFilter = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
   const productCount = useAppSelector((state) => state.products.productCount);
+  const revalidateCache = useAppSelector(
+    (state) => state.products.revalidateCache
+  );
   const selectedFilters = useAppSelector(
     (state) => state.products.selectedFilters
   );
@@ -73,9 +76,7 @@ const useProductFilter = () => {
   const [currentSelectedFilter, setCurrentSelectedFilter] =
     useState<SelectedFilter | null>(null);
 
-  const [revalidateCache, setRevalidateCache] = useState(true);
-
-  const { loading, data } = useQuery<
+  const { loading, data, refetch } = useQuery<
     CollectionsWithProductsQuery,
     CollectionsWithProductsQueryVariables
   >(COLLECTION_OPERATION.Query.collectionsWithProducts, {
@@ -441,7 +442,7 @@ const useProductFilter = () => {
     (brand?: string) => {
       if (!brand) return;
       cachedCollectionData.current = null;
-      setRevalidateCache(true);
+      dispatch(setRevalidateCache(true));
       dispatch(
         setCollectionFilters({
           handle: {
@@ -453,6 +454,26 @@ const useProductFilter = () => {
       router.replace(`/collections/${brand}`, { scroll: false });
     },
     [router, dispatch]
+  );
+
+  const handleCategoryClick = useCallback(
+    (category: string) => {
+      if (!category) return;
+      cachedCollectionData.current = null;
+      dispatch(setRevalidateCache(true));
+      dispatch(
+        setCollectionFilters({
+          handle: {
+            eq: category,
+          },
+        })
+      );
+      dispatch(setSelectedFilters([]));
+      dispatch(setProductFilters({}));
+
+      router.replace(`/collections/${category}`, { scroll: false });
+    },
+    [dispatch, router]
   );
 
   const handlePaginationNextClick = (page: number) => {
@@ -488,6 +509,7 @@ const useProductFilter = () => {
     const productsFromCollection = collection?.products || [];
     if (data) {
       if (!cachedCollectionData.current && revalidateCache) {
+        refetch();
         cachedCollectionData.current = data.collections;
         const acceptedFilters = collection?.productFilters || [];
         const updatedFilters = extractFilters(
@@ -498,7 +520,7 @@ const useProductFilter = () => {
         );
 
         setFilterOptions(updatedFilters);
-        setRevalidateCache(false);
+        dispatch(setRevalidateCache(false));
       } else {
         cachedCollectionData.current = data?.collections || [];
         const acceptedFilters = collection?.productFilters || [];
@@ -509,7 +531,7 @@ const useProductFilter = () => {
           acceptedFilters
         );
         setFilterOptions(updatedFilters);
-        setRevalidateCache(false);
+        dispatch(setRevalidateCache(false));
       }
     }
 
@@ -523,6 +545,7 @@ const useProductFilter = () => {
   }, [data, revalidateCache, cachedCollectionData.current]);
 
   return {
+    data,
     pathname,
     loading,
     products,
@@ -539,6 +562,7 @@ const useProductFilter = () => {
     handlePaginationNextClick,
     handlePaginationPreviousClick,
     handlePaginationPageClick,
+    handleCategoryClick,
   };
 };
 

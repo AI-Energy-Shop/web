@@ -18,6 +18,7 @@ export interface InitialState {
   selectedFilters: SelectedFilter[];
   productFilters: ProductFiltersInput;
   collectionFilters: CollectionFiltersInput;
+  revalidateCache: boolean;
 }
 
 const initialState: InitialState = {
@@ -25,6 +26,7 @@ const initialState: InitialState = {
   selectedFilters: [],
   productFilters: {},
   collectionFilters: {},
+  revalidateCache: true,
 };
 
 export const productsSlice = createSlice({
@@ -43,6 +45,9 @@ export const productsSlice = createSlice({
     setCollectionFilters: (state, action) => {
       state.collectionFilters = action.payload;
     },
+    setRevalidateCache: (state, action) => {
+      state.revalidateCache = action.payload;
+    },
   },
 });
 
@@ -51,6 +56,7 @@ export const {
   setSelectedFilters,
   setProductFilters,
   setCollectionFilters,
+  setRevalidateCache,
 } = productsSlice.actions;
 
 export default productsSlice.reducer;
