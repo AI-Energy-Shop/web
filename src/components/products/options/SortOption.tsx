@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Select,
   SelectContent,
@@ -6,21 +8,27 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import React from 'react';
+import { SORT_OPTIONS } from '@/constant/product';
+import useProductFilter from '@/hooks/useProductFilter';
+interface SortOptionProps {}
 
-interface SortOptionProps {
-  onSortChange: (sort: string) => void;
-}
+const SortOption: React.FC<SortOptionProps> = () => {
+  const { handleSortChange } = useProductFilter();
 
-const SortOption = ({ onSortChange }: SortOptionProps) => {
   return (
-    <Select defaultValue="featured" onValueChange={onSortChange}>
+    <Select
+      defaultValue={SORT_OPTIONS[0].value}
+      onValueChange={handleSortChange}
+    >
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Sort by" />
       </SelectTrigger>
       <SelectContent position="popper" className="user-select-none">
-        <SelectItem value="featured">Featured</SelectItem>
-        <SelectItem value="price-low">Price, low to high</SelectItem>
-        <SelectItem value="price-high">Price, high to low</SelectItem>
+        {SORT_OPTIONS.map((option) => (
+          <SelectItem key={option.value} value={option.value}>
+            {option.name}
+          </SelectItem>
+        ))}
       </SelectContent>
     </Select>
   );

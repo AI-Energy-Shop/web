@@ -7,15 +7,15 @@ export const LOCATIONS = [
   'BNE', // Brisbane (Queensland)
 ];
 
-export const FILTERS = [
-  { name: 'Brand' },
-  { name: 'Wattage' },
-  { name: 'Colour' },
-  { name: 'Key Features' },
-  { name: 'Product Warranty' },
+export const SORT_OPTIONS = [
+  { name: 'Alphabetically, A-Z', value: 'acend' },
+  { name: 'Alphabetically, Z-A', value: 'descend' },
+  { name: 'Price, low to high', value: 'price-low' },
+  { name: 'Price, high to low', value: 'price-high' },
 ];
 
 export const EXCLUDED_SEARCH_PARAMS = ['page', 'pageSize'];
+export const ACCEPTED_MAIN_FILTERS = ['Product Type', 'Brand'];
 
 export const INITIAL_PAGE = 1;
-export const INITIAL_PAGE_SIZE = 8;
+export const INITIAL_PAGE_SIZE = 12;

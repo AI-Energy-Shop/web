@@ -31,9 +31,9 @@ export default function RootLayout({
           <ApolloWrapper>
             <NavigationProvider>{children}</NavigationProvider>
           </ApolloWrapper>
+          <Toaster />
+          <ToasterUI />
         </Components.ReduxProvider>
-        <Toaster />
-        <ToasterUI />
       </body>
     </html>
   );

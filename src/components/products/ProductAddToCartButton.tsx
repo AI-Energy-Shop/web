@@ -39,7 +39,7 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
   const productPrice = salePrice ? salePrice : regularPrice || 0;
 
   const stocks = product?.inventories.find(
-    (inventory) => inventory?.name === warehouse?.address.city
+    (inventory) => inventory?.name === warehouse?.address?.city
   );
 
   const form = useForm<z.infer<typeof addToCartFormSchema>>({

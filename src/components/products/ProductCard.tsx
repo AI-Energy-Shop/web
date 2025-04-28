@@ -34,7 +34,7 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
 
   const stocks =
     product?.inventories.find(
-      (inventory) => inventory?.name === warehouse?.address.city
+      (inventory) => inventory?.name === warehouse?.address?.city
     )?.quantity || 0;
 
   const itemPrice = product?.price_lists?.find(
@@ -55,13 +55,9 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
     },
   });
 
-  const brand = product?.brand;
-  const firstCategory = product?.categories.find((_, index) => index === 0);
-  // const productSlug = product?.name.toLowerCase().replace(/ /g, '-');
-  const productSlug = product?.documentId;
-  const variantSlug = product?.documentId;
+  const productSlug = product?.name;
 
-  const productLink = `/products/${firstCategory?.slug}/${brand?.url}/${productSlug}`;
+  const productLink = `/products/${productSlug}`;
 
   const onSubmit = async (data: z.infer<typeof addToCartFormSchema>) => {
     if (!user) {

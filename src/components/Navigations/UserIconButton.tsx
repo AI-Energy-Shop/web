@@ -1,22 +1,13 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { User } from 'lucide-react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
+import { RootState, useAppSelector } from '@/store/store';
 import Link from 'next/link';
-import { Me } from '@/store/features/me';
+import dynamic from 'next/dynamic';
 
 const UserIconButton = () => {
-  const me = useSelector((state: RootState) => state.me.me);
-
-  const [user, setUser] = useState<Me | undefined>(undefined);
-
-  useEffect(() => {
-    if (me) {
-      setUser(me);
-    }
-  }, [me]);
+  const user = useAppSelector((state: RootState) => state.me.me);
 
   // If no user data, show login link instead
   if (!user?.business_name) {
@@ -42,4 +33,7 @@ const UserIconButton = () => {
   );
 };
 
-export default UserIconButton;
+// Export as a dynamic component with SSR disabled
+export default dynamic(() => Promise.resolve(UserIconButton), {
+  ssr: false,
+});

@@ -1,105 +1,67 @@
 'use client';
 import React from 'react';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
-import { useQuery } from '@apollo/client';
-import PRODUCT_OPRATIONS from '@/graphql/products';
-import { ProductsQuery } from '@/lib/gql/graphql';
-import { useSearchParams, useParams, usePathname } from 'next/navigation';
-import {
-  EXCLUDED_SEARCH_PARAMS,
-  INITIAL_PAGE,
-  INITIAL_PAGE_SIZE,
-} from '@/constant';
+import useProductFilter from '@/hooks/useProductFilter';
+import * as PaginationUI from '@/components/ui/pagination';
+import { INITIAL_PAGE_SIZE } from '@/constant';
+import { cn } from '@/lib/utils';
+import { Button } from '../ui/button';
 
-interface ProductPaginationProps {}
+interface ProductPaginationProps {
+  page?: number;
+  pageSize?: number;
+}
+const ProductPagination: React.FC<ProductPaginationProps> = ({
+  page,
+  pageSize,
+}) => {
+  const {
+    loading,
+    productCount,
+    handlePaginationPreviousClick,
+    handlePaginationNextClick,
+    handlePaginationPageClick,
+  } = useProductFilter();
+  const pageSizeValue = pageSize || INITIAL_PAGE_SIZE;
 
-const ProductPagination: React.FC<ProductPaginationProps> = (props) => {
-  const searchParams = useSearchParams();
-  const params = useParams();
-  const page = Number(searchParams.get('page')) || INITIAL_PAGE;
-  const pageSize = Number(searchParams.get('pageSize')) || INITIAL_PAGE_SIZE;
-  const pathname = usePathname();
+  const totalPages = Math.ceil(productCount / Number(pageSizeValue));
 
-  const filters = () => {
-    let f = {};
-    Object.entries(params)
-      .filter(([key]) => !EXCLUDED_SEARCH_PARAMS.includes(key))
-      .forEach(([key, value]) => {
-        if (key === 'brand') {
-          f = {
-            ...f,
-            [key]: {
-              url: {
-                eq: value,
-              },
-            },
-          };
-        }
-        if (key === 'category') {
-          f = {
-            ...f,
-            categories: {
-              slug: {
-                eq: value,
-              },
-            },
-          };
-        }
-      });
-
-    return f;
-  };
-
-  const { data, loading } = useQuery<ProductsQuery>(
-    PRODUCT_OPRATIONS.Query.products,
-    {
-      variables: {
-        filters: filters(),
-      },
-    }
-  );
-  const productLength = data?.products?.length || 0;
-  const totalPages = Math.ceil(productLength / pageSize);
-
-  if (loading) {
+  if (!page || productCount < pageSizeValue) {
     return null;
   }
 
   return (
-    <Pagination className="my-10">
-      <PaginationContent className="p-0">
-        <PaginationItem className="list-none">
+    <PaginationUI.Pagination
+      className={cn(`my-10 ${loading ? 'opacity-50' : 'opacity-100'}`)}
+    >
+      <PaginationUI.PaginationContent className="p-0">
+        <PaginationUI.PaginationItem className="list-none">
           {/* Go to first page */}
-          <PaginationPrevious
-            href={`${pathname}?page=${1}&pageSize=${pageSize}`}
+          <PaginationUI.PaginationPrevious
+            className="cursor-pointer select-none"
+            onClick={() => handlePaginationPreviousClick(page)}
           />
-        </PaginationItem>
+        </PaginationUI.PaginationItem>
         {totalPages &&
           Array.from({ length: totalPages }, (_, index) => (
-            <PaginationItem key={index} className="list-none">
-              <PaginationLink
-                isActive={page === index + 1}
-                href={`${pathname}?page=${index + 1}&pageSize=${pageSize}`}
+            <PaginationUI.PaginationItem key={index} className="list-none">
+              <Button
+                variant="ghost"
+                className={cn(` w-10 h-10 ${page === index + 1 && 'border'}`)}
+                onClick={() => handlePaginationPageClick(index + 1)}
               >
                 {index + 1}
-              </PaginationLink>
-            </PaginationItem>
+              </Button>
+            </PaginationUI.PaginationItem>
           ))}
-        <PaginationItem className="list-none">
+        <PaginationUI.PaginationItem className="list-none">
           {/* Go to last page */}
-          <PaginationNext
-            href={`${pathname}?page=${totalPages}&pageSize=${pageSize}`}
+          <PaginationUI.PaginationNext
+            className="cursor-pointer select-none"
+            onClick={() => handlePaginationNextClick(page)}
           />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
+        </PaginationUI.PaginationItem>
+      </PaginationUI.PaginationContent>
+    </PaginationUI.Pagination>
   );
 };
 

@@ -16,9 +16,7 @@ const CustomDot = ({ onClick, carouselState, index }: DotProps) => {
       onClick={() => onClick!()} // Add hover animation
     >
       <div
-        className={`w-full h-full rounded-full ${
-          isActive ? 'bg-slate-800' : ''
-        }`}
+        className={`w-full h-full rounded-full ${isActive ? 'bg-slate-800' : ''}`}
       />
     </div>
   );

@@ -23,7 +23,7 @@ export default function ShippingOptionCard({
 
   return (
     <div
-      className={`flex flex-col gap-2 p-4 border rounded-xl shadow-sm hover:shadow-md transition bg-white ${shippingDeliveryOptions === `${route.requestId}-${route.carrierService.id}` && 'border-purple-purp-aes'}`}
+      className={`flex flex-col gap-2 p-4 border-2 rounded-xl shadow-sm hover:shadow-md transition bg-white ${shippingDeliveryOptions === `${route.requestId}-${route.carrierService.id}` && 'border-purple-purp-aes'}`}
     >
       <div className="flex justify-between items-center">
         <div className="flex flex-col">

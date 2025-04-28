@@ -15,12 +15,12 @@ export interface Cart {
 }
 
 export interface WarehouseLocation {
-  address: {
-    city: string;
-    street1: string;
-    state: string;
-    zipCode: string;
-    country: string;
+  address?: {
+    city?: string;
+    street1?: string;
+    state?: string;
+    zipCode?: string;
+    country?: string;
   };
 }
 

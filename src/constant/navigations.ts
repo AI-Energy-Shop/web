@@ -44,7 +44,7 @@ export const ADMIN_SIDE_NAVIGATIONS: Array<{
 
 export const NAV_LIST_ITEMS = [
   { id: 0, href: '/', label: 'Home', icon: 'home' },
-  { id: 1, href: '/products', label: 'Products', icon: 'zap' },
+  { id: 1, href: '/collections/all', label: 'Products', icon: 'zap' },
   { id: 2, href: '/about', label: 'About Us', icon: 'info' },
   { id: 3, href: '/contact-us', label: 'Contact Us', icon: 'mail' },
   { id: 4, href: '/downloads', label: 'Downloads', icon: 'download' },

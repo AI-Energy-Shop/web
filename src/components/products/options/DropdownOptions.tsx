@@ -4,17 +4,13 @@ import SortOption from './SortOption';
 
 interface DropdownOptionsProps {
   onWarehouseChange: (warehouse: string) => void;
-  onSortChange: (sort: string) => void;
 }
 
-const DropdownOptions = ({
-  onWarehouseChange,
-  onSortChange,
-}: DropdownOptionsProps) => {
+const DropdownOptions = ({ onWarehouseChange }: DropdownOptionsProps) => {
   return (
     <div className="flex justify-end gap-2 m-2">
       <WarehouseOptions onWarehouseChange={onWarehouseChange} />
-      <SortOption onSortChange={onSortChange} />
+      <SortOption />
     </div>
   );
 };

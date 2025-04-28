@@ -1,85 +1,57 @@
 'use client';
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
 import { SelectedFilter } from '@/hooks/useProductFilter';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import React, { useState } from 'react';
+import { cn } from '@/lib/utils';
 
 interface FilterItemProps {
+  id: string;
   name: string;
-  value: string[]; //might have similar values
-  valueCount: number;
+  options: Array<{ value: string; count: number }>;
   isOpen: boolean;
   selectedFilters: SelectedFilter[];
-  onFilterChange: (key: string, value: string, id: string) => void;
+  onFilterClick: (selectedFilterOption: SelectedFilter) => void;
 }
 
 const FilterItem: React.FC<FilterItemProps> = ({
+  id,
   name,
-  value,
-  valueCount,
+  options,
   isOpen,
   selectedFilters,
-  onFilterChange,
+  onFilterClick,
 }) => {
-  const path = usePathname();
-  const fullPath = useSearchParams();
   const [open, setOpen] = useState(isOpen);
 
-  //get unique values from value array
-  const uniqueValues = [...new Set(value)];
-  //get the count of the similar values
-  const count = value.reduce((acc: any, curr: any) => {
-    acc[curr] = (acc[curr] || 0) + 1;
-    return acc;
-  }, {});
-
-  const renderFilterItem = (item: string, index: number) => {
-    const paramName = name.toLowerCase().replaceAll(' ', '-');
-    const paramValue = item.toLowerCase().replaceAll(' ', '-');
-
-    // Create URLSearchParams from current search params
-    const searchParams = new URLSearchParams(fullPath.toString());
-
-    // Get current values for this filter
-    const currentValues = searchParams.getAll(paramName);
-
-    let newSearchParams = new URLSearchParams(searchParams);
-
-    if (currentValues.includes(paramValue)) {
-      // Remove the value if it exists
-      const filteredValues = currentValues.filter((v) => v !== paramValue);
-      newSearchParams.delete(paramName);
-      filteredValues.forEach((v) => newSearchParams.append(paramName, v));
-    } else {
-      // Add the new value
-      newSearchParams.append(paramName, paramValue);
-    }
-
-    // Build the href
-    const href = `${path}${newSearchParams.toString() ? '?' + newSearchParams.toString() : ''}`;
-
+  const renderFilterItem = (
+    option: { value: string; count: number },
+    index: number
+  ) => {
     return (
-      <Link key={index} href={href} className="flex items-center gap-1">
-        <Checkbox
-          name={item}
-          onCheckedChange={() => onFilterChange(name, item, index.toString())}
-          checked={currentValues.includes(paramValue)}
+      <div
+        key={index}
+        onClick={() => onFilterClick({ id, key: name, value: option.value })}
+        className="flex items-center gap-1 p-2 cursor-pointer transition-all duration-300 hover:bg-gray-100"
+      >
+        <input
+          type="checkbox"
+          name={option.value}
+          checked={selectedFilters.some(
+            (filter) => filter.value === option.value
+          )}
         />
-        <Label className="text-sm font-normal">{item}</Label>
-        <span className="text-xs text-gray-500">({count[item]})</span>
-      </Link>
+        <Label className="text-sm font-normal">{option.value}</Label>
+        <span className="text-xs text-gray-500">({option.count})</span>
+      </div>
     );
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col cursor-pointer">
       <div className="flex items-center justify-between p-1">
-        <Label>{name}</Label>
+        <Label>{name.replaceAll('_', ' ')}</Label>
         <Button variant="ghost" size="icon" onClick={() => setOpen(!open)}>
           {open ? (
             <ChevronUp className="h-4 w-4" />
@@ -91,10 +63,10 @@ const FilterItem: React.FC<FilterItemProps> = ({
 
       <div
         className={cn(
-          `w-full border-b border-gray-200 flex flex-col gap-2 overflow-hidden ease-in-out duration-500 ${open ? 'h-auto py-2 overflow-y-auto' : 'h-0 overflow-hidden'}`
+          `w-full border-b border-gray-200 flex flex-col gap-1 overflow-hidden ease-in-out duration-500 ${open ? 'h-auto py-2 overflow-y-auto' : 'h-0 overflow-hidden'}`
         )}
       >
-        {uniqueValues.map(renderFilterItem)}
+        {options.map(renderFilterItem)}
       </div>
     </div>
   );
