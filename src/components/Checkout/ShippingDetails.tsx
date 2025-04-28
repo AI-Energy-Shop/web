@@ -1,16 +1,8 @@
 'use client';
 import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import {
-  CalendarIcon,
-  Check,
-  Divide,
-  FilePenLine,
-  MoveRight,
-} from 'lucide-react';
+import { CalendarIcon, Check, FilePenLine, MoveRight } from 'lucide-react';
 import { DynamicIcon } from 'lucide-react/dynamic';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
 import {
   Popover,
   PopoverContent,
@@ -20,10 +12,7 @@ import { formatDate } from '@/utils/formatDate';
 import { Calendar } from '@/components/ui/calendar';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-import {
-  DELIVERY_OPTIONS,
-  PICK_UP_ESTIMATED_ARRIVAL_TIME,
-} from '@/constant/shipping';
+import { PICK_UP_ESTIMATED_ARRIVAL_TIME } from '@/constant/shipping';
 import Link from 'next/link';
 import useCart from '@/hooks/useCart';
 import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
@@ -32,8 +21,8 @@ import { useCheckout } from '@/hooks/useCheckout';
 import { ShippingType } from '@/store/features/checkout';
 import { isButtonClickable } from './isButtonClickable';
 import useCalculateDeliveryPricing from '@/hooks/useCalculateDeliveryPricing';
-import { Input } from '../ui/input';
 import LoadingSpinner from '../LoadingSpinner';
+import ShippingOptionCard from './ShippingOptionCard';
 
 interface ShippingDetailsProps {
   checkoutUserData: GetCheckoutUserDataQuery;
@@ -70,7 +59,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     new Date()
   );
 
-  const [deliveryRadioGroup, setDeliverRadioGroup] = React.useState<
+  const [shippingDeliveryOptions, setShippingDeliveryOptions] = React.useState<
     string | undefined
   >(undefined);
 
@@ -196,29 +185,15 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     }
   };
 
-  const handleChangeDeliveryOption = (value: string) => {
-    setDeliverRadioGroup(value);
-
-    if (value === '3') {
-      setDeliveryOptions({ type: 'manual', date: deliveryDate });
-    } else {
-      const data = DELIVERY_OPTIONS.find((delivery) => delivery.id === value);
-
-      const formattedData = `${data?.prefix}${data?.price} ${data?.label} ${data?.eta}`;
-
-      setDeliveryOptions({ type: 'auto', date: formattedData });
-    }
-  };
-
   useEffect(() => {
     if (!deliveryDate) {
       setDeliveryOptions({ type: 'manual', date: undefined });
     }
 
-    if (deliveryRadioGroup === '3') {
+    if (shippingDeliveryOptions === '3') {
       setDeliveryOptions({ type: 'manual', date: deliveryDate });
     }
-  }, [deliveryDate, deliveryRadioGroup, setDeliveryOptions]);
+  }, [deliveryDate, shippingDeliveryOptions, setDeliveryOptions]);
 
   useEffect(() => {
     setPickUpOptions({
@@ -230,52 +205,36 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
 
   const renderDeliveryOptions = () => {
     return (
-      <div className="border border-blue-navy-blue rounded-xl p-2 md:mx-12">
+      <div className="border border-blue-navy-blue rounded-xl p-2 md:mx-12 space-y-2">
         <h1 className="font-bold">Delivery Options:</h1>
-        <RadioGroup
-          value={deliveryRadioGroup}
-          onValueChange={handleChangeDeliveryOption}
-        >
-          <div className="relative">
-            {isCartNeededManualQuote && (
-              <div className="absolute w-full h-full bg-pink-darker-pink flex flex-col justify-center items-center text-center text-white z-10">
-                <h1 className="font-bold text-xl">
-                  Soonest Available Delivery
-                </h1>
-                <p className="text-xs">
-                  some of your product needed to manually quoted
-                </p>
-                <p className="font-semibold">
-                  (or you can choose specific date below)
-                </p>
-              </div>
-            )}
-            {/* {DELIVERY_OPTIONS.map((item) => {
-              return (
-                <div
-                  key={item.id}
-                  className="flex items-center space-x-2 border-b border-b-gray-300"
-                >
-                  <RadioGroupItem
-                    value={`${item.id}`}
-                    id={`${item.id}`}
-                    disabled={isCartNeededManualQuote}
-                  />
-                  <Label htmlFor={`${item.id}`}>
-                    <div>
-                      <p>
-                        {item.prefix}
-                        {item.price} ex. GST
-                      </p>
-                      <p>
-                        {item.label} ({item.eta})
-                      </p>
-                    </div>
-                  </Label>
-                </div>
-              );
-            })} */}
-          </div>
+
+        <div className="relative max-h-96 overflow-y-scroll space-y-2">
+          {isCartNeededManualQuote && (
+            <div className="absolute w-full h-full bg-pink-darker-pink flex flex-col justify-center items-center text-center text-white z-10">
+              <h1 className="font-bold text-xl">Soonest Available Delivery</h1>
+              <p className="text-xs">
+                some of your product needed to manually quoted
+              </p>
+              <p className="font-semibold">
+                (or you can choose specific date below)
+              </p>
+            </div>
+          )}
+
+          {data?.map((route) => (
+            <ShippingOptionCard
+              key={`${route.requestId}-${route.carrierService.id}`}
+              route={route}
+              shippingDeliveryOptions={shippingDeliveryOptions}
+              setShippingDeliveryOptions={setShippingDeliveryOptions}
+            />
+          ))}
+
+          {data.length === 0 && !isLoading && !error && (
+            <p className="text-center text-sm font-bold">
+              There is no available pricing
+            </p>
+          )}
 
           {isLoading && <LoadingSpinner />}
           {error && (
@@ -283,48 +242,51 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
               {error}
             </p>
           )}
+        </div>
 
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="3" id="3" />
-            <Label htmlFor="3">
-              <div>
-                <p>TBC - Request delivery on specified date</p>
-                <div>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        onClick={() => {
-                          setDeliverRadioGroup('3');
-                        }}
-                        variant="ghost"
-                        className={cn(
-                          'w-fit justify-start gap-2 px-2 font-normal hover:bg-transparent',
-                          !deliveryDate && 'text-muted-foreground'
-                        )}
-                      >
-                        <CalendarIcon className="h-5 w-5 text-muted-foreground" />
-                        <span className="text-lg text-muted-foreground">
-                          {deliveryDate
-                            ? formatDate(deliveryDate)
-                            : 'Select date'}
-                        </span>
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                      <Calendar
-                        mode="single"
-                        selected={deliveryDate}
-                        onSelect={setDeliveryDate}
-                        initialFocus
-                        disabled={{ before: TODAY }}
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </div>
-              </div>
-            </Label>
+        <div
+          className={`flex items-center space-x-2 px-2 ${shippingDeliveryOptions === 'manual' && 'border border-purple-purp-aes rounded-lg'}`}
+        >
+          <div>
+            <p className="font-bold text-sm">
+              TBC - Request delivery on specified date
+            </p>
+            <div>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    onClick={() => {
+                      setShippingDeliveryOptions('manual');
+                      setDeliveryOptions({
+                        type: 'manual',
+                        date: deliveryDate,
+                      });
+                    }}
+                    variant="ghost"
+                    className={cn(
+                      'w-fit justify-start gap-2 px-2 font-normal hover:bg-transparent',
+                      !deliveryDate && 'text-muted-foreground'
+                    )}
+                  >
+                    <CalendarIcon className="h-5 w-5 text-muted-foreground" />
+                    <span className="text-lg text-muted-foreground">
+                      {deliveryDate ? formatDate(deliveryDate) : 'Select date'}
+                    </span>
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={deliveryDate}
+                    onSelect={setDeliveryDate}
+                    initialFocus
+                    disabled={{ before: TODAY }}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
-        </RadioGroup>
+        </div>
       </div>
     );
   };
