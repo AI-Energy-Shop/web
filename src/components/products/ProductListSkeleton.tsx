@@ -5,7 +5,9 @@ interface ProductListSkeletonProps {
   showFilters?: boolean;
 }
 
-const ProductListSkeleton: React.FC<ProductListSkeletonProps> = ({ showFilters }) => {
+const ProductListSkeleton: React.FC<ProductListSkeletonProps> = ({
+  showFilters,
+}) => {
   return (
     <div className="products flex gap-8">
       {showFilters && (

@@ -46,7 +46,11 @@ export const productsSlice = createSlice({
   },
 });
 
-export const { setProductCount, setSelectedFilters, setProductFilters, setCollectionFilters } =
-  productsSlice.actions;
+export const {
+  setProductCount,
+  setSelectedFilters,
+  setProductFilters,
+  setCollectionFilters,
+} = productsSlice.actions;
 
 export default productsSlice.reducer;

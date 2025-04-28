@@ -106,7 +106,10 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
           }
 
           /* DESKTOP | WIDESCREEN */
-          if (currentBreakpoint >= 1024 && (item.type === TABLET || item.type === DESKTOP)) {
+          if (
+            currentBreakpoint >= 1024 &&
+            (item.type === TABLET || item.type === DESKTOP)
+          ) {
             return (
               <div key={item.id} className="h-[33.33vw] max-h-[400px] relative">
                 <Image

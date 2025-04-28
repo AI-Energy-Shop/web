@@ -107,26 +107,29 @@ const useAuth = () => {
             address: {
               city: data?.user?.warehouse_location?.address?.city || '',
               street1: data?.user?.warehouse_location?.address?.street || '',
-              state: data?.user?.warehouse_location?.address?.state_territory || '',
+              state:
+                data?.user?.warehouse_location?.address?.state_territory || '',
               zipCode: data?.user?.warehouse_location?.address?.postcode || '',
               country: data?.user?.warehouse_location?.address?.country || '',
             },
           })
         );
 
-        const shipAddresses = data?.user.account_detail.shipping_addresses.map((address) => {
-          return {
-            documentId: address.documentId,
-            street1: address.street1,
-            street2: address.street2,
-            city: address.city,
-            state: address.state,
-            zipCode: address.zip_code,
-            country: address.country,
-            isActive: address.isActive,
-            phone: address.phone,
-          };
-        });
+        const shipAddresses = data?.user.account_detail.shipping_addresses.map(
+          (address) => {
+            return {
+              documentId: address.documentId,
+              street1: address.street1,
+              street2: address.street2,
+              city: address.city,
+              state: address.state,
+              zipCode: address.zip_code,
+              country: address.country,
+              isActive: address.isActive,
+              phone: address.phone,
+            };
+          }
+        );
 
         dispatch(
           setMe({
@@ -143,7 +146,8 @@ const useAuth = () => {
               level: data?.user?.user_level || '',
               name: {
                 first_name: data?.user?.account_detail?.name?.first_name || '',
-                middle_name: data?.user?.account_detail?.name?.middle_name || '',
+                middle_name:
+                  data?.user?.account_detail?.name?.middle_name || '',
                 last_name: data?.user?.account_detail?.name?.last_name || '',
               },
               shipping_addresses: shipAddresses,

@@ -15,7 +15,9 @@ import {
 
 const client = getClient();
 
-export const product = async (id: string): Promise<FetchResult<ProductQuery>> => {
+export const product = async (
+  id: string
+): Promise<FetchResult<ProductQuery>> => {
   try {
     const res = await client.query({
       query: PRODUCT_OPERATIONS.Query.product,
@@ -77,7 +79,9 @@ export const createProduct = async (
   }
 };
 
-export const updateProduct = async (variables: CustomProductUpdateMutationVariables) => {
+export const updateProduct = async (
+  variables: CustomProductUpdateMutationVariables
+) => {
   const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
   try {

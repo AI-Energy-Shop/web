@@ -8,7 +8,9 @@ const useSearchFilter = () => {
   const router = useRouter();
   const [searchQueryInput, setSearchQueryInput] = useState<string>('');
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
-  const [searchProducts, { data: searchData }] = useLazyQuery(PRODUCT_OPERATION.Query.products);
+  const [searchProducts, { data: searchData }] = useLazyQuery(
+    PRODUCT_OPERATION.Query.products
+  );
 
   // Debounced search function
   const debouncedSearch = debounce((searchTerm) => {

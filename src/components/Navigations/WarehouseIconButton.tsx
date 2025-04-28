@@ -12,7 +12,10 @@ const WarehouseIconButton = () => {
   // If no user data, show login link instead
   if (!cart.warehouseLocation) {
     return (
-      <Link href="/auth/login" className="flex flex-col items-center m-0 w-auto h-auto px-1">
+      <Link
+        href="/auth/login"
+        className="flex flex-col items-center m-0 w-auto h-auto px-1"
+      >
         <Warehouse className="h-5 w-5" />
         <span className="text-sm font-normal">Warehouse</span>
       </Link>

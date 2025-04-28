@@ -43,8 +43,15 @@ const SearchResult = ({
           {searchData?.products
             ?.map?.((item) => {
               return (
-                <div className="cursor-pointer" key={item?.documentId} onClick={() => handleClick(item)}>
-                  <div key={item?.documentId} className="flex items-center gap-2 p-2 border-b">
+                <div
+                  className="cursor-pointer"
+                  key={item?.documentId}
+                  onClick={() => handleClick(item)}
+                >
+                  <div
+                    key={item?.documentId}
+                    className="flex items-center gap-2 p-2 border-b"
+                  >
                     <Image
                       src={item?.images.at(0)?.url ?? ''}
                       alt={item?.images.at(0)?.alternativeText ?? ''}

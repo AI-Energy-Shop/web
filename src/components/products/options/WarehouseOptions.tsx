@@ -1,5 +1,11 @@
 import React from 'react';
-import { SelectItem, Select, SelectTrigger, SelectValue, SelectContent } from '../../ui/select';
+import {
+  SelectItem,
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+} from '../../ui/select';
 
 interface WarehouseOptionsProps {
   onWarehouseChange: (warehouse: string) => void;

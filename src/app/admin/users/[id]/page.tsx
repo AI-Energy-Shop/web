@@ -1,4 +1,10 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { getUserDetails, updateAccountStatus } from '@/app/actions/user';
 import AdminUserProfileForm from '@/components/Form/AdminUserProfileForm';
@@ -55,13 +61,20 @@ const AdminDashboardUserPage = async (props: AdminDashboardUserPageProps) => {
               <div className="flex items-center space-x-4">
                 <div>
                   <h2 className="text-xl font-semibold">{user?.username}</h2>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Email: {user?.email}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Email: {user?.email}
+                  </p>
                 </div>
               </div>
               {searchParams.type === 'request' && (
-                <UserApprovalForm documentId={params.id} defaultValues={searchParams} />
+                <UserApprovalForm
+                  documentId={params.id}
+                  defaultValues={searchParams}
+                />
               )}
-              {searchParams.type === 'approved' && <AdminUserProfileForm user={user} />}
+              {searchParams.type === 'approved' && (
+                <AdminUserProfileForm user={user} />
+              )}
             </div>
           </CardContent>
         </Card>

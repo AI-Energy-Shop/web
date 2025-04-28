@@ -33,7 +33,9 @@ const OrderSummary: React.FC<OrderSummaryProps> = () => {
       <div>
         <h1 className="font-semibold">Shipping:</h1>
         <h2 className="text-sm">
-          <span className="block font-semibold italic">{user?.business_name}</span>
+          <span className="block font-semibold italic">
+            {user?.business_name}
+          </span>
           {user?.account_detail?.shipping_addresses?.map?.((address, index) => {
             if (address.isActive) {
               return (
@@ -109,7 +111,9 @@ const OrderSummary: React.FC<OrderSummaryProps> = () => {
 
   return (
     <div className="bg-white ml-8">
-      <h1 className="p-2 text-xl font-black text-white bg-black">Order Summary</h1>
+      <h1 className="p-2 text-xl font-black text-white bg-black">
+        Order Summary
+      </h1>
       <div className="px-2 space-y-2 py-4">
         {renderSelectedWarehouseLocation()}
         <div className="h-0.5 w-full bg-yellow-aes-yellow" />

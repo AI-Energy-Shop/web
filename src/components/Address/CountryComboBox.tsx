@@ -12,8 +12,17 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from '@/components/ui/form';
 import CountryList from '@/data/country_combo_box.json';
 import { UseFormReturn } from 'react-hook-form';
 import { addressSchema } from '@/lib/validation-schema/address-form';
@@ -45,13 +54,18 @@ export default function CountryComboBox({ form }: CountryComboBoxProps) {
                   )}
                 >
                   {field.value
-                    ? CountryList.find((country) => country.name === field.value)?.name
+                    ? CountryList.find(
+                        (country) => country.name === field.value
+                      )?.name
                     : 'Select Country'}
                   <ChevronsUpDown className="opacity-50" />
                 </Button>
               </FormControl>
             </PopoverTrigger>
-            <PopoverContent className="p-0" onWheel={(e) => e.stopPropagation()}>
+            <PopoverContent
+              className="p-0"
+              onWheel={(e) => e.stopPropagation()}
+            >
               <Command>
                 <CommandInput placeholder="Search Country..." className="h-9" />
                 <CommandList>
@@ -69,7 +83,9 @@ export default function CountryComboBox({ form }: CountryComboBoxProps) {
                         <Check
                           className={cn(
                             'ml-auto',
-                            country.name === field.value ? 'opacity-100' : 'opacity-0'
+                            country.name === field.value
+                              ? 'opacity-100'
+                              : 'opacity-0'
                           )}
                         />
                       </CommandItem>

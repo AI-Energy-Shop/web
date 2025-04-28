@@ -36,13 +36,16 @@ export function FileUploadZone({
     [onFiles]
   );
 
-  const handleFileInput = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Trigger form submission automatically
-    formRef.current?.requestSubmit();
+  const handleFileInput = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      // Trigger form submission automatically
+      formRef.current?.requestSubmit();
 
-    // Reset input
-    e.target.value = '';
-  }, []);
+      // Reset input
+      e.target.value = '';
+    },
+    []
+  );
 
   const handleFormSubmit = async (form: React.FormEvent<HTMLFormElement>) => {
     form.preventDefault(); // Prevent the default form submission

@@ -11,7 +11,13 @@ import ListInput from './ListInput';
 import InventoryItem from './InventoryItem';
 import PriceListItem from './PriceListItem';
 import { objectIsEqual } from '@/lib/utils';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { ChevronLeft, Loader2 } from 'lucide-react';
 import RichTextEditor from '@/components/RichTextEditor/RichTextEditor';
 import FileUpload from '../Upload/FileUpload';
@@ -216,7 +222,12 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
             onAddList={handleAddPriceItem}
             onChange={handleOnInputChange}
             onSave={handleSaveCurrentPrices}
-            childComponent={<PriceListItem onRemove={onRemoveList} onSelectChange={onChangePriceUserLevel} />}
+            childComponent={
+              <PriceListItem
+                onRemove={onRemoveList}
+                onSelectChange={onChangePriceUserLevel}
+              />
+            }
           />
         </div>
 

@@ -13,7 +13,9 @@ const ProductsPage = async () => {
       {/* Header */}
       <header className="bg-white dark:bg-gray-800 shadow">
         <div className="w-full mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Products</h1>
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
+            Products
+          </h1>
           <div className="relative">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-400" />
             <Input placeholder="Search products" className="pl-8" />
@@ -74,7 +76,9 @@ const ProductsPage = async () => {
                     <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
                       Total Orders
                     </dt>
-                    <dd className="text-lg font-medium text-gray-900 dark:text-white">120</dd>
+                    <dd className="text-lg font-medium text-gray-900 dark:text-white">
+                      120
+                    </dd>
                   </dl>
                 </div>
               </div>
@@ -91,7 +95,9 @@ const ProductsPage = async () => {
                     <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
                       Total Customers
                     </dt>
-                    <dd className="text-lg font-medium text-gray-900 dark:text-white">250</dd>
+                    <dd className="text-lg font-medium text-gray-900 dark:text-white">
+                      250
+                    </dd>
                   </dl>
                 </div>
               </div>
@@ -102,9 +108,13 @@ const ProductsPage = async () => {
         {/* Product Table */}
         <div className="mt-8">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">All Products</h2>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+              All Products
+            </h2>
             <Button>
-              <Link href={'/admin/dashboard/products/new'}>Add New Product</Link>
+              <Link href={'/admin/dashboard/products/new'}>
+                Add New Product
+              </Link>
             </Button>
           </div>
           <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg">

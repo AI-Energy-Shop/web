@@ -33,9 +33,13 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
   const { user } = useMe();
 
   const stocks =
-    product?.inventories.find((inventory) => inventory?.name === warehouse?.address?.city)?.quantity || 0;
+    product?.inventories.find(
+      (inventory) => inventory?.name === warehouse?.address?.city
+    )?.quantity || 0;
 
-  const itemPrice = product?.price_lists?.find((price) => price?.user_level === user?.account_detail?.level);
+  const itemPrice = product?.price_lists?.find(
+    (price) => price?.user_level === user?.account_detail?.level
+  );
 
   const salePrice = itemPrice?.sale_price;
   const regularPrice = itemPrice?.price;
@@ -77,7 +81,9 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
       return;
     }
 
-    const cartItem = carts.find((cart) => cart?.product?.documentId === data.id);
+    const cartItem = carts.find(
+      (cart) => cart?.product?.documentId === data.id
+    );
 
     if (cartItem && cartItem?.product) {
       updateCartItem({
@@ -99,7 +105,9 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
     if (!user) {
       return (
         <div className="grid grid-cols-1 my-3">
-          <span className="text-sm row-span-1 text-[#1b1b3b]">Login to view price</span>
+          <span className="text-sm row-span-1 text-[#1b1b3b]">
+            Login to view price
+          </span>
         </div>
       );
     }
@@ -110,9 +118,14 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
           {itemPrice?.price ? formatCurrency(itemPrice.price, 'USD') : null}
         </span>
         <p className="text-md font-bold row-span-1 block h-auto">
-          {formatCurrency(productPrice || 0, 'USD')} <span className="text-xs font-normal">ex.GST</span>
+          {formatCurrency(productPrice || 0, 'USD')}{' '}
+          <span className="text-xs font-normal">ex.GST</span>
         </p>
-        <span className={cn(`${stocks > 0 ? 'text-green-900' : 'text-red-900'} text-sm  row-span-1`)}>
+        <span
+          className={cn(
+            `${stocks > 0 ? 'text-green-900' : 'text-red-900'} text-sm  row-span-1`
+          )}
+        >
           {stocks > 0 ? (
             <span className="text-green-900">In Stock ({stocks})</span>
           ) : (
@@ -123,7 +136,9 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
     );
   };
 
-  const renderHiddenInput = (name: keyof z.infer<typeof addToCartFormSchema>) => {
+  const renderHiddenInput = (
+    name: keyof z.infer<typeof addToCartFormSchema>
+  ) => {
     return (
       <FormField
         name={name}
@@ -150,7 +165,10 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
           </div>
           {/* NAME AND MODEL */}
           <div className="flex flex-col justify-between">
-            <h3 className="font-medium text-sm mb-1 text-pretty" title={product?.name}>
+            <h3
+              className="font-medium text-sm mb-1 text-pretty"
+              title={product?.name}
+            >
               <span>{product?.name.slice(0, 40)} . . .</span>
             </h3>
             <p className="text-sm font-thin italic">{product?.model}</p>
@@ -164,7 +182,11 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
           {user && (
             <>
               <ProductQuantity form={form} />
-              <Button type="submit" disabled={stocks <= 0} className="w-full mt-2 bg-[#1b1b3b] text-white">
+              <Button
+                type="submit"
+                disabled={stocks <= 0}
+                className="w-full mt-2 bg-[#1b1b3b] text-white"
+              >
                 {stocks <= 0 ? 'Out of Stock' : `Add to Cart`}
               </Button>
             </>

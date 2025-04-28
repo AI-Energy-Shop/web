@@ -1,5 +1,13 @@
 export function formatDate(date: Date): string {
-  const daysOfWeek: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const daysOfWeek: string[] = [
+    'Sun',
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+  ];
   const months: string[] = [
     'Jan',
     'Feb',
