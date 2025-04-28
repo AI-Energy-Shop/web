@@ -1,5 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
+import { RootState, useAppDispatch, useAppSelector } from '@/store/store';
 import { useToast } from './useToast';
 import { CART_WINDOW_TIMEOUT } from '@/constant/cart';
 import { setCart, setPaymentStep, setShowCartWindow } from '@/store/features/cart';
@@ -13,13 +12,13 @@ import { useState } from 'react';
 const useCart = () => {
   const date = new Date();
   const { toast } = useToast();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [shippingOptions, setShippingOptions] = useState<ShippingOptions>(SHIPPING_OPTIONS);
   const [paymentOption, setPaymentOption] = useState<string>('');
-  const carts = useSelector((state: RootState) => state.cart.carts);
-  const paymentStep = useSelector((state: RootState) => state.cart.paymentStep);
-  const warehouse = useSelector((state: RootState) => state.cart.warehouseLocation);
-  const showCartWindow = useSelector((state: RootState) => state.cart.showCartWindow);
+  const carts = useAppSelector((state) => state.cart.carts);
+  const paymentStep = useAppSelector((state: RootState) => state.cart.paymentStep);
+  const warehouse = useAppSelector((state: RootState) => state.cart.warehouseLocation);
+  const showCartWindow = useAppSelector((state: RootState) => state.cart.showCartWindow);
 
   const addToCart = async (data: { product: string; quantity: number; user: string }) => {
     const formData = new FormData();

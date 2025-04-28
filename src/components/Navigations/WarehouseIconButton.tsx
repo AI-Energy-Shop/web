@@ -1,25 +1,16 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Warehouse } from 'lucide-react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
+import { RootState, useAppSelector } from '@/store/store';
 import Link from 'next/link';
-import { WarehouseLocation } from '@/store/features/cart';
-const WarehouseIconButton = () => {
-  const warehouseLocation = useSelector((state: RootState) => state.cart.warehouseLocation);
-  const [warehouseLocationState, setWarehouseLocationState] = useState<WarehouseLocation | undefined>(
-    undefined
-  );
+import dynamic from 'next/dynamic';
 
-  useEffect(() => {
-    if (warehouseLocation) {
-      setWarehouseLocationState(warehouseLocation);
-    }
-  }, [warehouseLocation]);
+const WarehouseIconButton = () => {
+  const cart = useAppSelector((state: RootState) => state.cart);
 
   // If no user data, show login link instead
-  if (!warehouseLocationState) {
+  if (!cart.warehouseLocation) {
     return (
       <Link href="/auth/login" className="flex flex-col items-center m-0 w-auto h-auto px-1">
         <Warehouse className="h-5 w-5" />
@@ -29,11 +20,14 @@ const WarehouseIconButton = () => {
   }
 
   return (
-    <Link href="/profile#warehouseAddress" className="flex flex-col items-center m-0 w-auto h-auto px-1">
+    <div className="flex flex-col items-center m-0 w-auto h-auto px-1">
       <Warehouse className="h-5 w-5" />
-      <span className="text-sm font-normal">{warehouseLocationState.address.city}</span>
-    </Link>
+      <span className="text-sm font-normal">{`${cart?.warehouseLocation?.address?.city}`}</span>
+    </div>
   );
 };
 
-export default WarehouseIconButton;
+// Export as a dynamic component with SSR disabled
+export default dynamic(() => Promise.resolve(WarehouseIconButton), {
+  ssr: false,
+});

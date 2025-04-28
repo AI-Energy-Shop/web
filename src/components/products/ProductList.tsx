@@ -18,7 +18,7 @@ const ProductsList: React.FC<ProductListProps> = ({ data, page, pageSize }) => {
           return <ProductCard key={product?.documentId} product={product} />;
         })}
       </div>
-      <ProductPagination page={page} pageSize={pageSize} dataCount={data?.length || 0} />
+      <ProductPagination page={page} pageSize={pageSize} />
     </>
   );
 };

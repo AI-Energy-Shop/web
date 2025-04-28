@@ -33,7 +33,7 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
   const { user } = useMe();
 
   const stocks =
-    product?.inventories.find((inventory) => inventory?.name === warehouse?.address.city)?.quantity || 0;
+    product?.inventories.find((inventory) => inventory?.name === warehouse?.address?.city)?.quantity || 0;
 
   const itemPrice = product?.price_lists?.find((price) => price?.user_level === user?.account_detail?.level);
 
