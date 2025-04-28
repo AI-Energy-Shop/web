@@ -5,7 +5,8 @@ import { useQuery } from '@apollo/client';
 import COLLECTIONS_OPERATIONS from '@/graphql/collections';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-
+import { useAppDispatch } from '@/store/store';
+import useProductFilter from '@/hooks/useProductFilter';
 interface CategoriesProps {
   acceptedCollections: string[];
   excludedCollections?: string[];
@@ -14,8 +15,8 @@ const Categories: React.FC<CategoriesProps> = ({
   acceptedCollections,
   excludedCollections = ['all'],
 }) => {
+  const { handleCategoryClick } = useProductFilter();
   const pathname = usePathname();
-  const router = useRouter();
   const { data, loading } = useQuery(COLLECTIONS_OPERATIONS.Query.collections, {
     variables: {
       filters: {
@@ -52,10 +53,6 @@ const Categories: React.FC<CategoriesProps> = ({
     );
   }
 
-  const handleCollectionClick = (handle: string) => {
-    router.push(`/collections/${handle}`);
-  };
-
   return (
     <div className="w-full bg-[#f5efe6] p-5">
       <div className="w-full lg:max-w-[1200px] mx-auto">
@@ -65,7 +62,7 @@ const Categories: React.FC<CategoriesProps> = ({
               className="w-full h-full cursor-pointer"
               key={`${collection?.documentId}`}
               title={`${collection?.title}`}
-              onClick={() => handleCollectionClick(`${collection?.handle}`)}
+              onClick={() => handleCategoryClick(`${collection?.handle}`)}
             >
               <div className="w-full h-full flex flex-col items-center gap-1">
                 <div className="w-full h-full relative">
