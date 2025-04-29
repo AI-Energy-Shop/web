@@ -1,11 +1,14 @@
 import { calculateDeliveryPricing } from '@/app/actions/macship';
 import { Routes } from '@/lib/routes.types';
 import { useEffect, useState } from 'react';
+import { useCheckout } from './useCheckout';
 
 const useCalculateDeliveryPricing = (suburb: string, postCode: string) => {
   const [data, setData] = useState<Routes[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+
+  const { warehouseLocation } = useCheckout();
 
   useEffect(() => {
     if (!suburb || !postCode) {
@@ -20,8 +23,8 @@ const useCalculateDeliveryPricing = (suburb: string, postCode: string) => {
 
         const { error, data } = await calculateDeliveryPricing({
           fromLocation: {
-            suburb: 'Brookvale',
-            postcode: '2100',
+            suburb: warehouseLocation.macshipApiDetails.suburb,
+            postcode: warehouseLocation.macshipApiDetails.zip,
           },
           toLocation: {
             suburb: suburb,
@@ -44,7 +47,12 @@ const useCalculateDeliveryPricing = (suburb: string, postCode: string) => {
     };
 
     fetchData();
-  }, [suburb, postCode]);
+  }, [
+    suburb,
+    postCode,
+    warehouseLocation.macshipApiDetails.suburb,
+    warehouseLocation.macshipApiDetails.zip,
+  ]);
 
   return { data, isLoading, error };
 };
