@@ -243,7 +243,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
         </div>
 
         <div
-          className={`flex items-center space-x-2 px-2 ${shippingDeliveryOptions === 'manual' && 'border border-purple-purp-aes rounded-lg'}`}
+          className={`flex items-center space-x-2 px-2 ${shippingDeliveryOptions === 'manual' && 'border-2 border-purple-purp-aes rounded-lg'}`}
         >
           <div>
             <p className="font-bold text-sm">

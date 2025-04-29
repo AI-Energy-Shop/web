@@ -19,27 +19,39 @@ export const WAREHOUSE_LOCATIONS = [
     id: 0,
     title: 'Sydney(24/32-38 Belmore Rd, Punchbowl NSW)',
     name: 'sydney',
-    macshipApiDetails: {
+    address: {
+      city: 'Sydney',
+      unit: '24/32-38',
+      street: 'Belmore Rd',
       suburb: 'Punchbowl',
-      zip: '2196',
+      state: 'NSW',
+      postcode: '2196',
     },
   },
   {
     id: 1,
     title: 'Melbourne(34/49 McArthurs Rd, Altona North VIC 3025)',
     name: 'melbourne',
-    macshipApiDetails: {
-      suburb: 'ALTONA NORTH',
-      zip: '3025',
+    address: {
+      city: 'Melbourne',
+      unit: '34/49',
+      street: 'McArthurs Rd',
+      suburb: 'Altona North',
+      state: 'VIC',
+      postcode: '3025',
     },
   },
   {
     id: 2,
     title: 'Brisbane(4/22 Spine St, Sumner QLD 4074)',
     name: 'brisbane',
-    macshipApiDetails: {
-      suburb: 'SUMNER',
-      zip: '4074',
+    address: {
+      city: 'Brisbane',
+      unit: '4/22',
+      street: 'Spine St',
+      suburb: 'Sumner',
+      state: 'QLD',
+      postcode: '4074',
     },
   },
 ];

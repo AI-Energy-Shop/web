@@ -23,8 +23,8 @@ const useCalculateDeliveryPricing = (suburb: string, postCode: string) => {
 
         const { error, data } = await calculateDeliveryPricing({
           fromLocation: {
-            suburb: warehouseLocation.macshipApiDetails.suburb,
-            postcode: warehouseLocation.macshipApiDetails.zip,
+            suburb: warehouseLocation.address.suburb,
+            postcode: warehouseLocation.address.postcode,
           },
           toLocation: {
             suburb: suburb,
@@ -50,8 +50,8 @@ const useCalculateDeliveryPricing = (suburb: string, postCode: string) => {
   }, [
     suburb,
     postCode,
-    warehouseLocation.macshipApiDetails.suburb,
-    warehouseLocation.macshipApiDetails.zip,
+    warehouseLocation.address.suburb,
+    warehouseLocation.address.postcode,
   ]);
 
   return { data, isLoading, error };

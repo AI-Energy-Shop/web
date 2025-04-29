@@ -27,9 +27,12 @@ export type WarehouseLocation = {
   id: number;
   title: string;
   name: string;
-  macshipApiDetails: {
+  address: {
+    unit: string;
+    street: string;
     suburb: string;
-    zip: string;
+    state: string;
+    postcode: string;
   };
 };
 
