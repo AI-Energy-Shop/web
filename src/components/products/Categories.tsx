@@ -1,20 +1,17 @@
 'use client';
-import React from 'react';
+import useProductFilter from '@/hooks/useProductFilter';
+import COLLECTIONS_OPERATIONS from '@/graphql/collections';
+import { usePathname } from 'next/navigation';
 import { Skeleton } from '../ui/skeleton';
 import { useQuery } from '@apollo/client';
-import COLLECTIONS_OPERATIONS from '@/graphql/collections';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
-import { useAppDispatch } from '@/store/store';
-import useProductFilter from '@/hooks/useProductFilter';
+import React from 'react';
+
 interface CategoriesProps {
   acceptedCollections: string[];
   excludedCollections?: string[];
 }
-const Categories: React.FC<CategoriesProps> = ({
-  acceptedCollections,
-  excludedCollections = ['all'],
-}) => {
+const Categories: React.FC<CategoriesProps> = ({ acceptedCollections, excludedCollections = ['all'] }) => {
   const { handleCategoryClick } = useProductFilter();
   const pathname = usePathname();
   const { data, loading } = useQuery(COLLECTIONS_OPERATIONS.Query.collections, {
@@ -75,9 +72,7 @@ const Categories: React.FC<CategoriesProps> = ({
                     className="opacity-6 absolute top-0 left-0 w-full h-full object-fit"
                   />
                 </div>
-                <span
-                  className={`text-xs ${pathname === collection?.handle && 'border-b-2 border-black'}`}
-                >
+                <span className={`text-xs ${pathname === collection?.handle && 'border-b-2 border-black'}`}>
                   {collection?.title}
                 </span>
               </div>

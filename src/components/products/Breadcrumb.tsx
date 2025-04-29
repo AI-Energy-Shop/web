@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { capsAllFirstCharWithSpace } from '@/utils/string';
+import { capsAllFirstCharWithDash } from '@/utils/string';
 
 const Breadcrumb = () => {
   const pathname = usePathname();
@@ -16,16 +16,13 @@ const Breadcrumb = () => {
           if (index === 0) {
             segment = 'Home';
           }
-          const path =
-            index === 0
-              ? '/'
-              : `/${pathSegments.slice(0, index + 1).join('/')}`;
+          const path = index === 0 ? '/' : `/${pathSegments.slice(0, index + 1).join('/')}`;
 
           return (
             <React.Fragment key={path}>
               {index !== 0 && <ChevronRight size={16} />}
               <Link href={path} className="hover:underline">
-                {capsAllFirstCharWithSpace(segment)}
+                {capsAllFirstCharWithDash(segment)}
               </Link>
             </React.Fragment>
           );
