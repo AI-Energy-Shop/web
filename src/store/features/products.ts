@@ -52,7 +52,7 @@ export const productsSlice = createSlice({
     setRevalidateCache: (state, action) => {
       state.revalidateCache = action.payload;
     },
-    setSearchInput: (state, action) => {
+    setSearchQueryInput: (state, action) => {
       state.searchQueryInput = action.payload;
     },
     setCurrentSelectedFilter: (state, action) => {
@@ -67,7 +67,7 @@ export const {
   setProductFilters,
   setCollectionFilters,
   setRevalidateCache,
-  setSearchInput,
+  setSearchQueryInput,
   setCurrentSelectedFilter,
 } = productsSlice.actions;
 

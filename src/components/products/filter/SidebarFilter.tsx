@@ -1,7 +1,7 @@
 'use client';
 import { Filter, SelectedFilter } from '@/hooks/useProductFilter';
-import FilterItem from './FilterItem';
 import { Button } from '@/components/ui/button';
+import FilterItem from './FilterItem';
 import { X } from 'lucide-react';
 
 interface SidebarFilterProps {
@@ -11,12 +11,7 @@ interface SidebarFilterProps {
   onClearFilters: () => void;
 }
 
-const SidebarFilter: React.FC<SidebarFilterProps> = ({
-  filters,
-  selectedFilters,
-  onFilterClick,
-  onClearFilters,
-}) => {
+const SidebarFilter: React.FC<SidebarFilterProps> = ({ filters, selectedFilters, onFilterClick, onClearFilters }) => {
   return (
     <div className="flex flex-col gap-4">
       {selectedFilters.length > 0 && (
@@ -25,12 +20,7 @@ const SidebarFilter: React.FC<SidebarFilterProps> = ({
             {selectedFilters.length} filter
             {selectedFilters.length > 1 ? 's' : ''} applied
           </span>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-gray-500 hover:text-gray-700"
-            onClick={onClearFilters}
-          >
+          <Button variant="ghost" size="sm" className="text-gray-500 hover:text-gray-700" onClick={onClearFilters}>
             <X className="h-4 w-4 mr-1" />
             Clear all
           </Button>

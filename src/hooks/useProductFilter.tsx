@@ -36,11 +36,12 @@ export interface SelectedFilter {
 }
 
 const useProductFilter = () => {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const params = useParams();
-  const dispatch = useAppDispatch();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const productCount = useAppSelector((state) => state.products.productCount);
   const revalidateCache = useAppSelector((state) => state.products.revalidateCache);
   const selectedFilters = useAppSelector((state) => state.products.selectedFilters);
@@ -49,20 +50,19 @@ const useProductFilter = () => {
   const currentSelectedFilter = useAppSelector((state) => state.products.currentSelectedFilter);
 
   const [filterOptions, setFilterOptions] = useState<Filter[]>([]);
-
   const [showMobileFilters, setShowMobileFilters] = useState(false);
-  const cachedCollectionData = useRef<CollectionsWithProductsQuery['collections'] | null>(null);
   const [products, setProducts] = useState<ProductsQuery['products']>([]);
+
+  const cachedCollectionData = useRef<CollectionsWithProductsQuery['collections'] | null>(null);
 
   const { loading, data } = useQuery<CollectionsWithProductsQuery, CollectionsWithProductsQueryVariables>(
     COLLECTION_OPERATION.Query.collectionsWithProducts,
     {
       variables: {
-        collectionsFilters: collectionFilters,
+        collectionsFilters: collectionFilters || { handle: { eq: 'all' } },
         productsFilters: productFilters,
         productsPagination: {},
       },
-      skip: !params.collection,
       notifyOnNetworkStatusChange: true,
       fetchPolicy: 'network-only',
     }
@@ -331,7 +331,6 @@ const useProductFilter = () => {
 
   const handleRemoveFilter = useCallback(
     ({ key, value }: SelectedFilter) => {
-      if (loading) return;
       const filterKey = key.toLowerCase().replaceAll(' ', '-');
       const filterValue = value.replaceAll('%20', ' ');
       const target = `${filterKey}=${filterValue}`;
@@ -362,7 +361,6 @@ const useProductFilter = () => {
   );
 
   const removeAllFilters = useCallback(() => {
-    if (loading) return;
     const { productFilters: newProductFilters, selectedFilters: newSelectedFilters } = buildProductFilters('/');
 
     dispatch(setProductFilters(newProductFilters));
@@ -417,16 +415,6 @@ const useProductFilter = () => {
   );
 
   useEffect(() => {
-    if (params.collection) {
-      dispatch(
-        setCollectionFilters({
-          handle: {
-            eq: params.collection as string,
-          },
-        })
-      );
-    }
-
     const collection = data?.collections.at(0);
     const productsFromCollection = collection?.products || [];
     if (data) {
@@ -456,8 +444,8 @@ const useProductFilter = () => {
       }
     }
 
-    dispatch(setProductCount(productsFromCollection.length));
     setProducts(productsFromCollection);
+    dispatch(setProductCount(productsFromCollection.length));
 
     return () => {
       dispatch(setCollectionFilters({}));
