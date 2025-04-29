@@ -9,36 +9,63 @@ export const ADMIN_SIDE_NAVIGATIONS: Array<{
   href: string;
   label: string;
   icon: IconProps['name'];
+  enabled: boolean;
 }> = [
   {
     id: 0,
-    label: 'Dashboard',
+    label: 'Home',
     href: '/admin',
     icon: 'box',
+    enabled: true,
   },
   {
     id: 1,
-    label: 'Products',
-    href: '/admin/products',
-    icon: 'zap',
-  },
-  {
-    id: 2,
     label: 'Orders',
     href: '/admin/orders',
     icon: 'shopping-cart',
+    enabled: true,
+  },
+  {
+    id: 2,
+    label: 'Products',
+    href: '/admin/products',
+    icon: 'zap',
+    enabled: true,
   },
   {
     id: 3,
     label: 'Users',
     href: '/admin/users',
     icon: 'users',
+    enabled: true,
   },
   {
     id: 4,
+    label: 'Finance',
+    href: '/admin/finance',
+    icon: 'dollar-sign',
+    enabled: false,
+  },
+  {
+    id: 5,
     label: 'Analytics',
     href: '/admin/analytics',
     icon: 'chart-bar',
+    enabled: false,
+  },
+  {
+    id: 6,
+    label: 'Marketing',
+    href: '/admin/marketing',
+    icon: 'mail',
+    enabled: false,
+  },
+  {
+    id: 7,
+    label: 'Discounts',
+    href: '/admin/discounts',
+    icon: 'percent',
+    enabled: false,
   },
 ];
 
