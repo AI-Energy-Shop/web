@@ -3,6 +3,7 @@ import { ChevronDown, ChevronUp } from 'lucide-react'; // shadcn icons (or lucid
 import { Button } from '../ui/button';
 import { Routes } from '@/lib/routes.types';
 import { formatDate } from './formatDate';
+import { useCheckout } from '@/hooks/useCheckout';
 
 interface ShippingOptionCardProps {
   route: Routes;
@@ -18,7 +19,7 @@ export default function ShippingOptionCard({
   setShippingDeliveryOptions,
 }: ShippingOptionCardProps) {
   const [open, setOpen] = useState(false);
-
+  const { setShippingType, setDeliveryOptions } = useCheckout();
   const toggleOpen = () => setOpen((prev) => !prev);
 
   return (
@@ -83,11 +84,36 @@ export default function ShippingOptionCard({
         {open && (
           <Button
             className="mt-4 w-full"
-            onClick={() =>
+            onClick={() => {
               setShippingDeliveryOptions(
                 `${route.requestId}-${route.carrierService.id}`
-              )
-            }
+              );
+              setShippingType('delivery');
+              setDeliveryOptions({
+                type: 'auto',
+                date: undefined,
+                macshipData: {
+                  carrierAccountId: route.carrierAccount.id,
+                  carrierId: route.carrier.id,
+                  carrierServiceId: route.carrierService.id,
+                  companyCarrierAccountId: route.companyCarrierAccountId,
+                  companyId: route.companyId,
+                  dgsDeclaration: false,
+                  displayData: {
+                    carrierDisplayName: route.carrier.displayName,
+                    carrierServiceDisplayName: route.carrierService.displayName,
+                    eta: route.despatchOptions[0].etaLocal,
+                    totalSellBeforeTax:
+                      route.consignmentTotal.totalSellBeforeTax.toFixed(2),
+                    totalSellPrice:
+                      route.consignmentTotal.totalSellPrice.toFixed(2),
+                    totalTaxSellPrice:
+                      route.consignmentTotal.totalTaxSellPrice.toFixed(2),
+                    totalWeight: route.totalWeight,
+                  },
+                },
+              });
+            }}
           >
             Select this Option
           </Button>

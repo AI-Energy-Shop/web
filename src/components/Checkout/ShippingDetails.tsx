@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { CalendarIcon, Check, FilePenLine, MoveRight } from 'lucide-react';
 import { DynamicIcon } from 'lucide-react/dynamic';
@@ -16,7 +16,6 @@ import { PICK_UP_ESTIMATED_ARRIVAL_TIME } from '@/constant/shipping';
 import Link from 'next/link';
 import useCart from '@/hooks/useCart';
 import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
-
 import { useCheckout } from '@/hooks/useCheckout';
 import { ShippingType } from '@/store/features/checkout';
 import { isButtonClickable } from './isButtonClickable';
@@ -45,20 +44,20 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     pickUpNotes,
     deliveryNotes,
     pickUpOptions,
-    setShippingType,
+    shippingType,
+    deliveryOptions,
     setDeliveryOptions,
+    setShippingType,
     setPickUpNotes,
     setDeliveryNotes,
     setPickUpOptions,
   } = useCheckout();
-
   const [deliveryDate, setDeliveryDate] = React.useState<Date | undefined>(
     undefined
   );
   const [pickUpDate, setPickUpDate] = React.useState<Date | undefined>(
     new Date()
   );
-
   const [shippingDeliveryOptions, setShippingDeliveryOptions] = React.useState<
     string | undefined
   >(undefined);
@@ -77,6 +76,36 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     userCurrentAddress?.city || '',
     userCurrentAddress?.zip_code || ''
   );
+
+  const notAbleToProceedToPayment = () => {
+    let isTrue = false;
+
+    if (!isUserHasDefaultAddress) {
+      isTrue = true;
+    }
+
+    if (!Boolean(shippingType)) {
+      isTrue = true;
+    }
+
+    if (
+      shippingType === 'delivery' &&
+      deliveryOptions?.type === 'manual' &&
+      !deliveryOptions?.date
+    ) {
+      isTrue = true;
+    }
+
+    if (
+      shippingType === 'delivery' &&
+      deliveryOptions?.type === 'auto' &&
+      !deliveryOptions?.macshipData
+    ) {
+      isTrue = true;
+    }
+
+    return isTrue;
+  };
 
   const TODAY = new Date();
   TODAY.setHours(0, 0, 0, 0);
@@ -192,22 +221,6 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     }
   };
 
-  useEffect(() => {
-    setDeliveryOptions({
-      type: 'manual',
-      date: deliveryDate,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deliveryDate]);
-
-  useEffect(() => {
-    setPickUpOptions({
-      date: pickUpDate,
-      estimatedArrivalTime: pickUpOptions?.estimatedArrivalTime!,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pickUpDate]);
-
   const renderDeliveryOptions = () => {
     return (
       <div className="border border-blue-navy-blue rounded-xl p-2 md:mx-12 space-y-2">
@@ -260,9 +273,6 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
-                    onClick={() => {
-                      setShippingDeliveryOptions('manual');
-                    }}
                     variant="ghost"
                     className={cn(
                       'w-fit justify-start gap-2 px-2 font-normal hover:bg-transparent',
@@ -279,7 +289,15 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                   <Calendar
                     mode="single"
                     selected={deliveryDate}
-                    onSelect={setDeliveryDate}
+                    onSelect={(e) => {
+                      setDeliveryDate(e);
+                      setShippingType('delivery');
+                      setDeliveryOptions({
+                        type: 'manual',
+                        date: e,
+                        macshipData: null,
+                      });
+                    }}
                     initialFocus
                     disabled={{ before: TODAY }}
                   />
@@ -323,6 +341,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                       estimatedArrivalTime:
                         pickUpOptions?.estimatedArrivalTime!,
                     });
+                    setShippingType('pickup');
                   }}
                   initialFocus
                   disabled={{ before: TODAY }}
@@ -423,7 +442,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
           <div className="ae-mobile-container px-2 mt-4 lg:bg-white lg:-mt-4 py-4">
             <Button
               onClick={handleContinueClick}
-              disabled={!isUserHasDefaultAddress}
+              disabled={notAbleToProceedToPayment()}
               className="mx-auto px-12 block rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
             >
               Continue to Payment

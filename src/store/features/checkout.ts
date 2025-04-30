@@ -1,4 +1,3 @@
-// store/reviewSlice.ts
 import {
   PICK_UP_ESTIMATED_ARRIVAL_TIME,
   WAREHOUSE_LOCATIONS,
@@ -7,16 +6,35 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Cart } from './cart';
 import { getPickUpOptionsBestTimeSlots } from '@/components/Checkout/pickUpOptionsBestTimeSlot';
 
-export type ShippingType = 'delivery' | 'pickup';
+export type ShippingType = 'delivery' | 'pickup' | null;
 export type PaymentMethod =
   | 'credit_card'
   | 'bank_transfer'
   | 'account_credit'
   | undefined;
 
+export type MacshipData = {
+  companyId: number;
+  carrierId: number;
+  carrierServiceId: number;
+  carrierAccountId: number;
+  companyCarrierAccountId: number;
+  dgsDeclaration: boolean;
+  displayData: {
+    carrierDisplayName: string;
+    carrierServiceDisplayName: string;
+    eta: string;
+    totalWeight: number;
+    totalSellBeforeTax: string;
+    totalTaxSellPrice: string;
+    totalSellPrice: string;
+  };
+} | null;
+
 export type DeliveryOptions = {
   type: 'auto' | 'manual';
-  date: Date | string | undefined;
+  date: Date | undefined;
+  macshipData: MacshipData;
 };
 export type PickUpOptions = {
   estimatedArrivalTime: string;
@@ -78,7 +96,7 @@ const initialState: CheckoutState = {
   orderNotes: '',
   deliveryNotes: '',
   pickUpNotes: '',
-  shippingType: 'delivery',
+  shippingType: null,
   shippingAddress: null,
   paymentMethod: undefined,
 };
