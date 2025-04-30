@@ -68,6 +68,11 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
       (address) => address?.isActive === true
     );
 
+  const isUserHasDefaultAddress =
+    checkoutUserData?.usersPermissionsUser?.addresses?.some(
+      (address) => address?.isActive === true
+    );
+
   const { data, isLoading, error } = useCalculateDeliveryPricing(
     userCurrentAddress?.city || '',
     userCurrentAddress?.zip_code || ''
@@ -153,7 +158,9 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
             <h2>{userCurrentAddress?.country}</h2>
           </div>
         ) : (
-          <h1 className="font-bold text-sm text-red-500">Pls Select Address</h1>
+          <h1 className="font-bold text-sm text-red-500">
+            Please select an address
+          </h1>
         )}
       </div>
     );
@@ -416,6 +423,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
           <div className="ae-mobile-container px-2 mt-4 lg:bg-white lg:-mt-4 py-4">
             <Button
               onClick={handleContinueClick}
+              disabled={!isUserHasDefaultAddress}
               className="mx-auto px-12 block rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
             >
               Continue to Payment
