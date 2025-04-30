@@ -16,6 +16,7 @@ const NavSearchBar = () => {
     handleSearchFocus,
     handleSearchResultClick,
     handleSearchInputEnter,
+    handleViewAllSearchResultsClick,
   } = useSearchFilter();
 
   useEffect(() => {
@@ -59,6 +60,7 @@ const NavSearchBar = () => {
             handleFocus={handleSearchFocus}
             handleClick={handleSearchResultClick}
             handleInputChange={handleInputChange}
+            onViewAllResult={handleViewAllSearchResultsClick}
           />
         </div>
       )}

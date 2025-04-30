@@ -1,11 +1,14 @@
 'use client';
-import useProductFilter, { Filter, SelectedFilter } from '@/hooks/useProductFilter';
+import useProductFilter, {
+  Filter,
+  SelectedFilter,
+} from '@/hooks/useProductFilter';
 import { capitalizeAllFirstChar } from '@/utils/string';
 import * as SelectUI from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import FilterItem from './FilterItem';
 import { X } from 'lucide-react';
-import React from 'react';
+import React, { Suspense } from 'react';
 
 interface FilterListProps {
   loading?: boolean;
@@ -47,7 +50,8 @@ const FilterList: React.FC<FilterListProps> = ({
             className="inline-flex items-center border pl-2 pr-1 py-1 rounded-2xl w-fit shrink-0 gap-1 group"
           >
             <span className="text-xs truncate max-w-[150px]">
-              {capitalizeAllFirstChar(filter.key)}: {filter.value.split('+').join(' ')}
+              {capitalizeAllFirstChar(filter.key)}:{' '}
+              {filter.value.split('+').join(' ')}
             </span>
             <Button
               className="p-0 w-6 h-6 rounded-full flex-shrink-0 transition-all duration-300 opacity-0 group-hover:opacity-100"
@@ -68,7 +72,10 @@ const FilterList: React.FC<FilterListProps> = ({
             id={filter.id}
             name={filter.key}
             options={filter.options}
-            isOpen={index === 0 || selectedFilters.some((f) => f.key === filter.key)}
+            isOpen={
+              index === 0 || selectedFilters.some((f) => f.key === filter.key)
+            }
+            loading={loading ?? false}
             selectedFilters={selectedFilters}
             onFilterClick={onFilterClick}
           />
@@ -134,54 +141,71 @@ const SidebarFilters: React.FC<FiltersProps> = () => {
   } = useProductFilter();
   return (
     <>
-      {/* DESKTOP FILTERS */}
-      <div className="desktop w-64 flex-shrink-0 hidden md:block">
-        <FilterList
-          loading={loading}
-          filterOptions={filterOptions}
-          selectedFilters={selectedFilters}
-          onFilterClick={handleFilterClick}
-          onRemoveFilter={handleRemoveFilter}
-          onClearAll={removeAllFilters}
-        />
-      </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        {/* DESKTOP FILTERS */}
+        <div className="desktop w-64 flex-shrink-0 hidden md:block">
+          <FilterList
+            loading={loading}
+            filterOptions={filterOptions}
+            selectedFilters={selectedFilters}
+            onFilterClick={handleFilterClick}
+            onRemoveFilter={handleRemoveFilter}
+            onClearAll={removeAllFilters}
+          />
+        </div>
 
-      {/* MOBILE FILTERS */}
-      <div
-        className={`mobile w-[90%] h-full block md:hidden border fixed top-0 right-0 bg-white z-50 ${
-          showMobileFilters ? 'translate-x-0' : 'translate-x-full'
-        }`}
-      >
-        <div className="w-full h-full p-5">
-          <div className="flex items-center justify-between gap-5">
-            <SelectUI.Select>
-              <SelectUI.SelectTrigger>
-                <SelectUI.SelectValue placeholder="Sort By" />
-              </SelectUI.SelectTrigger>
-              <SelectUI.SelectContent defaultValue="fetured">
-                <SelectUI.SelectItem value="featured">Featured</SelectUI.SelectItem>
-                <SelectUI.SelectItem value="newest">Newest</SelectUI.SelectItem>
-                <SelectUI.SelectItem value="oldest">Oldest</SelectUI.SelectItem>
-                <SelectUI.SelectItem value="price-asc">Price: Low to High</SelectUI.SelectItem>
-                <SelectUI.SelectItem value="price-desc">Price: High to Low</SelectUI.SelectItem>
-              </SelectUI.SelectContent>
-            </SelectUI.Select>
-            <Button size="icon" variant="ghost" className="p-2" onClick={() => setShowMobileFilters(false)}>
-              <X className="w-5 h-5" />
-            </Button>
-          </div>
-          <div className="pt-5">
-            <FilterList
-              loading={loading}
-              filterOptions={filterOptions}
-              selectedFilters={selectedFilters}
-              onFilterClick={handleFilterClick}
-              onRemoveFilter={handleRemoveFilter}
-              onClearAll={removeAllFilters}
-            />
+        {/* MOBILE FILTERS */}
+        <div
+          className={`mobile w-[90%] h-full block md:hidden border fixed top-0 right-0 bg-white z-50 ${
+            showMobileFilters ? 'translate-x-0' : 'translate-x-full'
+          }`}
+        >
+          <div className="w-full h-full p-5">
+            <div className="flex items-center justify-between gap-5">
+              <SelectUI.Select>
+                <SelectUI.SelectTrigger>
+                  <SelectUI.SelectValue placeholder="Sort By" />
+                </SelectUI.SelectTrigger>
+                <SelectUI.SelectContent defaultValue="fetured">
+                  <SelectUI.SelectItem value="featured">
+                    Featured
+                  </SelectUI.SelectItem>
+                  <SelectUI.SelectItem value="newest">
+                    Newest
+                  </SelectUI.SelectItem>
+                  <SelectUI.SelectItem value="oldest">
+                    Oldest
+                  </SelectUI.SelectItem>
+                  <SelectUI.SelectItem value="price-asc">
+                    Price: Low to High
+                  </SelectUI.SelectItem>
+                  <SelectUI.SelectItem value="price-desc">
+                    Price: High to Low
+                  </SelectUI.SelectItem>
+                </SelectUI.SelectContent>
+              </SelectUI.Select>
+              <Button
+                size="icon"
+                variant="ghost"
+                className="p-2"
+                onClick={() => setShowMobileFilters(false)}
+              >
+                <X className="w-5 h-5" />
+              </Button>
+            </div>
+            <div className="pt-5">
+              <FilterList
+                loading={loading}
+                filterOptions={filterOptions}
+                selectedFilters={selectedFilters}
+                onFilterClick={handleFilterClick}
+                onRemoveFilter={handleRemoveFilter}
+                onClearAll={removeAllFilters}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </Suspense>
     </>
   );
 };

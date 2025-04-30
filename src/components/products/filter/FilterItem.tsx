@@ -16,14 +16,26 @@ interface FilterItemProps {
   name: string;
   options: Array<{ value: string; count: number }>;
   isOpen: boolean;
+  loading: boolean;
   selectedFilters: SelectedFilter[];
   onFilterClick: (selectedFilterOption: SelectedFilter) => void;
 }
 
-const FilterItem: React.FC<FilterItemProps> = ({ id, name, options, isOpen, selectedFilters, onFilterClick }) => {
+const FilterItem: React.FC<FilterItemProps> = ({
+  id,
+  name,
+  options,
+  isOpen,
+  selectedFilters,
+  loading,
+  onFilterClick,
+}) => {
   const [open, setOpen] = useState(isOpen);
 
-  const renderFilterItem = (option: { value: string; count: number }, index: number) => {
+  const renderFilterItem = (
+    option: { value: string; count: number },
+    index: number
+  ) => {
     return (
       <div
         key={index}
@@ -33,7 +45,10 @@ const FilterItem: React.FC<FilterItemProps> = ({ id, name, options, isOpen, sele
         <input
           type="checkbox"
           name={option.value}
-          checked={selectedFilters.some((filter) => filter.value === option.value)}
+          disabled={loading}
+          checked={selectedFilters.some(
+            (filter) => filter.value === option.value
+          )}
         />
         <Label className="text-sm font-normal">{option.value}</Label>
         <span className="text-xs text-gray-500">({option.count})</span>
@@ -46,7 +61,11 @@ const FilterItem: React.FC<FilterItemProps> = ({ id, name, options, isOpen, sele
       <div className="flex items-center justify-between p-1">
         <Label>{name.replaceAll('_', ' ')}</Label>
         <Button variant="ghost" size="icon" onClick={() => setOpen(!open)}>
-          {open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          {open ? (
+            <ChevronUp className="h-4 w-4" />
+          ) : (
+            <ChevronDown className="h-4 w-4" />
+          )}
         </Button>
       </div>
 
