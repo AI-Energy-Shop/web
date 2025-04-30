@@ -11,7 +11,10 @@ interface CategoriesProps {
   acceptedCollections: string[];
   excludedCollections?: string[];
 }
-const Categories: React.FC<CategoriesProps> = ({ acceptedCollections, excludedCollections = ['all'] }) => {
+const Categories: React.FC<CategoriesProps> = ({
+  acceptedCollections,
+  excludedCollections = ['all'],
+}) => {
   const { handleCategoryClick } = useProductFilter();
   const pathname = usePathname();
   const { data, loading } = useQuery(COLLECTIONS_OPERATIONS.Query.collections, {
@@ -72,7 +75,9 @@ const Categories: React.FC<CategoriesProps> = ({ acceptedCollections, excludedCo
                     className="opacity-6 absolute top-0 left-0 w-full h-full object-fit"
                   />
                 </div>
-                <span className={`text-xs ${pathname === collection?.handle && 'border-b-2 border-black'}`}>
+                <span
+                  className={`text-xs ${pathname === collection?.handle && 'border-b-2 border-black'}`}
+                >
                   {collection?.title}
                 </span>
               </div>

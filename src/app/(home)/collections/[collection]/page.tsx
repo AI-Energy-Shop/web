@@ -9,6 +9,8 @@ import {
   capsAllFirstCharWithUnderScore,
 } from '@/utils/string';
 import { getCollectionWithProducts } from '@/app/actions/collections';
+import { Suspense } from 'react';
+import { Loader2 } from 'lucide-react';
 
 export default async function CategoryPage({
   params,
@@ -97,7 +99,15 @@ export default async function CategoryPage({
 
   return (
     <div className="min-h-screen">
-      <ProductList data={products} page={page} pageSize={pageSize} />
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center min-h-[400px]">
+            <Loader2 className="w-8 h-8 animate-spin" />
+          </div>
+        }
+      >
+        <ProductList data={products} page={page} pageSize={pageSize} />
+      </Suspense>
     </div>
   );
 }

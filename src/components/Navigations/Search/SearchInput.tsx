@@ -8,7 +8,12 @@ interface SearchInputProps {
 }
 
 const SearchInput: React.FC<SearchInputProps> = ({ placeholder }) => {
-  const { searchQueryInput, handleInputChange, handleSearchFocus, handleSearchInputEnter } = useSearchFilter();
+  const {
+    searchQueryInput,
+    handleInputChange,
+    handleSearchFocus,
+    handleSearchInputEnter,
+  } = useSearchFilter();
 
   return (
     <Input

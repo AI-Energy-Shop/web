@@ -1,17 +1,14 @@
 'use client';
 import debounce from 'lodash/debounce';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import PRODUCT_OPERATION from '@/graphql/products';
 import { ProductQuery } from '@/lib/gql/graphql';
-import { useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '@/store/store';
-import { setSearchQueryInput } from '@/store/features/products';
+import { useRouter, usePathname } from 'next/navigation';
 
 const useSearchFilter = () => {
   const router = useRouter();
-  // const searchQueryInput = useAppSelector((state) => state.products.searchQueryInput);
-  const dispatch = useAppDispatch();
+  const pathname = usePathname();
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
   const [searchQueryInput, setSearchQueryInput] = useState<string>('');
   const [searchProducts, { data: searchData }] = useLazyQuery(
@@ -56,11 +53,13 @@ const useSearchFilter = () => {
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { value } = e.target;
+      if (pathname.includes('search')) {
+        router.push(`/search?search=${value}`);
+      }
       setSearchQueryInput(value);
-      // dispatch(setSearchQueryInput(value));
       debouncedSearch(value);
     },
-    [debouncedSearch]
+    [debouncedSearch, pathname, router]
   );
 
   const handleSearchFocus = () => {
@@ -84,6 +83,11 @@ const useSearchFilter = () => {
     router.push(`/products/${product?.name}`, { scroll: false });
   };
 
+  const handleViewAllSearchResultsClick = () => {
+    setSearchQueryInput('');
+    router.push(`/search?search=${searchQueryInput}`);
+  };
+
   return {
     searchQueryInput,
     isSearchFocused,
@@ -93,6 +97,7 @@ const useSearchFilter = () => {
     handleSearchFocus,
     handleSearchResultClick,
     handleSearchInputEnter,
+    handleViewAllSearchResultsClick,
   };
 };
 
