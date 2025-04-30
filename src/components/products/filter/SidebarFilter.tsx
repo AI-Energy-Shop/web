@@ -11,7 +11,12 @@ interface SidebarFilterProps {
   onClearFilters: () => void;
 }
 
-const SidebarFilter: React.FC<SidebarFilterProps> = ({ filters, selectedFilters, onFilterClick, onClearFilters }) => {
+const SidebarFilter: React.FC<SidebarFilterProps> = ({
+  filters,
+  selectedFilters,
+  onFilterClick,
+  onClearFilters,
+}) => {
   return (
     <div className="flex flex-col gap-4">
       {selectedFilters.length > 0 && (
@@ -20,7 +25,12 @@ const SidebarFilter: React.FC<SidebarFilterProps> = ({ filters, selectedFilters,
             {selectedFilters.length} filter
             {selectedFilters.length > 1 ? 's' : ''} applied
           </span>
-          <Button variant="ghost" size="sm" className="text-gray-500 hover:text-gray-700" onClick={onClearFilters}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-gray-500 hover:text-gray-700"
+            onClick={onClearFilters}
+          >
             <X className="h-4 w-4 mr-1" />
             Clear all
           </Button>
@@ -34,6 +44,7 @@ const SidebarFilter: React.FC<SidebarFilterProps> = ({ filters, selectedFilters,
             name={filter.key}
             options={filter.options}
             isOpen={true}
+            loading={false}
             selectedFilters={selectedFilters}
             onFilterClick={onFilterClick}
           />

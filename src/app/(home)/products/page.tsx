@@ -3,6 +3,9 @@ import { INITIAL_PAGE, INITIAL_PAGE_SIZE } from '@/constant';
 import ProductList from '@/components/products/ProductList';
 import PageTitle from '@/components/products/PageTitle';
 import { products } from '@/app/actions/products';
+import { Suspense } from 'react';
+import { Loader2 } from 'lucide-react';
+
 export default async function ProductsPage({
   searchParams,
 }: {
@@ -26,10 +29,18 @@ export default async function ProductsPage({
 
   return (
     <div className="w-full min-h-screen">
-      <div className="max-w-[1200px] mx-auto p-5 md:p-5 lg:p-5 flex flex-col gap-5 lg:gap-5">
-        <PageTitle />
-        <ProductList data={data?.products} page={page} pageSize={pageSize} />
-      </div>
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center min-h-[400px]">
+            <Loader2 className="w-8 h-8 animate-spin" />
+          </div>
+        }
+      >
+        <div className="max-w-[1200px] mx-auto p-5 md:p-5 lg:p-5 flex flex-col gap-5 lg:gap-5">
+          <PageTitle />
+          <ProductList data={data?.products} page={page} pageSize={pageSize} />
+        </div>
+      </Suspense>
     </div>
   );
 }

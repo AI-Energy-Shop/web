@@ -13,7 +13,10 @@ interface ProductPaginationProps {
   page?: number;
   pageSize?: number;
 }
-const ProductPagination: React.FC<ProductPaginationProps> = ({ page, pageSize }) => {
+const ProductPagination: React.FC<ProductPaginationProps> = ({
+  page,
+  pageSize,
+}) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -46,7 +49,9 @@ const ProductPagination: React.FC<ProductPaginationProps> = ({ page, pageSize })
   }
 
   return (
-    <PaginationUI.Pagination className={cn(`my-10 ${loading ? 'opacity-50' : 'opacity-100'}`)}>
+    <PaginationUI.Pagination
+      className={cn(`my-10 ${loading ? 'opacity-50' : 'opacity-100'}`)}
+    >
       <PaginationUI.PaginationContent className="p-0">
         <PaginationUI.PaginationItem className="list-none">
           {/* Go to first page */}

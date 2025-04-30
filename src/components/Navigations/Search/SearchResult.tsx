@@ -14,6 +14,7 @@ interface SearchResultProps {
   handleBlur: () => void;
   handleClick: (product: ProductQuery['product']) => void;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onViewAllResult: () => void;
 }
 
 const SearchResult = ({
@@ -23,6 +24,7 @@ const SearchResult = ({
   handleBlur,
   handleClick,
   handleInputChange,
+  onViewAllResult,
 }: SearchResultProps) => {
   const pathname = usePathname();
   const isSearchPage = pathname === '/search';
@@ -121,9 +123,9 @@ const SearchResult = ({
           searchData?.products?.length &&
           searchData?.products?.length > 6 && (
             <div className="p-4 border-t mt-auto">
-              <Link href={`/search?search=${searchQueryInput}`}>
+              <div onClick={onViewAllResult}>
                 <Button className="w-full">View All Results</Button>
-              </Link>
+              </div>
             </div>
           )}
       </div>

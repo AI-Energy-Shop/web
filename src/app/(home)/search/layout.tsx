@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import SearchBar from '@/components/Navigations/Search/SearchBar';
 import SidebarFilters from '@/components/products/filter/SidebarFilters';
+import { Loader2 } from 'lucide-react';
 interface CollectionLayoutProps {
   children: React.ReactNode;
 }
@@ -15,7 +16,15 @@ const CollectionLayout = ({ children }: CollectionLayoutProps) => {
           <div className="flex items-center justify-center"></div>
         </div>
         <div className="products flex gap-8">
-          <SidebarFilters />
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center min-h-[400px]">
+                <Loader2 className="w-8 h-8 animate-spin" />
+              </div>
+            }
+          >
+            <SidebarFilters />
+          </Suspense>
           <div className="flex-1">{children}</div>
         </div>
       </div>
