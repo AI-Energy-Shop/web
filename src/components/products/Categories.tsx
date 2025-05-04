@@ -1,12 +1,12 @@
 'use client';
-import React from 'react';
+import useProductFilter from '@/hooks/useProductFilter';
+import COLLECTIONS_OPERATIONS from '@/graphql/collections';
+import { usePathname } from 'next/navigation';
 import { Skeleton } from '../ui/skeleton';
 import { useQuery } from '@apollo/client';
-import COLLECTIONS_OPERATIONS from '@/graphql/collections';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
-import { useAppDispatch } from '@/store/store';
-import useProductFilter from '@/hooks/useProductFilter';
+import React from 'react';
+
 interface CategoriesProps {
   acceptedCollections: string[];
   excludedCollections?: string[];

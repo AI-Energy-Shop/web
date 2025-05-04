@@ -17,6 +17,7 @@ import {
 import {
   CollectionsWithProductsQuery,
   CollectionsWithProductsQueryVariables,
+  ComponentElementsFilterRuleInput,
   ProductsQuery,
 } from '@/lib/gql/graphql';
 import { useAppDispatch, useAppSelector } from '@/store/store';
@@ -26,6 +27,7 @@ import {
   setProductFilters,
   setRevalidateCache,
   setSelectedFilters,
+  setCurrentSelectedFilter,
 } from '@/store/features/products';
 
 export interface FilterOption {
@@ -47,11 +49,12 @@ export interface SelectedFilter {
 }
 
 const useProductFilter = () => {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const params = useParams();
-  const dispatch = useAppDispatch();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const productCount = useAppSelector((state) => state.products.productCount);
   const revalidateCache = useAppSelector(
     (state) => state.products.revalidateCache
@@ -65,29 +68,29 @@ const useProductFilter = () => {
   const collectionFilters = useAppSelector(
     (state) => state.products.collectionFilters
   );
+  const currentSelectedFilter = useAppSelector(
+    (state) => state.products.currentSelectedFilter
+  );
 
   const [filterOptions, setFilterOptions] = useState<Filter[]>([]);
-
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const [products, setProducts] = useState<ProductsQuery['products']>([]);
+
   const cachedCollectionData = useRef<
     CollectionsWithProductsQuery['collections'] | null
   >(null);
-  const [products, setProducts] = useState<ProductsQuery['products']>([]);
-  const [currentSelectedFilter, setCurrentSelectedFilter] =
-    useState<SelectedFilter | null>(null);
 
-  const { loading, data, refetch } = useQuery<
+  const { loading, data } = useQuery<
     CollectionsWithProductsQuery,
     CollectionsWithProductsQueryVariables
   >(COLLECTION_OPERATION.Query.collectionsWithProducts, {
     variables: {
-      collectionsFilters: collectionFilters,
+      collectionsFilters: collectionFilters || { handle: { eq: 'all' } },
       productsFilters: productFilters,
       productsPagination: {},
     },
-    skip: !params.collection,
     notifyOnNetworkStatusChange: true,
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'no-cache',
   });
 
   const extractFilters = useCallback(
@@ -97,7 +100,7 @@ const useProductFilter = () => {
       currentSelectedKey?: string,
       acceptedFilters: any[] = []
     ): Filter[] => {
-      const applyFilters = (products: any[]) => {
+      const applyFilters = (products: ProductsQuery['products']) => {
         // Group filters by their key
         const groupedFilters = selectedFilters.reduce(
           (acc, filter) => {
@@ -111,33 +114,35 @@ const useProductFilter = () => {
         );
 
         return products.filter((product) => {
-          // For each group of filters, check if the product matches any of them
+          // For each group of filters, check if the product matches the conditions
           return Object.entries(groupedFilters).every(([key, filters]) => {
             switch (key) {
               case 'Product Type':
+                // For Product Type, match if the product matches ANY of the selected types
                 return filters.some(
                   (filter) => product?.product_type === filter.value
                 );
               case 'Brand':
+                // For Brand, match if the product matches ANY of the selected brands
                 return filters.some(
                   (filter) => product?.brand?.name === filter.value
                 );
               default:
-                const isExist = filters.some((filter) =>
-                  product?.specifications?.some((spec: any) => {
-                    return (
+                // For specifications, match if ANY of the specifications match
+                return filters.some((filter) =>
+                  product?.specifications?.some(
+                    (spec: any) =>
                       capsAllFirstCharWithUnderScore(spec.key) === filter.key &&
                       spec?.value === filter.value
-                    );
-                  })
+                  )
                 );
-                return isExist;
             }
           });
         });
       };
 
       const filteredProducts = applyFilters(cachedProducts);
+
       // Only update filters other than the current selected one
       const countOccurrences = (
         products: any[],
@@ -165,15 +170,13 @@ const useProductFilter = () => {
       const specCounts = new Map<string, Map<string, number>>();
       filteredProducts.forEach((product) => {
         product?.specifications?.forEach((spec: any) => {
-          const titleMatch = spec?.key?.replaceAll('_', ' ');
-          const isAccepted = acceptedFilters.some(
-            (f) => f?.title === titleMatch
-          );
-          if (isAccepted && spec?.key && spec?.value) {
-            if (!specCounts.has(spec.key)) {
-              specCounts.set(spec.key, new Map());
+          const keyMatch = spec?.key?.replaceAll('_', ' ');
+          const isAccepted = acceptedFilters.some((f) => f?.title === keyMatch);
+          if (isAccepted && keyMatch && spec?.value) {
+            if (!specCounts.has(keyMatch)) {
+              specCounts.set(keyMatch, new Map());
             }
-            const valueCounts = specCounts.get(spec.key)!;
+            const valueCounts = specCounts.get(keyMatch)!;
             valueCounts.set(spec.value, (valueCounts.get(spec.value) || 0) + 1);
           }
         });
@@ -221,16 +224,14 @@ const useProductFilter = () => {
         });
       });
 
-      // Only update filters other than the current selected one
       const newFilters = filters
         .map((filter) => {
-          if (
-            capsAllFirstCharWithUnderScore(filter.key) !== currentSelectedKey
-          ) {
+          if (filter.key !== currentSelectedKey) {
             return filter;
           }
 
           const existing = filterOptions.find((f) => f.key === filter.key);
+
           if (existing) {
             // Update option counts, preserving existing values where possible
             return {
@@ -243,10 +244,9 @@ const useProductFilter = () => {
               }),
             };
           }
-
-          // If there's no existing filter to update, just return the original one
           return filter;
         })
+        .filter((filter) => filter !== null)
         .sort((a, b) => {
           if (a.key === 'Product Type') return -1;
           if (b.key === 'Product Type') return 1;
@@ -279,7 +279,7 @@ const useProductFilter = () => {
 
     searchParamsArray.split('&').forEach((param, index) => {
       const [rawKey, rawValue] = param.split('=');
-      if (!rawKey || !rawValue) return;
+      if (!rawKey || !rawValue || rawKey === 'search') return;
 
       const formattedKey = capsAllFirstCharWithDash(rawKey);
       const formattedValue = rawValue.replaceAll('+', ' ');
@@ -297,9 +297,12 @@ const useProductFilter = () => {
           });
           break;
         case 'product-type':
-          filters.product_type = {
-            eq: formattedValue,
-          };
+          // Initialize product_type filter with 'in' operator if it doesn't exist
+          if (!filters.product_type) {
+            filters.product_type = { in: [] };
+          }
+          // Add the value to the array
+          filters.product_type.in.push(formattedValue);
           newSelected.push({
             id: `${rawKey}-${index}`,
             key: formattedKey,
@@ -338,12 +341,30 @@ const useProductFilter = () => {
     };
   };
 
+  const buildSearchFilter = (searchQuery: string | null) => {
+    if (!searchQuery) return {};
+
+    return {
+      or: [
+        { name: { contains: searchQuery } },
+        { product_type: { contains: searchQuery } },
+        { brand: { name: { contains: searchQuery } } },
+        {
+          categories: {
+            title: { contains: searchQuery },
+          },
+        },
+      ],
+    };
+  };
+
   const handleSortChange = (value: string) => {
-    router.push(`${pathname}?sort=${value}`, { scroll: false });
+    // router.push(`${pathname}?sort=${value}`, { scroll: false });
   };
 
   const handleFilterClick = useCallback(
     ({ key, value }: SelectedFilter) => {
+      if (loading) return;
       const filterKey = key
         .toLowerCase()
         .replaceAll(' ', '-')
@@ -352,8 +373,7 @@ const useProductFilter = () => {
       const searchParam = `${filterKey}=${filterValue}`;
 
       const currentFilter = { id: `${filterKey}-${Date.now()}`, key, value };
-      setCurrentSelectedFilter(currentFilter);
-      // dispatch(setSelectedFilters(selectedFilters.filter((f) => f.value !== value)));
+      dispatch(setCurrentSelectedFilter(currentFilter));
 
       let current = searchParams.toString();
       let currentParams = searchParams
@@ -365,8 +385,8 @@ const useProductFilter = () => {
         });
 
       // Preserve sort parameter if it exists
-      const sortParam = searchParams.get('sort');
-      const sortQuery = sortParam ? `sort=${sortParam}` : '';
+      // const sortParam = searchParams.get('sort');
+      // const sortQuery = sortParam ? `sort=${sortParam}` : '';
       const updatedParams = currentParams.includes(filterValue)
         ? current
             .split('&')
@@ -381,7 +401,7 @@ const useProductFilter = () => {
         : [...current.split('&'), searchParam].join('&');
 
       // Combine filter params with sort param
-      const finalParams = [updatedParams, sortQuery].filter(Boolean).join('&');
+      const finalParams = [updatedParams].filter(Boolean).join('&');
       const url = `${pathname}?${finalParams}`;
       const {
         productFilters: newProductFilters,
@@ -400,7 +420,7 @@ const useProductFilter = () => {
       const filterValue = value.replaceAll('%20', ' ');
       const target = `${filterKey}=${filterValue}`;
 
-      setCurrentSelectedFilter(null);
+      dispatch(setCurrentSelectedFilter(null));
       const newParams = searchParams
         .toString()
         .split('&')
@@ -427,22 +447,39 @@ const useProductFilter = () => {
   );
 
   const removeAllFilters = useCallback(() => {
+    // Get the search parameter if it exists
+    const searchParam = searchParams.get('search');
+
+    // If search param exists, keep only the search parameter, otherwise empty string
+    const remainingParams = searchParam ? `search=${searchParam}` : '';
+
     const {
       productFilters: newProductFilters,
       selectedFilters: newSelectedFilters,
-    } = buildProductFilters('/');
+    } = buildProductFilters(remainingParams);
 
     dispatch(setProductFilters(newProductFilters));
     dispatch(setSelectedFilters(newSelectedFilters));
-    setCurrentSelectedFilter(null);
-    router.replace(pathname, { scroll: false });
-  }, [pathname, router]);
+    dispatch(
+      setCollectionFilters({ handle: { eq: params.collection as string } })
+    );
+    dispatch(setCurrentSelectedFilter(null));
+
+    // Preserve the search parameter in the URL if it exists
+    const newUrl = searchParam ? `${pathname}?${remainingParams}` : pathname;
+
+    router.replace(newUrl, { scroll: false });
+  }, [pathname, router, searchParams]);
 
   const handleBrandClick = useCallback(
     (brand?: string) => {
-      if (!brand) return;
+      if (!brand && loading) return;
       cachedCollectionData.current = null;
       dispatch(setRevalidateCache(true));
+      dispatch(setCurrentSelectedFilter(null));
+      dispatch(setSelectedFilters([]));
+      dispatch(setProductFilters({}));
+
       dispatch(
         setCollectionFilters({
           handle: {
@@ -458,9 +495,13 @@ const useProductFilter = () => {
 
   const handleCategoryClick = useCallback(
     (category: string) => {
-      if (!category) return;
+      if (!category && loading) return;
       cachedCollectionData.current = null;
+      dispatch(setCurrentSelectedFilter(null));
       dispatch(setRevalidateCache(true));
+      dispatch(setSelectedFilters([]));
+      dispatch(setProductFilters({}));
+
       dispatch(
         setCollectionFilters({
           handle: {
@@ -468,50 +509,37 @@ const useProductFilter = () => {
           },
         })
       );
-      dispatch(setSelectedFilters([]));
-      dispatch(setProductFilters({}));
 
       router.replace(`/collections/${category}`, { scroll: false });
     },
     [dispatch, router]
   );
 
-  const handlePaginationNextClick = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('page', String(page + 1));
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
-  };
-
-  const handlePaginationPreviousClick = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('page', String(page - 1));
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
-  };
-
-  const handlePaginationPageClick = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('page', String(page));
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
-  };
+  useEffect(() => {
+    // Get search query from URL
+    const searchQuery = searchParams.get('search');
+    if (searchQuery) {
+      dispatch(setProductFilters(buildSearchFilter(searchQuery)));
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (params.collection) {
       dispatch(
         setCollectionFilters({
           handle: {
-            eq: params.collection as string,
+            eq: params.collection,
           },
         })
       );
     }
 
     const collection = data?.collections.at(0);
+    const acceptedFilters = collection?.productFilters || [];
     const productsFromCollection = collection?.products || [];
     if (data) {
       if (!cachedCollectionData.current && revalidateCache) {
-        refetch();
         cachedCollectionData.current = data.collections;
-        const acceptedFilters = collection?.productFilters || [];
         const updatedFilters = extractFilters(
           productsFromCollection,
           selectedFilters,
@@ -523,7 +551,6 @@ const useProductFilter = () => {
         dispatch(setRevalidateCache(false));
       } else {
         cachedCollectionData.current = data?.collections || [];
-        const acceptedFilters = collection?.productFilters || [];
         const updatedFilters = extractFilters(
           productsFromCollection,
           selectedFilters,
@@ -535,8 +562,8 @@ const useProductFilter = () => {
       }
     }
 
-    dispatch(setProductCount(productsFromCollection.length));
     setProducts(productsFromCollection);
+    dispatch(setProductCount(productsFromCollection.length));
 
     return () => {
       dispatch(setCollectionFilters({}));
@@ -559,9 +586,6 @@ const useProductFilter = () => {
     setShowMobileFilters,
     handleSortChange,
     removeAllFilters,
-    handlePaginationNextClick,
-    handlePaginationPreviousClick,
-    handlePaginationPageClick,
     handleCategoryClick,
   };
 };

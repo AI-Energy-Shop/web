@@ -1,17 +1,94 @@
-import PageTitle from '@/components/products/PageTitle';
-import { Input } from '@/components/ui/input';
-import React from 'react';
+import { products } from '@/app/actions/products';
+import ProductList from '@/components/products/ProductList';
+import { INITIAL_PAGE_SIZE } from '@/constant';
+import { INITIAL_PAGE } from '@/constant';
+import React, { Suspense } from 'react';
+import { Loader2 } from 'lucide-react';
 
-const SearchPage = () => {
+interface SearchPageProps {
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+const SearchResults = async ({ searchParams }: SearchPageProps) => {
+  const page = Number(searchParams.page) || INITIAL_PAGE;
+  const pageSize = Number(searchParams.pageSize) || INITIAL_PAGE_SIZE;
+  const searchQuery = searchParams.search as string;
+  const brands = Array.isArray(searchParams.brand)
+    ? searchParams.brand
+    : searchParams.brand
+      ? [searchParams.brand]
+      : [];
+  const productType = searchParams['product-type'] as string;
+
+  const { data } = await products({
+    filters: {
+      and: [
+        {
+          or: [
+            {
+              name: { contains: searchQuery },
+            },
+            {
+              model: { contains: searchQuery },
+            },
+            {
+              product_type: { contains: searchQuery },
+            },
+            {
+              categories: {
+                or: [
+                  {
+                    title: { contains: searchQuery },
+                  },
+                  {
+                    slug: { contains: searchQuery },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+        ...(brands.length > 0
+          ? [
+              {
+                brand: {
+                  name: { in: brands },
+                },
+              },
+            ]
+          : []),
+        ...(productType
+          ? [
+              {
+                product_type: { contains: productType },
+              },
+            ]
+          : []),
+      ],
+    },
+    pagination: {
+      page,
+      pageSize,
+    },
+  });
+
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center min-h-[400px]">
+          <Loader2 className="w-8 h-8 animate-spin" />
+        </div>
+      }
+    >
+      <ProductList data={data?.products} page={page} pageSize={pageSize} />
+    </Suspense>
+  );
+};
+
+const SearchPage = ({ searchParams }: SearchPageProps) => {
   return (
     <div className="w-full min-h-screen">
-      <div className="max-w-[1200px] mx-auto px-5 py-[100px] md:p-5 lg:p-5 flex flex-col gap-5 lg:gap-5">
-        <h1 className="text-center text-2xl font-bold">Search results</h1>
-
-        <div className="flex items-center justify-center">
-          <Input placeholder="Search" />
-        </div>
-      </div>
+      <SearchResults searchParams={searchParams} />
     </div>
   );
 };

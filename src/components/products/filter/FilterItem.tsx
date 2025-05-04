@@ -1,16 +1,22 @@
 'use client';
-import { SelectedFilter } from '@/hooks/useProductFilter';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 
+export interface SelectedFilter {
+  id: string;
+  key: string;
+  value: string;
+}
+
 interface FilterItemProps {
   id: string;
   name: string;
   options: Array<{ value: string; count: number }>;
   isOpen: boolean;
+  loading: boolean;
   selectedFilters: SelectedFilter[];
   onFilterClick: (selectedFilterOption: SelectedFilter) => void;
 }
@@ -21,6 +27,7 @@ const FilterItem: React.FC<FilterItemProps> = ({
   options,
   isOpen,
   selectedFilters,
+  loading,
   onFilterClick,
 }) => {
   const [open, setOpen] = useState(isOpen);
@@ -38,6 +45,7 @@ const FilterItem: React.FC<FilterItemProps> = ({
         <input
           type="checkbox"
           name={option.value}
+          disabled={loading}
           checked={selectedFilters.some(
             (filter) => filter.value === option.value
           )}

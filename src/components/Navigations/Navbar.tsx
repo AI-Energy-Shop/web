@@ -1,6 +1,6 @@
 'use client';
 import NavList from './NavList';
-import NavSearchBar from './Search/NavSearchBar';
+import SearchBar from './Search/SearchBar';
 import CartButton from './CartButton';
 import UserIconButton from './UserIconButton';
 import WarehouseIconButton from './WarehouseIconButton';
@@ -28,7 +28,7 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
       <div className="flex max-w-[1200px] h-20 items-end justify-between mx-auto py-[0.5rem]">
         <Logo />
         <NavList data={NAV_LIST_ITEMS} />
-        <NavSearchBar />
+        <SearchBar />
         <div className="gap-2 items-end h-full hidden lg:flex">
           <WarehouseIconButton />
           <UserIconButton />

@@ -1,7 +1,7 @@
 'use client';
 import { Filter, SelectedFilter } from '@/hooks/useProductFilter';
-import FilterItem from './FilterItem';
 import { Button } from '@/components/ui/button';
+import FilterItem from './FilterItem';
 import { X } from 'lucide-react';
 
 interface SidebarFilterProps {
@@ -44,6 +44,7 @@ const SidebarFilter: React.FC<SidebarFilterProps> = ({
             name={filter.key}
             options={filter.options}
             isOpen={true}
+            loading={false}
             selectedFilters={selectedFilters}
             onFilterClick={onFilterClick}
           />
