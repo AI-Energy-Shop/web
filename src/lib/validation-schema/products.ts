@@ -1,6 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
+export const addToCartFormSchema = z.object({
+  id: z.string(),
+  quantity: z.number().min(0), // Make sure this is number
+});
+
 export const addProductSchema = z.object({
   name: z.string().min(1, { message: 'Required' }),
   description: z.string().min(1, { message: 'Required' }),
@@ -10,7 +15,12 @@ export const addProductSchema = z.object({
   vendor: z.string().min(1, { message: 'Required' }),
   images: z.array(z.string()).min(1, { message: 'Required' }),
   files: z.array(z.string()).min(1, { message: 'Required' }),
-  // key_features: z.array(z.string()).min(1, { message: 'Required' }),
+  shipping: z.object({
+    height: z.number().min(1, { message: 'Required' }),
+    width: z.number().min(1, { message: 'Required' }),
+    length: z.number().min(1, { message: 'Required' }),
+    weight: z.number().min(1, { message: 'Required' }),
+  }),
   price_lists: z.array(
     z.object({
       documentId: z.string().min(1, { message: 'Required' }),
@@ -37,9 +47,15 @@ export const addProductSchema = z.object({
       value: z.string().min(1, { message: 'Required' }),
     })
   ),
+  key_features: z.array(
+    z.object({
+      documentId: z.string().min(1, { message: 'Required' }),
+      feature: z.string().min(1, { message: 'Required' }),
+    })
+  ),
   brands: z.string().min(1, { message: 'Required' }),
   tags: z.string().min(1, { message: 'Required' }),
-  publishedAt: z.string().min(1, { message: 'Required' }).nullable(),
+  releaseAt: z.string().min(1, { message: 'Required' }).nullable(),
 });
 
 export type AddProductFormData = z.infer<typeof addProductSchema>;
@@ -78,3 +94,12 @@ export const specificationSchema = z.object({
 export type SpecificationFormData = z.infer<typeof specificationSchema>;
 
 export const specificationResolver = zodResolver(specificationSchema);
+
+export const keyFeatureSchema = z.object({
+  documentId: z.string().min(1, { message: 'Required' }),
+  feature: z.string().min(1, { message: 'Required' }),
+});
+
+export type KeyFeatureFormData = z.infer<typeof keyFeatureSchema>;
+
+export const keyFeatureResolver = zodResolver(keyFeatureSchema);

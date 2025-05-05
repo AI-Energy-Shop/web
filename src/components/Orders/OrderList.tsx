@@ -53,7 +53,7 @@ const OrderList = ({ data }: Order) => {
         <TableBody>
           {data?.map?.((order) => {
             return (
-              <TableRow>
+              <TableRow key={order?.documentId}>
                 <TableCell>
                   <Input
                     width={10}
@@ -80,7 +80,7 @@ const OrderList = ({ data }: Order) => {
                     {order?.fulfillmentStatus?.toUpperCase()}
                   </Badge>
                 </TableCell>
-                <TableCell>{order?.lineItems?.length} items</TableCell>
+                <TableCell> items</TableCell>
                 <TableCell>
                   {order?.shippingType
                     ?.replace(/_/g, ' ')

@@ -41,7 +41,9 @@ export function FileGrid({ files, selectedFiles, onSelect }: FileGridProps) {
                 </div>
               </div>
               <div className="w-full h-[30%] flex items-center justify-center">
-                <p className="text-xs text-gray-600 font-medium truncate max-w-[90%]">PDF Document</p>
+                <p className="text-xs text-gray-600 font-medium truncate max-w-[90%]">
+                  PDF Document
+                </p>
               </div>
             </div>
           ) : null}

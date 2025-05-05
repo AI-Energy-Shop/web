@@ -110,7 +110,7 @@ const schema = {
                 value
               }
               key_features {
-                id
+                documentId
                 feature
               }
               inventories {

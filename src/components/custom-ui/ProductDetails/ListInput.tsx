@@ -12,7 +12,10 @@ import {
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
-import { AddProductFormData, PriceListFormData } from '@/lib/validation-schema/products';
+import {
+  AddProductFormData,
+  PriceListFormData,
+} from '@/lib/validation-schema/products';
 import { UseFormReturn } from 'react-hook-form';
 
 interface ListInputProps {
@@ -61,7 +64,10 @@ const ListInput: React.FC<ListInputProps> = ({
           <CardTitle className="text-md font-medium flex items-center gap-2">
             {title}
             {formData && formData?.length > 0 && (
-              <Badge variant="secondary" className="h-5 px-2 text-xs font-normal">
+              <Badge
+                variant="secondary"
+                className="h-5 px-2 text-xs font-normal"
+              >
                 {formData?.length}
               </Badge>
             )}

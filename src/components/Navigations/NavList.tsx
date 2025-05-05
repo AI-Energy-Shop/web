@@ -28,7 +28,9 @@ const NavList = ({ data, className, showIcon = false }: NavListProps) => {
   };
 
   return (
-    <nav className={`px-4 hidden items-end h-full text-sm font-medium gap-3 lg:flex ${className}`}>
+    <nav
+      className={`px-4 hidden items-end h-full text-sm font-medium gap-3 lg:flex ${className}`}
+    >
       {data.map((item) => {
         const isPath = pathname === item.href;
         return (

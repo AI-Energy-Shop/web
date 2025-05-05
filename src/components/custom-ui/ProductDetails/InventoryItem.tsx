@@ -58,7 +58,9 @@ const InventoryItem: React.FC<InventoryItemProps> = ({
             data-index={index}
             data-title={title}
             value={item?.location_code || ''}
-            onValueChange={(value) => onChangeSelectLocation(value, Number(index))}
+            onValueChange={(value) =>
+              onChangeSelectLocation(value, Number(index))
+            }
           >
             <SelectTrigger
               className={cn(

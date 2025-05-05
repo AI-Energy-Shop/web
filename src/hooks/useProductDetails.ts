@@ -10,12 +10,14 @@ import {
   updatePrice,
   updateInventory,
   createInventory,
-  // updateSpecification,
   createSpecification,
   updateSpecification,
   deleteSpecification,
   deleteInventory,
   deletePrice,
+  updateKeyFeature,
+  createKeyFeature,
+  deleteKeyFeature,
 } from '@/app/actions/products';
 import {
   AddProductFormData,
@@ -23,10 +25,9 @@ import {
   InventoryFormData,
   PriceListFormData,
   SpecificationFormData,
+  KeyFeatureFormData,
 } from '@/lib/validation-schema/products';
 import { useForm, UseFormReturn } from 'react-hook-form';
-import { useQuery } from '@apollo/client';
-import PRODUCT_OPERATIONS from '@/graphql/products';
 
 export type UploadFile = {
   __typename?: 'UploadFile';
@@ -77,8 +78,11 @@ const useProductDetails = (product: ProductQuery['product']) => {
         key: spec?.key || '',
         value: spec?.value || '',
       })),
-      publishedAt: product?.publishedAt || '',
-      // key_features: product?.key_features?.map((feature) => feature?.feature),
+      key_features: product?.key_features?.map((feature) => ({
+        documentId: feature?.documentId || '',
+        feature: feature?.feature || '',
+      })),
+      releaseAt: product?.releasedAt || '',
     },
   });
 
@@ -122,6 +126,13 @@ const useProductDetails = (product: ProductQuery['product']) => {
         addProductForm.getValues('specifications')
       );
 
+      const keyFeatureList = await handleSaveCurrentKeyFeatures(
+        addProductForm.getValues('key_features')
+      );
+
+      const imagesList = addProductForm.getValues('images');
+      const filesList = addProductForm.getValues('files');
+
       const productData = JSON.stringify(
         {
           documentId: product?.documentId,
@@ -131,10 +142,13 @@ const useProductDetails = (product: ProductQuery['product']) => {
             odoo_product_id: addProductForm.getValues('odoo_product_id'),
             description: addProductForm.getValues('description'),
             vendor: addProductForm.getValues('vendor'),
+            product_type: addProductForm.getValues('product_type'),
             price_lists: priceList || [],
             inventories: inventoryList || [],
             specifications: specificationList || [],
-            publishedAt: addProductForm.getValues('publishedAt'),
+            images: imagesList || [],
+            files: filesList || [],
+            key_features: keyFeatureList || [],
           },
         },
         null,
@@ -158,12 +172,12 @@ const useProductDetails = (product: ProductQuery['product']) => {
   const handleProductStatusChange = (value: string) => {
     switch (value) {
       case 'draft':
-        addProductForm.setValue('publishedAt', null, {
+        addProductForm.setValue('releaseAt', null, {
           shouldDirty: true,
         });
         break;
       case 'published':
-        addProductForm.setValue('publishedAt', new Date().toISOString(), {
+        addProductForm.setValue('releaseAt', new Date().toISOString(), {
           shouldDirty: true,
         });
         break;
@@ -177,21 +191,62 @@ const useProductDetails = (product: ProductQuery['product']) => {
     addProductForm.reset(addProductForm.getValues());
   };
 
-  const handleDescriptionChange = (description: string) => {
-    addProductForm.setValue('description', description, {
+  // KEY FEATURES
+  const handleAddKeyFeatureItem = () => {
+    const newObj = {
+      documentId: '',
+      feature: '',
+    };
+
+    const currentKeyFeatures = addProductForm.getValues('key_features');
+    const combinedKeyFeatures = [...currentKeyFeatures, newObj];
+    addProductForm.setValue('key_features', combinedKeyFeatures, {
       shouldDirty: true,
     });
   };
 
-  const handleAddKeyFeatureItem = () => {
-    const newObj = {
-      feature: '',
-    };
+  const handleSaveCurrentKeyFeatures = async (
+    data: UseFormReturn<KeyFeatureFormData>['formState']['defaultValues'][]
+  ) => {
+    const dataToSave = data
+      .filter((item) => item?.documentId === '')
+      .map((item) => {
+        return {
+          feature: item?.feature,
+        };
+      });
 
-    // setCurrentProduct({
-    //   ...currentProduct,
-    //   key_features: [...currentProduct.key_features, newObj],
-    // });
+    const dataToUpdate = data
+      .filter((item) => item?.documentId !== '')
+      .map((item) => {
+        return {
+          id: item?.documentId,
+          feature: item?.feature,
+        };
+      });
+
+    // console.log('dataToUpdate', dataToUpdate);
+    const toDelete = product?.key_features
+      ?.filter(
+        (feature) =>
+          !data.some((item) => item?.documentId === feature?.documentId)
+      )
+      .map((feature) => ({ documentId: feature?.documentId }));
+
+    const res = await Promise.all([
+      createKeyFeature(JSON.stringify(dataToSave)),
+      updateKeyFeature(JSON.stringify(dataToUpdate)),
+      deleteKeyFeature(JSON.stringify(toDelete)),
+    ]);
+
+    const [saveRes, updateRes] = res;
+
+    const combinedKeyFeatures = [
+      ...saveRes.map((item) => item.data?.createKeyFeature?.documentId),
+      ...updateRes.map((item) => item.data?.updateKeyFeature?.documentId),
+    ];
+
+    return combinedKeyFeatures;
   };
 
   // PRICE LIST
@@ -260,7 +315,9 @@ const useProductDetails = (product: ProductQuery['product']) => {
       });
 
     const toDelete = product?.price_lists
-      ?.filter((price) => !data.some((item) => item?.documentId === price?.documentId))
+      ?.filter(
+        (price) => !data.some((item) => item?.documentId === price?.documentId)
+      )
       .map((price) => ({ documentId: price?.documentId }));
 
     const res = await Promise.all([
@@ -337,7 +394,9 @@ const useProductDetails = (product: ProductQuery['product']) => {
       });
 
     const toDelete = product?.inventories
-      ?.filter((inv) => !data.some((item) => item?.documentId === inv?.documentId))
+      ?.filter(
+        (inv) => !data.some((item) => item?.documentId === inv?.documentId)
+      )
       .map((inv) => ({ documentId: inv?.documentId }));
 
     const res = await Promise.all([
@@ -364,7 +423,8 @@ const useProductDetails = (product: ProductQuery['product']) => {
       value: '',
     };
 
-    const specificationFormData = addProductForm.getValues('specifications') || [];
+    const specificationFormData =
+      addProductForm.getValues('specifications') || [];
     const combinedSpecification = [...specificationFormData, newObj];
 
     addProductForm.setValue('specifications', combinedSpecification, {
@@ -394,9 +454,10 @@ const useProductDetails = (product: ProductQuery['product']) => {
         };
       });
 
-    // console.log('dataToUpdate', dataToUpdate);
     const toDelete = product?.specifications
-      ?.filter((spec) => !data.some((item) => item?.documentId === spec?.documentId))
+      ?.filter(
+        (spec) => !data.some((item) => item?.documentId === spec?.documentId)
+      )
       .map((spec) => ({ documentId: spec?.documentId }));
 
     const res = await Promise.all([
@@ -404,7 +465,6 @@ const useProductDetails = (product: ProductQuery['product']) => {
       updateSpecification(JSON.stringify(dataToUpdate)),
       deleteSpecification(JSON.stringify(toDelete)),
     ]);
-    console.log('res', res);
 
     const [saveRes, updateRes] = res;
 
@@ -414,13 +474,6 @@ const useProductDetails = (product: ProductQuery['product']) => {
     ];
 
     return combinedSpecificationLists;
-  };
-
-  // KEY FEATURES
-  const handleSaveCurrentKeyFeatures = (data: any) => {
-    // setCurrentProduct((prev: any) => {
-    //   return { ...prev, key_features: data };
-    // });
   };
 
   const handleOnInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -435,15 +488,17 @@ const useProductDetails = (product: ProductQuery['product']) => {
       case 'price_lists':
         addProductForm.setValue(
           'price_lists',
-          addProductForm.getValues('price_lists').map((item: any, i: number) => {
-            if (i === Number(index)) {
-              return {
-                ...item,
-                [name]: type === 'number' ? Number(value) : value,
-              };
-            }
-            return item;
-          }),
+          addProductForm
+            .getValues('price_lists')
+            .map((item: any, i: number) => {
+              if (i === Number(index)) {
+                return {
+                  ...item,
+                  [name]: type === 'number' ? Number(value) : value,
+                };
+              }
+              return item;
+            }),
           {
             shouldDirty: true,
           }
@@ -453,54 +508,55 @@ const useProductDetails = (product: ProductQuery['product']) => {
       case 'inventories':
         addProductForm.setValue(
           'inventories',
-          addProductForm.getValues('inventories').map((item: any, i: number) => {
-            if (i === Number(index)) {
-              return {
-                ...item,
-                [name]: type === 'number' ? Number(value) : value,
-              };
-            }
-            return item;
-          }),
+          addProductForm
+            .getValues('inventories')
+            .map((item: any, i: number) => {
+              if (i === Number(index)) {
+                return {
+                  ...item,
+                  [name]: type === 'number' ? Number(value) : value,
+                };
+              }
+              return item;
+            }),
           {
             shouldDirty: true,
           }
         );
 
         break;
-
       case 'specifications':
         addProductForm.setValue(
           'specifications',
-          addProductForm.getValues('specifications').map((item: any, i: number) => {
-            if (i === Number(index)) {
-              return { ...item, [name]: value };
-            }
-            return item;
-          }),
+          addProductForm
+            .getValues('specifications')
+            .map((item: any, i: number) => {
+              if (i === Number(index)) {
+                return { ...item, [name]: value };
+              }
+              return item;
+            }),
           {
             shouldDirty: true,
           }
         );
 
         break;
-
       case 'key_features':
-        // setCurrentProduct({
-        //   ...currentProduct,
-        //   key_features: currentProduct.key_features.map(
-        //     (item: any, i: number) => {
-        //       if (i === Number(index)) {
-        //         return {
-        //           ...item,
-        //           [name]: type === 'number' ? Number(value) : value,
-        //         };
-        //       }
-        //       return item;
-        //     }
-        //   ),
-        // });
-
+        addProductForm.setValue(
+          'key_features',
+          addProductForm
+            .getValues('key_features')
+            .map((item: any, i: number) => {
+              if (i === Number(index)) {
+                return { ...item, [name]: value };
+              }
+              return item;
+            }),
+          {
+            shouldDirty: true,
+          }
+        );
         break;
       default:
         console.warn(`Unhandled title: ${title}`);
@@ -535,6 +591,13 @@ const useProductDetails = (product: ProductQuery['product']) => {
           shouldDirty: true,
         });
         break;
+      case 'key_features':
+        const currentKeyFeatures = addProductForm
+          .getValues('key_features')
+          .filter((_: any, i: number) => i !== idx);
+        addProductForm.setValue('key_features', currentKeyFeatures, {
+          shouldDirty: true,
+        });
       default:
         console.warn(`Unhandled title: ${title}`);
         break;
@@ -545,12 +608,16 @@ const useProductDetails = (product: ProductQuery['product']) => {
     try {
       const existingFiles = files?.map((file) => file?.documentId) ?? [];
       const newFiles =
-        files?.filter?.((file) => !existingFiles?.includes(file?.documentId)) ?? [];
+        files?.filter?.((file) => !existingFiles?.includes(file?.documentId)) ??
+        [];
       const combinedFiles = [...files, ...newFiles];
       setFiles(combinedFiles);
       addProductForm.setValue(
         'files',
-        combinedFiles.map((file) => file.documentId)
+        combinedFiles.map((file) => file.documentId),
+        {
+          shouldDirty: true,
+        }
       );
     } catch (error) {
       console.error('Failed to select images:', error);
@@ -561,7 +628,8 @@ const useProductDetails = (product: ProductQuery['product']) => {
     try {
       const existingFiles = images?.map((file) => file?.documentId) ?? [];
       const newFiles =
-        files?.filter?.((file) => !existingFiles?.includes(file?.documentId)) ?? [];
+        files?.filter?.((file) => !existingFiles?.includes(file?.documentId)) ??
+        [];
       const combinedImages = [...images, ...newFiles];
       setImages(combinedImages);
       addProductForm.setValue(
@@ -590,14 +658,20 @@ const useProductDetails = (product: ProductQuery['product']) => {
     setImages(newImages);
     addProductForm.setValue(
       'images',
-      newImages.map((image) => image.documentId)
+      newImages.map((image) => image.documentId),
+      {
+        shouldDirty: true,
+      }
     );
   };
 
   useEffect(() => {
     setImages(
       product?.images?.filter((image) => {
-        if (image && addProductForm.getValues('images').includes(image.documentId)) {
+        if (
+          image &&
+          addProductForm.getValues('images').includes(image.documentId)
+        ) {
           return {
             documentId: image?.documentId,
             name: image?.name,
@@ -613,7 +687,10 @@ const useProductDetails = (product: ProductQuery['product']) => {
     );
     setFiles(
       product?.files?.filter((file) => {
-        if (file && addProductForm.getValues('files').includes(file.documentId)) {
+        if (
+          file &&
+          addProductForm.getValues('files').includes(file.documentId)
+        ) {
           return {
             documentId: file?.documentId,
             name: file?.name,
@@ -639,7 +716,6 @@ const useProductDetails = (product: ProductQuery['product']) => {
     handleClickSave,
     handleProductStatusChange,
     handleDiscardChanges,
-    handleDescriptionChange,
     handleAddInventoryItem,
     handleAddSpecsItem,
     handleAddKeyFeatureItem,
@@ -660,4 +736,3 @@ const useProductDetails = (product: ProductQuery['product']) => {
 };
 
 export default useProductDetails;
-

@@ -57,7 +57,9 @@ const FilePreview: FC<FilePreviewProps> = ({ file, onRemove }) => {
         <CircleX width={16} height={16} />
       </Button>
 
-      <p className="mt-2 text-xs text-gray-600 truncate text-center">{file.name}</p>
+      <p className="mt-2 text-xs text-gray-600 truncate text-center">
+        {file.name}
+      </p>
     </div>
   );
 };

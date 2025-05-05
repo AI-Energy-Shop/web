@@ -72,7 +72,9 @@ const ProductsPage = async () => {
                     <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
                       Total Orders
                     </dt>
-                    <dd className="text-lg font-medium text-gray-900 dark:text-white">2</dd>
+                    <dd className="text-lg font-medium text-gray-900 dark:text-white">
+                      2
+                    </dd>
                   </dl>
                 </div>
               </div>
@@ -89,7 +91,9 @@ const ProductsPage = async () => {
                     <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
                       Total Customers
                     </dt>
-                    <dd className="text-lg font-medium text-gray-900 dark:text-white">2</dd>
+                    <dd className="text-lg font-medium text-gray-900 dark:text-white">
+                      2
+                    </dd>
                   </dl>
                 </div>
               </div>
@@ -100,7 +104,9 @@ const ProductsPage = async () => {
         {/* Product Table */}
         <div className="mt-8">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-sm font-semibold text-gray-900 dark:text-white">All Products</h2>
+            <h2 className="text-sm font-semibold text-gray-900 dark:text-white">
+              All Products
+            </h2>
             <Link href={'/admin/dashboard/products/new'}>
               <Button size="sm">Add Product</Button>
             </Link>

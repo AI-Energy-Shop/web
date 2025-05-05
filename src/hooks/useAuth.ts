@@ -94,8 +94,8 @@ const useAuth = () => {
             setCarts([
               ...data?.user?.carts?.map?.((cart) => ({
                 documentId: cart?.documentId || '',
-                product: cart?.product as ProductQuery['product'],
                 quantity: cart?.quantity || 0,
+                product: cart?.product as ProductQuery['product'],
               })),
             ])
           );

@@ -20,7 +20,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
 }) => {
   const [showFilesModal, setShowFilesModal] = useState(false);
 
-  const handleSelectFilesFromModal = (files: UploadFile[] | null | undefined) => {
+  const handleSelectFilesFromModal = (
+    files: UploadFile[] | null | undefined
+  ) => {
     if (!files || files.length === 0) {
       console.warn('No files selected');
       return;
