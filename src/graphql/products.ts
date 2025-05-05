@@ -4,10 +4,7 @@ import { gql } from '@apollo/client';
 const schema = {
   Query: {
     products: graphql(`
-      query Products(
-        $filters: ProductFiltersInput
-        $pagination: PaginationArg
-      ) {
+      query Products($filters: ProductFiltersInput, $pagination: PaginationArg) {
         products(filters: $filters, pagination: $pagination) {
           documentId
           name
@@ -221,6 +218,18 @@ const schema = {
         }
       }
     `),
+    specifications: graphql(`
+      query Specifications {
+        specifications {
+          documentId
+          key
+          value
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
   },
   Mutation: {
     createProduct: graphql(`
@@ -246,6 +255,7 @@ const schema = {
             }
           }
           inventories {
+            documentId
             location_code
             quantity
           }
@@ -287,26 +297,14 @@ const schema = {
       }
     `),
     updateProduct: graphql(`
-      mutation CustomProductUpdate($documentId: ID!, $data: ProductInput!) {
-        customProductUpdate(documentId: $documentId, data: $data) {
+      mutation UpdateProduct($documentId: ID!, $data: ProductInput!) {
+        updateProduct(documentId: $documentId, data: $data) {
           documentId
           name
           model
           description
           vendor
           odoo_product_id
-          categories {
-            title
-            slug
-            image {
-              name
-              alternativeText
-              mime
-              url
-              width
-              height
-            }
-          }
           brand {
             name
             url
@@ -316,7 +314,14 @@ const schema = {
               alternativeText
               width
               height
+              mime
+              url
             }
+          }
+          inventories {
+            documentId
+            location_code
+            quantity
           }
           price_lists {
             documentId
@@ -326,29 +331,24 @@ const schema = {
             max_quantity
             user_level
           }
-          inventories {
+          files {
             documentId
-            location_code
-            quantity
+            mime
+            name
+            url
+            alternativeText
+          }
+          images {
+            documentId
+            mime
+            name
+            url
+            alternativeText
           }
           specifications {
             documentId
             key
             value
-          }
-          files {
-            documentId
-            name
-            url
-            mime
-            ext
-          }
-          images {
-            documentId
-            name
-            url
-            mime
-            ext
           }
           key_features {
             id
@@ -357,6 +357,107 @@ const schema = {
           createdAt
           updatedAt
           publishedAt
+        }
+      }
+    `),
+    createPrice: graphql(`
+      mutation CreatePrice($data: PriceInput!) {
+        createPrice(data: $data) {
+          documentId
+          sale_price
+          price
+          min_quantity
+          max_quantity
+          user_level
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
+    updatePrice: graphql(`
+      mutation UpdatePrice($documentId: ID!, $data: PriceInput!) {
+        updatePrice(documentId: $documentId, data: $data) {
+          documentId
+          sale_price
+          price
+          min_quantity
+          max_quantity
+          user_level
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
+    deletePrice: graphql(`
+      mutation DeletePrice($documentId: ID!) {
+        deletePrice(documentId: $documentId) {
+          documentId
+        }
+      }
+    `),
+    createInventory: graphql(`
+      mutation CreateInventory($data: InventoryInput!) {
+        createInventory(data: $data) {
+          documentId
+          name
+          location_code
+          quantity
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
+    updateInventory: graphql(`
+      mutation UpdateInventory($documentId: ID!, $data: InventoryInput!) {
+        updateInventory(documentId: $documentId, data: $data) {
+          documentId
+          name
+          location_code
+          quantity
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
+    deleteInventory: graphql(`
+      mutation DeleteInventory($documentId: ID!) {
+        deleteInventory(documentId: $documentId) {
+          documentId
+        }
+      }
+    `),
+    createSpecification: graphql(`
+      mutation CreateSpecification($data: SpecificationInput!) {
+        createSpecification(data: $data) {
+          documentId
+          key
+          value
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
+    updateSpecification: graphql(`
+      mutation UpdateSpecification($documentId: ID!, $data: SpecificationInput!) {
+        updateSpecification(documentId: $documentId, data: $data) {
+          documentId
+          key
+          value
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
+    deleteSpecification: graphql(`
+      mutation DeleteSpecification($documentId: ID!) {
+        deleteSpecification(documentId: $documentId) {
+          documentId
         }
       }
     `),

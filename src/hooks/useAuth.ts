@@ -2,7 +2,6 @@ import { useForm } from 'react-hook-form';
 import { loginUser, registerUser } from '@/app/actions/user';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/useToast';
-import { useDispatch } from 'react-redux';
 import { setMe, setMeAdmin } from '@/store/features/me';
 import { setCarts, setWarehouseLocation } from '@/store/features/cart';
 import { ProductQuery } from '@/lib/gql/graphql';
@@ -13,11 +12,11 @@ import {
   registerResolver,
 } from '@/lib/validation-schema/auth-forms';
 import { useState } from 'react';
-
+import { useAppDispatch } from '@/store/store';
 const useAuth = () => {
   const router = useRouter();
   const { toast } = useToast();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
   const loginForm = useForm<LoginFormData>({

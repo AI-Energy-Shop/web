@@ -4,17 +4,13 @@ import { useQuery } from '@apollo/client';
 import { FileGrid } from './FileGrid';
 import { FC, useState } from 'react';
 import { FileUploadZone } from './FileUploadZone';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ModalProps, FileType } from './types';
+import { FileType, ModalProps } from './types';
+import { UploadFile } from '@/hooks/useProductDetails';
 
 const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
-  const [selectedImageIds, setSelectedImageIds] = useState<FileType[]>([]);
+  const [selectedImageIds, setSelectedImageIds] = useState<UploadFile[]>([]);
   const [files, setFiles] = useState<any[]>([]);
   const { loading, refetch } = useQuery(FILES_OPERATIONS.Query.files, {
     fetchPolicy: 'no-cache',
@@ -28,7 +24,7 @@ const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
     },
   });
 
-  const handleOnClick = (file: FileType) => {
+  const handleOnClick = (file: UploadFile) => {
     setSelectedImageIds((prevArray) =>
       prevArray.some((f) => f.documentId === file.documentId)
         ? prevArray.filter((imageId) => imageId.documentId !== file.documentId)
@@ -58,11 +54,7 @@ const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
             />
           </CardHeader>
           <CardContent className="flex-1 overflow-auto">
-            <FileGrid
-              files={files}
-              selectedFiles={selectedImageIds}
-              onSelect={handleOnClick}
-            />
+            <FileGrid files={files} selectedFiles={selectedImageIds} onSelect={handleOnClick} />
           </CardContent>
           <CardFooter className="flex-shrink-0 justify-end space-x-2">
             <Button onClick={onCancel} variant="destructive">

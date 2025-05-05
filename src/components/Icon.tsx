@@ -1,15 +1,27 @@
-import dynamic from 'next/dynamic';
 import { LucideProps } from 'lucide-react';
-import dynamicIconImports from 'lucide-react/dynamicIconImports';
+import * as Icons from 'lucide-react';
 
 interface IconProps extends LucideProps {
-  name: keyof typeof dynamicIconImports;
+  name: string;
 }
 
 const Icon = ({ name, ...props }: IconProps) => {
-  const LucideIcon = dynamic(dynamicIconImports[name]);
+  // Convert kebab-case to PascalCase
+  const pascalCaseName = name
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join('') as keyof typeof Icons;
 
-  return <LucideIcon {...props} size={20} />;
+  const IconComponent = Icons[
+    pascalCaseName
+  ] as React.ComponentType<LucideProps>;
+
+  if (!IconComponent) {
+    console.warn(`Icon "${name}" not found in Lucide icons`);
+    return null;
+  }
+
+  return <IconComponent {...props} />;
 };
 
 export default Icon;

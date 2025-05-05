@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
-import { Plus } from 'lucide-react';
-import { useCallback, useState } from 'react';
+import { ChevronDown } from 'lucide-react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -10,71 +10,107 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { arrayIsEqual } from '@/lib/utils';
+import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
+import { AddProductFormData, PriceListFormData } from '@/lib/validation-schema/products';
+import { UseFormReturn } from 'react-hook-form';
 
 interface ListInputProps {
-  data: any[];
   title: string;
+  formData: any[];
   addButtonLabel?: string;
   childComponent?: any;
+  stayExpanded?: boolean;
+  isDirty?: boolean;
   onAddList: () => void;
-  onSave: (data: any) => void;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const ListInput: React.FC<ListInputProps> = ({
-  data,
+  formData,
   title,
   addButtonLabel,
   childComponent,
-  onSave,
-  onChange,
+  stayExpanded = false,
+  isDirty = false,
   onAddList,
 }) => {
-  const [list, setList] = useState(data);
-  const newtitle = title.toLowerCase().replaceAll(' ', '_');
+  const [isExpanded, setIsExpanded] = useState(stayExpanded);
+  const newtitle = title.toLowerCase().replaceAll(' ', '_') as any;
 
-  const handleSave = (data: any) => {
-    setList(data);
-    onSave(data);
-  };
+  const toggleExpand = () => setIsExpanded(!isExpanded);
+
+  const listLength = formData.length;
 
   return (
-    <div className="w-full">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-          <CardTitle className="text-md font-bold">{title}</CardTitle>
-          <Button onClick={onAddList} size="sm">
-            <Plus className="mr-2 h-4 w-4" />
-            {addButtonLabel}
-          </Button>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {data?.map?.((item, index) =>
-              React.cloneElement(childComponent, {
-                key: index,
-                item,
-                index,
-                title: newtitle,
-                onChange: (e: any) => onChange(e),
-              })
+    <Card className="w-full">
+      <CardHeader
+        className={cn(
+          'flex flex-row items-center cursor-pointer select-none',
+          'transition-colors duration-200 hover:bg-gray-50/80',
+          isExpanded && 'border-b'
+        )}
+        onClick={toggleExpand}
+      >
+        <div className="flex-1 flex items-center gap-3">
+          <ChevronDown
+            className={cn(
+              'h-4 w-4 text-gray-500 transition-transform duration-200',
+              isExpanded && 'transform rotate-180'
             )}
-            {/* {list?.length === 0 && (
-              <div className="text-center py-8 text-muted-foreground">
-                No price lists added. Click the &quot;Add Price&quot; button to
-                create one
-              </div>
-            )} */}
-          </div>
-        </CardContent>
-        <CardFooter>
-          {!arrayIsEqual(data, list) && (
-            <Button onClick={() => handleSave(data)}>Save</Button>
-          )}
-        </CardFooter>
-      </Card>
-    </div>
+          />
+          <CardTitle className="text-md font-medium flex items-center gap-2">
+            {title}
+            {formData && formData?.length > 0 && (
+              <Badge variant="secondary" className="h-5 px-2 text-xs font-normal">
+                {formData?.length}
+              </Badge>
+            )}
+          </CardTitle>
+        </div>
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            onAddList();
+            if (!isExpanded) setIsExpanded(true);
+          }}
+          size="sm"
+          variant="outline"
+          className="ml-auto"
+        >
+          {addButtonLabel}
+        </Button>
+      </CardHeader>
+
+      <div
+        className={cn(
+          'grid transition-all duration-200',
+          isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+        )}
+      >
+        <div className="overflow-hidden">
+          <CardContent
+            className={cn(
+              'space-y-3 py-4',
+              listLength === 0 && 'text-center text-sm text-gray-500'
+            )}
+          >
+            {listLength === 0 ? (
+              <p>No items added yet</p>
+            ) : (
+              formData?.map?.((item, index) =>
+                React.cloneElement(childComponent, {
+                  key: index,
+                  item,
+                  index,
+                  title: newtitle,
+                })
+              )
+            )}
+          </CardContent>
+          <CardFooter className="px-6 pb-4 flex justify-end gap-2"></CardFooter>
+        </div>
+      </div>
+    </Card>
   );
 };
 
