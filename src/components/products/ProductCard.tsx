@@ -16,36 +16,26 @@ import ProductQuantity from './ProductQuantity';
 import { Button } from '../ui/button';
 import { useToast } from '@/hooks/useToast';
 import { useRouter } from 'next/navigation';
+import { addToCartFormSchema } from '@/lib/validation-schema/products';
 
 type ProductCardproduct = {
   product?: ProductsQuery['products'][0] | null;
+  productPrice: number;
+  salePrice: number;
+  regularPrice: number;
+  stocks: number;
+  itemPrice: any;
 };
 
-const addToCartFormSchema = z.object({
-  id: z.string(),
-  quantity: z.number().min(0), // Make sure this is number
-});
-
-const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
-  const { carts, warehouse, addToCart, updateCartItem } = useCart();
-  const { toast } = useToast();
+const ProductCard: React.FC<ProductCardproduct> = ({
+  product,
+  productPrice,
+  salePrice,
+  regularPrice,
+  stocks,
+  itemPrice,
+}) => {
   const router = useRouter();
-  const { user } = useMe();
-
-  const stocks =
-    product?.inventories.find(
-      (inventory) => inventory?.name === warehouse?.address?.city
-    )?.quantity || 0;
-
-  const itemPrice = product?.price_lists?.find(
-    (price) => price?.user_level === user?.account_detail?.level
-  );
-
-  const salePrice = itemPrice?.sale_price;
-  const regularPrice = itemPrice?.price;
-
-  // More explicit price calculation
-  const productPrice = salePrice || regularPrice || 0;
 
   const form = useForm<z.infer<typeof addToCartFormSchema>>({
     resolver: zodResolver(addToCartFormSchema),
@@ -60,57 +50,48 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
   const productLink = `/products/${productSlug}`;
 
   const onSubmit = async (data: z.infer<typeof addToCartFormSchema>) => {
-    if (!user) {
-      router.push('/auth/login');
-      return;
-    }
-
-    if (data.quantity === 0 || data.quantity === null) {
-      toast({
-        title: 'Quantity cannot be 0',
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    if (stocks <= 0) {
-      toast({
-        title: 'Out of Stock',
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    const cartItem = carts.find(
-      (cart) => cart?.product?.documentId === data.id
-    );
-
-    if (cartItem && cartItem?.product) {
-      updateCartItem({
-        cartId: cartItem.documentId,
-        product: cartItem.product.documentId,
-        quantity: cartItem.quantity + data.quantity,
-      });
-      return;
-    }
-
-    await addToCart({
-      product: data.id,
-      quantity: data.quantity,
-      user: user?.id,
-    });
+    // if (!user) {
+    //   router.push('/auth/login');
+    //   return;
+    // }
+    // if (data.quantity === 0 || data.quantity === null) {
+    //   toast({
+    //     title: 'Quantity cannot be 0',
+    //     variant: 'destructive',
+    //   });
+    //   return;
+    // }
+    // if (stocks <= 0) {
+    //   toast({
+    //     title: 'Out of Stock',
+    //     variant: 'destructive',
+    //   });
+    //   return;
+    // }
+    // const cartItem = carts.find((cart) => cart?.product?.documentId === data.id);
+    // if (cartItem && cartItem?.product) {
+    //   updateCartItem({
+    //     cartId: cartItem.documentId,
+    //     product: cartItem.product.documentId,
+    //     quantity: cartItem.quantity + data.quantity,
+    //   });
+    //   return;
+    // }
+    // await addToCart({
+    //   product: data.id,
+    //   quantity: data.quantity,
+    //   user: user?.id,
+    // });
   };
 
   const renderPriceAndStock = () => {
-    if (!user) {
-      return (
-        <div className="grid grid-cols-1 my-3">
-          <span className="text-sm row-span-1 text-[#1b1b3b]">
-            Login to view price
-          </span>
-        </div>
-      );
-    }
+    // if (!user) {
+    //   return (
+    //     <div className="grid grid-cols-1 my-3">
+    //       <span className="text-sm row-span-1 text-[#1b1b3b]">Login to view price</span>
+    //     </div>
+    //   );
+    // }
 
     return (
       <div className="grid grid-cols-1 grid-rows-3">
@@ -118,8 +99,8 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
           {itemPrice?.price ? formatCurrency(itemPrice.price, 'USD') : null}
         </span>
         <p className="text-md font-bold row-span-1 block h-auto">
-          {formatCurrency(productPrice || 0, 'USD')}{' '}
-          <span className="text-xs font-normal">ex.GST</span>
+          {formatCurrency(productPrice || 0, 'USD')} ex.GST
+          <span className="text-xs font-normal"></span>
         </p>
         <span
           className={cn(
@@ -179,18 +160,16 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           {renderHiddenInput('id')}
-          {user && (
-            <>
-              <ProductQuantity form={form} />
-              <Button
-                type="submit"
-                disabled={stocks <= 0}
-                className="w-full mt-2 bg-[#1b1b3b] text-white"
-              >
-                {stocks <= 0 ? 'Out of Stock' : `Add to Cart`}
-              </Button>
-            </>
-          )}
+          <>
+            <ProductQuantity form={form} />
+            <Button
+              type="submit"
+              disabled={stocks <= 0}
+              className="w-full mt-2 bg-[#1b1b3b] text-white"
+            >
+              {stocks <= 0 ? 'Out of Stock' : `Add to Cart`}
+            </Button>
+          </>
         </form>
       </Form>
     </div>

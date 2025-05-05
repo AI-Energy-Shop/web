@@ -4,7 +4,10 @@ import { gql } from '@apollo/client';
 const schema = {
   Query: {
     products: graphql(`
-      query Products($filters: ProductFiltersInput, $pagination: PaginationArg) {
+      query Products(
+        $filters: ProductFiltersInput
+        $pagination: PaginationArg
+      ) {
         products(filters: $filters, pagination: $pagination) {
           documentId
           name
@@ -73,7 +76,7 @@ const schema = {
             value
           }
           key_features {
-            id
+            documentId
             feature
           }
           inventories {
@@ -85,9 +88,15 @@ const schema = {
             updatedAt
             publishedAt
           }
+          shipping {
+            height
+            width
+            length
+            weight
+          }
           createdAt
           updatedAt
-          publishedAt
+          releasedAt
         }
       }
     `),
@@ -161,7 +170,7 @@ const schema = {
             value
           }
           key_features {
-            id
+            documentId
             feature
           }
           inventories {
@@ -173,9 +182,15 @@ const schema = {
             updatedAt
             publishedAt
           }
+          shipping {
+            height
+            width
+            length
+            weight
+          }
           createdAt
           updatedAt
-          publishedAt
+          releasedAt
         }
       }
     `),
@@ -289,8 +304,15 @@ const schema = {
             value
           }
           key_features {
-            id
+            documentId
             feature
+          }
+          shipping {
+            documentId
+            width
+            height
+            weight
+            length
           }
           createdAt
           updatedAt
@@ -299,8 +321,8 @@ const schema = {
       }
     `),
     updateProduct: graphql(`
-      mutation UpdateProduct($documentId: ID!, $data: ProductInput!) {
-        updateProduct(documentId: $documentId, data: $data) {
+      mutation customProductUpdate($documentId: ID!, $data: ProductInput!) {
+        customProductUpdate(documentId: $documentId, data: $data) {
           documentId
           name
           model
@@ -353,12 +375,26 @@ const schema = {
             value
           }
           key_features {
-            id
+            documentId
             feature
+          }
+          shipping {
+            documentId
+            width
+            height
+            weight
+            length
           }
           createdAt
           updatedAt
-          publishedAt
+          releasedAt
+          # status
+          improvedBy {
+            email
+          }
+          madeBy {
+            email
+          }
         }
       }
     `),
@@ -445,7 +481,10 @@ const schema = {
       }
     `),
     updateSpecification: graphql(`
-      mutation UpdateSpecification($documentId: ID!, $data: SpecificationInput!) {
+      mutation UpdateSpecification(
+        $documentId: ID!
+        $data: SpecificationInput!
+      ) {
         updateSpecification(documentId: $documentId, data: $data) {
           documentId
           key
@@ -459,6 +498,35 @@ const schema = {
     deleteSpecification: graphql(`
       mutation DeleteSpecification($documentId: ID!) {
         deleteSpecification(documentId: $documentId) {
+          documentId
+        }
+      }
+    `),
+    createKeyFeature: graphql(`
+      mutation CreateKeyFeature($data: KeyFeatureInput!) {
+        createKeyFeature(data: $data) {
+          documentId
+          feature
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
+    updateKeyFeature: graphql(`
+      mutation UpdateKeyFeature($documentId: ID!, $data: KeyFeatureInput!) {
+        updateKeyFeature(documentId: $documentId, data: $data) {
+          documentId
+          feature
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
+    deleteKeyFeature: graphql(`
+      mutation DeleteKeyFeature($documentId: ID!) {
+        deleteKeyFeature(documentId: $documentId) {
           documentId
         }
       }

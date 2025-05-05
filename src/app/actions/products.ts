@@ -10,7 +10,6 @@ import {
   ProductQuery,
   PaginationArg,
   ProductFiltersInput,
-  CreatePriceMutationVariables,
   CreatePriceMutation,
   CreateInventoryMutation,
   UpdatePriceMutation,
@@ -21,26 +20,12 @@ import {
   UpdateSpecificationMutation,
   DeletePriceMutation,
   DeleteInventoryMutation,
+  CreateKeyFeatureMutation,
+  UpdateKeyFeatureMutation,
+  DeleteKeyFeatureMutation,
 } from '@/lib/gql/graphql';
 
 const client = getClient();
-
-export const product = async (id: string): Promise<FetchResult<ProductQuery>> => {
-  try {
-    const res = await client.query({
-      query: PRODUCT_OPERATIONS.Query.product,
-      fetchPolicy: 'no-cache',
-      variables: {
-        documentId: id,
-      },
-    });
-
-    return res;
-  } catch (error: any) {
-    console.error('ERROR FETCHING PRODUCT:', error);
-    return error;
-  }
-};
 
 export const products = async (variables?: {
   filters: ProductFiltersInput;
@@ -56,6 +41,25 @@ export const products = async (variables?: {
     return res;
   } catch (error: any) {
     console.error("ERROR product's:", error.message);
+    return error;
+  }
+};
+
+export const product = async (
+  id: string
+): Promise<FetchResult<ProductQuery>> => {
+  try {
+    const res = await client.query({
+      query: PRODUCT_OPERATIONS.Query.product,
+      fetchPolicy: 'no-cache',
+      variables: {
+        documentId: id,
+      },
+    });
+
+    return res;
+  } catch (error: any) {
+    console.error('ERROR FETCHING PRODUCT:', error);
     return error;
   }
 };
@@ -106,26 +110,6 @@ export const updateProduct = async (data: string) => {
     console.log('ERROR updating product:', error.message);
     return error;
   }
-};
-
-export const frontPageGetProduct = async (id: string) => {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('a-token');
-
-  const res = await client.query({
-    query: PRODUCT_OPERATIONS.Query.product,
-    fetchPolicy: 'no-cache',
-    context: {
-      headers: {
-        Authorization: `Bearer ${token?.value}`,
-      },
-    },
-    variables: {
-      documentId: id,
-    },
-  });
-
-  return res;
 };
 
 export const createPrice = async (
@@ -342,24 +326,26 @@ export const createSpecification = async (
 
   try {
     const res = (await Promise.all(
-      inputData.map(async (item: { key: Enum_Specification_Key; value: string }) => {
-        console.log('item', item);
-        const mutateRes = await client.mutate({
-          mutation: PRODUCT_OPERATIONS.Mutation.createSpecification,
-          variables: {
-            data: {
-              key: item.key as Enum_Specification_Key,
-              value: item.value,
+      inputData.map(
+        async (item: { key: Enum_Specification_Key; value: string }) => {
+          console.log('item', item);
+          const mutateRes = await client.mutate({
+            mutation: PRODUCT_OPERATIONS.Mutation.createSpecification,
+            variables: {
+              data: {
+                key: item.key as Enum_Specification_Key,
+                value: item.value,
+              },
             },
-          },
-          context: {
-            headers: {
-              Authorization: `Bearer ${token?.value}`,
+            context: {
+              headers: {
+                Authorization: `Bearer ${token?.value}`,
+              },
             },
-          },
-        });
-        return mutateRes;
-      })
+          });
+          return mutateRes;
+        }
+      )
     )) as unknown as Promise<FetchResult<CreateSpecificationMutation>[]>;
     return res;
   } catch (error: any) {
@@ -436,6 +422,104 @@ export const deleteSpecification = async (
     return res;
   } catch (error: any) {
     console.log('ERROR deleting specification:', error.message);
+    return error;
+  }
+};
+
+export const createKeyFeature = async (
+  data: string
+): Promise<FetchResult<CreateKeyFeatureMutation>[]> => {
+  const inputData = JSON.parse(data);
+  const cookieStore = await cookies();
+  const token = cookieStore.get('a-token');
+
+  try {
+    const res = (await Promise.all(
+      inputData.map(async (item: { feature: string }) => {
+        const mutateRes = await client.mutate({
+          mutation: PRODUCT_OPERATIONS.Mutation.createKeyFeature,
+          variables: {
+            data: {
+              feature: item.feature,
+            },
+          },
+          context: {
+            headers: {
+              Authorization: `Bearer ${token?.value}`,
+            },
+          },
+        });
+        return mutateRes;
+      })
+    )) as unknown as Promise<FetchResult<CreateKeyFeatureMutation>[]>;
+    return res;
+  } catch (error: any) {
+    console.log('ERROR creating key feature:', error.message);
+    return error;
+  }
+};
+
+export const updateKeyFeature = async (
+  data: string
+): Promise<FetchResult<UpdateKeyFeatureMutation>[]> => {
+  const inputData = JSON.parse(data);
+  const cookieStore = await cookies();
+  const token = cookieStore.get('a-token');
+
+  try {
+    const res = (await Promise.all(
+      inputData.map(async (item: { documentId: string; feature: string }) => {
+        const mutateRes = await client.mutate({
+          mutation: PRODUCT_OPERATIONS.Mutation.updateKeyFeature,
+          variables: {
+            documentId: item.documentId,
+            data: {
+              feature: item.feature,
+            },
+          },
+          context: {
+            headers: {
+              Authorization: `Bearer ${token?.value}`,
+            },
+          },
+        });
+        return mutateRes;
+      })
+    )) as unknown as Promise<FetchResult<UpdateKeyFeatureMutation>[]>;
+    return res;
+  } catch (error: any) {
+    console.log('ERROR updating key feature:', error.message);
+    return error;
+  }
+};
+
+export const deleteKeyFeature = async (
+  data: string
+): Promise<FetchResult<DeleteKeyFeatureMutation>[]> => {
+  const inputData = JSON.parse(data);
+  const cookieStore = await cookies();
+  const token = cookieStore.get('a-token');
+
+  try {
+    const res = (await Promise.all(
+      inputData.map(async (item: { documentId: string }) => {
+        const mutateRes = await client.mutate({
+          mutation: PRODUCT_OPERATIONS.Mutation.deleteKeyFeature,
+          variables: {
+            documentId: item.documentId,
+          },
+          context: {
+            headers: {
+              Authorization: `Bearer ${token?.value}`,
+            },
+          },
+        });
+        return mutateRes;
+      })
+    )) as unknown as Promise<FetchResult<DeleteKeyFeatureMutation>[]>;
+    return res;
+  } catch (error: any) {
+    console.log('ERROR deleting key feature:', error.message);
     return error;
   }
 };

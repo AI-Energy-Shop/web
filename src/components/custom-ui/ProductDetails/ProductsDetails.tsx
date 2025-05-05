@@ -27,6 +27,7 @@ import PriceListItem from './PriceListItem';
 import { Button } from '@/components/ui/button';
 import SpecificationItem from './SpecificationItem';
 import { SPECIFICATION_KEYS } from '@/constant';
+import KeyFeatureItem from './KeyFeatureItem';
 
 const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
   const {
@@ -38,22 +39,17 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
     handleAddInventoryItem,
     handleAddPriceItem,
     handleClickSave,
-    handleDescriptionChange,
     handleImageRemove,
     handleImagesSelected,
     handleFileRemove,
     handleFilesSelected,
     handleAddSpecsItem,
     handleOnInputChange,
-    handleSaveOrSaveCurrentSpecs,
     onRemoveList,
-    handleSaveOrUpdateInventoryList,
     onChangeInventoryInputLocation,
-    handleSaveOrUpdatePriceList,
     onChangePriceUserLevel,
     handleProductStatusChange,
     handleAddKeyFeatureItem,
-    handleSaveCurrentKeyFeatures,
   } = useProductDetails(product);
 
   return (
@@ -66,11 +62,15 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
               <Link href="/admin/products">
                 <ChevronLeft className="h-4 w-4" />
               </Link>
-              <h1 className="text-base font-bold">{addProductForm.watch('name')}</h1>
+              <h1 className="text-base font-bold">
+                {addProductForm.watch('name')}
+              </h1>
             </div>
             <div className="flex items-center space-x-2">
               <Select
-                value={addProductForm.watch('publishedAt') ? 'published' : 'draft'}
+                value={
+                  addProductForm.watch('releaseAt') ? 'published' : 'draft'
+                }
                 onValueChange={handleProductStatusChange}
               >
                 <SelectTrigger className="min-w-[150px]">
@@ -88,10 +88,18 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
 
               {addProductForm.formState.isDirty && (
                 <>
-                  <Button size="sm" variant="destructive" onClick={handleDiscardChanges}>
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    onClick={handleDiscardChanges}
+                  >
                     Discard
                   </Button>
-                  <Button size="sm" disabled={loading} onClick={handleClickSave}>
+                  <Button
+                    size="sm"
+                    disabled={loading}
+                    onClick={handleClickSave}
+                  >
                     {loading && (
                       <>
                         <Loader2 className="animate-spin" />
@@ -99,7 +107,9 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                       </>
                     )}
                     {!loading && (
-                      <>{addProductForm.watch('publishedAt') ? 'Update' : 'Save'}</>
+                      <>
+                        {addProductForm.watch('releaseAt') ? 'Update' : 'Save'}
+                      </>
                     )}
                   </Button>
                 </>
@@ -258,7 +268,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                 formData={addProductForm.watch('specifications')}
                 addButtonLabel="Add"
                 onAddList={handleAddSpecsItem}
-                stayExpanded={true}
+                stayExpanded={false}
                 childComponent={
                   <SpecificationItem
                     options={SPECIFICATION_KEYS}
@@ -267,24 +277,83 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                   />
                 }
               />
-              {/* <ListInput
+
+              <ListInput
                 title="Key Features"
-                formData={addProductForm.watch('key_features')}
                 addButtonLabel="Add"
+                stayExpanded={false}
+                formData={addProductForm.watch('key_features')}
                 onAddList={handleAddKeyFeatureItem}
-                onChange={handleOnInputChange}
-                onSave={handleSaveCurrentKeyFeatures}
-                onCancel={() => {}}
-                childComponent={<KeyFeatureItem onRemove={onRemoveList} />}
-              /> */}
+                childComponent={
+                  <KeyFeatureItem
+                    onChange={handleOnInputChange}
+                    onRemove={onRemoveList}
+                  />
+                }
+              />
             </div>
 
             <div className="w-full h-auto col-span-2 space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Other Details</CardTitle>
+                  <CardTitle>Shipping</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4"></CardContent>
+                <CardContent className="space-y-4">
+                  {/* <div className="grid grid-cols-2 gap-2">
+                    <FormField
+                      control={addProductForm.control}
+                      name="shipping.width"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel className="font-normal text-xs">Width</FormLabel>
+                          <FormControl>
+                            <Input type="number" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={addProductForm.control}
+                      name="shipping.height"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel className="font-normal text-xs">Height</FormLabel>
+                          <FormControl>
+                            <Input type="number" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={addProductForm.control}
+                      name="shipping.weight"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel className="font-normal text-xs">Weight</FormLabel>
+                          <FormControl>
+                            <Input type="number" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={addProductForm.control}
+                      name="shipping.length"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel className="font-normal text-xs">Length</FormLabel>
+                          <FormControl>
+                            <Input type="number" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div> */}
+                </CardContent>
               </Card>
               <Card>
                 <CardHeader>

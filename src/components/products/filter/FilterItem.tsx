@@ -49,6 +49,7 @@ const FilterItem: React.FC<FilterItemProps> = ({
           checked={selectedFilters.some(
             (filter) => filter.value === option.value
           )}
+          onChange={() => onFilterClick({ id, key: name, value: option.value })}
         />
         <Label className="text-sm font-normal">{option.value}</Label>
         <span className="text-xs text-gray-500">({option.count})</span>

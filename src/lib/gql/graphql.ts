@@ -2,27 +2,64 @@
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T,
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
+    };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
   /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
-  Date: { input: any; output: any; }
+  Date: { input: any; output: any };
   /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
-  DateTime: { input: any; output: any; }
+  DateTime: { input: any; output: any };
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
-  JSON: { input: any; output: any; }
+  JSON: { input: any; output: any };
   /** The `BigInt` scalar type represents non-fractional signed whole numeric values. */
-  Long: { input: any; output: any; }
-  PageSectionsDynamicZoneInput: { input: any; output: any; }
+  Long: { input: any; output: any };
+  PageSectionsDynamicZoneInput: { input: any; output: any };
+};
+
+export type AccountCreditFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<AccountCreditFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  creditLimit?: InputMaybe<FloatFilterInput>;
+  documentId?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<AccountCreditFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<AccountCreditFiltersInput>>>;
+  paymentTerms?: InputMaybe<DateTimeFilterInput>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  totalOverdue?: InputMaybe<FloatFilterInput>;
+  totalReceivable?: InputMaybe<FloatFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
+};
+
+export type AccountCreditInput = {
+  creditLimit?: InputMaybe<Scalars['Float']['input']>;
+  paymentTerms?: InputMaybe<Scalars['DateTime']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  totalOverdue?: InputMaybe<Scalars['Float']['input']>;
+  totalReceivable?: InputMaybe<Scalars['Float']['input']>;
+  user?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type AccountDetailFiltersInput = {
@@ -46,7 +83,9 @@ export type AccountDetailInput = {
   level?: InputMaybe<Enum_Accountdetail_Level>;
   name?: InputMaybe<ComponentElementsNameInput>;
   odoo_user_id?: InputMaybe<Scalars['String']['input']>;
-  payment_options?: InputMaybe<Array<InputMaybe<ComponentElementsPaymentOptionInput>>>;
+  payment_options?: InputMaybe<
+    Array<InputMaybe<ComponentElementsPaymentOptionInput>>
+  >;
   phone?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   shipping_addresses?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
@@ -207,7 +246,9 @@ export type CollectionInput = {
   handle?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<Scalars['ID']['input']>;
   productCount?: InputMaybe<Scalars['Long']['input']>;
-  productFilters?: InputMaybe<Array<InputMaybe<ComponentElementsFilterRuleInput>>>;
+  productFilters?: InputMaybe<
+    Array<InputMaybe<ComponentElementsFilterRuleInput>>
+  >;
   products?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   sortOrder?: InputMaybe<Scalars['String']['input']>;
@@ -240,22 +281,28 @@ export type ComponentElementsAddressInput = {
   suburb?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type ComponentElementsCreditFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<ComponentElementsCreditFiltersInput>>>;
-  limit?: InputMaybe<FloatFilterInput>;
-  not?: InputMaybe<ComponentElementsCreditFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<ComponentElementsCreditFiltersInput>>>;
-  paymentTerms?: InputMaybe<DateTimeFilterInput>;
-  totalOverdue?: InputMaybe<FloatFilterInput>;
-  totalReceivable?: InputMaybe<FloatFilterInput>;
+export type ComponentElementsCartItemFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentElementsCartItemFiltersInput>>>;
+  image?: InputMaybe<StringFilterInput>;
+  model?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ComponentElementsCartItemFiltersInput>;
+  odoo_product_id?: InputMaybe<StringFilterInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentElementsCartItemFiltersInput>>>;
+  price?: InputMaybe<FloatFilterInput>;
+  productID?: InputMaybe<StringFilterInput>;
+  quantity?: InputMaybe<IntFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
 };
 
-export type ComponentElementsCreditInput = {
+export type ComponentElementsCartItemInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
-  limit?: InputMaybe<Scalars['Float']['input']>;
-  paymentTerms?: InputMaybe<Scalars['DateTime']['input']>;
-  totalOverdue?: InputMaybe<Scalars['Float']['input']>;
-  totalReceivable?: InputMaybe<Scalars['Float']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  model?: InputMaybe<Scalars['String']['input']>;
+  odoo_product_id?: InputMaybe<Scalars['String']['input']>;
+  price?: InputMaybe<Scalars['Float']['input']>;
+  productID?: InputMaybe<Scalars['String']['input']>;
+  quantity?: InputMaybe<Scalars['Int']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ComponentElementsFilterRuleFiltersInput = {
@@ -282,31 +329,19 @@ export type ComponentElementsInputFiltersInput = {
   type?: InputMaybe<StringFilterInput>;
 };
 
-export type ComponentElementsKeyFeaturesFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<ComponentElementsKeyFeaturesFiltersInput>>>;
-  feature?: InputMaybe<StringFilterInput>;
-  not?: InputMaybe<ComponentElementsKeyFeaturesFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<ComponentElementsKeyFeaturesFiltersInput>>>;
-};
-
-export type ComponentElementsKeyFeaturesInput = {
-  feature?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['ID']['input']>;
-};
-
 export type ComponentElementsLineItemFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ComponentElementsLineItemFiltersInput>>>;
+  lines?: InputMaybe<ComponentElementsCartItemFiltersInput>;
   locationCode?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<ComponentElementsLineItemFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ComponentElementsLineItemFiltersInput>>>;
-  product?: InputMaybe<ProductFiltersInput>;
   quantity?: InputMaybe<IntFilterInput>;
 };
 
 export type ComponentElementsLineItemInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
+  lines?: InputMaybe<ComponentElementsCartItemInput>;
   locationCode?: InputMaybe<Scalars['String']['input']>;
-  product?: InputMaybe<Scalars['ID']['input']>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -327,14 +362,18 @@ export type ComponentElementsNameInput = {
 };
 
 export type ComponentElementsPaymentOptionFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<ComponentElementsPaymentOptionFiltersInput>>>;
+  and?: InputMaybe<
+    Array<InputMaybe<ComponentElementsPaymentOptionFiltersInput>>
+  >;
   billing_zip?: InputMaybe<StringFilterInput>;
   card_holder_name?: InputMaybe<StringFilterInput>;
   card_number?: InputMaybe<StringFilterInput>;
   cvv?: InputMaybe<StringFilterInput>;
   expiration_date?: InputMaybe<DateFilterInput>;
   not?: InputMaybe<ComponentElementsPaymentOptionFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<ComponentElementsPaymentOptionFiltersInput>>>;
+  or?: InputMaybe<
+    Array<InputMaybe<ComponentElementsPaymentOptionFiltersInput>>
+  >;
 };
 
 export type ComponentElementsPaymentOptionInput = {
@@ -347,7 +386,9 @@ export type ComponentElementsPaymentOptionInput = {
 };
 
 export type ComponentElementsPickupOptionFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<ComponentElementsPickupOptionFiltersInput>>>;
+  and?: InputMaybe<
+    Array<InputMaybe<ComponentElementsPickupOptionFiltersInput>>
+  >;
   date?: InputMaybe<DateTimeFilterInput>;
   estimatedArraivalTime?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<ComponentElementsPickupOptionFiltersInput>;
@@ -361,13 +402,17 @@ export type ComponentElementsPickupOptionInput = {
 };
 
 export type ComponentElementsShippingAddressFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<ComponentElementsShippingAddressFiltersInput>>>;
+  and?: InputMaybe<
+    Array<InputMaybe<ComponentElementsShippingAddressFiltersInput>>
+  >;
   city?: InputMaybe<StringFilterInput>;
   country?: InputMaybe<StringFilterInput>;
   isActive?: InputMaybe<BooleanFilterInput>;
   name?: InputMaybe<ComponentElementsNameFiltersInput>;
   not?: InputMaybe<ComponentElementsShippingAddressFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<ComponentElementsShippingAddressFiltersInput>>>;
+  or?: InputMaybe<
+    Array<InputMaybe<ComponentElementsShippingAddressFiltersInput>>
+  >;
   phone?: InputMaybe<StringFilterInput>;
   postcode?: InputMaybe<StringFilterInput>;
   state_territory?: InputMaybe<StringFilterInput>;
@@ -404,9 +449,13 @@ export type ComponentElementsTotalInput = {
 
 export type ComponentElementsWarehouseLocationFiltersInput = {
   address?: InputMaybe<ComponentElementsAddressFiltersInput>;
-  and?: InputMaybe<Array<InputMaybe<ComponentElementsWarehouseLocationFiltersInput>>>;
+  and?: InputMaybe<
+    Array<InputMaybe<ComponentElementsWarehouseLocationFiltersInput>>
+  >;
   not?: InputMaybe<ComponentElementsWarehouseLocationFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<ComponentElementsWarehouseLocationFiltersInput>>>;
+  or?: InputMaybe<
+    Array<InputMaybe<ComponentElementsWarehouseLocationFiltersInput>>
+  >;
   title?: InputMaybe<StringFilterInput>;
 };
 
@@ -428,12 +477,16 @@ export type ComponentLayoutSlideFiltersInput = {
 
 export type ComponentLayoutWarehouseLocationFiltersInput = {
   address?: InputMaybe<StringFilterInput>;
-  and?: InputMaybe<Array<InputMaybe<ComponentLayoutWarehouseLocationFiltersInput>>>;
+  and?: InputMaybe<
+    Array<InputMaybe<ComponentLayoutWarehouseLocationFiltersInput>>
+  >;
   google_maps_link?: InputMaybe<StringFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<ComponentLayoutWarehouseLocationFiltersInput>;
   office_time?: InputMaybe<StringFilterInput>;
-  or?: InputMaybe<Array<InputMaybe<ComponentLayoutWarehouseLocationFiltersInput>>>;
+  or?: InputMaybe<
+    Array<InputMaybe<ComponentLayoutWarehouseLocationFiltersInput>>
+  >;
   warehouse_time?: InputMaybe<StringFilterInput>;
 };
 
@@ -490,53 +543,53 @@ export type DateTimeFilterInput = {
 export enum Enum_Accountdetail_Level {
   MidSized = 'MID_SIZED',
   Small = 'SMALL',
-  Vip = 'VIP'
+  Vip = 'VIP',
 }
 
 export enum Enum_Componentelementsinput_Type {
   Number = 'NUMBER',
   Text = 'TEXT',
-  Textarea = 'TEXTAREA'
+  Textarea = 'TEXTAREA',
 }
 
 export enum Enum_Componentelementsprice_User_Level {
   MidSized = 'MID_SIZED',
   Small = 'SMALL',
   Vip = 'VIP',
-  Wholesale = 'WHOLESALE'
+  Wholesale = 'WHOLESALE',
 }
 
 export enum Enum_Componentlayoutslide_Type {
   Desktop = 'DESKTOP',
   Mobile = 'MOBILE',
-  Tablet = 'TABLET'
+  Tablet = 'TABLET',
 }
 
 export enum Enum_Order_Deliverystatus {
   Shipped = 'shipped',
-  TrackingAdded = 'tracking_added'
+  TrackingAdded = 'tracking_added',
 }
 
 export enum Enum_Order_Fulfillmentstatus {
   Fulfilled = 'fulfilled',
-  Unfulfilled = 'unfulfilled'
+  Unfulfilled = 'unfulfilled',
 }
 
 export enum Enum_Order_Paymentmethod {
   AccountCredit = 'account_credit',
   BankTransfer = 'bank_transfer',
-  CreditCard = 'credit_card'
+  CreditCard = 'credit_card',
 }
 
 export enum Enum_Order_Paymentstatus {
   Pending = 'pending',
-  Refund = 'refund'
+  Refund = 'refund',
 }
 
 export enum Enum_Order_Shippingtype {
   ExpressDelivery = 'express_delivery',
   Pickup = 'pickup',
-  StandardDelivery = 'standard_delivery'
+  StandardDelivery = 'standard_delivery',
 }
 
 export enum Enum_Specification_Key {
@@ -566,14 +619,14 @@ export enum Enum_Specification_Key {
   Thickness = 'Thickness',
   TotalCapacity = 'Total_Capacity',
   Wattage = 'Wattage',
-  Weight = 'Weight'
+  Weight = 'Weight',
 }
 
 export enum Enum_Userspermissionsuser_Account_Status {
   Approved = 'APPROVED',
   Denied = 'DENIED',
   Pending = 'PENDING',
-  Reviewing = 'REVIEWING'
+  Reviewing = 'REVIEWING',
 }
 
 export type FileInfoInput = {
@@ -723,6 +776,22 @@ export type JsonFilterInput = {
   startsWith?: InputMaybe<Scalars['JSON']['input']>;
 };
 
+export type KeyFeatureFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<KeyFeatureFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  documentId?: InputMaybe<IdFilterInput>;
+  feature?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<KeyFeatureFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<KeyFeatureFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type KeyFeatureInput = {
+  feature?: InputMaybe<Scalars['String']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
 export type LongFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars['Long']['input']>>>;
   between?: InputMaybe<Array<InputMaybe<Scalars['Long']['input']>>>;
@@ -812,7 +881,9 @@ export type PageFiltersInput = {
 
 export type PageInput = {
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
-  sections?: InputMaybe<Array<Scalars['PageSectionsDynamicZoneInput']['input']>>;
+  sections?: InputMaybe<
+    Array<Scalars['PageSectionsDynamicZoneInput']['input']>
+  >;
   slug?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
@@ -860,8 +931,10 @@ export type ProductFiltersInput = {
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
+  improvedBy?: InputMaybe<UsersPermissionsUserFiltersInput>;
   inventories?: InputMaybe<InventoryFiltersInput>;
-  key_features?: InputMaybe<ComponentElementsKeyFeaturesFiltersInput>;
+  key_features?: InputMaybe<KeyFeatureFiltersInput>;
+  madeBy?: InputMaybe<UsersPermissionsUserFiltersInput>;
   model?: InputMaybe<StringFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<ProductFiltersInput>;
@@ -871,9 +944,15 @@ export type ProductFiltersInput = {
   product_type?: InputMaybe<StringFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
 <<<<<<< HEAD
+<<<<<<< HEAD
   quote_needed?: InputMaybe<BooleanFilterInput>;
 =======
   releaseAt?: InputMaybe<DateTimeFilterInput>;
+>>>>>>> origin/admin-product-listing
+=======
+  releasedAt?: InputMaybe<DateTimeFilterInput>;
+  removedBy?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  shipping?: InputMaybe<ShippingFiltersInput>;
 >>>>>>> origin/admin-product-listing
   specifications?: InputMaybe<SpecificationFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
@@ -888,8 +967,10 @@ export type ProductInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   files?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   images?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  improvedBy?: InputMaybe<Scalars['ID']['input']>;
   inventories?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  key_features?: InputMaybe<Array<InputMaybe<ComponentElementsKeyFeaturesInput>>>;
+  key_features?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  madeBy?: InputMaybe<Scalars['ID']['input']>;
   model?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   odoo_product_id?: InputMaybe<Scalars['String']['input']>;
@@ -897,9 +978,15 @@ export type ProductInput = {
   product_type?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
 <<<<<<< HEAD
+<<<<<<< HEAD
   quote_needed?: InputMaybe<Scalars['Boolean']['input']>;
 =======
   releaseAt?: InputMaybe<Scalars['DateTime']['input']>;
+>>>>>>> origin/admin-product-listing
+=======
+  releasedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  removedBy?: InputMaybe<Scalars['ID']['input']>;
+  shipping?: InputMaybe<Scalars['ID']['input']>;
 >>>>>>> origin/admin-product-listing
   specifications?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   variants?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
@@ -908,7 +995,7 @@ export type ProductInput = {
 
 export enum PublicationStatus {
   Draft = 'DRAFT',
-  Published = 'PUBLISHED'
+  Published = 'PUBLISHED',
 }
 
 export type RegisterUserInput = {
@@ -967,6 +1054,30 @@ export type ReviewWorkflowsWorkflowStageInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   workflow?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type ShippingFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ShippingFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  documentId?: InputMaybe<IdFilterInput>;
+  height?: InputMaybe<FloatFilterInput>;
+  length?: InputMaybe<FloatFilterInput>;
+  not?: InputMaybe<ShippingFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ShippingFiltersInput>>>;
+  product?: InputMaybe<ProductFiltersInput>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  weight?: InputMaybe<FloatFilterInput>;
+  width?: InputMaybe<FloatFilterInput>;
+};
+
+export type ShippingInput = {
+  height?: InputMaybe<Scalars['Float']['input']>;
+  length?: InputMaybe<Scalars['Float']['input']>;
+  product?: InputMaybe<Scalars['ID']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  weight?: InputMaybe<Scalars['Float']['input']>;
+  width?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type SpecificationFiltersInput = {
@@ -1134,6 +1245,7 @@ export type UsersPermissionsRoleInput = {
 };
 
 export type UsersPermissionsUserFiltersInput = {
+  accountCredit?: InputMaybe<AccountCreditFiltersInput>;
   account_detail?: InputMaybe<AccountDetailFiltersInput>;
   account_status?: InputMaybe<StringFilterInput>;
   addresses?: InputMaybe<AddressFiltersInput>;
@@ -1145,7 +1257,6 @@ export type UsersPermissionsUserFiltersInput = {
   carts?: InputMaybe<CartFiltersInput>;
   createAccountRequest?: InputMaybe<DateTimeFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  credit?: InputMaybe<ComponentElementsCreditFiltersInput>;
   documentId?: InputMaybe<IdFilterInput>;
   email?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<UsersPermissionsUserFiltersInput>;
@@ -1160,6 +1271,7 @@ export type UsersPermissionsUserFiltersInput = {
 };
 
 export type UsersPermissionsUserInput = {
+  accountCredit?: InputMaybe<Scalars['ID']['input']>;
   account_detail?: InputMaybe<Scalars['ID']['input']>;
   account_status?: InputMaybe<Enum_Userspermissionsuser_Account_Status>;
   addresses?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
@@ -1169,7 +1281,6 @@ export type UsersPermissionsUserInput = {
   business_type?: InputMaybe<Scalars['String']['input']>;
   carts?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   createAccountRequest?: InputMaybe<Scalars['DateTime']['input']>;
-  credit?: InputMaybe<ComponentElementsCreditInput>;
   email?: InputMaybe<Scalars['String']['input']>;
   image_logo?: InputMaybe<Scalars['ID']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
@@ -1208,46 +1319,117 @@ export type AddressQueryVariables = Exact<{
   documentId: Scalars['ID']['input'];
 }>;
 
-
-export type AddressQuery = { __typename?: 'Query', usersPermissionsUser?: { __typename?: 'UsersPermissionsUser', addresses: Array<{ __typename?: 'Address', city?: string | null, country?: string | null, documentId: string, isActive?: boolean | null, mobile?: string | null, odoo_address_id?: string | null, phone?: string | null, createdAt?: any | null, state?: string | null, street1?: string | null, street2?: string | null, title?: string | null, zip_code?: string | null } | null> } | null };
+export type AddressQuery = {
+  __typename?: 'Query';
+  usersPermissionsUser?: {
+    __typename?: 'UsersPermissionsUser';
+    addresses: Array<{
+      __typename?: 'Address';
+      city?: string | null;
+      country?: string | null;
+      documentId: string;
+      isActive?: boolean | null;
+      mobile?: string | null;
+      odoo_address_id?: string | null;
+      phone?: string | null;
+      createdAt?: any | null;
+      state?: string | null;
+      street1?: string | null;
+      street2?: string | null;
+      title?: string | null;
+      zip_code?: string | null;
+    } | null>;
+  } | null;
+};
 
 export type CreateAddressMutationVariables = Exact<{
   data: AddressInput;
 }>;
 
-
-export type CreateAddressMutation = { __typename?: 'Mutation', createAddress?: { __typename?: 'Address', documentId: string } | null };
+export type CreateAddressMutation = {
+  __typename?: 'Mutation';
+  createAddress?: { __typename?: 'Address'; documentId: string } | null;
+};
 
 export type DeleteAddressMutationVariables = Exact<{
   documentId: Scalars['ID']['input'];
 }>;
 
-
-export type DeleteAddressMutation = { __typename?: 'Mutation', deleteAddress?: { __typename?: 'DeleteMutationResponse', documentId: string } | null };
+export type DeleteAddressMutation = {
+  __typename?: 'Mutation';
+  deleteAddress?: {
+    __typename?: 'DeleteMutationResponse';
+    documentId: string;
+  } | null;
+};
 
 export type UpdateAddressMutationVariables = Exact<{
   data: AddressInput;
   documentId: Scalars['ID']['input'];
 }>;
 
-
-export type UpdateAddressMutation = { __typename?: 'Mutation', updateAddress?: { __typename?: 'Address', documentId: string } | null };
+export type UpdateAddressMutation = {
+  __typename?: 'Mutation';
+  updateAddress?: { __typename?: 'Address'; documentId: string } | null;
+};
 
 export type UpdateAddressIsActiveMutationVariables = Exact<{
   documentId: Scalars['ID']['input'];
   data: AddressInput;
 }>;
 
-
-export type UpdateAddressIsActiveMutation = { __typename?: 'Mutation', updateAddress?: { __typename?: 'Address', documentId: string } | null };
+export type UpdateAddressIsActiveMutation = {
+  __typename?: 'Mutation';
+  updateAddress?: { __typename?: 'Address'; documentId: string } | null;
+};
 
 export type CartsQueryVariables = Exact<{
   filters?: InputMaybe<CartFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
 }>;
 
-
-export type CartsQuery = { __typename?: 'Query', carts: Array<{ __typename?: 'Cart', documentId: string, quantity?: number | null, createdAt?: any | null, updatedAt?: any | null, product?: { __typename?: 'Product', documentId: string, name: string, model: string, odoo_product_id: string, price_lists: Array<{ __typename?: 'Price', price?: number | null, min_quantity?: number | null, max_quantity?: number | null } | null>, inventories: Array<{ __typename?: 'Inventory', documentId: string, name?: string | null, location_code?: string | null, quantity?: number | null } | null>, images: Array<{ __typename?: 'UploadFile', url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null> } | null, user?: { __typename?: 'UsersPermissionsUser', documentId: string, username: string } | null } | null> };
+export type CartsQuery = {
+  __typename?: 'Query';
+  carts: Array<{
+    __typename?: 'Cart';
+    documentId: string;
+    quantity?: number | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    product?: {
+      __typename?: 'Product';
+      documentId: string;
+      name: string;
+      model: string;
+      odoo_product_id: string;
+      price_lists: Array<{
+        __typename?: 'Price';
+        price?: number | null;
+        min_quantity?: number | null;
+        max_quantity?: number | null;
+      } | null>;
+      inventories: Array<{
+        __typename?: 'Inventory';
+        documentId: string;
+        name?: string | null;
+        location_code?: string | null;
+        quantity?: number | null;
+      } | null>;
+      images: Array<{
+        __typename?: 'UploadFile';
+        url: string;
+        alternativeText?: string | null;
+        width?: number | null;
+        height?: number | null;
+      } | null>;
+    } | null;
+    user?: {
+      __typename?: 'UsersPermissionsUser';
+      documentId: string;
+      username: string;
+    } | null;
+  } | null>;
+};
 
 export type GetCheckoutUserDataQueryVariables = Exact<{
   documentId: Scalars['ID']['input'];
@@ -1298,6 +1480,9 @@ export type CreateCartMutationVariables = Exact<{
 }>;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/admin-product-listing
 export type CreateCartMutation = {
   __typename?: 'Mutation';
   createCart?: {
@@ -1312,7 +1497,10 @@ export type CreateCartMutation = {
       odoo_product_id: string;
       name: string;
       model: string;
+<<<<<<< HEAD
       quote_needed?: boolean | null;
+=======
+>>>>>>> origin/admin-product-listing
       price_lists: Array<{
         __typename?: 'Price';
         price?: number | null;
@@ -1343,9 +1531,12 @@ export type CreateCartMutation = {
     } | null;
   } | null;
 };
+<<<<<<< HEAD
 =======
 
 export type CreateCartMutation = { __typename?: 'Mutation', createCart?: { __typename?: 'Cart', documentId: string, quantity?: number | null, createdAt?: any | null, updatedAt?: any | null, product?: { __typename?: 'Product', documentId: string, odoo_product_id: string, name: string, model: string, price_lists: Array<{ __typename?: 'Price', price?: number | null, sale_price?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null } | null>, inventories: Array<{ __typename?: 'Inventory', documentId: string, name?: string | null, location_code?: string | null, quantity?: number | null } | null>, images: Array<{ __typename?: 'UploadFile', url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null> } | null, user?: { __typename?: 'UsersPermissionsUser', documentId: string, username: string } | null } | null };
+>>>>>>> origin/admin-product-listing
+=======
 >>>>>>> origin/admin-product-listing
 
 export type UpdateCartMutationVariables = Exact<{
@@ -1354,6 +1545,9 @@ export type UpdateCartMutationVariables = Exact<{
 }>;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/admin-product-listing
 export type UpdateCartMutation = {
   __typename?: 'Mutation';
   updateCart?: {
@@ -1368,7 +1562,10 @@ export type UpdateCartMutation = {
       name: string;
       model: string;
       odoo_product_id: string;
+<<<<<<< HEAD
       quote_needed?: boolean | null;
+=======
+>>>>>>> origin/admin-product-listing
       price_lists: Array<{
         __typename?: 'Price';
         price?: number | null;
@@ -1399,32 +1596,57 @@ export type UpdateCartMutation = {
     } | null;
   } | null;
 };
+<<<<<<< HEAD
 =======
 
 export type UpdateCartMutation = { __typename?: 'Mutation', updateCart?: { __typename?: 'Cart', documentId: string, quantity?: number | null, createdAt?: any | null, updatedAt?: any | null, product?: { __typename?: 'Product', documentId: string, name: string, model: string, odoo_product_id: string, price_lists: Array<{ __typename?: 'Price', price?: number | null, sale_price?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null } | null>, inventories: Array<{ __typename?: 'Inventory', documentId: string, name?: string | null, location_code?: string | null, quantity?: number | null } | null>, images: Array<{ __typename?: 'UploadFile', url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null> } | null, user?: { __typename?: 'UsersPermissionsUser', documentId: string, username: string } | null } | null };
+>>>>>>> origin/admin-product-listing
+=======
 >>>>>>> origin/admin-product-listing
 
 export type DeleteCartMutationVariables = Exact<{
   documentId: Scalars['ID']['input'];
 }>;
 
-
-export type DeleteCartMutation = { __typename?: 'Mutation', deleteCart?: { __typename?: 'DeleteMutationResponse', documentId: string } | null };
+export type DeleteCartMutation = {
+  __typename?: 'Mutation';
+  deleteCart?: {
+    __typename?: 'DeleteMutationResponse';
+    documentId: string;
+  } | null;
+};
 
 export type UpdateQuantityMutationVariables = Exact<{
   documentId: Scalars['ID']['input'];
   data: CartInput;
 }>;
 
-
-export type UpdateQuantityMutation = { __typename?: 'Mutation', updateCart?: { __typename?: 'Cart', documentId: string } | null };
+export type UpdateQuantityMutation = {
+  __typename?: 'Mutation';
+  updateCart?: { __typename?: 'Cart'; documentId: string } | null;
+};
 
 export type CollectionsQueryVariables = Exact<{
   filters?: InputMaybe<CollectionFiltersInput>;
 }>;
 
-
-export type CollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', documentId: string, title?: string | null, handle: string, sortOrder?: string | null, productCount?: any | null, image?: { __typename?: 'UploadFile', name: string, alternativeText?: string | null, url: string } | null } | null> };
+export type CollectionsQuery = {
+  __typename?: 'Query';
+  collections: Array<{
+    __typename?: 'Collection';
+    documentId: string;
+    title?: string | null;
+    handle: string;
+    sortOrder?: string | null;
+    productCount?: any | null;
+    image?: {
+      __typename?: 'UploadFile';
+      name: string;
+      alternativeText?: string | null;
+      url: string;
+    } | null;
+  } | null>;
+};
 
 export type CollectionsWithProductsQueryVariables = Exact<{
   collectionsFilters?: InputMaybe<CollectionFiltersInput>;
@@ -1432,34 +1654,317 @@ export type CollectionsWithProductsQueryVariables = Exact<{
   productsPagination?: InputMaybe<PaginationArg>;
 }>;
 
-
-export type CollectionsWithProductsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', documentId: string, handle: string, sortOrder?: string | null, productCount?: any | null, image?: { __typename?: 'UploadFile', name: string, alternativeText?: string | null, url: string } | null, productFilters?: Array<{ __typename?: 'ComponentElementsFilterRule', id: string, title?: string | null, handle?: string | null } | null> | null, products: Array<{ __typename?: 'Product', documentId: string, name: string, description: string, vendor?: string | null, product_type?: string | null, model: string, odoo_product_id: string, createdAt?: any | null, updatedAt?: any | null, publishedAt?: any | null, categories: Array<{ __typename?: 'Category', title: string, slug: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null>, brand?: { __typename?: 'Brand', documentId: string, name: string, url: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null, price_lists: Array<{ __typename?: 'Price', documentId: string, price?: number | null, sale_price?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null } | null>, files: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } | null>, images: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } | null>, specifications: Array<{ __typename?: 'Specification', documentId: string, key: Enum_Specification_Key, value: string } | null>, key_features?: Array<{ __typename?: 'ComponentElementsKeyFeatures', id: string, feature?: string | null } | null> | null, inventories: Array<{ __typename?: 'Inventory', documentId: string, name?: string | null, location_code?: string | null, quantity?: number | null, createdAt?: any | null, updatedAt?: any | null, publishedAt?: any | null } | null> } | null> } | null> };
+export type CollectionsWithProductsQuery = {
+  __typename?: 'Query';
+  collections: Array<{
+    __typename?: 'Collection';
+    documentId: string;
+    handle: string;
+    sortOrder?: string | null;
+    productCount?: any | null;
+    image?: {
+      __typename?: 'UploadFile';
+      name: string;
+      alternativeText?: string | null;
+      url: string;
+    } | null;
+    productFilters?: Array<{
+      __typename?: 'ComponentElementsFilterRule';
+      id: string;
+      title?: string | null;
+      handle?: string | null;
+    } | null> | null;
+    products: Array<{
+      __typename?: 'Product';
+      documentId: string;
+      name: string;
+      description: string;
+      vendor?: string | null;
+      product_type?: string | null;
+      model: string;
+      odoo_product_id: string;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      publishedAt?: any | null;
+      categories: Array<{
+        __typename?: 'Category';
+        title: string;
+        slug: string;
+        image: {
+          __typename?: 'UploadFile';
+          documentId: string;
+          name: string;
+          alternativeText?: string | null;
+          width?: number | null;
+          height?: number | null;
+          mime: string;
+          url: string;
+        };
+      } | null>;
+      brand?: {
+        __typename?: 'Brand';
+        documentId: string;
+        name: string;
+        url: string;
+        image: {
+          __typename?: 'UploadFile';
+          documentId: string;
+          name: string;
+          alternativeText?: string | null;
+          width?: number | null;
+          height?: number | null;
+          mime: string;
+          url: string;
+        };
+      } | null;
+      price_lists: Array<{
+        __typename?: 'Price';
+        documentId: string;
+        price?: number | null;
+        sale_price?: number | null;
+        min_quantity?: number | null;
+        max_quantity?: number | null;
+        user_level?: string | null;
+      } | null>;
+      files: Array<{
+        __typename?: 'UploadFile';
+        documentId: string;
+        name: string;
+        alternativeText?: string | null;
+        width?: number | null;
+        height?: number | null;
+        mime: string;
+        url: string;
+      } | null>;
+      images: Array<{
+        __typename?: 'UploadFile';
+        documentId: string;
+        name: string;
+        alternativeText?: string | null;
+        width?: number | null;
+        height?: number | null;
+        mime: string;
+        url: string;
+      } | null>;
+      specifications: Array<{
+        __typename?: 'Specification';
+        documentId: string;
+        key: Enum_Specification_Key;
+        value: string;
+      } | null>;
+      key_features: Array<{
+        __typename?: 'KeyFeature';
+        documentId: string;
+        feature?: string | null;
+      } | null>;
+      inventories: Array<{
+        __typename?: 'Inventory';
+        documentId: string;
+        name?: string | null;
+        location_code?: string | null;
+        quantity?: number | null;
+        createdAt?: any | null;
+        updatedAt?: any | null;
+        publishedAt?: any | null;
+      } | null>;
+    } | null>;
+  } | null>;
+};
 
 export type FilesQueryVariables = Exact<{
   filters?: InputMaybe<FilesFiltersArgs>;
 }>;
 
-
-export type FilesQuery = { __typename?: 'Query', files: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, caption?: string | null, width?: number | null, height?: number | null, formats?: any | null, hash: string, ext?: string | null, mime: string, size: number, url: string, previewUrl?: string | null, provider: string, provider_metadata?: any | null } | null> };
+export type FilesQuery = {
+  __typename?: 'Query';
+  files: Array<{
+    __typename?: 'UploadFile';
+    documentId: string;
+    name: string;
+    alternativeText?: string | null;
+    caption?: string | null;
+    width?: number | null;
+    height?: number | null;
+    formats?: any | null;
+    hash: string;
+    ext?: string | null;
+    mime: string;
+    size: number;
+    url: string;
+    previewUrl?: string | null;
+    provider: string;
+    provider_metadata?: any | null;
+  } | null>;
+};
 
 export type OrdersQueryVariables = Exact<{
   filters?: InputMaybe<OrderFiltersInput>;
 }>;
 
+export type OrdersQuery = {
+  __typename?: 'Query';
+  orders: Array<{
+    __typename?: 'Order';
+    documentId: string;
+    orderNumber?: string | null;
+    paymentStatus?: Enum_Order_Paymentstatus | null;
+    fulfillmentStatus?: Enum_Order_Fulfillmentstatus | null;
+    paymentMethod?: Enum_Order_Paymentmethod | null;
+    shippingType?: Enum_Order_Shippingtype | null;
+    deliveryStatus?: Enum_Order_Deliverystatus | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    user?: {
+      __typename?: 'UsersPermissionsUser';
+      documentId: string;
+      business_name?: string | null;
+    } | null;
+    total?: {
+      __typename?: 'ComponentElementsTotal';
+      amount?: number | null;
+      currency?: string | null;
+    } | null;
+  } | null>;
+};
 
-export type OrdersQuery = { __typename?: 'Query', orders: Array<{ __typename?: 'Order', documentId: string, orderNumber?: string | null, paymentStatus?: Enum_Order_Paymentstatus | null, fulfillmentStatus?: Enum_Order_Fulfillmentstatus | null, paymentMethod?: Enum_Order_Paymentmethod | null, shippingType?: Enum_Order_Shippingtype | null, deliveryStatus?: Enum_Order_Deliverystatus | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'UsersPermissionsUser', documentId: string, business_name?: string | null } | null, total?: { __typename?: 'ComponentElementsTotal', amount?: number | null, currency?: string | null } | null, lineItems?: Array<{ __typename?: 'ComponentElementsLineItem', quantity?: number | null, product?: { __typename?: 'Product', name: string } | null } | null> | null } | null> };
+export type PagesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type PagesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PagesQuery = { __typename?: 'Query', pages: Array<{ __typename?: 'Page', documentId: string, title?: string | null, slug?: string | null } | null> };
+export type PagesQuery = {
+  __typename?: 'Query';
+  pages: Array<{
+    __typename?: 'Page';
+    documentId: string;
+    title?: string | null;
+    slug?: string | null;
+  } | null>;
+};
 
 export type GetPageQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
 
-
-export type GetPageQuery = { __typename?: 'Query', getPage?: { __typename?: 'Page', documentId: string, title?: string | null, slug?: string | null, createdAt?: any | null, updatedAt?: any | null, publishedAt?: any | null, sections?: Array<{ __typename?: 'ComponentFormInquiry', id: string, heading?: string | null, button_title?: string | null, inputs?: Array<{ __typename?: 'ComponentElementsInput', id: string, label?: string | null, type?: Enum_Componentelementsinput_Type | null, placeholder?: string | null, required?: boolean | null } | null> | null } | { __typename?: 'ComponentFormNewsletter', id: string, heading?: string | null, sub_heading?: string | null, sub_text?: string | null, button_title?: string | null, inputs?: Array<{ __typename?: 'ComponentElementsInput', id: string, label?: string | null, type?: Enum_Componentelementsinput_Type | null, placeholder?: string | null, required?: boolean | null } | null> | null, image?: { __typename?: 'UploadFile', name: string, alternativeText?: string | null, url: string } | null } | { __typename?: 'ComponentSectionsAbout', id: string, heading?: string | null, sub_heading?: string | null, description?: string | null, button_title?: string | null, background_image?: { __typename?: 'UploadFile', name: string, alternativeText?: string | null, url: string } | null } | { __typename?: 'ComponentSectionsContactDetails', id: string, left_heading?: string | null, left_sub_heading?: string | null, right_heading?: string | null, right_sub_heading?: string | null } | { __typename?: 'ComponentSectionsContactUs', id: string, heading?: string | null, description?: string | null, button_title?: string | null, background_image?: { __typename?: 'UploadFile', name: string, alternativeText?: string | null, url: string } | null } | { __typename?: 'ComponentSectionsImageSlider', id: string, animation_duration?: number | null, display_button?: boolean | null, slides?: Array<{ __typename?: 'ComponentLayoutSlide', id: string, title?: string | null, description?: string | null, link?: string | null, type?: Enum_Componentlayoutslide_Type | null, image?: { __typename?: 'UploadFile', name: string, alternativeText?: string | null, url: string } | null } | null> | null } | { __typename?: 'ComponentSectionsWarehouseLocations', id: string, heading?: string | null, sub_heading?: string | null, locations?: Array<{ __typename?: 'ComponentLayoutWarehouseLocation', id: string, address?: string | null, warehouse_time?: string | null, office_time?: string | null, google_maps_link?: string | null, name?: string | null } | null> | null } | { __typename?: 'Error', code: string, message?: string | null } | null> | null } | null };
+export type GetPageQuery = {
+  __typename?: 'Query';
+  getPage?: {
+    __typename?: 'Page';
+    documentId: string;
+    title?: string | null;
+    slug?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+    sections?: Array<
+      | {
+          __typename?: 'ComponentFormInquiry';
+          id: string;
+          heading?: string | null;
+          button_title?: string | null;
+          inputs?: Array<{
+            __typename?: 'ComponentElementsInput';
+            id: string;
+            label?: string | null;
+            type?: Enum_Componentelementsinput_Type | null;
+            placeholder?: string | null;
+            required?: boolean | null;
+          } | null> | null;
+        }
+      | {
+          __typename?: 'ComponentFormNewsletter';
+          id: string;
+          heading?: string | null;
+          sub_heading?: string | null;
+          sub_text?: string | null;
+          button_title?: string | null;
+          inputs?: Array<{
+            __typename?: 'ComponentElementsInput';
+            id: string;
+            label?: string | null;
+            type?: Enum_Componentelementsinput_Type | null;
+            placeholder?: string | null;
+            required?: boolean | null;
+          } | null> | null;
+          image?: {
+            __typename?: 'UploadFile';
+            name: string;
+            alternativeText?: string | null;
+            url: string;
+          } | null;
+        }
+      | {
+          __typename?: 'ComponentSectionsAbout';
+          id: string;
+          heading?: string | null;
+          sub_heading?: string | null;
+          description?: string | null;
+          button_title?: string | null;
+          background_image?: {
+            __typename?: 'UploadFile';
+            name: string;
+            alternativeText?: string | null;
+            url: string;
+          } | null;
+        }
+      | {
+          __typename?: 'ComponentSectionsContactDetails';
+          id: string;
+          left_heading?: string | null;
+          left_sub_heading?: string | null;
+          right_heading?: string | null;
+          right_sub_heading?: string | null;
+        }
+      | {
+          __typename?: 'ComponentSectionsContactUs';
+          id: string;
+          heading?: string | null;
+          description?: string | null;
+          button_title?: string | null;
+          background_image?: {
+            __typename?: 'UploadFile';
+            name: string;
+            alternativeText?: string | null;
+            url: string;
+          } | null;
+        }
+      | {
+          __typename?: 'ComponentSectionsImageSlider';
+          id: string;
+          animation_duration?: number | null;
+          display_button?: boolean | null;
+          slides?: Array<{
+            __typename?: 'ComponentLayoutSlide';
+            id: string;
+            title?: string | null;
+            description?: string | null;
+            link?: string | null;
+            type?: Enum_Componentlayoutslide_Type | null;
+            image?: {
+              __typename?: 'UploadFile';
+              name: string;
+              alternativeText?: string | null;
+              url: string;
+            } | null;
+          } | null> | null;
+        }
+      | {
+          __typename?: 'ComponentSectionsWarehouseLocations';
+          id: string;
+          heading?: string | null;
+          sub_heading?: string | null;
+          locations?: Array<{
+            __typename?: 'ComponentLayoutWarehouseLocation';
+            id: string;
+            address?: string | null;
+            warehouse_time?: string | null;
+            office_time?: string | null;
+            google_maps_link?: string | null;
+            name?: string | null;
+          } | null> | null;
+        }
+      | { __typename?: 'Error'; code: string; message?: string | null }
+      | null
+    > | null;
+  } | null;
+};
 
 export type ProductsQueryVariables = Exact<{
   filters?: InputMaybe<ProductFiltersInput>;
@@ -1467,6 +1972,9 @@ export type ProductsQueryVariables = Exact<{
 }>;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/admin-product-listing
 export type ProductsQuery = {
   __typename?: 'Query';
   products: Array<{
@@ -1478,10 +1986,16 @@ export type ProductsQuery = {
     vendor?: string | null;
     model: string;
     odoo_product_id: string;
+<<<<<<< HEAD
     quote_needed?: boolean | null;
     createdAt?: any | null;
     updatedAt?: any | null;
     publishedAt?: any | null;
+=======
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    releasedAt?: any | null;
+>>>>>>> origin/admin-product-listing
     categories: Array<{
       __typename?: 'Category';
       title: string;
@@ -1548,11 +2062,19 @@ export type ProductsQuery = {
       key: Enum_Specification_Key;
       value: string;
     } | null>;
+<<<<<<< HEAD
     key_features?: Array<{
       __typename?: 'ComponentElementsKeyFeatures';
       id: string;
       feature?: string | null;
     } | null> | null;
+=======
+    key_features: Array<{
+      __typename?: 'KeyFeature';
+      documentId: string;
+      feature?: string | null;
+    } | null>;
+>>>>>>> origin/admin-product-listing
     inventories: Array<{
       __typename?: 'Inventory';
       documentId: string;
@@ -1563,11 +2085,23 @@ export type ProductsQuery = {
       updatedAt?: any | null;
       publishedAt?: any | null;
     } | null>;
+<<<<<<< HEAD
   } | null>;
 };
 =======
 
 export type ProductsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', documentId: string, name: string, description: string, product_type?: string | null, vendor?: string | null, model: string, odoo_product_id: string, createdAt?: any | null, updatedAt?: any | null, publishedAt?: any | null, categories: Array<{ __typename?: 'Category', title: string, slug: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null>, brand?: { __typename?: 'Brand', documentId: string, name: string, url: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null, price_lists: Array<{ __typename?: 'Price', documentId: string, price?: number | null, sale_price?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null } | null>, files: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } | null>, images: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } | null>, specifications: Array<{ __typename?: 'Specification', documentId: string, key: Enum_Specification_Key, value: string } | null>, key_features?: Array<{ __typename?: 'ComponentElementsKeyFeatures', id: string, feature?: string | null } | null> | null, inventories: Array<{ __typename?: 'Inventory', documentId: string, name?: string | null, location_code?: string | null, quantity?: number | null, createdAt?: any | null, updatedAt?: any | null, publishedAt?: any | null } | null> } | null> };
+>>>>>>> origin/admin-product-listing
+=======
+    shipping?: {
+      __typename?: 'Shipping';
+      height?: number | null;
+      width?: number | null;
+      length?: number | null;
+      weight?: number | null;
+    } | null;
+  } | null>;
+};
 >>>>>>> origin/admin-product-listing
 
 export type ProductQueryVariables = Exact<{
@@ -1575,6 +2109,9 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/admin-product-listing
 export type ProductQuery = {
   __typename?: 'Query';
   product?: {
@@ -1586,10 +2123,16 @@ export type ProductQuery = {
     product_type?: string | null;
     model: string;
     odoo_product_id: string;
+<<<<<<< HEAD
     quote_needed?: boolean | null;
     createdAt?: any | null;
     updatedAt?: any | null;
     publishedAt?: any | null;
+=======
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    releasedAt?: any | null;
+>>>>>>> origin/admin-product-listing
     categories: Array<{
       __typename?: 'Category';
       title: string;
@@ -1656,11 +2199,19 @@ export type ProductQuery = {
       key: Enum_Specification_Key;
       value: string;
     } | null>;
+<<<<<<< HEAD
     key_features?: Array<{
       __typename?: 'ComponentElementsKeyFeatures';
       id: string;
       feature?: string | null;
     } | null> | null;
+=======
+    key_features: Array<{
+      __typename?: 'KeyFeature';
+      documentId: string;
+      feature?: string | null;
+    } | null>;
+>>>>>>> origin/admin-product-listing
     inventories: Array<{
       __typename?: 'Inventory';
       documentId: string;
@@ -1671,116 +2222,465 @@ export type ProductQuery = {
       updatedAt?: any | null;
       publishedAt?: any | null;
     } | null>;
+<<<<<<< HEAD
   } | null;
 };
 =======
 
 export type ProductQuery = { __typename?: 'Query', product?: { __typename?: 'Product', documentId: string, name: string, description: string, vendor?: string | null, product_type?: string | null, model: string, odoo_product_id: string, createdAt?: any | null, updatedAt?: any | null, publishedAt?: any | null, categories: Array<{ __typename?: 'Category', title: string, slug: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null>, brand?: { __typename?: 'Brand', documentId: string, name: string, url: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null, price_lists: Array<{ __typename?: 'Price', documentId: string, price?: number | null, sale_price?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null } | null>, files: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } | null>, images: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } | null>, specifications: Array<{ __typename?: 'Specification', documentId: string, key: Enum_Specification_Key, value: string } | null>, key_features?: Array<{ __typename?: 'ComponentElementsKeyFeatures', id: string, feature?: string | null } | null> | null, inventories: Array<{ __typename?: 'Inventory', documentId: string, name?: string | null, location_code?: string | null, quantity?: number | null, createdAt?: any | null, updatedAt?: any | null, publishedAt?: any | null } | null> } | null };
 >>>>>>> origin/admin-product-listing
+=======
+    shipping?: {
+      __typename?: 'Shipping';
+      height?: number | null;
+      width?: number | null;
+      length?: number | null;
+      weight?: number | null;
+    } | null;
+  } | null;
+};
+>>>>>>> origin/admin-product-listing
 
 export type BrandsQueryVariables = Exact<{
   filters?: InputMaybe<BrandFiltersInput>;
 }>;
 
+export type BrandsQuery = {
+  __typename?: 'Query';
+  brands: Array<{
+    __typename?: 'Brand';
+    documentId: string;
+    name: string;
+    url: string;
+    image: {
+      __typename?: 'UploadFile';
+      name: string;
+      alternativeText?: string | null;
+      mime: string;
+      url: string;
+      width?: number | null;
+      height?: number | null;
+    };
+    products: Array<{
+      __typename?: 'Product';
+      documentId: string;
+      name: string;
+      brand?: { __typename?: 'Brand'; name: string } | null;
+    } | null>;
+  } | null>;
+};
 
-export type BrandsQuery = { __typename?: 'Query', brands: Array<{ __typename?: 'Brand', documentId: string, name: string, url: string, image: { __typename?: 'UploadFile', name: string, alternativeText?: string | null, mime: string, url: string, width?: number | null, height?: number | null }, products: Array<{ __typename?: 'Product', documentId: string, name: string, brand?: { __typename?: 'Brand', name: string } | null } | null> } | null> };
+export type CategoriesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+export type CategoriesQuery = {
+  __typename?: 'Query';
+  categories: Array<{
+    __typename?: 'Category';
+    documentId: string;
+    title: string;
+    slug: string;
+    image: {
+      __typename?: 'UploadFile';
+      name: string;
+      alternativeText?: string | null;
+      mime: string;
+      url: string;
+      width?: number | null;
+      height?: number | null;
+    };
+  } | null>;
+};
 
+export type SpecificationsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type CategoriesQuery = { __typename?: 'Query', categories: Array<{ __typename?: 'Category', documentId: string, title: string, slug: string, image: { __typename?: 'UploadFile', name: string, alternativeText?: string | null, mime: string, url: string, width?: number | null, height?: number | null } } | null> };
-
-export type SpecificationsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type SpecificationsQuery = { __typename?: 'Query', specifications: Array<{ __typename?: 'Specification', documentId: string, key: Enum_Specification_Key, value: string, createdAt?: any | null, updatedAt?: any | null, publishedAt?: any | null } | null> };
+export type SpecificationsQuery = {
+  __typename?: 'Query';
+  specifications: Array<{
+    __typename?: 'Specification';
+    documentId: string;
+    key: Enum_Specification_Key;
+    value: string;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+  } | null>;
+};
 
 export type CreateProductMutationVariables = Exact<{
   data: ProductInput;
 }>;
 
+export type CreateProductMutation = {
+  __typename?: 'Mutation';
+  createProduct?: {
+    __typename?: 'Product';
+    documentId: string;
+    name: string;
+    model: string;
+    description: string;
+    vendor?: string | null;
+    odoo_product_id: string;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+    brand?: {
+      __typename?: 'Brand';
+      name: string;
+      url: string;
+      image: {
+        __typename?: 'UploadFile';
+        documentId: string;
+        name: string;
+        alternativeText?: string | null;
+        width?: number | null;
+        height?: number | null;
+        mime: string;
+        url: string;
+      };
+    } | null;
+    inventories: Array<{
+      __typename?: 'Inventory';
+      documentId: string;
+      location_code?: string | null;
+      quantity?: number | null;
+    } | null>;
+    price_lists: Array<{
+      __typename?: 'Price';
+      documentId: string;
+      price?: number | null;
+      sale_price?: number | null;
+      min_quantity?: number | null;
+      max_quantity?: number | null;
+      user_level?: string | null;
+    } | null>;
+    files: Array<{
+      __typename?: 'UploadFile';
+      documentId: string;
+      mime: string;
+      name: string;
+      url: string;
+      alternativeText?: string | null;
+    } | null>;
+    images: Array<{
+      __typename?: 'UploadFile';
+      documentId: string;
+      mime: string;
+      name: string;
+      url: string;
+      alternativeText?: string | null;
+    } | null>;
+    specifications: Array<{
+      __typename?: 'Specification';
+      documentId: string;
+      key: Enum_Specification_Key;
+      value: string;
+    } | null>;
+    key_features: Array<{
+      __typename?: 'KeyFeature';
+      documentId: string;
+      feature?: string | null;
+    } | null>;
+    shipping?: {
+      __typename?: 'Shipping';
+      documentId: string;
+      width?: number | null;
+      height?: number | null;
+      weight?: number | null;
+      length?: number | null;
+    } | null;
+  } | null;
+};
 
-export type CreateProductMutation = { __typename?: 'Mutation', createProduct?: { __typename?: 'Product', documentId: string, name: string, model: string, description: string, vendor?: string | null, odoo_product_id: string, createdAt?: any | null, updatedAt?: any | null, publishedAt?: any | null, brand?: { __typename?: 'Brand', name: string, url: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null, inventories: Array<{ __typename?: 'Inventory', documentId: string, location_code?: string | null, quantity?: number | null } | null>, price_lists: Array<{ __typename?: 'Price', documentId: string, price?: number | null, sale_price?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null } | null>, files: Array<{ __typename?: 'UploadFile', documentId: string, mime: string, name: string, url: string, alternativeText?: string | null } | null>, images: Array<{ __typename?: 'UploadFile', documentId: string, mime: string, name: string, url: string, alternativeText?: string | null } | null>, specifications: Array<{ __typename?: 'Specification', documentId: string, key: Enum_Specification_Key, value: string } | null>, key_features?: Array<{ __typename?: 'ComponentElementsKeyFeatures', id: string, feature?: string | null } | null> | null } | null };
-
-export type UpdateProductMutationVariables = Exact<{
+export type CustomProductUpdateMutationVariables = Exact<{
   documentId: Scalars['ID']['input'];
   data: ProductInput;
 }>;
 
-
-export type UpdateProductMutation = { __typename?: 'Mutation', updateProduct?: { __typename?: 'Product', documentId: string, name: string, model: string, description: string, vendor?: string | null, odoo_product_id: string, createdAt?: any | null, updatedAt?: any | null, publishedAt?: any | null, brand?: { __typename?: 'Brand', name: string, url: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null, inventories: Array<{ __typename?: 'Inventory', documentId: string, location_code?: string | null, quantity?: number | null } | null>, price_lists: Array<{ __typename?: 'Price', documentId: string, price?: number | null, sale_price?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null } | null>, files: Array<{ __typename?: 'UploadFile', documentId: string, mime: string, name: string, url: string, alternativeText?: string | null } | null>, images: Array<{ __typename?: 'UploadFile', documentId: string, mime: string, name: string, url: string, alternativeText?: string | null } | null>, specifications: Array<{ __typename?: 'Specification', documentId: string, key: Enum_Specification_Key, value: string } | null>, key_features?: Array<{ __typename?: 'ComponentElementsKeyFeatures', id: string, feature?: string | null } | null> | null } | null };
+export type CustomProductUpdateMutation = {
+  __typename?: 'Mutation';
+  customProductUpdate?: {
+    __typename?: 'Product';
+    documentId: string;
+    name: string;
+    model: string;
+    description: string;
+    vendor?: string | null;
+    odoo_product_id: string;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    releasedAt?: any | null;
+    brand?: {
+      __typename?: 'Brand';
+      name: string;
+      url: string;
+      image: {
+        __typename?: 'UploadFile';
+        documentId: string;
+        name: string;
+        alternativeText?: string | null;
+        width?: number | null;
+        height?: number | null;
+        mime: string;
+        url: string;
+      };
+    } | null;
+    inventories: Array<{
+      __typename?: 'Inventory';
+      documentId: string;
+      location_code?: string | null;
+      quantity?: number | null;
+    } | null>;
+    price_lists: Array<{
+      __typename?: 'Price';
+      documentId: string;
+      price?: number | null;
+      sale_price?: number | null;
+      min_quantity?: number | null;
+      max_quantity?: number | null;
+      user_level?: string | null;
+    } | null>;
+    files: Array<{
+      __typename?: 'UploadFile';
+      documentId: string;
+      mime: string;
+      name: string;
+      url: string;
+      alternativeText?: string | null;
+    } | null>;
+    images: Array<{
+      __typename?: 'UploadFile';
+      documentId: string;
+      mime: string;
+      name: string;
+      url: string;
+      alternativeText?: string | null;
+    } | null>;
+    specifications: Array<{
+      __typename?: 'Specification';
+      documentId: string;
+      key: Enum_Specification_Key;
+      value: string;
+    } | null>;
+    key_features: Array<{
+      __typename?: 'KeyFeature';
+      documentId: string;
+      feature?: string | null;
+    } | null>;
+    shipping?: {
+      __typename?: 'Shipping';
+      documentId: string;
+      width?: number | null;
+      height?: number | null;
+      weight?: number | null;
+      length?: number | null;
+    } | null;
+    improvedBy?: { __typename?: 'UsersPermissionsUser'; email: string } | null;
+    madeBy?: { __typename?: 'UsersPermissionsUser'; email: string } | null;
+  } | null;
+};
 
 export type CreatePriceMutationVariables = Exact<{
   data: PriceInput;
 }>;
 
-
-export type CreatePriceMutation = { __typename?: 'Mutation', createPrice?: { __typename?: 'Price', documentId: string, sale_price?: number | null, price?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null, createdAt?: any | null, updatedAt?: any | null, publishedAt?: any | null } | null };
+export type CreatePriceMutation = {
+  __typename?: 'Mutation';
+  createPrice?: {
+    __typename?: 'Price';
+    documentId: string;
+    sale_price?: number | null;
+    price?: number | null;
+    min_quantity?: number | null;
+    max_quantity?: number | null;
+    user_level?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+  } | null;
+};
 
 export type UpdatePriceMutationVariables = Exact<{
   documentId: Scalars['ID']['input'];
   data: PriceInput;
 }>;
 
-
-export type UpdatePriceMutation = { __typename?: 'Mutation', updatePrice?: { __typename?: 'Price', documentId: string, sale_price?: number | null, price?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null, createdAt?: any | null, updatedAt?: any | null, publishedAt?: any | null } | null };
+export type UpdatePriceMutation = {
+  __typename?: 'Mutation';
+  updatePrice?: {
+    __typename?: 'Price';
+    documentId: string;
+    sale_price?: number | null;
+    price?: number | null;
+    min_quantity?: number | null;
+    max_quantity?: number | null;
+    user_level?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+  } | null;
+};
 
 export type DeletePriceMutationVariables = Exact<{
   documentId: Scalars['ID']['input'];
 }>;
 
-
-export type DeletePriceMutation = { __typename?: 'Mutation', deletePrice?: { __typename?: 'DeleteMutationResponse', documentId: string } | null };
+export type DeletePriceMutation = {
+  __typename?: 'Mutation';
+  deletePrice?: {
+    __typename?: 'DeleteMutationResponse';
+    documentId: string;
+  } | null;
+};
 
 export type CreateInventoryMutationVariables = Exact<{
   data: InventoryInput;
 }>;
 
-
-export type CreateInventoryMutation = { __typename?: 'Mutation', createInventory?: { __typename?: 'Inventory', documentId: string, name?: string | null, location_code?: string | null, quantity?: number | null, createdAt?: any | null, updatedAt?: any | null, publishedAt?: any | null } | null };
+export type CreateInventoryMutation = {
+  __typename?: 'Mutation';
+  createInventory?: {
+    __typename?: 'Inventory';
+    documentId: string;
+    name?: string | null;
+    location_code?: string | null;
+    quantity?: number | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+  } | null;
+};
 
 export type UpdateInventoryMutationVariables = Exact<{
   documentId: Scalars['ID']['input'];
   data: InventoryInput;
 }>;
 
-
-export type UpdateInventoryMutation = { __typename?: 'Mutation', updateInventory?: { __typename?: 'Inventory', documentId: string, name?: string | null, location_code?: string | null, quantity?: number | null, createdAt?: any | null, updatedAt?: any | null, publishedAt?: any | null } | null };
+export type UpdateInventoryMutation = {
+  __typename?: 'Mutation';
+  updateInventory?: {
+    __typename?: 'Inventory';
+    documentId: string;
+    name?: string | null;
+    location_code?: string | null;
+    quantity?: number | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+  } | null;
+};
 
 export type DeleteInventoryMutationVariables = Exact<{
   documentId: Scalars['ID']['input'];
 }>;
 
-
-export type DeleteInventoryMutation = { __typename?: 'Mutation', deleteInventory?: { __typename?: 'DeleteMutationResponse', documentId: string } | null };
+export type DeleteInventoryMutation = {
+  __typename?: 'Mutation';
+  deleteInventory?: {
+    __typename?: 'DeleteMutationResponse';
+    documentId: string;
+  } | null;
+};
 
 export type CreateSpecificationMutationVariables = Exact<{
   data: SpecificationInput;
 }>;
 
-
-export type CreateSpecificationMutation = { __typename?: 'Mutation', createSpecification?: { __typename?: 'Specification', documentId: string, key: Enum_Specification_Key, value: string, createdAt?: any | null, updatedAt?: any | null, publishedAt?: any | null } | null };
+export type CreateSpecificationMutation = {
+  __typename?: 'Mutation';
+  createSpecification?: {
+    __typename?: 'Specification';
+    documentId: string;
+    key: Enum_Specification_Key;
+    value: string;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+  } | null;
+};
 
 export type UpdateSpecificationMutationVariables = Exact<{
   documentId: Scalars['ID']['input'];
   data: SpecificationInput;
 }>;
 
-
-export type UpdateSpecificationMutation = { __typename?: 'Mutation', updateSpecification?: { __typename?: 'Specification', documentId: string, key: Enum_Specification_Key, value: string, createdAt?: any | null, updatedAt?: any | null, publishedAt?: any | null } | null };
+export type UpdateSpecificationMutation = {
+  __typename?: 'Mutation';
+  updateSpecification?: {
+    __typename?: 'Specification';
+    documentId: string;
+    key: Enum_Specification_Key;
+    value: string;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+  } | null;
+};
 
 export type DeleteSpecificationMutationVariables = Exact<{
   documentId: Scalars['ID']['input'];
 }>;
 
+export type DeleteSpecificationMutation = {
+  __typename?: 'Mutation';
+  deleteSpecification?: {
+    __typename?: 'DeleteMutationResponse';
+    documentId: string;
+  } | null;
+};
 
-export type DeleteSpecificationMutation = { __typename?: 'Mutation', deleteSpecification?: { __typename?: 'DeleteMutationResponse', documentId: string } | null };
+export type CreateKeyFeatureMutationVariables = Exact<{
+  data: KeyFeatureInput;
+}>;
+
+export type CreateKeyFeatureMutation = {
+  __typename?: 'Mutation';
+  createKeyFeature?: {
+    __typename?: 'KeyFeature';
+    documentId: string;
+    feature?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+  } | null;
+};
+
+export type UpdateKeyFeatureMutationVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+  data: KeyFeatureInput;
+}>;
+
+export type UpdateKeyFeatureMutation = {
+  __typename?: 'Mutation';
+  updateKeyFeature?: {
+    __typename?: 'KeyFeature';
+    documentId: string;
+    feature?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+  } | null;
+};
+
+export type DeleteKeyFeatureMutationVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+}>;
+
+export type DeleteKeyFeatureMutation = {
+  __typename?: 'Mutation';
+  deleteKeyFeature?: {
+    __typename?: 'DeleteMutationResponse';
+    documentId: string;
+  } | null;
+};
 
 export type UsersPermissionsUserQueryVariables = Exact<{
   documentId: Scalars['ID']['input'];
 }>;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/admin-product-listing
 export type UsersPermissionsUserQuery = {
   __typename?: 'Query';
   usersPermissionsUser?: {
@@ -1807,7 +2707,10 @@ export type UsersPermissionsUserQuery = {
         name: string;
         model: string;
         odoo_product_id: string;
+<<<<<<< HEAD
         quote_needed?: boolean | null;
+=======
+>>>>>>> origin/admin-product-listing
         price_lists: Array<{
           __typename?: 'Price';
           price?: number | null;
@@ -1897,45 +2800,121 @@ export type UsersPermissionsUserQuery = {
     } | null;
   } | null;
 };
+<<<<<<< HEAD
+=======
+>>>>>>> origin/admin-product-listing
 =======
 >>>>>>> origin/admin-product-listing
 
-export type UsersPermissionsUserQuery = { __typename?: 'Query', usersPermissionsUser?: { __typename?: 'UsersPermissionsUser', documentId: string, email: string, account_status?: Enum_Userspermissionsuser_Account_Status | null, blocked?: boolean | null, username: string, business_name?: string | null, business_number?: string | null, business_type?: string | null, phone?: string | null, role?: { __typename?: 'UsersPermissionsRole', name: string } | null, carts: Array<{ __typename?: 'Cart', documentId: string, quantity?: number | null, createdAt?: any | null, updatedAt?: any | null, product?: { __typename?: 'Product', documentId: string, name: string, model: string, odoo_product_id: string, price_lists: Array<{ __typename?: 'Price', price?: number | null, sale_price?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null } | null>, inventories: Array<{ __typename?: 'Inventory', documentId: string, name?: string | null, location_code?: string | null, quantity?: number | null } | null>, images: Array<{ __typename?: 'UploadFile', url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null> } | null } | null>, addresses: Array<{ __typename?: 'Address', documentId: string, street1?: string | null, street2?: string | null, state?: string | null, city?: string | null, zip_code?: string | null, country?: string | null, phone?: string | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null, name?: { __typename?: 'ComponentElementsName', first_name?: string | null, middle_name?: string | null, last_name?: string | null } | null } | null>, account_detail?: { __typename?: 'AccountDetail', phone?: string | null, level?: Enum_Accountdetail_Level | null, odoo_user_id?: string | null, name?: { __typename?: 'ComponentElementsName', first_name?: string | null, middle_name?: string | null, last_name?: string | null } | null, shipping_addresses: Array<{ __typename?: 'Address', documentId: string, phone?: string | null, street1?: string | null, street2?: string | null, city?: string | null, state?: string | null, zip_code?: string | null, country?: string | null, isActive?: boolean | null, name?: { __typename?: 'ComponentElementsName', first_name?: string | null, middle_name?: string | null, last_name?: string | null } | null } | null>, warehouse_location?: { __typename?: 'ComponentElementsWarehouseLocation', title?: string | null, address?: { __typename?: 'ComponentElementsAddress', city?: string | null, street?: string | null, suburb?: string | null, state_territory?: string | null, postcode?: string | null, country?: string | null } | null } | null } | null } | null };
+export type UsersPermissionsUsersQueryVariables = Exact<{
+  [key: string]: never;
+}>;
 
-export type UsersPermissionsUsersQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type UsersPermissionsUsersQuery = { __typename?: 'Query', usersPermissionsUsers: Array<{ __typename?: 'UsersPermissionsUser', documentId: string, username: string, email: string, provider?: string | null, blocked?: boolean | null, account_status?: Enum_Userspermissionsuser_Account_Status | null, business_name?: string | null, business_number?: string | null, business_type?: string | null, phone?: string | null, addresses: Array<{ __typename?: 'Address', documentId: string, street1?: string | null, street2?: string | null, city?: string | null, state?: string | null, zip_code?: string | null, country?: string | null, isActive?: boolean | null, phone?: string | null } | null>, account_detail?: { __typename?: 'AccountDetail', documentId: string, level?: Enum_Accountdetail_Level | null, phone?: string | null, name?: { __typename?: 'ComponentElementsName', first_name?: string | null, middle_name?: string | null, last_name?: string | null } | null } | null, role?: { __typename?: 'UsersPermissionsRole', name: string } | null } | null> };
+export type UsersPermissionsUsersQuery = {
+  __typename?: 'Query';
+  usersPermissionsUsers: Array<{
+    __typename?: 'UsersPermissionsUser';
+    documentId: string;
+    username: string;
+    email: string;
+    provider?: string | null;
+    blocked?: boolean | null;
+    account_status?: Enum_Userspermissionsuser_Account_Status | null;
+    business_name?: string | null;
+    business_number?: string | null;
+    business_type?: string | null;
+    phone?: string | null;
+    addresses: Array<{
+      __typename?: 'Address';
+      documentId: string;
+      street1?: string | null;
+      street2?: string | null;
+      city?: string | null;
+      state?: string | null;
+      zip_code?: string | null;
+      country?: string | null;
+      isActive?: boolean | null;
+      phone?: string | null;
+    } | null>;
+    account_detail?: {
+      __typename?: 'AccountDetail';
+      documentId: string;
+      level?: Enum_Accountdetail_Level | null;
+      phone?: string | null;
+      name?: {
+        __typename?: 'ComponentElementsName';
+        first_name?: string | null;
+        middle_name?: string | null;
+        last_name?: string | null;
+      } | null;
+    } | null;
+    role?: { __typename?: 'UsersPermissionsRole'; name: string } | null;
+  } | null>;
+};
 
 export type LoginMutationVariables = Exact<{
   input: UsersPermissionsLoginInput;
 }>;
 
-
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UsersPermissionsLoginPayload', jwt?: string | null, user: { __typename?: 'UsersPermissionsMe', documentId: string, email?: string | null, confirmed?: boolean | null, blocked?: boolean | null, username: string } } };
+export type LoginMutation = {
+  __typename?: 'Mutation';
+  login: {
+    __typename?: 'UsersPermissionsLoginPayload';
+    jwt?: string | null;
+    user: {
+      __typename?: 'UsersPermissionsMe';
+      documentId: string;
+      email?: string | null;
+      confirmed?: boolean | null;
+      blocked?: boolean | null;
+      username: string;
+    };
+  };
+};
 
 export type RegisterUserMutationVariables = Exact<{
   data: RegisterUserInput;
 }>;
 
-
-export type RegisterUserMutation = { __typename?: 'Mutation', registerUser?: { __typename?: 'UsersPermissionsUser', documentId: string } | null };
+export type RegisterUserMutation = {
+  __typename?: 'Mutation';
+  registerUser?: {
+    __typename?: 'UsersPermissionsUser';
+    documentId: string;
+  } | null;
+};
 
 export type ApprovedUserMutationVariables = Exact<{
   data: ApprovedUserInput;
   documentId: Scalars['ID']['input'];
 }>;
 
-
-export type ApprovedUserMutation = { __typename?: 'Mutation', approvedUser?: { __typename?: 'UsersPermissionsUser', documentId: string, email: string } | null };
+export type ApprovedUserMutation = {
+  __typename?: 'Mutation';
+  approvedUser?: {
+    __typename?: 'UsersPermissionsUser';
+    documentId: string;
+    email: string;
+  } | null;
+};
 
 export type UpdateUserMutationVariables = Exact<{
   documentId: Scalars['ID']['input'];
   data: UsersPermissionsUserInput;
 }>;
 
+export type UpdateUserMutation = {
+  __typename?: 'Mutation';
+  updateUser?: {
+    __typename?: 'UsersPermissionsUser';
+    account_status?: Enum_Userspermissionsuser_Account_Status | null;
+  } | null;
+};
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/admin-product-listing
 export const AddressDocument = {
   kind: 'Document',
   definitions: [
@@ -2451,6 +3430,7 @@ export const CartsDocument = {
     },
   ],
 } as unknown as DocumentNode<CartsQuery, CartsQueryVariables>;
+<<<<<<< HEAD
 export const GetCheckoutUserDataDocument = {
   kind: 'Document',
   definitions: [
@@ -2612,6 +3592,8 @@ export const GetCheckoutUserDataDocument = {
   GetCheckoutUserDataQuery,
   GetCheckoutUserDataQueryVariables
 >;
+=======
+>>>>>>> origin/admin-product-listing
 export const CreateCartDocument = {
   kind: 'Document',
   definitions: [
@@ -2670,10 +3652,13 @@ export const CreateCartDocument = {
                       { kind: 'Field', name: { kind: 'Name', value: 'model' } },
                       {
                         kind: 'Field',
+<<<<<<< HEAD
                         name: { kind: 'Name', value: 'quote_needed' },
                       },
                       {
                         kind: 'Field',
+=======
+>>>>>>> origin/admin-product-listing
                         name: { kind: 'Name', value: 'price_lists' },
                         selectionSet: {
                           kind: 'SelectionSet',
@@ -2859,10 +3844,13 @@ export const UpdateCartDocument = {
                       },
                       {
                         kind: 'Field',
+<<<<<<< HEAD
                         name: { kind: 'Name', value: 'quote_needed' },
                       },
                       {
                         kind: 'Field',
+=======
+>>>>>>> origin/admin-product-listing
                         name: { kind: 'Name', value: 'price_lists' },
                         selectionSet: {
                           kind: 'SelectionSet',
@@ -3557,7 +4545,11 @@ export const CollectionsWithProductsDocument = {
                           selections: [
                             {
                               kind: 'Field',
+<<<<<<< HEAD
                               name: { kind: 'Name', value: 'id' },
+=======
+                              name: { kind: 'Name', value: 'documentId' },
+>>>>>>> origin/admin-product-listing
                             },
                             {
                               kind: 'Field',
@@ -3697,11 +4689,16 @@ export const FilesDocument = {
     },
   ],
 } as unknown as DocumentNode<FilesQuery, FilesQueryVariables>;
+<<<<<<< HEAD
 export const CreateOrderDocument = {
+=======
+export const OrdersDocument = {
+>>>>>>> origin/admin-product-listing
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
+<<<<<<< HEAD
       operation: 'mutation',
       name: { kind: 'Name', value: 'CreateOrder' },
       variableDefinitions: [
@@ -3714,6 +4711,20 @@ export const CreateOrderDocument = {
               kind: 'NamedType',
               name: { kind: 'Name', value: 'OrderInput' },
             },
+=======
+      operation: 'query',
+      name: { kind: 'Name', value: 'Orders' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'filters' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'OrderFiltersInput' },
+>>>>>>> origin/admin-product-listing
           },
         },
       ],
@@ -3722,6 +4733,7 @@ export const CreateOrderDocument = {
         selections: [
           {
             kind: 'Field',
+<<<<<<< HEAD
             name: { kind: 'Name', value: 'createOrder' },
             arguments: [
               {
@@ -3730,6 +4742,16 @@ export const CreateOrderDocument = {
                 value: {
                   kind: 'Variable',
                   name: { kind: 'Name', value: 'data' },
+=======
+            name: { kind: 'Name', value: 'orders' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filters' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'filters' },
+>>>>>>> origin/admin-product-listing
                 },
               },
             ],
@@ -3737,6 +4759,64 @@ export const CreateOrderDocument = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+<<<<<<< HEAD
+=======
+                { kind: 'Field', name: { kind: 'Name', value: 'orderNumber' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'business_name' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'total' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'amount' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currency' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'paymentStatus' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'fulfillmentStatus' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'paymentMethod' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'shippingType' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'deliveryStatus' },
+                },
+>>>>>>> origin/admin-product-listing
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
               ],
@@ -3746,7 +4826,11 @@ export const CreateOrderDocument = {
       },
     },
   ],
+<<<<<<< HEAD
 } as unknown as DocumentNode<CreateOrderMutation, CreateOrderMutationVariables>;
+=======
+} as unknown as DocumentNode<OrdersQuery, OrdersQueryVariables>;
+>>>>>>> origin/admin-product-listing
 export const PagesDocument = {
   kind: 'Document',
   definitions: [
@@ -4383,10 +5467,13 @@ export const ProductsDocument = {
                 },
                 {
                   kind: 'Field',
+<<<<<<< HEAD
                   name: { kind: 'Name', value: 'quote_needed' },
                 },
                 {
                   kind: 'Field',
+=======
+>>>>>>> origin/admin-product-listing
                   name: { kind: 'Name', value: 'categories' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -4586,7 +5673,14 @@ export const ProductsDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+<<<<<<< HEAD
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+=======
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+>>>>>>> origin/admin-product-listing
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'feature' },
@@ -4628,9 +5722,37 @@ export const ProductsDocument = {
                     ],
                   },
                 },
+<<<<<<< HEAD
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+=======
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'shipping' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'height' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'width' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'length' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'weight' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'releasedAt' } },
+>>>>>>> origin/admin-product-listing
               ],
             },
           },
@@ -4693,10 +5815,13 @@ export const ProductDocument = {
                 },
                 {
                   kind: 'Field',
+<<<<<<< HEAD
                   name: { kind: 'Name', value: 'quote_needed' },
                 },
                 {
                   kind: 'Field',
+=======
+>>>>>>> origin/admin-product-listing
                   name: { kind: 'Name', value: 'categories' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -4896,7 +6021,14 @@ export const ProductDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+<<<<<<< HEAD
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+=======
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+>>>>>>> origin/admin-product-listing
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'feature' },
@@ -4938,9 +6070,37 @@ export const ProductDocument = {
                     ],
                   },
                 },
+<<<<<<< HEAD
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+=======
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'shipping' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'height' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'width' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'length' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'weight' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'releasedAt' } },
+>>>>>>> origin/admin-product-listing
               ],
             },
           },
@@ -5095,6 +6255,39 @@ export const CategoriesDocument = {
     },
   ],
 } as unknown as DocumentNode<CategoriesQuery, CategoriesQueryVariables>;
+<<<<<<< HEAD
+=======
+export const SpecificationsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'Specifications' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'specifications' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'key' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<SpecificationsQuery, SpecificationsQueryVariables>;
+>>>>>>> origin/admin-product-listing
 export const CreateProductDocument = {
   kind: 'Document',
   definitions: [
@@ -5199,6 +6392,13 @@ export const CreateProductDocument = {
                     selections: [
                       {
                         kind: 'Field',
+<<<<<<< HEAD
+=======
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
+>>>>>>> origin/admin-product-listing
                         name: { kind: 'Name', value: 'location_code' },
                       },
                       {
@@ -5299,7 +6499,14 @@ export const CreateProductDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+<<<<<<< HEAD
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+=======
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+>>>>>>> origin/admin-product-listing
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'feature' },
@@ -5307,6 +6514,35 @@ export const CreateProductDocument = {
                     ],
                   },
                 },
+<<<<<<< HEAD
+=======
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'shipping' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'width' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'height' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'weight' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'length' },
+                      },
+                    ],
+                  },
+                },
+>>>>>>> origin/admin-product-listing
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
@@ -5327,7 +6563,11 @@ export const CustomProductUpdateDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
+<<<<<<< HEAD
       name: { kind: 'Name', value: 'CustomProductUpdate' },
+=======
+      name: { kind: 'Name', value: 'customProductUpdate' },
+>>>>>>> origin/admin-product-listing
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -5390,6 +6630,7 @@ export const CustomProductUpdateDocument = {
                 },
                 {
                   kind: 'Field',
+<<<<<<< HEAD
                   name: { kind: 'Name', value: 'categories' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -5434,6 +6675,8 @@ export const CustomProductUpdateDocument = {
                 },
                 {
                   kind: 'Field',
+=======
+>>>>>>> origin/admin-product-listing
                   name: { kind: 'Name', value: 'brand' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -5466,6 +6709,17 @@ export const CustomProductUpdateDocument = {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'height' },
                             },
+<<<<<<< HEAD
+=======
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'mime' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'url' },
+                            },
+>>>>>>> origin/admin-product-listing
                           ],
                         },
                       },
@@ -5474,6 +6728,30 @@ export const CustomProductUpdateDocument = {
                 },
                 {
                   kind: 'Field',
+<<<<<<< HEAD
+=======
+                  name: { kind: 'Name', value: 'inventories' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'location_code' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'quantity' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+>>>>>>> origin/admin-product-listing
                   name: { kind: 'Name', value: 'price_lists' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -5504,7 +6782,11 @@ export const CustomProductUpdateDocument = {
                 },
                 {
                   kind: 'Field',
+<<<<<<< HEAD
                   name: { kind: 'Name', value: 'inventories' },
+=======
+                  name: { kind: 'Name', value: 'files' },
+>>>>>>> origin/admin-product-listing
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
@@ -5512,6 +6794,7 @@ export const CustomProductUpdateDocument = {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'documentId' },
                       },
+<<<<<<< HEAD
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'location_code' },
@@ -5519,6 +6802,34 @@ export const CustomProductUpdateDocument = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'quantity' },
+=======
+                      { kind: 'Field', name: { kind: 'Name', value: 'mime' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'alternativeText' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'images' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'mime' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'alternativeText' },
+>>>>>>> origin/admin-product-listing
                       },
                     ],
                   },
@@ -5540,6 +6851,7 @@ export const CustomProductUpdateDocument = {
                 },
                 {
                   kind: 'Field',
+<<<<<<< HEAD
                   name: { kind: 'Name', value: 'files' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -5574,11 +6886,20 @@ export const CustomProductUpdateDocument = {
                 },
                 {
                   kind: 'Field',
+=======
+>>>>>>> origin/admin-product-listing
                   name: { kind: 'Name', value: 'key_features' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+<<<<<<< HEAD
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+=======
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+>>>>>>> origin/admin-product-listing
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'feature' },
@@ -5586,6 +6907,306 @@ export const CustomProductUpdateDocument = {
                     ],
                   },
                 },
+<<<<<<< HEAD
+=======
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'shipping' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'width' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'height' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'weight' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'length' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'releasedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'improvedBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'madeBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CustomProductUpdateMutation,
+  CustomProductUpdateMutationVariables
+>;
+export const CreatePriceDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreatePrice' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'PriceInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createPrice' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'sale_price' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'min_quantity' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'max_quantity' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'user_level' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CreatePriceMutation, CreatePriceMutationVariables>;
+export const UpdatePriceDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdatePrice' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'PriceInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updatePrice' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'sale_price' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'min_quantity' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'max_quantity' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'user_level' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<UpdatePriceMutation, UpdatePriceMutationVariables>;
+export const DeletePriceDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeletePrice' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deletePrice' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<DeletePriceMutation, DeletePriceMutationVariables>;
+export const CreateInventoryDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateInventory' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'InventoryInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createInventory' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'location_code' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'quantity' } },
+>>>>>>> origin/admin-product-listing
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
@@ -5597,8 +7218,505 @@ export const CustomProductUpdateDocument = {
     },
   ],
 } as unknown as DocumentNode<
+<<<<<<< HEAD
   CustomProductUpdateMutation,
   CustomProductUpdateMutationVariables
+=======
+  CreateInventoryMutation,
+  CreateInventoryMutationVariables
+>;
+export const UpdateInventoryDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateInventory' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'InventoryInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateInventory' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'location_code' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'quantity' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateInventoryMutation,
+  UpdateInventoryMutationVariables
+>;
+export const DeleteInventoryDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteInventory' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteInventory' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteInventoryMutation,
+  DeleteInventoryMutationVariables
+>;
+export const CreateSpecificationDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateSpecification' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'SpecificationInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createSpecification' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'key' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateSpecificationMutation,
+  CreateSpecificationMutationVariables
+>;
+export const UpdateSpecificationDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateSpecification' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'SpecificationInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateSpecification' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'key' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateSpecificationMutation,
+  UpdateSpecificationMutationVariables
+>;
+export const DeleteSpecificationDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteSpecification' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteSpecification' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteSpecificationMutation,
+  DeleteSpecificationMutationVariables
+>;
+export const CreateKeyFeatureDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateKeyFeature' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'KeyFeatureInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createKeyFeature' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'feature' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateKeyFeatureMutation,
+  CreateKeyFeatureMutationVariables
+>;
+export const UpdateKeyFeatureDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateKeyFeature' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'KeyFeatureInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateKeyFeature' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'feature' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateKeyFeatureMutation,
+  UpdateKeyFeatureMutationVariables
+>;
+export const DeleteKeyFeatureDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteKeyFeature' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteKeyFeature' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteKeyFeatureMutation,
+  DeleteKeyFeatureMutationVariables
+>>>>>>> origin/admin-product-listing
 >;
 export const UsersPermissionsUserDocument = {
   kind: 'Document',
@@ -5708,10 +7826,13 @@ export const UsersPermissionsUserDocument = {
                             },
                             {
                               kind: 'Field',
+<<<<<<< HEAD
                               name: { kind: 'Name', value: 'quote_needed' },
                             },
                             {
                               kind: 'Field',
+=======
+>>>>>>> origin/admin-product-listing
                               name: { kind: 'Name', value: 'price_lists' },
                               selectionSet: {
                                 kind: 'SelectionSet',
@@ -6446,6 +8567,7 @@ export const UpdateUserDocument = {
     },
   ],
 } as unknown as DocumentNode<UpdateUserMutation, UpdateUserMutationVariables>;
+<<<<<<< HEAD
 =======
 export type UpdateUserMutation = { __typename?: 'Mutation', updateUser?: { __typename?: 'UsersPermissionsUser', account_status?: Enum_Userspermissionsuser_Account_Status | null } | null };
 
@@ -6488,4 +8610,6 @@ export const LoginDocument = {"kind":"Document","definitions":[{"kind":"Operatio
 export const RegisterUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RegisterUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RegisterUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"registerUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}}]}}]}}]} as unknown as DocumentNode<RegisterUserMutation, RegisterUserMutationVariables>;
 export const ApprovedUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ApprovedUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ApprovedUserInput"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"documentId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"approvedUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}},{"kind":"Argument","name":{"kind":"Name","value":"documentId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"documentId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<ApprovedUserMutation, ApprovedUserMutationVariables>;
 export const UpdateUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"documentId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UsersPermissionsUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"documentId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"documentId"}}},{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"account_status"}}]}}]}}]} as unknown as DocumentNode<UpdateUserMutation, UpdateUserMutationVariables>;
+>>>>>>> origin/admin-product-listing
+=======
 >>>>>>> origin/admin-product-listing

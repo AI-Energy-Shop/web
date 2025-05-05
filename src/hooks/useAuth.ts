@@ -93,8 +93,12 @@ const useAuth = () => {
             setCarts([
               ...data?.user?.carts?.map?.((cart) => ({
                 documentId: cart?.documentId || '',
+<<<<<<< HEAD
                 product: cart?.product,
+=======
+>>>>>>> origin/admin-product-listing
                 quantity: cart?.quantity || 0,
+                product: cart?.product as ProductQuery['product'],
               })),
             ])
           );

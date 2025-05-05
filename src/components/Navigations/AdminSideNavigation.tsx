@@ -13,7 +13,11 @@ const AdminSideNavigation = () => {
         <div className="w-full p-4">
           <h1>AI ENERGY</h1>
         </div>
-        <NavList showIcon={true} data={ADMIN_SIDE_NAVIGATIONS} className="h-full flex-col items-baseline" />
+        <NavList
+          showIcon={true}
+          data={ADMIN_SIDE_NAVIGATIONS}
+          className="h-full flex-col items-baseline"
+        />
         <Profile user={me} handleLogout={() => {}} />
       </div>
     </aside>

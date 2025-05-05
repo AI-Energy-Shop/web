@@ -7,8 +7,6 @@ import PageTitle from '@/components/products/PageTitle';
 import Brands from '@/components/products/Brands';
 import { products } from '@/app/actions/products';
 import { COLLECTIONS } from '@/constant/collections';
-import { Suspense } from 'react';
-import { Loader2 } from 'lucide-react';
 
 export default async function CollectionsPage({
   searchParams,
@@ -29,21 +27,13 @@ export default async function CollectionsPage({
 
   return (
     <div className="w-full min-h-screen">
-      <Suspense
-        fallback={
-          <div className="flex items-center justify-center min-h-[400px]">
-            <Loader2 className="w-8 h-8 animate-spin" />
-          </div>
-        }
-      >
-        <Breadcrumb />
-        <Categories acceptedCollections={COLLECTIONS} />
-        <div className="max-w-[1200px] mx-auto p-5 md:p-5 lg:p-5 flex flex-col gap-5 lg:gap-5">
-          <PageTitle />
-          <Brands />
-          <ProductList data={data?.products} page={page} pageSize={pageSize} />
-        </div>
-      </Suspense>
+      <Breadcrumb />
+      <Categories acceptedCollections={COLLECTIONS} />
+      <div className="max-w-[1200px] mx-auto p-5 md:p-5 lg:p-5 flex flex-col gap-5 lg:gap-5">
+        <PageTitle />
+        <Brands />
+        <ProductList data={data?.products} page={page} pageSize={pageSize} />
+      </div>
     </div>
   );
 }

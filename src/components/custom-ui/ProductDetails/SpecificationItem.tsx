@@ -12,7 +12,11 @@ import {
   CommandInput,
   CommandItem,
 } from '@/components/ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 interface SpecificationItemProps {
   index?: number;
@@ -124,7 +128,11 @@ const SpecificationItem: FC<SpecificationItemProps> = ({
                       option.toLowerCase().includes(inputValue.toLowerCase())
                     )
                     .map((option) => (
-                      <CommandItem key={option} value={option} onSelect={handleSelect}>
+                      <CommandItem
+                        key={option}
+                        value={option}
+                        onSelect={handleSelect}
+                      >
                         <Check
                           className={cn(
                             'mr-2 h-4 w-4',
