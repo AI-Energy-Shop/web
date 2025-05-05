@@ -21,7 +21,7 @@ const KeyFeatureItem = ({
   onRemove: (index?: number, title?: any) => void;
 }) => {
   return (
-    <div className="border rounded-md flex justify-between gap-5 py-5 px-3 group">
+    <div className="border rounded-md flex justify-between gap-5 px-3 py-2 group">
       <Input
         type="text"
         data-index={index}
@@ -30,15 +30,11 @@ const KeyFeatureItem = ({
         name="feature"
         value={item?.feature || ''}
         onChange={onChange}
-        className="outline-none border-none shadow-none"
+        className="text-xs outline-none border-none shadow-none"
       />
       <div className="hidden group-hover:block">
-        <Button
-          onClick={() => onRemove(index, title)}
-          size="icon"
-          className="relative right-0"
-        >
-          <Trash2 className="h-3 w-3" />
+        <Button onClick={() => onRemove(index, title)} size="sm" className="relative right-0">
+          <Trash2 className="h-4 w-4" />
         </Button>
       </div>
     </div>

@@ -13,7 +13,7 @@ interface ProfileProps {
 
 const Profile = ({ user, handleLogout }: ProfileProps) => {
   return (
-    <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+    <div className="p-4 border-t border-gray-200 dark:border-gray-700">
       <div className="flex items-center space-x-4">
         <Avatar>
           {/* <AvatarImage src="/placeholder-avatar.jpg" alt="User Avatar" /> */}

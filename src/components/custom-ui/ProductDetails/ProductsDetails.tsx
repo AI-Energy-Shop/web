@@ -1,16 +1,14 @@
 'use client';
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Switch } from '@/components/ui/switch';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-
-import ListInput from './ListInput';
-import InventoryItem from './InventoryItem';
-import PriceListItem from './PriceListItem';
-import { objectIsEqual } from '@/lib/utils';
+import { Form } from '@/components/ui/form';
+import { FormField } from '@/components/ui/form';
+import { FormLabel } from '@/components/ui/form';
+import { FormControl } from '@/components/ui/form';
+import { FormMessage } from '@/components/ui/form';
+import { FormItem } from '@/components/ui/form';
 import {
   Select,
   SelectContent,
@@ -21,21 +19,25 @@ import {
 import { ChevronLeft, Loader2 } from 'lucide-react';
 import RichTextEditor from '@/components/RichTextEditor/RichTextEditor';
 import FileUpload from '../Upload/FileUpload';
-import SpecificationItem from './SpecificationItem';
-import useProductDetails from './useProductDetails';
-import KeyFeatureItem from './KeyFeatureItem';
+import useProductDetails from '../../../hooks/useProductDetails';
 import { ProductQuery } from '@/lib/gql/graphql';
+import ListInput from './ListInput';
+import InventoryItem from './InventoryItem';
+import PriceListItem from './PriceListItem';
+import { Button } from '@/components/ui/button';
+import SpecificationItem from './SpecificationItem';
+import { SPECIFICATION_KEYS } from '@/constant';
 
 const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
   const {
     loading,
-    productCopy,
-    currentProduct,
+    images,
+    files,
+    addProductForm,
     handleDiscardChanges,
     handleAddInventoryItem,
     handleAddPriceItem,
     handleClickSave,
-    handleInputChange,
     handleDescriptionChange,
     handleImageRemove,
     handleImagesSelected,
@@ -43,11 +45,11 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
     handleFilesSelected,
     handleAddSpecsItem,
     handleOnInputChange,
-    handleSaveCurrentSpecs,
+    handleSaveOrSaveCurrentSpecs,
     onRemoveList,
-    handleSaveCurrentInventory,
+    handleSaveOrUpdateInventoryList,
     onChangeInventoryInputLocation,
-    handleSaveCurrentPrices,
+    handleSaveOrUpdatePriceList,
     onChangePriceUserLevel,
     handleProductStatusChange,
     handleAddKeyFeatureItem,
@@ -55,226 +57,267 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
   } = useProductDetails(product);
 
   return (
-    <div className="relative w-full">
-      {/* HEADER */}
-      <div className="w-full bg-white flex items-center justify-between p-2">
-        <div className="flex items-center space-x-2">
-          <Link href="/admin/dashboard/products">
-            <ChevronLeft className="h-4 w-4" />
-          </Link>
-          <h1 className="text-base font-bold">{currentProduct?.name}</h1>
-        </div>
-        <div className="flex items-center space-x-2">
-          {/* <Select
-            onValueChange={handleProductStatusChange}
-            value={currentProduct?.status}
-            defaultValue="draft"
-          >
-            <SelectTrigger className="min-w-[150px]">
-              <SelectValue placeholder="Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="draft">
-                <p className="text-sm">Draft</p>
-              </SelectItem>
-              <SelectItem value="published">
-                <p className="text-sm">Publish</p>
-              </SelectItem>
-            </SelectContent>
-          </Select> */}
+    <Form {...addProductForm}>
+      <form onSubmit={addProductForm.handleSubmit(handleClickSave)}>
+        <div className="relative w-full">
+          {/* HEADER */}
+          <div className="w-full bg-white flex items-center justify-between p-5">
+            <div className="flex items-center space-x-2">
+              <Link href="/admin/products">
+                <ChevronLeft className="h-4 w-4" />
+              </Link>
+              <h1 className="text-base font-bold">{addProductForm.watch('name')}</h1>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Select
+                value={addProductForm.watch('publishedAt') ? 'published' : 'draft'}
+                onValueChange={handleProductStatusChange}
+              >
+                <SelectTrigger className="min-w-[150px]">
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="draft">
+                    <p className="text-sm">Draft</p>
+                  </SelectItem>
+                  <SelectItem value="published">
+                    <p className="text-sm">Published</p>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
 
-          {/* {!objectIsEqual(productCopy, currentProduct) && (
-            <>
-              <Button variant="destructive" onClick={handleDiscardChanges}>
-                Discard
-              </Button>
-              <Button disabled={loading} onClick={handleClickSave}>
-                {loading ? (
-                  <>
-                    <Loader2 className="animate-spin" />
-                    Please wait...
-                  </>
-                ) : !product ? (
-                  'Save'
-                ) : (
-                  'Update'
-                )}
-              </Button>
-            </>
-          )} */}
-        </div>
-      </div>
+              {addProductForm.formState.isDirty && (
+                <>
+                  <Button size="sm" variant="destructive" onClick={handleDiscardChanges}>
+                    Discard
+                  </Button>
+                  <Button size="sm" disabled={loading} onClick={handleClickSave}>
+                    {loading && (
+                      <>
+                        <Loader2 className="animate-spin" />
+                        Please wait...
+                      </>
+                    )}
+                    {!loading && (
+                      <>{addProductForm.watch('publishedAt') ? 'Update' : 'Save'}</>
+                    )}
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
 
-      {/* BODY */}
-      <div className="w-full h-auto grid grid-cols-3 gap-2 px-2 bg-white">
-        <div className="w-full h-auto col-span-2 flex flex-col gap-2 pb-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Product Details</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col gap-5">
-                <div>
-                  <Label htmlFor="title">Title</Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    onChange={handleInputChange}
-                    value={currentProduct?.name}
-                    placeholder="Enter product title"
+          {/* BODY */}
+          <div className="w-full h-auto grid grid-cols-6 gap-5 p-5 bg-white">
+            <div className="w-full h-auto col-span-4 flex flex-col gap-5 pb-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Product Details</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-5">
+                    <FormField
+                      control={addProductForm.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel>Title</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={addProductForm.control}
+                      name="model"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel>Model</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={addProductForm.control}
+                      name="odoo_product_id"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel>ODOO ID</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <FormField
+                    control={addProductForm.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Description</FormLabel>
+                        <FormControl>
+                          <RichTextEditor
+                            description={field.value}
+                            setDescription={field.onChange}
+                            iconSize={15}
+                            className="min-h-[200px] m-2 focus:outline-none"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                <div className="min-h-[300px]">
-                  <Label htmlFor="description">Description</Label>
-                  <RichTextEditor
-                    description={currentProduct?.description || ''}
-                    setDescription={handleDescriptionChange}
-                    iconSize={15}
-                    className="min-h-[200px] m-2 focus:outline-none"
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Media</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <FileUpload
+                    accept="image/*"
+                    data={images}
+                    dataModalFilters={{
+                      mimeTypes: [
+                        'image/jpeg',
+                        'image/png',
+                        'image/gif',
+                        'image/webp',
+                        'image/jpg',
+                        'image/svg+xml',
+                      ],
+                    }}
+                    uploadNewFileLabel="Upload new Image"
+                    useExistingButtonLabel="Use existing Image"
+                    onFileRemove={handleImageRemove}
+                    onSelectedFiles={handleImagesSelected}
                   />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+                </CardContent>
+              </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Media</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {/* <FileUpload
-                accept="image/*"
-                data={currentProduct?.images || []}
-                dataModalFilters={{
-                  mimeTypes: [
-                    'image/jpeg',
-                    'image/png',
-                    'image/gif',
-                    'image/webp',
-                    'image/jpg',
-                    'image/svg+xml',
-                  ],
-                }}
-                uploadNewFileLabel="Upload new Image"
-                useExistingButtonLabel="Use existing Image"
-                onFileRemove={handleImageRemove}
-                onSelectedFiles={handleImagesSelected}
-              /> */}
-            </CardContent>
-          </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Files</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <FileUpload
+                    data={files}
+                    accept="application/pdf"
+                    uploadNewFileLabel="Upload new File"
+                    useExistingButtonLabel="Use existing File"
+                    dataModalFilters={{
+                      mimeTypes: ['application/pdf'],
+                    }}
+                    onFileRemove={handleFileRemove}
+                    onSelectedFiles={handleFilesSelected}
+                  />
+                </CardContent>
+              </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Files</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {/* <FileUpload
-                data={currentProduct?.files || []}
-                accept="application/pdf"
-                uploadNewFileLabel="Upload new File"
-                useExistingButtonLabel="Use existing File"
-                dataModalFilters={{ mimeTypes: ['application/pdf'] }}
-                onFileRemove={handleFileRemove}
-                onSelectedFiles={handleFilesSelected}
-              /> */}
-            </CardContent>
-          </Card>
-
-          <ListInput
-            title="Key Features"
-            data={currentProduct?.key_features || []}
-            addButtonLabel="Add"
-            onAddList={handleAddKeyFeatureItem}
-            onChange={handleOnInputChange}
-            onSave={handleSaveCurrentKeyFeatures}
-            childComponent={<KeyFeatureItem onRemove={onRemoveList} />}
-          />
-
-          <ListInput
-            title="Specification"
-            data={currentProduct?.specifications || []}
-            addButtonLabel="Add"
-            onAddList={handleAddSpecsItem}
-            onChange={handleOnInputChange}
-            onSave={handleSaveCurrentSpecs}
-            childComponent={<SpecificationItem onRemove={onRemoveList} />}
-          />
-
-          <ListInput
-            title="Inventory"
-            data={currentProduct?.inventories || []}
-            addButtonLabel="Add"
-            onAddList={handleAddInventoryItem}
-            onChange={handleOnInputChange}
-            onSave={handleSaveCurrentInventory}
-            childComponent={
-              <InventoryItem
-                onRemove={onRemoveList}
-                onChangeSelectLocation={onChangeInventoryInputLocation}
+              <ListInput
+                title="Price Lists"
+                formData={addProductForm.watch('price_lists')}
+                addButtonLabel="Add"
+                onAddList={handleAddPriceItem}
+                stayExpanded={false}
+                childComponent={
+                  <PriceListItem
+                    currency={'$'}
+                    onRemove={onRemoveList}
+                    onSelectChange={onChangePriceUserLevel}
+                    onChange={handleOnInputChange}
+                  />
+                }
               />
-            }
-          />
 
-          <ListInput
-            title="Price List"
-            data={currentProduct?.price_lists || []}
-            addButtonLabel="Add"
-            onAddList={handleAddPriceItem}
-            onChange={handleOnInputChange}
-            onSave={handleSaveCurrentPrices}
-            childComponent={
-              <PriceListItem
-                onRemove={onRemoveList}
-                onSelectChange={onChangePriceUserLevel}
+              <ListInput
+                title="Inventories"
+                formData={addProductForm.watch('inventories')}
+                addButtonLabel="Add"
+                onAddList={handleAddInventoryItem}
+                stayExpanded={false}
+                childComponent={
+                  <InventoryItem
+                    onRemove={onRemoveList}
+                    onChange={handleOnInputChange}
+                    onChangeSelectLocation={onChangeInventoryInputLocation}
+                  />
+                }
               />
-            }
-          />
-        </div>
 
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>ODOO Details</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="product-type">Reference ID</Label>
-                <Input
-                  id="odoo_product_id"
-                  name="odoo_product_id"
-                  placeholder="Enter product odoo id"
-                  onChange={handleInputChange}
-                  value={currentProduct?.odoo_product_id || ''}
-                />
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Organization</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="product-type">Product Category</Label>
-                <Input
-                  id="category"
-                  name="category"
-                  placeholder="Enter product category"
-                  onChange={handleInputChange}
-                  value={`${currentProduct?.categories?.[0]?.slug}`}
-                />
-              </div>
-              <div>
-                <Label htmlFor="vendor">Vendor</Label>
-                <Input
-                  id="vendor"
-                  name="vendor"
-                  placeholder="Enter vendor name"
-                  value={currentProduct?.vendor || ''}
-                  onChange={handleInputChange}
-                />
-              </div>
-              {/* <div>
+              <ListInput
+                title="Specifications"
+                formData={addProductForm.watch('specifications')}
+                addButtonLabel="Add"
+                onAddList={handleAddSpecsItem}
+                stayExpanded={true}
+                childComponent={
+                  <SpecificationItem
+                    options={SPECIFICATION_KEYS}
+                    onChange={handleOnInputChange}
+                    onRemove={onRemoveList}
+                  />
+                }
+              />
+              {/* <ListInput
+                title="Key Features"
+                formData={addProductForm.watch('key_features')}
+                addButtonLabel="Add"
+                onAddList={handleAddKeyFeatureItem}
+                onChange={handleOnInputChange}
+                onSave={handleSaveCurrentKeyFeatures}
+                onCancel={() => {}}
+                childComponent={<KeyFeatureItem onRemove={onRemoveList} />}
+              /> */}
+            </div>
+
+            <div className="w-full h-auto col-span-2 space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Other Details</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4"></CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Product Organization</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <FormField
+                    control={addProductForm.control}
+                    name="product_type"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Product Type</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={addProductForm.control}
+                    name="vendor"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Vendor</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {/* <div>
                 <Label htmlFor="collections">Collections</Label>
                 <Input
                   id="collections"
@@ -294,27 +337,13 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                   value={currentProduct?.tags || ''}
                 />
               </div> */}
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Settings</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="online-store">Online Store</Label>
-                <Switch id="online-store" />
-              </div>
-              <div className="flex items-center justify-between">
-                <Label htmlFor="point-of-sale">Point of Sale</Label>
-                <Switch id="point-of-sale" />
-              </div>
-            </CardContent>
-          </Card>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </form>
+    </Form>
   );
 };
 

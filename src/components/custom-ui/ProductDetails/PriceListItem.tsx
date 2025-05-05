@@ -11,6 +11,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from '@/components/ui/card';
 
 interface PriceListItem {
   onRemove: (index?: number, title?: any) => void;
@@ -26,6 +33,7 @@ interface PriceListItem {
     max_quantity: string;
     user_level: string;
   };
+  currency: string;
 }
 
 const PriceListItem: React.FC<PriceListItem> = ({
@@ -35,15 +43,17 @@ const PriceListItem: React.FC<PriceListItem> = ({
   index,
   item,
   title,
+  currency,
 }) => {
   return (
-    <div className="grid gap-4 p-4 border rounded-lg relative">
-      <div>
+    <Card className="group">
+      <CardHeader></CardHeader>
+      <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="space-y-2">
             <Label htmlFor={`price-${index}`}>Sale Price</Label>
-            <div className="relative">
-              <span className="absolute left-3 top-2.5">$</span>
+            <div className="flex items-center justify-between gap-1 p-1 border rounded-md">
+              <span>{currency}</span>
               <Input
                 id={`sale-price-${index}`}
                 type="number"
@@ -51,7 +61,8 @@ const PriceListItem: React.FC<PriceListItem> = ({
                 data-index={index}
                 data-title={title}
                 placeholder="0.00"
-                className="pl-7"
+                className="border-none focus:outline-none focus:ring-0 focus:border-none"
+                style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
                 value={item?.sale_price || ''}
                 onChange={onChange}
               />
@@ -59,8 +70,8 @@ const PriceListItem: React.FC<PriceListItem> = ({
           </div>
           <div className="space-y-2">
             <Label htmlFor={`price-${index}`}>Price</Label>
-            <div className="relative">
-              <span className="absolute left-3 top-2.5">$</span>
+            <div className="flex items-center justify-between gap-1 p-1 border rounded-md">
+              <span>{currency}</span>
               <Input
                 id={`price-${index}`}
                 type="number"
@@ -68,7 +79,8 @@ const PriceListItem: React.FC<PriceListItem> = ({
                 data-index={index}
                 data-title={title}
                 placeholder="0.00"
-                className="pl-7"
+                className="border-none focus:outline-none focus:ring-0 focus:border-none"
+                style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
                 value={item?.price || ''}
                 onChange={onChange}
               />
@@ -125,15 +137,17 @@ const PriceListItem: React.FC<PriceListItem> = ({
             </Select>
           </div>
         </div>
-      </div>
-      <Button
-        onClick={() => onRemove(index, title)}
-        size="icon"
-        className="relative right-0"
-      >
-        <Trash2 className="h-3 w-3" />
-      </Button>
-    </div>
+      </CardContent>
+      <CardFooter className="flex justify-end">
+        <Button
+          onClick={() => onRemove(index, title)}
+          size="icon"
+          className="group-hover:visible invisible relative right-0"
+        >
+          <Trash2 className="h-3 w-3" />
+        </Button>
+      </CardFooter>
+    </Card>
   );
 };
 
