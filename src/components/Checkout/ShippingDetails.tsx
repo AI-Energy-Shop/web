@@ -88,6 +88,10 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
       isTrue = true;
     }
 
+    if (shippingType === 'delivery' && !deliveryOptions) {
+      isTrue = true;
+    }
+
     if (
       shippingType === 'delivery' &&
       deliveryOptions?.type === 'manual' &&
@@ -101,6 +105,10 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
       deliveryOptions?.type === 'auto' &&
       !deliveryOptions?.macshipData
     ) {
+      isTrue = true;
+    }
+
+    if (shippingType === 'pickup' && !pickUpOptions?.date) {
       isTrue = true;
     }
 
