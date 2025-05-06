@@ -88,7 +88,6 @@ const schema = {
             odoo_product_id
             name
             model
-            quote_needed
             price_lists {
               price
               sale_price
@@ -129,7 +128,6 @@ const schema = {
             name
             model
             odoo_product_id
-            quote_needed
             price_lists {
               price
               sale_price

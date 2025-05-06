@@ -12,6 +12,7 @@ import {
 } from '@/lib/validation-schema/auth-forms';
 import { useState } from 'react';
 import { useAppDispatch } from '@/store/store';
+import { ProductQuery } from '@/lib/gql/graphql';
 const useAuth = () => {
   const router = useRouter();
   const { toast } = useToast();
@@ -93,10 +94,6 @@ const useAuth = () => {
             setCarts([
               ...data?.user?.carts?.map?.((cart) => ({
                 documentId: cart?.documentId || '',
-<<<<<<< HEAD
-                product: cart?.product,
-=======
->>>>>>> origin/admin-product-listing
                 quantity: cart?.quantity || 0,
                 product: cart?.product as ProductQuery['product'],
               })),

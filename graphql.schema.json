@@ -19557,14 +19557,6 @@
             "deprecationReason": null
           },
           {
-<<<<<<< HEAD
-            "name": "quote_needed",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-=======
             "name": "removedBy",
             "description": null,
             "args": [],
@@ -19583,7 +19575,6 @@
             "type": {
               "kind": "OBJECT",
               "name": "Shipping",
->>>>>>> origin/admin-product-listing
               "ofType": null
             },
             "isDeprecated": false,
@@ -20143,15 +20134,11 @@
             "deprecationReason": null
           },
           {
-<<<<<<< HEAD
-            "name": "quote_needed",
-=======
             "name": "releasedAt",
->>>>>>> origin/admin-product-listing
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "BooleanFilterInput",
+              "name": "DateTimeFilterInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -20463,15 +20450,11 @@
             "deprecationReason": null
           },
           {
-<<<<<<< HEAD
-            "name": "quote_needed",
-=======
             "name": "releasedAt",
->>>>>>> origin/admin-product-listing
             "description": null,
             "type": {
               "kind": "SCALAR",
-              "name": "Boolean",
+              "name": "DateTime",
               "ofType": null
             },
             "defaultValue": null,

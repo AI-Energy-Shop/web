@@ -34,9 +34,7 @@ const useCart = () => {
     (state: RootState) => state.cart.showCartWindow
   );
 
-  const isCartNeededManualQuote = carts.some(
-    (cart) => cart.product.quote_needed === true
-  );
+  const isCartNeededManualQuote = carts.some((cart) => false);
 
   const addToCart = async (data: {
     product: string;
