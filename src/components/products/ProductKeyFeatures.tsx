@@ -17,7 +17,7 @@ function ProductKeyFeatures({ data }: ProductKeyFeaturesProps) {
       </h1>
       <ul className="list-disc px-4 md:px-0">
         {keyFeatures?.map((feature) => (
-          <li key={feature?.id}>{feature?.feature}</li>
+          <li key={feature?.documentId}>{feature?.feature}</li>
         ))}
       </ul>
     </div>

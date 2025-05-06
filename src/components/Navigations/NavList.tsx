@@ -1,32 +1,60 @@
+'use client';
 import React from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import Icon from '../Icon';
+
+type Data = {
+  id: number;
+  label: string;
+  href: string;
+  icon: any;
+  enabled: boolean;
+};
 
 interface NavListProps {
-  data: any[];
+  data: Data[];
   className?: string;
+  showIcon?: boolean;
 }
 
-const NavList = ({ data, className }: NavListProps) => {
+const NavList = ({ data, className, showIcon = false }: NavListProps) => {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleClick = (item: Data) => {
+    if (item.enabled) {
+      router.push(item.href);
+    }
+  };
 
   return (
     <nav
-      className={`hidden items-end h-full text-sm font-medium gap-3 lg:flex ${className}`}
+      className={`px-4 hidden items-end h-full text-sm font-medium gap-3 lg:flex ${className}`}
     >
-      {data.map((item, index) => {
+      {data.map((item) => {
         const isPath = pathname === item.href;
         return (
-          <Link
-            key={index}
-            href={item.href}
-            className={`transition-colors hover:text-primary  ${
-              isPath ? 'border-b-2 border-red-500 font-bold' : 'font-normal'
-            }`}
+          <div
+            key={item.id}
+            onClick={() => handleClick(item)}
+            className={`transition-all duration-100 hover:text-primary group ${
+              item.enabled ? 'cursor-pointer' : 'cursor-not-allowed'
+            } ${isPath ? 'border-b-2 border-red-500 font-bold' : 'font-normal'}`}
           >
-            {item.label}
-            <div className="gradientbar w-full h-[4px] bg-transparent ease-in-out duration-300 opacity-0" />
-          </Link>
+            <div className="flex items-center gap-2">
+              {showIcon && (
+                <div className="w-5 h-5 flex items-center justify-center">
+                  <Icon
+                    name={item.icon}
+                    size={15}
+                    className="transition-all duration-200 group-hover:scale-110"
+                  />
+                </div>
+              )}
+              {item.label}
+            </div>
+            <div className="gradientbar w-full h-[4px] bg-gradient-to-r from-primary/50 to-primary/20 ease-in-out duration-300 opacity-0 group-hover:opacity-100" />
+          </div>
         );
       })}
     </nav>

@@ -11,19 +11,25 @@ import { setPaymentStep, setCarts } from '@/store/features/cart';
 import { Check, FilePenLine } from 'lucide-react';
 import { Textarea } from '../ui/textarea';
 import ModalWrapper from './ModalWrapper';
-import { useDispatch } from 'react-redux';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useCart from '@/hooks/useCart';
 import { Button } from '../ui/button';
 import CartItems from './CartItems';
 import { Input } from '../ui/input';
 import { cn } from '@/lib/utils';
 import { updateCartProductQuantity } from '@/app/actions/cart';
+import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
+import { useCheckout } from '@/hooks/useCheckout';
+import { useAppDispatch } from '@/store/hooks';
 
-interface ReviewItemsProps {}
+interface ReviewItemsProps {
+  checkoutUserData: GetCheckoutUserDataQuery;
+}
 
-const ReviewItems: React.FC<ReviewItemsProps> = () => {
-  const dispatch = useDispatch();
+const ReviewItems: React.FC<ReviewItemsProps> = ({
+  checkoutUserData: cartProductQuantity,
+}) => {
+  const dispatch = useAppDispatch();
   const { carts, paymentStep, removeItemFromCart } = useCart();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [toRemoveItemId, setToRemoveItemId] = useState<string | undefined>(
@@ -31,13 +37,60 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   );
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
   const DEBOUNCE_DELAY = 1500;
+  const { warehouseLocation, setWarehouseLocation } = useCheckout();
+  const checkIfProductLocationQuantityIsOkToProceed = () => {
+    const productWithNoStockInCurrentLocation =
+      cartProductQuantity.usersPermissionsUser?.carts.find((cartItem) => {
+        return cartItem?.product?.inventories.find((locationQuantity) => {
+          if (
+            locationQuantity?.name?.toLowerCase() ===
+              warehouseLocation?.name?.toLowerCase() &&
+            locationQuantity?.quantity! <= 0
+          ) {
+            return true;
+          }
+        });
+      });
+
+    return productWithNoStockInCurrentLocation ? true : false;
+  };
+
+  useEffect(() => {
+    dispatch(setPaymentStep(1));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const checkIfCartQuantityIsExceeded = () => {
+    const isThereExceededCart =
+      cartProductQuantity?.usersPermissionsUser?.carts?.filter((cart) => {
+        const cartQty = carts?.find(
+          (staleCart) => staleCart.documentId === cart?.documentId
+        )?.quantity;
+
+        const productLocationInventory = cart?.product?.inventories?.find(
+          (loc) =>
+            loc?.name?.toLowerCase() === warehouseLocation?.name?.toLowerCase()
+        );
+
+        if ((cartQty || 0) > (productLocationInventory?.quantity || 0)) {
+          return true;
+        }
+
+        return false;
+      });
+
+    return (isThereExceededCart?.length || 0) > 0;
+  };
 
   const handleEditClick = () => {
     dispatch(setPaymentStep(1));
   };
 
   const handleLocationChange = (value: string) => {
-    // Handle location change
+    const productLocation = WAREHOUSE_LOCATIONS.find(
+      (location) => location.id === Number(value)
+    );
+    setWarehouseLocation(productLocation!);
   };
 
   const handleContinueClick = () => {
@@ -193,7 +246,11 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
   const renderButton = () => (
     <div className="ae-mobile-container px-2 mt-4 lg:bg-white lg:-mt-4 py-4">
       <Button
-        disabled={carts.length === 0}
+        disabled={
+          carts.length === 0 ||
+          checkIfProductLocationQuantityIsOkToProceed() ||
+          checkIfCartQuantityIsExceeded()
+        }
         className="mx-auto px-12 block rounded-2xl bg-pink-darker-pink hover:bg-pink-darker-pink/90"
         onClick={handleContinueClick}
       >
@@ -227,6 +284,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = () => {
             </Select>
           </div>
           <CartItems
+            cartProductQuantity={cartProductQuantity}
             data={carts}
             onChange={handleChange}
             onReduceQuant={handleReduceQuant}

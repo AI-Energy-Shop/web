@@ -11,10 +11,11 @@ import {
   CardHeader,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ModalProps, FileType } from './types';
+import { FileType, ModalProps } from './types';
+import { UploadFile } from '@/hooks/useProductDetails';
 
 const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
-  const [selectedImageIds, setSelectedImageIds] = useState<FileType[]>([]);
+  const [selectedImageIds, setSelectedImageIds] = useState<UploadFile[]>([]);
   const [files, setFiles] = useState<any[]>([]);
   const { loading, refetch } = useQuery(FILES_OPERATIONS.Query.files, {
     fetchPolicy: 'no-cache',
@@ -28,7 +29,7 @@ const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
     },
   });
 
-  const handleOnClick = (file: FileType) => {
+  const handleOnClick = (file: UploadFile) => {
     setSelectedImageIds((prevArray) =>
       prevArray.some((f) => f.documentId === file.documentId)
         ? prevArray.filter((imageId) => imageId.documentId !== file.documentId)

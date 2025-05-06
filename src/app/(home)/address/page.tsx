@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import AddressList from '@/components/Address/AddressList';
 import { getAddress } from '@/app/actions/address';
 import AddNewAddress from '@/components/Address/AddNewAddress';

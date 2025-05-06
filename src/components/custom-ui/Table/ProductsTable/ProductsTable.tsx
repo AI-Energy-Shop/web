@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/table';
 import { useRouter } from 'next/navigation';
 import Product from './Product';
-
+import { Input } from '@/components/ui/input';
 interface ProductTableProps {
   products?: any;
 }
@@ -18,7 +18,7 @@ interface ProductTableProps {
 const ProductsTable: React.FC<ProductTableProps> = ({ products }) => {
   const router = useRouter();
   const handleProductClick = async (product: any) => {
-    router.push(`/admin/dashboard/products/${product.documentId}`);
+    router.push(`/admin/products/${product.documentId}`);
   };
 
   return (
@@ -26,11 +26,14 @@ const ProductsTable: React.FC<ProductTableProps> = ({ products }) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Category</TableHead>
+            <TableHead className="flex justify-center items-center">
+              <Input className="w-4 h-4" type="checkbox" />
+            </TableHead>
+            <TableHead></TableHead>
+            <TableHead>Product</TableHead>
             <TableHead>Status</TableHead>
+            <TableHead>Category</TableHead>
             <TableHead>Vendor</TableHead>
-            <TableHead>Created At</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
