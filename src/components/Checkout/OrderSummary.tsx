@@ -5,24 +5,83 @@ import { getCartTotals } from '@/utils/cart';
 import { roundToTwoDecimals } from '@/utils/rountTwoDecimals';
 import useCart from '@/hooks/useCart';
 import useMe from '@/hooks/useMe';
+import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
+import { useCheckout } from '@/hooks/useCheckout';
+import { formatDate } from './formatDate';
 
-interface OrderSummaryProps {}
+interface OrderSummaryProps {
+  checkoutUserData: GetCheckoutUserDataQuery;
+}
 
-const OrderSummary: React.FC<OrderSummaryProps> = () => {
+const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
   const { user } = useMe();
-  const { carts, warehouse, shippingOptions } = useCart();
+  const { carts } = useCart();
   const { subtotal, totalGst, total } = getCartTotals(carts, 0.0, 0.0);
+  const { warehouseLocation, shippingType, deliveryOptions, pickUpOptions } =
+    useCheckout();
+
+  const userAddress = checkoutUserData.usersPermissionsUser?.addresses.find(
+    (address) => address?.isActive === true
+  );
+
+  const deliveryDetails = () => (
+    <>
+      {deliveryOptions?.type === 'manual' && (
+        <>
+          <span>Request Delivery</span>
+          {' - '}
+          <span>({formatDate(deliveryOptions.date?.toString() || '')})</span>
+        </>
+      )}
+
+      {deliveryOptions?.type === 'auto' && (
+        <>
+          <span>
+            {deliveryOptions?.macshipData?.displayData.carrierDisplayName}
+          </span>
+          {' - '}
+          <span>
+            ({formatDate(deliveryOptions?.macshipData?.displayData.eta || '')})
+          </span>
+        </>
+      )}
+    </>
+  );
+
+  const pickUpDetails = () => (
+    <>
+      <span>
+        {formatDate(pickUpOptions?.date?.toString() || '')} (
+        {pickUpOptions?.estimatedArrivalTime})
+      </span>
+    </>
+  );
 
   const renderSelectedWarehouseLocation = () => {
     return (
       <div>
         <h1 className="font-bold">Selected Location:</h1>
-        <h2 className="font-semibold italic">{warehouse?.address?.city}</h2>
+
+        <h2 className="font-semibold italic">
+          {warehouseLocation.name[0].toUpperCase() +
+            warehouseLocation.name.slice(1)}
+        </h2>
         <p className="text-xs">
-          <span className="mx-1 text-sm">{warehouse?.address?.street1},</span>
-          <span className="mx-1 text-sm">{warehouse?.address?.city},</span>
-          <span className="mx-1 text-sm">{warehouse?.address?.state},</span>
-          <span className="mx-1 text-sm">{warehouse?.address?.zipCode}</span>
+          <span className="mx-1 text-sm">
+            {warehouseLocation.address.unit}{' '}
+            {warehouseLocation.address.street + ','}
+          </span>
+          <span className="mx-1 text-sm">
+            {warehouseLocation.name[0].toUpperCase() +
+              warehouseLocation.name.slice(1) +
+              ','}
+          </span>
+          <span className="mx-1 text-sm">
+            {warehouseLocation.address.state + ','}
+          </span>
+          <span className="mx-1 text-sm">
+            {warehouseLocation.address.postcode}
+          </span>
         </p>
       </div>
     );
@@ -36,28 +95,22 @@ const OrderSummary: React.FC<OrderSummaryProps> = () => {
           <span className="block font-semibold italic">
             {user?.business_name}
           </span>
-          {user?.account_detail?.shipping_addresses?.map?.((address, index) => {
-            if (address.isActive) {
-              return (
-                <span key={index} className="mr-1 text-sm">
-                  {`${address.street1}, ${address.street2}, ${address.city}, ${address.state}, ${address.zipCode}`}
-                </span>
-              );
-            }
-          })}
+
+          <span>
+            {userAddress?.street1 + ', '} {userAddress?.street2 + ', '}
+            {userAddress?.city + ', '} {userAddress?.state + ', '}
+            {userAddress?.zip_code}
+          </span>
         </h2>
-        {shippingOptions &&
-          shippingOptions.map((option) => {
-            if (option.active) {
-              return (
-                <p key={option.id} className="text-xs italic">
-                  <span className="mr-1 font-thin">
-                    {option?.title} ({option?.value})
-                  </span>
-                </p>
-              );
-            }
-          })}
+        {shippingType ? (
+          <div className="text-xs italic">
+            {shippingType[0].toUpperCase() + shippingType.slice(1)}(
+            {shippingType === 'delivery' && deliveryDetails()}
+            {shippingType === 'pickup' && pickUpDetails()})
+          </div>
+        ) : (
+          ''
+        )}
       </div>
     );
   };

@@ -26,7 +26,7 @@ async function CheckoutPage() {
         </div>
 
         <div className="hidden lg:block md:col-span-4">
-          <OrderSummary />
+          <OrderSummary checkoutUserData={checkoutUserData} />
         </div>
       </div>
     </main>

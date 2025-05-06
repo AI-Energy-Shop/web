@@ -2,8 +2,9 @@ import { RootState, useAppDispatch, useAppSelector } from '@/store/store';
 import { useToast } from './useToast';
 import { CART_WINDOW_TIMEOUT } from '@/constant/cart';
 import {
+  Cart,
   setCart,
-  setPaymentStep,
+  setPaymentStep as setPaymentStepData,
   setShowCartWindow,
 } from '@/store/features/cart';
 import {
@@ -14,7 +15,7 @@ import {
 import { ShippingOptions } from '@/constant/shipping';
 import { SHIPPING_OPTIONS } from '@/constant/shipping';
 import { removeCart } from '@/store/features/cart';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const useCart = () => {
   const date = new Date();
@@ -23,8 +24,8 @@ const useCart = () => {
   const [shippingOptions, setShippingOptions] =
     useState<ShippingOptions>(SHIPPING_OPTIONS);
   const [paymentOption, setPaymentOption] = useState<string>('');
-  const carts = useAppSelector((state) => state.cart.carts);
-  const paymentStep = useAppSelector(
+  const cartsData = useAppSelector((state) => state.cart.carts);
+  const paymentStepData = useAppSelector(
     (state: RootState) => state.cart.paymentStep
   );
   const warehouse = useAppSelector(
@@ -34,7 +35,18 @@ const useCart = () => {
     (state: RootState) => state.cart.showCartWindow
   );
 
-  const isCartNeededManualQuote = carts.some((cart) => false);
+  const [carts, setCartsData] = useState<Cart[]>([]);
+  const [paymentStep, setPaymenStepData] = useState<number>(1);
+
+  useEffect(() => {
+    setCartsData(cartsData);
+  }, [cartsData]);
+
+  useEffect(() => {
+    setPaymenStepData(paymentStepData);
+  }, [paymentStepData]);
+
+  const isCartNeededManualQuote = cartsData.some((cart) => false);
 
   const addToCart = async (data: {
     product: string;
@@ -130,11 +142,11 @@ const useCart = () => {
   };
 
   const handleContinueClick = () => {
-    dispatch(setPaymentStep(3));
+    dispatch(setPaymentStepData(3));
   };
 
   const handleEditClick = () => {
-    dispatch(setPaymentStep(2));
+    dispatch(setPaymentStepData(2));
   };
 
   return {
