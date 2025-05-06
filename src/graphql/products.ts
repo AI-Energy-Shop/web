@@ -75,7 +75,7 @@ const schema = {
             value
           }
           key_features {
-            id
+            documentId
             feature
           }
           inventories {
@@ -87,9 +87,15 @@ const schema = {
             updatedAt
             publishedAt
           }
+          shipping {
+            height
+            width
+            length
+            weight
+          }
           createdAt
           updatedAt
-          publishedAt
+          releasedAt
         }
       }
     `),
@@ -162,7 +168,7 @@ const schema = {
             value
           }
           key_features {
-            id
+            documentId
             feature
           }
           inventories {
@@ -174,9 +180,15 @@ const schema = {
             updatedAt
             publishedAt
           }
+          shipping {
+            height
+            width
+            length
+            weight
+          }
           createdAt
           updatedAt
-          publishedAt
+          releasedAt
         }
       }
     `),
@@ -221,6 +233,18 @@ const schema = {
         }
       }
     `),
+    specifications: graphql(`
+      query Specifications {
+        specifications {
+          documentId
+          key
+          value
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
   },
   Mutation: {
     createProduct: graphql(`
@@ -246,6 +270,7 @@ const schema = {
             }
           }
           inventories {
+            documentId
             location_code
             quantity
           }
@@ -277,8 +302,15 @@ const schema = {
             value
           }
           key_features {
-            id
+            documentId
             feature
+          }
+          shipping {
+            documentId
+            width
+            height
+            weight
+            length
           }
           createdAt
           updatedAt
@@ -287,7 +319,7 @@ const schema = {
       }
     `),
     updateProduct: graphql(`
-      mutation CustomProductUpdate($documentId: ID!, $data: ProductInput!) {
+      mutation customProductUpdate($documentId: ID!, $data: ProductInput!) {
         customProductUpdate(documentId: $documentId, data: $data) {
           documentId
           name
@@ -295,18 +327,6 @@ const schema = {
           description
           vendor
           odoo_product_id
-          categories {
-            title
-            slug
-            image {
-              name
-              alternativeText
-              mime
-              url
-              width
-              height
-            }
-          }
           brand {
             name
             url
@@ -316,7 +336,14 @@ const schema = {
               alternativeText
               width
               height
+              mime
+              url
             }
+          }
+          inventories {
+            documentId
+            location_code
+            quantity
           }
           price_lists {
             documentId
@@ -326,37 +353,179 @@ const schema = {
             max_quantity
             user_level
           }
-          inventories {
+          files {
             documentId
-            location_code
-            quantity
+            mime
+            name
+            url
+            alternativeText
+          }
+          images {
+            documentId
+            mime
+            name
+            url
+            alternativeText
           }
           specifications {
             documentId
             key
             value
           }
-          files {
-            documentId
-            name
-            url
-            mime
-            ext
-          }
-          images {
-            documentId
-            name
-            url
-            mime
-            ext
-          }
           key_features {
-            id
+            documentId
             feature
+          }
+          shipping {
+            documentId
+            width
+            height
+            weight
+            length
           }
           createdAt
           updatedAt
+          releasedAt
+          # status
+          improvedBy {
+            email
+          }
+          madeBy {
+            email
+          }
+        }
+      }
+    `),
+    createPrice: graphql(`
+      mutation CreatePrice($data: PriceInput!) {
+        createPrice(data: $data) {
+          documentId
+          sale_price
+          price
+          min_quantity
+          max_quantity
+          user_level
+          createdAt
+          updatedAt
           publishedAt
+        }
+      }
+    `),
+    updatePrice: graphql(`
+      mutation UpdatePrice($documentId: ID!, $data: PriceInput!) {
+        updatePrice(documentId: $documentId, data: $data) {
+          documentId
+          sale_price
+          price
+          min_quantity
+          max_quantity
+          user_level
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
+    deletePrice: graphql(`
+      mutation DeletePrice($documentId: ID!) {
+        deletePrice(documentId: $documentId) {
+          documentId
+        }
+      }
+    `),
+    createInventory: graphql(`
+      mutation CreateInventory($data: InventoryInput!) {
+        createInventory(data: $data) {
+          documentId
+          name
+          location_code
+          quantity
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
+    updateInventory: graphql(`
+      mutation UpdateInventory($documentId: ID!, $data: InventoryInput!) {
+        updateInventory(documentId: $documentId, data: $data) {
+          documentId
+          name
+          location_code
+          quantity
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
+    deleteInventory: graphql(`
+      mutation DeleteInventory($documentId: ID!) {
+        deleteInventory(documentId: $documentId) {
+          documentId
+        }
+      }
+    `),
+    createSpecification: graphql(`
+      mutation CreateSpecification($data: SpecificationInput!) {
+        createSpecification(data: $data) {
+          documentId
+          key
+          value
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
+    updateSpecification: graphql(`
+      mutation UpdateSpecification(
+        $documentId: ID!
+        $data: SpecificationInput!
+      ) {
+        updateSpecification(documentId: $documentId, data: $data) {
+          documentId
+          key
+          value
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
+    deleteSpecification: graphql(`
+      mutation DeleteSpecification($documentId: ID!) {
+        deleteSpecification(documentId: $documentId) {
+          documentId
+        }
+      }
+    `),
+    createKeyFeature: graphql(`
+      mutation CreateKeyFeature($data: KeyFeatureInput!) {
+        createKeyFeature(data: $data) {
+          documentId
+          feature
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
+    updateKeyFeature: graphql(`
+      mutation UpdateKeyFeature($documentId: ID!, $data: KeyFeatureInput!) {
+        updateKeyFeature(documentId: $documentId, data: $data) {
+          documentId
+          feature
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
+    deleteKeyFeature: graphql(`
+      mutation DeleteKeyFeature($documentId: ID!) {
+        deleteKeyFeature(documentId: $documentId) {
+          documentId
         }
       }
     `),

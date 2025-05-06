@@ -2,7 +2,7 @@ import React from 'react';
 import AdminSideNavigation from '@/components/Navigations/AdminSideNavigation';
 const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <main className="h-screen w-full grid grid-cols-12">
+    <main className="h-screen w-full grid grid-cols-12 bg-gray-100">
       <div className="h-full w-full col-span-2">
         <AdminSideNavigation />
       </div>

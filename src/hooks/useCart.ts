@@ -2,8 +2,9 @@ import { RootState, useAppDispatch, useAppSelector } from '@/store/store';
 import { useToast } from './useToast';
 import { CART_WINDOW_TIMEOUT } from '@/constant/cart';
 import {
+  Cart,
   setCart,
-  setPaymentStep,
+  setPaymentStep as setPaymentStepData,
   setShowCartWindow,
 } from '@/store/features/cart';
 import {
@@ -14,8 +15,7 @@ import {
 import { ShippingOptions } from '@/constant/shipping';
 import { SHIPPING_OPTIONS } from '@/constant/shipping';
 import { removeCart } from '@/store/features/cart';
-import { ProductQuery } from '@/lib/gql/graphql';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const useCart = () => {
   const date = new Date();
@@ -24,8 +24,8 @@ const useCart = () => {
   const [shippingOptions, setShippingOptions] =
     useState<ShippingOptions>(SHIPPING_OPTIONS);
   const [paymentOption, setPaymentOption] = useState<string>('');
-  const carts = useAppSelector((state) => state.cart.carts);
-  const paymentStep = useAppSelector(
+  const cartsData = useAppSelector((state) => state.cart.carts);
+  const paymentStepData = useAppSelector(
     (state: RootState) => state.cart.paymentStep
   );
   const warehouse = useAppSelector(
@@ -34,6 +34,19 @@ const useCart = () => {
   const showCartWindow = useAppSelector(
     (state: RootState) => state.cart.showCartWindow
   );
+
+  const [carts, setCartsData] = useState<Cart[]>([]);
+  const [paymentStep, setPaymenStepData] = useState<number>(1);
+
+  useEffect(() => {
+    setCartsData(cartsData);
+  }, [cartsData]);
+
+  useEffect(() => {
+    setPaymenStepData(paymentStepData);
+  }, [paymentStepData]);
+
+  const isCartNeededManualQuote = cartsData.some((cart) => false);
 
   const addToCart = async (data: {
     product: string;
@@ -59,7 +72,7 @@ const useCart = () => {
       dispatch(
         setCart({
           documentId: createCart?.documentId || '',
-          product: createCart?.product as ProductQuery['product'],
+          product: createCart?.product,
           quantity: createCart?.quantity || 0,
         })
       );
@@ -92,7 +105,7 @@ const useCart = () => {
     dispatch(
       setCart({
         documentId: res?.data?.updateCart?.documentId || '',
-        product: res?.data?.updateCart?.product as ProductQuery['product'],
+        product: res?.data?.updateCart?.product,
         quantity: res?.data?.updateCart?.quantity || 0,
       })
     );
@@ -129,11 +142,11 @@ const useCart = () => {
   };
 
   const handleContinueClick = () => {
-    dispatch(setPaymentStep(3));
+    dispatch(setPaymentStepData(3));
   };
 
   const handleEditClick = () => {
-    dispatch(setPaymentStep(2));
+    dispatch(setPaymentStepData(2));
   };
 
   return {
@@ -144,6 +157,7 @@ const useCart = () => {
     showCartWindow,
     shippingOptions,
     paymentOption,
+    isCartNeededManualQuote,
     handleEditClick,
     handleShippingMethodClick,
     handleContinueClick,

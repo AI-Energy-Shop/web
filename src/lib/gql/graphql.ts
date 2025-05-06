@@ -38,6 +38,30 @@ export type Scalars = {
   PageSectionsDynamicZoneInput: { input: any; output: any };
 };
 
+export type AccountCreditFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<AccountCreditFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  creditLimit?: InputMaybe<FloatFilterInput>;
+  documentId?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<AccountCreditFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<AccountCreditFiltersInput>>>;
+  paymentTerms?: InputMaybe<DateTimeFilterInput>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  totalOverdue?: InputMaybe<FloatFilterInput>;
+  totalReceivable?: InputMaybe<FloatFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
+};
+
+export type AccountCreditInput = {
+  creditLimit?: InputMaybe<Scalars['Float']['input']>;
+  paymentTerms?: InputMaybe<Scalars['DateTime']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  totalOverdue?: InputMaybe<Scalars['Float']['input']>;
+  totalReceivable?: InputMaybe<Scalars['Float']['input']>;
+  user?: InputMaybe<Scalars['ID']['input']>;
+};
+
 export type AccountDetailFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<AccountDetailFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
@@ -281,46 +305,6 @@ export type ComponentElementsCartItemInput = {
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type ComponentElementsCreditFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<ComponentElementsCreditFiltersInput>>>;
-  limit?: InputMaybe<FloatFilterInput>;
-  not?: InputMaybe<ComponentElementsCreditFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<ComponentElementsCreditFiltersInput>>>;
-  paymentTerms?: InputMaybe<DateTimeFilterInput>;
-  totalOverdue?: InputMaybe<FloatFilterInput>;
-  totalReceivable?: InputMaybe<FloatFilterInput>;
-};
-
-export type ComponentElementsCreditInput = {
-  id?: InputMaybe<Scalars['ID']['input']>;
-  limit?: InputMaybe<Scalars['Float']['input']>;
-  paymentTerms?: InputMaybe<Scalars['DateTime']['input']>;
-  totalOverdue?: InputMaybe<Scalars['Float']['input']>;
-  totalReceivable?: InputMaybe<Scalars['Float']['input']>;
-};
-
-export type ComponentElementsDeliveryOptionFiltersInput = {
-  and?: InputMaybe<
-    Array<InputMaybe<ComponentElementsDeliveryOptionFiltersInput>>
-  >;
-  eta?: InputMaybe<StringFilterInput>;
-  not?: InputMaybe<ComponentElementsDeliveryOptionFiltersInput>;
-  notes?: InputMaybe<StringFilterInput>;
-  or?: InputMaybe<
-    Array<InputMaybe<ComponentElementsDeliveryOptionFiltersInput>>
-  >;
-  price?: InputMaybe<FloatFilterInput>;
-  title?: InputMaybe<StringFilterInput>;
-};
-
-export type ComponentElementsDeliveryOptionInput = {
-  eta?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['ID']['input']>;
-  notes?: InputMaybe<Scalars['String']['input']>;
-  price?: InputMaybe<Scalars['Float']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
-};
-
 export type ComponentElementsFilterRuleFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ComponentElementsFilterRuleFiltersInput>>>;
   handle?: InputMaybe<StringFilterInput>;
@@ -345,16 +329,20 @@ export type ComponentElementsInputFiltersInput = {
   type?: InputMaybe<StringFilterInput>;
 };
 
-export type ComponentElementsKeyFeaturesFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<ComponentElementsKeyFeaturesFiltersInput>>>;
-  feature?: InputMaybe<StringFilterInput>;
-  not?: InputMaybe<ComponentElementsKeyFeaturesFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<ComponentElementsKeyFeaturesFiltersInput>>>;
+export type ComponentElementsLineItemFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentElementsLineItemFiltersInput>>>;
+  lines?: InputMaybe<ComponentElementsCartItemFiltersInput>;
+  locationCode?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ComponentElementsLineItemFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentElementsLineItemFiltersInput>>>;
+  quantity?: InputMaybe<IntFilterInput>;
 };
 
-export type ComponentElementsKeyFeaturesInput = {
-  feature?: InputMaybe<Scalars['String']['input']>;
+export type ComponentElementsLineItemInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
+  lines?: InputMaybe<ComponentElementsCartItemInput>;
+  locationCode?: InputMaybe<Scalars['String']['input']>;
+  quantity?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type ComponentElementsNameFiltersInput = {
@@ -397,20 +385,66 @@ export type ComponentElementsPaymentOptionInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
 };
 
-export type ComponentElementsShippingFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<ComponentElementsShippingFiltersInput>>>;
-  delivery_option?: InputMaybe<ComponentElementsDeliveryOptionFiltersInput>;
-  not?: InputMaybe<ComponentElementsShippingFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<ComponentElementsShippingFiltersInput>>>;
-  shipping_details?: InputMaybe<ComponentElementsAddressFiltersInput>;
-  warehouse_location?: InputMaybe<IntFilterInput>;
+export type ComponentElementsPickupOptionFiltersInput = {
+  and?: InputMaybe<
+    Array<InputMaybe<ComponentElementsPickupOptionFiltersInput>>
+  >;
+  date?: InputMaybe<DateTimeFilterInput>;
+  estimatedArraivalTime?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ComponentElementsPickupOptionFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentElementsPickupOptionFiltersInput>>>;
 };
 
-export type ComponentElementsShippingInput = {
-  delivery_option?: InputMaybe<ComponentElementsDeliveryOptionInput>;
+export type ComponentElementsPickupOptionInput = {
+  date?: InputMaybe<Scalars['DateTime']['input']>;
+  estimatedArraivalTime?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
-  shipping_details?: InputMaybe<ComponentElementsAddressInput>;
-  warehouse_location?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type ComponentElementsShippingAddressFiltersInput = {
+  and?: InputMaybe<
+    Array<InputMaybe<ComponentElementsShippingAddressFiltersInput>>
+  >;
+  city?: InputMaybe<StringFilterInput>;
+  country?: InputMaybe<StringFilterInput>;
+  isActive?: InputMaybe<BooleanFilterInput>;
+  name?: InputMaybe<ComponentElementsNameFiltersInput>;
+  not?: InputMaybe<ComponentElementsShippingAddressFiltersInput>;
+  or?: InputMaybe<
+    Array<InputMaybe<ComponentElementsShippingAddressFiltersInput>>
+  >;
+  phone?: InputMaybe<StringFilterInput>;
+  postcode?: InputMaybe<StringFilterInput>;
+  state_territory?: InputMaybe<StringFilterInput>;
+  street?: InputMaybe<StringFilterInput>;
+  suburb?: InputMaybe<StringFilterInput>;
+};
+
+export type ComponentElementsShippingAddressInput = {
+  city?: InputMaybe<Scalars['String']['input']>;
+  country?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<ComponentElementsNameInput>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+  postcode?: InputMaybe<Scalars['String']['input']>;
+  state_territory?: InputMaybe<Scalars['String']['input']>;
+  street?: InputMaybe<Scalars['String']['input']>;
+  suburb?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ComponentElementsTotalFiltersInput = {
+  amount?: InputMaybe<FloatFilterInput>;
+  and?: InputMaybe<Array<InputMaybe<ComponentElementsTotalFiltersInput>>>;
+  currency?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ComponentElementsTotalFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentElementsTotalFiltersInput>>>;
+};
+
+export type ComponentElementsTotalInput = {
+  amount?: InputMaybe<Scalars['Float']['input']>;
+  currency?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type ComponentElementsWarehouseLocationFiltersInput = {
@@ -529,6 +563,33 @@ export enum Enum_Componentlayoutslide_Type {
   Desktop = 'DESKTOP',
   Mobile = 'MOBILE',
   Tablet = 'TABLET',
+}
+
+export enum Enum_Order_Deliverystatus {
+  Shipped = 'shipped',
+  TrackingAdded = 'tracking_added',
+}
+
+export enum Enum_Order_Fulfillmentstatus {
+  Fulfilled = 'fulfilled',
+  Unfulfilled = 'unfulfilled',
+}
+
+export enum Enum_Order_Paymentmethod {
+  AccountCredit = 'account_credit',
+  BankTransfer = 'bank_transfer',
+  CreditCard = 'credit_card',
+}
+
+export enum Enum_Order_Paymentstatus {
+  Pending = 'pending',
+  Refund = 'refund',
+}
+
+export enum Enum_Order_Shippingtype {
+  ExpressDelivery = 'express_delivery',
+  Pickup = 'pickup',
+  StandardDelivery = 'standard_delivery',
 }
 
 export enum Enum_Specification_Key {
@@ -715,6 +776,22 @@ export type JsonFilterInput = {
   startsWith?: InputMaybe<Scalars['JSON']['input']>;
 };
 
+export type KeyFeatureFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<KeyFeatureFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  documentId?: InputMaybe<IdFilterInput>;
+  feature?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<KeyFeatureFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<KeyFeatureFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type KeyFeatureInput = {
+  feature?: InputMaybe<Scalars['String']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
 export type LongFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars['Long']['input']>>>;
   between?: InputMaybe<Array<InputMaybe<Scalars['Long']['input']>>>;
@@ -742,22 +819,52 @@ export type LongFilterInput = {
 
 export type OrderFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<OrderFiltersInput>>>;
-  cart_items?: InputMaybe<ComponentElementsCartItemFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  deliveryNotes?: InputMaybe<StringFilterInput>;
+  deliveryStatus?: InputMaybe<StringFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
+  fulfillmentStatus?: InputMaybe<StringFilterInput>;
+  lineItems?: InputMaybe<ComponentElementsLineItemFiltersInput>;
   not?: InputMaybe<OrderFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<OrderFiltersInput>>>;
+  orderNotes?: InputMaybe<StringFilterInput>;
+  orderNumber?: InputMaybe<StringFilterInput>;
+  paymentMethod?: InputMaybe<StringFilterInput>;
+  paymentStatus?: InputMaybe<StringFilterInput>;
+  pickupNotes?: InputMaybe<StringFilterInput>;
+  pickupOption?: InputMaybe<ComponentElementsPickupOptionFiltersInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
-  shipping?: InputMaybe<ComponentElementsShippingFiltersInput>;
+  shippingAddress?: InputMaybe<ComponentElementsShippingAddressFiltersInput>;
+  shippingType?: InputMaybe<StringFilterInput>;
+  stripeCheckoutSession?: InputMaybe<StringFilterInput>;
+  total?: InputMaybe<ComponentElementsTotalFiltersInput>;
+  trackingNumber?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   user?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  voucherCode?: InputMaybe<StringFilterInput>;
+  warehouseLocation?: InputMaybe<ComponentElementsWarehouseLocationFiltersInput>;
 };
 
 export type OrderInput = {
-  cart_items?: InputMaybe<Array<InputMaybe<ComponentElementsCartItemInput>>>;
+  deliveryNotes?: InputMaybe<Scalars['String']['input']>;
+  deliveryStatus?: InputMaybe<Enum_Order_Deliverystatus>;
+  fulfillmentStatus?: InputMaybe<Enum_Order_Fulfillmentstatus>;
+  lineItems?: InputMaybe<Array<InputMaybe<ComponentElementsLineItemInput>>>;
+  orderNotes?: InputMaybe<Scalars['String']['input']>;
+  orderNumber?: InputMaybe<Scalars['String']['input']>;
+  paymentMethod?: InputMaybe<Enum_Order_Paymentmethod>;
+  paymentStatus?: InputMaybe<Enum_Order_Paymentstatus>;
+  pickupNotes?: InputMaybe<Scalars['String']['input']>;
+  pickupOption?: InputMaybe<ComponentElementsPickupOptionInput>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
-  shipping?: InputMaybe<ComponentElementsShippingInput>;
+  shippingAddress?: InputMaybe<ComponentElementsShippingAddressInput>;
+  shippingType?: InputMaybe<Enum_Order_Shippingtype>;
+  stripeCheckoutSession?: InputMaybe<Scalars['String']['input']>;
+  total?: InputMaybe<ComponentElementsTotalInput>;
+  trackingNumber?: InputMaybe<Scalars['String']['input']>;
   user?: InputMaybe<Scalars['ID']['input']>;
+  voucherCode?: InputMaybe<Scalars['String']['input']>;
+  warehouseLocation?: InputMaybe<ComponentElementsWarehouseLocationInput>;
 };
 
 export type PageFiltersInput = {
@@ -824,8 +931,10 @@ export type ProductFiltersInput = {
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
+  improvedBy?: InputMaybe<UsersPermissionsUserFiltersInput>;
   inventories?: InputMaybe<InventoryFiltersInput>;
-  key_features?: InputMaybe<ComponentElementsKeyFeaturesFiltersInput>;
+  key_features?: InputMaybe<KeyFeatureFiltersInput>;
+  madeBy?: InputMaybe<UsersPermissionsUserFiltersInput>;
   model?: InputMaybe<StringFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<ProductFiltersInput>;
@@ -834,6 +943,9 @@ export type ProductFiltersInput = {
   price_lists?: InputMaybe<PriceFiltersInput>;
   product_type?: InputMaybe<StringFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  releasedAt?: InputMaybe<DateTimeFilterInput>;
+  removedBy?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  shipping?: InputMaybe<ShippingFiltersInput>;
   specifications?: InputMaybe<SpecificationFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   variants?: InputMaybe<VariantFiltersInput>;
@@ -847,16 +959,19 @@ export type ProductInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   files?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   images?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  improvedBy?: InputMaybe<Scalars['ID']['input']>;
   inventories?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  key_features?: InputMaybe<
-    Array<InputMaybe<ComponentElementsKeyFeaturesInput>>
-  >;
+  key_features?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  madeBy?: InputMaybe<Scalars['ID']['input']>;
   model?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   odoo_product_id?: InputMaybe<Scalars['String']['input']>;
   price_lists?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   product_type?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  releasedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  removedBy?: InputMaybe<Scalars['ID']['input']>;
+  shipping?: InputMaybe<Scalars['ID']['input']>;
   specifications?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   variants?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   vendor?: InputMaybe<Scalars['String']['input']>;
@@ -923,6 +1038,30 @@ export type ReviewWorkflowsWorkflowStageInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   workflow?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type ShippingFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ShippingFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  documentId?: InputMaybe<IdFilterInput>;
+  height?: InputMaybe<FloatFilterInput>;
+  length?: InputMaybe<FloatFilterInput>;
+  not?: InputMaybe<ShippingFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ShippingFiltersInput>>>;
+  product?: InputMaybe<ProductFiltersInput>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  weight?: InputMaybe<FloatFilterInput>;
+  width?: InputMaybe<FloatFilterInput>;
+};
+
+export type ShippingInput = {
+  height?: InputMaybe<Scalars['Float']['input']>;
+  length?: InputMaybe<Scalars['Float']['input']>;
+  product?: InputMaybe<Scalars['ID']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  weight?: InputMaybe<Scalars['Float']['input']>;
+  width?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type SpecificationFiltersInput = {
@@ -1090,6 +1229,7 @@ export type UsersPermissionsRoleInput = {
 };
 
 export type UsersPermissionsUserFiltersInput = {
+  accountCredit?: InputMaybe<AccountCreditFiltersInput>;
   account_detail?: InputMaybe<AccountDetailFiltersInput>;
   account_status?: InputMaybe<StringFilterInput>;
   addresses?: InputMaybe<AddressFiltersInput>;
@@ -1101,12 +1241,10 @@ export type UsersPermissionsUserFiltersInput = {
   carts?: InputMaybe<CartFiltersInput>;
   createAccountRequest?: InputMaybe<DateTimeFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
-  credit?: InputMaybe<ComponentElementsCreditFiltersInput>;
   documentId?: InputMaybe<IdFilterInput>;
   email?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<UsersPermissionsUserFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<UsersPermissionsUserFiltersInput>>>;
-  orders?: InputMaybe<OrderFiltersInput>;
   phone?: InputMaybe<StringFilterInput>;
   provider?: InputMaybe<StringFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
@@ -1117,6 +1255,7 @@ export type UsersPermissionsUserFiltersInput = {
 };
 
 export type UsersPermissionsUserInput = {
+  accountCredit?: InputMaybe<Scalars['ID']['input']>;
   account_detail?: InputMaybe<Scalars['ID']['input']>;
   account_status?: InputMaybe<Enum_Userspermissionsuser_Account_Status>;
   addresses?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
@@ -1126,10 +1265,8 @@ export type UsersPermissionsUserInput = {
   business_type?: InputMaybe<Scalars['String']['input']>;
   carts?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   createAccountRequest?: InputMaybe<Scalars['DateTime']['input']>;
-  credit?: InputMaybe<ComponentElementsCreditInput>;
   email?: InputMaybe<Scalars['String']['input']>;
   image_logo?: InputMaybe<Scalars['ID']['input']>;
-  orders?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   password?: InputMaybe<Scalars['String']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
   provider?: InputMaybe<Scalars['String']['input']>;
@@ -1276,6 +1413,50 @@ export type CartsQuery = {
       username: string;
     } | null;
   } | null>;
+};
+
+export type GetCheckoutUserDataQueryVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+}>;
+
+export type GetCheckoutUserDataQuery = {
+  __typename?: 'Query';
+  usersPermissionsUser?: {
+    __typename?: 'UsersPermissionsUser';
+    carts: Array<{
+      __typename?: 'Cart';
+      documentId: string;
+      quantity?: number | null;
+      product?: {
+        __typename?: 'Product';
+        documentId: string;
+        inventories: Array<{
+          __typename?: 'Inventory';
+          documentId: string;
+          name?: string | null;
+          location_code?: string | null;
+          quantity?: number | null;
+        } | null>;
+      } | null;
+    } | null>;
+    addresses: Array<{
+      __typename?: 'Address';
+      documentId: string;
+      street1?: string | null;
+      street2?: string | null;
+      state?: string | null;
+      city?: string | null;
+      zip_code?: string | null;
+      country?: string | null;
+      phone?: string | null;
+      isActive?: boolean | null;
+      title?: string | null;
+      odoo_address_id?: string | null;
+      mobile?: string | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    } | null>;
+  } | null;
 };
 
 export type CreateCartMutationVariables = Exact<{
@@ -1525,11 +1706,11 @@ export type CollectionsWithProductsQuery = {
         key: Enum_Specification_Key;
         value: string;
       } | null>;
-      key_features?: Array<{
-        __typename?: 'ComponentElementsKeyFeatures';
-        id: string;
+      key_features: Array<{
+        __typename?: 'KeyFeature';
+        documentId: string;
         feature?: string | null;
-      } | null> | null;
+      } | null>;
       inventories: Array<{
         __typename?: 'Inventory';
         documentId: string;
@@ -1570,18 +1751,34 @@ export type FilesQuery = {
   } | null>;
 };
 
-export type CreateOrderMutationVariables = Exact<{
-  data: OrderInput;
+export type OrdersQueryVariables = Exact<{
+  filters?: InputMaybe<OrderFiltersInput>;
 }>;
 
-export type CreateOrderMutation = {
-  __typename?: 'Mutation';
-  createOrder?: {
+export type OrdersQuery = {
+  __typename?: 'Query';
+  orders: Array<{
     __typename?: 'Order';
     documentId: string;
+    orderNumber?: string | null;
+    paymentStatus?: Enum_Order_Paymentstatus | null;
+    fulfillmentStatus?: Enum_Order_Fulfillmentstatus | null;
+    paymentMethod?: Enum_Order_Paymentmethod | null;
+    shippingType?: Enum_Order_Shippingtype | null;
+    deliveryStatus?: Enum_Order_Deliverystatus | null;
     createdAt?: any | null;
     updatedAt?: any | null;
-  } | null;
+    user?: {
+      __typename?: 'UsersPermissionsUser';
+      documentId: string;
+      business_name?: string | null;
+    } | null;
+    total?: {
+      __typename?: 'ComponentElementsTotal';
+      amount?: number | null;
+      currency?: string | null;
+    } | null;
+  } | null>;
 };
 
 export type PagesQueryVariables = Exact<{ [key: string]: never }>;
@@ -1741,7 +1938,7 @@ export type ProductsQuery = {
     odoo_product_id: string;
     createdAt?: any | null;
     updatedAt?: any | null;
-    publishedAt?: any | null;
+    releasedAt?: any | null;
     categories: Array<{
       __typename?: 'Category';
       title: string;
@@ -1808,11 +2005,11 @@ export type ProductsQuery = {
       key: Enum_Specification_Key;
       value: string;
     } | null>;
-    key_features?: Array<{
-      __typename?: 'ComponentElementsKeyFeatures';
-      id: string;
+    key_features: Array<{
+      __typename?: 'KeyFeature';
+      documentId: string;
       feature?: string | null;
-    } | null> | null;
+    } | null>;
     inventories: Array<{
       __typename?: 'Inventory';
       documentId: string;
@@ -1823,6 +2020,13 @@ export type ProductsQuery = {
       updatedAt?: any | null;
       publishedAt?: any | null;
     } | null>;
+    shipping?: {
+      __typename?: 'Shipping';
+      height?: number | null;
+      width?: number | null;
+      length?: number | null;
+      weight?: number | null;
+    } | null;
   } | null>;
 };
 
@@ -1843,7 +2047,7 @@ export type ProductQuery = {
     odoo_product_id: string;
     createdAt?: any | null;
     updatedAt?: any | null;
-    publishedAt?: any | null;
+    releasedAt?: any | null;
     categories: Array<{
       __typename?: 'Category';
       title: string;
@@ -1910,11 +2114,11 @@ export type ProductQuery = {
       key: Enum_Specification_Key;
       value: string;
     } | null>;
-    key_features?: Array<{
-      __typename?: 'ComponentElementsKeyFeatures';
-      id: string;
+    key_features: Array<{
+      __typename?: 'KeyFeature';
+      documentId: string;
       feature?: string | null;
-    } | null> | null;
+    } | null>;
     inventories: Array<{
       __typename?: 'Inventory';
       documentId: string;
@@ -1925,6 +2129,13 @@ export type ProductQuery = {
       updatedAt?: any | null;
       publishedAt?: any | null;
     } | null>;
+    shipping?: {
+      __typename?: 'Shipping';
+      height?: number | null;
+      width?: number | null;
+      length?: number | null;
+      weight?: number | null;
+    } | null;
   } | null;
 };
 
@@ -1978,6 +2189,21 @@ export type CategoriesQuery = {
   } | null>;
 };
 
+export type SpecificationsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type SpecificationsQuery = {
+  __typename?: 'Query';
+  specifications: Array<{
+    __typename?: 'Specification';
+    documentId: string;
+    key: Enum_Specification_Key;
+    value: string;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+  } | null>;
+};
+
 export type CreateProductMutationVariables = Exact<{
   data: ProductInput;
 }>;
@@ -2012,6 +2238,7 @@ export type CreateProductMutation = {
     } | null;
     inventories: Array<{
       __typename?: 'Inventory';
+      documentId: string;
       location_code?: string | null;
       quantity?: number | null;
     } | null>;
@@ -2046,11 +2273,19 @@ export type CreateProductMutation = {
       key: Enum_Specification_Key;
       value: string;
     } | null>;
-    key_features?: Array<{
-      __typename?: 'ComponentElementsKeyFeatures';
-      id: string;
+    key_features: Array<{
+      __typename?: 'KeyFeature';
+      documentId: string;
       feature?: string | null;
-    } | null> | null;
+    } | null>;
+    shipping?: {
+      __typename?: 'Shipping';
+      documentId: string;
+      width?: number | null;
+      height?: number | null;
+      weight?: number | null;
+      length?: number | null;
+    } | null;
   } | null;
 };
 
@@ -2071,21 +2306,7 @@ export type CustomProductUpdateMutation = {
     odoo_product_id: string;
     createdAt?: any | null;
     updatedAt?: any | null;
-    publishedAt?: any | null;
-    categories: Array<{
-      __typename?: 'Category';
-      title: string;
-      slug: string;
-      image: {
-        __typename?: 'UploadFile';
-        name: string;
-        alternativeText?: string | null;
-        mime: string;
-        url: string;
-        width?: number | null;
-        height?: number | null;
-      };
-    } | null>;
+    releasedAt?: any | null;
     brand?: {
       __typename?: 'Brand';
       name: string;
@@ -2097,8 +2318,16 @@ export type CustomProductUpdateMutation = {
         alternativeText?: string | null;
         width?: number | null;
         height?: number | null;
+        mime: string;
+        url: string;
       };
     } | null;
+    inventories: Array<{
+      __typename?: 'Inventory';
+      documentId: string;
+      location_code?: string | null;
+      quantity?: number | null;
+    } | null>;
     price_lists: Array<{
       __typename?: 'Price';
       documentId: string;
@@ -2108,11 +2337,21 @@ export type CustomProductUpdateMutation = {
       max_quantity?: number | null;
       user_level?: string | null;
     } | null>;
-    inventories: Array<{
-      __typename?: 'Inventory';
+    files: Array<{
+      __typename?: 'UploadFile';
       documentId: string;
-      location_code?: string | null;
-      quantity?: number | null;
+      mime: string;
+      name: string;
+      url: string;
+      alternativeText?: string | null;
+    } | null>;
+    images: Array<{
+      __typename?: 'UploadFile';
+      documentId: string;
+      mime: string;
+      name: string;
+      url: string;
+      alternativeText?: string | null;
     } | null>;
     specifications: Array<{
       __typename?: 'Specification';
@@ -2120,27 +2359,215 @@ export type CustomProductUpdateMutation = {
       key: Enum_Specification_Key;
       value: string;
     } | null>;
-    files: Array<{
-      __typename?: 'UploadFile';
+    key_features: Array<{
+      __typename?: 'KeyFeature';
       documentId: string;
-      name: string;
-      url: string;
-      mime: string;
-      ext?: string | null;
-    } | null>;
-    images: Array<{
-      __typename?: 'UploadFile';
-      documentId: string;
-      name: string;
-      url: string;
-      mime: string;
-      ext?: string | null;
-    } | null>;
-    key_features?: Array<{
-      __typename?: 'ComponentElementsKeyFeatures';
-      id: string;
       feature?: string | null;
-    } | null> | null;
+    } | null>;
+    shipping?: {
+      __typename?: 'Shipping';
+      documentId: string;
+      width?: number | null;
+      height?: number | null;
+      weight?: number | null;
+      length?: number | null;
+    } | null;
+    improvedBy?: { __typename?: 'UsersPermissionsUser'; email: string } | null;
+    madeBy?: { __typename?: 'UsersPermissionsUser'; email: string } | null;
+  } | null;
+};
+
+export type CreatePriceMutationVariables = Exact<{
+  data: PriceInput;
+}>;
+
+export type CreatePriceMutation = {
+  __typename?: 'Mutation';
+  createPrice?: {
+    __typename?: 'Price';
+    documentId: string;
+    sale_price?: number | null;
+    price?: number | null;
+    min_quantity?: number | null;
+    max_quantity?: number | null;
+    user_level?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+  } | null;
+};
+
+export type UpdatePriceMutationVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+  data: PriceInput;
+}>;
+
+export type UpdatePriceMutation = {
+  __typename?: 'Mutation';
+  updatePrice?: {
+    __typename?: 'Price';
+    documentId: string;
+    sale_price?: number | null;
+    price?: number | null;
+    min_quantity?: number | null;
+    max_quantity?: number | null;
+    user_level?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+  } | null;
+};
+
+export type DeletePriceMutationVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+}>;
+
+export type DeletePriceMutation = {
+  __typename?: 'Mutation';
+  deletePrice?: {
+    __typename?: 'DeleteMutationResponse';
+    documentId: string;
+  } | null;
+};
+
+export type CreateInventoryMutationVariables = Exact<{
+  data: InventoryInput;
+}>;
+
+export type CreateInventoryMutation = {
+  __typename?: 'Mutation';
+  createInventory?: {
+    __typename?: 'Inventory';
+    documentId: string;
+    name?: string | null;
+    location_code?: string | null;
+    quantity?: number | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+  } | null;
+};
+
+export type UpdateInventoryMutationVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+  data: InventoryInput;
+}>;
+
+export type UpdateInventoryMutation = {
+  __typename?: 'Mutation';
+  updateInventory?: {
+    __typename?: 'Inventory';
+    documentId: string;
+    name?: string | null;
+    location_code?: string | null;
+    quantity?: number | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+  } | null;
+};
+
+export type DeleteInventoryMutationVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+}>;
+
+export type DeleteInventoryMutation = {
+  __typename?: 'Mutation';
+  deleteInventory?: {
+    __typename?: 'DeleteMutationResponse';
+    documentId: string;
+  } | null;
+};
+
+export type CreateSpecificationMutationVariables = Exact<{
+  data: SpecificationInput;
+}>;
+
+export type CreateSpecificationMutation = {
+  __typename?: 'Mutation';
+  createSpecification?: {
+    __typename?: 'Specification';
+    documentId: string;
+    key: Enum_Specification_Key;
+    value: string;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+  } | null;
+};
+
+export type UpdateSpecificationMutationVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+  data: SpecificationInput;
+}>;
+
+export type UpdateSpecificationMutation = {
+  __typename?: 'Mutation';
+  updateSpecification?: {
+    __typename?: 'Specification';
+    documentId: string;
+    key: Enum_Specification_Key;
+    value: string;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+  } | null;
+};
+
+export type DeleteSpecificationMutationVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+}>;
+
+export type DeleteSpecificationMutation = {
+  __typename?: 'Mutation';
+  deleteSpecification?: {
+    __typename?: 'DeleteMutationResponse';
+    documentId: string;
+  } | null;
+};
+
+export type CreateKeyFeatureMutationVariables = Exact<{
+  data: KeyFeatureInput;
+}>;
+
+export type CreateKeyFeatureMutation = {
+  __typename?: 'Mutation';
+  createKeyFeature?: {
+    __typename?: 'KeyFeature';
+    documentId: string;
+    feature?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+  } | null;
+};
+
+export type UpdateKeyFeatureMutationVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+  data: KeyFeatureInput;
+}>;
+
+export type UpdateKeyFeatureMutation = {
+  __typename?: 'Mutation';
+  updateKeyFeature?: {
+    __typename?: 'KeyFeature';
+    documentId: string;
+    feature?: string | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    publishedAt?: any | null;
+  } | null;
+};
+
+export type DeleteKeyFeatureMutationVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+}>;
+
+export type DeleteKeyFeatureMutation = {
+  __typename?: 'Mutation';
+  deleteKeyFeature?: {
+    __typename?: 'DeleteMutationResponse';
+    documentId: string;
   } | null;
 };
 
@@ -2884,6 +3311,167 @@ export const CartsDocument = {
     },
   ],
 } as unknown as DocumentNode<CartsQuery, CartsQueryVariables>;
+export const GetCheckoutUserDataDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetCheckoutUserData' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'usersPermissionsUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'carts' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'quantity' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'product' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'documentId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'inventories' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'documentId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'location_code',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'quantity' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'addresses' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'street1' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'street2' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'state' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'zip_code' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'country' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isActive' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'odoo_address_id' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'mobile' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetCheckoutUserDataQuery,
+  GetCheckoutUserDataQueryVariables
+>;
 export const CreateCartDocument = {
   kind: 'Document',
   definitions: [
@@ -3821,7 +4409,7 @@ export const CollectionsWithProductsDocument = {
                           selections: [
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
+                              name: { kind: 'Name', value: 'documentId' },
                             },
                             {
                               kind: 'Field',
@@ -3961,23 +4549,23 @@ export const FilesDocument = {
     },
   ],
 } as unknown as DocumentNode<FilesQuery, FilesQueryVariables>;
-export const CreateOrderDocument = {
+export const OrdersDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateOrder' },
+      operation: 'query',
+      name: { kind: 'Name', value: 'Orders' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'filters' },
+          },
           type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'OrderInput' },
-            },
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'OrderFiltersInput' },
           },
         },
       ],
@@ -3986,14 +4574,14 @@ export const CreateOrderDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'createOrder' },
+            name: { kind: 'Name', value: 'orders' },
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'data' },
+                name: { kind: 'Name', value: 'filters' },
                 value: {
                   kind: 'Variable',
-                  name: { kind: 'Name', value: 'data' },
+                  name: { kind: 'Name', value: 'filters' },
                 },
               },
             ],
@@ -4001,6 +4589,61 @@ export const CreateOrderDocument = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'orderNumber' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'business_name' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'total' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'amount' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'currency' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'paymentStatus' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'fulfillmentStatus' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'paymentMethod' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'shippingType' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'deliveryStatus' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
               ],
@@ -4010,7 +4653,7 @@ export const CreateOrderDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<CreateOrderMutation, CreateOrderMutationVariables>;
+} as unknown as DocumentNode<OrdersQuery, OrdersQueryVariables>;
 export const PagesDocument = {
   kind: 'Document',
   definitions: [
@@ -4846,7 +5489,10 @@ export const ProductsDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'feature' },
@@ -4888,9 +5534,31 @@ export const ProductsDocument = {
                     ],
                   },
                 },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'shipping' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'height' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'width' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'length' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'weight' },
+                      },
+                    ],
+                  },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'releasedAt' } },
               ],
             },
           },
@@ -5152,7 +5820,10 @@ export const ProductDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'feature' },
@@ -5194,9 +5865,31 @@ export const ProductDocument = {
                     ],
                   },
                 },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'shipping' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'height' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'width' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'length' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'weight' },
+                      },
+                    ],
+                  },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'releasedAt' } },
               ],
             },
           },
@@ -5351,6 +6044,36 @@ export const CategoriesDocument = {
     },
   ],
 } as unknown as DocumentNode<CategoriesQuery, CategoriesQueryVariables>;
+export const SpecificationsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'Specifications' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'specifications' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'key' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<SpecificationsQuery, SpecificationsQueryVariables>;
 export const CreateProductDocument = {
   kind: 'Document',
   definitions: [
@@ -5455,6 +6178,10 @@ export const CreateProductDocument = {
                     selections: [
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'location_code' },
                       },
                       {
@@ -5555,10 +6282,39 @@ export const CreateProductDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'feature' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'shipping' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'width' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'height' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'weight' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'length' },
                       },
                     ],
                   },
@@ -5583,7 +6339,7 @@ export const CustomProductUpdateDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'CustomProductUpdate' },
+      name: { kind: 'Name', value: 'customProductUpdate' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -5646,50 +6402,6 @@ export const CustomProductUpdateDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'categories' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'image' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'alternativeText' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'mime' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'url' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'width' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'height' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
                   name: { kind: 'Name', value: 'brand' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -5722,8 +6434,37 @@ export const CustomProductUpdateDocument = {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'height' },
                             },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'mime' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'url' },
+                            },
                           ],
                         },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'inventories' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'location_code' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'quantity' },
                       },
                     ],
                   },
@@ -5760,7 +6501,7 @@ export const CustomProductUpdateDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'inventories' },
+                  name: { kind: 'Name', value: 'files' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
@@ -5768,13 +6509,32 @@ export const CustomProductUpdateDocument = {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'documentId' },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'mime' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'location_code' },
+                        name: { kind: 'Name', value: 'alternativeText' },
                       },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'images' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'quantity' },
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'mime' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'alternativeText' },
                       },
                     ],
                   },
@@ -5796,45 +6556,14 @@ export const CustomProductUpdateDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'files' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'documentId' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'mime' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'ext' } },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'images' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'documentId' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'mime' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'ext' } },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
                   name: { kind: 'Name', value: 'key_features' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'feature' },
@@ -5842,6 +6571,303 @@ export const CustomProductUpdateDocument = {
                     ],
                   },
                 },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'shipping' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'width' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'height' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'weight' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'length' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'releasedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'improvedBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'madeBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CustomProductUpdateMutation,
+  CustomProductUpdateMutationVariables
+>;
+export const CreatePriceDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreatePrice' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'PriceInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createPrice' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'sale_price' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'min_quantity' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'max_quantity' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'user_level' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CreatePriceMutation, CreatePriceMutationVariables>;
+export const UpdatePriceDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdatePrice' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'PriceInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updatePrice' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'sale_price' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'min_quantity' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'max_quantity' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'user_level' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<UpdatePriceMutation, UpdatePriceMutationVariables>;
+export const DeletePriceDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeletePrice' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deletePrice' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<DeletePriceMutation, DeletePriceMutationVariables>;
+export const CreateInventoryDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateInventory' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'InventoryInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createInventory' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'location_code' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'quantity' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
@@ -5853,8 +6879,500 @@ export const CustomProductUpdateDocument = {
     },
   ],
 } as unknown as DocumentNode<
-  CustomProductUpdateMutation,
-  CustomProductUpdateMutationVariables
+  CreateInventoryMutation,
+  CreateInventoryMutationVariables
+>;
+export const UpdateInventoryDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateInventory' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'InventoryInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateInventory' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'location_code' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'quantity' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateInventoryMutation,
+  UpdateInventoryMutationVariables
+>;
+export const DeleteInventoryDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteInventory' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteInventory' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteInventoryMutation,
+  DeleteInventoryMutationVariables
+>;
+export const CreateSpecificationDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateSpecification' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'SpecificationInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createSpecification' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'key' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateSpecificationMutation,
+  CreateSpecificationMutationVariables
+>;
+export const UpdateSpecificationDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateSpecification' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'SpecificationInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateSpecification' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'key' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateSpecificationMutation,
+  UpdateSpecificationMutationVariables
+>;
+export const DeleteSpecificationDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteSpecification' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteSpecification' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteSpecificationMutation,
+  DeleteSpecificationMutationVariables
+>;
+export const CreateKeyFeatureDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateKeyFeature' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'KeyFeatureInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createKeyFeature' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'feature' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateKeyFeatureMutation,
+  CreateKeyFeatureMutationVariables
+>;
+export const UpdateKeyFeatureDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateKeyFeature' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'KeyFeatureInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateKeyFeature' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'feature' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'publishedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateKeyFeatureMutation,
+  UpdateKeyFeatureMutationVariables
+>;
+export const DeleteKeyFeatureDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteKeyFeature' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteKeyFeature' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteKeyFeatureMutation,
+  DeleteKeyFeatureMutationVariables
 >;
 export const UsersPermissionsUserDocument = {
   kind: 'Document',

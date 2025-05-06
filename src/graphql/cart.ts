@@ -4,6 +4,7 @@ import { gql } from '@apollo/client';
 const schema = {
   Query: {
     carts: gql(`
+      #graphql
       query Carts($filters: CartFiltersInput, $pagination: PaginationArg) {
         carts(filters: $filters, pagination: $pagination) {
           documentId
@@ -40,9 +41,45 @@ const schema = {
         }
       }
     `),
+    checkoutUserData: graphql(`
+      query GetCheckoutUserData($documentId: ID!) {
+        usersPermissionsUser(documentId: $documentId) {
+          carts {
+            documentId
+            quantity
+            product {
+              documentId
+              inventories {
+                documentId
+                name
+                location_code
+                quantity
+              }
+            }
+          }
+          addresses {
+            documentId
+            street1
+            street2
+            state
+            city
+            zip_code
+            country
+            phone
+            isActive
+            title
+            odoo_address_id
+            mobile
+            createdAt
+            updatedAt
+          }
+        }
+      }
+    `),
   },
   Mutation: {
     createCart: gql(`
+      #graphql
       mutation CreateCart($data: CartInput!) {
         createCart(data: $data) {
           documentId
@@ -82,6 +119,7 @@ const schema = {
       }
     `),
     updateCart: gql(`
+      #graphql
       mutation UpdateCart($documentId: ID!, $data: CartInput!) {
         updateCart(documentId: $documentId, data: $data) {
           documentId
@@ -120,14 +158,16 @@ const schema = {
         }
       }
     `),
-    deleteCart: graphql(`
+    deleteCart: gql(`
+      #graphql
       mutation DeleteCart($documentId: ID!) {
         deleteCart(documentId: $documentId) {
           documentId
         }
       }
     `),
-    updateQuantity: graphql(`
+    updateQuantity: gql(`
+      #graphql
       mutation UpdateQuantity($documentId: ID!, $data: CartInput!) {
         updateCart(documentId: $documentId, data: $data) {
           documentId

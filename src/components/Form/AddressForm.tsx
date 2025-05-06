@@ -24,6 +24,7 @@ import {
 import { toast } from 'sonner';
 import { AddressSchemaWithDocumentIdTypes } from '../Address/AddressList';
 import { AddressQuery } from '@/lib/gql/graphql';
+import { checkIfSuburbIsValid } from '@/app/actions/macship';
 
 interface AddressFormProps {
   selectedAddressToUpdate?: AddressSchemaWithDocumentIdTypes;
@@ -61,6 +62,19 @@ function AddressForm({
 
   const onSubmit = async (values: AddressSchemaTypes) => {
     let doesFillingUpSuccess = true;
+
+    const isSuburbAndPosCodeValid = await checkIfSuburbIsValid(
+      values.city,
+      values.zip_code
+    );
+
+    if (!isSuburbAndPosCodeValid) {
+      form.setError('city', { message: 'Fix spelling.' });
+      form.setError('zip_code', {
+        message: 'Fix zip.',
+      });
+      return;
+    }
 
     try {
       if (!selectedAddressToUpdate) {
@@ -134,7 +148,7 @@ function AddressForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="title"
@@ -181,11 +195,12 @@ function AddressForm({
             control={form.control}
             name="city"
             render={({ field }) => (
-              <FormItem className="flex-1">
+              <FormItem className="flex-1 sm:relative">
                 <FormLabel>City</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
+                <FormMessage className="sm:absolute sm:-bottom-5" />
               </FormItem>
             )}
           />
@@ -195,11 +210,12 @@ function AddressForm({
             control={form.control}
             name="zip_code"
             render={({ field }) => (
-              <FormItem className="flex-1">
+              <FormItem className="flex-1 sm:relative">
                 <FormLabel>Zip</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
+                <FormMessage className="sm:absolute sm:-bottom-5" />
               </FormItem>
             )}
           />

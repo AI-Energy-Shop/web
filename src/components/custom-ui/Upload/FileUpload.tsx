@@ -1,16 +1,16 @@
 'use client';
 import { FileUploadZone } from './FileUploadZone';
-import { FileType, FileUploadProps } from './types';
+import { FileUploadProps } from './types';
 import FilePreview from './FilePreview';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import Modal from './Modal';
+import { UploadFile } from '@/hooks/useProductDetails';
 
 const FileUpload: React.FC<FileUploadProps> = ({
   maxFiles = 5,
   accept,
-  displayFiles = true,
   dataModalFilters,
   onFileRemove,
   onSelectedFiles,
@@ -20,7 +20,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
 }) => {
   const [showFilesModal, setShowFilesModal] = useState(false);
 
-  const handleSelectFilesFromModal = (files: FileType[] | null | undefined) => {
+  const handleSelectFilesFromModal = (
+    files: UploadFile[] | null | undefined
+  ) => {
     if (!files || files.length === 0) {
       console.warn('No files selected');
       return;
@@ -34,7 +36,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
           mime: file.mime,
           name: file.name,
           __typename: file.__typename,
-          id: file.id,
+          id: file.documentId,
           alternativeText: file.alternativeText,
         };
       });
