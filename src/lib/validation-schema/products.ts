@@ -15,6 +15,7 @@ export const addProductSchema = z.object({
   vendor: z.string().min(1, { message: 'Required' }),
   images: z.array(z.string()).min(1, { message: 'Required' }),
   files: z.array(z.string()).min(1, { message: 'Required' }),
+  brand: z.string().min(1, { message: 'Required' }),
   shipping: z.object({
     height: z.number().min(1, { message: 'Required' }),
     width: z.number().min(1, { message: 'Required' }),

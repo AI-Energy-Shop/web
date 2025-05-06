@@ -4,7 +4,6 @@ import { Label } from '@radix-ui/react-label';
 import { Trash2, GripVertical, Check, ChevronsUpDown } from 'lucide-react';
 import React, { FC, useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
-import { SpecificationsQuery } from '@/lib/gql/graphql';
 import {
   Command,
   CommandEmpty,

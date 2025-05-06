@@ -28,13 +28,14 @@ import { Button } from '@/components/ui/button';
 import SpecificationItem from './SpecificationItem';
 import { SPECIFICATION_KEYS } from '@/constant';
 import KeyFeatureItem from './KeyFeatureItem';
-
+import BrandOption from './BrandOption';
 const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
   const {
     loading,
     images,
     files,
     addProductForm,
+    brands,
     handleDiscardChanges,
     handleAddInventoryItem,
     handleAddPriceItem,
@@ -55,9 +56,9 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
   return (
     <Form {...addProductForm}>
       <form onSubmit={addProductForm.handleSubmit(handleClickSave)}>
-        <div className="relative w-full">
+        <div className="relative w-full h-full ">
           {/* HEADER */}
-          <div className="w-full bg-white flex items-center justify-between p-5">
+          <div className="w-full h-full flex items-center justify-between p-5">
             <div className="flex items-center space-x-2">
               <Link href="/admin/products">
                 <ChevronLeft className="h-4 w-4" />
@@ -118,7 +119,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
           </div>
 
           {/* BODY */}
-          <div className="w-full h-auto grid grid-cols-6 gap-5 p-5 bg-white">
+          <div className="w-full h-full grid grid-cols-6 gap-5 p-5">
             <div className="w-full h-auto col-span-4 flex flex-col gap-5 pb-2">
               <Card>
                 <CardHeader>
@@ -299,28 +300,43 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                   <CardTitle>Shipping</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {/* <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 gap-2">
                     <FormField
                       control={addProductForm.control}
                       name="shipping.width"
                       render={({ field }) => (
                         <FormItem className="w-full">
-                          <FormLabel className="font-normal text-xs">Width</FormLabel>
+                          <FormLabel className="font-normal text-xs">
+                            Width
+                          </FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} />
+                            <div className="flex items-center justify-center gap-2">
+                              <Input type="number" {...field} />
+                              <span className="text-xs font-semibold text-gray-500">
+                                cm
+                              </span>
+                            </div>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
+
                     <FormField
                       control={addProductForm.control}
                       name="shipping.height"
                       render={({ field }) => (
                         <FormItem className="w-full">
-                          <FormLabel className="font-normal text-xs">Height</FormLabel>
+                          <FormLabel className="font-normal text-xs">
+                            Height
+                          </FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} />
+                            <div className="flex items-center justify-center gap-2">
+                              <Input type="number" {...field} />
+                              <span className="text-xs font-semibold text-gray-500">
+                                cm
+                              </span>
+                            </div>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -331,9 +347,16 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                       name="shipping.weight"
                       render={({ field }) => (
                         <FormItem className="w-full">
-                          <FormLabel className="font-normal text-xs">Weight</FormLabel>
+                          <FormLabel className="font-normal text-xs">
+                            Weight
+                          </FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} />
+                            <div className="flex items-center justify-center gap-2">
+                              <Input type="number" {...field} />
+                              <span className="text-xs font-semibold text-gray-500">
+                                kg
+                              </span>
+                            </div>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -344,15 +367,22 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                       name="shipping.length"
                       render={({ field }) => (
                         <FormItem className="w-full">
-                          <FormLabel className="font-normal text-xs">Length</FormLabel>
+                          <FormLabel className="font-normal text-xs">
+                            Length
+                          </FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} />
+                            <div className="flex items-center justify-center gap-2">
+                              <Input type="number" {...field} />
+                              <span className="text-xs font-semibold text-gray-500">
+                                cm
+                              </span>
+                            </div>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                  </div> */}
+                  </div>
                 </CardContent>
               </Card>
               <Card>
@@ -360,6 +390,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                   <CardTitle>Product Organization</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                  <BrandOption optionsData={brands} form={addProductForm} />
                   <FormField
                     control={addProductForm.control}
                     name="product_type"

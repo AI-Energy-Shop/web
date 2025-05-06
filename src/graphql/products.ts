@@ -529,6 +529,39 @@ const schema = {
         }
       }
     `),
+    createShipping: graphql(`
+      mutation CreateShipping($data: ShippingInput!) {
+        createShipping(data: $data) {
+          documentId
+          width
+          height
+          weight
+          length
+          createdAt
+          updatedAt
+        }
+      }
+    `),
+    updateShipping: graphql(`
+      mutation UpdateShipping($documentId: ID!, $data: ShippingInput!) {
+        updateShipping(documentId: $documentId, data: $data) {
+          documentId
+          width
+          height
+          weight
+          length
+          createdAt
+          updatedAt
+        }
+      }
+    `),
+    deleteShipping: graphql(`
+      mutation DeleteShipping($documentId: ID!) {
+        deleteShipping(documentId: $documentId) {
+          documentId
+        }
+      }
+    `),
   },
 };
 

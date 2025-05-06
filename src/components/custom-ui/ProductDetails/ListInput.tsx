@@ -12,11 +12,6 @@ import {
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
-import {
-  AddProductFormData,
-  PriceListFormData,
-} from '@/lib/validation-schema/products';
-import { UseFormReturn } from 'react-hook-form';
 
 interface ListInputProps {
   title: string;

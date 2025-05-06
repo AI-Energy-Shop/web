@@ -23,6 +23,9 @@ import {
   CreateKeyFeatureMutation,
   UpdateKeyFeatureMutation,
   DeleteKeyFeatureMutation,
+  CreateShippingMutation,
+  UpdateShippingMutation,
+  DeleteShippingMutation,
 } from '@/lib/gql/graphql';
 
 const client = getClient();
@@ -520,6 +523,36 @@ export const deleteKeyFeature = async (
     return res;
   } catch (error: any) {
     console.log('ERROR deleting key feature:', error.message);
+    return error;
+  }
+};
+
+export const createShipping = async (
+  data: string
+): Promise<FetchResult<CreateShippingMutation>> => {
+  const inputData = JSON.parse(data);
+  const cookieStore = await cookies();
+  const token = cookieStore.get('a-token');
+  try {
+    const res = await client.mutate({
+      mutation: PRODUCT_OPERATIONS.Mutation.createShipping,
+      variables: {
+        data: {
+          height: Number(inputData.height),
+          width: Number(inputData.width),
+          length: Number(inputData.length),
+          weight: Number(inputData.weight),
+        },
+      },
+      context: {
+        headers: {
+          Authorization: `Bearer ${token?.value}`,
+        },
+      },
+    });
+    return res;
+  } catch (error: any) {
+    console.log('ERROR creating shipping:', error.message);
     return error;
   }
 };

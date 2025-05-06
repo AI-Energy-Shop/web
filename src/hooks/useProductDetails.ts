@@ -18,6 +18,7 @@ import {
   updateKeyFeature,
   createKeyFeature,
   deleteKeyFeature,
+  createShipping,
 } from '@/app/actions/products';
 import {
   AddProductFormData,
@@ -28,6 +29,8 @@ import {
   KeyFeatureFormData,
 } from '@/lib/validation-schema/products';
 import { useForm, UseFormReturn } from 'react-hook-form';
+import { useQuery } from '@apollo/client';
+import PRODUCT_OPERATIONS from '@/graphql/products';
 
 export type UploadFile = {
   __typename?: 'UploadFile';
@@ -41,12 +44,23 @@ export type UploadFile = {
 };
 
 const useProductDetails = (product: ProductQuery['product']) => {
+  const productCopy = useRef<ProductQuery['product']>(product);
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
-  const [priceLists, setPriceLists] = useState<any[]>([]);
+  const [brands, setBrands] = useState<{ documentId: string; name: string }[]>(
+    []
+  );
 
-  const productCopy = useRef<ProductQuery['product']>(product);
+  useQuery(PRODUCT_OPERATIONS.Query.brands, {
+    onCompleted(data) {
+      const currentBrands = data?.brands?.map((brand: any) => ({
+        documentId: brand?.documentId,
+        name: brand?.name,
+      }));
+      setBrands(currentBrands);
+    },
+  });
 
   const addProductForm = useForm<AddProductFormData>({
     resolver: addProductResolver,
@@ -59,6 +73,7 @@ const useProductDetails = (product: ProductQuery['product']) => {
       vendor: `${product?.vendor}`,
       images: product?.images?.map((image) => image?.documentId),
       files: product?.files?.map((file) => file?.documentId),
+      brand: product?.brand?.documentId,
       price_lists: product?.price_lists?.map((price) => ({
         documentId: price?.documentId,
         price: price?.price || 0,
@@ -82,6 +97,12 @@ const useProductDetails = (product: ProductQuery['product']) => {
         documentId: feature?.documentId || '',
         feature: feature?.feature || '',
       })),
+      shipping: {
+        weight: product?.shipping?.weight || 0,
+        width: product?.shipping?.width || 0,
+        height: product?.shipping?.height || 0,
+        length: product?.shipping?.length || 0,
+      },
       releaseAt: product?.releasedAt || '',
     },
   });
@@ -130,6 +151,10 @@ const useProductDetails = (product: ProductQuery['product']) => {
         addProductForm.getValues('key_features')
       );
 
+      const shippingId = await handleSaveOrUpdateShipping(
+        addProductForm.getValues('shipping')
+      );
+
       const imagesList = addProductForm.getValues('images');
       const filesList = addProductForm.getValues('files');
 
@@ -143,6 +168,8 @@ const useProductDetails = (product: ProductQuery['product']) => {
             description: addProductForm.getValues('description'),
             vendor: addProductForm.getValues('vendor'),
             product_type: addProductForm.getValues('product_type'),
+            brand: addProductForm.getValues('brand'),
+            shipping: shippingId,
             price_lists: priceList || [],
             inventories: inventoryList || [],
             specifications: specificationList || [],
@@ -604,6 +631,7 @@ const useProductDetails = (product: ProductQuery['product']) => {
     }
   };
 
+  // FILES
   const handleFilesSelected = (files: UploadFile[]) => {
     try {
       const existingFiles = files?.map((file) => file?.documentId) ?? [];
@@ -665,6 +693,39 @@ const useProductDetails = (product: ProductQuery['product']) => {
     );
   };
 
+  // SHIPPING
+  const handleSaveOrUpdateShipping = async ({
+    height,
+    width,
+    length,
+    weight,
+  }: {
+    height: number;
+    width: number;
+    length: number;
+    weight: number;
+  }) => {
+    if (height === 0 || width === 0 || length === 0 || weight === 0) {
+      return;
+    }
+
+    const res = await createShipping(
+      JSON.stringify({
+        height,
+        width,
+        length,
+        weight,
+      })
+    );
+
+    if (res.errors) {
+      console.error('Failed to create shipping:', res.errors);
+      return;
+    }
+
+    return res.data?.createShipping?.documentId;
+  };
+
   useEffect(() => {
     setImages(
       product?.images?.filter((image) => {
@@ -712,7 +773,7 @@ const useProductDetails = (product: ProductQuery['product']) => {
     productCopy,
     images,
     files,
-    priceLists,
+    brands,
     handleClickSave,
     handleProductStatusChange,
     handleDiscardChanges,
