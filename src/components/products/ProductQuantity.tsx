@@ -4,6 +4,7 @@ import { Minus, Plus } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { UseFormReturn } from 'react-hook-form';
+import { FormField } from '../ui/form';
 interface ProductQuantityProps {
   form?: UseFormReturn<any>;
 }
@@ -31,11 +32,18 @@ const ProductQuantity = ({ form }: ProductQuantityProps) => {
       >
         <Minus />
       </Button>
-      <Input
-        type="number"
-        placeholder="0"
-        {...form?.register('quantity')}
-        className={`${muktaVaani.className} w-full h-full rounded-none flex-2 bg-white no-spinner text-center`}
+
+      <FormField
+        control={form?.control}
+        name="quantity"
+        render={({ field }) => (
+          <Input
+            type="number"
+            placeholder="0"
+            {...field}
+            className={`${muktaVaani.className} w-full h-full rounded-none flex-2 bg-white no-spinner text-center`}
+          />
+        )}
       />
       <Button
         type="button"
