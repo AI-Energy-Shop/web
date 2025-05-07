@@ -83,11 +83,15 @@ const Payment: React.FC<PaymentProps> = ({}) => {
               </div>
               <div className="flex items-center space-x-2 border-b border-b-gray-300 pb-2">
                 <RadioGroupItem value="bank_transfer" id="bank_transfer" />
-                <Label htmlFor="bank_transfer">Bank Transfer</Label>
+                <Label htmlFor="bank_transfer" className="cursor-pointer">
+                  Bank Transfer
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="account_credit" id="account_credit" />
-                <Label htmlFor="account_credit">Account Credit</Label>
+                <Label htmlFor="account_credit" className="cursor-pointer">
+                  Account Credit
+                </Label>
               </div>
             </RadioGroup>
           </div>

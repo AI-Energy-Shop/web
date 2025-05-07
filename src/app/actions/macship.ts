@@ -1,6 +1,7 @@
 'use server';
 
 import { Routes } from '@/lib/routes.types';
+import { Cart } from '@/store/features/cart';
 
 interface calculateDeliveryPricingProps {
   fromLocation: {
@@ -11,19 +12,34 @@ interface calculateDeliveryPricingProps {
     suburb: string;
     postcode: string;
   };
+  cart: Cart[];
 }
 
 export const calculateDeliveryPricing = async (
   args: calculateDeliveryPricingProps
 ) => {
+  const { toLocation, cart } = args;
+
   const isAddressValid = await checkIfSuburbIsValid(
-    args.toLocation.suburb,
-    args.toLocation.postcode
+    toLocation.suburb,
+    toLocation.postcode
   );
 
   if (!isAddressValid) {
     return { data: null, error: true };
   }
+
+  const cartItems = cart.map((product) => {
+    return {
+      name: product.product.name,
+      sku: product.product.model,
+      quantity: product.quantity,
+      weight: product.product.shipping?.weight,
+      length: product.product.shipping?.length,
+      width: product.product.shipping?.width,
+      height: product.product.shipping?.height,
+    };
+  });
 
   const response = await fetch(
     'https://live.machship.com/apiv2/routes/returnroutes',
@@ -32,7 +48,7 @@ export const calculateDeliveryPricing = async (
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        token: 'KTWYUqgxr0auQd2dkcOMiwmyXORiuimUGg8IW9jrEdAw',
+        token: process.env.MACSHIP_API_KEY as string,
       },
       body: JSON.stringify({
         fromLocation: {
@@ -43,17 +59,7 @@ export const calculateDeliveryPricing = async (
           suburb: args.toLocation.suburb,
           postcode: args.toLocation.postcode,
         },
-        items: [
-          {
-            name: 'Wireless Headphones',
-            sku: 'HP-X200',
-            quantity: 1,
-            weight: 1.5,
-            length: 25,
-            width: 18,
-            height: 10,
-          },
-        ],
+        items: cartItems,
       }),
     }
   );

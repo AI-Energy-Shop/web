@@ -1437,6 +1437,13 @@ export type GetCheckoutUserDataQuery = {
           location_code?: string | null;
           quantity?: number | null;
         } | null>;
+        shipping?: {
+          __typename?: 'Shipping';
+          height?: number | null;
+          length?: number | null;
+          weight?: number | null;
+          width?: number | null;
+        } | null;
       } | null;
     } | null>;
     addresses: Array<{
@@ -2616,6 +2623,13 @@ export type UsersPermissionsUserQuery = {
           location_code?: string | null;
           quantity?: number | null;
         } | null>;
+        shipping?: {
+          __typename?: 'Shipping';
+          height?: number | null;
+          length?: number | null;
+          weight?: number | null;
+          width?: number | null;
+        } | null;
         images: Array<{
           __typename?: 'UploadFile';
           url: string;
@@ -3398,6 +3412,31 @@ export const GetCheckoutUserDataDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'quantity' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'shipping' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'height' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'length' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'weight' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'width' },
                                   },
                                 ],
                               },
@@ -7539,6 +7578,31 @@ export const UsersPermissionsUserDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'quantity' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'shipping' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'height' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'length' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'weight' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'width' },
                                   },
                                 ],
                               },
