@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import useCart from '@/hooks/useCart';
 import { useCheckout } from '@/hooks/useCheckout';
 import { PaymentMethod } from '@/store/features/checkout';
+import { creditCardPayment } from '@/app/actions/cardPayment';
 
 interface PaymentProps {}
 
@@ -103,7 +104,7 @@ const Payment: React.FC<PaymentProps> = ({}) => {
           <div className="ae-mobile-container px-2 mt-4">
             <Button
               className="block mx-auto px-12 rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
-              onClick={() => {}}
+              onClick={async () => await creditCardPayment()}
               disabled={!paymentMethod}
             >
               <div className="md:flex md:gap-1">
