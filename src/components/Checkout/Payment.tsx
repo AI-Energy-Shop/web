@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import Image from 'next/image';
 import { Label } from '@/components/ui/label';
@@ -8,12 +8,24 @@ import useCart from '@/hooks/useCart';
 import { useCheckout } from '@/hooks/useCheckout';
 import { PaymentMethod } from '@/store/features/checkout';
 import { creditCardPayment } from '@/app/actions/cardPayment';
+import { createOrder } from '@/app/actions/orders';
 
 interface PaymentProps {}
 
 const Payment: React.FC<PaymentProps> = ({}) => {
-  const { paymentStep, isCartNeededManualQuote } = useCart();
-  const { paymentMethod, setPaymentMethod } = useCheckout();
+  const { paymentStep, isCartNeededManualQuote, carts } = useCart();
+  const { paymentMethod, setPaymentMethod, allCheckoutState, setItems } =
+    useCheckout();
+
+  useEffect(() => {
+    setItems(carts);
+  }, [carts, setItems]);
+
+  const handleSubmitOrderAndPay = async () => {
+    // creditCardPayment();
+    const x = await createOrder({ checkoutState: allCheckoutState });
+    console.log(x);
+  };
 
   return (
     <section>
@@ -104,7 +116,7 @@ const Payment: React.FC<PaymentProps> = ({}) => {
           <div className="ae-mobile-container px-2 mt-4">
             <Button
               className="block mx-auto px-12 rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
-              onClick={async () => await creditCardPayment()}
+              onClick={handleSubmitOrderAndPay}
               disabled={!paymentMethod}
             >
               <div className="md:flex md:gap-1">

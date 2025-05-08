@@ -5,12 +5,13 @@ import {
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Cart } from './cart';
 import { getPickUpOptionsBestTimeSlots } from '@/components/Checkout/pickUpOptionsBestTimeSlot';
+import { Enum_Order_Paymentmethod } from '@/lib/gql/graphql';
 
 export type ShippingType = 'delivery' | 'pickup' | null;
 export type PaymentMethod =
-  | 'credit_card'
-  | 'bank_transfer'
-  | 'account_credit'
+  | Enum_Order_Paymentmethod.AccountCredit
+  | Enum_Order_Paymentmethod.BankTransfer
+  | Enum_Order_Paymentmethod.CreditCard
   | undefined;
 
 export type MacshipData = {
@@ -65,7 +66,7 @@ export type ShippingAddress = {
   zip_code: string;
 };
 
-type CheckoutState = {
+export type CheckoutState = {
   items: Cart[];
   warehouseLocation: WarehouseLocation;
   voucherCode: string;
