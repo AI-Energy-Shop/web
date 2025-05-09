@@ -6,7 +6,7 @@ function PriceDetails() {
     shipping: 12,
     tax: 123,
     total: 123,
-    discountCode: 'asd',
+    discountCode: 'discount',
     discountAmount: 123,
   };
 
