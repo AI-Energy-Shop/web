@@ -35,9 +35,18 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
   onReduceQuant,
   onRemove,
 }) => {
+  const isInStock = stock > 0;
+  const isExceedQuantity = quantity > stock;
+
   return (
-    <div className="space-y-4">
-      <div className="flex ">
+    <div className={`space-y-4 ${!isInStock && 'border-2 border-red-500'}`}>
+      <div
+        className={`${isInStock ? 'hidden' : 'bg-red-500'} font-thin text-sm text-white p-2`}
+      >
+        Currently not available in this location. Please change location or
+        delete the item before going to proceed.
+      </div>
+      <div className="flex">
         <Button
           size="icon"
           variant="ghost"
@@ -57,7 +66,11 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
           />
         </div>
         <div className="flex-1">
-          <p className="text-[10px] text-green-700">In Stock ({stock})</p>
+          <p
+            className={`text-[10px] ${isInStock ? 'text-green-700' : 'text-red-500'}`}
+          >
+            {isInStock ? 'In Stock' : 'Out of Stock'} ({stock})
+          </p>
           <h1 className="text-[14px] font-bold">{title}</h1>
           <p className="font-thin text-[14px]">{model}</p>
         </div>
@@ -65,36 +78,46 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
           <h2>{gst}</h2>
           <p className="text-[12px]">ex.GST</p>
         </div>
-        <div className="hidden md:block md:flex-1 md:border md:rounded-md md:h-full">
-          <div className="text-center bg-gray-300">QTY</div>
-          <div className="flex items-end h-7">
-            <Button
-              size="icon"
-              variant="ghost"
-              className="bg-gray-200 rounded-none w-full h-full "
-              onClick={() => onReduceQuant(id)}
-            >
-              <Minus />
-            </Button>
-            <Input
-              className="h-full rounded-none z-10 text-center"
-              type="text"
-              name="cart-item-quantity"
-              value={quantity}
-              onChange={(e) => onChange(id, e)}
-            />
-            <Button
-              size="icon"
-              variant="ghost"
-              className="bg-gray-200 rounded-none w-full h-full "
-              onClick={() => onAddQuant(id)}
-            >
-              <Plus />
-            </Button>
-          </div>
-          <div className="text-center">
-            <p>{formatCurrency(Number(price * quantity), 'USD')}</p>
-            <p className="text-[12px]">ex.GST</p>
+        <div>
+          <p
+            className={`font-semibold text-xs text-red-500 md:text-sm ${isExceedQuantity ? 'block' : 'hidden'}`}
+          >
+            Quantity exceeded.
+          </p>
+          <div className="hidden md:block md:flex-1 md:border md:rounded-md ">
+            <div className="text-center bg-gray-300">QTY</div>
+            <div className="flex items-end h-7">
+              <Button
+                size="icon"
+                variant="ghost"
+                className="bg-gray-200 rounded-none w-full h-full "
+                onClick={() => onReduceQuant(id)}
+                disabled={!isInStock}
+              >
+                <Minus />
+              </Button>
+              <Input
+                className="h-full rounded-none z-10 text-center"
+                type="text"
+                name="cart-item-quantity"
+                value={quantity}
+                onChange={(e) => onChange(id, e)}
+                disabled={!isInStock}
+              />
+              <Button
+                size="icon"
+                variant="ghost"
+                className="bg-gray-200 rounded-none w-full h-full "
+                onClick={() => onAddQuant(id)}
+                disabled={!isInStock}
+              >
+                <Plus />
+              </Button>
+            </div>
+            <div className="text-center">
+              <p>{formatCurrency(Number(price * quantity), 'USD')}</p>
+              <p className="text-[12px]">ex.GST</p>
+            </div>
           </div>
         </div>
         <Button
@@ -117,6 +140,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
             variant="ghost"
             className="bg-gray-200 rounded-none w-full h-full border-x border-x-black"
             onClick={() => onReduceQuant(id)}
+            disabled={!isInStock}
           >
             <Minus />
           </Button>
@@ -125,6 +149,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
           className="flex-2 rounded-none text-center h-12"
           value={quantity}
           onChange={(e) => onChange(id, e)}
+          disabled={!isInStock}
         />
         <div className="flex-1">
           <Button
@@ -132,6 +157,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
             variant="ghost"
             className="bg-gray-200 rounded-none w-full h-full border-x border-x-black"
             onClick={() => onAddQuant(id)}
+            disabled={!isInStock}
           >
             <Plus />
           </Button>

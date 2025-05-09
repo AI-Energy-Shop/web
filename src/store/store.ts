@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
+import checkoutReducer from './features/checkout';
 import { configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import storage from './middleware/storage-middleware';
-
 import meReducer from './features/me';
 import cartReducer from './features/cart';
 import productsReducer from './features/products';
@@ -11,6 +11,7 @@ import productsReducer from './features/products';
 const rootReducer = combineReducers({
   me: meReducer,
   cart: cartReducer,
+  checkout: checkoutReducer,
   products: productsReducer,
 });
 

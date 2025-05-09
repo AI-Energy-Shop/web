@@ -5,6 +5,8 @@ import { ShoppingCart } from 'lucide-react';
 import CartNotification from './CartNotifications';
 import Link from 'next/link';
 import useCart from '@/hooks/useCart';
+import { invalidateCartPath } from '@/app/actions/cart';
+import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
 interface CartButtonProps {
@@ -13,10 +15,17 @@ interface CartButtonProps {
 
 const CartButton: React.FC<CartButtonProps> = ({ cartStyle = 'text' }) => {
   const { carts } = useCart();
+  const router = useRouter();
   return (
     <Link
+      prefetch={false}
       href="/cart"
       className="flex flex-col items-center m-0 w-auto h-auto px-1 relative group"
+      onClick={async (e) => {
+        e.preventDefault();
+        invalidateCartPath();
+        router.push('/cart');
+      }}
     >
       <ShoppingCart className="h-5 w-5" />
       {cartStyle === 'icon' ? (

@@ -1,17 +1,31 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import Image from 'next/image';
 import { Label } from '@/components/ui/label';
-import { MoveRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import useCart from '@/hooks/useCart';
+import { useCheckout } from '@/hooks/useCheckout';
+import { PaymentMethod } from '@/store/features/checkout';
+import { creditCardPayment } from '@/app/actions/cardPayment';
+import { createOrder } from '@/app/actions/orders';
 
 interface PaymentProps {}
 
 const Payment: React.FC<PaymentProps> = ({}) => {
-  const { paymentStep, paymentOption } = useCart();
+  const { paymentStep, isCartNeededManualQuote, carts } = useCart();
+  const { paymentMethod, setPaymentMethod, allCheckoutState, setItems } =
+    useCheckout();
+
+  useEffect(() => {
+    setItems(carts);
+  }, [carts, setItems]);
+
+  const handleSubmitOrderAndPay = async () => {
+    // creditCardPayment();
+    const x = await createOrder({ checkoutState: allCheckoutState });
+    console.log(x);
+  };
 
   return (
     <section>
@@ -24,11 +38,37 @@ const Payment: React.FC<PaymentProps> = ({}) => {
         <div className="ae-mobile-container space-y-4">
           <div className="border border-blue-navy-blue rounded-xl p-2 md:mx-12">
             <h1 className="font-bold">Payment Method</h1>
-            <RadioGroup className="space-y-1" onValueChange={() => {}}>
+            <RadioGroup
+              className="space-y-1"
+              value={paymentMethod}
+              onValueChange={(e) => setPaymentMethod(e as PaymentMethod)}
+            >
               <div className="flex items-center justify-between border-b border-b-gray-300 pb-2">
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="option-one" id="option-one" />
-                  <Label htmlFor="option-one">Credit Card</Label>
+                  <RadioGroupItem
+                    value="credit_card"
+                    id="credit_card"
+                    disabled={isCartNeededManualQuote}
+                  />
+                  <Label
+                    htmlFor="credit_card"
+                    className={`flex items-center gap-2 ${isCartNeededManualQuote ? 'cursor-not-allowed ' : 'cursor-pointer'}`}
+                  >
+                    <span
+                      className={
+                        isCartNeededManualQuote
+                          ? 'line-through text-gray-500'
+                          : 'text-black'
+                      }
+                    >
+                      Credit Card
+                    </span>
+                    {isCartNeededManualQuote && (
+                      <span className="text-xs text-red-500">
+                        (not available base in your cart items)
+                      </span>
+                    )}
+                  </Label>
                 </div>
                 <div className="flex items-center justify-end gap-x-1">
                   <Image
@@ -55,63 +95,18 @@ const Payment: React.FC<PaymentProps> = ({}) => {
                 </div>
               </div>
               <div className="flex items-center space-x-2 border-b border-b-gray-300 pb-2">
-                <RadioGroupItem value="option-two" id="option-two" />
-                <Label htmlFor="option-two">Bank Transfer</Label>
+                <RadioGroupItem value="bank_transfer" id="bank_transfer" />
+                <Label htmlFor="bank_transfer" className="cursor-pointer">
+                  Bank Transfer
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="option-three" id="option-three" />
-                <Label htmlFor="option-three">Account Credit</Label>
+                <RadioGroupItem value="account_credit" id="account_credit" />
+                <Label htmlFor="account_credit" className="cursor-pointer">
+                  Account Credit
+                </Label>
               </div>
             </RadioGroup>
-          </div>
-
-          <div className="max-lg:space-y-4 lg:flex lg:gap-x-4 lg:mx-12">
-            <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12 lg:mx-0">
-              <div className="flex items-center justify-between">
-                <h1 className="font-bold text-blue-navy-blue">Bill to:</h1>
-                <div className="flex items-center gap-x-1 relative border-b border-black">
-                  <p className="text-[12px]">Change Address</p>
-                  <MoveRight className="w-4" />
-                </div>
-              </div>
-              <div className="flex gap-x-2">
-                <h1 className="font-bold">Fake Company Installs</h1>
-                <p>-</p>
-                <h1>123 Fake St, Springfield, NSW 2345</h1>
-              </div>
-            </div>
-
-            {/* Card Details */}
-            {paymentOption && (
-              <div className="border border-blue-navy-blue rounded-xl p-2 space-y-2 md:mx-12 lg:mx-0">
-                <div className="flex items-center justify-between">
-                  <h1 className="font-bold">Card Details</h1>
-                  <Link href="/payment">
-                    <div className="flex items-center gap-x-1 relative border-b border-black">
-                      <p className="text-[12px]">Change Payment Method</p>
-                      <MoveRight className="w-4" />
-                    </div>
-                  </Link>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h1>Frank Grimes</h1>
-                    <p>Ending with 2684</p>
-                    <p>Exp. 10/2026</p>
-                  </div>
-                  <div className="basis-3/12 flex items-center justify-center flex-col gap-y-2">
-                    <Image
-                      width={28}
-                      height={24}
-                      src="/images/logo/visa.png"
-                      alt="visa logo"
-                      className="w-7 h-6 border border-black"
-                    />
-                    <p className="text-[14px] text-center">1.2% Surcharge</p>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -121,8 +116,8 @@ const Payment: React.FC<PaymentProps> = ({}) => {
           <div className="ae-mobile-container px-2 mt-4">
             <Button
               className="block mx-auto px-12 rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
-              onClick={() => {}}
-              disabled={!paymentOption}
+              onClick={handleSubmitOrderAndPay}
+              disabled={!paymentMethod}
             >
               <div className="md:flex md:gap-1">
                 <p>Submit Order</p>

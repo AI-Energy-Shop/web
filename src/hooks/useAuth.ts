@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/useToast';
 import { setMe, setMeAdmin } from '@/store/features/me';
 import { setCarts, setWarehouseLocation } from '@/store/features/cart';
-import { ProductQuery } from '@/lib/gql/graphql';
 import {
   LoginFormData,
   loginResolver,
@@ -13,6 +12,7 @@ import {
 } from '@/lib/validation-schema/auth-forms';
 import { useState } from 'react';
 import { useAppDispatch } from '@/store/store';
+import { ProductQuery } from '@/lib/gql/graphql';
 const useAuth = () => {
   const router = useRouter();
   const { toast } = useToast();
