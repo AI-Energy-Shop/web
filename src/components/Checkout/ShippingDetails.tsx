@@ -37,6 +37,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     handleContinueClick,
     handleEditClick,
     isCartNeededManualQuote,
+    carts,
   } = useCart();
 
   const {
@@ -74,7 +75,8 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
 
   const { data, isLoading, error } = useCalculateDeliveryPricing(
     userCurrentAddress?.city || '',
-    userCurrentAddress?.zip_code || ''
+    userCurrentAddress?.zip_code || '',
+    carts
   );
 
   const notAbleToProceedToPayment = () => {
@@ -85,6 +87,10 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     }
 
     if (!Boolean(shippingType)) {
+      isTrue = true;
+    }
+
+    if (shippingType === 'delivery' && !deliveryOptions) {
       isTrue = true;
     }
 
@@ -101,6 +107,10 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
       deliveryOptions?.type === 'auto' &&
       !deliveryOptions?.macshipData
     ) {
+      isTrue = true;
+    }
+
+    if (shippingType === 'pickup' && !pickUpOptions?.date) {
       isTrue = true;
     }
 

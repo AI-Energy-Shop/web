@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import Image from 'next/image';
 import { Label } from '@/components/ui/label';
@@ -7,12 +7,25 @@ import { Button } from '@/components/ui/button';
 import useCart from '@/hooks/useCart';
 import { useCheckout } from '@/hooks/useCheckout';
 import { PaymentMethod } from '@/store/features/checkout';
+import { creditCardPayment } from '@/app/actions/cardPayment';
+import { createOrder } from '@/app/actions/orders';
 
 interface PaymentProps {}
 
 const Payment: React.FC<PaymentProps> = ({}) => {
-  const { paymentStep, isCartNeededManualQuote } = useCart();
-  const { paymentMethod, setPaymentMethod } = useCheckout();
+  const { paymentStep, isCartNeededManualQuote, carts } = useCart();
+  const { paymentMethod, setPaymentMethod, allCheckoutState, setItems } =
+    useCheckout();
+
+  useEffect(() => {
+    setItems(carts);
+  }, [carts, setItems]);
+
+  const handleSubmitOrderAndPay = async () => {
+    // creditCardPayment();
+    const x = await createOrder({ checkoutState: allCheckoutState });
+    console.log(x);
+  };
 
   return (
     <section>
@@ -83,11 +96,15 @@ const Payment: React.FC<PaymentProps> = ({}) => {
               </div>
               <div className="flex items-center space-x-2 border-b border-b-gray-300 pb-2">
                 <RadioGroupItem value="bank_transfer" id="bank_transfer" />
-                <Label htmlFor="bank_transfer">Bank Transfer</Label>
+                <Label htmlFor="bank_transfer" className="cursor-pointer">
+                  Bank Transfer
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="account_credit" id="account_credit" />
-                <Label htmlFor="account_credit">Account Credit</Label>
+                <Label htmlFor="account_credit" className="cursor-pointer">
+                  Account Credit
+                </Label>
               </div>
             </RadioGroup>
           </div>
@@ -99,7 +116,7 @@ const Payment: React.FC<PaymentProps> = ({}) => {
           <div className="ae-mobile-container px-2 mt-4">
             <Button
               className="block mx-auto px-12 rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
-              onClick={() => {}}
+              onClick={handleSubmitOrderAndPay}
               disabled={!paymentMethod}
             >
               <div className="md:flex md:gap-1">

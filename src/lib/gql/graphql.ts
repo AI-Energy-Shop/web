@@ -305,6 +305,86 @@ export type ComponentElementsCartItemInput = {
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type ComponentElementsDeliveryOptionFiltersInput = {
+  and?: InputMaybe<
+    Array<InputMaybe<ComponentElementsDeliveryOptionFiltersInput>>
+  >;
+  eta?: InputMaybe<DateFilterInput>;
+  not?: InputMaybe<ComponentElementsDeliveryOptionFiltersInput>;
+  or?: InputMaybe<
+    Array<InputMaybe<ComponentElementsDeliveryOptionFiltersInput>>
+  >;
+  requestedDeliveryDate?: InputMaybe<DateFilterInput>;
+  shipping?: InputMaybe<ComponentElementsDeliveryOptionShippingFiltersInput>;
+  type?: InputMaybe<StringFilterInput>;
+};
+
+export type ComponentElementsDeliveryOptionInput = {
+  eta?: InputMaybe<Scalars['Date']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  requestedDeliveryDate?: InputMaybe<Scalars['Date']['input']>;
+  shipping?: InputMaybe<ComponentElementsDeliveryOptionShippingInput>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ComponentElementsDeliveryOptionShippingDisplayFiltersInput = {
+  and?: InputMaybe<
+    Array<
+      InputMaybe<ComponentElementsDeliveryOptionShippingDisplayFiltersInput>
+    >
+  >;
+  carrierDisplayName?: InputMaybe<StringFilterInput>;
+  carrierServiceDisplayName?: InputMaybe<StringFilterInput>;
+  eta?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ComponentElementsDeliveryOptionShippingDisplayFiltersInput>;
+  or?: InputMaybe<
+    Array<
+      InputMaybe<ComponentElementsDeliveryOptionShippingDisplayFiltersInput>
+    >
+  >;
+  totalSellBeforeTax?: InputMaybe<StringFilterInput>;
+  totalSellPrice?: InputMaybe<StringFilterInput>;
+  totalWeight?: InputMaybe<LongFilterInput>;
+};
+
+export type ComponentElementsDeliveryOptionShippingDisplayInput = {
+  carrierDisplayName?: InputMaybe<Scalars['String']['input']>;
+  carrierServiceDisplayName?: InputMaybe<Scalars['String']['input']>;
+  eta?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  totalSellBeforeTax?: InputMaybe<Scalars['String']['input']>;
+  totalSellPrice?: InputMaybe<Scalars['String']['input']>;
+  totalWeight?: InputMaybe<Scalars['Long']['input']>;
+};
+
+export type ComponentElementsDeliveryOptionShippingFiltersInput = {
+  and?: InputMaybe<
+    Array<InputMaybe<ComponentElementsDeliveryOptionShippingFiltersInput>>
+  >;
+  carrierAccountId?: InputMaybe<LongFilterInput>;
+  carrierId?: InputMaybe<LongFilterInput>;
+  carrierServiceId?: InputMaybe<LongFilterInput>;
+  companyCarrierAccountId?: InputMaybe<LongFilterInput>;
+  companyId?: InputMaybe<LongFilterInput>;
+  dgsDeclaration?: InputMaybe<BooleanFilterInput>;
+  display?: InputMaybe<ComponentElementsDeliveryOptionShippingDisplayFiltersInput>;
+  not?: InputMaybe<ComponentElementsDeliveryOptionShippingFiltersInput>;
+  or?: InputMaybe<
+    Array<InputMaybe<ComponentElementsDeliveryOptionShippingFiltersInput>>
+  >;
+};
+
+export type ComponentElementsDeliveryOptionShippingInput = {
+  carrierAccountId?: InputMaybe<Scalars['Long']['input']>;
+  carrierId?: InputMaybe<Scalars['Long']['input']>;
+  carrierServiceId?: InputMaybe<Scalars['Long']['input']>;
+  companyCarrierAccountId?: InputMaybe<Scalars['Long']['input']>;
+  companyId?: InputMaybe<Scalars['Long']['input']>;
+  dgsDeclaration?: InputMaybe<Scalars['Boolean']['input']>;
+  display?: InputMaybe<ComponentElementsDeliveryOptionShippingDisplayInput>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
 export type ComponentElementsFilterRuleFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ComponentElementsFilterRuleFiltersInput>>>;
   handle?: InputMaybe<StringFilterInput>;
@@ -331,18 +411,16 @@ export type ComponentElementsInputFiltersInput = {
 
 export type ComponentElementsLineItemFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ComponentElementsLineItemFiltersInput>>>;
-  lines?: InputMaybe<ComponentElementsCartItemFiltersInput>;
-  locationCode?: InputMaybe<StringFilterInput>;
+  line?: InputMaybe<ComponentElementsCartItemFiltersInput>;
+  location?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<ComponentElementsLineItemFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ComponentElementsLineItemFiltersInput>>>;
-  quantity?: InputMaybe<IntFilterInput>;
 };
 
 export type ComponentElementsLineItemInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
-  lines?: InputMaybe<ComponentElementsCartItemInput>;
-  locationCode?: InputMaybe<Scalars['String']['input']>;
-  quantity?: InputMaybe<Scalars['Int']['input']>;
+  line?: InputMaybe<ComponentElementsCartItemInput>;
+  location?: InputMaybe<Enum_Componentelementslineitem_Location>;
 };
 
 export type ComponentElementsNameFiltersInput = {
@@ -410,6 +488,7 @@ export type ComponentElementsShippingAddressFiltersInput = {
   isActive?: InputMaybe<BooleanFilterInput>;
   name?: InputMaybe<ComponentElementsNameFiltersInput>;
   not?: InputMaybe<ComponentElementsShippingAddressFiltersInput>;
+  odoo_address_id?: InputMaybe<StringFilterInput>;
   or?: InputMaybe<
     Array<InputMaybe<ComponentElementsShippingAddressFiltersInput>>
   >;
@@ -426,6 +505,7 @@ export type ComponentElementsShippingAddressInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
   isActive?: InputMaybe<Scalars['Boolean']['input']>;
   name?: InputMaybe<ComponentElementsNameInput>;
+  odoo_address_id?: InputMaybe<Scalars['String']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
   postcode?: InputMaybe<Scalars['String']['input']>;
   state_territory?: InputMaybe<Scalars['String']['input']>;
@@ -453,6 +533,7 @@ export type ComponentElementsWarehouseLocationFiltersInput = {
     Array<InputMaybe<ComponentElementsWarehouseLocationFiltersInput>>
   >;
   not?: InputMaybe<ComponentElementsWarehouseLocationFiltersInput>;
+  odoo_warehouse_id?: InputMaybe<StringFilterInput>;
   or?: InputMaybe<
     Array<InputMaybe<ComponentElementsWarehouseLocationFiltersInput>>
   >;
@@ -462,6 +543,7 @@ export type ComponentElementsWarehouseLocationFiltersInput = {
 export type ComponentElementsWarehouseLocationInput = {
   address?: InputMaybe<ComponentElementsAddressInput>;
   id?: InputMaybe<Scalars['ID']['input']>;
+  odoo_warehouse_id?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -552,6 +634,12 @@ export enum Enum_Componentelementsinput_Type {
   Textarea = 'TEXTAREA',
 }
 
+export enum Enum_Componentelementslineitem_Location {
+  Bne = 'BNE',
+  Mel = 'MEL',
+  Syd = 'SYD',
+}
+
 export enum Enum_Componentelementsprice_User_Level {
   MidSized = 'MID_SIZED',
   Small = 'SMALL',
@@ -582,14 +670,15 @@ export enum Enum_Order_Paymentmethod {
 }
 
 export enum Enum_Order_Paymentstatus {
+  Failed = 'failed',
+  Paid = 'paid',
   Pending = 'pending',
-  Refund = 'refund',
+  Refunded = 'refunded',
 }
 
 export enum Enum_Order_Shippingtype {
-  ExpressDelivery = 'express_delivery',
+  Delivery = 'delivery',
   Pickup = 'pickup',
-  StandardDelivery = 'standard_delivery',
 }
 
 export enum Enum_Specification_Key {
@@ -821,6 +910,7 @@ export type OrderFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<OrderFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   deliveryNotes?: InputMaybe<StringFilterInput>;
+  deliveryOption?: InputMaybe<ComponentElementsDeliveryOptionFiltersInput>;
   deliveryStatus?: InputMaybe<StringFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
   fulfillmentStatus?: InputMaybe<StringFilterInput>;
@@ -847,6 +937,7 @@ export type OrderFiltersInput = {
 
 export type OrderInput = {
   deliveryNotes?: InputMaybe<Scalars['String']['input']>;
+  deliveryOption?: InputMaybe<ComponentElementsDeliveryOptionInput>;
   deliveryStatus?: InputMaybe<Enum_Order_Deliverystatus>;
   fulfillmentStatus?: InputMaybe<Enum_Order_Fulfillmentstatus>;
   lineItems?: InputMaybe<Array<InputMaybe<ComponentElementsLineItemInput>>>;
@@ -1437,6 +1528,13 @@ export type GetCheckoutUserDataQuery = {
           location_code?: string | null;
           quantity?: number | null;
         } | null>;
+        shipping?: {
+          __typename?: 'Shipping';
+          height?: number | null;
+          length?: number | null;
+          weight?: number | null;
+          width?: number | null;
+        } | null;
       } | null;
     } | null>;
     addresses: Array<{
@@ -1779,6 +1877,15 @@ export type OrdersQuery = {
       currency?: string | null;
     } | null;
   } | null>;
+};
+
+export type CreateOrderMutationVariables = Exact<{
+  data: OrderInput;
+}>;
+
+export type CreateOrderMutation = {
+  __typename?: 'Mutation';
+  createOrder?: { __typename?: 'Order'; documentId: string } | null;
 };
 
 export type PagesQueryVariables = Exact<{ [key: string]: never }>;
@@ -2616,6 +2723,13 @@ export type UsersPermissionsUserQuery = {
           location_code?: string | null;
           quantity?: number | null;
         } | null>;
+        shipping?: {
+          __typename?: 'Shipping';
+          height?: number | null;
+          length?: number | null;
+          weight?: number | null;
+          width?: number | null;
+        } | null;
         images: Array<{
           __typename?: 'UploadFile';
           url: string;
@@ -3398,6 +3512,31 @@ export const GetCheckoutUserDataDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'quantity' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'shipping' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'height' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'length' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'weight' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'width' },
                                   },
                                 ],
                               },
@@ -4654,6 +4793,54 @@ export const OrdersDocument = {
     },
   ],
 } as unknown as DocumentNode<OrdersQuery, OrdersQueryVariables>;
+export const CreateOrderDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateOrder' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'OrderInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createOrder' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CreateOrderMutation, CreateOrderMutationVariables>;
 export const PagesDocument = {
   kind: 'Document',
   definitions: [
@@ -7539,6 +7726,31 @@ export const UsersPermissionsUserDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'quantity' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'shipping' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'height' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'length' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'weight' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'width' },
                                   },
                                 ],
                               },

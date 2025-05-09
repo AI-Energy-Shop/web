@@ -1,3 +1,4 @@
+import { Cart } from '@/store/features/cart';
 import {
   setSelectedLocation,
   setShippingType as setShippingTypeFromSlice,
@@ -11,6 +12,7 @@ import {
   setPickUpOptions as setPickUpOptionsFromSlice,
   PaymentMethod,
   setPaymentMethod as setPaymentMethodFromSlice,
+  setItems as setItemsMethodFromSlice,
 } from '@/store/features/checkout';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 
@@ -36,6 +38,8 @@ export const useCheckout = () => {
     (state) => state.checkout.deliveryOptions
   );
 
+  const allCheckoutState = useAppSelector((state) => state.checkout);
+
   //Actions
   const setWarehouseLocation = (warehouse: WarehouseLocation) =>
     dispatch(setSelectedLocation(warehouse));
@@ -59,6 +63,10 @@ export const useCheckout = () => {
   const setPaymentMethod = (paymentMethod: PaymentMethod) =>
     dispatch(setPaymentMethodFromSlice(paymentMethod));
 
+  const setItems = (cart: Cart[]) => {
+    dispatch(setItemsMethodFromSlice(cart));
+  };
+
   return {
     warehouseLocation,
     pickUpNotes,
@@ -67,6 +75,7 @@ export const useCheckout = () => {
     shippingType,
     paymentMethod,
     deliveryOptions,
+    allCheckoutState,
     setWarehouseLocation,
     setShippingType,
     setDeliveryOptions,
@@ -74,5 +83,6 @@ export const useCheckout = () => {
     setPickUpNotes,
     setPickUpOptions,
     setPaymentMethod,
+    setItems,
   };
 };

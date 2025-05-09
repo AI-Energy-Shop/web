@@ -55,6 +55,12 @@ const schema = {
                 location_code
                 quantity
               }
+              shipping {
+                height
+                length
+                weight
+                width
+              }
             }
           }
           addresses {
