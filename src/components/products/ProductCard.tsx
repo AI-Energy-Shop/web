@@ -99,10 +99,7 @@ const ProductCard: React.FC<ProductCardproduct> = ({
             <Image
               fill
               priority
-              src={
-                product?.images[0]?.url ||
-                (process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_IMAGE as string)
-              }
+              src={product?.images[0]?.url || '/no-product-image.jpg'}
               alt={product?.images[0]?.name || 'product image'}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-contain w-auto h-auto bg-transparent mix-blend-multiply"
