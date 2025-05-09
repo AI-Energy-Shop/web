@@ -1,44 +1,40 @@
 'use client';
 import { formatCurrency } from '@/utils/currency';
 import { ProductsQuery } from '@/lib/gql/graphql';
-import useMe from '@/hooks/useMe';
 import Image from 'next/image';
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
 import React from 'react';
-import useCart from '@/hooks/useCart';
 import { Form, FormField } from '../ui/form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Input } from '../ui/input';
 import ProductQuantity from './ProductQuantity';
 import { Button } from '../ui/button';
-import { useToast } from '@/hooks/useToast';
-import { useRouter } from 'next/navigation';
-import { addToCartFormSchema } from '@/lib/validation-schema/products';
+import { cn } from '@/lib/utils';
+import {
+  addToCartResolver,
+  addToCartSchema,
+} from '@/lib/validation-schema/add-to-cart-form';
 
 type ProductCardproduct = {
   product?: ProductsQuery['products'][0] | null;
   productPrice: number;
-  salePrice: number;
-  regularPrice: number;
   stocks: number;
   itemPrice: any;
+  userID: string;
+  onSubmit: (data: z.infer<typeof addToCartSchema>) => void;
 };
 
 const ProductCard: React.FC<ProductCardproduct> = ({
   product,
   productPrice,
-  salePrice,
-  regularPrice,
   stocks,
   itemPrice,
+  userID,
+  onSubmit,
 }) => {
-  const router = useRouter();
-
-  const form = useForm<z.infer<typeof addToCartFormSchema>>({
-    resolver: zodResolver(addToCartFormSchema),
+  const form = useForm<z.infer<typeof addToCartSchema>>({
+    resolver: addToCartResolver,
     defaultValues: {
       id: product?.documentId || '',
       quantity: 0,
@@ -49,49 +45,16 @@ const ProductCard: React.FC<ProductCardproduct> = ({
 
   const productLink = `/products/${productSlug}`;
 
-  const onSubmit = async (data: z.infer<typeof addToCartFormSchema>) => {
-    // if (!user) {
-    //   router.push('/auth/login');
-    //   return;
-    // }
-    // if (data.quantity === 0 || data.quantity === null) {
-    //   toast({
-    //     title: 'Quantity cannot be 0',
-    //     variant: 'destructive',
-    //   });
-    //   return;
-    // }
-    // if (stocks <= 0) {
-    //   toast({
-    //     title: 'Out of Stock',
-    //     variant: 'destructive',
-    //   });
-    //   return;
-    // }
-    // const cartItem = carts.find((cart) => cart?.product?.documentId === data.id);
-    // if (cartItem && cartItem?.product) {
-    //   updateCartItem({
-    //     cartId: cartItem.documentId,
-    //     product: cartItem.product.documentId,
-    //     quantity: cartItem.quantity + data.quantity,
-    //   });
-    //   return;
-    // }
-    // await addToCart({
-    //   product: data.id,
-    //   quantity: data.quantity,
-    //   user: user?.id,
-    // });
-  };
-
   const renderPriceAndStock = () => {
-    // if (!user) {
-    //   return (
-    //     <div className="grid grid-cols-1 my-3">
-    //       <span className="text-sm row-span-1 text-[#1b1b3b]">Login to view price</span>
-    //     </div>
-    //   );
-    // }
+    if (!userID) {
+      return (
+        <div className="grid grid-cols-1 my-3">
+          <span className="text-sm row-span-1 text-[#1b1b3b]">
+            Login to view price
+          </span>
+        </div>
+      );
+    }
 
     return (
       <div className="grid grid-cols-1 grid-rows-3">
@@ -117,9 +80,7 @@ const ProductCard: React.FC<ProductCardproduct> = ({
     );
   };
 
-  const renderHiddenInput = (
-    name: keyof z.infer<typeof addToCartFormSchema>
-  ) => {
+  const renderHiddenInput = (name: keyof z.infer<typeof addToCartSchema>) => {
     return (
       <FormField
         name={name}
@@ -138,8 +99,8 @@ const ProductCard: React.FC<ProductCardproduct> = ({
             <Image
               fill
               priority
-              src={product?.images[0]?.url || ''}
-              alt={product?.images[0]?.name || ''}
+              src={product?.images[0]?.url || '/no-product-image.jpg'}
+              alt={product?.images[0]?.name || 'product image'}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-contain w-auto h-auto bg-transparent mix-blend-multiply"
             />
@@ -160,16 +121,14 @@ const ProductCard: React.FC<ProductCardproduct> = ({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           {renderHiddenInput('id')}
-          <>
-            <ProductQuantity form={form} />
-            <Button
-              type="submit"
-              disabled={stocks <= 0}
-              className="w-full mt-2 bg-[#1b1b3b] text-white"
-            >
-              {stocks <= 0 ? 'Out of Stock' : `Add to Cart`}
-            </Button>
-          </>
+          <ProductQuantity form={form} />
+          <Button
+            disabled={stocks <= 0}
+            type="submit"
+            className={cn(`w-full mt-2 bg-[#1b1b3b] text-white`)}
+          >
+            Add to Cart
+          </Button>
         </form>
       </Form>
     </div>
