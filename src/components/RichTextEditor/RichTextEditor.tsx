@@ -1,14 +1,15 @@
 'use client';
 import { useEditor, EditorContent } from '@tiptap/react';
-import { FC } from 'react';
 import StarterKit from '@tiptap/starter-kit';
-import ToolBar from './ToolBar';
-// import UnderlineExt from '@tiptap/extension-underline'
-// import OrderedListEx from '@tiptap/extension-ordered-list'
-// import HeadingExt from '@tiptap/extension-heading';
 import TextStyleEx from '@tiptap/extension-text-style';
 import TypographyEX from '@tiptap/extension-typography';
 import TextAlignEx from '@tiptap/extension-text-align';
+import ToolBar from './ToolBar';
+import { FC } from 'react';
+import SkeletonRichTextEditor from './SkeletonLoader';
+// import UnderlineExt from '@tiptap/extension-underline'
+// import OrderedListEx from '@tiptap/extension-ordered-list'
+// import HeadingExt from '@tiptap/extension-heading';
 
 interface RichTextEditorProps {
   description: string;
@@ -49,7 +50,7 @@ const RichTextEditor: FC<RichTextEditorProps> = ({
   });
 
   if (!editor) {
-    return null;
+    return <SkeletonRichTextEditor />;
   }
 
   return (

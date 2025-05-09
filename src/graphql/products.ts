@@ -206,13 +206,6 @@ const schema = {
             width
             height
           }
-          products {
-            documentId
-            name
-            brand {
-              name
-            }
-          }
         }
       }
     `),
@@ -247,9 +240,9 @@ const schema = {
     `),
   },
   Mutation: {
-    createProduct: graphql(`
-      mutation CreateProduct($data: ProductInput!) {
-        createProduct(data: $data) {
+    customProductCreate: graphql(`
+      mutation CustomProductCreate($data: ProductInput!) {
+        customProductCreate(data: $data) {
           documentId
           name
           model
@@ -525,6 +518,39 @@ const schema = {
     deleteKeyFeature: graphql(`
       mutation DeleteKeyFeature($documentId: ID!) {
         deleteKeyFeature(documentId: $documentId) {
+          documentId
+        }
+      }
+    `),
+    createShipping: graphql(`
+      mutation CreateShipping($data: ShippingInput!) {
+        createShipping(data: $data) {
+          documentId
+          width
+          height
+          weight
+          length
+          createdAt
+          updatedAt
+        }
+      }
+    `),
+    updateShipping: graphql(`
+      mutation UpdateShipping($documentId: ID!, $data: ShippingInput!) {
+        updateShipping(documentId: $documentId, data: $data) {
+          documentId
+          width
+          height
+          weight
+          length
+          createdAt
+          updatedAt
+        }
+      }
+    `),
+    deleteShipping: graphql(`
+      mutation DeleteShipping($documentId: ID!) {
+        deleteShipping(documentId: $documentId) {
           documentId
         }
       }

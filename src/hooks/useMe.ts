@@ -1,11 +1,10 @@
 'use client';
 import { Me } from '@/store/features/me';
-import { RootState } from '@/store/store';
+import { RootState, useAppSelector } from '@/store/store';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 const useMe = () => {
-  const userData = useSelector((state: RootState) => state.me.me);
+  const userData = useAppSelector((state: RootState) => state.me.me);
   const [user, setUser] = useState<Me | undefined>(undefined);
 
   useEffect(() => {

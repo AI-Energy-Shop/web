@@ -28,36 +28,40 @@ import { Button } from '@/components/ui/button';
 import SpecificationItem from './SpecificationItem';
 import { SPECIFICATION_KEYS } from '@/constant';
 import KeyFeatureItem from './KeyFeatureItem';
+import BrandOption from './BrandOption';
 
-const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
+const ProductsDetails = ({
+  id,
+  product,
+}: {
+  id: string;
+  product: ProductQuery['product'];
+}) => {
   const {
-    loading,
     images,
     files,
     addProductForm,
+    brands,
     handleDiscardChanges,
     handleAddInventoryItem,
     handleAddPriceItem,
-    handleClickSave,
+    onSubmit,
     handleImageRemove,
     handleImagesSelected,
     handleFileRemove,
     handleFilesSelected,
     handleAddSpecsItem,
-    handleOnInputChange,
     onRemoveList,
-    onChangeInventoryInputLocation,
-    onChangePriceUserLevel,
     handleProductStatusChange,
     handleAddKeyFeatureItem,
-  } = useProductDetails(product);
+  } = useProductDetails({ id, product });
 
   return (
     <Form {...addProductForm}>
-      <form onSubmit={addProductForm.handleSubmit(handleClickSave)}>
-        <div className="relative w-full">
+      <form onSubmit={addProductForm.handleSubmit(onSubmit)}>
+        <div className="relative flex flex-col gap-2 w-full h-full p-5">
           {/* HEADER */}
-          <div className="w-full bg-white flex items-center justify-between p-5">
+          <div className="w-full h-full flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Link href="/admin/products">
                 <ChevronLeft className="h-4 w-4" />
@@ -90,6 +94,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                 <>
                   <Button
                     size="sm"
+                    type="button"
                     variant="destructive"
                     onClick={handleDiscardChanges}
                   >
@@ -97,19 +102,18 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                   </Button>
                   <Button
                     size="sm"
-                    disabled={loading}
-                    onClick={handleClickSave}
+                    type="button"
+                    onClick={onSubmit}
+                    disabled={addProductForm.formState.isLoading}
                   >
-                    {loading && (
+                    {addProductForm.formState.isLoading && (
                       <>
                         <Loader2 className="animate-spin" />
-                        Please wait...
+                        Wait...
                       </>
                     )}
-                    {!loading && (
-                      <>
-                        {addProductForm.watch('releaseAt') ? 'Update' : 'Save'}
-                      </>
+                    {!addProductForm.formState.isLoading && (
+                      <>{product ? 'Update' : 'Save'}</>
                     )}
                   </Button>
                 </>
@@ -118,8 +122,8 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
           </div>
 
           {/* BODY */}
-          <div className="w-full h-auto grid grid-cols-6 gap-5 p-5 bg-white">
-            <div className="w-full h-auto col-span-4 flex flex-col gap-5 pb-2">
+          <div className="w-full h-full grid grid-cols-6 gap-5">
+            <div className="w-full h-auto col-span-4 flex flex-col gap-5">
               <Card>
                 <CardHeader>
                   <CardTitle>Product Details</CardTitle>
@@ -174,7 +178,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                         <FormLabel>Description</FormLabel>
                         <FormControl>
                           <RichTextEditor
-                            description={field.value}
+                            description={field.value || ''}
                             setDescription={field.onChange}
                             iconSize={15}
                             className="min-h-[200px] m-2 focus:outline-none"
@@ -189,52 +193,47 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Media</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <FileUpload
-                    accept="image/*"
-                    data={images}
-                    dataModalFilters={{
-                      mimeTypes: [
-                        'image/jpeg',
-                        'image/png',
-                        'image/gif',
-                        'image/webp',
-                        'image/jpg',
-                        'image/svg+xml',
-                      ],
-                    }}
-                    uploadNewFileLabel="Upload new Image"
-                    useExistingButtonLabel="Use existing Image"
-                    onFileRemove={handleImageRemove}
-                    onSelectedFiles={handleImagesSelected}
-                  />
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
                   <CardTitle>Files</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <FileUpload
-                    data={files}
-                    accept="application/pdf"
-                    uploadNewFileLabel="Upload new File"
-                    useExistingButtonLabel="Use existing File"
-                    dataModalFilters={{
-                      mimeTypes: ['application/pdf'],
-                    }}
-                    onFileRemove={handleFileRemove}
-                    onSelectedFiles={handleFilesSelected}
-                  />
+                  <div className="flex flex-col gap-5">
+                    <FileUpload
+                      accept="image/*"
+                      data={images}
+                      dataModalFilters={{
+                        mimeTypes: [
+                          'image/jpeg',
+                          'image/png',
+                          'image/gif',
+                          'image/webp',
+                          'image/jpg',
+                          'image/svg+xml',
+                        ],
+                      }}
+                      uploadNewFileLabel="Upload new Image"
+                      useExistingButtonLabel="Use existing Image"
+                      onFileRemove={handleImageRemove}
+                      onSelectedFiles={handleImagesSelected}
+                    />
+
+                    <FileUpload
+                      data={files}
+                      accept="application/pdf"
+                      uploadNewFileLabel="Upload new File"
+                      useExistingButtonLabel="Use existing File"
+                      dataModalFilters={{
+                        mimeTypes: ['application/pdf'],
+                      }}
+                      onFileRemove={handleFileRemove}
+                      onSelectedFiles={handleFilesSelected}
+                    />
+                  </div>
                 </CardContent>
               </Card>
 
               <ListInput
                 title="Price Lists"
-                formData={addProductForm.watch('price_lists')}
+                formData={addProductForm.watch('price_lists') || []}
                 addButtonLabel="Add"
                 onAddList={handleAddPriceItem}
                 stayExpanded={false}
@@ -242,8 +241,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                   <PriceListItem
                     currency={'$'}
                     onRemove={onRemoveList}
-                    onSelectChange={onChangePriceUserLevel}
-                    onChange={handleOnInputChange}
+                    control={addProductForm.control}
                   />
                 }
               />
@@ -256,23 +254,22 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                 stayExpanded={false}
                 childComponent={
                   <InventoryItem
+                    control={addProductForm.control}
                     onRemove={onRemoveList}
-                    onChange={handleOnInputChange}
-                    onChangeSelectLocation={onChangeInventoryInputLocation}
                   />
                 }
               />
 
               <ListInput
                 title="Specifications"
-                formData={addProductForm.watch('specifications')}
+                formData={addProductForm.watch('specifications') || []}
                 addButtonLabel="Add"
                 onAddList={handleAddSpecsItem}
                 stayExpanded={false}
                 childComponent={
                   <SpecificationItem
                     options={SPECIFICATION_KEYS}
-                    onChange={handleOnInputChange}
+                    control={addProductForm.control}
                     onRemove={onRemoveList}
                   />
                 }
@@ -282,11 +279,11 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                 title="Key Features"
                 addButtonLabel="Add"
                 stayExpanded={false}
-                formData={addProductForm.watch('key_features')}
+                formData={addProductForm.watch('key_features') || []}
                 onAddList={handleAddKeyFeatureItem}
                 childComponent={
                   <KeyFeatureItem
-                    onChange={handleOnInputChange}
+                    control={addProductForm.control}
                     onRemove={onRemoveList}
                   />
                 }
@@ -299,28 +296,55 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                   <CardTitle>Shipping</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {/* <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 gap-2">
                     <FormField
                       control={addProductForm.control}
                       name="shipping.width"
                       render={({ field }) => (
                         <FormItem className="w-full">
-                          <FormLabel className="font-normal text-xs">Width</FormLabel>
+                          <FormLabel className="font-normal text-xs">
+                            Width
+                          </FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} />
+                            <div className="flex items-center justify-center gap-2">
+                              <Input
+                                {...field}
+                                type="number"
+                                onChange={(e) =>
+                                  field.onChange(e.target.valueAsNumber)
+                                }
+                              />
+                              <span className="text-xs font-semibold text-gray-500">
+                                cm
+                              </span>
+                            </div>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
+
                     <FormField
                       control={addProductForm.control}
                       name="shipping.height"
                       render={({ field }) => (
                         <FormItem className="w-full">
-                          <FormLabel className="font-normal text-xs">Height</FormLabel>
+                          <FormLabel className="font-normal text-xs">
+                            Height
+                          </FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} />
+                            <div className="flex items-center justify-center gap-2">
+                              <Input
+                                {...field}
+                                type="number"
+                                onChange={(e) =>
+                                  field.onChange(e.target.valueAsNumber)
+                                }
+                              />
+                              <span className="text-xs font-semibold text-gray-500">
+                                cm
+                              </span>
+                            </div>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -331,9 +355,22 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                       name="shipping.weight"
                       render={({ field }) => (
                         <FormItem className="w-full">
-                          <FormLabel className="font-normal text-xs">Weight</FormLabel>
+                          <FormLabel className="font-normal text-xs">
+                            Weight
+                          </FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} />
+                            <div className="flex items-center justify-center gap-2">
+                              <Input
+                                {...field}
+                                type="number"
+                                onChange={(e) =>
+                                  field.onChange(e.target.valueAsNumber)
+                                }
+                              />
+                              <span className="text-xs font-semibold text-gray-500">
+                                kg
+                              </span>
+                            </div>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -344,15 +381,28 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                       name="shipping.length"
                       render={({ field }) => (
                         <FormItem className="w-full">
-                          <FormLabel className="font-normal text-xs">Length</FormLabel>
+                          <FormLabel className="font-normal text-xs">
+                            Length
+                          </FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} />
+                            <div className="flex items-center justify-center gap-2">
+                              <Input
+                                {...field}
+                                type="number"
+                                onChange={(e) =>
+                                  field.onChange(e.target.valueAsNumber)
+                                }
+                              />
+                              <span className="text-xs font-semibold text-gray-500">
+                                cm
+                              </span>
+                            </div>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                  </div> */}
+                  </div>
                 </CardContent>
               </Card>
               <Card>
@@ -360,6 +410,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                   <CardTitle>Product Organization</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                  <BrandOption optionsData={brands} form={addProductForm} />
                   <FormField
                     control={addProductForm.control}
                     name="product_type"
@@ -367,7 +418,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                       <FormItem className="w-full">
                         <FormLabel>Product Type</FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <Input {...field} value={field.value || ''} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -380,7 +431,7 @@ const ProductsDetails = ({ product }: { product: ProductQuery['product'] }) => {
                       <FormItem className="w-full">
                         <FormLabel>Vendor</FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <Input {...field} value={field.value || ''} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
