@@ -27,7 +27,15 @@ const schema = {
       }
     `),
   },
-  Mutation: {},
+  Mutation: {
+    createOrder: graphql(`
+      mutation CreateOrder($data: OrderInput!) {
+        createOrder(data: $data) {
+          documentId
+        }
+      }
+    `),
+  },
 };
 
 export default schema;
