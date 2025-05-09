@@ -1,7 +1,6 @@
-import { ChangeEvent } from 'react';
+'use client';
 import { USER_LEVELS } from '@/constant';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 import {
@@ -17,32 +16,29 @@ import {
   CardHeader,
   CardFooter,
 } from '@/components/ui/card';
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Control } from 'react-hook-form';
 
 interface PriceListItem {
+  control: Control<any>;
   onRemove: (index?: number, title?: any) => void;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  onSelectChange: (value: string, index?: number) => void;
   index?: number;
   title?: string;
-  item?: {
-    price: string;
-    sale_price: string;
-    documentId: string;
-    min_quantity: string;
-    max_quantity: string;
-    user_level: string;
-  };
   currency: string;
 }
 
 const PriceListItem: React.FC<PriceListItem> = ({
   onRemove,
-  onChange,
-  onSelectChange,
   index,
-  item,
   title,
   currency,
+  control,
 }) => {
   return (
     <Card className="group">
@@ -50,90 +46,129 @@ const PriceListItem: React.FC<PriceListItem> = ({
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="space-y-2">
-            <Label htmlFor={`price-${index}`}>Sale Price</Label>
-            <div className="flex items-center justify-between gap-1 p-1 border rounded-md">
-              <span>{currency}</span>
-              <Input
-                id={`sale-price-${index}`}
-                type="number"
-                name="sale_price"
-                data-index={index}
-                data-title={title}
-                placeholder="0.00"
-                className="border-none focus:outline-none focus:ring-0 focus:border-none"
-                style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
-                value={item?.sale_price || ''}
-                onChange={onChange}
-              />
-            </div>
+            <FormField
+              control={control}
+              name={`price_lists.${index}.sale_price`}
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel htmlFor={`sale_price-${index}`}>
+                    Sale Price
+                  </FormLabel>
+                  <FormControl>
+                    <div className="flex items-center gap-1">
+                      <span>{currency}</span>
+                      <Input
+                        {...field}
+                        type="number"
+                        onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
           <div className="space-y-2">
-            <Label htmlFor={`price-${index}`}>Price</Label>
-            <div className="flex items-center justify-between gap-1 p-1 border rounded-md">
-              <span>{currency}</span>
-              <Input
-                id={`price-${index}`}
-                type="number"
-                name="price"
-                data-index={index}
-                data-title={title}
-                placeholder="0.00"
-                className="border-none focus:outline-none focus:ring-0 focus:border-none"
-                style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
-                value={item?.price || ''}
-                onChange={onChange}
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor={`min-quantity-${index}`}>Min Quantity</Label>
-            <Input
-              id={`min-quantity-${index}`}
-              type="number"
-              placeholder="0"
-              name="min_quantity"
-              data-index={index}
-              data-title={title}
-              value={item?.min_quantity || ''}
-              onChange={onChange}
+            <FormField
+              control={control}
+              name={`price_lists.${index}.price`}
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel htmlFor={`price-${index}`}>Price</FormLabel>
+                  <FormControl>
+                    <div className="flex items-center gap-1">
+                      <span>{currency}</span>
+                      <Input
+                        {...field}
+                        type="number"
+                        onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor={`max-quantity-${index}`}>Max Quantity</Label>
-            <Input
-              id={`max-quantity-${index}`}
-              type="number"
-              placeholder="0"
-              name="max_quantity"
-              data-index={index}
-              data-title={title}
-              value={item?.max_quantity || ''}
-              onChange={onChange}
+            <FormField
+              control={control}
+              name={`price_lists.${index}.min_quantity`}
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel htmlFor={`min-quantity-${index}`}>
+                    Min Quantity
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="number"
+                      onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor={`user-level-${index}`}>User Level</Label>
-            <Select
-              name="user_level"
-              data-index={index}
-              data-title={title}
-              value={item?.user_level || ''}
-              onValueChange={(value) => onSelectChange(value, index)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="User level" />
-              </SelectTrigger>
-              <SelectContent defaultValue={USER_LEVELS[0]}>
-                {USER_LEVELS.map((level, index) => (
-                  <SelectItem key={level + index} value={level}>
-                    {level}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <FormField
+              control={control}
+              name={`price_lists.${index}.max_quantity`}
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel htmlFor={`max-quantity-${index}`}>
+                    Max Quantity
+                  </FormLabel>
+                  <FormControl>
+                    <div className="flex items-center gap-1">
+                      <span>{currency}</span>
+                      <Input
+                        {...field}
+                        type="number"
+                        onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <FormField
+              control={control}
+              name={`price_lists.${index}.user_level`}
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel htmlFor={`price_lists.${index}.user_level`}>
+                    User Level
+                  </FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="User level" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {USER_LEVELS.map((level, index) => (
+                          <SelectItem key={level + index} value={level}>
+                            {level}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
         </div>
       </CardContent>

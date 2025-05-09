@@ -107,8 +107,8 @@ const ProductsPage = async () => {
             <h2 className="text-sm font-semibold text-gray-900 dark:text-white">
               All Products
             </h2>
-            <Link href={'/admin/dashboard/products/new'}>
-              <Button size="sm">Add Product</Button>
+            <Link href={'/admin/products/new'}>
+              <Button size="sm">Add poroduct</Button>
             </Link>
           </div>
           <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg">

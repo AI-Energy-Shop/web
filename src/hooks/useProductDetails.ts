@@ -28,9 +28,12 @@ import {
   SpecificationFormData,
   KeyFeatureFormData,
 } from '@/lib/validation-schema/products';
-import { useForm, UseFormReturn } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useQuery } from '@apollo/client';
 import PRODUCT_OPERATIONS from '@/graphql/products';
+import { useRouter } from 'next/navigation';
+import { GraphQLException } from '@/lib/utils/graphql-error';
+import { handleProductError } from '@/lib/utils/product-error-handler';
 
 export type UploadFile = {
   __typename?: 'UploadFile';
@@ -43,16 +46,22 @@ export type UploadFile = {
   url: string;
 };
 
-const useProductDetails = (product: ProductQuery['product']) => {
+type Brand = { documentId: string; name: string };
+
+interface ProductDetailsProps {
+  id: string;
+  product: ProductQuery['product'];
+}
+
+const useProductDetails = ({ id, product }: ProductDetailsProps) => {
   const productCopy = useRef<ProductQuery['product']>(product);
-  const [loading, setLoading] = useState(false);
   const [images, setImages] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
-  const [brands, setBrands] = useState<{ documentId: string; name: string }[]>(
-    []
-  );
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const router = useRouter();
 
   useQuery(PRODUCT_OPERATIONS.Query.brands, {
+    fetchPolicy: 'network-only',
     onCompleted(data) {
       const currentBrands = data?.brands?.map((brand: any) => ({
         documentId: brand?.documentId,
@@ -62,144 +71,221 @@ const useProductDetails = (product: ProductQuery['product']) => {
     },
   });
 
+  const isNew = id === 'new';
+
   const addProductForm = useForm<AddProductFormData>({
     resolver: addProductResolver,
-    defaultValues: {
-      name: `${product?.name}`,
-      model: `${product?.model}`,
-      description: `${product?.description}`,
-      odoo_product_id: `${product?.odoo_product_id}`,
-      product_type: `${product?.product_type}`,
-      vendor: `${product?.vendor}`,
-      images: product?.images?.map((image) => image?.documentId),
-      files: product?.files?.map((file) => file?.documentId),
-      brand: product?.brand?.documentId,
-      price_lists: product?.price_lists?.map((price) => ({
-        documentId: price?.documentId,
-        price: price?.price || 0,
-        sale_price: price?.sale_price || 0,
-        min_quantity: price?.min_quantity || 0,
-        max_quantity: price?.max_quantity || 0,
-        user_level: price?.user_level || '',
-      })),
-      inventories: product?.inventories?.map((inventory) => ({
-        documentId: inventory?.documentId || '',
-        name: inventory?.name || '',
-        location_code: inventory?.location_code || '',
-        quantity: inventory?.quantity || 0,
-      })),
-      specifications: product?.specifications?.map((spec) => ({
-        documentId: spec?.documentId || '',
-        key: spec?.key || '',
-        value: spec?.value || '',
-      })),
-      key_features: product?.key_features?.map((feature) => ({
-        documentId: feature?.documentId || '',
-        feature: feature?.feature || '',
-      })),
-      shipping: {
-        weight: product?.shipping?.weight || 0,
-        width: product?.shipping?.width || 0,
-        height: product?.shipping?.height || 0,
-        length: product?.shipping?.length || 0,
-      },
-      releaseAt: product?.releasedAt || '',
-    },
+    defaultValues: isNew
+      ? {
+          name: '',
+          model: '',
+          description: '',
+          product_type: '',
+          odoo_product_id: '',
+          vendor: '',
+          brand: null,
+          shipping: {
+            weight: 0,
+            width: 0,
+            height: 0,
+            length: 0,
+          },
+          images: [],
+          files: [],
+          price_lists: [],
+          inventories: [],
+          specifications: [],
+          key_features: [],
+          releaseAt: '',
+        }
+      : {
+          name: product?.name || '',
+          model: product?.model || '',
+          description: product?.description || '',
+          product_type: product?.product_type || '',
+          odoo_product_id: product?.odoo_product_id || '',
+          vendor: product?.vendor || '',
+          brand: product?.brand?.documentId || null,
+          shipping: {
+            weight: product?.shipping?.weight || 0,
+            width: product?.shipping?.width || 0,
+            height: product?.shipping?.height || 0,
+            length: product?.shipping?.length || 0,
+          },
+          images: product?.images?.map((image) => image?.documentId) || [],
+          files: product?.files?.map((file) => file?.documentId) || [],
+          price_lists:
+            product?.price_lists?.map((price) => ({
+              documentId: price?.documentId,
+              price: price?.price || 0,
+              sale_price: price?.sale_price || 0,
+              min_quantity: price?.min_quantity || 0,
+              max_quantity: price?.max_quantity || 0,
+              user_level: price?.user_level || '',
+            })) || [],
+          inventories:
+            product?.inventories?.map((inventory) => ({
+              documentId: inventory?.documentId || '',
+              name: inventory?.name || '',
+              location_code: inventory?.location_code || '',
+              quantity: inventory?.quantity || 0,
+            })) || [],
+          specifications:
+            product?.specifications?.map((spec) => ({
+              documentId: spec?.documentId || '',
+              key: spec?.key || '',
+              value: spec?.value || '',
+            })) || [],
+          key_features:
+            product?.key_features?.map((feature) => ({
+              documentId: feature?.documentId || '',
+              feature: feature?.feature || '',
+            })) || [],
+          releaseAt: product?.releasedAt || '',
+        },
   });
 
-  const handleClickSave = async () => {
-    setLoading((loading) => !loading);
-    if (!product) {
+  const onSubmit = async () => {
+    await addProductForm.trigger();
+    const isErrors = Object.keys(addProductForm.formState.errors);
+    if (isErrors.length !== 0) {
+      return;
+    }
+    const currentPriceLists = addProductForm.getValues('price_lists');
+    const currentInventories = addProductForm.getValues('inventories');
+    const currentSpecs = addProductForm.getValues('specifications');
+    const currentKeyFeatures = addProductForm.getValues('key_features');
+    const shippingData = addProductForm.getValues('shipping');
+    const currentImages = addProductForm.getValues('images') || [];
+    const currentFiles = addProductForm.getValues('files') || [];
+
+    if (id === 'new') {
       console.log('SAVE');
-      // const { errors } = await createProduct({
-      //   data: {
-      //     name: currentProduct.name,
-      //     description: currentProduct.description,
-      //     category: currentProduct.category,
-      //     vendor: currentProduct.vendor,
-      //     odoo_product_id: currentProduct.odoo_product_id,
-      //     price_lists: currentProduct.price_list,
-      //     // inventory: currentProduct.inventory,
-      //     specification: currentProduct.specification,
-      //     key_features: currentProduct.key_features,
-      //     files: currentProduct.files,
-      //     images: currentProduct.images,
-      //   },
-      // });
-      // if (errors) {
-      //   Toast(errors.toString(), 'ERROR');
-      //   return;
-      // }
-      // setLoading((loading) => !loading);
-      // Toast('Product saved', 'ERROR', { position: 'top-center' });
+      try {
+        const [
+          price_lists,
+          inventories,
+          specifications,
+          key_features,
+          shipping,
+        ] = await Promise.all([
+          handleSaveOrUpdatePriceList(currentPriceLists),
+          handleSaveOrUpdateInventoryList(currentInventories),
+          handleSaveOrSaveCurrentSpecs(currentSpecs),
+          handleSaveCurrentKeyFeatures(currentKeyFeatures),
+          handleSaveOrUpdateShipping(shippingData),
+        ]);
+
+        const productData = JSON.stringify(
+          {
+            data: {
+              name: addProductForm.getValues('name'),
+              model: addProductForm.getValues('model'),
+              odoo_product_id: addProductForm.getValues('odoo_product_id'),
+              description: addProductForm.getValues('description'),
+              vendor: addProductForm.getValues('vendor'),
+              product_type: addProductForm.getValues('product_type'),
+              brand: addProductForm.getValues('brand'),
+              price_lists,
+              inventories,
+              specifications,
+              key_features,
+              shipping,
+              images: currentImages,
+              files: currentFiles,
+            },
+          },
+          null,
+          2
+        );
+
+        const { data, error } = await createProduct(productData);
+
+        if (error) {
+          console.log('error', error);
+          handleProductError(error);
+          return;
+        }
+
+        Toast('Product saved', 'SUCCESS', { position: 'top-center' });
+        addProductForm.reset(addProductForm.getValues());
+        router.push(
+          `/admin/products/${data?.data?.customProductCreate?.documentId}`
+        );
+      } catch (error: any) {
+        if (error) {
+          Toast(error.message, 'ERROR', { position: 'top-center' });
+          return;
+        }
+      }
     } else {
       console.log('UPDATE');
 
-      const priceList = await handleSaveOrUpdatePriceList(
-        addProductForm.getValues('price_lists')
-      );
+      try {
+        const [
+          price_lists,
+          inventories,
+          specifications,
+          key_features,
+          shipping,
+        ] = await Promise.all([
+          handleSaveOrUpdatePriceList(currentPriceLists),
+          handleSaveOrUpdateInventoryList(currentInventories),
+          handleSaveOrSaveCurrentSpecs(currentSpecs),
+          handleSaveCurrentKeyFeatures(currentKeyFeatures),
+          handleSaveOrUpdateShipping(shippingData),
+        ]);
 
-      const inventoryList = await handleSaveOrUpdateInventoryList(
-        addProductForm.getValues('inventories')
-      );
+        console.log('price_lists', price_lists);
+        console.log('inventories', inventories);
+        console.log('specifications', specifications);
+        console.log('key_features', key_features);
+        console.log('shipping', shipping);
 
-      const specificationList = await handleSaveOrSaveCurrentSpecs(
-        addProductForm.getValues('specifications')
-      );
-
-      const keyFeatureList = await handleSaveCurrentKeyFeatures(
-        addProductForm.getValues('key_features')
-      );
-
-      const shippingId = await handleSaveOrUpdateShipping(
-        addProductForm.getValues('shipping')
-      );
-
-      const imagesList = addProductForm.getValues('images');
-      const filesList = addProductForm.getValues('files');
-
-      const productData = JSON.stringify(
-        {
-          documentId: product?.documentId,
-          data: {
-            name: addProductForm.getValues('name'),
-            model: addProductForm.getValues('model'),
-            odoo_product_id: addProductForm.getValues('odoo_product_id'),
-            description: addProductForm.getValues('description'),
-            vendor: addProductForm.getValues('vendor'),
-            product_type: addProductForm.getValues('product_type'),
-            brand: addProductForm.getValues('brand'),
-            shipping: shippingId,
-            price_lists: priceList || [],
-            inventories: inventoryList || [],
-            specifications: specificationList || [],
-            images: imagesList || [],
-            files: filesList || [],
-            key_features: keyFeatureList || [],
+        const productData = JSON.stringify(
+          {
+            documentId: product?.documentId,
+            data: {
+              name: addProductForm.getValues('name'),
+              model: addProductForm.getValues('model'),
+              odoo_product_id: addProductForm.getValues('odoo_product_id'),
+              description: addProductForm.getValues('description'),
+              vendor: addProductForm.getValues('vendor'),
+              product_type: addProductForm.getValues('product_type'),
+              brand: addProductForm.getValues('brand'),
+              shipping,
+              price_lists,
+              inventories,
+              specifications,
+              key_features,
+              images: currentImages,
+              files: currentFiles,
+            },
           },
-        },
-        null,
-        2
-      );
+          null,
+          2
+        );
 
-      const { data, errors } = await updateProduct(productData);
+        const { error } = await updateProduct(productData);
 
-      if (!data && errors) {
-        setLoading((loading) => !loading);
-        Toast(errors.toString(), 'ERROR', { position: 'top-center' });
+        if (error) {
+          handleProductError(error);
+          return;
+        }
+
+        Toast('Product updated', 'SUCCESS', { position: 'top-center' });
+        addProductForm.reset(addProductForm.getValues());
+      } catch (error: any) {
+        Toast(error.message, 'ERROR', { position: 'top-center' });
         return;
       }
-
-      setLoading((loading) => !loading);
-      Toast('Product updated', 'SUCCESS', { position: 'top-center' });
-      addProductForm.reset(addProductForm.getValues());
     }
   };
 
   const handleProductStatusChange = (value: string) => {
     switch (value) {
       case 'draft':
-        addProductForm.setValue('releaseAt', null, {
+        addProductForm.setValue('releaseAt', '', {
           shouldDirty: true,
         });
         break;
@@ -215,28 +301,32 @@ const useProductDetails = (product: ProductQuery['product']) => {
   };
 
   const handleDiscardChanges = () => {
-    addProductForm.reset(addProductForm.getValues());
+    if (id === 'new') {
+      router.back();
+    } else {
+      // For editing, reset the form to the original values
+      addProductForm.reset(addProductForm.getValues());
+    }
   };
 
   // KEY FEATURES
   const handleAddKeyFeatureItem = () => {
     const newObj = {
-      documentId: '',
+      documentId: null,
       feature: '',
     };
 
-    const currentKeyFeatures = addProductForm.getValues('key_features');
+    const currentKeyFeatures = addProductForm.getValues('key_features') || [];
     const combinedKeyFeatures = [...currentKeyFeatures, newObj];
     addProductForm.setValue('key_features', combinedKeyFeatures, {
       shouldDirty: true,
     });
   };
 
-  const handleSaveCurrentKeyFeatures = async (
-    data: UseFormReturn<KeyFeatureFormData>['formState']['defaultValues'][]
-  ) => {
+  const handleSaveCurrentKeyFeatures = async (data: KeyFeatureFormData) => {
+    if (!data || data.length === 0) return [];
     const dataToSave = data
-      .filter((item) => item?.documentId === '')
+      .filter((item) => !item?.documentId)
       .map((item) => {
         return {
           feature: item?.feature,
@@ -244,7 +334,7 @@ const useProductDetails = (product: ProductQuery['product']) => {
       });
 
     const dataToUpdate = data
-      .filter((item) => item?.documentId !== '')
+      .filter((item) => item?.documentId)
       .map((item) => {
         return {
           id: item?.documentId,
@@ -279,7 +369,7 @@ const useProductDetails = (product: ProductQuery['product']) => {
   // PRICE LIST
   const handleAddPriceItem = () => {
     const newObj = {
-      documentId: '',
+      documentId: null,
       price: 0,
       sale_price: 0,
       min_quantity: 0,
@@ -293,28 +383,13 @@ const useProductDetails = (product: ProductQuery['product']) => {
     });
   };
 
-  const onChangePriceUserLevel = (value?: string, index?: number) => {
-    if (index === undefined || index < 0) return;
-    addProductForm.setValue(
-      'price_lists',
-      addProductForm.getValues('price_lists').map((item: any, i: number) => {
-        if (i === Number(index)) {
-          return { ...item, user_level: value };
-        }
-        return item;
-      }),
-      {
-        shouldDirty: true,
-      }
-    );
-  };
-
   const handleSaveOrUpdatePriceList = async (
-    data: UseFormReturn<PriceListFormData>['formState']['defaultValues'][]
-  ) => {
+    data: PriceListFormData
+  ): Promise<string[]> => {
+    if (!data || data.length === 0) return [];
     const toSavePrices = data
       .filter((item) => {
-        return item?.documentId === '';
+        return !item?.documentId;
       })
       .map((item) => {
         return {
@@ -347,11 +422,17 @@ const useProductDetails = (product: ProductQuery['product']) => {
       )
       .map((price) => ({ documentId: price?.documentId }));
 
+    console.log('toSavePrices', toSavePrices);
+    console.log('toUpdatePrices', toUpdatePrices);
+    console.log('toDelete', toDelete);
+
     const res = await Promise.all([
       createPrice(JSON.stringify(toSavePrices)),
       updatePrice(JSON.stringify(toUpdatePrices)),
       deletePrice(JSON.stringify(toDelete)),
     ]);
+
+    console.log('res', res);
 
     const [saveRes, updateRes] = res;
 
@@ -360,7 +441,7 @@ const useProductDetails = (product: ProductQuery['product']) => {
       ...updateRes.map((item) => item.data?.updatePrice?.documentId),
     ];
 
-    return combinedPriceLists;
+    return combinedPriceLists.filter((item) => item !== undefined);
   };
 
   // INVENTORY
@@ -378,31 +459,12 @@ const useProductDetails = (product: ProductQuery['product']) => {
     });
   };
 
-  const onChangeInventoryInputLocation = (value?: string, index?: number) => {
-    if (index === undefined || index < 0) return;
-
-    const currentInventory = addProductForm
-      .getValues('inventories')
-      .map((item: any, i: number) => {
-        if (i === Number(index)) {
-          return {
-            ...item,
-            location_code: value,
-          };
-        }
-        return item;
-      });
-
-    addProductForm.setValue('inventories', currentInventory, {
-      shouldDirty: true,
-    });
-  };
-
   const handleSaveOrUpdateInventoryList = async (
-    data: UseFormReturn<InventoryFormData>['formState']['defaultValues'][]
-  ) => {
+    data: InventoryFormData
+  ): Promise<string[]> => {
+    if (!data || data.length === 0) return [];
     const dataToSave = data
-      .filter((item) => item?.documentId === '')
+      .filter((item) => !item?.documentId)
       .map((item) => {
         return {
           location_code: item?.location_code,
@@ -439,13 +501,13 @@ const useProductDetails = (product: ProductQuery['product']) => {
       ...updateRes.map((item) => item.data?.updateInventory?.documentId),
     ];
 
-    return combinedInventoryLists;
+    return combinedInventoryLists.filter((item) => item !== undefined);
   };
 
   // SPECIFICATION
   const handleAddSpecsItem = () => {
     const newObj = {
-      documentId: '',
+      documentId: null,
       key: '',
       value: '',
     };
@@ -460,10 +522,11 @@ const useProductDetails = (product: ProductQuery['product']) => {
   };
 
   const handleSaveOrSaveCurrentSpecs = async (
-    data: UseFormReturn<SpecificationFormData>['formState']['defaultValues'][]
-  ) => {
+    data: SpecificationFormData
+  ): Promise<string[]> => {
+    if (!data || data.length === 0) return [];
     const dataToSave = data
-      .filter((item) => item?.documentId === '')
+      .filter((item) => !item?.documentId)
       .map((item) => {
         return {
           key: item?.key,
@@ -500,128 +563,47 @@ const useProductDetails = (product: ProductQuery['product']) => {
       ...updateRes.map((item) => item.data?.updateSpecification?.documentId),
     ];
 
-    return combinedSpecificationLists;
-  };
-
-  const handleOnInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, type } = e.target;
-    const index = e.target.dataset.index;
-    const title = e.target.dataset.title;
-    const value = e.target.value;
-
-    if (index === undefined || title === undefined) return;
-
-    switch (title) {
-      case 'price_lists':
-        addProductForm.setValue(
-          'price_lists',
-          addProductForm
-            .getValues('price_lists')
-            .map((item: any, i: number) => {
-              if (i === Number(index)) {
-                return {
-                  ...item,
-                  [name]: type === 'number' ? Number(value) : value,
-                };
-              }
-              return item;
-            }),
-          {
-            shouldDirty: true,
-          }
-        );
-
-        break;
-      case 'inventories':
-        addProductForm.setValue(
-          'inventories',
-          addProductForm
-            .getValues('inventories')
-            .map((item: any, i: number) => {
-              if (i === Number(index)) {
-                return {
-                  ...item,
-                  [name]: type === 'number' ? Number(value) : value,
-                };
-              }
-              return item;
-            }),
-          {
-            shouldDirty: true,
-          }
-        );
-
-        break;
-      case 'specifications':
-        addProductForm.setValue(
-          'specifications',
-          addProductForm
-            .getValues('specifications')
-            .map((item: any, i: number) => {
-              if (i === Number(index)) {
-                return { ...item, [name]: value };
-              }
-              return item;
-            }),
-          {
-            shouldDirty: true,
-          }
-        );
-
-        break;
-      case 'key_features':
-        addProductForm.setValue(
-          'key_features',
-          addProductForm
-            .getValues('key_features')
-            .map((item: any, i: number) => {
-              if (i === Number(index)) {
-                return { ...item, [name]: value };
-              }
-              return item;
-            }),
-          {
-            shouldDirty: true,
-          }
-        );
-        break;
-      default:
-        console.warn(`Unhandled title: ${title}`);
-        break;
-    }
+    return combinedSpecificationLists.filter((item) => item !== undefined);
   };
 
   const onRemoveList = (index?: number, title?: string) => {
     const idx = Number(index);
+    console.log(index);
+    console.log(title);
     switch (title) {
       case 'price_lists':
-        const currentPriceList = addProductForm
-          .getValues('price_lists')
-          .filter((_: any, i: number) => i !== idx);
+        const priceLists = addProductForm?.getValues('price_lists') || [];
+        const currentPriceList = priceLists?.filter(
+          (_: any, i: number) => i !== idx
+        );
         addProductForm.setValue('price_lists', currentPriceList, {
           shouldDirty: true,
         });
         break;
       case 'inventories':
-        const currentInventory = addProductForm
-          .getValues('inventories')
-          .filter((_: any, i: number) => i !== idx);
+        const inventories = addProductForm?.getValues('inventories') || [];
+        const currentInventory = inventories?.filter(
+          (_: any, i: number) => i !== idx
+        );
         addProductForm.setValue('inventories', currentInventory, {
           shouldDirty: true,
         });
         break;
       case 'specifications':
-        const currentSpecification = addProductForm
-          .getValues('specifications')
-          .filter((_: any, i: number) => i !== idx);
+        const specifications =
+          addProductForm?.getValues('specifications') || [];
+        const currentSpecification = specifications?.filter(
+          (_: any, i: number) => i !== idx
+        );
         addProductForm.setValue('specifications', currentSpecification, {
           shouldDirty: true,
         });
         break;
       case 'key_features':
-        const currentKeyFeatures = addProductForm
-          .getValues('key_features')
-          .filter((_: any, i: number) => i !== idx);
+        const keyFeatures = addProductForm?.getValues('key_features') || [];
+        const currentKeyFeatures = keyFeatures?.filter(
+          (_: any, i: number) => i !== idx
+        );
         addProductForm.setValue('key_features', currentKeyFeatures, {
           shouldDirty: true,
         });
@@ -768,13 +750,12 @@ const useProductDetails = (product: ProductQuery['product']) => {
   }, [product]);
 
   return {
-    loading,
     addProductForm,
     productCopy,
     images,
     files,
     brands,
-    handleClickSave,
+    onSubmit,
     handleProductStatusChange,
     handleDiscardChanges,
     handleAddInventoryItem,
@@ -782,12 +763,9 @@ const useProductDetails = (product: ProductQuery['product']) => {
     handleAddKeyFeatureItem,
     handleSaveCurrentKeyFeatures,
     handleAddPriceItem,
-    handleOnInputChange,
     handleSaveOrUpdateInventoryList,
     handleSaveOrSaveCurrentSpecs,
     handleSaveOrUpdatePriceList,
-    onChangeInventoryInputLocation,
-    onChangePriceUserLevel,
     onRemoveList,
     handleFilesSelected,
     handleImagesSelected,

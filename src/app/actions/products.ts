@@ -4,8 +4,7 @@ import { getClient } from '@/apollo/client';
 import { FetchResult } from '@apollo/client';
 import { cookies } from 'next/headers';
 import {
-  CreateProductMutation,
-  CreateProductMutationVariables,
+  CustomProductCreateMutation,
   ProductsQuery,
   ProductQuery,
   PaginationArg,
@@ -24,9 +23,12 @@ import {
   UpdateKeyFeatureMutation,
   DeleteKeyFeatureMutation,
   CreateShippingMutation,
-  UpdateShippingMutation,
-  DeleteShippingMutation,
+  CustomProductUpdateMutation,
 } from '@/lib/gql/graphql';
+import {
+  handleGraphQLError,
+  GraphQLException,
+} from '@/lib/utils/graphql-error';
 
 const client = getClient();
 
@@ -43,8 +45,7 @@ export const products = async (variables?: {
 
     return res;
   } catch (error: any) {
-    console.error("ERROR product's:", error.message);
-    return error;
+    throw handleGraphQLError(error);
   }
 };
 
@@ -62,21 +63,24 @@ export const product = async (
 
     return res;
   } catch (error: any) {
-    console.error('ERROR FETCHING PRODUCT:', error);
-    return error;
+    throw handleGraphQLError(error);
   }
 };
 
 export const createProduct = async (
-  variables: CreateProductMutationVariables
-): Promise<FetchResult<CreateProductMutation>> => {
+  data: string
+): Promise<{
+  data?: FetchResult<CustomProductCreateMutation>;
+  error?: GraphQLException | Error;
+}> => {
+  const inputData = JSON.parse(data);
   const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   try {
     const res = await client.mutate({
-      mutation: PRODUCT_OPERATIONS.Mutation.createProduct,
-      variables: variables,
+      mutation: PRODUCT_OPERATIONS.Mutation.customProductCreate,
+      variables: inputData,
       context: {
         headers: {
           Authorization: `Bearer ${token?.value}`,
@@ -84,17 +88,23 @@ export const createProduct = async (
       },
     });
 
-    if (res.data === null) {
-      throw new Error('Failed to create product');
-    }
-
-    return res;
+    return {
+      data: res,
+    };
   } catch (error: any) {
-    throw error;
+    const errorMessage = handleGraphQLError(error);
+    return {
+      error: { ...errorMessage },
+    };
   }
 };
 
-export const updateProduct = async (data: string) => {
+export const updateProduct = async (
+  data: string
+): Promise<{
+  data?: FetchResult<CustomProductUpdateMutation>;
+  error?: GraphQLException | Error;
+}> => {
   const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
   const inputData = JSON.parse(data);
@@ -108,10 +118,15 @@ export const updateProduct = async (data: string) => {
         },
       },
     });
-    return res;
+    return {
+      data: res,
+    };
   } catch (error: any) {
-    console.log('ERROR updating product:', error.message);
-    return error;
+    console.log('errorMessage', error);
+    const errorMessage = handleGraphQLError(error);
+    return {
+      error: { ...errorMessage },
+    };
   }
 };
 
@@ -331,7 +346,6 @@ export const createSpecification = async (
     const res = (await Promise.all(
       inputData.map(
         async (item: { key: Enum_Specification_Key; value: string }) => {
-          console.log('item', item);
           const mutateRes = await client.mutate({
             mutation: PRODUCT_OPERATIONS.Mutation.createSpecification,
             variables: {
@@ -372,7 +386,6 @@ export const updateSpecification = async (
           key: Enum_Specification_Key;
           value: string;
         }) => {
-          console.log('item', item);
           const mutateRes = await client.mutate({
             mutation: PRODUCT_OPERATIONS.Mutation.updateSpecification,
             variables: {

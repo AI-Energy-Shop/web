@@ -1,6 +1,5 @@
 import React from 'react';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { LOCATIONS } from '@/constant';
 import {
   Select,
@@ -12,26 +11,27 @@ import {
 import { Button } from '@/components/ui/button';
 import { Trash2, Package2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from '@/components/ui/form';
+import { Control } from 'react-hook-form';
 
 interface InventoryItemProps {
   index?: number;
   title?: string;
-  item?: {
-    location_code: string;
-    quantity: number | string;
-  };
-  onChangeSelectLocation: (value?: any, index?: number) => void;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  control: Control<any>;
   onRemove: (index?: number, title?: any) => void;
 }
 
 const InventoryItem: React.FC<InventoryItemProps> = ({
   index,
-  item,
   title,
-  onChange,
+  control,
   onRemove,
-  onChangeSelectLocation,
 }) => {
   return (
     <div
@@ -47,68 +47,59 @@ const InventoryItem: React.FC<InventoryItemProps> = ({
 
       <div className="flex-1 space-y-6">
         <div className="space-y-2.5">
-          <Label
-            htmlFor={`location-${index}`}
-            className="text-sm font-medium text-muted-foreground"
-          >
-            Warehouse Location
-          </Label>
-          <Select
-            name="user_level"
-            data-index={index}
-            data-title={title}
-            value={item?.location_code || ''}
-            onValueChange={(value) =>
-              onChangeSelectLocation(value, Number(index))
-            }
-          >
-            <SelectTrigger
-              className={cn(
-                'w-full md:w-[280px] h-9 border-border/40',
-                'focus:ring-primary/20 focus:border-primary/30',
-                'transition-colors duration-200'
-              )}
-            >
-              <SelectValue placeholder="Select warehouse location" />
-            </SelectTrigger>
-            <SelectContent>
-              {LOCATIONS.map((location, idx) => (
-                <SelectItem
-                  key={idx}
-                  value={location}
-                  className="focus:bg-primary/5 focus:text-primary"
-                >
-                  {location}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <FormField
+            control={control}
+            name={`inventories.${index}.location_code`}
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel htmlFor={`inventories.${index}.location_code`}>
+                  Warehouse Location
+                </FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select warehouse location" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {LOCATIONS.map((location, index) => (
+                        <SelectItem key={location + index} value={location}>
+                          {location}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
         <div className="space-y-2.5">
-          <Label
-            htmlFor={`quantity-${index}`}
-            className="text-sm font-medium text-muted-foreground"
-          >
-            Quantity
-          </Label>
-          <div className="relative">
-            <Input
-              id={`quantity-${index}`}
-              type="number"
-              name="quantity"
-              placeholder="Enter quantity..."
-              data-index={index}
-              data-title={title}
-              className={cn(
-                'w-full md:w-[280px] h-9 pl-4 border-border/40',
-                'focus:ring-primary/20 focus:border-primary/30',
-                'transition-colors duration-200'
-              )}
-              value={item?.quantity || ''}
-              onChange={onChange}
-            />
-          </div>
+          <FormField
+            control={control}
+            name={`inventories.${index}.quantity`}
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel htmlFor={`inventories.${index}.quantity`}>
+                  Quantity
+                </FormLabel>
+                <FormControl>
+                  <div className="flex items-center gap-1">
+                    <Input
+                      type="number"
+                      {...field}
+                      onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                    />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
       </div>
 

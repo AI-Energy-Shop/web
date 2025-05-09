@@ -206,13 +206,6 @@ const schema = {
             width
             height
           }
-          products {
-            documentId
-            name
-            brand {
-              name
-            }
-          }
         }
       }
     `),
@@ -247,9 +240,9 @@ const schema = {
     `),
   },
   Mutation: {
-    createProduct: graphql(`
-      mutation CreateProduct($data: ProductInput!) {
-        createProduct(data: $data) {
+    customProductCreate: graphql(`
+      mutation CustomProductCreate($data: ProductInput!) {
+        customProductCreate(data: $data) {
           documentId
           name
           model

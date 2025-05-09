@@ -77,6 +77,7 @@ const ListInput: React.FC<ListInputProps> = ({
           size="sm"
           variant="outline"
           className="ml-auto"
+          type="button"
         >
           {addButtonLabel}
         </Button>
