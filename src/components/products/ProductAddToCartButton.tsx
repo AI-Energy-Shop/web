@@ -12,7 +12,7 @@ import { useToast } from '@/hooks/useToast';
 import { ProductQuery } from '@/lib/gql/graphql';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem } from '../ui/form';
-import { addToCartFormSchema } from '@/lib/validation-schema/add-to-cart-form';
+import { addToCartSchema } from '@/lib/validation-schema/add-to-cart-form';
 
 interface ProductAddToCartButtonProps {
   product: ProductQuery['product'];
@@ -42,8 +42,8 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
     (inventory) => inventory?.name === warehouse?.address?.city
   );
 
-  const form = useForm<z.infer<typeof addToCartFormSchema>>({
-    resolver: zodResolver(addToCartFormSchema),
+  const form = useForm<z.infer<typeof addToCartSchema>>({
+    resolver: zodResolver(addToCartSchema),
     defaultValues: {
       id: product?.documentId,
       quantity: 0,
@@ -69,7 +69,7 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
     }
   };
 
-  const onSubmit = async (onValid: z.infer<typeof addToCartFormSchema>) => {
+  const onSubmit = async (onValid: z.infer<typeof addToCartSchema>) => {
     const stockQuantity = stocks?.quantity || 0;
 
     if (stockQuantity <= 0) {
@@ -110,7 +110,7 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
   const renderHiddenInput = ({
     name,
   }: {
-    name: keyof z.infer<typeof addToCartFormSchema>;
+    name: keyof z.infer<typeof addToCartSchema>;
   }) => {
     return (
       <FormField

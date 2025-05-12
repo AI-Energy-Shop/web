@@ -12,11 +12,6 @@ import {
 } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
-import {
-  AddProductFormData,
-  PriceListFormData,
-} from '@/lib/validation-schema/products';
-import { UseFormReturn } from 'react-hook-form';
 
 interface ListInputProps {
   title: string;
@@ -82,6 +77,7 @@ const ListInput: React.FC<ListInputProps> = ({
           size="sm"
           variant="outline"
           className="ml-auto"
+          type="button"
         >
           {addButtonLabel}
         </Button>

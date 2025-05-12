@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Minus, Plus } from 'lucide-react';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
-import { addToCartFormSchema } from '@/lib/validation-schema/add-to-cart-form';
+import { addToCartSchema } from '@/lib/validation-schema/add-to-cart-form';
 import { FormField, FormItem, FormControl } from '../ui/form';
 interface ShopProductQuantityButtonsProps {
   price: number;
@@ -13,7 +13,7 @@ interface ShopProductQuantityButtonsProps {
   minQuantity?: number;
   maxQuantity?: number;
   disabled?: boolean;
-  form: UseFormReturn<z.infer<typeof addToCartFormSchema>>;
+  form: UseFormReturn<z.infer<typeof addToCartSchema>>;
 }
 
 const ShopProductQuantityButtons: React.FC<ShopProductQuantityButtonsProps> = ({
@@ -61,7 +61,7 @@ const ShopProductQuantityButtons: React.FC<ShopProductQuantityButtonsProps> = ({
     name,
     defaultValue,
   }: {
-    name: keyof z.infer<typeof addToCartFormSchema>;
+    name: keyof z.infer<typeof addToCartSchema>;
     defaultValue: number;
   }) => {
     return (

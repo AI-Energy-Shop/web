@@ -171,7 +171,6 @@ export type BrandFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<BrandFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<BrandFiltersInput>>>;
-  products?: InputMaybe<ProductFiltersInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   url?: InputMaybe<StringFilterInput>;
@@ -180,7 +179,6 @@ export type BrandFiltersInput = {
 export type BrandInput = {
   image?: InputMaybe<Scalars['ID']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  products?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   url?: InputMaybe<Scalars['String']['input']>;
 };
@@ -1730,7 +1728,7 @@ export type CollectionsWithProductsQuery = {
       __typename?: 'Product';
       documentId: string;
       name: string;
-      description: string;
+      description?: string | null;
       vendor?: string | null;
       product_type?: string | null;
       model: string;
@@ -2038,7 +2036,7 @@ export type ProductsQuery = {
     __typename?: 'Product';
     documentId: string;
     name: string;
-    description: string;
+    description?: string | null;
     product_type?: string | null;
     vendor?: string | null;
     model: string;
@@ -2147,7 +2145,7 @@ export type ProductQuery = {
     __typename?: 'Product';
     documentId: string;
     name: string;
-    description: string;
+    description?: string | null;
     vendor?: string | null;
     product_type?: string | null;
     model: string;
@@ -2266,12 +2264,6 @@ export type BrandsQuery = {
       width?: number | null;
       height?: number | null;
     };
-    products: Array<{
-      __typename?: 'Product';
-      documentId: string;
-      name: string;
-      brand?: { __typename?: 'Brand'; name: string } | null;
-    } | null>;
   } | null>;
 };
 
@@ -2311,18 +2303,18 @@ export type SpecificationsQuery = {
   } | null>;
 };
 
-export type CreateProductMutationVariables = Exact<{
+export type CustomProductCreateMutationVariables = Exact<{
   data: ProductInput;
 }>;
 
-export type CreateProductMutation = {
+export type CustomProductCreateMutation = {
   __typename?: 'Mutation';
-  createProduct?: {
+  customProductCreate?: {
     __typename?: 'Product';
     documentId: string;
     name: string;
     model: string;
-    description: string;
+    description?: string | null;
     vendor?: string | null;
     odoo_product_id: string;
     createdAt?: any | null;
@@ -2408,7 +2400,7 @@ export type CustomProductUpdateMutation = {
     documentId: string;
     name: string;
     model: string;
-    description: string;
+    description?: string | null;
     vendor?: string | null;
     odoo_product_id: string;
     createdAt?: any | null;
@@ -2673,6 +2665,55 @@ export type DeleteKeyFeatureMutationVariables = Exact<{
 export type DeleteKeyFeatureMutation = {
   __typename?: 'Mutation';
   deleteKeyFeature?: {
+    __typename?: 'DeleteMutationResponse';
+    documentId: string;
+  } | null;
+};
+
+export type CreateShippingMutationVariables = Exact<{
+  data: ShippingInput;
+}>;
+
+export type CreateShippingMutation = {
+  __typename?: 'Mutation';
+  createShipping?: {
+    __typename?: 'Shipping';
+    documentId: string;
+    width?: number | null;
+    height?: number | null;
+    weight?: number | null;
+    length?: number | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null;
+};
+
+export type UpdateShippingMutationVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+  data: ShippingInput;
+}>;
+
+export type UpdateShippingMutation = {
+  __typename?: 'Mutation';
+  updateShipping?: {
+    __typename?: 'Shipping';
+    documentId: string;
+    width?: number | null;
+    height?: number | null;
+    weight?: number | null;
+    length?: number | null;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  } | null;
+};
+
+export type DeleteShippingMutationVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+}>;
+
+export type DeleteShippingMutation = {
+  __typename?: 'Mutation';
+  deleteShipping?: {
     __typename?: 'DeleteMutationResponse';
     documentId: string;
   } | null;
@@ -6148,33 +6189,6 @@ export const BrandsDocument = {
                     ],
                   },
                 },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'products' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'documentId' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'brand' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
               ],
             },
           },
@@ -6261,13 +6275,13 @@ export const SpecificationsDocument = {
     },
   ],
 } as unknown as DocumentNode<SpecificationsQuery, SpecificationsQueryVariables>;
-export const CreateProductDocument = {
+export const CustomProductCreateDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateProduct' },
+      name: { kind: 'Name', value: 'CustomProductCreate' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -6286,7 +6300,7 @@ export const CreateProductDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'createProduct' },
+            name: { kind: 'Name', value: 'customProductCreate' },
             arguments: [
               {
                 kind: 'Argument',
@@ -6517,8 +6531,8 @@ export const CreateProductDocument = {
     },
   ],
 } as unknown as DocumentNode<
-  CreateProductMutation,
-  CreateProductMutationVariables
+  CustomProductCreateMutation,
+  CustomProductCreateMutationVariables
 >;
 export const CustomProductUpdateDocument = {
   kind: 'Document',
@@ -7560,6 +7574,190 @@ export const DeleteKeyFeatureDocument = {
 } as unknown as DocumentNode<
   DeleteKeyFeatureMutation,
   DeleteKeyFeatureMutationVariables
+>;
+export const CreateShippingDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateShipping' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'ShippingInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createShipping' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'width' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'height' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'weight' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'length' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateShippingMutation,
+  CreateShippingMutationVariables
+>;
+export const UpdateShippingDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateShipping' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'ShippingInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateShipping' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'width' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'height' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'weight' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'length' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateShippingMutation,
+  UpdateShippingMutationVariables
+>;
+export const DeleteShippingDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteShipping' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteShipping' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteShippingMutation,
+  DeleteShippingMutationVariables
 >;
 export const UsersPermissionsUserDocument = {
   kind: 'Document',
