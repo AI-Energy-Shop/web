@@ -413,6 +413,7 @@ const useProductFilter = () => {
 
       const finalParams = [updatedParams].filter(Boolean).join('&');
       const url = `${pathname}?${finalParams}`;
+      router.replace(`${url}`, { scroll: false });
 
       const {
         productFilters: newProductFilters,
@@ -420,7 +421,6 @@ const useProductFilter = () => {
       } = buildProductFilters(finalParams);
       dispatch(setProductFilters(newProductFilters));
       dispatch(setSelectedFilters(newSelectedFilters));
-      router.replace(`${url}`, { scroll: false });
     },
     [searchParams, pathname, cachedCollectionData.current]
   );
@@ -430,13 +430,16 @@ const useProductFilter = () => {
       const filterKey = key.toLowerCase().replaceAll(' ', '-');
       const filterValue = value.replaceAll('%20', ' ');
       const target = `${filterKey}=${filterValue}`;
-
       dispatch(setCurrentSelectedFilter(null));
+
       const newParams = searchParams
         .toString()
         .split('&')
         .filter((entry) => {
           const [rawKey, rawValue] = entry.split('=');
+          // Skip pagination parameters
+          if (PAGINATION_SEARCH_PARAMS.includes(rawKey)) return false;
+
           const formattedKey = rawKey.replaceAll('+', ' ');
           const formattedValue = rawValue?.replaceAll('+', ' ');
           const formattedTarget = `${formattedKey}=${formattedValue}`;
@@ -448,11 +451,12 @@ const useProductFilter = () => {
         .join('&');
 
       const url = `${pathname}?${newParams}`;
+      router.replace(`${url}`, { scroll: false });
+
       const { productFilters, selectedFilters } =
         buildProductFilters(newParams);
       dispatch(setProductFilters(productFilters));
       dispatch(setSelectedFilters(selectedFilters));
-      router.replace(`${url}`, { scroll: false });
     },
     [searchParams, pathname, router]
   );
