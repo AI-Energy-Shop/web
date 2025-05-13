@@ -149,4 +149,3 @@ const SearchPage = ({ searchParams }: SearchPageProps) => {
 };
 
 export default SearchPage;
-

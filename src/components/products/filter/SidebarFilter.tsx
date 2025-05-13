@@ -46,7 +46,8 @@ const SidebarFilter: React.FC<SidebarFilterProps> = ({
             isOpen={true}
             loading={false}
             selectedFilters={selectedFilters}
-            onFilterClick={onFilterClick}
+            onInputChange={onFilterClick}
+            onInputClick={onFilterClick}
           />
         ))}
       </div>
