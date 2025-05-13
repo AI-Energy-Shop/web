@@ -362,6 +362,46 @@ const useProductFilter = () => {
     // router.push(`${pathname}?sort=${value}`, { scroll: false });
   };
 
+  function generateParams(filterValue: string, searchParam: string) {
+    // Get current params and filter out pagination parameters
+    let current = searchParams.toString();
+    const currentParams = searchParams
+      .toString()
+      .split('&')
+      .filter((entry) => {
+        const [currentParamKey, _] = entry.split('=');
+        // Filter out pagination parameters (page, limit, etc.)
+        return !PAGINATION_SEARCH_PARAMS.includes(`${currentParamKey}`);
+      })
+      .map((entry) => {
+        const [_, rawValue] = entry.split('=');
+        return rawValue?.replaceAll('+', ' ');
+      });
+
+    const updatedParams = currentParams.includes(filterValue)
+      ? current
+          .split('&')
+          .filter((entry) => {
+            const [key, rawValue] = entry.split('=');
+            // Skip pagination parameters
+            if (PAGINATION_SEARCH_PARAMS.includes(key)) return false;
+            if (rawValue && rawValue.replaceAll('+', ' ') == filterValue) {
+              return false;
+            }
+            return true;
+          })
+          .join('&')
+      : [
+          ...current.split('&').filter((entry) => {
+            const [key] = entry.split('=');
+            return !PAGINATION_SEARCH_PARAMS.includes(key);
+          }),
+          searchParam,
+        ].join('&');
+
+    return updatedParams;
+  }
+
   const handleFilterClick = useCallback(
     ({ key, value }: SelectedFilter) => {
       if (loading) return;
@@ -375,41 +415,7 @@ const useProductFilter = () => {
       const currentFilter = { id: `${filterKey}-${Date.now()}`, key, value };
       dispatch(setCurrentSelectedFilter(currentFilter));
 
-      // Get current params and filter out pagination parameters
-      let current = searchParams.toString();
-      const currentParams = searchParams
-        .toString()
-        .split('&')
-        .filter((entry) => {
-          const [key, _] = entry.split('=');
-          // Filter out pagination parameters (page, limit, etc.)
-          return !PAGINATION_SEARCH_PARAMS.includes(`${key}`);
-        })
-        .map((entry) => {
-          const [_, rawValue] = entry.split('=');
-          return rawValue?.replaceAll('+', ' ');
-        });
-
-      const updatedParams = currentParams.includes(filterValue)
-        ? current
-            .split('&')
-            .filter((entry) => {
-              const [key, rawValue] = entry.split('=');
-              // Skip pagination parameters
-              if (PAGINATION_SEARCH_PARAMS.includes(key)) return false;
-              if (rawValue && rawValue.replaceAll('+', ' ') == filterValue) {
-                return false;
-              }
-              return true;
-            })
-            .join('&')
-        : [
-            ...current.split('&').filter((entry) => {
-              const [key] = entry.split('=');
-              return !PAGINATION_SEARCH_PARAMS.includes(key);
-            }),
-            searchParam,
-          ].join('&');
+      const updatedParams = generateParams(filterValue, searchParam);
 
       const finalParams = [updatedParams].filter(Boolean).join('&');
       const url = `${pathname}?${finalParams}`;
@@ -585,6 +591,19 @@ const useProductFilter = () => {
       dispatch(setProductCount(0));
     };
   }, [data, revalidateCache, cachedCollectionData.current]);
+
+  // This is for the initial load
+  useEffect(() => {
+    const genaratedParams = generateParams('', '');
+    const finalParams = [genaratedParams].filter(Boolean).join('&');
+    if (finalParams === '&') return;
+    const {
+      productFilters: newProductFilters,
+      selectedFilters: newSelectedFilters,
+    } = buildProductFilters(finalParams);
+    dispatch(setProductFilters(newProductFilters));
+    dispatch(setSelectedFilters(newSelectedFilters));
+  }, []);
 
   return {
     data,
