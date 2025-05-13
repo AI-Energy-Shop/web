@@ -16,7 +16,9 @@ interface OrderSummaryProps {
 const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
   const { user } = useMe();
   const { carts } = useCart();
-  const { subtotal, totalGst, total } = getCartTotals(carts, 0.0, 0.0);
+  const { subtotal, totalGst, total } = getCartTotals(carts, 0.0, 0.0, {
+    userLevel: user?.account_detail?.level,
+  });
   const { warehouseLocation, shippingType, deliveryOptions, pickUpOptions } =
     useCheckout();
 
@@ -119,7 +121,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
     return (
       <div className="flex justify-between items-center">
         <h1>Sub-total (ex. GST)</h1>
-        <p>{roundToTwoDecimals(subtotal)}</p>
+        <p>{formatCurrency(subtotal, 'AUD')}</p>
       </div>
     );
   };
@@ -146,7 +148,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
     return (
       <div className="flex justify-between items-center">
         <h1>GST</h1>
-        <p>{totalGst.toFixed(2)}</p>
+        <p>{formatCurrency(totalGst, 'AUD')}</p>
       </div>
     );
   };
@@ -157,7 +159,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
         <h1 className="font-bold">
           Total <span className="font-normal text-xs">(inc. GST)</span>
         </h1>
-        <p className="font-bold">{total.toFixed(2)}</p>
+        <p className="font-bold">{formatCurrency(total, 'AUD')}</p>
       </div>
     );
   };
