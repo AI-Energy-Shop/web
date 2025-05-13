@@ -16,7 +16,7 @@ const Product: React.FC<ProductProps> = ({ product, onClick }) => {
   const statusInfo = getProductStatus(product?.releasedAt);
 
   const firstImage = product?.images.at(0);
-  const defatultImage = process.env.NEXT_PUBLIC_DEFAULT_PRODUCT_IMAGE;
+  const defatultImage = '/no-product-image.jpg';
 
   return (
     <TableRow

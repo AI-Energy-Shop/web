@@ -41,6 +41,47 @@ const schema = {
         }
       }
     `),
+    checkoutUserData: graphql(`
+      query GetCheckoutUserData($documentId: ID!) {
+        usersPermissionsUser(documentId: $documentId) {
+          carts {
+            documentId
+            quantity
+            product {
+              documentId
+              inventories {
+                documentId
+                name
+                location_code
+                quantity
+              }
+              shipping {
+                height
+                length
+                weight
+                width
+              }
+            }
+          }
+          addresses {
+            documentId
+            street1
+            street2
+            state
+            city
+            zip_code
+            country
+            phone
+            isActive
+            title
+            odoo_address_id
+            mobile
+            createdAt
+            updatedAt
+          }
+        }
+      }
+    `),
   },
   Mutation: {
     createCart: gql(`

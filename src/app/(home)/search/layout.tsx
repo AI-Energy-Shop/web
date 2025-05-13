@@ -1,11 +1,11 @@
-import React, { Suspense } from 'react';
-import SearchBar from '@/components/Navigations/Search/SearchBar';
 import SidebarFilters from '@/components/products/filter/SidebarFilters';
+import SearchBar from '@/components/Navigations/Search/SearchBar';
+import React, { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
+
 interface CollectionLayoutProps {
   children: React.ReactNode;
 }
-
 const CollectionLayout = ({ children }: CollectionLayoutProps) => {
   return (
     <div className="w-full min-h-screen">

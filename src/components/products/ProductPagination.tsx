@@ -53,13 +53,15 @@ const ProductPagination: React.FC<ProductPaginationProps> = ({
       className={cn(`my-10 ${loading ? 'opacity-50' : 'opacity-100'}`)}
     >
       <PaginationUI.PaginationContent className="p-0">
-        <PaginationUI.PaginationItem className="list-none">
-          {/* Go to first page */}
-          <PaginationUI.PaginationPrevious
-            className="cursor-pointer select-none"
-            onClick={() => handlePaginationPreviousClick(page)}
-          />
-        </PaginationUI.PaginationItem>
+        {page !== 1 && (
+          <PaginationUI.PaginationItem className="list-none">
+            {/* Go to first page */}
+            <PaginationUI.PaginationPrevious
+              className="cursor-pointer select-none"
+              onClick={() => handlePaginationPreviousClick(page)}
+            />
+          </PaginationUI.PaginationItem>
+        )}
         {totalPages &&
           Array.from({ length: totalPages }, (_, index) => (
             <PaginationUI.PaginationItem key={index} className="list-none">
@@ -72,13 +74,15 @@ const ProductPagination: React.FC<ProductPaginationProps> = ({
               </Button>
             </PaginationUI.PaginationItem>
           ))}
-        <PaginationUI.PaginationItem className="list-none">
-          {/* Go to last page */}
-          <PaginationUI.PaginationNext
-            className="cursor-pointer select-none"
-            onClick={() => handlePaginationNextClick(page)}
-          />
-        </PaginationUI.PaginationItem>
+        {page !== totalPages && (
+          <PaginationUI.PaginationItem className="list-none">
+            {/* Go to last page */}
+            <PaginationUI.PaginationNext
+              className="cursor-pointer select-none"
+              onClick={() => handlePaginationNextClick(page)}
+            />
+          </PaginationUI.PaginationItem>
+        )}
       </PaginationUI.PaginationContent>
     </PaginationUI.Pagination>
   );

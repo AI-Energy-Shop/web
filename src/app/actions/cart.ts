@@ -10,6 +10,8 @@ import {
   UpdateCartMutation,
   UpdateCartMutationVariables,
 } from '@/lib/gql/graphql';
+import { Auser } from '@/lib/types';
+import { revalidatePath } from 'next/cache';
 
 const client = getClient();
 export async function getCartItems() {
@@ -159,4 +161,28 @@ export const updateCartProductQuantity = async (
       },
     },
   });
+};
+export async function getCartProductQuantity() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('a-token')?.value;
+  const aUser: Auser = JSON.parse(cookieStore.get('a-user')?.value!);
+
+  const res = await client.query({
+    query: CART_OPERATIONS.Query.checkoutUserData,
+    fetchPolicy: 'network-only',
+    context: {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+    variables: {
+      documentId: aUser.documentId,
+    },
+  });
+
+  return res.data;
+}
+
+export const invalidateCartPath = async () => {
+  revalidatePath('/cart');
 };
