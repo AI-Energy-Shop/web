@@ -102,17 +102,15 @@ const ProductsDetails = ({
                   </Button>
                   <Button
                     size="sm"
-                    type="button"
-                    onClick={onSubmit}
-                    disabled={addProductForm.formState.isLoading}
+                    disabled={addProductForm.formState.isSubmitting}
                   >
-                    {addProductForm.formState.isLoading && (
+                    {addProductForm.formState.isSubmitting && (
                       <>
                         <Loader2 className="animate-spin" />
-                        Wait...
+                        Saving...
                       </>
                     )}
-                    {!addProductForm.formState.isLoading && (
+                    {!addProductForm.formState.isSubmitting && (
                       <>{product ? 'Update' : 'Save'}</>
                     )}
                   </Button>
@@ -236,7 +234,7 @@ const ProductsDetails = ({
                 formData={addProductForm.watch('price_lists') || []}
                 addButtonLabel="Add"
                 onAddList={handleAddPriceItem}
-                stayExpanded={false}
+                stayExpanded={addProductForm.watch('price_lists')?.length !== 0}
                 childComponent={
                   <PriceListItem
                     currency={'$'}
@@ -251,7 +249,7 @@ const ProductsDetails = ({
                 formData={addProductForm.watch('inventories')}
                 addButtonLabel="Add"
                 onAddList={handleAddInventoryItem}
-                stayExpanded={false}
+                stayExpanded={addProductForm.watch('inventories')?.length !== 0}
                 childComponent={
                   <InventoryItem
                     control={addProductForm.control}
@@ -265,7 +263,9 @@ const ProductsDetails = ({
                 formData={addProductForm.watch('specifications') || []}
                 addButtonLabel="Add"
                 onAddList={handleAddSpecsItem}
-                stayExpanded={false}
+                stayExpanded={
+                  addProductForm.watch('specifications')?.length !== 0
+                }
                 childComponent={
                   <SpecificationItem
                     options={SPECIFICATION_KEYS}
@@ -278,7 +278,9 @@ const ProductsDetails = ({
               <ListInput
                 title="Key Features"
                 addButtonLabel="Add"
-                stayExpanded={false}
+                stayExpanded={
+                  addProductForm.watch('key_features')?.length !== 0
+                }
                 formData={addProductForm.watch('key_features') || []}
                 onAddList={handleAddKeyFeatureItem}
                 childComponent={

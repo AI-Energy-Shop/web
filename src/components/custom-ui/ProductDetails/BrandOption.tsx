@@ -75,6 +75,7 @@ const BrandOption = ({ optionsData, form }: BrandOptionProps) => {
               )}
             />
             <Button
+              type="button"
               variant="ghost"
               size="sm"
               tabIndex={-1}
