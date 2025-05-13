@@ -145,52 +145,48 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
         },
   });
 
-  const onSubmit = async () => {
-    await addProductForm.trigger();
+  const onSubmit = async (onValid: AddProductFormData) => {
     const isErrors = Object.keys(addProductForm.formState.errors);
     if (isErrors.length !== 0) {
       return;
     }
-    const currentPriceLists = addProductForm.getValues('price_lists');
-    const currentInventories = addProductForm.getValues('inventories');
-    const currentSpecs = addProductForm.getValues('specifications');
-    const currentKeyFeatures = addProductForm.getValues('key_features');
-    const shippingData = addProductForm.getValues('shipping');
-    const currentImages = addProductForm.getValues('images') || [];
-    const currentFiles = addProductForm.getValues('files') || [];
+    const currentPriceLists = onValid.price_lists;
+    const currentInventories = onValid.inventories;
+    const currentSpecs = onValid.specifications;
+    const currentKeyFeatures = onValid.key_features;
+    const shippingData = onValid.shipping;
+    const currentImages = onValid.images;
+    const currentFiles = onValid.files;
 
     if (id === 'new') {
       console.log('SAVE');
       try {
-        const [
-          price_lists,
-          inventories,
-          specifications,
-          key_features,
-          shipping,
-        ] = await Promise.all([
+        const res = await Promise.all([
           handleSaveOrUpdatePriceList(currentPriceLists),
           handleSaveOrUpdateInventoryList(currentInventories),
           handleSaveOrSaveCurrentSpecs(currentSpecs),
           handleSaveCurrentKeyFeatures(currentKeyFeatures),
           handleSaveOrUpdateShipping(shippingData),
-        ]);
+        ]).catch((error) => {
+          console.log('error', error);
+          return;
+        });
 
         const productData = JSON.stringify(
           {
             data: {
-              name: addProductForm.getValues('name'),
-              model: addProductForm.getValues('model'),
-              odoo_product_id: addProductForm.getValues('odoo_product_id'),
-              description: addProductForm.getValues('description'),
-              vendor: addProductForm.getValues('vendor'),
-              product_type: addProductForm.getValues('product_type'),
-              brand: addProductForm.getValues('brand'),
-              price_lists,
-              inventories,
-              specifications,
-              key_features,
-              shipping,
+              name: onValid.name,
+              model: onValid.model,
+              odoo_product_id: onValid.odoo_product_id,
+              description: onValid.description,
+              vendor: onValid.vendor,
+              product_type: onValid.product_type,
+              brand: onValid.brand,
+              price_lists: res?.at?.(0) || [],
+              inventories: res?.at?.(1) || [],
+              specifications: res?.at?.(2) || [],
+              key_features: res?.at?.(3) || [],
+              shipping: res?.at?.(4) || null,
               images: currentImages,
               files: currentFiles,
             },
@@ -222,42 +218,33 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
       console.log('UPDATE');
 
       try {
-        const [
-          price_lists,
-          inventories,
-          specifications,
-          key_features,
-          shipping,
-        ] = await Promise.all([
+        const res = await Promise.all([
           handleSaveOrUpdatePriceList(currentPriceLists),
           handleSaveOrUpdateInventoryList(currentInventories),
           handleSaveOrSaveCurrentSpecs(currentSpecs),
           handleSaveCurrentKeyFeatures(currentKeyFeatures),
           handleSaveOrUpdateShipping(shippingData),
-        ]);
-
-        console.log('price_lists', price_lists);
-        console.log('inventories', inventories);
-        console.log('specifications', specifications);
-        console.log('key_features', key_features);
-        console.log('shipping', shipping);
+        ]).catch((error) => {
+          console.log('error', error);
+          return;
+        });
 
         const productData = JSON.stringify(
           {
             documentId: product?.documentId,
             data: {
-              name: addProductForm.getValues('name'),
-              model: addProductForm.getValues('model'),
-              odoo_product_id: addProductForm.getValues('odoo_product_id'),
-              description: addProductForm.getValues('description'),
-              vendor: addProductForm.getValues('vendor'),
-              product_type: addProductForm.getValues('product_type'),
-              brand: addProductForm.getValues('brand'),
-              shipping,
-              price_lists,
-              inventories,
-              specifications,
-              key_features,
+              name: onValid.name,
+              model: onValid.model,
+              odoo_product_id: onValid.odoo_product_id,
+              description: onValid.description,
+              vendor: onValid.vendor,
+              product_type: onValid.product_type,
+              brand: onValid.brand,
+              price_lists: res?.at?.(0) || [],
+              inventories: res?.at?.(1) || [],
+              specifications: res?.at?.(2) || [],
+              key_features: res?.at?.(3) || [],
+              shipping: res?.at?.(4) || null,
               images: currentImages,
               files: currentFiles,
             },
@@ -324,46 +311,57 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
   };
 
   const handleSaveCurrentKeyFeatures = async (data: KeyFeatureFormData) => {
-    if (!data || data.length === 0) return [];
-    const dataToSave = data
-      .filter((item) => !item?.documentId)
-      .map((item) => {
-        return {
-          feature: item?.feature,
-        };
+    try {
+      if (!data || data.length === 0) return [];
+      const dataToSave =
+        data
+          .filter((item) => item.documentId === null)
+          .map((item) => {
+            return {
+              feature: item?.feature,
+            };
+          }) || [];
+
+      const dataToUpdate =
+        data
+          .filter((item) => item.documentId !== null)
+          .map((item) => {
+            return {
+              id: item?.documentId,
+              feature: item?.feature,
+            };
+          }) || [];
+
+      // console.log('dataToUpdate', dataToUpdate);
+      const toDelete =
+        product?.key_features
+          ?.filter(
+            (feature) =>
+              !data.some((item) => item?.documentId === feature?.documentId)
+          )
+          .map((feature) => ({ documentId: feature?.documentId })) || [];
+
+      const res = await Promise.all([
+        createKeyFeature(JSON.stringify(dataToSave)),
+        updateKeyFeature(JSON.stringify(dataToUpdate)),
+        deleteKeyFeature(JSON.stringify(toDelete)),
+      ]).catch((error) => {
+        console.log('error', error);
+        return [];
       });
 
-    const dataToUpdate = data
-      .filter((item) => item?.documentId)
-      .map((item) => {
-        return {
-          id: item?.documentId,
-          feature: item?.feature,
-        };
-      });
+      const [saveRes, updateRes] = res;
 
-    // console.log('dataToUpdate', dataToUpdate);
-    const toDelete = product?.key_features
-      ?.filter(
-        (feature) =>
-          !data.some((item) => item?.documentId === feature?.documentId)
-      )
-      .map((feature) => ({ documentId: feature?.documentId }));
+      const combinedKeyFeatures = [
+        ...saveRes.map((item) => item.data?.createKeyFeature?.documentId),
+        ...updateRes.map((item) => item.data?.updateKeyFeature?.documentId),
+      ];
 
-    const res = await Promise.all([
-      createKeyFeature(JSON.stringify(dataToSave)),
-      updateKeyFeature(JSON.stringify(dataToUpdate)),
-      deleteKeyFeature(JSON.stringify(toDelete)),
-    ]);
-
-    const [saveRes, updateRes] = res;
-
-    const combinedKeyFeatures = [
-      ...saveRes.map((item) => item.data?.createKeyFeature?.documentId),
-      ...updateRes.map((item) => item.data?.updateKeyFeature?.documentId),
-    ];
-
-    return combinedKeyFeatures;
+      return combinedKeyFeatures;
+    } catch (error) {
+      console.log('error', error);
+      return [];
+    }
   };
 
   // PRICE LIST
@@ -386,68 +384,74 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
   const handleSaveOrUpdatePriceList = async (
     data: PriceListFormData
   ): Promise<string[]> => {
-    if (!data || data.length === 0) return [];
-    const toSavePrices = data
-      .filter((item) => {
-        return !item?.documentId;
-      })
-      .map((item) => {
-        return {
-          price: item?.price,
-          sale_price: item?.sale_price,
-          min_quantity: item?.min_quantity,
-          max_quantity: item?.max_quantity,
-          user_level: item?.user_level,
-        };
+    try {
+      if (!data || data.length === 0) return [];
+      const toSavePrices =
+        data
+          .filter((item) => {
+            return item.documentId === null;
+          })
+          .map((item) => {
+            return {
+              price: item?.price,
+              sale_price: item?.sale_price,
+              min_quantity: item?.min_quantity,
+              max_quantity: item?.max_quantity,
+              user_level: item?.user_level,
+            };
+          }) || [];
+
+      const toUpdatePrices =
+        data
+          .filter((item) => {
+            return item.documentId !== null;
+          })
+          .map((item) => {
+            return {
+              documentId: item?.documentId,
+              price: item?.price,
+              sale_price: item?.sale_price,
+              min_quantity: item?.min_quantity,
+              max_quantity: item?.max_quantity,
+              user_level: item?.user_level,
+            };
+          }) || [];
+
+      const toDelete =
+        product?.price_lists
+          ?.filter(
+            (price) =>
+              !data.some((item) => item?.documentId === price?.documentId)
+          )
+          .map((price) => ({ documentId: price?.documentId })) || [];
+
+      const res = await Promise.all([
+        createPrice(JSON.stringify(toSavePrices)),
+        updatePrice(JSON.stringify(toUpdatePrices)),
+        deletePrice(JSON.stringify(toDelete)),
+      ]).catch((error) => {
+        console.log('error', error);
+        return [];
       });
 
-    const toUpdatePrices = data
-      .filter((item) => {
-        return item?.documentId !== '';
-      })
-      .map((item) => {
-        return {
-          documentId: item?.documentId,
-          price: item?.price,
-          sale_price: item?.sale_price,
-          min_quantity: item?.min_quantity,
-          max_quantity: item?.max_quantity,
-          user_level: item?.user_level,
-        };
-      });
+      const [saveRes, updateRes] = res;
 
-    const toDelete = product?.price_lists
-      ?.filter(
-        (price) => !data.some((item) => item?.documentId === price?.documentId)
-      )
-      .map((price) => ({ documentId: price?.documentId }));
+      const combinedPriceLists = [
+        ...saveRes.map((item) => item.data?.createPrice?.documentId),
+        ...updateRes.map((item) => item.data?.updatePrice?.documentId),
+      ];
 
-    console.log('toSavePrices', toSavePrices);
-    console.log('toUpdatePrices', toUpdatePrices);
-    console.log('toDelete', toDelete);
-
-    const res = await Promise.all([
-      createPrice(JSON.stringify(toSavePrices)),
-      updatePrice(JSON.stringify(toUpdatePrices)),
-      deletePrice(JSON.stringify(toDelete)),
-    ]);
-
-    console.log('res', res);
-
-    const [saveRes, updateRes] = res;
-
-    const combinedPriceLists = [
-      ...saveRes.map((item) => item.data?.createPrice?.documentId),
-      ...updateRes.map((item) => item.data?.updatePrice?.documentId),
-    ];
-
-    return combinedPriceLists.filter((item) => item !== undefined);
+      return combinedPriceLists.filter((item) => item !== undefined);
+    } catch (error) {
+      console.log('error', error);
+      return [];
+    }
   };
 
   // INVENTORY
   const handleAddInventoryItem = () => {
     const newObj = {
-      documentId: '',
+      documentId: null,
       location_code: '',
       quantity: 0,
     };
@@ -462,46 +466,57 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
   const handleSaveOrUpdateInventoryList = async (
     data: InventoryFormData
   ): Promise<string[]> => {
-    if (!data || data.length === 0) return [];
-    const dataToSave = data
-      .filter((item) => !item?.documentId)
-      .map((item) => {
-        return {
-          location_code: item?.location_code,
-          quantity: item?.quantity,
-        };
+    try {
+      if (!data || data.length === 0) return [];
+      const dataToSave =
+        data
+          .filter((item) => item.documentId === null)
+          .map((item) => {
+            return {
+              location_code: item?.location_code,
+              quantity: item?.quantity,
+            };
+          }) || [];
+
+      const dataToUpdate =
+        data
+          .filter((item) => item.documentId !== null)
+          .map((item) => {
+            return {
+              documentId: item?.documentId,
+              location_code: item?.location_code,
+              quantity: item?.quantity,
+            };
+          }) || [];
+
+      const toDelete =
+        product?.inventories
+          ?.filter(
+            (inv) => !data.some((item) => item?.documentId === inv?.documentId)
+          )
+          .map((inv) => ({ documentId: inv?.documentId })) || [];
+
+      const res = await Promise.all([
+        createInventory(JSON.stringify(dataToSave)),
+        updateInventory(JSON.stringify(dataToUpdate)),
+        deleteInventory(JSON.stringify(toDelete)),
+      ]).catch((error) => {
+        console.log('error', error);
+        return [];
       });
 
-    const dataToUpdate = data
-      .filter((item) => item?.documentId)
-      .map((item) => {
-        return {
-          documentId: item?.documentId,
-          location_code: item?.location_code,
-          quantity: item?.quantity,
-        };
-      });
+      const [saveRes, updateRes] = res;
 
-    const toDelete = product?.inventories
-      ?.filter(
-        (inv) => !data.some((item) => item?.documentId === inv?.documentId)
-      )
-      .map((inv) => ({ documentId: inv?.documentId }));
+      const combinedInventoryLists = [
+        ...saveRes.map((item) => item.data?.createInventory?.documentId),
+        ...updateRes.map((item) => item.data?.updateInventory?.documentId),
+      ];
 
-    const res = await Promise.all([
-      createInventory(JSON.stringify(dataToSave)),
-      updateInventory(JSON.stringify(dataToUpdate)),
-      deleteInventory(JSON.stringify(toDelete)),
-    ]);
-
-    const [saveRes, updateRes] = res;
-
-    const combinedInventoryLists = [
-      ...saveRes.map((item) => item.data?.createInventory?.documentId),
-      ...updateRes.map((item) => item.data?.updateInventory?.documentId),
-    ];
-
-    return combinedInventoryLists.filter((item) => item !== undefined);
+      return combinedInventoryLists.filter((item) => item !== undefined);
+    } catch (error) {
+      console.log('error', error);
+      return [];
+    }
   };
 
   // SPECIFICATION
@@ -524,46 +539,58 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
   const handleSaveOrSaveCurrentSpecs = async (
     data: SpecificationFormData
   ): Promise<string[]> => {
-    if (!data || data.length === 0) return [];
-    const dataToSave = data
-      .filter((item) => !item?.documentId)
-      .map((item) => {
-        return {
-          key: item?.key,
-          value: item?.value,
-        };
+    try {
+      if (!data || data.length === 0) return [];
+      const dataToSave =
+        data
+          .filter((item) => item.documentId === null)
+          .map((item) => {
+            return {
+              key: item?.key,
+              value: item?.value,
+            };
+          }) || [];
+
+      const dataToUpdate =
+        data
+          .filter((item) => item.documentId !== null)
+          .map((item) => {
+            return {
+              documentId: item?.documentId,
+              key: item?.key,
+              value: item?.value,
+            };
+          }) || [];
+
+      const toDelete =
+        product?.specifications
+          ?.filter(
+            (spec) =>
+              !data.some((item) => item?.documentId === spec?.documentId)
+          )
+          .map((spec) => ({ documentId: spec?.documentId })) || [];
+
+      const res = await Promise.all([
+        createSpecification(JSON.stringify(dataToSave)),
+        updateSpecification(JSON.stringify(dataToUpdate)),
+        deleteSpecification(JSON.stringify(toDelete)),
+      ]).catch((error) => {
+        console.log('error', error);
+        return [];
       });
 
-    const dataToUpdate = data
-      .filter((item) => item?.documentId)
-      .map((item) => {
-        return {
-          documentId: item?.documentId,
-          key: item?.key,
-          value: item?.value,
-        };
-      });
+      const [saveRes, updateRes] = res;
 
-    const toDelete = product?.specifications
-      ?.filter(
-        (spec) => !data.some((item) => item?.documentId === spec?.documentId)
-      )
-      .map((spec) => ({ documentId: spec?.documentId }));
+      const combinedSpecificationLists = [
+        ...saveRes.map((item) => item.data?.createSpecification?.documentId),
+        ...updateRes.map((item) => item.data?.updateSpecification?.documentId),
+      ];
 
-    const res = await Promise.all([
-      createSpecification(JSON.stringify(dataToSave)),
-      updateSpecification(JSON.stringify(dataToUpdate)),
-      deleteSpecification(JSON.stringify(toDelete)),
-    ]);
-
-    const [saveRes, updateRes] = res;
-
-    const combinedSpecificationLists = [
-      ...saveRes.map((item) => item.data?.createSpecification?.documentId),
-      ...updateRes.map((item) => item.data?.updateSpecification?.documentId),
-    ];
-
-    return combinedSpecificationLists.filter((item) => item !== undefined);
+      return combinedSpecificationLists.filter((item) => item !== undefined);
+    } catch (error) {
+      console.log('error', error);
+      return [];
+    }
   };
 
   const onRemoveList = (index?: number, title?: string) => {
@@ -687,25 +714,30 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     length: number;
     weight: number;
   }) => {
-    if (height === 0 || width === 0 || length === 0 || weight === 0) {
-      return;
+    try {
+      if (height === 0 || width === 0 || length === 0 || weight === 0) {
+        return;
+      }
+
+      const res = await createShipping(
+        JSON.stringify({
+          height,
+          width,
+          length,
+          weight,
+        })
+      );
+
+      if (res.errors) {
+        console.error('Failed to create shipping:', res.errors);
+        return;
+      }
+
+      return res.data?.createShipping?.documentId;
+    } catch (error) {
+      console.log('error', error);
+      return undefined;
     }
-
-    const res = await createShipping(
-      JSON.stringify({
-        height,
-        width,
-        length,
-        weight,
-      })
-    );
-
-    if (res.errors) {
-      console.error('Failed to create shipping:', res.errors);
-      return;
-    }
-
-    return res.data?.createShipping?.documentId;
   };
 
   useEffect(() => {
