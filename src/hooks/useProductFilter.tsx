@@ -17,7 +17,6 @@ import {
 import {
   CollectionsWithProductsQuery,
   CollectionsWithProductsQueryVariables,
-  ComponentElementsFilterRuleInput,
   ProductsQuery,
 } from '@/lib/gql/graphql';
 import { useAppDispatch, useAppSelector } from '@/store/store';
@@ -29,6 +28,7 @@ import {
   setSelectedFilters,
   setCurrentSelectedFilter,
 } from '@/store/features/products';
+import { PAGINATION_SEARCH_PARAMS } from '@/constant/navigations';
 
 export interface FilterOption {
   value: string;
@@ -375,34 +375,45 @@ const useProductFilter = () => {
       const currentFilter = { id: `${filterKey}-${Date.now()}`, key, value };
       dispatch(setCurrentSelectedFilter(currentFilter));
 
+      // Get current params and filter out pagination parameters
       let current = searchParams.toString();
-      let currentParams = searchParams
+      const currentParams = searchParams
         .toString()
         .split('&')
+        .filter((entry) => {
+          const [key, _] = entry.split('=');
+          // Filter out pagination parameters (page, limit, etc.)
+          return !PAGINATION_SEARCH_PARAMS.includes(`${key}`);
+        })
         .map((entry) => {
           const [_, rawValue] = entry.split('=');
           return rawValue?.replaceAll('+', ' ');
         });
 
-      // Preserve sort parameter if it exists
-      // const sortParam = searchParams.get('sort');
-      // const sortQuery = sortParam ? `sort=${sortParam}` : '';
       const updatedParams = currentParams.includes(filterValue)
         ? current
             .split('&')
             .filter((entry) => {
-              const [_, rawValue] = entry.split('=');
+              const [key, rawValue] = entry.split('=');
+              // Skip pagination parameters
+              if (PAGINATION_SEARCH_PARAMS.includes(key)) return false;
               if (rawValue && rawValue.replaceAll('+', ' ') == filterValue) {
                 return false;
               }
               return true;
             })
             .join('&')
-        : [...current.split('&'), searchParam].join('&');
+        : [
+            ...current.split('&').filter((entry) => {
+              const [key] = entry.split('=');
+              return !PAGINATION_SEARCH_PARAMS.includes(key);
+            }),
+            searchParam,
+          ].join('&');
 
-      // Combine filter params with sort param
       const finalParams = [updatedParams].filter(Boolean).join('&');
       const url = `${pathname}?${finalParams}`;
+
       const {
         productFilters: newProductFilters,
         selectedFilters: newSelectedFilters,
