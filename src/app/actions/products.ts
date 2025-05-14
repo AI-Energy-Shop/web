@@ -24,24 +24,27 @@ import {
   DeleteKeyFeatureMutation,
   CreateShippingMutation,
   CustomProductUpdateMutation,
+  PublicationStatus,
 } from '@/lib/gql/graphql';
 import {
   handleGraphQLError,
   GraphQLException,
 } from '@/lib/utils/graphql-error';
-
+import { revalidatePath } from 'next/cache';
 const client = getClient();
 
 export const products = async (variables?: {
   filters: ProductFiltersInput;
   pagination: PaginationArg;
+  status?: PublicationStatus;
+  sort?: string[];
 }): Promise<FetchResult<ProductsQuery>> => {
   try {
     const res = await client.query({
       query: PRODUCT_OPERATIONS.Query.products,
-      variables: variables,
+      fetchPolicy: 'network-only',
+      variables,
     });
-
     return res;
   } catch (error: any) {
     throw handleGraphQLError(error);
@@ -54,11 +57,12 @@ export const product = async (
   try {
     const res = await client.query({
       query: PRODUCT_OPERATIONS.Query.product,
+      fetchPolicy: 'network-only',
       variables: {
         documentId: id,
       },
     });
-
+    revalidatePath(`/admin/products/${id}`);
     return res;
   } catch (error: any) {
     throw handleGraphQLError(error);
@@ -84,8 +88,12 @@ export const createProduct = async (
           Authorization: `Bearer ${token?.value}`,
         },
       },
+      fetchPolicy: 'network-only',
     });
 
+    revalidatePath(
+      `/admin/products/${res.data?.customProductCreate?.documentId}`
+    );
     return {
       data: res,
     };
@@ -116,6 +124,8 @@ export const updateProduct = async (
         },
       },
     });
+
+    revalidatePath(`/admin/products/${inputData.documentId}`);
     return {
       data: res,
     };
@@ -297,7 +307,9 @@ export const updateInventory = async (
     )) as unknown as Promise<FetchResult<UpdateInventoryMutation>[]>;
     return res;
   } catch (error: any) {
-    console.log('ERROR creating inventory:', error.message);
+    const errorMessage = handleGraphQLError(error);
+    console.log('errorMessage', errorMessage);
+
     return error.message;
   }
 };
@@ -328,7 +340,8 @@ export const deleteInventory = async (
     )) as unknown as Promise<FetchResult<DeleteInventoryMutation>[]>;
     return res;
   } catch (error: any) {
-    console.log('ERROR deleting inventory:', error.message);
+    const errorMessage = handleGraphQLError(error);
+    console.log('errorMessage', errorMessage);
     return error;
   }
 };
@@ -364,7 +377,8 @@ export const createSpecification = async (
     )) as unknown as Promise<FetchResult<CreateSpecificationMutation>[]>;
     return res;
   } catch (error: any) {
-    console.log('ERROR creating inventory:', error.message);
+    const errorMessage = handleGraphQLError(error);
+    console.log('errorMessage', errorMessage);
     return error;
   }
 };
@@ -468,7 +482,8 @@ export const createKeyFeature = async (
     )) as unknown as Promise<FetchResult<CreateKeyFeatureMutation>[]>;
     return res;
   } catch (error: any) {
-    console.log('ERROR creating key feature:', error.message);
+    const errorMessage = handleGraphQLError(error);
+    console.log('create key feature error', errorMessage);
     return error;
   }
 };
@@ -502,7 +517,8 @@ export const updateKeyFeature = async (
     )) as unknown as Promise<FetchResult<UpdateKeyFeatureMutation>[]>;
     return res;
   } catch (error: any) {
-    console.log('ERROR updating key feature:', error.message);
+    const errorMessage = handleGraphQLError(error);
+    console.log('update key feature error', errorMessage);
     return error;
   }
 };
@@ -533,7 +549,8 @@ export const deleteKeyFeature = async (
     )) as unknown as Promise<FetchResult<DeleteKeyFeatureMutation>[]>;
     return res;
   } catch (error: any) {
-    console.log('ERROR deleting key feature:', error.message);
+    const errorMessage = handleGraphQLError(error);
+    console.log('delete key feature error', errorMessage);
     return error;
   }
 };
@@ -563,7 +580,8 @@ export const createShipping = async (
     });
     return res;
   } catch (error: any) {
-    console.log('ERROR creating shipping:', error.message);
+    const errorMessage = handleGraphQLError(error);
+    console.log('create shipping error', errorMessage);
     return error;
   }
 };

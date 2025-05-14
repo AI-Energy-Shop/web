@@ -52,7 +52,6 @@ const ProductsDetails = ({
     handleFilesSelected,
     handleAddSpecsItem,
     onRemoveList,
-    handleProductStatusChange,
     handleAddKeyFeatureItem,
   } = useProductDetails({ id, product });
 
@@ -63,7 +62,7 @@ const ProductsDetails = ({
           {/* HEADER */}
           <div className="w-full h-full flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <Link href="/admin/products">
+              <Link href="/admin/products" prefetch={false}>
                 <ChevronLeft className="h-4 w-4" />
               </Link>
               <h1 className="text-base font-bold">
@@ -71,24 +70,29 @@ const ProductsDetails = ({
               </h1>
             </div>
             <div className="flex items-center space-x-2">
-              <Select
-                value={
-                  addProductForm.watch('releaseAt') ? 'published' : 'draft'
-                }
-                onValueChange={handleProductStatusChange}
-              >
-                <SelectTrigger className="min-w-[150px]">
-                  <SelectValue placeholder="Status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="draft">
-                    <p className="text-sm">Draft</p>
-                  </SelectItem>
-                  <SelectItem value="published">
-                    <p className="text-sm">Published</p>
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+              <FormField
+                control={addProductForm.control}
+                name={`status`}
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger className="w-[150px]">
+                          <SelectValue placeholder="Status" />
+                        </SelectTrigger>
+                        <SelectContent className="w-[150px]">
+                          <SelectItem value="draft">Draft</SelectItem>
+                          <SelectItem value="published">Published</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               {addProductForm.formState.isDirty && (
                 <>
@@ -419,19 +423,6 @@ const ProductsDetails = ({
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel>Product Type</FormLabel>
-                        <FormControl>
-                          <Input {...field} value={field.value || ''} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={addProductForm.control}
-                    name="vendor"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel>Vendor</FormLabel>
                         <FormControl>
                           <Input {...field} value={field.value || ''} />
                         </FormControl>
