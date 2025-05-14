@@ -75,7 +75,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
           <p className="font-thin text-[14px]">{model}</p>
         </div>
         <div className="flex-1 self-center">
-          <h2>{gst}</h2>
+          <h2>{formatCurrency(price, 'AUD')}</h2>
           <p className="text-[12px]">ex.GST</p>
         </div>
         <div>
@@ -115,7 +115,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
               </Button>
             </div>
             <div className="text-center">
-              <p>{formatCurrency(Number(price * quantity), 'USD')}</p>
+              <p>{formatCurrency(Number(price * quantity), 'AUD')}</p>
               <p className="text-[12px]">ex.GST</p>
             </div>
           </div>
@@ -163,7 +163,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
           </Button>
         </div>
         <div className="flex-3 text-right pr-2">
-          <p>{formatCurrency(Number(price * quantity), 'USD')}</p>
+          <p>{formatCurrency(Number(price * quantity), 'AUD')}</p>
           <p className="text-[14px]">ex.GST</p>
         </div>
       </div>

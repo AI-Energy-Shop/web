@@ -39,7 +39,6 @@ export const products = async (variables?: {
   try {
     const res = await client.query({
       query: PRODUCT_OPERATIONS.Query.products,
-      fetchPolicy: 'no-cache',
       variables: variables,
     });
 
@@ -55,7 +54,6 @@ export const product = async (
   try {
     const res = await client.query({
       query: PRODUCT_OPERATIONS.Query.product,
-      fetchPolicy: 'no-cache',
       variables: {
         documentId: id,
       },

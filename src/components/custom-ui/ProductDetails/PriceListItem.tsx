@@ -174,8 +174,9 @@ const PriceListItem: React.FC<PriceListItem> = ({
       </CardContent>
       <CardFooter className="flex justify-end">
         <Button
-          onClick={() => onRemove(index, title)}
           size="icon"
+          type="button"
+          onClick={() => onRemove(index, title)}
           className="group-hover:visible invisible relative right-0"
         >
           <Trash2 className="h-3 w-3" />
