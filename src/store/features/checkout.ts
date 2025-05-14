@@ -56,7 +56,7 @@ export type WarehouseLocation = {
 };
 
 export type ShippingAddress = {
-  odoo_address_id: number;
+  odoo_address_id: string;
   title: string;
   street1: string;
   street2: string;
@@ -133,13 +133,16 @@ const checkoutSlice = createSlice({
     setShippingType(state, action: PayloadAction<ShippingType>) {
       state.shippingType = action.payload;
     },
+    setShippingAddress(state, action: PayloadAction<ShippingAddress>) {
+      state.shippingAddress = action.payload;
+    },
     setUserDeliveryDetails(state, action: PayloadAction<ShippingAddress>) {
       state.shippingAddress = action.payload;
     },
     setPaymentMethod(state, action: PayloadAction<PaymentMethod>) {
       state.paymentMethod = action.payload;
     },
-    resetReview(state) {
+    resetCheckout(state) {
       Object.assign(state, initialState);
     },
   },
@@ -151,9 +154,10 @@ export const {
   setVoucherCode,
   setOrderNotes,
   setShippingType,
+  setShippingAddress,
   setUserDeliveryDetails,
   setPaymentMethod,
-  resetReview,
+  resetCheckout,
   setPickUpNotes,
   setDeliveryNotes,
   setDeliveryOptions,

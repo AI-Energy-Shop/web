@@ -1,27 +1,16 @@
 'use client';
 
+import useCart from '@/hooks/useCart';
+import useMe from '@/hooks/useMe';
+import { formatCurrency } from '@/utils/cart';
 import { ChevronDown, ChevronUp, Package } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 
-export const mockProducts = [
-  {
-    id: '1',
-    name: 'Premium Wireless Headphones',
-    price: 249.99,
-    quantity: 1,
-    image: '',
-  },
-  {
-    id: '2',
-    name: 'Smartphone Fast Charger',
-    price: 39.99,
-    quantity: 2,
-    image: '',
-  },
-];
-
 function OrderSummary() {
+  const { carts } = useCart();
+  const { user } = useMe();
+
   const [expanded, setExpanded] = useState<boolean>(true);
 
   const toggleExpand = () => {
@@ -41,7 +30,7 @@ function OrderSummary() {
           <div>
             <h3 className="font-medium text-gray-900">Order Summary</h3>
             <p className="text-sm text-gray-500">
-              {mockProducts.length} item{mockProducts.length !== 1 ? 's' : ''}
+              {carts.length} item{carts.length !== 1 ? 's' : ''}
             </p>
           </div>
         </div>
@@ -60,30 +49,42 @@ function OrderSummary() {
       {expanded && (
         <div className="px-4 pb-4 animate-fadeIn">
           <div className="space-y-4 mt-2">
-            {mockProducts.map((product) => (
-              <div key={product.id} className="flex space-x-4">
-                <div className="w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
-                  <Image
-                    width={100}
-                    height={100}
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex-1">
-                  <h4 className="text-sm font-medium text-gray-900">
-                    {product.name}
-                  </h4>
-                  <div className="flex mt-1 text-sm text-gray-500">
-                    <span>Qty: {product.quantity}</span>
+            {carts.map((cart) => {
+              const priceData = cart?.product?.price_lists?.find(
+                (price) =>
+                  price?.user_level === user?.account_detail?.level &&
+                  !price?.min_quantity &&
+                  !price?.max_quantity
+              );
+
+              const currentPrice =
+                priceData?.sale_price || priceData?.price || 0;
+
+              return (
+                <div key={cart.documentId} className="flex space-x-4">
+                  <div className="w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
+                    <Image
+                      width={100}
+                      height={100}
+                      src={cart.product.images[0]?.url || ''}
+                      alt={cart.product.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-sm font-medium text-gray-900">
+                      {cart.product.name}
+                    </h4>
+                    <div className="flex mt-1 text-sm text-gray-500">
+                      <span>Qty: {cart.quantity}</span>
+                    </div>
+                  </div>
+                  <div className="text-sm font-medium text-gray-900">
+                    {formatCurrency(cart.quantity * currentPrice, 'AUD')}
                   </div>
                 </div>
-                <div className="text-sm font-medium text-gray-900">
-                  ${(product.price * product.quantity).toFixed(2)}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}

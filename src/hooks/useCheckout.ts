@@ -4,6 +4,8 @@ import {
   setShippingType as setShippingTypeFromSlice,
   ShippingType,
   WarehouseLocation,
+  setShippingAddress as setShippingAddressFromSlice,
+  ShippingAddress,
   setDeliveryOptions as setDeliveryOptionsFromSlice,
   DeliveryOptions,
   setDeliveryNotes as setDeliveryNotesFromSlice,
@@ -15,6 +17,7 @@ import {
   setItems as setItemsMethodFromSlice,
 } from '@/store/features/checkout';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useEffect, useState } from 'react';
 
 export const useCheckout = () => {
   const dispatch = useAppDispatch();
@@ -30,12 +33,18 @@ export const useCheckout = () => {
 
   const pickUpOptions = useAppSelector((state) => state.checkout.pickupOptions);
 
-  const shippingType = useAppSelector((state) => state.checkout.shippingType);
+  const shippingTypeFromStore = useAppSelector(
+    (state) => state.checkout.shippingType
+  );
 
   const paymentMethod = useAppSelector((state) => state.checkout.paymentMethod);
 
   const deliveryOptions = useAppSelector(
     (state) => state.checkout.deliveryOptions
+  );
+
+  const shippingAddress = useAppSelector(
+    (state) => state.checkout.shippingAddress
   );
 
   const allCheckoutState = useAppSelector((state) => state.checkout);
@@ -49,6 +58,10 @@ export const useCheckout = () => {
 
   const setDeliveryOptions = (deliveryOptions: DeliveryOptions) => {
     dispatch(setDeliveryOptionsFromSlice(deliveryOptions));
+  };
+
+  const setShippingAddress = (shippingAddress: ShippingAddress) => {
+    dispatch(setShippingAddressFromSlice(shippingAddress));
   };
 
   const setDeliveryNotes = (deliveryNotes: string) =>
@@ -67,6 +80,12 @@ export const useCheckout = () => {
     dispatch(setItemsMethodFromSlice(cart));
   };
 
+  const [shippingType, setShippingTypes] = useState<ShippingType>(null);
+
+  useEffect(() => {
+    setShippingTypes(shippingTypeFromStore);
+  }, [shippingTypeFromStore]);
+
   return {
     warehouseLocation,
     pickUpNotes,
@@ -76,8 +95,10 @@ export const useCheckout = () => {
     paymentMethod,
     deliveryOptions,
     allCheckoutState,
+    shippingAddress,
     setWarehouseLocation,
     setShippingType,
+    setShippingAddress,
     setDeliveryOptions,
     setDeliveryNotes,
     setPickUpNotes,
