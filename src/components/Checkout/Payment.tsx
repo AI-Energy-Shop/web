@@ -10,7 +10,8 @@ import { PaymentMethod } from '@/store/features/checkout';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Enum_Order_Paymentmethod } from '@/lib/gql/graphql';
-import CreditCardChangeDialog from './CreditCardChangeDialog';
+import CreditCardChangeDialog from './CreditCardPayment/CreditCardChangeDialog';
+import { CreditCard } from './CreditCardPayment/CreditCard';
 
 interface PaymentProps {}
 
@@ -112,20 +113,23 @@ const Payment: React.FC<PaymentProps> = ({}) => {
           />
           {paymentMethod === Enum_Order_Paymentmethod.CreditCard && (
             <div className="md:mx-12 grid grid-cols-2">
-              <div className="p-2 border border-blue-navy-blue rounded-xl col-span-2 sm:col-span-1">
+              <div className="p-2 space-y-4 border border-blue-navy-blue rounded-xl col-span-2 sm:col-span-1">
                 <div className="flex items-center justify-between">
                   <h1 className="font-semibold">Bill To:</h1>
                   <p
                     onClick={() => setCreditCardDialog(true)}
                     className="text-xs underline flex items-center cursor-pointer"
                   >
-                    Change Card <ArrowRight size={13} />
+                    Change Payment Method <ArrowRight size={13} />
                   </p>
                 </div>
-                <div>
-                  <h1 className="font-semibold">John Doe</h1>
-                  <p>**** **** **** 1234</p>
-                </div>
+                <CreditCard
+                  brand="visa"
+                  last4Char="4242"
+                  expMonth={12}
+                  expYear={2025}
+                  isDefault
+                />
               </div>
             </div>
           )}
