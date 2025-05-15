@@ -2,7 +2,6 @@
 import React from 'react';
 import useProductFilter from '@/hooks/useProductFilter';
 import * as PaginationUI from '@/components/ui/pagination';
-import { useAppSelector } from '@/store/store';
 import { INITIAL_PAGE_SIZE } from '@/constant';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
@@ -20,8 +19,7 @@ const ProductPagination: React.FC<ProductPaginationProps> = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const productCount = useAppSelector((state) => state.products.productCount);
-  const { loading } = useProductFilter();
+  const { loading, productCount } = useProductFilter();
   const pageSizeValue = pageSize || INITIAL_PAGE_SIZE;
 
   const totalPages = Math.ceil(productCount / Number(pageSizeValue));

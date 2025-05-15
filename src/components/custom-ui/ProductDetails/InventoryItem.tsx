@@ -57,8 +57,8 @@ const InventoryItem: React.FC<InventoryItemProps> = ({
                 </FormLabel>
                 <FormControl>
                   <Select
-                    onValueChange={field.onChange}
                     defaultValue={field.value}
+                    onValueChange={field.onChange}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select warehouse location" />
