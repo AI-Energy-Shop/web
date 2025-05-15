@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import Image from 'next/image';
 import { Label } from '@/components/ui/label';
@@ -10,12 +10,15 @@ import { PaymentMethod } from '@/store/features/checkout';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Enum_Order_Paymentmethod } from '@/lib/gql/graphql';
+import CreditCardChangeDialog from './CreditCardChangeDialog';
 
 interface PaymentProps {}
 
 const Payment: React.FC<PaymentProps> = ({}) => {
   const { paymentStep, isCartNeededManualQuote, carts } = useCart();
   const { paymentMethod, setPaymentMethod, setItems } = useCheckout();
+
+  const [creditCardDialog, setCreditCardDialog] = useState<boolean>(false);
 
   useEffect(() => {
     setItems(carts);
@@ -103,12 +106,19 @@ const Payment: React.FC<PaymentProps> = ({}) => {
             </RadioGroup>
           </div>
 
+          <CreditCardChangeDialog
+            creditCardDialog={creditCardDialog}
+            setCreditCardDialog={setCreditCardDialog}
+          />
           {paymentMethod === Enum_Order_Paymentmethod.CreditCard && (
             <div className="md:mx-12 grid grid-cols-2">
               <div className="p-2 border border-blue-navy-blue rounded-xl col-span-2 sm:col-span-1">
                 <div className="flex items-center justify-between">
                   <h1 className="font-semibold">Bill To:</h1>
-                  <p className="text-xs underline flex items-center cursor-pointer">
+                  <p
+                    onClick={() => setCreditCardDialog(true)}
+                    className="text-xs underline flex items-center cursor-pointer"
+                  >
                     Change Card <ArrowRight size={13} />
                   </p>
                 </div>
