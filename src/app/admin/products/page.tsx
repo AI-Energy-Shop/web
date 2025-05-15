@@ -1,12 +1,18 @@
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
+
 import { Package, PackageSearch, ShoppingCart, Users } from 'lucide-react';
 import { products } from '@/app/actions/products';
 import { Button } from '@/components/ui/button';
 import Components from '@/components';
 import Link from 'next/link';
+import { unstable_noStore as noStore } from 'next/cache';
 
 const ProductsPage = async () => {
+  noStore(); // Opt out of static rendering
   const { data } = await products();
+
   return (
     <main className="w-full h-auto p-5">
       {/* Header */}
