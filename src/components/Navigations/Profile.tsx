@@ -2,16 +2,16 @@
 import React from 'react';
 import { Button } from '../ui/button';
 import { LogOut } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
+import { Avatar, AvatarFallback } from '@radix-ui/react-avatar';
 import { Settings } from 'lucide-react';
 import { Me } from '@/store/features/me';
 
 interface ProfileProps {
   user?: Me;
-  handleLogout: () => void;
+  onLogout: () => void;
 }
 
-const Profile = ({ user, handleLogout }: ProfileProps) => {
+const Profile = ({ user, onLogout }: ProfileProps) => {
   return (
     <div className="p-4 border-t border-gray-200 dark:border-gray-700">
       <div className="flex items-center space-x-4">
@@ -38,7 +38,8 @@ const Profile = ({ user, handleLogout }: ProfileProps) => {
           size="sm"
           className="p-1"
           variant="ghost"
-          onClick={handleLogout}
+          onClick={onLogout}
+          type="button"
         >
           <LogOut className="h-4 w-4" />
           Logout

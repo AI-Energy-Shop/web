@@ -122,7 +122,7 @@ const SideNavigation = () => {
           </div>
           {renderNavlist()}
           {user ? (
-            <Profile user={user} handleLogout={handleLogout} />
+            <Profile user={user} onLogout={handleLogout} />
           ) : (
             renderAuthButtons()
           )}

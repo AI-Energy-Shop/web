@@ -33,7 +33,6 @@ const ProductsTable: React.FC<ProductTableProps> = ({ products }) => {
             <TableHead>Product</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Category</TableHead>
-            <TableHead>Vendor</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

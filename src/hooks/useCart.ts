@@ -23,7 +23,6 @@ const useCart = () => {
   const dispatch = useAppDispatch();
   const [shippingOptions, setShippingOptions] =
     useState<ShippingOptions>(SHIPPING_OPTIONS);
-  const [paymentOption, setPaymentOption] = useState<string>('');
   const cartsData = useAppSelector((state) => state.cart.carts);
   const paymentStepData = useAppSelector(
     (state: RootState) => state.cart.paymentStep
@@ -156,7 +155,6 @@ const useCart = () => {
     paymentStep,
     showCartWindow,
     shippingOptions,
-    paymentOption,
     isCartNeededManualQuote,
     handleEditClick,
     handleShippingMethodClick,

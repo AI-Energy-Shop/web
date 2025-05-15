@@ -37,9 +37,15 @@ const BrandOption = ({ optionsData, form }: BrandOptionProps) => {
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+  const [options, setOptions] = useState(optionsData);
 
   const handleInputChange = (value: string) => {
     setInputValue(value);
+    setOptions(
+      optionsData.filter((option) =>
+        option.name.toLowerCase().includes(value.toLowerCase())
+      )
+    );
   };
 
   const handleSelect = (value: string) => {
@@ -99,7 +105,7 @@ const BrandOption = ({ optionsData, form }: BrandOptionProps) => {
             />
             <CommandEmpty>No matching key found.</CommandEmpty>
             <CommandGroup style={{ maxHeight: 150, overflowY: 'auto' }}>
-              {optionsData
+              {options
                 .filter((option) =>
                   option.name.toLowerCase().includes(inputValue.toLowerCase())
                 )

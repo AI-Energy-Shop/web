@@ -14,7 +14,6 @@ interface ProductProps {
 
 const Product: React.FC<ProductProps> = ({ product, onClick }) => {
   const statusInfo = getProductStatus(product?.releasedAt);
-
   const firstImage = product?.images.at(0);
   const defatultImage = '/no-product-image.jpg';
 
@@ -45,7 +44,6 @@ const Product: React.FC<ProductProps> = ({ product, onClick }) => {
         </span>
       </TableCell>
       <TableCell>{product?.product_type}</TableCell>
-      <TableCell>{product?.vendor}</TableCell>
     </TableRow>
   );
 };

@@ -10,7 +10,7 @@ const LoginPage = () => {
             alt="logo"
             width={100}
             height={200}
-            loading="lazy"
+            priority
             src="/images/logo/AES-Logo_750px-M.png"
             className="w-auto h-auto object-contain object-center"
           />
@@ -19,15 +19,13 @@ const LoginPage = () => {
           Login to Your Account
         </h1>
         <LoginForm />
-        <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
-          Don&apos;t have an account?{' '}
-          <Link
-            href="/auth/signup"
-            className="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 font-medium"
-          >
-            Sign up
+        <div className="flex justify-center mt-5">
+          <Link href="/auth/signup" className="font-xs text-center">
+            <span className="mt-6 text-center text-xs text-gray-600 dark:text-gray-400 border-b pb-1">
+              Don&apos;t have an account? Sign up
+            </span>
           </Link>
-        </p>
+        </div>
       </div>
     </div>
   );

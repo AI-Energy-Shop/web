@@ -2,23 +2,28 @@
 import Profile from './Profile';
 import NavList from './NavList';
 import React from 'react';
-import { RootState, useAppSelector } from '@/store/store';
 import { ADMIN_SIDE_NAVIGATIONS } from '@/constant';
-
+import useMe from '@/hooks/useMe';
+import { logoutUser } from '@/app/actions/user';
+import Logo from './Logo';
 const AdminSideNavigation = () => {
-  const me = useAppSelector((state: RootState) => state.me.me);
+  const user = useMe();
+  const handleLogout = async () => {
+    await logoutUser();
+    localStorage.removeItem('persist:root');
+  };
   return (
     <aside className="h-full w-full border ">
       <div className="h-full w-full flex flex-col gap-4">
         <div className="w-full p-4">
-          <h1>AI ENERGY</h1>
+          <Logo />
         </div>
         <NavList
           showIcon={true}
           data={ADMIN_SIDE_NAVIGATIONS}
           className="h-full flex-col items-baseline"
         />
-        <Profile user={me} handleLogout={() => {}} />
+        <Profile user={user.user} onLogout={handleLogout} />
       </div>
     </aside>
   );

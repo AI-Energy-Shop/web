@@ -2,8 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 export const loginUserSchema = z.object({
-  email: z.string().email(),
+  email: z.string().min(1, { message: 'Email is required' }).email(),
   password: z.string().min(1, { message: 'Password is required' }),
+  remember: z.boolean().optional(),
 });
 
 export const registerUserSchema = z.object({
