@@ -24,7 +24,6 @@ import {
   DeleteKeyFeatureMutation,
   CreateShippingMutation,
   CustomProductUpdateMutation,
-  PublicationStatus,
 } from '@/lib/gql/graphql';
 import {
   handleGraphQLError,
@@ -36,7 +35,6 @@ const client = getClient();
 export const products = async (variables?: {
   filters: ProductFiltersInput;
   pagination: PaginationArg;
-  status?: PublicationStatus;
   sort?: string[];
 }): Promise<FetchResult<ProductsQuery>> => {
   try {
@@ -47,6 +45,7 @@ export const products = async (variables?: {
     });
     return res;
   } catch (error: any) {
+    console.log('error in products', error);
     throw handleGraphQLError(error);
   }
 };
@@ -65,6 +64,7 @@ export const product = async (
     revalidatePath(`/admin/products/${id}`);
     return res;
   } catch (error: any) {
+    console.log('error in product', error);
     throw handleGraphQLError(error);
   }
 };
@@ -98,6 +98,7 @@ export const createProduct = async (
       data: res,
     };
   } catch (error: any) {
+    console.log('error in create product', error);
     const errorMessage = handleGraphQLError(error);
     return {
       error: { ...errorMessage },
@@ -130,8 +131,8 @@ export const updateProduct = async (
       data: res,
     };
   } catch (error: any) {
-    console.log('errorMessage', error);
     const errorMessage = handleGraphQLError(error);
+    console.log('error in update product', errorMessage);
     return {
       error: { ...errorMessage },
     };

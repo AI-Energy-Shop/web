@@ -11,7 +11,7 @@ import {
   CardHeader,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileType, ModalProps } from './types';
+import { ModalProps } from './types';
 import { UploadFile } from '@/hooks/useProductDetails';
 
 const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
@@ -66,10 +66,14 @@ const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
             />
           </CardContent>
           <CardFooter className="flex-shrink-0 justify-end space-x-2">
-            <Button onClick={onCancel} variant="destructive">
+            <Button type="button" onClick={onCancel} variant="destructive">
               Cancel
             </Button>
-            <Button onClick={() => onDone(selectedImageIds)} variant="outline">
+            <Button
+              type="button"
+              onClick={() => onDone(selectedImageIds)}
+              variant="outline"
+            >
               Done
             </Button>
           </CardFooter>
