@@ -40,8 +40,11 @@ export const products = async (variables?: {
   try {
     const res = await client.query({
       query: PRODUCT_OPERATIONS.Query.products,
-      fetchPolicy: 'network-only',
-      variables,
+      fetchPolicy: 'no-cache',
+      variables: {
+        ...variables,
+        _timestamp: Date.now(),
+      },
     });
     return res;
   } catch (error: any) {
@@ -56,9 +59,10 @@ export const product = async (
   try {
     const res = await client.query({
       query: PRODUCT_OPERATIONS.Query.product,
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'no-cache',
       variables: {
         documentId: id,
+        _timestamp: Date.now(),
       },
     });
     revalidatePath(`/admin/products/${id}`);
@@ -118,14 +122,17 @@ export const updateProduct = async (
   try {
     const res = await client.mutate({
       mutation: PRODUCT_OPERATIONS.Mutation.updateProduct,
-      variables: inputData,
+      fetchPolicy: 'no-cache',
+      variables: {
+        ...inputData,
+        _timestamp: Date.now(),
+      },
       context: {
         headers: {
           Authorization: `Bearer ${token?.value}`,
         },
       },
     });
-
     revalidatePath(`/admin/products/${inputData.documentId}`);
     return {
       data: res,
