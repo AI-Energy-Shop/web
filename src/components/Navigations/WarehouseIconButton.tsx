@@ -9,7 +9,6 @@ const WarehouseIconButton = () => {
   const warehouseLocation = useAppSelector(
     (state: RootState) => state.checkout.warehouseLocation
   );
-  console.log(warehouseLocation);
   // If no user data, show login link instead
   if (warehouseLocation) {
     return (
