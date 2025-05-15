@@ -120,6 +120,7 @@ export function FileUploadZone({
             {displayUseExistingFile && (
               <p className="text-sm font-medium text-gray-700">
                 <Button
+                  type="button"
                   variant="outline"
                   size="sm"
                   className="text-black cursor-pointer text-xs"

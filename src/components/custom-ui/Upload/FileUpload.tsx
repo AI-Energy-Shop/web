@@ -71,6 +71,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
             />
           ))}
           <Button
+            type="button"
             variant="outline"
             className="w-full h-full"
             onClick={() => setShowFilesModal(!showFilesModal)}
