@@ -1,14 +1,26 @@
 'use client';
 
+import useCart from '@/hooks/useCart';
+import useMe from '@/hooks/useMe';
+import { formatCurrency, getCartTotals } from '@/utils/cart';
+
 function PriceDetails() {
   const orderSummary = {
     subtotal: 123,
     shipping: 12,
     tax: 123,
     total: 123,
-    discountCode: 'discount',
+    discountCode: '',
     discountAmount: 123,
   };
+
+  const { user } = useMe();
+  const { carts } = useCart();
+  const { subtotal, totalGst, total } = getCartTotals(carts, 0.0, 0.0, {
+    userLevel: user?.account_detail?.level,
+  });
+
+  const subTotalDisplay = formatCurrency(subtotal, 'AUD');
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4">
@@ -17,9 +29,7 @@ function PriceDetails() {
       <div className="space-y-3 text-sm">
         <div className="flex justify-between">
           <span className="text-gray-600">Subtotal</span>
-          <span className="text-gray-900">
-            ${orderSummary.subtotal.toFixed(2)}
-          </span>
+          <span className="text-gray-900">{subTotalDisplay}</span>
         </div>
 
         <div className="flex justify-between">

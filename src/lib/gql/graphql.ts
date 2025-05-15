@@ -570,6 +570,32 @@ export type ComponentLayoutWarehouseLocationFiltersInput = {
   warehouse_time?: InputMaybe<StringFilterInput>;
 };
 
+export type CreditCardFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<CreditCardFiltersInput>>>;
+  brand?: InputMaybe<StringFilterInput>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  documentId?: InputMaybe<IdFilterInput>;
+  expMonth?: InputMaybe<StringFilterInput>;
+  expYear?: InputMaybe<StringFilterInput>;
+  isDefault?: InputMaybe<BooleanFilterInput>;
+  last4Char?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<CreditCardFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<CreditCardFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  stripePaymentMethodID?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type CreditCardInput = {
+  brand?: InputMaybe<Scalars['String']['input']>;
+  expMonth?: InputMaybe<Scalars['String']['input']>;
+  expYear?: InputMaybe<Scalars['String']['input']>;
+  isDefault?: InputMaybe<Scalars['Boolean']['input']>;
+  last4Char?: InputMaybe<Scalars['String']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  stripePaymentMethodID?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type DateFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars['Date']['input']>>>;
   between?: InputMaybe<Array<InputMaybe<Scalars['Date']['input']>>>;
@@ -1330,6 +1356,7 @@ export type UsersPermissionsUserFiltersInput = {
   carts?: InputMaybe<CartFiltersInput>;
   createAccountRequest?: InputMaybe<DateTimeFilterInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
+  creditCards?: InputMaybe<CreditCardFiltersInput>;
   documentId?: InputMaybe<IdFilterInput>;
   email?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<UsersPermissionsUserFiltersInput>;
@@ -1338,6 +1365,7 @@ export type UsersPermissionsUserFiltersInput = {
   provider?: InputMaybe<StringFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   role?: InputMaybe<UsersPermissionsRoleFiltersInput>;
+  stripeCustomerID?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   user_notifications?: InputMaybe<UserNotificationFiltersInput>;
   username?: InputMaybe<StringFilterInput>;
@@ -1354,6 +1382,7 @@ export type UsersPermissionsUserInput = {
   business_type?: InputMaybe<Scalars['String']['input']>;
   carts?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   createAccountRequest?: InputMaybe<Scalars['DateTime']['input']>;
+  creditCards?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   email?: InputMaybe<Scalars['String']['input']>;
   image_logo?: InputMaybe<Scalars['ID']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
@@ -1361,6 +1390,7 @@ export type UsersPermissionsUserInput = {
   provider?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   role?: InputMaybe<Scalars['ID']['input']>;
+  stripeCustomerID?: InputMaybe<Scalars['String']['input']>;
   user_notifications?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
@@ -2043,7 +2073,7 @@ export type ProductsQuery = {
     odoo_product_id: string;
     createdAt?: any | null;
     updatedAt?: any | null;
-    releasedAt?: any | null;
+    releasedAt: any;
     categories: Array<{
       __typename?: 'Category';
       title: string;
@@ -2152,7 +2182,7 @@ export type ProductQuery = {
     odoo_product_id: string;
     createdAt?: any | null;
     updatedAt?: any | null;
-    releasedAt?: any | null;
+    releasedAt: any;
     categories: Array<{
       __typename?: 'Category';
       title: string;
@@ -2405,7 +2435,7 @@ export type CustomProductUpdateMutation = {
     odoo_product_id: string;
     createdAt?: any | null;
     updatedAt?: any | null;
-    releasedAt?: any | null;
+    releasedAt: any;
     brand?: {
       __typename?: 'Brand';
       name: string;

@@ -12,11 +12,11 @@ function CheckoutOverview() {
   const router = useRouter();
   const { paymentMethod } = useCheckout();
 
-  // useEffect(() => {
-  //   if (!paymentMethod) {
-  //     router.push('/cart');
-  //   }
-  // }, [paymentMethod, router]);
+  useEffect(() => {
+    if (!paymentMethod) {
+      router.push('/cart');
+    }
+  }, [paymentMethod, router]);
 
   return (
     <main className="ae-mobile-container ae-non-mobile-container py-4 space-y-4 min-h-screen">
