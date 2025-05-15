@@ -52,6 +52,7 @@ const FilePreview: FC<FilePreviewProps> = ({ file, onRemove }) => {
         onClick={() => onRemove(file.documentId)}
         size="sm"
         variant="outline"
+        type="button"
         className="absolute -top-2 -right-2 rounded-full w-[20px] h-[20px] opacity-0 group-hover:opacity-100 hover:bg-gray-100 p-0 transition-all duration-200"
       >
         <CircleX width={16} height={16} />
