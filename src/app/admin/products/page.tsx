@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { Package, PackageSearch, ShoppingCart, Users } from 'lucide-react';
 import { products } from '@/app/actions/products';
 import { Button } from '@/components/ui/button';
