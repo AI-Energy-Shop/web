@@ -11,7 +11,7 @@ import {
   registerResolver,
 } from '@/lib/validation-schema/auth-forms';
 import { useState } from 'react';
-import { useAppDispatch } from '@/store/store';
+import { updatePersistence, useAppDispatch } from '@/store/store';
 import { ProductQuery } from '@/lib/gql/graphql';
 const useAuth = () => {
   const router = useRouter();
@@ -24,6 +24,7 @@ const useAuth = () => {
     defaultValues: {
       email: '',
       password: '',
+      remember: false,
     },
   });
 
@@ -49,6 +50,7 @@ const useAuth = () => {
 
   const handleLoginSubmit = async (loginData: LoginFormData) => {
     const { error, data } = await loginUser(loginData);
+
     if (error) {
       toast({
         title: error.replace('identifier', 'email'),
@@ -163,8 +165,10 @@ const useAuth = () => {
         break;
     }
 
+    await updatePersistence(loginData.remember || false);
+
     // Handle navigation based on role
-    const route = roleName === 'SALES' ? '/admin' : '/products';
+    const route = roleName === 'SALES' ? '/admin' : '/collections/all';
 
     // Use replace instead of push for more reliable navigation
     router.replace(route);

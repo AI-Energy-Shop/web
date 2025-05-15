@@ -30,12 +30,14 @@ const KeyFeatureItem = ({
         name={`key_features.${index}.feature`}
         render={({ field }) => (
           <FormItem className="w-full">
-            <FormLabel>Value</FormLabel>
+            <FormLabel htmlFor={`key_features.${index}.feature`}>
+              Feature
+            </FormLabel>
             <FormControl>
               <Input
+                {...field}
                 placeholder="Enter feature..."
                 className="flex-1 text-sm bg-transparent border-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-gray-400"
-                {...field}
               />
             </FormControl>
             <FormMessage />

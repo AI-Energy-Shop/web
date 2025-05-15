@@ -7,7 +7,6 @@ import Link from 'next/link';
 import useCart from '@/hooks/useCart';
 import { invalidateCartPath } from '@/app/actions/cart';
 import { useRouter } from 'next/navigation';
-import dynamic from 'next/dynamic';
 
 interface CartButtonProps {
   cartStyle?: 'icon' | 'text';
@@ -15,6 +14,7 @@ interface CartButtonProps {
 
 const CartButton: React.FC<CartButtonProps> = ({ cartStyle = 'text' }) => {
   const { carts } = useCart();
+
   const router = useRouter();
   return (
     <Link
@@ -45,7 +45,4 @@ const CartButton: React.FC<CartButtonProps> = ({ cartStyle = 'text' }) => {
   );
 };
 
-// Export as a dynamic component with SSR disabled
-export default dynamic(() => Promise.resolve(CartButton), {
-  ssr: false,
-});
+export default CartButton;

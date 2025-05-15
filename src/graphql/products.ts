@@ -7,13 +7,13 @@ const schema = {
       query Products(
         $filters: ProductFiltersInput
         $pagination: PaginationArg
+        $sort: [String]
       ) {
-        products(filters: $filters, pagination: $pagination) {
+        products(filters: $filters, pagination: $pagination, sort: $sort) {
           documentId
           name
           description
           product_type
-          vendor
           model
           odoo_product_id
           categories {
@@ -83,9 +83,6 @@ const schema = {
             name
             location_code
             quantity
-            createdAt
-            updatedAt
-            publishedAt
           }
           shipping {
             height
@@ -105,7 +102,6 @@ const schema = {
           documentId
           name
           description
-          vendor
           product_type
           model
           odoo_product_id
@@ -176,9 +172,6 @@ const schema = {
             name
             location_code
             quantity
-            createdAt
-            updatedAt
-            publishedAt
           }
           shipping {
             height
@@ -232,9 +225,6 @@ const schema = {
           documentId
           key
           value
-          createdAt
-          updatedAt
-          publishedAt
         }
       }
     `),
@@ -247,78 +237,6 @@ const schema = {
           name
           model
           description
-          vendor
-          odoo_product_id
-          brand {
-            name
-            url
-            image {
-              documentId
-              name
-              alternativeText
-              width
-              height
-              mime
-              url
-            }
-          }
-          inventories {
-            documentId
-            location_code
-            quantity
-          }
-          price_lists {
-            documentId
-            price
-            sale_price
-            min_quantity
-            max_quantity
-            user_level
-          }
-          files {
-            documentId
-            mime
-            name
-            url
-            alternativeText
-          }
-          images {
-            documentId
-            mime
-            name
-            url
-            alternativeText
-          }
-          specifications {
-            documentId
-            key
-            value
-          }
-          key_features {
-            documentId
-            feature
-          }
-          shipping {
-            documentId
-            width
-            height
-            weight
-            length
-          }
-          createdAt
-          updatedAt
-          publishedAt
-        }
-      }
-    `),
-    updateProduct: graphql(`
-      mutation customProductUpdate($documentId: ID!, $data: ProductInput!) {
-        customProductUpdate(documentId: $documentId, data: $data) {
-          documentId
-          name
-          model
-          description
-          vendor
           odoo_product_id
           brand {
             name
@@ -379,13 +297,82 @@ const schema = {
           createdAt
           updatedAt
           releasedAt
-          # status
+        }
+      }
+    `),
+    updateProduct: graphql(`
+      mutation customProductUpdate($documentId: ID!, $data: ProductInput!) {
+        customProductUpdate(documentId: $documentId, data: $data) {
+          documentId
+          name
+          model
+          description
+          odoo_product_id
+          brand {
+            name
+            url
+            image {
+              documentId
+              name
+              alternativeText
+              width
+              height
+              mime
+              url
+            }
+          }
+          inventories {
+            documentId
+            location_code
+            quantity
+          }
+          price_lists {
+            documentId
+            price
+            sale_price
+            min_quantity
+            max_quantity
+            user_level
+          }
+          files {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
+          images {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
+          specifications {
+            documentId
+            key
+            value
+          }
+          key_features {
+            documentId
+            feature
+          }
+          shipping {
+            documentId
+            width
+            height
+            weight
+            length
+          }
           improvedBy {
             email
           }
           madeBy {
             email
           }
+          createdAt
+          updatedAt
+          releasedAt
         }
       }
     `),
@@ -400,7 +387,6 @@ const schema = {
           user_level
           createdAt
           updatedAt
-          publishedAt
         }
       }
     `),
@@ -415,7 +401,6 @@ const schema = {
           user_level
           createdAt
           updatedAt
-          publishedAt
         }
       }
     `),
@@ -435,7 +420,6 @@ const schema = {
           quantity
           createdAt
           updatedAt
-          publishedAt
         }
       }
     `),
@@ -448,7 +432,6 @@ const schema = {
           quantity
           createdAt
           updatedAt
-          publishedAt
         }
       }
     `),
@@ -467,7 +450,6 @@ const schema = {
           value
           createdAt
           updatedAt
-          publishedAt
         }
       }
     `),
@@ -482,7 +464,6 @@ const schema = {
           value
           createdAt
           updatedAt
-          publishedAt
         }
       }
     `),
@@ -500,7 +481,6 @@ const schema = {
           feature
           createdAt
           updatedAt
-          publishedAt
         }
       }
     `),
@@ -511,7 +491,6 @@ const schema = {
           feature
           createdAt
           updatedAt
-          publishedAt
         }
       }
     `),

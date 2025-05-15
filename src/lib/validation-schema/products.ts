@@ -12,7 +12,6 @@ export const addProductSchema = z.object({
   model: z.string().min(1, { message: 'Required' }),
   odoo_product_id: z.string().min(1, { message: 'Required' }),
   product_type: z.string().nullable(),
-  vendor: z.string().nullable(),
   images: z.array(z.string()),
   files: z.array(z.string()),
   brand: z.string().nullable(),
@@ -54,7 +53,7 @@ export const addProductSchema = z.object({
       feature: z.string().min(1, { message: 'Required' }),
     })
   ),
-  releaseAt: z.string(),
+  status: z.string(),
 });
 
 export type AddProductFormData = z.infer<typeof addProductSchema>;

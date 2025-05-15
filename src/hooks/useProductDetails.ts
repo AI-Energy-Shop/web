@@ -32,9 +32,7 @@ import { useForm } from 'react-hook-form';
 import { useQuery } from '@apollo/client';
 import PRODUCT_OPERATIONS from '@/graphql/products';
 import { useRouter } from 'next/navigation';
-import { GraphQLException } from '@/lib/utils/graphql-error';
 import { handleProductError } from '@/lib/utils/product-error-handler';
-
 export type UploadFile = {
   __typename?: 'UploadFile';
   documentId: string;
@@ -82,7 +80,6 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
           description: '',
           product_type: '',
           odoo_product_id: '',
-          vendor: '',
           brand: null,
           shipping: {
             weight: 0,
@@ -96,7 +93,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
           inventories: [],
           specifications: [],
           key_features: [],
-          releaseAt: '',
+          status: 'draft',
         }
       : {
           name: product?.name || '',
@@ -104,7 +101,6 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
           description: product?.description || '',
           product_type: product?.product_type || '',
           odoo_product_id: product?.odoo_product_id || '',
-          vendor: product?.vendor || '',
           brand: product?.brand?.documentId || null,
           shipping: {
             weight: product?.shipping?.weight || 0,
@@ -141,15 +137,19 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
               documentId: feature?.documentId || '',
               feature: feature?.feature || '',
             })) || [],
-          releaseAt: product?.releasedAt || '',
+          status: product?.releasedAt ? 'published' : 'draft',
         },
   });
 
   const onSubmit = async (onValid: AddProductFormData) => {
+    const status = onValid.status;
+    const releasedAt = status === 'published' ? new Date() : null;
+
     const isErrors = Object.keys(addProductForm.formState.errors);
     if (isErrors.length !== 0) {
       return;
     }
+
     const currentPriceLists = onValid.price_lists;
     const currentInventories = onValid.inventories;
     const currentSpecs = onValid.specifications;
@@ -158,20 +158,20 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     const currentImages = onValid.images;
     const currentFiles = onValid.files;
 
-    if (id === 'new') {
+    const res = await Promise.all([
+      handleSaveOrUpdatePriceList(currentPriceLists),
+      handleSaveOrUpdateInventoryList(currentInventories),
+      handleSaveOrSaveCurrentSpecs(currentSpecs),
+      handleSaveCurrentKeyFeatures(currentKeyFeatures),
+      handleSaveOrUpdateShipping(shippingData),
+    ]).catch((error) => {
+      console.log('error', error);
+      return;
+    });
+
+    if (isNew) {
       console.log('SAVE');
       try {
-        const res = await Promise.all([
-          handleSaveOrUpdatePriceList(currentPriceLists),
-          handleSaveOrUpdateInventoryList(currentInventories),
-          handleSaveOrSaveCurrentSpecs(currentSpecs),
-          handleSaveCurrentKeyFeatures(currentKeyFeatures),
-          handleSaveOrUpdateShipping(shippingData),
-        ]).catch((error) => {
-          console.log('error', error);
-          return;
-        });
-
         const productData = JSON.stringify(
           {
             data: {
@@ -179,7 +179,6 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
               model: onValid.model,
               odoo_product_id: onValid.odoo_product_id,
               description: onValid.description,
-              vendor: onValid.vendor,
               product_type: onValid.product_type,
               brand: onValid.brand,
               price_lists: res?.at?.(0) || [],
@@ -189,6 +188,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
               shipping: res?.at?.(4) || null,
               images: currentImages,
               files: currentFiles,
+              releasedAt: releasedAt,
             },
           },
           null,
@@ -215,20 +215,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
         }
       }
     } else {
-      console.log('UPDATE');
-
       try {
-        const res = await Promise.all([
-          handleSaveOrUpdatePriceList(currentPriceLists),
-          handleSaveOrUpdateInventoryList(currentInventories),
-          handleSaveOrSaveCurrentSpecs(currentSpecs),
-          handleSaveCurrentKeyFeatures(currentKeyFeatures),
-          handleSaveOrUpdateShipping(shippingData),
-        ]).catch((error) => {
-          console.log('error', error);
-          return;
-        });
-
         const productData = JSON.stringify(
           {
             documentId: product?.documentId,
@@ -237,7 +224,6 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
               model: onValid.model,
               odoo_product_id: onValid.odoo_product_id,
               description: onValid.description,
-              vendor: onValid.vendor,
               product_type: onValid.product_type,
               brand: onValid.brand,
               price_lists: res?.at?.(0) || [],
@@ -247,6 +233,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
               shipping: res?.at?.(4) || null,
               images: currentImages,
               files: currentFiles,
+              releasedAt: releasedAt,
             },
           },
           null,
@@ -256,6 +243,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
         const { error } = await updateProduct(productData);
 
         if (error) {
+          console.log('error', error);
           handleProductError(error);
           return;
         }
@@ -266,24 +254,6 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
         Toast(error.message, 'ERROR', { position: 'top-center' });
         return;
       }
-    }
-  };
-
-  const handleProductStatusChange = (value: string) => {
-    switch (value) {
-      case 'draft':
-        addProductForm.setValue('releaseAt', '', {
-          shouldDirty: true,
-        });
-        break;
-      case 'published':
-        addProductForm.setValue('releaseAt', new Date().toISOString(), {
-          shouldDirty: true,
-        });
-        break;
-      default:
-        console.warn(`Unhandled value: ${value}`);
-        break;
     }
   };
 
@@ -303,7 +273,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
       feature: '',
     };
 
-    const currentKeyFeatures = addProductForm.getValues('key_features') || [];
+    const currentKeyFeatures = addProductForm.getValues('key_features');
     const combinedKeyFeatures = [...currentKeyFeatures, newObj];
     addProductForm.setValue('key_features', combinedKeyFeatures, {
       shouldDirty: true,
@@ -315,8 +285,10 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
       if (!data || data.length === 0) return [];
       const dataToSave =
         data
-          .filter((item) => item.documentId === null)
-          .map((item) => {
+          .filter((item) => {
+            return item.documentId === null;
+          })
+          .map?.((item) => {
             return {
               feature: item?.feature,
             };
@@ -324,22 +296,23 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
 
       const dataToUpdate =
         data
-          .filter((item) => item.documentId !== null)
-          .map((item) => {
+          .filter((item) => {
+            return item.documentId !== null;
+          })
+          .map?.((item) => {
             return {
-              id: item?.documentId,
+              documentId: item?.documentId,
               feature: item?.feature,
             };
           }) || [];
 
-      // console.log('dataToUpdate', dataToUpdate);
       const toDelete =
         product?.key_features
           ?.filter(
             (feature) =>
               !data.some((item) => item?.documentId === feature?.documentId)
           )
-          .map((feature) => ({ documentId: feature?.documentId })) || [];
+          .map?.((feature) => ({ documentId: feature?.documentId })) || [];
 
       const res = await Promise.all([
         createKeyFeature(JSON.stringify(dataToSave)),
@@ -386,7 +359,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
   ): Promise<string[]> => {
     try {
       if (!data || data.length === 0) return [];
-      const toSavePrices =
+      const toSave =
         data
           .filter((item) => {
             return item.documentId === null;
@@ -401,10 +374,10 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
             };
           }) || [];
 
-      const toUpdatePrices =
+      const toUpdate =
         data
           .filter((item) => {
-            return item.documentId !== null;
+            return item.documentId;
           })
           .map((item) => {
             return {
@@ -426,8 +399,8 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
           .map((price) => ({ documentId: price?.documentId })) || [];
 
       const res = await Promise.all([
-        createPrice(JSON.stringify(toSavePrices)),
-        updatePrice(JSON.stringify(toUpdatePrices)),
+        createPrice(JSON.stringify(toSave)),
+        updatePrice(JSON.stringify(toUpdate)),
         deletePrice(JSON.stringify(toDelete)),
       ]).catch((error) => {
         console.log('error', error);
@@ -595,7 +568,6 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
 
   const onRemoveList = (index?: number, title?: string) => {
     const idx = Number(index);
-    console.log(index);
     console.log(title);
     switch (title) {
       case 'price_lists':
@@ -604,7 +576,9 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
           (_: any, i: number) => i !== idx
         );
         addProductForm.setValue('price_lists', currentPriceList, {
+          shouldValidate: true,
           shouldDirty: true,
+          shouldTouch: true,
         });
         break;
       case 'inventories':
@@ -613,7 +587,9 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
           (_: any, i: number) => i !== idx
         );
         addProductForm.setValue('inventories', currentInventory, {
+          shouldValidate: true,
           shouldDirty: true,
+          shouldTouch: true,
         });
         break;
       case 'specifications':
@@ -623,7 +599,9 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
           (_: any, i: number) => i !== idx
         );
         addProductForm.setValue('specifications', currentSpecification, {
+          shouldValidate: true,
           shouldDirty: true,
+          shouldTouch: true,
         });
         break;
       case 'key_features':
@@ -632,8 +610,11 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
           (_: any, i: number) => i !== idx
         );
         addProductForm.setValue('key_features', currentKeyFeatures, {
+          shouldValidate: true,
           shouldDirty: true,
+          shouldTouch: true,
         });
+        break;
       default:
         console.warn(`Unhandled title: ${title}`);
         break;
@@ -686,7 +667,10 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     setFiles(newFiles);
     addProductForm.setValue(
       'files',
-      newFiles.map((file) => file.documentId)
+      newFiles.map((file) => file.documentId),
+      {
+        shouldDirty: true,
+      }
     );
   };
 
@@ -715,10 +699,6 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     weight: number;
   }) => {
     try {
-      if (height === 0 || width === 0 || length === 0 || weight === 0) {
-        return;
-      }
-
       const res = await createShipping(
         JSON.stringify({
           height,
@@ -787,8 +767,8 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     images,
     files,
     brands,
+    router,
     onSubmit,
-    handleProductStatusChange,
     handleDiscardChanges,
     handleAddInventoryItem,
     handleAddSpecsItem,
