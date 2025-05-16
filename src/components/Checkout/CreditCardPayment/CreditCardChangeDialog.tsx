@@ -8,6 +8,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import SelectDefaultTab from './SelectDefaultTab';
 import { useState } from 'react';
+import CardCollectionForm from './CardCollectionForm';
 
 interface CreditCardChangeDialogProps {
   creditCardDialog: boolean;
@@ -65,7 +66,9 @@ const CreditCardChangeDialog = ({
             <TabsContent value="select">
               <SelectDefaultTab cards={cards} />
             </TabsContent>
-            <TabsContent value="add">Change your password here.</TabsContent>
+            <TabsContent value="add">
+              <CardCollectionForm />
+            </TabsContent>
           </Tabs>
         </div>
       </DialogContent>

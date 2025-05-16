@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { Toaster as ToasterUI } from '@/components/ui/toaster';
 import NavigationProvider from '@/components/NavigationProvider';
 import Components from '@/components';
+import StripeProvider from '@/components/StripeProvider';
 // Assuming Metadata type needs to be defined or imported.
 // If Metadata is a custom type, it should be imported from its definition file.
 // Here, I'm defining it locally for demonstration.
@@ -28,11 +29,13 @@ export default function RootLayout({
     <html lang="en" className={firaSansFont.className}>
       <body>
         <Components.ReduxProvider>
-          <ApolloWrapper>
-            <NavigationProvider>{children}</NavigationProvider>
-          </ApolloWrapper>
-          <Toaster />
-          <ToasterUI />
+          <StripeProvider>
+            <ApolloWrapper>
+              <NavigationProvider>{children}</NavigationProvider>
+            </ApolloWrapper>
+            <Toaster />
+            <ToasterUI />
+          </StripeProvider>
         </Components.ReduxProvider>
       </body>
     </html>
