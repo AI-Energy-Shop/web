@@ -584,6 +584,7 @@ export type CreditCardFiltersInput = {
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   stripePaymentMethodID?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
 };
 
 export type CreditCardInput = {
@@ -594,6 +595,7 @@ export type CreditCardInput = {
   last4Char?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   stripePaymentMethodID?: InputMaybe<Scalars['String']['input']>;
+  user?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type DateFilterInput = {
@@ -1582,6 +1584,17 @@ export type GetCheckoutUserDataQuery = {
       createdAt?: any | null;
       updatedAt?: any | null;
     } | null>;
+    creditCards: Array<{
+      __typename?: 'CreditCard';
+      brand?: string | null;
+      documentId: string;
+      expMonth?: string | null;
+      expYear?: string | null;
+      isDefault?: boolean | null;
+      last4Char?: string | null;
+      publishedAt?: any | null;
+      stripePaymentMethodID?: string | null;
+    } | null>;
   } | null;
 };
 
@@ -1851,6 +1864,27 @@ export type CollectionsWithProductsQuery = {
   } | null>;
 };
 
+export type CreateCreditCardMutationVariables = Exact<{
+  data: CreditCardInput;
+}>;
+
+export type CreateCreditCardMutation = {
+  __typename?: 'Mutation';
+  createCreditCard?: { __typename?: 'CreditCard'; documentId: string } | null;
+};
+
+export type DeleteCreditCardMutationVariables = Exact<{
+  documentId: Scalars['ID']['input'];
+}>;
+
+export type DeleteCreditCardMutation = {
+  __typename?: 'Mutation';
+  deleteCreditCard?: {
+    __typename?: 'DeleteMutationResponse';
+    documentId: string;
+  } | null;
+};
+
 export type FilesQueryVariables = Exact<{
   filters?: InputMaybe<FilesFiltersArgs>;
 }>;
@@ -2073,7 +2107,7 @@ export type ProductsQuery = {
     odoo_product_id: string;
     createdAt?: any | null;
     updatedAt?: any | null;
-    releasedAt: any;
+    releasedAt?: any | null;
     categories: Array<{
       __typename?: 'Category';
       title: string;
@@ -2182,7 +2216,7 @@ export type ProductQuery = {
     odoo_product_id: string;
     createdAt?: any | null;
     updatedAt?: any | null;
-    releasedAt: any;
+    releasedAt?: any | null;
     categories: Array<{
       __typename?: 'Category';
       title: string;
@@ -2435,7 +2469,7 @@ export type CustomProductUpdateMutation = {
     odoo_product_id: string;
     createdAt?: any | null;
     updatedAt?: any | null;
-    releasedAt: any;
+    releasedAt?: any | null;
     brand?: {
       __typename?: 'Brand';
       name: string;
@@ -3671,6 +3705,44 @@ export const GetCheckoutUserDataDocument = {
                     ],
                   },
                 },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'creditCards' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'brand' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'expMonth' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'expYear' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isDefault' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'last4Char' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'publishedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'stripePaymentMethodID' },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -4690,6 +4762,108 @@ export const CollectionsWithProductsDocument = {
 } as unknown as DocumentNode<
   CollectionsWithProductsQuery,
   CollectionsWithProductsQueryVariables
+>;
+export const CreateCreditCardDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateCreditCard' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreditCardInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createCreditCard' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateCreditCardMutation,
+  CreateCreditCardMutationVariables
+>;
+export const DeleteCreditCardDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteCreditCard' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteCreditCard' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteCreditCardMutation,
+  DeleteCreditCardMutationVariables
 >;
 export const FilesDocument = {
   kind: 'Document',

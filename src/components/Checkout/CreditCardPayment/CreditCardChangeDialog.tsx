@@ -48,7 +48,7 @@ const CreditCardChangeDialog = ({
 
   return (
     <Dialog open={creditCardDialog} onOpenChange={setCreditCardDialog}>
-      <DialogContent>
+      <DialogContent className="h-4/6 overflow-y-auto block space-y-6">
         <DialogHeader>
           <DialogTitle>Your Payment Method</DialogTitle>
           <DialogDescription></DialogDescription>
@@ -64,6 +64,15 @@ const CreditCardChangeDialog = ({
               </TabsTrigger>
             </TabsList>
             <TabsContent value="select">
+              <div className="border border-black rounded-lg p-2">
+                <div className="flex items-center gap-x-2">
+                  <h1 className="font-semibold text-base">One-Time Payment</h1>
+                  <span className="text-sm text-gray-500">
+                    (Card details not stored)
+                  </span>
+                </div>
+                <CardCollectionForm />
+              </div>
               <SelectDefaultTab cards={cards} />
             </TabsContent>
             <TabsContent value="add">

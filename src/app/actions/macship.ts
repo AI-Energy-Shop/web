@@ -74,7 +74,7 @@ export const calculateDeliveryPricing = async (
     return { data: null, error: true };
   }
 
-  return { data: data.object.routes as Routes[], error: null };
+  return { data: data?.object?.routes as Routes[], error: null };
 };
 
 export const checkIfSuburbIsValid = async (

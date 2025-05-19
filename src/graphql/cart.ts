@@ -79,6 +79,16 @@ const schema = {
             createdAt
             updatedAt
           }
+          creditCards {
+            brand
+            documentId
+            expMonth
+            expYear
+            isDefault
+            last4Char
+            publishedAt
+            stripePaymentMethodID
+          }
         }
       }
     `),

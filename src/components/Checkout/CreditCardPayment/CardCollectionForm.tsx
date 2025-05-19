@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { createSetupIntent } from '@/app/actions/stripe';
+import { createNewCreditCard } from '@/app/actions/creditCard';
 
 function CardCollectionForm() {
   const stripe = useStripe();
@@ -39,33 +40,45 @@ function CardCollectionForm() {
     setLoading(true);
     setError(null);
 
-    if (!stripe || !elements) return;
+    try {
+      if (!stripe || !elements) {
+        throw new Error('Something went wrong, Please try again');
+      }
 
-    const { clientSecret, error } = await createSetupIntent();
+      const { clientSecret, error: intentError } = await createSetupIntent();
 
-    if (!clientSecret || error) {
-      setError('Something went wrong');
-      return;
-    }
+      if (!clientSecret || intentError) {
+        throw new Error('Something went wrong, Please try again');
+      }
 
-    const result = await stripe.confirmCardSetup(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement)!,
-        billing_details: {
-          name: name || undefined, // Send name if filled
+      const result = await stripe.confirmCardSetup(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement)!,
+          billing_details: {
+            name: name || undefined,
+          },
         },
-      },
-    });
+      });
 
-    console.log(result);
+      if (result.error) {
+        throw new Error('Something went wrong, Please try again');
+      }
 
-    if (result.error) {
-      setError(result.error.message || 'Something went wrong');
-    } else {
-      alert('Card saved successfully!');
+      const paymentMethodId =
+        typeof result?.setupIntent?.payment_method === 'string'
+          ? result.setupIntent.payment_method
+          : result?.setupIntent?.payment_method?.id;
+
+      if (!paymentMethodId) {
+        throw new Error('Something went wrong, Please try again');
+      }
+
+      await createNewCreditCard(paymentMethodId);
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong, please try again.');
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (

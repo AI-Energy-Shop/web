@@ -9,14 +9,18 @@ import { useCheckout } from '@/hooks/useCheckout';
 import { PaymentMethod } from '@/store/features/checkout';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { Enum_Order_Paymentmethod } from '@/lib/gql/graphql';
+import {
+  Enum_Order_Paymentmethod,
+  GetCheckoutUserDataQuery,
+} from '@/lib/gql/graphql';
 import CreditCardChangeDialog from './CreditCardPayment/CreditCardChangeDialog';
 import { CreditCard } from './CreditCardPayment/CreditCard';
-import { createSetupIntent } from '@/app/actions/stripe';
 
-interface PaymentProps {}
+interface PaymentProps {
+  checkoutUserData: GetCheckoutUserDataQuery;
+}
 
-const Payment: React.FC<PaymentProps> = ({}) => {
+const Payment: React.FC<PaymentProps> = ({ checkoutUserData }) => {
   const { paymentStep, isCartNeededManualQuote, carts } = useCart();
   const { paymentMethod, setPaymentMethod, setItems } = useCheckout();
 

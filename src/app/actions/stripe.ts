@@ -4,7 +4,7 @@ import { stripe } from '@/lib/stripe';
 import Stripe from 'stripe';
 
 export const createSetupIntent = async () => {
-  const customerId = 'cus_SGolDvetNVQ9iz';
+  const customerId = 'cus_SKwjnSwMZCvrxN';
 
   let clientSecret: string | null;
   let error: boolean = false;
@@ -23,4 +23,13 @@ export const createSetupIntent = async () => {
   }
 
   return { clientSecret, error };
+};
+
+export const getPaymentMethodDetails = async (paymentMethodId: string) => {
+  try {
+    const result = await stripe.paymentMethods.retrieve(paymentMethodId);
+    return { result, error: null };
+  } catch (err) {
+    return { result: null, error: err };
+  }
 };
