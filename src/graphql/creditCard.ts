@@ -9,6 +9,13 @@ const schema = {
         }
       }
     `),
+    updateCreditCardDefault: graphql(`
+      mutation UpdateCreditCard($data: CreditCardInput!, $documentId: ID!) {
+        updateCreditCard(data: $data, documentId: $documentId) {
+          documentId
+        }
+      }
+    `),
     deleteCreditCard: graphql(`
       mutation DeleteCreditCard($documentId: ID!) {
         deleteCreditCard(documentId: $documentId) {

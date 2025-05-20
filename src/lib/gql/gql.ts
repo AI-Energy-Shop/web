@@ -42,6 +42,8 @@ const documents = {
     types.CollectionsWithProductsDocument,
   '\n      mutation CreateCreditCard($data: CreditCardInput!) {\n        createCreditCard(data: $data) {\n          documentId\n        }\n      }\n    ':
     types.CreateCreditCardDocument,
+  '\n      mutation UpdateCreditCard($data: CreditCardInput!, $documentId: ID!) {\n        updateCreditCard(data: $data, documentId: $documentId) {\n          documentId\n        }\n      }\n    ':
+    types.UpdateCreditCardDocument,
   '\n      mutation DeleteCreditCard($documentId: ID!) {\n        deleteCreditCard(documentId: $documentId) {\n          documentId\n        }\n      }\n    ':
     types.DeleteCreditCardDocument,
   '\n      query Files($filters: FilesFiltersArgs) {\n        files(filters: $filters) {\n          documentId\n          name\n          alternativeText\n          caption\n          width\n          height\n          formats\n          hash\n          ext\n          mime\n          size\n          url\n          previewUrl\n          provider\n          provider_metadata\n        }\n      }\n    ':
@@ -210,6 +212,12 @@ export function graphql(
 export function graphql(
   source: '\n      mutation CreateCreditCard($data: CreditCardInput!) {\n        createCreditCard(data: $data) {\n          documentId\n        }\n      }\n    '
 ): (typeof documents)['\n      mutation CreateCreditCard($data: CreditCardInput!) {\n        createCreditCard(data: $data) {\n          documentId\n        }\n      }\n    '];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation UpdateCreditCard($data: CreditCardInput!, $documentId: ID!) {\n        updateCreditCard(data: $data, documentId: $documentId) {\n          documentId\n        }\n      }\n    '
+): (typeof documents)['\n      mutation UpdateCreditCard($data: CreditCardInput!, $documentId: ID!) {\n        updateCreditCard(data: $data, documentId: $documentId) {\n          documentId\n        }\n      }\n    '];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -1873,6 +1873,16 @@ export type CreateCreditCardMutation = {
   createCreditCard?: { __typename?: 'CreditCard'; documentId: string } | null;
 };
 
+export type UpdateCreditCardMutationVariables = Exact<{
+  data: CreditCardInput;
+  documentId: Scalars['ID']['input'];
+}>;
+
+export type UpdateCreditCardMutation = {
+  __typename?: 'Mutation';
+  updateCreditCard?: { __typename?: 'CreditCard'; documentId: string } | null;
+};
+
 export type DeleteCreditCardMutationVariables = Exact<{
   documentId: Scalars['ID']['input'];
 }>;
@@ -4813,6 +4823,76 @@ export const CreateCreditCardDocument = {
 } as unknown as DocumentNode<
   CreateCreditCardMutation,
   CreateCreditCardMutationVariables
+>;
+export const UpdateCreditCardDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateCreditCard' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreditCardInput' },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'documentId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateCreditCard' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'data' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'documentId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'documentId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'documentId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateCreditCardMutation,
+  UpdateCreditCardMutationVariables
 >;
 export const DeleteCreditCardDocument = {
   kind: 'Document',

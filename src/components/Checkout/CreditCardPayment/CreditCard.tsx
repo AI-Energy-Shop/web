@@ -6,8 +6,8 @@ import { CreditCardIcon, CheckCircle2 } from 'lucide-react';
 interface CreditCardProps {
   brand: string;
   last4Char: string;
-  expMonth: number;
-  expYear: number;
+  expMonth: string;
+  expYear: string;
   isDefault: boolean;
 }
 
@@ -18,7 +18,6 @@ export function CreditCard({
   expYear,
   isDefault,
 }: CreditCardProps) {
-  // Format expiration month to always be 2 digits
   const formattedExpMonth = expMonth.toString().padStart(2, '0');
 
   return (

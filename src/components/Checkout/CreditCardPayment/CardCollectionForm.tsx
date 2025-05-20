@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { createSetupIntent } from '@/app/actions/stripe';
-import { createNewCreditCard } from '@/app/actions/creditCard';
+import { createNewCreditCard } from '@/app/actions/credit-card';
 
 function CardCollectionForm() {
   const stripe = useStripe();

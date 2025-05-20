@@ -23,12 +23,16 @@ interface PaymentProps {
 const Payment: React.FC<PaymentProps> = ({ checkoutUserData }) => {
   const { paymentStep, isCartNeededManualQuote, carts } = useCart();
   const { paymentMethod, setPaymentMethod, setItems } = useCheckout();
-
   const [creditCardDialog, setCreditCardDialog] = useState<boolean>(false);
 
   useEffect(() => {
     setItems(carts);
   }, [carts, setItems]);
+
+  const defaultCreditCard =
+    checkoutUserData?.usersPermissionsUser?.creditCards?.find(
+      (card) => card?.isDefault
+    );
 
   return (
     <section>
@@ -115,6 +119,7 @@ const Payment: React.FC<PaymentProps> = ({ checkoutUserData }) => {
           <CreditCardChangeDialog
             creditCardDialog={creditCardDialog}
             setCreditCardDialog={setCreditCardDialog}
+            checkoutUserData={checkoutUserData}
           />
           {paymentMethod === Enum_Order_Paymentmethod.CreditCard && (
             <div className="md:mx-12 grid grid-cols-2">
@@ -129,10 +134,10 @@ const Payment: React.FC<PaymentProps> = ({ checkoutUserData }) => {
                   </p>
                 </div>
                 <CreditCard
-                  brand="visa"
-                  last4Char="4242"
-                  expMonth={12}
-                  expYear={2025}
+                  brand={defaultCreditCard?.brand!}
+                  last4Char={defaultCreditCard?.last4Char!}
+                  expMonth={defaultCreditCard?.expMonth!}
+                  expYear={defaultCreditCard?.expYear!}
                   isDefault
                 />
               </div>
