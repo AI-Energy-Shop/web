@@ -26,15 +26,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const headersList = headers();
-  const pathname = headersList.get('x-pathname') || '/';
-
   return (
     <html lang="en" className={firaSansFont.className}>
       <body>
         <Components.ReduxProvider>
           <ApolloWrapper>
-            <NavigationWrapper path={pathname}>{children}</NavigationWrapper>
+            <NavigationWrapper>{children}</NavigationWrapper>
           </ApolloWrapper>
           <Toaster />
           <ToasterUI />

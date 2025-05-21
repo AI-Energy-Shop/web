@@ -2,21 +2,20 @@
 import React from 'react';
 import Navbar from './navigations/Navbar';
 import Footer from './navigations/Footer';
+import { usePathname } from 'next/navigation';
 
 interface NavigationWrapperProps {
   children: React.ReactNode;
-  path: string;
 }
 
-const NavigationWrapper: React.FC<NavigationWrapperProps> = ({
-  children,
-  path,
-}) => {
+const NavigationWrapper: React.FC<NavigationWrapperProps> = ({ children }) => {
+  const pathname = usePathname();
+
   return (
     <div className="w-full h-auto">
-      {!path.includes('admin') && <Navbar path={path} />}
+      {!pathname?.includes('admin') && <Navbar path={pathname || '/'} />}
       <div>{children}</div>
-      {!path.includes('admin') && <Footer />}
+      {!pathname?.includes('admin') && <Footer />}
     </div>
   );
 };
