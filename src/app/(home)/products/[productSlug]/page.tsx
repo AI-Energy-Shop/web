@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils';
 import { capsAllFirstCharWithSpace } from '@/utils/string';
 
 async function VariantPage({ params }: { params: { productSlug: string } }) {
-  const productSlug = (await params).productSlug;
+  const productSlug = params.productSlug;
 
   const { data } = await products({
     filters: {

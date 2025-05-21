@@ -1,5 +1,5 @@
 import SidebarFilters from '@/components/products/filter/SidebarFilters';
-import SearchBar from '@/components/Navigations/Search/SearchBar';
+import SearchBar from '@/components/navigations/search/SearchBar';
 import React, { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
 

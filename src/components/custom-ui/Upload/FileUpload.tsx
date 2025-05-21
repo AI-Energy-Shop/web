@@ -52,12 +52,12 @@ const FileUpload: React.FC<FileUploadProps> = ({
     <div className="w-full h-auto mx-auto">
       {data?.length === 0 && (
         <FileUploadZone
-          onFiles={onSelectedFiles}
-          accept={accept || ''}
+          accept={`${accept}`}
           maxFiles={maxFiles}
-          onUseExistingFile={() => setShowFilesModal(!showFilesModal)}
+          onFiles={onSelectedFiles}
           uploadNewFileLabel={uploadNewFileLabel}
           useExistingButtonLabel={useExistingButtonLabel}
+          onUseExistingFile={() => setShowFilesModal(!showFilesModal)}
         />
       )}
 
@@ -83,6 +83,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
       {showFilesModal && (
         <Modal
+          accept={`${accept}`}
           filters={dataModalFilters}
           onDone={handleSelectFilesFromModal}
           onCancel={() => setShowFilesModal(!showFilesModal)}

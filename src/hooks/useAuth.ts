@@ -1,3 +1,4 @@
+'use client';
 import { useForm } from 'react-hook-form';
 import { loginUser, registerUser } from '@/app/actions/user';
 import { useRouter } from 'next/navigation';

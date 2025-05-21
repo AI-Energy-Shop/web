@@ -27,7 +27,7 @@ const BulkPrices = ({ product }: BulkPricesProps) => {
   const priceList = product?.price_lists?.map((price) => ({
     id: price?.documentId,
     price: price?.price ?? undefined,
-    sale_price: price?.sale_price ?? undefined,
+    comparePrice: price?.comparePrice ?? undefined,
     min_quantity: price?.min_quantity ?? undefined,
     max_quantity: price?.max_quantity ?? undefined,
     user_level: price?.user_level ?? undefined,
@@ -40,6 +40,10 @@ const BulkPrices = ({ product }: BulkPricesProps) => {
       }
     }
   });
+
+  // if (bulkPrices?.length === 0) {
+  //   return null;
+  // }
 
   return (
     <DropdownMenu>

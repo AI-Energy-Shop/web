@@ -4,8 +4,10 @@ import { ApolloWrapper } from '@/apollo/provider';
 import { firaSansFont } from '@/assets/fonts/fonts';
 import { Toaster } from '@/components/ui/sonner';
 import { Toaster as ToasterUI } from '@/components/ui/toaster';
-import NavigationProvider from '@/components/NavigationProvider';
+import NavigationWrapper from '@/components/navigation-wrapper';
 import Components from '@/components';
+import { headers } from 'next/headers';
+
 // Assuming Metadata type needs to be defined or imported.
 // If Metadata is a custom type, it should be imported from its definition file.
 // Here, I'm defining it locally for demonstration.
@@ -21,15 +23,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const headersList = headers();
+  const pathname = headersList.get('x-pathname') || '/';
+
   return (
     <html lang="en" className={firaSansFont.className}>
       <body>
         <Components.ReduxProvider>
           <ApolloWrapper>
-            <NavigationProvider>{children}</NavigationProvider>
+            <NavigationWrapper path={pathname}>{children}</NavigationWrapper>
           </ApolloWrapper>
           <Toaster />
           <ToasterUI />

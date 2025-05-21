@@ -1,7 +1,7 @@
-import LogoutButton from '@/components/Profile/LogoutButton';
-import Personals from '@/components/Profile/Personals';
-import ShippingAddress from '@/components/Profile/ShippingAddress';
-import Warehouse from '@/components/Profile/Warehouse';
+import LogoutButton from '@/components/profile/LogoutButton';
+import Personals from '@/components/profile/Personals';
+import ShippingAddress from '@/components/profile/ShippingAddress';
+import Warehouse from '@/components/profile/Warehouse';
 import React from 'react';
 
 const ProfilePage = () => {

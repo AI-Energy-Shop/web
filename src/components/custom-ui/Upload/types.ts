@@ -47,9 +47,10 @@ export type FilePreviewProps = {
 };
 
 export interface ModalProps {
+  accept: string;
+  onCancel?: () => void;
+  onDone: (files: UploadFile[]) => void;
   filters: {
     mimeTypes: string[];
   };
-  onCancel?: () => void;
-  onDone: (files: UploadFile[]) => void;
 }

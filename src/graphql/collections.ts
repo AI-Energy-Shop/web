@@ -44,87 +44,101 @@ const schema = {
             filters: $productsFilters,
             pagination: $productsPagination,
           ) {
-            documentId
+              documentId
+          name
+          description
+          product_type
+          model
+          odoo_product_id
+          categories {
+            title
+            slug
+            image {
+              documentId
               name
-              description
-              vendor
-              product_type
-              model
-              odoo_product_id
-              categories {
-                title
-                slug
-                image {
-                  documentId
-                  name
-                  alternativeText
-                  width
-                  height
-                  mime
-                  url
-                }
-              }
-              brand {
-                documentId
-                name
-                url
-                image {
-                  documentId
-                  name
-                  alternativeText
-                  width
-                  height
-                  mime
-                  url
-                }
-              }
-              price_lists {
-                documentId
-                price
-                sale_price
-                min_quantity
-                max_quantity
-                user_level
-              }
-              files {
-                documentId
-                name
-                alternativeText
-                width
-                height
-                mime
-                url
-              }
-              images {
-                documentId
-                name
-                alternativeText
-                width
-                height
-                mime
-                url
-              }
-              specifications {
-                documentId
-                key
-                value
-              }
-              key_features {
-                documentId
-                feature
-              }
-              inventories {
-                documentId
-                name
-                location_code
-                quantity
-                createdAt
-                updatedAt
-                publishedAt
-              }
-              createdAt
-              updatedAt
-              publishedAt
+              alternativeText
+              width
+              height
+              mime
+              url
+            }
+          }
+          brand {
+            documentId
+            name
+            url
+            image {
+              documentId
+              name
+              alternativeText
+              width
+              height
+              mime
+              url
+            }
+          }
+          collections {
+            documentId
+            title
+          }
+          price_lists {
+            documentId
+            price
+            comparePrice
+            min_quantity
+            max_quantity
+            user_level
+          }
+          files {
+            documentId
+            name
+            alternativeText
+            width
+            height
+            mime
+            url
+          }
+          images {
+            documentId
+            name
+            alternativeText
+            width
+            height
+            mime
+            url
+          }
+          specifications {
+            documentId
+            key
+            value
+          }
+          key_features {
+            documentId
+            feature
+          }
+          inventory {
+            documentId
+            melbourne
+            sydney
+            brisbane
+          }
+          shipping {
+            documentId
+            height
+            width
+            length
+            weight
+          }
+          maxQuantity
+          madeBy {
+            email
+          }
+          improvedBy {
+            email
+          }
+          createdAt
+          updatedAt
+          releasedAt
             }
           }
         }

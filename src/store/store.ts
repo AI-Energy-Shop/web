@@ -45,7 +45,7 @@ const checkExistingPersistence = () => {
 export const getPersistConfig = (shouldPersist: boolean) => ({
   key: 'root',
   storage,
-  whitelist: shouldPersist ? ['me', 'cart'] : [],
+  whitelist: shouldPersist ? ['me'] : [],
 });
 
 // Initial persist config (default to not persisting)

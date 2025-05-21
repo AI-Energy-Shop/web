@@ -1,5 +1,5 @@
 import React from 'react';
-import Sections from './Sections';
+import Sections from './sections';
 import { type GetPageQuery } from '@/lib/types';
 interface DynamicSectionsProps {
   data: GetPageQuery;

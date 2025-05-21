@@ -7,7 +7,7 @@ import {
   SelectItem,
 } from '../ui/select';
 import { WAREHOUSE_LOCATIONS } from '@/constant/shipping';
-import { setPaymentStep, setCarts } from '@/store/features/cart';
+import { setPaymentStep } from '@/store/features/cart';
 import { Check, FilePenLine } from 'lucide-react';
 import { Textarea } from '../ui/textarea';
 import ModalWrapper from './ModalWrapper';
@@ -17,7 +17,6 @@ import { Button } from '../ui/button';
 import CartItems from './CartItems';
 import { Input } from '../ui/input';
 import { cn } from '@/lib/utils';
-import { updateCartProductQuantity } from '@/app/actions/cart';
 import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
 import { useCheckout } from '@/hooks/useCheckout';
 import { useAppDispatch } from '@/store/hooks';
@@ -38,18 +37,11 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
   const DEBOUNCE_DELAY = 1500;
   const { warehouseLocation, setWarehouseLocation } = useCheckout();
+
   const checkIfProductLocationQuantityIsOkToProceed = () => {
     const productWithNoStockInCurrentLocation =
-      cartProductQuantity.usersPermissionsUser?.carts.find((cartItem) => {
-        return cartItem?.product?.inventories.find((locationQuantity) => {
-          if (
-            locationQuantity?.name?.toLowerCase() ===
-              warehouseLocation?.name?.toLowerCase() &&
-            locationQuantity?.quantity! <= 0
-          ) {
-            return true;
-          }
-        });
+      cartProductQuantity.usersPermissionsUser?.carts.find((cartItem: any) => {
+        return cartItem?.product?.inventory[`${warehouseLocation?.name}`] <= 0;
       });
 
     return productWithNoStockInCurrentLocation ? true : false;
@@ -61,25 +53,26 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
   }, []);
 
   const checkIfCartQuantityIsExceeded = () => {
-    const isThereExceededCart =
-      cartProductQuantity?.usersPermissionsUser?.carts?.filter((cart) => {
-        const cartQty = carts?.find(
-          (staleCart) => staleCart.documentId === cart?.documentId
-        )?.quantity;
+    // const isThereExceededCart =
+    //   cartProductQuantity?.usersPermissionsUser?.carts?.filter((cart) => {
+    //     const cartQty = carts?.find(
+    //       (staleCart) => staleCart.documentId === cart?.documentId
+    //     )?.quantity;
 
-        const productLocationInventory = cart?.product?.inventories?.find(
-          (loc) =>
-            loc?.name?.toLowerCase() === warehouseLocation?.name?.toLowerCase()
-        );
+    //     const productLocationInventory = cart?.product?.inventories?.find(
+    //       (loc) =>
+    //         loc?.name?.toLowerCase() === warehouseLocation?.name?.toLowerCase()
+    //     );
 
-        if ((cartQty || 0) > (productLocationInventory?.quantity || 0)) {
-          return true;
-        }
+    //     if ((cartQty || 0) > (productLocationInventory?.quantity || 0)) {
+    //       return true;
+    //     }
 
-        return false;
-      });
+    //     return false;
+    //   });
 
-    return (isThereExceededCart?.length || 0) > 0;
+    // return (isThereExceededCart?.length || 0) > 0;
+    return false;
   };
 
   const handleEditClick = () => {
@@ -99,92 +92,86 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
   };
 
   const handleChange = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
-    const cart = carts.find((cart) => cart.documentId === id);
-    if (cart) {
-      const value = e.target.value === '' ? 0 : parseInt(e.target.value, 10);
-
-      // debounce functionality to delay network request when the value change so fast
-      if (debounceTimer.current) {
-        clearTimeout(debounceTimer.current);
-      }
-
-      debounceTimer.current = setTimeout(() => {
-        updateCartProductQuantity(cart.documentId, value);
-      }, DEBOUNCE_DELAY);
-
-      dispatch(
-        setCarts(
-          carts.map((cart) => {
-            if (cart.documentId === id)
-              return {
-                ...cart,
-                quantity: value,
-              };
-            return cart;
-          })
-        )
-      );
-    }
+    // const cart = carts.find((cart) => cart.documentId === id);
+    // if (cart) {
+    //   const value = e.target.value === '' ? 0 : parseInt(e.target.value, 10);
+    //   // debounce functionality to delay network request when the value change so fast
+    //   if (debounceTimer.current) {
+    //     clearTimeout(debounceTimer.current);
+    //   }
+    //   debounceTimer.current = setTimeout(() => {
+    //     updateCartProductQuantity(cart.documentId, value);
+    //   }, DEBOUNCE_DELAY);
+    //   dispatch(
+    //     setCarts(
+    //       carts.map((cart) => {
+    //         if (cart.documentId === id)
+    //           return {
+    //             ...cart,
+    //             quantity: value,
+    //           };
+    //         return cart;
+    //       })
+    //     )
+    //   );
+    // }
   };
 
   const handleReduceQuant = (id: string) => {
-    const cart = carts.find((cart) => cart.documentId === id);
-    if (cart) {
-      if (cart.quantity <= 1) {
-        setShowModal(!showModal);
-        setToRemoveItemId(id);
-      } else {
-        // debounce functionality to delay network request when the value change so fast
-        if (debounceTimer.current) {
-          clearTimeout(debounceTimer.current);
-        }
-        debounceTimer.current = setTimeout(() => {
-          updateCartProductQuantity(cart.documentId, cart.quantity - 1);
-        }, DEBOUNCE_DELAY);
-
-        dispatch(
-          setCarts(
-            carts.map((cart) => {
-              if (cart.documentId === id) {
-                return {
-                  ...cart,
-                  quantity: cart.quantity - 1,
-                };
-              }
-              return cart;
-            })
-          )
-        );
-      }
-    }
+    // const cart = carts.find((cart) => cart.documentId === id);
+    // if (cart) {
+    //   if (cart.quantity <= 1) {
+    //     setShowModal(!showModal);
+    //     setToRemoveItemId(id);
+    //   } else {
+    //     // debounce functionality to delay network request when the value change so fast
+    //     if (debounceTimer.current) {
+    //       clearTimeout(debounceTimer.current);
+    //     }
+    //     debounceTimer.current = setTimeout(() => {
+    //       updateCartProductQuantity(cart.documentId, cart.quantity - 1);
+    //     }, DEBOUNCE_DELAY);
+    //     dispatch(
+    //       setCarts(
+    //         carts.map((cart) => {
+    //           if (cart.documentId === id) {
+    //             return {
+    //               ...cart,
+    //               quantity: cart.quantity - 1,
+    //             };
+    //           }
+    //           return cart;
+    //         })
+    //       )
+    //     );
+    //   }
+    // }
   };
 
   const handleAddQuant = (id: string) => {
-    const cart = carts.find((cart) => cart.documentId === id);
-    if (cart) {
-      // debounce functionality to delay network request when the value change so fast
-      if (debounceTimer.current) {
-        clearTimeout(debounceTimer.current);
-      }
-
-      debounceTimer.current = setTimeout(() => {
-        updateCartProductQuantity(cart.documentId, cart.quantity + 1);
-      }, DEBOUNCE_DELAY);
-
-      dispatch(
-        setCarts(
-          carts.map((cart) => {
-            if (cart.documentId === id) {
-              return {
-                ...cart,
-                quantity: cart.quantity + 1,
-              };
-            }
-            return cart;
-          })
-        )
-      );
-    }
+    // const cart = carts.find((cart) => cart.documentId === id);
+    // if (cart) {
+    //   // debounce functionality to delay network request when the value change so fast
+    //   if (debounceTimer.current) {
+    //     clearTimeout(debounceTimer.current);
+    //   }
+    //   debounceTimer.current = setTimeout(() => {
+    //     updateCartProductQuantity(cart.documentId, cart.quantity + 1);
+    //   }, DEBOUNCE_DELAY);
+    //   dispatch(
+    //     setCarts(
+    //       carts.map((cart) => {
+    //         if (cart.documentId === id) {
+    //           return {
+    //             ...cart,
+    //             quantity: cart.quantity + 1,
+    //           };
+    //         }
+    //         return cart;
+    //       })
+    //     )
+    //   );
+    // }
   };
 
   const handleRemove = (id: string) => {

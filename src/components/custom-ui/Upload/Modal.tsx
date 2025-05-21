@@ -14,9 +14,10 @@ import { Button } from '@/components/ui/button';
 import { ModalProps } from './types';
 import { UploadFile } from '@/hooks/useProductDetails';
 
-const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
-  const [selectedImageIds, setSelectedImageIds] = useState<UploadFile[]>([]);
+const Modal: FC<ModalProps> = ({ onDone, onCancel, filters, accept }) => {
   const [files, setFiles] = useState<any[]>([]);
+  const [selectedImageIds, setSelectedImageIds] = useState<UploadFile[]>([]);
+
   const { loading, refetch } = useQuery(FILES_OPERATIONS.Query.files, {
     fetchPolicy: 'no-cache',
     variables: {
@@ -52,7 +53,7 @@ const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
         <Card className="w-full h-full border-none shadow-none p-0 flex flex-col">
           <CardHeader className="flex-shrink-0">
             <FileUploadZone
-              accept="application/pdf"
+              accept={`${accept}`}
               onFiles={handleOnUploadFiles}
               maxFiles={10}
               displayUseExistingFile={false}

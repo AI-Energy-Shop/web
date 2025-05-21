@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { ChevronLeft, Loader2 } from 'lucide-react';
-import RichTextEditor from '@/components/RichTextEditor/RichTextEditor';
+import RichTextEditor from '@/components/rich-text-editor/RichTextEditor';
 import FileUpload from '../Upload/FileUpload';
 import useProductDetails from '../../../hooks/useProductDetails';
 import { ProductQuery } from '@/lib/gql/graphql';
@@ -28,7 +28,7 @@ import { Button } from '@/components/ui/button';
 import SpecificationItem from './SpecificationItem';
 import { SPECIFICATION_KEYS } from '@/constant';
 import KeyFeatureItem from './KeyFeatureItem';
-import BrandOption from './BrandOption';
+import ComboBoxField from './ComboBoxField';
 
 const ProductsDetails = ({
   id,
@@ -42,8 +42,8 @@ const ProductsDetails = ({
     files,
     addProductForm,
     brands,
+    collections,
     handleDiscardChanges,
-    handleAddInventoryItem,
     handleAddPriceItem,
     onSubmit,
     handleImageRemove,
@@ -57,7 +57,11 @@ const ProductsDetails = ({
 
   return (
     <Form {...addProductForm}>
-      <form onSubmit={addProductForm.handleSubmit(onSubmit)}>
+      <form
+        onSubmit={addProductForm.handleSubmit(onSubmit, (e) => {
+          console.log(e);
+        })}
+      >
         <div className="relative flex flex-col gap-2 w-full h-full p-5">
           {/* HEADER */}
           <div className="w-full h-full flex items-center justify-between">
@@ -233,6 +237,15 @@ const ProductsDetails = ({
                 </CardContent>
               </Card>
 
+              <Card>
+                <CardHeader>
+                  <CardTitle>Inventory</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <InventoryItem control={addProductForm.control} />
+                </CardContent>
+              </Card>
+
               <ListInput
                 title="Price Lists"
                 formData={addProductForm.watch('price_lists') || []}
@@ -244,20 +257,6 @@ const ProductsDetails = ({
                     currency={'$'}
                     onRemove={onRemoveList}
                     control={addProductForm.control}
-                  />
-                }
-              />
-
-              <ListInput
-                title="Inventories"
-                formData={addProductForm.watch('inventories')}
-                addButtonLabel="Add"
-                onAddList={handleAddInventoryItem}
-                stayExpanded={addProductForm.watch('inventories')?.length !== 0}
-                childComponent={
-                  <InventoryItem
-                    control={addProductForm.control}
-                    onRemove={onRemoveList}
                   />
                 }
               />
@@ -382,6 +381,7 @@ const ProductsDetails = ({
                         </FormItem>
                       )}
                     />
+
                     <FormField
                       control={addProductForm.control}
                       name="shipping.length"
@@ -409,6 +409,32 @@ const ProductsDetails = ({
                       )}
                     />
                   </div>
+
+                  <div className="grid grid-cols-2">
+                    <FormField
+                      control={addProductForm.control}
+                      name="maxQuantity"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel className="font-normal text-xs">
+                            Max Quantity for Auto Calculation
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              type="number"
+                              value={field.value ?? ''}
+                              onChange={(e) =>
+                                field.onChange(e.target.valueAsNumber)
+                              }
+                              className="w-full"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 </CardContent>
               </Card>
               <Card>
@@ -416,7 +442,12 @@ const ProductsDetails = ({
                   <CardTitle>Product Organization</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <BrandOption optionsData={brands} form={addProductForm} />
+                  <ComboBoxField
+                    fieldName="brand"
+                    label="Brand"
+                    options={brands}
+                    form={addProductForm}
+                  />
                   <FormField
                     control={addProductForm.control}
                     name="product_type"
@@ -430,26 +461,16 @@ const ProductsDetails = ({
                       </FormItem>
                     )}
                   />
-                  {/* <div>
-                <Label htmlFor="collections">Collections</Label>
-                <Input
-                  id="collections"
-                  name="collections"
-                  placeholder="Add to collections"
-                  onChange={handleInputChange}
-                  value={currentProduct?.collections || ''}
-                />
-              </div>
-              <div>
-                <Label htmlFor="tags">Tags</Label>
-                <Input
-                  id="tags"
-                  name="tags"
-                  placeholder="Add tags"
-                  onChange={handleInputChange}
-                  value={currentProduct?.tags || ''}
-                />
-              </div> */}
+                  <ComboBoxField
+                    fieldName="collections"
+                    label="Collections"
+                    options={collections.map((collection) => ({
+                      documentId: collection?.documentId || '',
+                      name: collection?.title || '',
+                    }))}
+                    form={addProductForm}
+                    acceptMultiple={true}
+                  />
                 </CardContent>
               </Card>
             </div>

@@ -1,5 +1,5 @@
 'use client';
-import SignupForm from '@/components/Form/SignupForm';
+import SignupForm from '@/components/forms/SignupForm';
 import Image from 'next/image';
 const SignupPage = () => {
   return (

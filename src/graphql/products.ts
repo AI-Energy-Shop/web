@@ -43,10 +43,14 @@ const schema = {
               url
             }
           }
+          collections {
+            documentId
+            title
+          }
           price_lists {
             documentId
             price
-            sale_price
+            comparePrice
             min_quantity
             max_quantity
             user_level
@@ -78,17 +82,25 @@ const schema = {
             documentId
             feature
           }
-          inventories {
+          inventory {
             documentId
-            name
-            location_code
-            quantity
+            melbourne
+            sydney
+            brisbane
           }
           shipping {
+            documentId
             height
             width
             length
             weight
+          }
+          maxQuantity
+          madeBy {
+            email
+          }
+          improvedBy {
+            email
           }
           createdAt
           updatedAt
@@ -132,10 +144,14 @@ const schema = {
               url
             }
           }
+          collections {
+            documentId
+            title
+          }
           price_lists {
             documentId
             price
-            sale_price
+            comparePrice
             min_quantity
             max_quantity
             user_level
@@ -167,18 +183,20 @@ const schema = {
             documentId
             feature
           }
-          inventories {
+          inventory {
             documentId
-            name
-            location_code
-            quantity
+            melbourne
+            sydney
+            brisbane
           }
           shipping {
+            documentId
             height
             width
             length
             weight
           }
+          maxQuantity
           createdAt
           updatedAt
           releasedAt
@@ -251,15 +269,20 @@ const schema = {
               url
             }
           }
-          inventories {
+          collections {
             documentId
-            location_code
-            quantity
+            title
+          }
+          inventory {
+            documentId
+            melbourne
+            sydney
+            brisbane
           }
           price_lists {
             documentId
             price
-            sale_price
+            comparePrice
             min_quantity
             max_quantity
             user_level
@@ -294,6 +317,7 @@ const schema = {
             weight
             length
           }
+          maxQuantity
           createdAt
           updatedAt
           releasedAt
@@ -321,15 +345,20 @@ const schema = {
               url
             }
           }
-          inventories {
+          collections {
             documentId
-            location_code
-            quantity
+            title
+          }
+          inventory {
+            documentId
+            melbourne
+            sydney
+            brisbane
           }
           price_lists {
             documentId
             price
-            sale_price
+            comparePrice
             min_quantity
             max_quantity
             user_level
@@ -364,6 +393,7 @@ const schema = {
             weight
             length
           }
+          maxQuantity
           improvedBy {
             email
           }
@@ -376,11 +406,18 @@ const schema = {
         }
       }
     `),
+    deleteProduct: graphql(`
+      mutation DeleteProduct($documentId: ID!) {
+        deleteProduct(documentId: $documentId) {
+          documentId
+        }
+      }
+    `),
     createPrice: graphql(`
       mutation CreatePrice($data: PriceInput!) {
         createPrice(data: $data) {
           documentId
-          sale_price
+          comparePrice
           price
           min_quantity
           max_quantity
@@ -394,7 +431,7 @@ const schema = {
       mutation UpdatePrice($documentId: ID!, $data: PriceInput!) {
         updatePrice(documentId: $documentId, data: $data) {
           documentId
-          sale_price
+          comparePrice
           price
           min_quantity
           max_quantity
@@ -415,9 +452,9 @@ const schema = {
       mutation CreateInventory($data: InventoryInput!) {
         createInventory(data: $data) {
           documentId
-          name
-          location_code
-          quantity
+          melbourne
+          sydney
+          brisbane
           createdAt
           updatedAt
         }
@@ -427,9 +464,9 @@ const schema = {
       mutation UpdateInventory($documentId: ID!, $data: InventoryInput!) {
         updateInventory(documentId: $documentId, data: $data) {
           documentId
-          name
-          location_code
-          quantity
+          melbourne
+          sydney
+          brisbane
           createdAt
           updatedAt
         }

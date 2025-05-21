@@ -12,7 +12,7 @@ import useCart from '@/hooks/useCart';
 interface ProductListProps {
   page?: number;
   pageSize?: number;
-  data?: ProductsQuery['products'];
+  data?: ProductsQuery['products'] | null;
 }
 
 const ProductsList: React.FC<ProductListProps> = ({ data, page, pageSize }) => {
@@ -60,14 +60,11 @@ const ProductsList: React.FC<ProductListProps> = ({ data, page, pageSize }) => {
     <>
       <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4">
         {data?.map((product) => {
-          const stocks = product?.inventories.find(
-            (inventory) => inventory?.name === warehouse?.address?.city
-          );
-
           const itemPrice = product?.price_lists?.find(
             (price) => price?.user_level === user?.account_detail?.level
           );
-          const salePrice = itemPrice?.sale_price || 0;
+
+          const salePrice = itemPrice?.price || 0;
           const regularPrice = itemPrice?.price || 0;
           const productPrice = salePrice || regularPrice || 0;
 
@@ -77,7 +74,7 @@ const ProductsList: React.FC<ProductListProps> = ({ data, page, pageSize }) => {
               product={product}
               itemPrice={itemPrice}
               productPrice={productPrice}
-              stocks={stocks?.quantity || 0}
+              stocks={0}
               userID={user?.id || ''}
               onSubmit={onSubmit}
             />

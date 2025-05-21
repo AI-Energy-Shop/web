@@ -2,7 +2,6 @@ import { RootState, useAppDispatch, useAppSelector } from '@/store/store';
 import { useToast } from './useToast';
 import { CART_WINDOW_TIMEOUT } from '@/constant/cart';
 import {
-  Cart,
   setCart,
   setPaymentStep as setPaymentStepData,
   setShowCartWindow,
@@ -15,48 +14,87 @@ import {
 import { ShippingOptions } from '@/constant/shipping';
 import { SHIPPING_OPTIONS } from '@/constant/shipping';
 import { removeCart } from '@/store/features/cart';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm, FieldErrors } from 'react-hook-form';
+import { addToCartSchema } from '@/lib/validation-schema/add-to-cart-form';
+import { AddToCartFormData } from '@/lib/validation-schema/add-to-cart-form';
+import { useMutation, useQuery } from '@apollo/client';
+import CART_OPERATIONS from '@/graphql/cart';
 
 const useCart = () => {
   const date = new Date();
   const { toast } = useToast();
   const dispatch = useAppDispatch();
+
+  const { data: cartData } = useQuery(CART_OPERATIONS.Query.carts, {
+    fetchPolicy: 'no-cache',
+  });
+
+  const [addCartItem, { loading: addCartItemLoading }] = useMutation(
+    CART_OPERATIONS.Mutation.createCart,
+    {
+      refetchQueries: [
+        {
+          query: CART_OPERATIONS.Query.carts,
+        },
+      ],
+    }
+  );
+
+  const [deleteCartItem, { loading: deleteCartItemLoading }] = useMutation(
+    CART_OPERATIONS.Mutation.deleteCart,
+    {
+      refetchQueries: [
+        {
+          query: CART_OPERATIONS.Query.carts,
+        },
+      ],
+    }
+  );
+
+  const [updateCart, { loading: updateCartLoading }] = useMutation(
+    CART_OPERATIONS.Mutation.updateCart,
+    {
+      refetchQueries: [
+        {
+          query: CART_OPERATIONS.Query.carts,
+        },
+      ],
+    }
+  );
+
   const [shippingOptions, setShippingOptions] =
     useState<ShippingOptions>(SHIPPING_OPTIONS);
-  const cartsData = useAppSelector((state) => state.cart.carts);
-  const paymentStepData = useAppSelector(
+  const paymentStep = useAppSelector(
     (state: RootState) => state.cart.paymentStep
   );
-  const warehouse = useAppSelector(
-    (state: RootState) => state.cart.warehouseLocation
-  );
+
   const showCartWindow = useAppSelector(
     (state: RootState) => state.cart.showCartWindow
   );
 
-  const [carts, setCartsData] = useState<Cart[]>([]);
-  const [paymentStep, setPaymenStepData] = useState<number>(1);
+  const warehouse = useAppSelector(
+    (state: RootState) => state.checkout.warehouseLocation.name
+  );
 
-  useEffect(() => {
-    setCartsData(cartsData);
-  }, [cartsData]);
+  // const isCartNeededManualQuote = props?.carts?.some((cart: any) => false);
 
-  useEffect(() => {
-    setPaymenStepData(paymentStepData);
-  }, [paymentStepData]);
+  const form = useForm<AddToCartFormData>({
+    resolver: zodResolver(addToCartSchema),
+    defaultValues: {
+      id: '',
+      quantity: 0,
+    },
+  });
 
-  const isCartNeededManualQuote = cartsData.some((cart) => false);
-
-  const addToCart = async (data: {
-    product: string;
-    quantity: number;
-    user: string;
-  }) => {
+  const addToCart = async (data: { product: string; quantity: number }) => {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value as string);
     });
     const res = await addToCartAction(formData);
+
     if (res.error) {
       console.log(res.error);
       toast({
@@ -91,45 +129,9 @@ const useCart = () => {
     Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value as string);
     });
-    const res = await updateCartItemAction(formData);
-    if (res.error) {
-      console.log(res.error);
-      toast({
-        title: res.error,
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    dispatch(
-      setCart({
-        documentId: res?.data?.updateCart?.documentId || '',
-        product: res?.data?.updateCart?.product,
-        quantity: res?.data?.updateCart?.quantity || 0,
-      })
-    );
-
-    dispatch(setShowCartWindow(true));
-    setTimeout(() => {
-      dispatch(setShowCartWindow(false));
-    }, CART_WINDOW_TIMEOUT);
   };
 
-  const removeItemFromCart = async (documentId: string) => {
-    const res = await removeItemFromCartAction(documentId);
-    if (res.error) {
-      toast({
-        title: res.error,
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    if (res.data) {
-      const { deleteCart } = res.data;
-      dispatch(removeCart({ id: deleteCart?.documentId || '' }));
-    }
-  };
+  const removeItemFromCart = async (documentId: string) => {};
 
   const handleShippingMethodClick = (index: number) => {
     setShippingOptions(
@@ -148,14 +150,66 @@ const useCart = () => {
     dispatch(setPaymentStepData(2));
   };
 
+  const handleOnError = (errors: FieldErrors<AddToCartFormData>) => {
+    console.log(errors);
+  };
+
+  const handleSubmit = async (onValid: AddToCartFormData) => {
+    const stockQuantity = 0;
+    if (stockQuantity <= 0) {
+      toast({
+        title: 'Out of Stock',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (onValid.quantity <= 0) {
+      toast({
+        title: 'Quantity cannot be 0',
+        variant: 'destructive',
+      });
+      return;
+    }
+    // const cartItem = carts.find(
+    //   (cart) => cart.product?.documentId === onValid?.id
+    // );
+    // if (cartItem && cartItem?.product) {
+    //   updateCartItem({
+    //     cartId: cartItem.documentId,
+    //     product: cartItem.product.documentId,
+    //     quantity: cartItem.quantity + onValid.quantity,
+    //   });
+    //   return;
+    // }
+    await addToCart({
+      product: onValid.id,
+      quantity: onValid.quantity,
+    });
+  };
+
+  const handleIncrement = () => {
+    const quantity = form.getValues('quantity');
+    form.setValue('quantity', quantity + 1);
+  };
+
+  const handleDecrement = () => {
+    const quantity = form.getValues('quantity');
+    form.setValue('quantity', quantity - 1);
+  };
+
   return {
     date,
     warehouse,
-    carts,
+    carts: cartData?.carts || [],
     paymentStep,
     showCartWindow,
     shippingOptions,
-    isCartNeededManualQuote,
+    isCartNeededManualQuote: false,
+    form,
+    handleIncrement,
+    handleDecrement,
+    handleSubmit,
+    handleOnError,
     handleEditClick,
     handleShippingMethodClick,
     handleContinueClick,

@@ -10,7 +10,7 @@ const Breadcrumb = () => {
   const pathSegments = pathname.split('/').filter(Boolean);
 
   return (
-    <div className="max-w-[1200px] mx-auto px-3 py-1 md:p-5 lg:p-5">
+    <div className="max-w-[1200px] mx-auto md:py-5 lg:py-5">
       <div className="text-sm flex items-center gap-2">
         {pathSegments.map((segment, index) => {
           if (index === 0) {

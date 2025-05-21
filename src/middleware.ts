@@ -9,7 +9,16 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/auth/login', request.url));
   }
 
-  return NextResponse.next();
+  // Get the pathname from the request
+  const pathname = request.nextUrl.pathname;
+
+  // Create a new response
+  const response = NextResponse.next();
+
+  // Set the pathname in a custom header
+  response.headers.set('x-pathname', pathname);
+
+  return response;
 }
 
 export const config = {
@@ -20,5 +29,13 @@ export const config = {
     '/profile',
     '/address',
     '/checkout-overview',
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    // '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 };

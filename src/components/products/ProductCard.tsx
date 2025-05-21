@@ -96,14 +96,16 @@ const ProductCard: React.FC<ProductCardproduct> = ({
         <div className="flex flex-col gap-2">
           {/* IMAGE */}
           <div className="aspect-[3/4] relative bg-[#e6e6e6]">
-            <Image
-              fill
-              priority
-              src={product?.images[0]?.url || '/no-product-image.jpg'}
-              alt={product?.images[0]?.name || 'product image'}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-contain w-auto h-auto bg-transparent mix-blend-multiply"
-            />
+            {product?.images.at(0)?.url && (
+              <Image
+                fill
+                priority
+                src={product?.images.at(0)?.url || '/no-product-image.jpg'}
+                alt={product?.images.at(0)?.name || 'product image'}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-contain w-auto h-auto bg-transparent mix-blend-multiply"
+              />
+            )}
           </div>
           {/* NAME AND MODEL */}
           <div className="flex flex-col justify-between">
@@ -121,7 +123,7 @@ const ProductCard: React.FC<ProductCardproduct> = ({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           {renderHiddenInput('id')}
-          <ProductQuantity form={form} />
+          <ProductQuantity form={form} currentStock={stocks} />
           <Button
             disabled={stocks <= 0}
             type="submit"

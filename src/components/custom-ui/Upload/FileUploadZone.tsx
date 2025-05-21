@@ -15,7 +15,6 @@ export function FileUploadZone({
   uploadNewFileLabel = 'Upload new file',
   onUseExistingFile,
 }: FileUploadZoneProps) {
-  const formRef = useRef<HTMLFormElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
