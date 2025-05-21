@@ -3,14 +3,17 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { CreditCardIcon, CheckCircle2 } from 'lucide-react';
+import { CreditCardIcon, CheckCircle2, Trash2 } from 'lucide-react';
 import React from 'react';
 import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
 import { Form, FormField } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { updateCreditCardDefault } from '@/app/actions/credit-card';
+import {
+  deleteCreditCard,
+  updateCreditCardDefault,
+} from '@/app/actions/credit-card';
 
 const FormSchema = z.object({
   cardId: z.string(),
@@ -50,6 +53,10 @@ function SelectDefaultTab({ checkoutUserData }: SelectDefaultTabProps) {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async function deleteCard(documentId: string, stripePaymentMethodID: string) {
+    await deleteCreditCard(documentId, stripePaymentMethodID);
   }
 
   function getBrandIcon(brand: string) {
@@ -119,11 +126,25 @@ function SelectDefaultTab({ checkoutUserData }: SelectDefaultTabProps) {
                           </div>
                         </div>
                       </div>
-                      {card?.isDefault && (
+                      {card?.isDefault ? (
                         <span className="text-sm text-primary flex items-center gap-1">
                           <CheckCircle2 className="h-4 w-4" />
                           Current default
                         </span>
+                      ) : (
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          type="button"
+                          onClick={() =>
+                            deleteCard(
+                              card?.documentId!,
+                              card?.stripePaymentMethodID!
+                            )
+                          }
+                        >
+                          <Trash2 />
+                        </Button>
                       )}
                     </Label>
                   </div>

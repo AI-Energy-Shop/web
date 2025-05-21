@@ -33,3 +33,12 @@ export const getPaymentMethodDetails = async (paymentMethodId: string) => {
     return { result: null, error: err };
   }
 };
+
+export const deletePaymentMethodDetails = async (paymentMethodId: string) => {
+  try {
+    const result = await stripe.paymentMethods.detach(paymentMethodId);
+    return { result, error: null };
+  } catch (err) {
+    return { result: null, error: err };
+  }
+};

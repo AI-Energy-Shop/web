@@ -6,7 +6,7 @@ import CREDIT_CARD_OPERATION from '@/graphql/creditCard';
 import { Auser } from '@/lib/types';
 import { revalidatePath } from 'next/cache';
 import Stripe from 'stripe';
-import { getPaymentMethodDetails } from './stripe';
+import { deletePaymentMethodDetails, getPaymentMethodDetails } from './stripe';
 
 const client = getClient();
 
@@ -60,6 +60,34 @@ export async function updateCreditCardDefault(
       },
       variables: { documentId: documentId, data: { isDefault } },
     });
+  } catch (error) {
+    console.error(error);
+  }
+
+  revalidatePath('/cart');
+}
+
+export async function deleteCreditCard(
+  documentId: string,
+  stripePaymentMethodID: string
+) {
+  const cookieStore = cookies();
+  const token = cookieStore.get('a-token')?.value;
+
+  try {
+    const result = await client.mutate({
+      mutation: CREDIT_CARD_OPERATION.Mutation.deleteCreditCard,
+      context: {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+      variables: { documentId },
+    });
+
+    if (result.data?.deleteCreditCard?.documentId) {
+      await deletePaymentMethodDetails(stripePaymentMethodID);
+    }
   } catch (error) {
     console.error(error);
   }
