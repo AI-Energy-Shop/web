@@ -1,35 +1,41 @@
-import { RootState, useAppDispatch, useAppSelector } from '@/store/store';
-import { useToast } from './useToast';
-import { CART_WINDOW_TIMEOUT } from '@/constant/cart';
 import {
-  setCart,
-  setPaymentStep as setPaymentStepData,
+  setCarts,
   setShowCartWindow,
+  setPaymentStep as setPaymentStepData,
 } from '@/store/features/cart';
 import {
-  addToCartAction,
-  removeItemFromCartAction,
-  updateCartItemAction,
-} from '@/app/actions/cart';
+  addToCartSchema,
+  AddToCartFormData,
+} from '@/lib/validation-schema/add-to-cart-form';
 import { ShippingOptions } from '@/constant/shipping';
 import { SHIPPING_OPTIONS } from '@/constant/shipping';
-import { removeCart } from '@/store/features/cart';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, FieldErrors } from 'react-hook-form';
-import { addToCartSchema } from '@/lib/validation-schema/add-to-cart-form';
-import { AddToCartFormData } from '@/lib/validation-schema/add-to-cart-form';
-import { useMutation, useQuery } from '@apollo/client';
 import CART_OPERATIONS from '@/graphql/cart';
+import { useMutation, useQuery } from '@apollo/client';
+import { ProductsQuery, CartsQuery } from '@/lib/gql/graphql';
+import { useAppDispatch, useAppSelector, RootState } from '@/store/store';
 
-const useCart = () => {
+interface UseCartProps {
+  product?: ProductsQuery['products'][0] | null;
+}
+
+const useCart = (props: UseCartProps) => {
   const date = new Date();
-  const { toast } = useToast();
   const dispatch = useAppDispatch();
 
-  const { data: cartData } = useQuery(CART_OPERATIONS.Query.carts, {
-    fetchPolicy: 'no-cache',
-  });
+  const { data: cartData, refetch } = useQuery<CartsQuery>(
+    CART_OPERATIONS.Query.carts,
+    {
+      fetchPolicy: 'network-only',
+      refetchWritePolicy: 'merge',
+      onCompleted: (data) => {
+        dispatch(setCarts(data.carts));
+      },
+      pollInterval: 1000 * 60 * 10, // 10 minutes
+    }
+  );
 
   const [addCartItem, { loading: addCartItemLoading }] = useMutation(
     CART_OPERATIONS.Mutation.createCart,
@@ -53,7 +59,7 @@ const useCart = () => {
     }
   );
 
-  const [updateCart, { loading: updateCartLoading }] = useMutation(
+  const [updateCart, { loading: updateCartLoading, data }] = useMutation(
     CART_OPERATIONS.Mutation.updateCart,
     {
       refetchQueries: [
@@ -66,6 +72,7 @@ const useCart = () => {
 
   const [shippingOptions, setShippingOptions] =
     useState<ShippingOptions>(SHIPPING_OPTIONS);
+
   const paymentStep = useAppSelector(
     (state: RootState) => state.cart.paymentStep
   );
@@ -83,42 +90,10 @@ const useCart = () => {
   const form = useForm<AddToCartFormData>({
     resolver: zodResolver(addToCartSchema),
     defaultValues: {
-      id: '',
+      id: props?.product?.documentId,
       quantity: 0,
     },
   });
-
-  const addToCart = async (data: { product: string; quantity: number }) => {
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value as string);
-    });
-    const res = await addToCartAction(formData);
-
-    if (res.error) {
-      console.log(res.error);
-      toast({
-        title: res.error,
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    if (res.data) {
-      const { createCart } = res.data;
-      dispatch(
-        setCart({
-          documentId: createCart?.documentId || '',
-          product: createCart?.product,
-          quantity: createCart?.quantity || 0,
-        })
-      );
-      dispatch(setShowCartWindow(true));
-      setTimeout(() => {
-        dispatch(setShowCartWindow(false));
-      }, CART_WINDOW_TIMEOUT);
-    }
-  };
 
   const updateCartItem = async (data: {
     cartId: string;
@@ -131,7 +106,13 @@ const useCart = () => {
     });
   };
 
-  const removeItemFromCart = async (documentId: string) => {};
+  const removeItemFromCart = async (documentId: string) => {
+    deleteCartItem({
+      variables: {
+        documentId,
+      },
+    });
+  };
 
   const handleShippingMethodClick = (index: number) => {
     setShippingOptions(
@@ -155,36 +136,55 @@ const useCart = () => {
   };
 
   const handleSubmit = async (onValid: AddToCartFormData) => {
-    const stockQuantity = 0;
-    if (stockQuantity <= 0) {
-      toast({
-        title: 'Out of Stock',
-        variant: 'destructive',
+    const cartItem = cartData?.carts.find(
+      (cart) => cart?.product?.documentId === onValid?.id
+    );
+
+    if (cartItem && cartItem?.product) {
+      updateCart({
+        variables: {
+          documentId: cartItem.documentId,
+          data: {
+            quantity: cartItem.quantity + onValid.quantity,
+          },
+        },
       });
+
+      // Show the notification
+      dispatch(setShowCartWindow(true));
+
+      // Hide the notification after 3 seconds
+      setTimeout(() => {
+        dispatch(setShowCartWindow(false));
+      }, 3000);
+
+      // Reset the form
+      form.reset();
+
       return;
     }
-    if (onValid.quantity <= 0) {
-      toast({
-        title: 'Quantity cannot be 0',
-        variant: 'destructive',
-      });
-      return;
-    }
-    // const cartItem = carts.find(
-    //   (cart) => cart.product?.documentId === onValid?.id
-    // );
-    // if (cartItem && cartItem?.product) {
-    //   updateCartItem({
-    //     cartId: cartItem.documentId,
-    //     product: cartItem.product.documentId,
-    //     quantity: cartItem.quantity + onValid.quantity,
-    //   });
-    //   return;
-    // }
-    await addToCart({
-      product: onValid.id,
-      quantity: onValid.quantity,
+
+    addCartItem({
+      variables: {
+        data: {
+          product: onValid.id,
+          quantity: onValid.quantity,
+        },
+      },
     });
+
+    // Show the notification
+    dispatch(setShowCartWindow(true));
+
+    // Hide the notification after 3 seconds
+    setTimeout(() => {
+      dispatch(setShowCartWindow(false));
+    }, 3000);
+
+    // Reset the form
+    form.reset();
+
+    refetch();
   };
 
   const handleIncrement = () => {
@@ -196,6 +196,13 @@ const useCart = () => {
     const quantity = form.getValues('quantity');
     form.setValue('quantity', quantity - 1);
   };
+
+  useEffect(() => {
+    if (cartData) {
+      console.log(cartData.carts);
+      dispatch(setCarts(cartData.carts));
+    }
+  }, [cartData]);
 
   return {
     date,
@@ -213,7 +220,6 @@ const useCart = () => {
     handleEditClick,
     handleShippingMethodClick,
     handleContinueClick,
-    addToCart,
     removeItemFromCart,
     updateCartItem,
   };

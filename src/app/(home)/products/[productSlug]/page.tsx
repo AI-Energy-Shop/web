@@ -1,18 +1,17 @@
-export const dynamic = 'force-dynamic';
-import { products } from '@/app/actions/products';
-import { firaSans } from '@/app/font';
-import Carousel from '@/components/custom-ui/Carousel';
-import { Breadcrumb } from '@/components/products';
-import BulkPrices from '@/components/products/BulkPrices';
+import ShopProductStockQuantities from '@/components/products/ShopProductStockQuantities';
 import ProductAddToCartButton from '@/components/products/ProductAddToCartButton';
 import ProductDescription from '@/components/products/ProductDescription';
-import ProductPrice from '@/components/products/ProductPrice';
 import RelatedProducts from '@/components/products/RelatedProducts';
-import ShopProductStockQuantities from '@/components/products/ShopProductStockQuantities';
-import { cn } from '@/lib/utils';
+import ProductPrice from '@/components/products/ProductPrice';
 import { capsAllFirstCharWithSpace } from '@/utils/string';
+import BulkPrices from '@/components/products/BulkPrices';
+import Carousel from '@/components/custom-ui/Carousel';
+import { Breadcrumb } from '@/components/products';
+import { products } from '@/app/actions/products';
+import { firaSans } from '@/app/font';
+import { cn } from '@/lib/utils';
 
-async function VariantPage({ params }: { params: { productSlug: string } }) {
+async function ProductPage({ params }: { params: { productSlug: string } }) {
   const productSlug = params.productSlug;
 
   const { data } = await products({
@@ -66,4 +65,5 @@ async function VariantPage({ params }: { params: { productSlug: string } }) {
   );
 }
 
-export default VariantPage;
+export default ProductPage;
+export const dynamic = 'force-dynamic';

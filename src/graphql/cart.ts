@@ -17,6 +17,7 @@ const schema = {
               comparePrice
               min_quantity
               max_quantity
+              user_level
             }
             inventory {
               documentId

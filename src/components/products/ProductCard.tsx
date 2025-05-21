@@ -1,52 +1,49 @@
 'use client';
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import useCart from '@/hooks/useCart';
+import { Form, FormField } from '../ui/form';
+import { useAppSelector } from '@/store/hooks';
+import ProductQuantity from './ProductQuantity';
 import { formatCurrency } from '@/utils/currency';
 import { ProductsQuery } from '@/lib/gql/graphql';
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
-import { Form, FormField } from '../ui/form';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { Input } from '../ui/input';
-import ProductQuantity from './ProductQuantity';
-import { Button } from '../ui/button';
-import { cn } from '@/lib/utils';
-import {
-  addToCartResolver,
-  addToCartSchema,
-} from '@/lib/validation-schema/add-to-cart-form';
 
 type ProductCardproduct = {
-  product?: ProductsQuery['products'][0] | null;
-  productPrice: number;
-  stocks: number;
-  itemPrice: any;
-  userID: string;
-  onSubmit: (data: z.infer<typeof addToCartSchema>) => void;
+  product: ProductsQuery['products'][0];
 };
 
-const ProductCard: React.FC<ProductCardproduct> = ({
-  product,
-  productPrice,
-  stocks,
-  itemPrice,
-  userID,
-  onSubmit,
-}) => {
-  const form = useForm<z.infer<typeof addToCartSchema>>({
-    resolver: addToCartResolver,
-    defaultValues: {
-      id: product?.documentId || '',
-      quantity: 0,
-    },
-  });
+const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
+  const { form, handleSubmit } = useCart({ product });
+  const { me } = useAppSelector((state) => state.me);
+  const warehouse = useAppSelector(
+    (state) => state.checkout.warehouseLocation.name
+  );
 
   const productSlug = product?.name;
-
   const productLink = `/products/${productSlug}`;
 
+  // Get the first price list entry if no user level match is found
+  const itemPrice =
+    product?.price_lists?.find(
+      (price) => price?.user_level === me?.account_detail?.level
+    ) || product?.price_lists?.[0];
+
+  // Ensure we have valid numbers for prices
+  const regularPrice = Number(itemPrice?.price) || 0;
+  const comparePrice = Number(itemPrice?.comparePrice) || 0;
+
+  // Use compare price if available, otherwise use regular price
+  const productPrice = comparePrice || regularPrice || 0;
+
+  const stocks =
+    product?.inventory?.[warehouse as keyof typeof product.inventory] || 0;
+
   const renderPriceAndStock = () => {
-    if (!userID) {
+    if (!me) {
       return (
         <div className="grid grid-cols-1 my-3">
           <span className="text-sm row-span-1 text-[#1b1b3b]">
@@ -58,35 +55,34 @@ const ProductCard: React.FC<ProductCardproduct> = ({
 
     return (
       <div className="grid grid-cols-1 grid-rows-3">
-        <span className="text-sm text-gray-400 line-through row-span-1">
-          {itemPrice?.price ? formatCurrency(itemPrice.price, 'USD') : null}
-        </span>
-        <p className="text-md font-bold row-span-1 block h-auto">
-          {formatCurrency(productPrice || 0, 'USD')} ex.GST
-          <span className="text-xs font-normal"></span>
+        <p className="text-sm text-gray-400 line-through row-span-1 h-4">
+          {comparePrice > 0 && formatCurrency(regularPrice, 'USD')}
+        </p>
+        <p className="text-md font-bold row-span-1 block h-6">
+          {comparePrice > 0 ? (
+            <>
+              {formatCurrency(comparePrice, 'USD')}
+              <span className="text-xs font-normal ml-1">ex.GST</span>
+            </>
+          ) : (
+            <>
+              {formatCurrency(regularPrice, 'USD')}
+              <span className="text-xs font-normal ml-1">ex.GST</span>
+            </>
+          )}
         </p>
         <span
           className={cn(
-            `${stocks > 0 ? 'text-green-900' : 'text-red-900'} text-sm  row-span-1`
+            `${Number(stocks) > 0 ? 'text-green-900' : 'text-red-900'} text-sm row-span-1`
           )}
         >
-          {stocks > 0 ? (
-            <span className="text-green-900">In Stock ({stocks})</span>
+          {Number(stocks) > 0 ? (
+            <span className="text-green-900">In Stock ({Number(stocks)})</span>
           ) : (
             <span className="text-red-900">Out of Stock</span>
           )}
         </span>
       </div>
-    );
-  };
-
-  const renderHiddenInput = (name: keyof z.infer<typeof addToCartSchema>) => {
-    return (
-      <FormField
-        name={name}
-        control={form.control}
-        render={({ field }) => <Input type="hidden" {...field} />}
-      />
     );
   };
 
@@ -107,7 +103,6 @@ const ProductCard: React.FC<ProductCardproduct> = ({
               />
             )}
           </div>
-          {/* NAME AND MODEL */}
           <div className="flex flex-col justify-between">
             <h3
               className="font-medium text-sm mb-1 text-pretty"
@@ -117,20 +112,23 @@ const ProductCard: React.FC<ProductCardproduct> = ({
             </h3>
             <p className="text-sm font-thin italic">{product?.model}</p>
           </div>
+
           {renderPriceAndStock()}
         </div>
       </Link>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          {renderHiddenInput('id')}
-          <ProductQuantity form={form} currentStock={stocks} />
-          <Button
-            disabled={stocks <= 0}
-            type="submit"
-            className={cn(`w-full mt-2 bg-[#1b1b3b] text-white`)}
-          >
-            Add to Cart
-          </Button>
+        <form onSubmit={form.handleSubmit(handleSubmit)}>
+          <div className="flex flex-col gap-2">
+            <FormField
+              name="id"
+              control={form.control}
+              render={({ field }) => <Input type="hidden" {...field} />}
+            />
+            <ProductQuantity form={form} currentStock={Number(stocks)} />
+            <Button disabled={Number(stocks) <= 0 || !me || productPrice === 0}>
+              Add to Cart
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

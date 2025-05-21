@@ -1,23 +1,23 @@
 'use client';
 
 import React from 'react';
-import { ShoppingCart } from 'lucide-react';
-import CartNotification from './CartNotifications';
 import Link from 'next/link';
-import useCart from '@/hooks/useCart';
-import { invalidateCartPath } from '@/app/actions/cart';
+import { ShoppingCart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useAppSelector } from '@/store/store';
+import CartNotification from './CartNotifications';
+import { invalidateCartPath } from '@/app/actions/cart';
 
 interface CartButtonProps {
   cartStyle?: 'icon' | 'text';
 }
 
 const CartButton: React.FC<CartButtonProps> = ({ cartStyle = 'text' }) => {
-  const { carts } = useCart();
-
+  const carts = useAppSelector((state) => state.cart.carts);
   const router = useRouter();
+
   return (
-    <>
+    <div className="relative group">
       {cartStyle === 'icon' ? (
         <div className="h-[40px] flex flex-col items-center justify-between">
           <Link
@@ -54,8 +54,8 @@ const CartButton: React.FC<CartButtonProps> = ({ cartStyle = 'text' }) => {
         </span>
       )}
 
-      {carts.length > 0 && <CartNotification carts={carts} />}
-    </>
+      {carts.length > 0 && <CartNotification />}
+    </div>
   );
 };
 

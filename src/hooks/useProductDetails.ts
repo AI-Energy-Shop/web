@@ -169,6 +169,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     const releasedAt = status === 'published' ? new Date() : null;
 
     const isErrors = Object.keys(addProductForm.formState.errors);
+
     if (isErrors.length !== 0) {
       return;
     }
@@ -394,7 +395,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
           .map((item) => {
             return {
               price: item?.price,
-              sale_price: item?.comparePrice,
+              comparePrice: item?.comparePrice,
               min_quantity: item?.min_quantity,
               max_quantity: item?.max_quantity,
               user_level: item?.user_level,
@@ -410,7 +411,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
             return {
               documentId: item?.documentId,
               price: item?.price,
-              sale_price: item?.comparePrice,
+              comparePrice: item?.comparePrice,
               min_quantity: item?.min_quantity,
               max_quantity: item?.max_quantity,
               user_level: item?.user_level,

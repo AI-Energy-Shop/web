@@ -10,21 +10,26 @@ import { Minus, Plus } from 'lucide-react';
 import { ProductQuery } from '@/lib/gql/graphql';
 import { Form, FormControl, FormField, FormItem } from '../ui/form';
 import { addToCartSchema } from '@/lib/validation-schema/add-to-cart-form';
+import { useAppSelector } from '@/store/store';
 
 interface ProductAddToCartButtonProps {
   product: ProductQuery['product'];
 }
 
 const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
-  const { user } = useMe();
   const {
     handleSubmit,
     handleOnError,
     handleIncrement,
     handleDecrement,
-    warehouse,
     form,
-  } = useCart();
+  } = useCart({
+    product,
+  });
+  const warehouse = useAppSelector(
+    (state) => state.checkout.warehouseLocation.name
+  );
+  const user = useAppSelector((state) => state.me.me);
 
   const priceList = product?.price_lists?.map((price) => ({
     documentId: price?.documentId,
