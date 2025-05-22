@@ -141,6 +141,18 @@ const ProductsTable: React.FC<ProductTableProps> = ({ products }) => {
       },
     },
     {
+      size: 40,
+      accessorKey: 'brand',
+      header: 'Brand',
+      cell: ({ row }) => {
+        return (
+          <div>
+            <p className="text-xs font-semibold">{row.original?.brand?.name}</p>
+          </div>
+        );
+      },
+    },
+    {
       accessorKey: 'createdAt',
       header: 'Created At',
       size: 40,
@@ -277,37 +289,31 @@ const ProductsTable: React.FC<ProductTableProps> = ({ products }) => {
               ))}
             </TableHeader>
             <TableBody>
-              {table.getRowModel().rows.length > 0 ? (
-                table.getRowModel().rows?.map?.((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && 'selected'}
-                    onClick={() => handleOnClick(row.original?.documentId)}
-                    className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800"
-                  >
-                    {row.getVisibleCells().map((cell) => {
-                      return (
-                        <TableCell
-                          key={cell.id}
-                          colSpan={cell.column.getSize()}
-                          className="py-2 px-2 text-xs border-b border-gray-100 dark:border-gray-800"
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center py-8">
-                    NO AVAILABLE DATA
-                  </TableCell>
-                </TableRow>
-              )}
+              {table.getRowModel().rows.length > 0
+                ? table.getRowModel().rows?.map?.((row) => (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && 'selected'}
+                      onClick={() => handleOnClick(row.original?.documentId)}
+                      className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800"
+                    >
+                      {row.getVisibleCells().map((cell) => {
+                        return (
+                          <TableCell
+                            key={cell.id}
+                            colSpan={cell.column.getSize()}
+                            className="py-2 px-2 text-xs border-b border-gray-100 dark:border-gray-800"
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  ))
+                : null}
             </TableBody>
           </Table>
         </div>

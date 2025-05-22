@@ -655,36 +655,6 @@ export enum Enum_Order_Shippingtype {
   Pickup = 'pickup'
 }
 
-export enum Enum_Specification_Key {
-  BatteryCellTechnology = 'Battery_Cell_Technology',
-  BatteryVoltage = 'Battery_Voltage',
-  Brand = 'Brand',
-  CellTechnology = 'Cell_Technology',
-  Colour = 'Colour',
-  DimensionsLxWxT = 'Dimensions_LxWxT',
-  DimensionsWxHxD = 'Dimensions_WxHxD',
-  GridSupport = 'Grid_Support',
-  IpRating = 'IP_Rating',
-  InverterType = 'Inverter_Type',
-  Length = 'Length',
-  MaxSystemParalleled = 'Max_System_Paralleled',
-  NumberOfMppTs = 'Number_Of_MPPTs',
-  NumberOfStrings = 'Number_Of_Strings',
-  NumberOfBatteryCells = 'Number_of_Battery_Cells',
-  PerformanceWarranty = 'Performance_Warranty',
-  PhaseSupport = 'Phase_Support',
-  PlugConnectorType = 'Plug_Connector_Type',
-  PowerRating = 'Power_Rating',
-  ProductModel = 'Product_Model',
-  ProductSeries = 'Product_Series',
-  ProductWarranty = 'Product_Warranty',
-  QtyPerPallet = 'Qty_Per_Pallet',
-  Thickness = 'Thickness',
-  TotalCapacity = 'Total_Capacity',
-  Wattage = 'Wattage',
-  Weight = 'Weight'
-}
-
 export enum Enum_Userspermissionsuser_Account_Status {
   Approved = 'APPROVED',
   Denied = 'DENIED',
@@ -796,7 +766,6 @@ export type InventoryFiltersInput = {
   createdAt?: InputMaybe<DateTimeFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
   melbourne?: InputMaybe<IntFilterInput>;
-  name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<InventoryFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<InventoryFiltersInput>>>;
   product?: InputMaybe<ProductFiltersInput>;
@@ -809,7 +778,6 @@ export type InventoryFiltersInput = {
 export type InventoryInput = {
   brisbane?: InputMaybe<Scalars['Int']['input']>;
   melbourne?: InputMaybe<Scalars['Int']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
   product?: InputMaybe<Scalars['ID']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   sydney?: InputMaybe<Scalars['Int']['input']>;
@@ -1145,7 +1113,7 @@ export type SpecificationFiltersInput = {
 };
 
 export type SpecificationInput = {
-  key?: InputMaybe<Enum_Specification_Key>;
+  key?: InputMaybe<Scalars['String']['input']>;
   products?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   value?: InputMaybe<Scalars['String']['input']>;
@@ -1466,7 +1434,7 @@ export type CollectionsWithProductsQueryVariables = Exact<{
 }>;
 
 
-export type CollectionsWithProductsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', documentId: string, handle: string, sortOrder?: string | null, productCount?: any | null, image?: { __typename?: 'UploadFile', name: string, alternativeText?: string | null, url: string } | null, productFilters?: Array<{ __typename?: 'ComponentElementsFilterRule', id: string, title?: string | null, handle?: string | null } | null> | null, products: Array<{ __typename?: 'Product', documentId: string, name: string, description?: string | null, product_type?: string | null, model: string, odoo_product_id: string, maxQuantity?: number | null, createdAt?: any | null, updatedAt?: any | null, releasedAt?: any | null, categories: Array<{ __typename?: 'Category', title: string, slug: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null>, brand?: { __typename?: 'Brand', documentId: string, name: string, url: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null, collections: Array<{ __typename?: 'Collection', documentId: string, title?: string | null } | null>, price_lists: Array<{ __typename?: 'Price', documentId: string, price?: number | null, comparePrice?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null } | null>, files: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } | null>, images: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } | null>, specifications: Array<{ __typename?: 'Specification', documentId: string, key: Enum_Specification_Key, value: string } | null>, key_features: Array<{ __typename?: 'KeyFeature', documentId: string, feature?: string | null } | null>, inventory?: { __typename?: 'Inventory', documentId: string, melbourne: number, sydney: number, brisbane: number } | null, shipping?: { __typename?: 'Shipping', documentId: string, height?: number | null, width?: number | null, length?: number | null, weight?: number | null } | null, madeBy?: { __typename?: 'UsersPermissionsUser', email: string } | null, improvedBy?: { __typename?: 'UsersPermissionsUser', email: string } | null } | null> } | null> };
+export type CollectionsWithProductsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'Collection', documentId: string, handle: string, sortOrder?: string | null, productCount?: any | null, image?: { __typename?: 'UploadFile', name: string, alternativeText?: string | null, url: string } | null, productFilters?: Array<{ __typename?: 'ComponentElementsFilterRule', id: string, title?: string | null, handle?: string | null } | null> | null, products: Array<{ __typename?: 'Product', documentId: string, name: string, description?: string | null, product_type?: string | null, model: string, odoo_product_id: string, maxQuantity?: number | null, createdAt?: any | null, updatedAt?: any | null, releasedAt?: any | null, categories: Array<{ __typename?: 'Category', title: string, slug: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null>, brand?: { __typename?: 'Brand', documentId: string, name: string, url: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null, collections: Array<{ __typename?: 'Collection', documentId: string, title?: string | null } | null>, price_lists: Array<{ __typename?: 'Price', documentId: string, price?: number | null, comparePrice?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null } | null>, files: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } | null>, images: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } | null>, specifications: Array<{ __typename?: 'Specification', documentId: string, key: string, value: string } | null>, key_features: Array<{ __typename?: 'KeyFeature', documentId: string, feature?: string | null } | null>, inventory?: { __typename?: 'Inventory', documentId: string, melbourne: number, sydney: number, brisbane: number } | null, shipping?: { __typename?: 'Shipping', documentId: string, height?: number | null, width?: number | null, length?: number | null, weight?: number | null } | null, madeBy?: { __typename?: 'UsersPermissionsUser', email: string } | null, improvedBy?: { __typename?: 'UsersPermissionsUser', email: string } | null } | null> } | null> };
 
 export type FilesQueryVariables = Exact<{
   filters?: InputMaybe<FilesFiltersArgs>;
@@ -1508,14 +1476,14 @@ export type ProductsQueryVariables = Exact<{
 }>;
 
 
-export type ProductsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', documentId: string, name: string, description?: string | null, product_type?: string | null, model: string, odoo_product_id: string, maxQuantity?: number | null, createdAt?: any | null, updatedAt?: any | null, releasedAt?: any | null, categories: Array<{ __typename?: 'Category', title: string, slug: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null>, brand?: { __typename?: 'Brand', documentId: string, name: string, url: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null, collections: Array<{ __typename?: 'Collection', documentId: string, title?: string | null } | null>, price_lists: Array<{ __typename?: 'Price', documentId: string, price?: number | null, comparePrice?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null } | null>, files: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } | null>, images: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } | null>, specifications: Array<{ __typename?: 'Specification', documentId: string, key: Enum_Specification_Key, value: string } | null>, key_features: Array<{ __typename?: 'KeyFeature', documentId: string, feature?: string | null } | null>, inventory?: { __typename?: 'Inventory', documentId: string, melbourne: number, sydney: number, brisbane: number } | null, shipping?: { __typename?: 'Shipping', documentId: string, height?: number | null, width?: number | null, length?: number | null, weight?: number | null } | null, madeBy?: { __typename?: 'UsersPermissionsUser', email: string } | null, improvedBy?: { __typename?: 'UsersPermissionsUser', email: string } | null } | null> };
+export type ProductsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', documentId: string, name: string, description?: string | null, product_type?: string | null, model: string, odoo_product_id: string, maxQuantity?: number | null, createdAt?: any | null, updatedAt?: any | null, releasedAt?: any | null, categories: Array<{ __typename?: 'Category', title: string, slug: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null>, brand?: { __typename?: 'Brand', documentId: string, name: string, url: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null, collections: Array<{ __typename?: 'Collection', documentId: string, title?: string | null } | null>, price_lists: Array<{ __typename?: 'Price', documentId: string, price?: number | null, comparePrice?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null } | null>, files: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } | null>, images: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } | null>, specifications: Array<{ __typename?: 'Specification', documentId: string, key: string, value: string } | null>, key_features: Array<{ __typename?: 'KeyFeature', documentId: string, feature?: string | null } | null>, inventory?: { __typename?: 'Inventory', documentId: string, melbourne: number, sydney: number, brisbane: number } | null, shipping?: { __typename?: 'Shipping', documentId: string, height?: number | null, width?: number | null, length?: number | null, weight?: number | null } | null, madeBy?: { __typename?: 'UsersPermissionsUser', email: string } | null, improvedBy?: { __typename?: 'UsersPermissionsUser', email: string } | null } | null> };
 
 export type ProductQueryVariables = Exact<{
   documentId: Scalars['ID']['input'];
 }>;
 
 
-export type ProductQuery = { __typename?: 'Query', product?: { __typename?: 'Product', documentId: string, name: string, description?: string | null, product_type?: string | null, model: string, odoo_product_id: string, maxQuantity?: number | null, createdAt?: any | null, updatedAt?: any | null, releasedAt?: any | null, categories: Array<{ __typename?: 'Category', title: string, slug: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null>, brand?: { __typename?: 'Brand', documentId: string, name: string, url: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null, collections: Array<{ __typename?: 'Collection', documentId: string, title?: string | null } | null>, price_lists: Array<{ __typename?: 'Price', documentId: string, price?: number | null, comparePrice?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null } | null>, files: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } | null>, images: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } | null>, specifications: Array<{ __typename?: 'Specification', documentId: string, key: Enum_Specification_Key, value: string } | null>, key_features: Array<{ __typename?: 'KeyFeature', documentId: string, feature?: string | null } | null>, inventory?: { __typename?: 'Inventory', documentId: string, melbourne: number, sydney: number, brisbane: number } | null, shipping?: { __typename?: 'Shipping', documentId: string, height?: number | null, width?: number | null, length?: number | null, weight?: number | null } | null } | null };
+export type ProductQuery = { __typename?: 'Query', product?: { __typename?: 'Product', documentId: string, name: string, description?: string | null, product_type?: string | null, model: string, odoo_product_id: string, maxQuantity?: number | null, createdAt?: any | null, updatedAt?: any | null, releasedAt?: any | null, categories: Array<{ __typename?: 'Category', title: string, slug: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null>, brand?: { __typename?: 'Brand', documentId: string, name: string, url: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null, collections: Array<{ __typename?: 'Collection', documentId: string, title?: string | null } | null>, price_lists: Array<{ __typename?: 'Price', documentId: string, price?: number | null, comparePrice?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null } | null>, files: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } | null>, images: Array<{ __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } | null>, specifications: Array<{ __typename?: 'Specification', documentId: string, key: string, value: string } | null>, key_features: Array<{ __typename?: 'KeyFeature', documentId: string, feature?: string | null } | null>, inventory?: { __typename?: 'Inventory', documentId: string, melbourne: number, sydney: number, brisbane: number } | null, shipping?: { __typename?: 'Shipping', documentId: string, height?: number | null, width?: number | null, length?: number | null, weight?: number | null } | null } | null };
 
 export type BrandsQueryVariables = Exact<{
   filters?: InputMaybe<BrandFiltersInput>;
@@ -1532,14 +1500,14 @@ export type CategoriesQuery = { __typename?: 'Query', categories: Array<{ __type
 export type SpecificationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SpecificationsQuery = { __typename?: 'Query', specifications: Array<{ __typename?: 'Specification', documentId: string, key: Enum_Specification_Key, value: string } | null> };
+export type SpecificationsQuery = { __typename?: 'Query', specifications: Array<{ __typename?: 'Specification', documentId: string, key: string, value: string } | null> };
 
 export type CustomProductCreateMutationVariables = Exact<{
   data: ProductInput;
 }>;
 
 
-export type CustomProductCreateMutation = { __typename?: 'Mutation', customProductCreate?: { __typename?: 'Product', documentId: string, name: string, model: string, description?: string | null, odoo_product_id: string, maxQuantity?: number | null, createdAt?: any | null, updatedAt?: any | null, releasedAt?: any | null, brand?: { __typename?: 'Brand', name: string, url: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null, collections: Array<{ __typename?: 'Collection', documentId: string, title?: string | null } | null>, inventory?: { __typename?: 'Inventory', documentId: string, melbourne: number, sydney: number, brisbane: number } | null, price_lists: Array<{ __typename?: 'Price', documentId: string, price?: number | null, comparePrice?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null } | null>, files: Array<{ __typename?: 'UploadFile', documentId: string, mime: string, name: string, url: string, alternativeText?: string | null } | null>, images: Array<{ __typename?: 'UploadFile', documentId: string, mime: string, name: string, url: string, alternativeText?: string | null } | null>, specifications: Array<{ __typename?: 'Specification', documentId: string, key: Enum_Specification_Key, value: string } | null>, key_features: Array<{ __typename?: 'KeyFeature', documentId: string, feature?: string | null } | null>, shipping?: { __typename?: 'Shipping', documentId: string, width?: number | null, height?: number | null, weight?: number | null, length?: number | null } | null } | null };
+export type CustomProductCreateMutation = { __typename?: 'Mutation', customProductCreate?: { __typename?: 'Product', documentId: string, name: string, model: string, description?: string | null, odoo_product_id: string, maxQuantity?: number | null, createdAt?: any | null, updatedAt?: any | null, releasedAt?: any | null, brand?: { __typename?: 'Brand', name: string, url: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null, collections: Array<{ __typename?: 'Collection', documentId: string, title?: string | null } | null>, inventory?: { __typename?: 'Inventory', documentId: string, melbourne: number, sydney: number, brisbane: number } | null, price_lists: Array<{ __typename?: 'Price', documentId: string, price?: number | null, comparePrice?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null } | null>, files: Array<{ __typename?: 'UploadFile', documentId: string, mime: string, name: string, url: string, alternativeText?: string | null } | null>, images: Array<{ __typename?: 'UploadFile', documentId: string, mime: string, name: string, url: string, alternativeText?: string | null } | null>, specifications: Array<{ __typename?: 'Specification', documentId: string, key: string, value: string } | null>, key_features: Array<{ __typename?: 'KeyFeature', documentId: string, feature?: string | null } | null>, shipping?: { __typename?: 'Shipping', documentId: string, width?: number | null, height?: number | null, weight?: number | null, length?: number | null } | null } | null };
 
 export type CustomProductUpdateMutationVariables = Exact<{
   documentId: Scalars['ID']['input'];
@@ -1547,7 +1515,7 @@ export type CustomProductUpdateMutationVariables = Exact<{
 }>;
 
 
-export type CustomProductUpdateMutation = { __typename?: 'Mutation', customProductUpdate?: { __typename?: 'Product', documentId: string, name: string, model: string, description?: string | null, odoo_product_id: string, maxQuantity?: number | null, createdAt?: any | null, updatedAt?: any | null, releasedAt?: any | null, brand?: { __typename?: 'Brand', name: string, url: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null, collections: Array<{ __typename?: 'Collection', documentId: string, title?: string | null } | null>, inventory?: { __typename?: 'Inventory', documentId: string, melbourne: number, sydney: number, brisbane: number } | null, price_lists: Array<{ __typename?: 'Price', documentId: string, price?: number | null, comparePrice?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null } | null>, files: Array<{ __typename?: 'UploadFile', documentId: string, mime: string, name: string, url: string, alternativeText?: string | null } | null>, images: Array<{ __typename?: 'UploadFile', documentId: string, mime: string, name: string, url: string, alternativeText?: string | null } | null>, specifications: Array<{ __typename?: 'Specification', documentId: string, key: Enum_Specification_Key, value: string } | null>, key_features: Array<{ __typename?: 'KeyFeature', documentId: string, feature?: string | null } | null>, shipping?: { __typename?: 'Shipping', documentId: string, width?: number | null, height?: number | null, weight?: number | null, length?: number | null } | null, improvedBy?: { __typename?: 'UsersPermissionsUser', email: string } | null, madeBy?: { __typename?: 'UsersPermissionsUser', email: string } | null } | null };
+export type CustomProductUpdateMutation = { __typename?: 'Mutation', customProductUpdate?: { __typename?: 'Product', documentId: string, name: string, model: string, description?: string | null, odoo_product_id: string, maxQuantity?: number | null, createdAt?: any | null, updatedAt?: any | null, releasedAt?: any | null, brand?: { __typename?: 'Brand', name: string, url: string, image: { __typename?: 'UploadFile', documentId: string, name: string, alternativeText?: string | null, width?: number | null, height?: number | null, mime: string, url: string } } | null, collections: Array<{ __typename?: 'Collection', documentId: string, title?: string | null } | null>, inventory?: { __typename?: 'Inventory', documentId: string, melbourne: number, sydney: number, brisbane: number } | null, price_lists: Array<{ __typename?: 'Price', documentId: string, price?: number | null, comparePrice?: number | null, min_quantity?: number | null, max_quantity?: number | null, user_level?: string | null } | null>, files: Array<{ __typename?: 'UploadFile', documentId: string, mime: string, name: string, url: string, alternativeText?: string | null } | null>, images: Array<{ __typename?: 'UploadFile', documentId: string, mime: string, name: string, url: string, alternativeText?: string | null } | null>, specifications: Array<{ __typename?: 'Specification', documentId: string, key: string, value: string } | null>, key_features: Array<{ __typename?: 'KeyFeature', documentId: string, feature?: string | null } | null>, shipping?: { __typename?: 'Shipping', documentId: string, width?: number | null, height?: number | null, weight?: number | null, length?: number | null } | null, improvedBy?: { __typename?: 'UsersPermissionsUser', email: string } | null, madeBy?: { __typename?: 'UsersPermissionsUser', email: string } | null } | null };
 
 export type DeleteProductMutationVariables = Exact<{
   documentId: Scalars['ID']['input'];
@@ -1605,7 +1573,7 @@ export type CreateSpecificationMutationVariables = Exact<{
 }>;
 
 
-export type CreateSpecificationMutation = { __typename?: 'Mutation', createSpecification?: { __typename?: 'Specification', documentId: string, key: Enum_Specification_Key, value: string, createdAt?: any | null, updatedAt?: any | null } | null };
+export type CreateSpecificationMutation = { __typename?: 'Mutation', createSpecification?: { __typename?: 'Specification', documentId: string, key: string, value: string, createdAt?: any | null, updatedAt?: any | null } | null };
 
 export type UpdateSpecificationMutationVariables = Exact<{
   documentId: Scalars['ID']['input'];
@@ -1613,7 +1581,7 @@ export type UpdateSpecificationMutationVariables = Exact<{
 }>;
 
 
-export type UpdateSpecificationMutation = { __typename?: 'Mutation', updateSpecification?: { __typename?: 'Specification', documentId: string, key: Enum_Specification_Key, value: string, createdAt?: any | null, updatedAt?: any | null } | null };
+export type UpdateSpecificationMutation = { __typename?: 'Mutation', updateSpecification?: { __typename?: 'Specification', documentId: string, key: string, value: string, createdAt?: any | null, updatedAt?: any | null } | null };
 
 export type DeleteSpecificationMutationVariables = Exact<{
   documentId: Scalars['ID']['input'];

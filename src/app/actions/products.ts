@@ -15,7 +15,6 @@ import {
   UpdateInventoryMutation,
   CreateSpecificationMutation,
   DeleteSpecificationMutation,
-  Enum_Specification_Key,
   UpdateSpecificationMutation,
   DeletePriceMutation,
   DeleteInventoryMutation,
@@ -97,10 +96,15 @@ export const product = async (
   }
 };
 
-export const createProducts = async (data: string) => {
+export const createProducts = async (
+  data: string
+): Promise<{
+  data?: FetchResult<CustomProductCreateMutation>[];
+  error?: GraphQLException | Error;
+}> => {
   const inputData = JSON.parse(data);
   try {
-    const remakeData = await Promise.all(
+    const remakedProductsData = await Promise.all(
       inputData.map(async (item: any) => {
         const shippingData = JSON.stringify({
           data: {
@@ -108,22 +112,56 @@ export const createProducts = async (data: string) => {
           },
         });
 
-        // console.log('shippingData', item.data.specifications);
-        // const specificationsData = JSON.stringify(item.data.specifications);
-        const [shipping] = await Promise.all([
-          createShipping(shippingData),
-          // createSpecification(specificationsData),
-          // createPrice(priceData),
-        ]);
+        const inventoryData = JSON.stringify({
+          data: {
+            ...item.data.inventory,
+          },
+        });
 
-        // console.log('specifications', specifications);
+        const [shipping, inventory, specifications, keyFeatures] =
+          await Promise.all([
+            createShipping(shippingData),
+            createInventory(inventoryData),
+            createSpecification(JSON.stringify(item.data.specifications)),
+            createKeyFeature(JSON.stringify(item.data.key_features)),
+          ]);
+
+        const shippingId = shipping.data?.createShipping?.documentId;
+        const inventoryId = inventory.data?.createInventory?.documentId;
+
+        const specificationsIds = specifications.map(
+          (spec) => spec.data?.createSpecification?.documentId
+        );
+
+        const keyFeaturesIds = keyFeatures.map(
+          (feature) => feature.data?.createKeyFeature?.documentId
+        );
 
         return {
-          ...item,
-          shipping: shipping.data?.createShipping?.documentId,
+          ...item.data,
+          shipping: shippingId,
+          inventory: inventoryId,
+          specifications: specificationsIds,
+          key_features: keyFeaturesIds,
         };
       })
     );
+
+    // console.log('remakedProductsData', remakedProductsData);
+
+    const res = await Promise.all(
+      remakedProductsData.map(async (product) => {
+        const res = await createProduct(
+          JSON.stringify({ data: { ...product } })
+        );
+        return res;
+      })
+    );
+
+    return res as {
+      data?: FetchResult<CustomProductCreateMutation>[];
+      error?: GraphQLException | Error;
+    };
   } catch (error: any) {
     console.log('ERROR OBJECT', Object.keys(error));
     const errorMessage = handleGraphQLError(error);
@@ -431,25 +469,23 @@ export const createSpecification = async (
 
   try {
     const res = (await Promise.all(
-      inputData.map(
-        async (item: { key: Enum_Specification_Key; value: string }) => {
-          const mutateRes = await client.mutate({
-            mutation: PRODUCT_OPERATIONS.Mutation.createSpecification,
-            variables: {
-              data: {
-                key: item.key as Enum_Specification_Key,
-                value: item.value,
-              },
+      inputData.map(async (item: { key: string; value: string }) => {
+        const mutateRes = await client.mutate({
+          mutation: PRODUCT_OPERATIONS.Mutation.createSpecification,
+          variables: {
+            data: {
+              key: item.key,
+              value: item.value,
             },
-            context: {
-              headers: {
-                Authorization: `Bearer ${token?.value}`,
-              },
+          },
+          context: {
+            headers: {
+              Authorization: `Bearer ${token?.value}`,
             },
-          });
-          return mutateRes;
-        }
-      )
+          },
+        });
+        return mutateRes;
+      })
     )) as unknown as Promise<FetchResult<CreateSpecificationMutation>[]>;
     return res;
   } catch (error: any) {
@@ -471,17 +507,13 @@ export const updateSpecification = async (
   try {
     const res = (await Promise.all(
       inputData.map(
-        async (item: {
-          documentId: string;
-          key: Enum_Specification_Key;
-          value: string;
-        }) => {
+        async (item: { documentId: string; key: string; value: string }) => {
           const mutateRes = await client.mutate({
             mutation: PRODUCT_OPERATIONS.Mutation.updateSpecification,
             variables: {
               documentId: item.documentId,
               data: {
-                key: item.key as Enum_Specification_Key,
+                key: item.key,
                 value: item.value,
               },
             },

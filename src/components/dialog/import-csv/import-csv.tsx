@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FileUpload from '@/components/dialog/import-csv/file-upload';
 import Papa from 'papaparse';
 import { createProducts } from '@/app/actions/products';
@@ -23,6 +23,7 @@ const ImportCSV = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState<any[]>([]);
   const [file, setFile] = useState<File | undefined>(undefined);
+  const [open, setOpen] = useState(false);
 
   const handleInputChange = (e: InputChangeEvent) => {
     const file = e.target.files?.[0];
@@ -49,6 +50,16 @@ const ImportCSV = () => {
                 }
               }
 
+              const keyFeatures = item['Key Features']
+                .split(';')
+                .filter((feature: string) => feature.trim() !== '')
+                .map((feature: string) => ({
+                  feature,
+                }));
+
+              const maxQuantity =
+                Number(item['Max QTY for Shipping Autocalc']) || null;
+
               return {
                 data: {
                   name: item.Title,
@@ -57,19 +68,28 @@ const ImportCSV = () => {
                   description: item['HTML Description'],
                   product_type: item['Product Type'],
                   // brand: item['Brand'],
-                  maxQuantity:
-                    Number(item['Max QTY for Shipping Autocalc']) || null,
                   shipping: {
                     weight: Number(item['Ship Weight (kg)']) || 0,
                     length: Number(item['Ship Length (cm)']) || 0,
                     width: Number(item['Ship Width (cm)']) || 0,
                     height: Number(item['Ship Height (cm)']) || 0,
                   },
-                  specifications,
+                  inventory: {
+                    melbourne: 0,
+                    sydney: 0,
+                    brisbane: 0,
+                  },
+                  key_features: keyFeatures,
+                  specifications: specifications,
+                  maxQuantity: maxQuantity,
                 },
               };
             });
+
           console.log(filtered);
+          // console.log(
+          //   data.filter((row) => row.Title && String(row.Title).trim() !== '')
+          // );
           setProducts(filtered);
         },
         error: (error) => {
@@ -83,16 +103,36 @@ const ImportCSV = () => {
   const handleSubmit = async () => {
     setIsLoading(true);
     await bulkProducsCreate(products);
+    setOpen(false); // Close dialog after successful upload
   };
 
   const bulkProducsCreate = async (products: any[]) => {
     const res = await createProducts(JSON.stringify(products));
-    console.log(res);
-    setIsLoading(false);
+
+    // Check if we have a successful response
+    if (res && !res.error) {
+      setIsLoading(false);
+      setOpen(false);
+      Toast('Products imported successfully', 'SUCCESS', {
+        position: 'top-center',
+      });
+    } else {
+      setIsLoading(false);
+      Toast('Failed to import products', 'ERROR', {
+        position: 'top-center',
+      });
+    }
   };
 
+  useEffect(() => {
+    return () => {
+      setProducts([]);
+      setFile(undefined);
+    };
+  }, []);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button type="button" variant="outline" size="sm">
           Import

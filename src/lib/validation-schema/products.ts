@@ -62,7 +62,7 @@ const shippingSchema = z
 export const addProductSchema = z.object({
   name: z.string().min(1, { message: 'Required' }),
   description: z.string().nullable(),
-  model: z.string().min(1, { message: 'Required' }),
+  model: z.string().nullable(),
   odoo_product_id: z.string().min(1, { message: 'Required' }),
   product_type: z.string().nullable(),
   status: z.string(),
