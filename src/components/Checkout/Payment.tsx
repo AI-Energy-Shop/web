@@ -13,8 +13,8 @@ import {
   Enum_Order_Paymentmethod,
   GetCheckoutUserDataQuery,
 } from '@/lib/gql/graphql';
-import CreditCardChangeDialog from './CreditCardPayment/CreditCardChangeDialog';
-import { CreditCard } from './CreditCardPayment/CreditCard';
+import CreditCardChangeDialog from './CardPayment/CreditCardChangeDialog';
+import { CreditCard } from './CardPayment/Card';
 
 interface PaymentProps {
   checkoutUserData: GetCheckoutUserDataQuery;
@@ -134,10 +134,10 @@ const Payment: React.FC<PaymentProps> = ({ checkoutUserData }) => {
                   </p>
                 </div>
                 <CreditCard
-                  brand={defaultCreditCard?.brand!}
-                  last4Char={defaultCreditCard?.last4Char!}
-                  expMonth={defaultCreditCard?.expMonth!}
-                  expYear={defaultCreditCard?.expYear!}
+                  brand={defaultCreditCard?.brand || ''}
+                  last4Char={defaultCreditCard?.last4Char || ''}
+                  expMonth={defaultCreditCard?.expMonth || ''}
+                  expYear={defaultCreditCard?.expYear || ''}
                   isDefault
                 />
               </div>

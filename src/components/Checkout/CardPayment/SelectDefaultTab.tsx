@@ -153,9 +153,11 @@ function SelectDefaultTab({ checkoutUserData }: SelectDefaultTabProps) {
             )}
           />
         </div>
-        <div className="flex justify-end">
-          <Button type="submit">Save Changes</Button>
-        </div>
+        {(cards?.length || 0) > 0 && (
+          <div className="flex justify-end">
+            <Button type="submit">Save Changes</Button>
+          </div>
+        )}
       </form>
     </Form>
   );

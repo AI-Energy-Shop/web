@@ -4,11 +4,11 @@ import { cn } from '@/lib/utils';
 import { CreditCardIcon, CheckCircle2 } from 'lucide-react';
 
 interface CreditCardProps {
-  brand: string;
-  last4Char: string;
-  expMonth: string;
-  expYear: string;
-  isDefault: boolean;
+  brand?: string;
+  last4Char?: string;
+  expMonth?: string;
+  expYear?: string;
+  isDefault?: boolean;
 }
 
 export function CreditCard({
@@ -18,7 +18,11 @@ export function CreditCard({
   expYear,
   isDefault,
 }: CreditCardProps) {
-  const formattedExpMonth = expMonth.toString().padStart(2, '0');
+  const formattedExpMonth = expMonth?.toString().padStart(2, '0');
+
+  if (!brand) {
+    return <h1 className="text-center font-semibold">Please add an card</h1>;
+  }
 
   return (
     <Card
@@ -32,7 +36,7 @@ export function CreditCard({
           <div className="h-10 flex items-center">
             <CreditCardIcon className="h-8 w-8 text-blue-600" />
             <span className="ml-1 text-blue-800 font-bold text-lg">
-              {brand.toUpperCase()}
+              {brand?.toUpperCase()}
             </span>
           </div>
           {isDefault && (
@@ -56,7 +60,7 @@ export function CreditCard({
             <div>
               <p className="text-sm text-muted-foreground">Expiration Date</p>
               <p className="font-medium">
-                {formattedExpMonth}/{expYear.toString().slice(-2)}
+                {formattedExpMonth}/{expYear?.toString().slice(-2)}
               </p>
             </div>
 
