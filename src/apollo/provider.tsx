@@ -19,13 +19,13 @@ function makeClient() {
     fetchOptions: { cache: 'no-store' },
   });
 
+  const token = document.cookie
+    .split('; ')
+    .find((row) => row.startsWith('a-token='))
+    ?.split('=')[1];
   // Since we're using cookies, we just need to ensure they're included in the request
   const authLink = setContext(
     (_: unknown, { headers }: { headers?: Record<string, string> }) => {
-      const token = document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('a-token='))
-        ?.split('=')[1];
       return {
         headers: {
           ...headers,
@@ -37,7 +37,7 @@ function makeClient() {
 
   return new ApolloClient({
     cache: new InMemoryCache(),
-    link: authLink.concat(httpLink),
+    link: token ? authLink.concat(httpLink) : httpLink,
     credentials: 'include', // This ensures cookies are sent with requests
   });
 }

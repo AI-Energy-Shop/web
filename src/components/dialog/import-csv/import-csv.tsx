@@ -11,13 +11,16 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import React, { useState } from 'react';
-import { UploadFile } from '@/hooks/useProductDetails';
 import FileUpload from '@/components/dialog/import-csv/file-upload';
 import Papa from 'papaparse';
+import { createProducts } from '@/app/actions/products';
+import { Loader2 } from 'lucide-react';
+import { Toast } from '@/lib/toast';
 
 type InputChangeEvent = React.ChangeEvent<HTMLInputElement>;
 
 const ImportCSV = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState<any[]>([]);
   const [file, setFile] = useState<File | undefined>(undefined);
 
@@ -27,21 +30,47 @@ const ImportCSV = () => {
       Papa.parse(file, {
         header: true, // Use the first row as keys
         skipEmptyLines: true, // Optional: skips empty lines
-        complete: (results) => {
+        complete: async (results) => {
           // Cast results.data to an array of objects
           const data = results.data as Record<string, any>[];
-          const filtered = data.filter(
-            (row) => row.Title && String(row.Title).trim() !== ''
-          );
-          // .map((row) => ({
-          //   title: row.Title,
-          //   price: row.Price,
-          //   description: row.Description,
-          //   image: row.Image,
-          //   category: row.Category,
-          // }));
+
+          const filtered = data
+            .filter((row) => row.Title && String(row.Title).trim() !== '')
+            .map((item: any) => {
+              const specifications = [];
+              for (let i = 1; i <= 13; i++) {
+                const key = item[`Spec${i} Key`];
+                const value = item[`Spec${i} Value`];
+                if (key && value && key.trim() !== '' && value.trim() !== '') {
+                  specifications.push({
+                    key: key.trim(),
+                    value: value.trim(),
+                  });
+                }
+              }
+
+              return {
+                data: {
+                  name: item.Title,
+                  model: item['Model'],
+                  odoo_product_id: item['Odoo ID'],
+                  description: item['HTML Description'],
+                  product_type: item['Product Type'],
+                  // brand: item['Brand'],
+                  maxQuantity:
+                    Number(item['Max QTY for Shipping Autocalc']) || null,
+                  shipping: {
+                    weight: Number(item['Ship Weight (kg)']) || 0,
+                    length: Number(item['Ship Length (cm)']) || 0,
+                    width: Number(item['Ship Width (cm)']) || 0,
+                    height: Number(item['Ship Height (cm)']) || 0,
+                  },
+                  specifications,
+                },
+              };
+            });
           console.log(filtered);
-          // setProducts(filtered);
+          setProducts(filtered);
         },
         error: (error) => {
           console.error('Error parsing CSV:', error);
@@ -49,6 +78,17 @@ const ImportCSV = () => {
       });
       setFile(file);
     }
+  };
+
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    await bulkProducsCreate(products);
+  };
+
+  const bulkProducsCreate = async (products: any[]) => {
+    const res = await createProducts(JSON.stringify(products));
+    console.log(res);
+    setIsLoading(false);
   };
 
   return (
@@ -81,8 +121,14 @@ const ImportCSV = () => {
               Cancel
             </Button>
           </DialogClose>
-          <Button disabled={products.length === 0} type="submit" size="sm">
-            Upload
+          <Button
+            size="sm"
+            type="submit"
+            onClick={handleSubmit}
+            disabled={products.length === 0}
+          >
+            {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+            {isLoading ? 'Uploading...' : 'Upload'}
           </Button>
         </DialogFooter>
       </DialogContent>

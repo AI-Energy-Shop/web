@@ -19,7 +19,7 @@ const BreadcrumbButton = () => {
   return (
     <div className="max-w-[1200px] mx-auto md:py-5 lg:py-5">
       <Breadcrumb>
-        <BreadcrumbList className="list-none">
+        <BreadcrumbList className="list-none p-0">
           {pathSegments.map((segment, index) => {
             const display =
               index === 0

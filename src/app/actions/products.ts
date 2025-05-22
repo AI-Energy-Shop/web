@@ -97,6 +97,42 @@ export const product = async (
   }
 };
 
+export const createProducts = async (data: string) => {
+  const inputData = JSON.parse(data);
+  try {
+    const remakeData = await Promise.all(
+      inputData.map(async (item: any) => {
+        const shippingData = JSON.stringify({
+          data: {
+            ...item.data.shipping,
+          },
+        });
+
+        // console.log('shippingData', item.data.specifications);
+        // const specificationsData = JSON.stringify(item.data.specifications);
+        const [shipping] = await Promise.all([
+          createShipping(shippingData),
+          // createSpecification(specificationsData),
+          // createPrice(priceData),
+        ]);
+
+        // console.log('specifications', specifications);
+
+        return {
+          ...item,
+          shipping: shipping.data?.createShipping?.documentId,
+        };
+      })
+    );
+  } catch (error: any) {
+    console.log('ERROR OBJECT', Object.keys(error));
+    const errorMessage = handleGraphQLError(error);
+    return {
+      error: { ...errorMessage },
+    };
+  }
+};
+
 export const createProduct = async (
   data: string
 ): Promise<{
@@ -126,8 +162,9 @@ export const createProduct = async (
       data: res,
     };
   } catch (error: any) {
-    console.log('error in create product', error);
     const errorMessage = handleGraphQLError(error);
+    console.log('error in create product', Object.keys(error.cause));
+    console.log('error in create product', error.cause.result.errors);
     return {
       error: { ...errorMessage },
     };
@@ -416,8 +453,10 @@ export const createSpecification = async (
     )) as unknown as Promise<FetchResult<CreateSpecificationMutation>[]>;
     return res;
   } catch (error: any) {
+    console.log('ERROR OBJECT', Object.keys(error.cause));
+    console.log('error', error.cause.result.errors);
     const errorMessage = handleGraphQLError(error);
-    console.log('errorMessage', errorMessage);
+    // console.log('errorMessage', errorMessage);
     return error;
   }
 };
@@ -600,7 +639,6 @@ export const createShipping = async (
   const inputData = JSON.parse(data);
   const cookieStore = cookies();
   const token = cookieStore.get('a-token');
-  console.log(inputData);
   try {
     const res = await client.mutate({
       mutation: PRODUCT_OPERATIONS.Mutation.createShipping,

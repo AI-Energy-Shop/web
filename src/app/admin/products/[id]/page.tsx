@@ -6,24 +6,30 @@ import { Suspense } from 'react';
 export default async function ProductPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
-  const { id } = await params;
+  const { id } = params;
+
   if (!id) {
     redirect('/not-found');
   }
 
-  const { data, errors } = await product(id);
+  try {
+    const { data, errors } = await product(id);
 
-  if (errors) {
-    return <div>ERROR {errors.toString()} </div>;
+    if (errors || !data) {
+      throw new Error(errors?.toString() || 'No data found');
+    }
+
+    return (
+      <Suspense fallback={<p>Loading...</p>}>
+        <div className="h-auto w-full bg-gray-100 dark:bg-gray-900">
+          <Components.Cards.ProductsDetails id={id} product={data?.product} />
+        </div>
+      </Suspense>
+    );
+  } catch (error) {
+    // This will trigger the error boundary
+    throw error;
   }
-
-  return (
-    <Suspense fallback={<p>Loading...</p>}>
-      <div className="h-auto w-full bg-gray-100 dark:bg-gray-900">
-        <Components.Cards.ProductsDetails id={id} product={data?.product} />
-      </div>
-    </Suspense>
-  );
 }

@@ -13,7 +13,6 @@ import {
   createSpecification,
   updateSpecification,
   deleteSpecification,
-  deleteInventory,
   deletePrice,
   updateKeyFeature,
   createKeyFeature,
