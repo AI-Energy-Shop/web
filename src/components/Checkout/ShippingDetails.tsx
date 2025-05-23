@@ -38,7 +38,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     handleEditClick,
     isCartNeededManualQuote,
     carts,
-  } = useCart();
+  } = useCart({});
 
   const {
     warehouseLocation,

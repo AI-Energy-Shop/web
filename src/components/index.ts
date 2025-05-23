@@ -1,5 +1,5 @@
 import NavigationWrapper from './navigation-wrapper';
-import Sections from './sections';
+import Sections from './Sections';
 import Accordion from './custom-ui/Accordion/Accordion';
 import Forms from './forms';
 import LoadingAnimation from './custom-ui/LoadingAnimation';

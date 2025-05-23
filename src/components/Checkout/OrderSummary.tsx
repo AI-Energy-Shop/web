@@ -14,7 +14,7 @@ interface OrderSummaryProps {
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
   const { user } = useMe();
-  const { carts } = useCart();
+  const { carts } = useCart({});
   const { subtotal, totalGst, total } = getCartTotals(carts, 0.0, 0.0, {
     userLevel: user?.account_detail?.level,
   });

@@ -1,14 +1,13 @@
 'use client';
 import React from 'react';
-import { Cart } from '@/store/features/cart';
 import { formatCurrency } from '@/utils/cart';
 import CartItemCard from '@/components/Checkout/CartItemCard';
 import useMe from '@/hooks/useMe';
-import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
+import { CartsQuery, GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
 import { useCheckout } from '@/hooks/useCheckout';
 
 interface CartItemsProps {
-  data: Cart[];
+  data: CartsQuery[];
   onChange: (id: string, e: React.ChangeEvent<HTMLInputElement>) => void;
   onReduceQuant: (id: string) => void;
   onAddQuant: (id: string) => void;

@@ -29,7 +29,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
   checkoutUserData: cartProductQuantity,
 }) => {
   const dispatch = useAppDispatch();
-  const { carts, paymentStep, removeItemFromCart } = useCart();
+  const { carts, paymentStep, removeItemFromCart } = useCart({});
   const [showModal, setShowModal] = useState<boolean>(false);
   const [toRemoveItemId, setToRemoveItemId] = useState<string | undefined>(
     undefined
@@ -272,7 +272,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
           </div>
           <CartItems
             cartProductQuantity={cartProductQuantity}
-            data={carts}
+            data={[]}
             onChange={handleChange}
             onReduceQuant={handleReduceQuant}
             onAddQuant={handleAddQuant}

@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 
 const schema = {
   Query: {
-    carts: gql(`
+    carts: graphql(`
       query Carts($filters: CartFiltersInput, $pagination: PaginationArg) {
         carts(filters: $filters, pagination: $pagination) {
           documentId
