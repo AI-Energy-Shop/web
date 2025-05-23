@@ -17,7 +17,6 @@ import {
 import {
   CollectionsWithProductsQuery,
   CollectionsWithProductsQueryVariables,
-  ComponentElementsFilterRuleInput,
   ProductsQuery,
 } from '@/lib/gql/graphql';
 import { useAppDispatch, useAppSelector } from '@/store/store';
@@ -29,6 +28,7 @@ import {
   setSelectedFilters,
   setCurrentSelectedFilter,
 } from '@/store/features/products';
+import { PAGINATION_SEARCH_PARAMS } from '@/constant/navigations';
 
 export interface FilterOption {
   value: string;
@@ -84,13 +84,16 @@ const useProductFilter = () => {
     CollectionsWithProductsQuery,
     CollectionsWithProductsQueryVariables
   >(COLLECTION_OPERATION.Query.collectionsWithProducts, {
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: 'network-only',
     variables: {
       collectionsFilters: collectionFilters || { handle: { eq: 'all' } },
       productsFilters: productFilters,
       productsPagination: {},
     },
-    notifyOnNetworkStatusChange: true,
-    fetchPolicy: 'no-cache',
+    onError: (error) => {
+      console.log('error', error);
+    },
   });
 
   const extractFilters = useCallback(
@@ -362,6 +365,46 @@ const useProductFilter = () => {
     // router.push(`${pathname}?sort=${value}`, { scroll: false });
   };
 
+  function generateParams(filterValue: string, searchParam: string) {
+    // Get current params and filter out pagination parameters
+    let current = searchParams.toString();
+    const currentParams = searchParams
+      .toString()
+      .split('&')
+      .filter((entry) => {
+        const [currentParamKey, _] = entry.split('=');
+        // Filter out pagination parameters (page, limit, etc.)
+        return !PAGINATION_SEARCH_PARAMS.includes(`${currentParamKey}`);
+      })
+      .map((entry) => {
+        const [_, rawValue] = entry.split('=');
+        return rawValue?.replaceAll('+', ' ');
+      });
+
+    const updatedParams = currentParams.includes(filterValue)
+      ? current
+          .split('&')
+          .filter((entry) => {
+            const [key, rawValue] = entry.split('=');
+            // Skip pagination parameters
+            if (PAGINATION_SEARCH_PARAMS.includes(key)) return false;
+            if (rawValue && rawValue.replaceAll('+', ' ') == filterValue) {
+              return false;
+            }
+            return true;
+          })
+          .join('&')
+      : [
+          ...current.split('&').filter((entry) => {
+            const [key] = entry.split('=');
+            return !PAGINATION_SEARCH_PARAMS.includes(key);
+          }),
+          searchParam,
+        ].join('&');
+
+    return updatedParams;
+  }
+
   const handleFilterClick = useCallback(
     ({ key, value }: SelectedFilter) => {
       if (loading) return;
@@ -375,41 +418,18 @@ const useProductFilter = () => {
       const currentFilter = { id: `${filterKey}-${Date.now()}`, key, value };
       dispatch(setCurrentSelectedFilter(currentFilter));
 
-      let current = searchParams.toString();
-      let currentParams = searchParams
-        .toString()
-        .split('&')
-        .map((entry) => {
-          const [_, rawValue] = entry.split('=');
-          return rawValue?.replaceAll('+', ' ');
-        });
+      const updatedParams = generateParams(filterValue, searchParam);
 
-      // Preserve sort parameter if it exists
-      // const sortParam = searchParams.get('sort');
-      // const sortQuery = sortParam ? `sort=${sortParam}` : '';
-      const updatedParams = currentParams.includes(filterValue)
-        ? current
-            .split('&')
-            .filter((entry) => {
-              const [_, rawValue] = entry.split('=');
-              if (rawValue && rawValue.replaceAll('+', ' ') == filterValue) {
-                return false;
-              }
-              return true;
-            })
-            .join('&')
-        : [...current.split('&'), searchParam].join('&');
-
-      // Combine filter params with sort param
       const finalParams = [updatedParams].filter(Boolean).join('&');
       const url = `${pathname}?${finalParams}`;
+      router.replace(`${url}`, { scroll: false });
+
       const {
         productFilters: newProductFilters,
         selectedFilters: newSelectedFilters,
       } = buildProductFilters(finalParams);
       dispatch(setProductFilters(newProductFilters));
       dispatch(setSelectedFilters(newSelectedFilters));
-      router.replace(`${url}`, { scroll: false });
     },
     [searchParams, pathname, cachedCollectionData.current]
   );
@@ -419,13 +439,16 @@ const useProductFilter = () => {
       const filterKey = key.toLowerCase().replaceAll(' ', '-');
       const filterValue = value.replaceAll('%20', ' ');
       const target = `${filterKey}=${filterValue}`;
-
       dispatch(setCurrentSelectedFilter(null));
+
       const newParams = searchParams
         .toString()
         .split('&')
         .filter((entry) => {
           const [rawKey, rawValue] = entry.split('=');
+          // Skip pagination parameters
+          if (PAGINATION_SEARCH_PARAMS.includes(rawKey)) return false;
+
           const formattedKey = rawKey.replaceAll('+', ' ');
           const formattedValue = rawValue?.replaceAll('+', ' ');
           const formattedTarget = `${formattedKey}=${formattedValue}`;
@@ -437,11 +460,12 @@ const useProductFilter = () => {
         .join('&');
 
       const url = `${pathname}?${newParams}`;
+      router.replace(`${url}`, { scroll: false });
+
       const { productFilters, selectedFilters } =
         buildProductFilters(newParams);
       dispatch(setProductFilters(productFilters));
       dispatch(setSelectedFilters(selectedFilters));
-      router.replace(`${url}`, { scroll: false });
     },
     [searchParams, pathname, router]
   );
@@ -570,6 +594,19 @@ const useProductFilter = () => {
       dispatch(setProductCount(0));
     };
   }, [data, revalidateCache, cachedCollectionData.current]);
+
+  // This is for the initial load
+  useEffect(() => {
+    const genaratedParams = generateParams('', '');
+    const finalParams = [genaratedParams].filter(Boolean).join('&');
+    if (finalParams === '&') return;
+    const {
+      productFilters: newProductFilters,
+      selectedFilters: newSelectedFilters,
+    } = buildProductFilters(finalParams);
+    dispatch(setProductFilters(newProductFilters));
+    dispatch(setSelectedFilters(newSelectedFilters));
+  }, []);
 
   return {
     data,

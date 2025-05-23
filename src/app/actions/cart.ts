@@ -14,9 +14,11 @@ import { Auser } from '@/lib/types';
 import { revalidatePath } from 'next/cache';
 
 const client = getClient();
+
 export async function getCartItems() {
   const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;
+  const user = JSON.parse(cookieStore.get('a-user')?.value!);
   try {
     const res = await client.query({
       query: CART_OPERATIONS.Query.carts,
@@ -24,6 +26,15 @@ export async function getCartItems() {
       context: {
         headers: {
           Authorization: `Bearer ${token}`,
+        },
+      },
+      variables: {
+        filters: {
+          user: {
+            documentId: {
+              eq: user.documentId,
+            },
+          },
         },
       },
     });
@@ -42,8 +53,9 @@ export const addToCartAction = async (
   error?: string;
   data?: CreateCartMutation | null;
 }> => {
-  const cookieStore = await cookies();
+  const cookieStore = cookies();
   const token = cookieStore.get('a-token');
+  const user = JSON.parse(cookieStore.get('a-user')?.value!);
 
   try {
     const response = await client.mutate<
@@ -60,7 +72,7 @@ export const addToCartAction = async (
         data: {
           product: formData.get('product') as string,
           quantity: Number(formData.get('quantity')),
-          user: formData.get('user') as string,
+          user: user.documentId,
         },
       },
     });
@@ -162,6 +174,7 @@ export const updateCartProductQuantity = async (
     },
   });
 };
+
 export async function getCartProductQuantity() {
   const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;

@@ -48,12 +48,10 @@ const PriceListItem: React.FC<PriceListItem> = ({
           <div className="space-y-2">
             <FormField
               control={control}
-              name={`price_lists.${index}.sale_price`}
+              name={`price_lists.${index}.price`}
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel htmlFor={`sale_price-${index}`}>
-                    Sale Price
-                  </FormLabel>
+                  <FormLabel htmlFor={`price.${index}`}>Price</FormLabel>
                   <FormControl>
                     <div className="flex items-center gap-1">
                       <span>{currency}</span>
@@ -69,13 +67,16 @@ const PriceListItem: React.FC<PriceListItem> = ({
               )}
             />
           </div>
+
           <div className="space-y-2">
             <FormField
               control={control}
-              name={`price_lists.${index}.price`}
+              name={`price_lists.${index}.comparePrice`}
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel htmlFor={`price-${index}`}>Price</FormLabel>
+                  <FormLabel htmlFor={`comparePrice.${index}`}>
+                    Reduced Price
+                  </FormLabel>
                   <FormControl>
                     <div className="flex items-center gap-1">
                       <span>{currency}</span>
@@ -98,7 +99,7 @@ const PriceListItem: React.FC<PriceListItem> = ({
               name={`price_lists.${index}.min_quantity`}
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel htmlFor={`min-quantity-${index}`}>
+                  <FormLabel htmlFor={`min-quantity.${index}`}>
                     Min Quantity
                   </FormLabel>
                   <FormControl>
@@ -120,7 +121,7 @@ const PriceListItem: React.FC<PriceListItem> = ({
               name={`price_lists.${index}.max_quantity`}
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel htmlFor={`max-quantity-${index}`}>
+                  <FormLabel htmlFor={`max-quantity.${index}`}>
                     Max Quantity
                   </FormLabel>
                   <FormControl>
@@ -151,15 +152,18 @@ const PriceListItem: React.FC<PriceListItem> = ({
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      defaultValue={USER_LEVELS.at(0)?.value}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="User level" />
+                        <SelectValue placeholder={USER_LEVELS.at(0)?.name} />
                       </SelectTrigger>
                       <SelectContent>
                         {USER_LEVELS.map((level, index) => (
-                          <SelectItem key={level + index} value={level}>
-                            {level}
+                          <SelectItem
+                            key={level.name + index}
+                            value={level.value}
+                          >
+                            {level.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -174,8 +178,9 @@ const PriceListItem: React.FC<PriceListItem> = ({
       </CardContent>
       <CardFooter className="flex justify-end">
         <Button
-          onClick={() => onRemove(index, title)}
           size="icon"
+          type="button"
+          onClick={() => onRemove(index, title)}
           className="group-hover:visible invisible relative right-0"
         >
           <Trash2 className="h-3 w-3" />

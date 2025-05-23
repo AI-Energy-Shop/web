@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import React from 'react';
 import Image from 'next/image';
-import { muktaVaani, firaSans } from '@/font/font';
+import { audiowide, muktaVaani } from '@/font/font';
+import { cn } from '@/lib/utils';
 const Logo = () => {
   return (
     <Link href="/" passHref>
-      <div className="w-[100px] flex flex-col items-center justify-between">
+      <div className="flex flex-col items-center justify-between">
         <div className="relative w-10 h-10 overflow-hidden">
           <Image
             width={100}
@@ -17,9 +18,34 @@ const Logo = () => {
           />
         </div>
         <p
-          className={` ${muktaVaani.className} text-[10px] text-purple-purp-aes font-black text-center italic`}
+          style={{
+            width: '60px',
+            fontWeight: 'bold',
+            fontSize: '7px',
+            lineHeight: '10px',
+            letterSpacing: '0.1px',
+          }}
+          className={cn(
+            muktaVaani.className,
+            'text-[9px] text-purple-purp-aes text-center'
+          )}
         >
-          AI ENERGY SHOP
+          <span
+            style={{
+              fontStyle: 'italic',
+              fontWeight: 'bold',
+              fontSize: '7px',
+              lineHeight: '10px',
+              letterSpacing: '0.1px',
+            }}
+            className={cn(
+              audiowide.className,
+              'text-[9px] text-purple-purp-aes text-center'
+            )}
+          >
+            A
+          </span>{' '}
+          I ENERGY SHOP
         </p>
       </div>
     </Link>

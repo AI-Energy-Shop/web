@@ -11,12 +11,13 @@ import {
   CardHeader,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileType, ModalProps } from './types';
+import { ModalProps } from './types';
 import { UploadFile } from '@/hooks/useProductDetails';
 
-const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
-  const [selectedImageIds, setSelectedImageIds] = useState<UploadFile[]>([]);
+const Modal: FC<ModalProps> = ({ onDone, onCancel, filters, accept }) => {
   const [files, setFiles] = useState<any[]>([]);
+  const [selectedImageIds, setSelectedImageIds] = useState<UploadFile[]>([]);
+
   const { loading, refetch } = useQuery(FILES_OPERATIONS.Query.files, {
     fetchPolicy: 'no-cache',
     variables: {
@@ -52,7 +53,7 @@ const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
         <Card className="w-full h-full border-none shadow-none p-0 flex flex-col">
           <CardHeader className="flex-shrink-0">
             <FileUploadZone
-              accept="application/pdf"
+              accept={`${accept}`}
               onFiles={handleOnUploadFiles}
               maxFiles={10}
               displayUseExistingFile={false}
@@ -66,10 +67,14 @@ const Modal: FC<ModalProps> = ({ onDone, onCancel, filters }) => {
             />
           </CardContent>
           <CardFooter className="flex-shrink-0 justify-end space-x-2">
-            <Button onClick={onCancel} variant="destructive">
+            <Button type="button" onClick={onCancel} variant="destructive">
               Cancel
             </Button>
-            <Button onClick={() => onDone(selectedImageIds)} variant="outline">
+            <Button
+              type="button"
+              onClick={() => onDone(selectedImageIds)}
+              variant="outline"
+            >
               Done
             </Button>
           </CardFooter>

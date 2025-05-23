@@ -15,7 +15,6 @@ export function FileUploadZone({
   uploadNewFileLabel = 'Upload new file',
   onUseExistingFile,
 }: FileUploadZoneProps) {
-  const formRef = useRef<HTMLFormElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -120,6 +119,7 @@ export function FileUploadZone({
             {displayUseExistingFile && (
               <p className="text-sm font-medium text-gray-700">
                 <Button
+                  type="button"
                   variant="outline"
                   size="sm"
                   className="text-black cursor-pointer text-xs"

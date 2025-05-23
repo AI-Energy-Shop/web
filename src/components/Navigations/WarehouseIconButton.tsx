@@ -4,33 +4,25 @@ import React from 'react';
 import { Warehouse } from 'lucide-react';
 import { RootState, useAppSelector } from '@/store/store';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 
 const WarehouseIconButton = () => {
-  const cart = useAppSelector((state: RootState) => state.cart);
+  const warehouseLocation = useAppSelector(
+    (state: RootState) => state.checkout.warehouseLocation
+  );
 
-  // If no user data, show login link instead
-  if (!cart.warehouseLocation) {
-    return (
+  return (
+    <div className="h-[40px] flex flex-col items-center justify-between">
       <Link
         href="/auth/login"
         className="flex flex-col items-center m-0 w-auto h-auto px-1"
       >
-        <Warehouse className="h-5 w-5" />
-        <span className="text-sm font-normal">Warehouse</span>
+        <Warehouse className="h-4 w-4 lg:h-5 lg:w-5" />
+        <p className="text-xs lg:text-sm h-[15px] capitalize">
+          {warehouseLocation?.name || 'Warehouse'}
+        </p>
       </Link>
-    );
-  }
-
-  return (
-    <div className="flex flex-col items-center m-0 w-auto h-auto px-1">
-      <Warehouse className="h-5 w-5" />
-      <span className="text-sm font-normal">{`${cart?.warehouseLocation?.address?.city}`}</span>
     </div>
   );
 };
 
-// Export as a dynamic component with SSR disabled
-export default dynamic(() => Promise.resolve(WarehouseIconButton), {
-  ssr: false,
-});
+export default WarehouseIconButton;

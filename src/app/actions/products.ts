@@ -15,7 +15,6 @@ import {
   UpdateInventoryMutation,
   CreateSpecificationMutation,
   DeleteSpecificationMutation,
-  Enum_Specification_Key,
   UpdateSpecificationMutation,
   DeletePriceMutation,
   DeleteInventoryMutation,
@@ -24,27 +23,45 @@ import {
   DeleteKeyFeatureMutation,
   CreateShippingMutation,
   CustomProductUpdateMutation,
+  DeleteProductMutation,
+  UpdateShippingMutation,
 } from '@/lib/gql/graphql';
 import {
   handleGraphQLError,
   GraphQLException,
 } from '@/lib/utils/graphql-error';
-
+import { revalidatePath } from 'next/cache';
 const client = getClient();
 
 export const products = async (variables?: {
   filters: ProductFiltersInput;
   pagination: PaginationArg;
+  sort?: string[];
 }): Promise<FetchResult<ProductsQuery>> => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('a-token');
+
+  const context = token
+    ? {
+        headers: {
+          Authorization: `Bearer ${token?.value}`,
+        },
+      }
+    : undefined;
   try {
     const res = await client.query({
       query: PRODUCT_OPERATIONS.Query.products,
-      fetchPolicy: 'no-cache',
-      variables: variables,
-    });
 
+      fetchPolicy: 'no-cache',
+      variables: {
+        ...variables,
+        _timestamp: Date.now(),
+      },
+      context,
+    });
     return res;
   } catch (error: any) {
+    console.log('error in products', error);
     throw handleGraphQLError(error);
   }
 };
@@ -53,17 +70,104 @@ export const product = async (
   id: string
 ): Promise<FetchResult<ProductQuery>> => {
   try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get('a-token');
+    const context = token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token?.value}`,
+          },
+        }
+      : undefined;
     const res = await client.query({
       query: PRODUCT_OPERATIONS.Query.product,
       fetchPolicy: 'no-cache',
       variables: {
         documentId: id,
+        _timestamp: Date.now(),
       },
+      context,
     });
-
+    revalidatePath(`/admin/products/${id}`);
     return res;
   } catch (error: any) {
+    console.log('error in product', error);
     throw handleGraphQLError(error);
+  }
+};
+
+export const createProducts = async (
+  data: string
+): Promise<{
+  data?: FetchResult<CustomProductCreateMutation>[];
+  error?: GraphQLException | Error;
+}> => {
+  const inputData = JSON.parse(data);
+  try {
+    const remakedProductsData = await Promise.all(
+      inputData.map(async (item: any) => {
+        const shippingData = JSON.stringify({
+          data: {
+            ...item.data.shipping,
+          },
+        });
+
+        const inventoryData = JSON.stringify({
+          data: {
+            ...item.data.inventory,
+          },
+        });
+
+        const [shipping, inventory, specifications, keyFeatures] =
+          await Promise.all([
+            createShipping(shippingData),
+            createInventory(inventoryData),
+            createSpecification(JSON.stringify(item.data.specifications)),
+            createKeyFeature(JSON.stringify(item.data.key_features)),
+          ]);
+
+        const shippingId = shipping.data?.createShipping?.documentId;
+        const inventoryId = inventory.data?.createInventory?.documentId;
+
+        const specificationsIds = specifications.map(
+          (spec) => spec.data?.createSpecification?.documentId
+        );
+
+        const keyFeaturesIds = keyFeatures.map(
+          (feature) => feature.data?.createKeyFeature?.documentId
+        );
+
+        return {
+          ...item.data,
+          shipping: shippingId,
+          inventory: inventoryId,
+          specifications: specificationsIds,
+          key_features: keyFeaturesIds,
+        };
+      })
+    );
+
+    // console.log('remakedProductsData', remakedProductsData);
+
+    const res = await Promise.all(
+      remakedProductsData.map(async (product) => {
+        const res = await createProduct(
+          JSON.stringify({ data: { ...product } })
+        );
+        return res;
+      })
+    );
+
+    return res as {
+      data?: FetchResult<CustomProductCreateMutation>[];
+      error?: GraphQLException | Error;
+    };
+  } catch (error: any) {
+    console.log('ERROR OBJECT', Object.keys(error));
+    const errorMessage = handleGraphQLError(error);
+    return {
+      error: { ...errorMessage },
+    };
   }
 };
 
@@ -86,13 +190,19 @@ export const createProduct = async (
           Authorization: `Bearer ${token?.value}`,
         },
       },
+      fetchPolicy: 'network-only',
     });
 
+    revalidatePath(
+      `/admin/products/${res.data?.customProductCreate?.documentId}`
+    );
     return {
       data: res,
     };
   } catch (error: any) {
     const errorMessage = handleGraphQLError(error);
+    console.log('error in create product', Object.keys(error.cause));
+    console.log('error in create product', error.cause.result.errors);
     return {
       error: { ...errorMessage },
     };
@@ -111,7 +221,11 @@ export const updateProduct = async (
   try {
     const res = await client.mutate({
       mutation: PRODUCT_OPERATIONS.Mutation.updateProduct,
-      variables: inputData,
+      fetchPolicy: 'no-cache',
+      variables: {
+        ...inputData,
+        _timestamp: Date.now(),
+      },
       context: {
         headers: {
           Authorization: `Bearer ${token?.value}`,
@@ -122,11 +236,44 @@ export const updateProduct = async (
       data: res,
     };
   } catch (error: any) {
-    console.log('errorMessage', error);
     const errorMessage = handleGraphQLError(error);
+    console.log('error in update product', errorMessage);
     return {
       error: { ...errorMessage },
     };
+  }
+};
+
+export const deleteProducts = async (
+  data: string
+): Promise<FetchResult<DeleteProductMutation>[]> => {
+  const inputData = JSON.parse(data);
+  const cookieStore = await cookies();
+  const token = cookieStore.get('a-token');
+
+  try {
+    const res = (await Promise.all(
+      inputData.map(async (item: any) => {
+        const mutateRes = await client.mutate({
+          mutation: PRODUCT_OPERATIONS.Mutation.deleteProduct,
+          variables: {
+            documentId: item.documentId,
+            _timestamp: Date.now(),
+          },
+          context: {
+            headers: {
+              Authorization: `Bearer ${token?.value}`,
+            },
+          },
+        });
+        return mutateRes;
+      })
+    )) as unknown as Promise<FetchResult<DeleteProductMutation>[]>;
+    revalidatePath('/admin/products');
+    return res;
+  } catch (error: any) {
+    console.log('ERROR deleting price:', error.message);
+    return error;
   }
 };
 
@@ -143,7 +290,7 @@ export const createPrice = async (
           mutation: PRODUCT_OPERATIONS.Mutation.createPrice,
           variables: {
             data: {
-              sale_price: item.sale_price,
+              comparePrice: item.comparePrice,
               price: item.price,
               min_quantity: item.min_quantity,
               max_quantity: item.max_quantity,
@@ -181,7 +328,7 @@ export const updatePrice = async (
           variables: {
             documentId: item.documentId,
             data: {
-              sale_price: item.sale_price,
+              comparePrice: item.comparePrice,
               price: item.price,
               min_quantity: item.min_quantity,
               max_quantity: item.max_quantity,
@@ -237,32 +384,22 @@ export const deletePrice = async (
 
 export const createInventory = async (
   data: string
-): Promise<FetchResult<CreateInventoryMutation>[]> => {
+): Promise<FetchResult<CreateInventoryMutation>> => {
   const inputData = JSON.parse(data);
-  const cookieStore = await cookies();
+  const cookieStore = cookies();
   const token = cookieStore.get('a-token');
 
   try {
-    const res = (await Promise.all(
-      inputData.map(async (item: any) => {
-        const mutateRes = await client.mutate({
-          mutation: PRODUCT_OPERATIONS.Mutation.createInventory,
-          variables: {
-            data: {
-              location_code: item.location,
-              quantity: item.quantity,
-            },
-          },
-          context: {
-            headers: {
-              Authorization: `Bearer ${token?.value}`,
-            },
-          },
-        });
-        return mutateRes;
-      })
-    )) as unknown as Promise<FetchResult<CreateInventoryMutation>[]>;
-    return res;
+    const mutateRes = await client.mutate({
+      mutation: PRODUCT_OPERATIONS.Mutation.createInventory,
+      variables: inputData,
+      context: {
+        headers: {
+          Authorization: `Bearer ${token?.value}`,
+        },
+      },
+    });
+    return mutateRes;
   } catch (error: any) {
     console.log('ERROR creating inventory:', error.message);
     return error;
@@ -271,66 +408,54 @@ export const createInventory = async (
 
 export const updateInventory = async (
   data: string
-): Promise<FetchResult<UpdateInventoryMutation>[]> => {
+): Promise<FetchResult<UpdateInventoryMutation>> => {
   const inputData = JSON.parse(data);
-  const cookieStore = await cookies();
+  const cookieStore = cookies();
   const token = cookieStore.get('a-token');
 
   try {
-    const res = (await Promise.all(
-      inputData.map(async (item: any) => {
-        const mutateRes = await client.mutate({
-          mutation: PRODUCT_OPERATIONS.Mutation.updateInventory,
-          variables: {
-            documentId: item.documentId,
-            data: {
-              location_code: item.location_code,
-              quantity: item.quantity,
-            },
-          },
-          context: {
-            headers: {
-              Authorization: `Bearer ${token?.value}`,
-            },
-          },
-        });
-        return mutateRes;
-      })
-    )) as unknown as Promise<FetchResult<UpdateInventoryMutation>[]>;
-    return res;
+    const mutateRes = await client.mutate({
+      mutation: PRODUCT_OPERATIONS.Mutation.updateInventory,
+      variables: inputData,
+      context: {
+        headers: {
+          Authorization: `Bearer ${token?.value}`,
+        },
+      },
+    });
+
+    return mutateRes;
   } catch (error: any) {
-    console.log('ERROR creating inventory:', error.message);
+    const errorMessage = handleGraphQLError(error);
+    console.log('errorMessage', errorMessage);
+
     return error.message;
   }
 };
 
 export const deleteInventory = async (
   data: string
-): Promise<FetchResult<DeleteInventoryMutation>[]> => {
+): Promise<FetchResult<DeleteInventoryMutation>> => {
   const inputData = JSON.parse(data);
   const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   try {
-    const res = (await Promise.all(
-      inputData.map(async (item: any) => {
-        const mutateRes = await client.mutate({
-          mutation: PRODUCT_OPERATIONS.Mutation.deleteInventory,
-          variables: {
-            documentId: item.documentId,
-          },
-          context: {
-            headers: {
-              Authorization: `Bearer ${token?.value}`,
-            },
-          },
-        });
-        return mutateRes;
-      })
-    )) as unknown as Promise<FetchResult<DeleteInventoryMutation>[]>;
-    return res;
+    const mutateRes = await client.mutate({
+      mutation: PRODUCT_OPERATIONS.Mutation.deleteInventory,
+      variables: {
+        documentId: inputData.documentId,
+      },
+      context: {
+        headers: {
+          Authorization: `Bearer ${token?.value}`,
+        },
+      },
+    });
+    return mutateRes;
   } catch (error: any) {
-    console.log('ERROR deleting inventory:', error.message);
+    const errorMessage = handleGraphQLError(error);
+    console.log('errorMessage', errorMessage);
     return error;
   }
 };
@@ -344,29 +469,30 @@ export const createSpecification = async (
 
   try {
     const res = (await Promise.all(
-      inputData.map(
-        async (item: { key: Enum_Specification_Key; value: string }) => {
-          const mutateRes = await client.mutate({
-            mutation: PRODUCT_OPERATIONS.Mutation.createSpecification,
-            variables: {
-              data: {
-                key: item.key as Enum_Specification_Key,
-                value: item.value,
-              },
+      inputData.map(async (item: { key: string; value: string }) => {
+        const mutateRes = await client.mutate({
+          mutation: PRODUCT_OPERATIONS.Mutation.createSpecification,
+          variables: {
+            data: {
+              key: item.key,
+              value: item.value,
             },
-            context: {
-              headers: {
-                Authorization: `Bearer ${token?.value}`,
-              },
+          },
+          context: {
+            headers: {
+              Authorization: `Bearer ${token?.value}`,
             },
-          });
-          return mutateRes;
-        }
-      )
+          },
+        });
+        return mutateRes;
+      })
     )) as unknown as Promise<FetchResult<CreateSpecificationMutation>[]>;
     return res;
   } catch (error: any) {
-    console.log('ERROR creating inventory:', error.message);
+    console.log('ERROR OBJECT', Object.keys(error.cause));
+    console.log('error', error.cause.result.errors);
+    const errorMessage = handleGraphQLError(error);
+    // console.log('errorMessage', errorMessage);
     return error;
   }
 };
@@ -381,17 +507,13 @@ export const updateSpecification = async (
   try {
     const res = (await Promise.all(
       inputData.map(
-        async (item: {
-          documentId: string;
-          key: Enum_Specification_Key;
-          value: string;
-        }) => {
+        async (item: { documentId: string; key: string; value: string }) => {
           const mutateRes = await client.mutate({
             mutation: PRODUCT_OPERATIONS.Mutation.updateSpecification,
             variables: {
               documentId: item.documentId,
               data: {
-                key: item.key as Enum_Specification_Key,
+                key: item.key,
                 value: item.value,
               },
             },
@@ -470,7 +592,8 @@ export const createKeyFeature = async (
     )) as unknown as Promise<FetchResult<CreateKeyFeatureMutation>[]>;
     return res;
   } catch (error: any) {
-    console.log('ERROR creating key feature:', error.message);
+    const errorMessage = handleGraphQLError(error);
+    console.log('create key feature error', errorMessage);
     return error;
   }
 };
@@ -504,7 +627,8 @@ export const updateKeyFeature = async (
     )) as unknown as Promise<FetchResult<UpdateKeyFeatureMutation>[]>;
     return res;
   } catch (error: any) {
-    console.log('ERROR updating key feature:', error.message);
+    const errorMessage = handleGraphQLError(error);
+    console.log('update key feature error', errorMessage);
     return error;
   }
 };
@@ -535,7 +659,8 @@ export const deleteKeyFeature = async (
     )) as unknown as Promise<FetchResult<DeleteKeyFeatureMutation>[]>;
     return res;
   } catch (error: any) {
-    console.log('ERROR deleting key feature:', error.message);
+    const errorMessage = handleGraphQLError(error);
+    console.log('delete key feature error', errorMessage);
     return error;
   }
 };
@@ -544,19 +669,12 @@ export const createShipping = async (
   data: string
 ): Promise<FetchResult<CreateShippingMutation>> => {
   const inputData = JSON.parse(data);
-  const cookieStore = await cookies();
+  const cookieStore = cookies();
   const token = cookieStore.get('a-token');
   try {
     const res = await client.mutate({
       mutation: PRODUCT_OPERATIONS.Mutation.createShipping,
-      variables: {
-        data: {
-          height: Number(inputData.height),
-          width: Number(inputData.width),
-          length: Number(inputData.length),
-          weight: Number(inputData.weight),
-        },
-      },
+      variables: inputData,
       context: {
         headers: {
           Authorization: `Bearer ${token?.value}`,
@@ -565,7 +683,33 @@ export const createShipping = async (
     });
     return res;
   } catch (error: any) {
-    console.log('ERROR creating shipping:', error.message);
+    const errorMessage = handleGraphQLError(error);
+    console.log('create shipping error', errorMessage);
+    return error;
+  }
+};
+
+export const updateShipping = async (
+  data: string
+): Promise<FetchResult<UpdateShippingMutation>> => {
+  const inputData = JSON.parse(data);
+  const cookieStore = cookies();
+  const token = cookieStore.get('a-token');
+
+  try {
+    const res = await client.mutate({
+      mutation: PRODUCT_OPERATIONS.Mutation.updateShipping,
+      variables: inputData,
+      context: {
+        headers: {
+          Authorization: `Bearer ${token?.value}`,
+        },
+      },
+    });
+    return res;
+  } catch (error: any) {
+    const errorMessage = handleGraphQLError(error);
+    console.log('create shipping error', errorMessage);
     return error;
   }
 };

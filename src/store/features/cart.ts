@@ -65,23 +65,8 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    setCart: (state, action) => {
-      const existingCart = state.carts.find(
-        (cart) => cart.documentId === action.payload.documentId
-      );
-      if (!existingCart) {
-        state.carts.push(action.payload);
-      } else {
-        existingCart.quantity = action.payload.quantity;
-      }
-    },
     setCarts: (state, action) => {
       state.carts = action.payload;
-    },
-    removeCart: (state, action) => {
-      state.carts = state.carts.filter(
-        (cart) => cart.documentId !== action.payload.id
-      );
     },
     setShowCartWindow: (state, action) => {
       state.showCartWindow = action.payload;
@@ -96,7 +81,6 @@ export const cartSlice = createSlice({
       state.paymentStep = action.payload;
     },
     removeCartsData: (state) => {
-      state.carts = [];
       state.paymentStep = 1;
       state.warehouseLocation = undefined;
       state.shippingAddress = undefined;
@@ -107,9 +91,7 @@ export const cartSlice = createSlice({
 });
 
 export const {
-  setCart,
   setCarts,
-  removeCart,
   setPaymentStep,
   setWarehouseLocation,
   removeCartsData,

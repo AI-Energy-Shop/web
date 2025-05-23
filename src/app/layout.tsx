@@ -4,7 +4,7 @@ import { ApolloWrapper } from '@/apollo/provider';
 import { firaSansFont } from '@/assets/fonts/fonts';
 import { Toaster } from '@/components/ui/sonner';
 import { Toaster as ToasterUI } from '@/components/ui/toaster';
-import NavigationProvider from '@/components/NavigationProvider';
+import NavigationWrapper from '@/components/navigation-wrapper';
 import Components from '@/components';
 import StripeProvider from '@/components/StripeProvider';
 // Assuming Metadata type needs to be defined or imported.
@@ -22,16 +22,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" className={firaSansFont.className}>
       <body>
         <Components.ReduxProvider>
           <StripeProvider>
             <ApolloWrapper>
-              <NavigationProvider>{children}</NavigationProvider>
+              <NavigationWrapper>{children}</NavigationWrapper>
             </ApolloWrapper>
             <Toaster />
             <ToasterUI />

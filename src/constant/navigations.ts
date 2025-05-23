@@ -108,3 +108,10 @@ export const NAV_LIST_ITEMS = [
     enabled: true,
   },
 ];
+
+export const PAGINATION_SEARCH_PARAMS: string[] = [
+  'pageSize',
+  'page',
+  'limit',
+  'offset',
+];

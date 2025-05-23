@@ -2,6 +2,7 @@
 import React from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import Icon from '../Icon';
+import { cn } from '@/lib/utils';
 
 type Data = {
   id: number;
@@ -15,10 +16,10 @@ interface NavListProps {
   data: Data[];
   className?: string;
   showIcon?: boolean;
+  path: string;
 }
 
-const NavList = ({ data, className, showIcon = false }: NavListProps) => {
-  const pathname = usePathname();
+const NavList = ({ data, className, showIcon = false, path }: NavListProps) => {
   const router = useRouter();
 
   const handleClick = (item: Data) => {
@@ -29,17 +30,19 @@ const NavList = ({ data, className, showIcon = false }: NavListProps) => {
 
   return (
     <nav
-      className={`px-4 hidden items-end h-full text-sm font-medium gap-3 lg:flex ${className}`}
+      className={`hidden items-end h-full text-sm font-medium gap-8 lg:flex ${className}`}
     >
       {data.map((item) => {
-        const isPath = pathname === item.href;
+        const isPath = path === item.href;
         return (
           <div
             key={item.id}
             onClick={() => handleClick(item)}
-            className={`transition-all duration-100 hover:text-primary group ${
-              item.enabled ? 'cursor-pointer' : 'cursor-not-allowed'
-            } ${isPath ? 'border-b-2 border-red-500 font-bold' : 'font-normal'}`}
+            className={cn(
+              `transition-all duration-100 hover:text-primary group ${
+                item.enabled ? 'cursor-pointer' : 'cursor-not-allowed'
+              } ${isPath ? 'border-b-2 border-red-500 font-bold' : 'font-normal'}`
+            )}
           >
             <div className="flex items-center gap-2">
               {showIcon && (

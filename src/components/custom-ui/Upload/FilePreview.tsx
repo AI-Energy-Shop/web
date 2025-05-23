@@ -17,7 +17,7 @@ const FilePreview: FC<FilePreviewProps> = ({ file, onRemove }) => {
             : 'bg-gray-50'
         )}
       >
-        {file.mime === 'application/pdf' ? (
+        {file.mime.includes('application/pdf') && (
           <div className="w-full h-full flex flex-col items-center justify-center p-4">
             <div className="relative w-full h-[70%] mb-2">
               <iframe
@@ -35,16 +35,15 @@ const FilePreview: FC<FilePreviewProps> = ({ file, onRemove }) => {
               </p>
             </div>
           </div>
-        ) : (
-          IMAGE_TYPES.includes(file.mime) && (
-            <Image
-              src={file.url}
-              alt="Preview"
-              className="w-full h-full object-contain p-2"
-              width={100}
-              height={100}
-            />
-          )
+        )}
+        {file.mime.includes('image') && (
+          <Image
+            src={file.url}
+            alt="Preview"
+            className="w-full h-full object-contain p-2"
+            width={90}
+            height={90}
+          />
         )}
       </div>
 
@@ -52,6 +51,7 @@ const FilePreview: FC<FilePreviewProps> = ({ file, onRemove }) => {
         onClick={() => onRemove(file.documentId)}
         size="sm"
         variant="outline"
+        type="button"
         className="absolute -top-2 -right-2 rounded-full w-[20px] h-[20px] opacity-0 group-hover:opacity-100 hover:bg-gray-100 p-0 transition-all duration-200"
       >
         <CircleX width={16} height={16} />

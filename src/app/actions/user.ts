@@ -64,9 +64,11 @@ export const registerUser = async (formData: FormData) => {
 export const loginUser = async ({
   email,
   password,
+  remember,
 }: {
   email: string;
   password: string;
+  remember?: boolean;
 }) => {
   try {
     const response = await client.mutate({
@@ -136,10 +138,8 @@ export const loginUser = async ({
 
     const cookieOptions = {
       path: '/',
-      maxAge: 60 * 60 * 12, // 12 hours
-      httpOnly: true,
-      // sameSite: 'strict',
-      // secure: process.env.NODE_ENV === 'production' ? true : false,
+      maxAge: remember ? 60 * 60 * 24 * 30 : undefined, // 30 days if remember is true, otherwise undefined
+      // httpOnly: true,
     };
 
     cookieStore.set('a-token', token!, cookieOptions);

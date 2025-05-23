@@ -27,16 +27,18 @@ const schema = {
               odoo_product_id
               price_lists {
                 price
-                sale_price
+                comparePrice
                 min_quantity
                 max_quantity
                 user_level
               }
-              inventories {
+              inventory {
                 documentId
-                name
-                location_code
-                quantity
+                melbourne
+                sydney
+                brisbane
+                createdAt
+                updatedAt
               }
               shipping {
                 height

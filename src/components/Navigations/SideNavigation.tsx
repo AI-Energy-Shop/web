@@ -1,8 +1,7 @@
 'use client';
-import { LogOut, Settings, X, Menu } from 'lucide-react';
+import { X, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { NAV_LIST_ITEMS } from '@/constant';
 import Icon from '../Icon';
 import { usePathname } from 'next/navigation';
@@ -15,18 +14,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
 import { logoutUser } from '@/app/actions/user';
-import { Me } from '@/store/features/me';
-import Profile from './Profile';
+import { cn } from '@/lib/utils';
+import WarehouseIconButton from './WarehouseIconButton';
+import UserIconButton from './UserIconButton';
+interface SideNavigationProps {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+}
 
-const SideNavigation = () => {
+const SideNavigation: React.FC<SideNavigationProps> = ({
+  isOpen,
+  setIsOpen,
+}) => {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(false);
-  const me = useSelector((state: RootState) => state.me.me);
-  const [user, setUser] = useState<Me | undefined>(undefined);
 
   const handleLogout = async () => {
     await logoutUser();
@@ -58,7 +59,7 @@ const SideNavigation = () => {
         variant="ghost"
         size="icon"
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-6 right-5 flex items-center justify-center lg:hidden"
+        className="fixed top-6 left-5 flex items-center justify-center lg:hidden"
       >
         {isOpen ? <X className="h-10 w-10" /> : <Menu className="h-10 w-10" />}
       </Button>
@@ -68,16 +69,21 @@ const SideNavigation = () => {
   const renderNavlist = () => {
     return (
       <nav className="h-full w-full">
-        <ul className="list-none p-0 flex flex-col gap-4">
+        <ul className="list-none p-0 m-0 flex flex-col">
           {NAV_LIST_ITEMS.map((item, index) => {
             const active = pathname.endsWith(item.href);
             return (
               <li key={index}>
                 <Link
                   href={`${item.href}`}
-                  className={`flex items-center ${active ? 'text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+                  className={cn(
+                    'text-xs font-semibold text-black',
+                    'p-2',
+                    'transition-all duration-200',
+                    'hover:bg-gray-400',
+                    `flex items-center ${active ? 'bg-gray-400' : ''}`
+                  )}
                 >
-                  <Icon className="mr-3" name={item.icon as any} size={20} />
                   {item.label}
                 </Link>
               </li>
@@ -107,29 +113,29 @@ const SideNavigation = () => {
     );
   };
 
-  useEffect(() => {
-    setUser(me);
-  }, [me]);
-
   return (
-    <>
-      <aside
-        className={`fixed top-0 right-0 ${isOpen ? 'translate-x-0' : 'translate-x-full'} h-[100vh] w-[80%] p-4 pt-6 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col lg:hidden transition-transform duration-300 ease-in-out`}
-      >
-        <div className="h-full flex flex-col gap-4">
-          <div className="w-full flex items-center justify-between">
-            {renderSortSelection()}
+    <aside
+      className={cn(
+        'z-50',
+        isOpen ? 'translate-x-0' : '-translate-x-full',
+        'fixed top-0 left-0 h-[100vh] w-[80%]',
+        ' bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col lg:hidden',
+        'transition-transform duration-300 ease-in-out'
+      )}
+    >
+      <div className="h-full">
+        <div className="w-full flex items-center justify-between border-b p-2">
+          <div className="flex items-center gap-2">
+            <UserIconButton />
+            <WarehouseIconButton />
           </div>
-          {renderNavlist()}
-          {user ? (
-            <Profile user={user} handleLogout={handleLogout} />
-          ) : (
-            renderAuthButtons()
-          )}
+          <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
+            <X className="h-10 w-10" width={50} height={50} />
+          </Button>
         </div>
-      </aside>
-      {renderHamburgerButton()}
-    </>
+        <div className="w-full">{renderNavlist()}</div>
+      </div>
+    </aside>
   );
 };
 

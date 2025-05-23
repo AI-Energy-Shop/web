@@ -1,4 +1,3 @@
-import Product from '../components/custom-ui/Table/ProductsTable/Product';
 export type LinkItem = {
   url: string;
   title: string;

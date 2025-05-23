@@ -18,7 +18,8 @@ interface FilterItemProps {
   isOpen: boolean;
   loading: boolean;
   selectedFilters: SelectedFilter[];
-  onFilterClick: (selectedFilterOption: SelectedFilter) => void;
+  onInputChange: (selectedFilterOption: SelectedFilter) => void;
+  onInputClick: (selectedFilterOption: SelectedFilter) => void;
 }
 
 const FilterItem: React.FC<FilterItemProps> = ({
@@ -28,7 +29,8 @@ const FilterItem: React.FC<FilterItemProps> = ({
   isOpen,
   selectedFilters,
   loading,
-  onFilterClick,
+  onInputChange,
+  onInputClick,
 }) => {
   const [open, setOpen] = useState(isOpen);
 
@@ -39,7 +41,7 @@ const FilterItem: React.FC<FilterItemProps> = ({
     return (
       <div
         key={index}
-        onClick={() => onFilterClick({ id, key: name, value: option.value })}
+        onClick={() => onInputClick({ id, key: name, value: option.value })}
         className="flex items-center gap-1 p-2 cursor-pointer transition-all duration-300 hover:bg-gray-100"
       >
         <input
@@ -49,7 +51,7 @@ const FilterItem: React.FC<FilterItemProps> = ({
           checked={selectedFilters.some(
             (filter) => filter.value === option.value
           )}
-          onChange={() => onFilterClick({ id, key: name, value: option.value })}
+          onChange={() => onInputChange({ id, key: name, value: option.value })}
         />
         <Label className="text-sm font-normal">{option.value}</Label>
         <span className="text-xs text-gray-500">({option.count})</span>

@@ -1,5 +1,5 @@
 import React from 'react';
-import LocationTab from '../custom-ui/Tabs/LocationTab';
+import LocationTab from '../tabs/LocationTab';
 import { ComponentSectionsWarehouseLocations } from '@/lib/types';
 
 interface WarehouseSectionProps {
