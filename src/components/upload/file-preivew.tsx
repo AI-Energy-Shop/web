@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import React, { FC } from 'react';
@@ -11,16 +13,16 @@ const FilePreview: FC<FilePreviewProps> = ({ file, onRemove }) => {
       <div
         className={cn(
           'aspect-square rounded-lg overflow-hidden',
-          file.mime === 'application/pdf'
+          file?.mime === 'application/pdf'
             ? 'bg-white border border-border/40'
             : 'bg-gray-50'
         )}
       >
-        {file.mime.includes('application/pdf') && (
+        {file?.mime.includes('application/pdf') && (
           <div className="w-full h-full flex flex-col items-center justify-center p-4">
             <div className="relative w-full h-[70%] mb-2">
               <iframe
-                src={file.url}
+                src={file?.url || ''}
                 className="absolute inset-0 w-full h-full opacity-10"
                 title="PDF Preview"
               />
@@ -35,19 +37,19 @@ const FilePreview: FC<FilePreviewProps> = ({ file, onRemove }) => {
             </div>
           </div>
         )}
-        {file.mime.includes('image') && (
+        {file?.mime.includes('image') && (
           <Image
-            src={file.url}
             alt="Preview"
-            className="w-full h-full object-contain p-2"
             width={90}
             height={90}
+            src={file?.url || '/no-product-image.jpg'}
+            className="w-full h-full object-contain p-2"
           />
         )}
       </div>
 
       <Button
-        onClick={() => onRemove(file.documentId)}
+        onClick={() => onRemove?.(file?.documentId || '')}
         size="sm"
         variant="outline"
         type="button"
@@ -57,7 +59,7 @@ const FilePreview: FC<FilePreviewProps> = ({ file, onRemove }) => {
       </Button>
 
       <p className="mt-2 text-xs text-gray-600 truncate text-center">
-        {file.name}
+        {file?.name}
       </p>
     </div>
   );

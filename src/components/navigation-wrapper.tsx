@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
-import Navbar from './navigations/Navbar';
-import Footer from './navigations/Footer';
+import Navbar from './navigations/nav-bar';
+import Footer from './navigations/footer';
 import { usePathname } from 'next/navigation';
 
 interface NavigationWrapperProps {

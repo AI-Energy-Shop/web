@@ -1,5 +1,5 @@
 import React from 'react';
-import Carousel from '../custom-ui/Carousel';
+import Carousel from '../carousels/Home/ImageCarousel';
 import { GetStoreProductQuery } from '@/lib/gql/graphql';
 
 interface RelatedProductsProps {
@@ -18,7 +18,7 @@ const RelatedProducts = ({ data }: RelatedProductsProps) => {
           Related Products
         </h1>
         <div className="ae-non-mobile-container md:px-12">
-          <Carousel.ProductRecoCarousel relatedProductType={relatedProduct} />
+          {/* <Carousel.ProductRecoCarousel relatedProductType={relatedProduct} /> */}
         </div>
       </div>
     </section>

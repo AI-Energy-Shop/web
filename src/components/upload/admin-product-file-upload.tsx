@@ -1,9 +1,4 @@
 'use client';
-import FilePreview from './file-preivew';
-import { Plus } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { FileUploadProps } from './types';
-import { Button } from '@/components/ui/button';
 import {
   DialogHeader,
   DialogFooter,
@@ -12,9 +7,17 @@ import {
   DialogContent,
   Dialog,
 } from '@/components/ui/dialog';
-import FileUploadZone from './file-upload-zone';
+import { Toast } from '@/lib/toast';
 import FileGrid from './file-grid';
+import { Plus } from 'lucide-react';
+import FilePreview from './file-preivew';
+import { FileUploadProps } from './types';
+import { useState, useEffect } from 'react';
+import FileUploadZone from './file-upload-zone';
+import { Button } from '@/components/ui/button';
+import { fileUpload } from '@/app/actions/files';
 import { DialogClose } from '@radix-ui/react-dialog';
+import { UploadFileQuery, UploadFilesQuery } from '@/lib/gql/graphql';
 
 const AdminProductFileUpload: React.FC<FileUploadProps> = ({
   title,
@@ -27,39 +30,96 @@ const AdminProductFileUpload: React.FC<FileUploadProps> = ({
   useExistingButtonLabel,
   onFileRemove,
   onSave,
+  refetch,
 }) => {
   const [showFilesModal, setShowFilesModal] = useState(false);
-  const [localSelectedFiles, setLocalSelectedFiles] = useState<any[]>([]);
+  const [localSelectedFiles, setLocalSelectedFiles] = useState<
+    UploadFilesQuery['uploadFiles']
+  >([]);
 
-  const handleFileSelect = (file: any) => {
+  const [uploadingFiles, setUploadingFiles] = useState<Array<File>>([]);
+
+  const handleFileSelect = (file: UploadFileQuery['uploadFile']) => {
     const isSelected = localSelectedFiles.some(
-      (f) => f.documentId === file.documentId
+      (f) => f?.documentId === file?.documentId
     );
-    let newFiles;
+    let newFiles: UploadFilesQuery['uploadFiles'];
 
     if (isSelected) {
       newFiles = localSelectedFiles.filter(
-        (f) => f.documentId !== file.documentId
+        (f) => f?.documentId !== file?.documentId
       );
     } else {
-      newFiles = [...localSelectedFiles, file];
+      newFiles = [...localSelectedFiles, file].filter(
+        (f): f is NonNullable<typeof f> => f != null
+      );
     }
 
     setLocalSelectedFiles(newFiles);
   };
 
+  const uploadFiles = async (files: File[]) => {
+    if (files.length === 0) return;
+    setUploadingFiles(files);
+    try {
+      const uploadRes = await Promise.all(
+        files.map(async (file) => {
+          const formData = new FormData();
+          formData.append('files', file);
+          return fileUpload(formData);
+        })
+      );
+
+      // Count successful uploads
+      const successfulUploads = uploadRes.filter(
+        (upload) => !upload.error
+      ).length;
+
+      // If there are successful uploads, remove that many items from uploadingFiles
+      if (successfulUploads > 0) {
+        setUploadingFiles((prev) => prev.slice(successfulUploads));
+      }
+
+      // Show error toast if any upload failed
+      if (uploadRes.some((upload) => upload.error)) {
+        Toast('Some files failed to upload. Please try again later.', 'ERROR');
+      }
+
+      refetch();
+      Toast('Files uploaded successfully', 'SUCCESS');
+    } catch (error) {
+      Toast('Something went wrong. Please try again later.', 'ERROR');
+    } finally {
+    }
+  };
+
   useEffect(() => {
     setLocalSelectedFiles(selectedFiles);
+
+    return () => {
+      setLocalSelectedFiles([]);
+    };
   }, [selectedFiles]);
+
+  useEffect(() => {
+    return () => {
+      // Cleanup object URLs when component unmounts
+      uploadingFiles.forEach((file) => {
+        if (file instanceof File && 'url' in file) {
+          URL.revokeObjectURL((file as any).url);
+        }
+      });
+    };
+  }, [uploadingFiles]);
 
   return (
     <div className="w-full h-auto mx-auto">
       <div className="grid grid-cols-8 gap-4 items-center justify-center">
-        {localSelectedFiles.map((file) => (
+        {localSelectedFiles?.map((file) => (
           <FilePreview
             file={file}
-            key={file.documentId}
-            onRemove={() => onFileRemove(file.documentId)}
+            key={file?.documentId}
+            onRemove={() => onFileRemove(file?.documentId || '')}
           />
         ))}
         <Button
@@ -84,16 +144,15 @@ const AdminProductFileUpload: React.FC<FileUploadProps> = ({
             <div className="grid gap-4 py-4  max-h-[70vh]">
               <FileUploadZone
                 accept={accept}
-                maxFiles={maxFiles}
+                maxFiles={15}
                 uploadNewFileLabel={uploadNewFileLabel}
-                onFiles={(data) => {
-                  console.log(data);
-                }}
+                onChange={uploadFiles}
               />
               <FileGrid
-                data={data}
-                selectedFiles={localSelectedFiles}
+                data={[...uploadingFiles, ...data]}
+                accept={accept}
                 onSelect={handleFileSelect}
+                selectedFiles={localSelectedFiles}
               />
             </div>
             <DialogFooter>

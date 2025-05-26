@@ -12,6 +12,7 @@ const schema = {
           description
           handle
           odoo_product_id
+          odoo_product_name
           brand {
             name
             url
@@ -84,6 +85,113 @@ const schema = {
         }
       }
     `),
+    storeProducts: graphql(`
+      query Products(
+        $filters: ProductFiltersInput
+        $pagination: PaginationArg
+        $sort: [String]
+      ) {
+        products(filters: $filters, pagination: $pagination, sort: $sort) {
+          documentId
+          name
+          description
+          handle
+          product_type
+          model
+          odoo_product_id
+          odoo_product_name
+          categories {
+            title
+            slug
+            image {
+              documentId
+              name
+              alternativeText
+              width
+              height
+              mime
+              url
+            }
+          }
+          brand {
+            documentId
+            name
+            url
+            image {
+              documentId
+              name
+              alternativeText
+              width
+              height
+              mime
+              url
+            }
+          }
+          collections {
+            documentId
+            title
+          }
+          price_lists {
+            documentId
+            price
+            comparePrice
+            min_quantity
+            max_quantity
+            user_level
+          }
+          files {
+            documentId
+            name
+            alternativeText
+            width
+            height
+            mime
+            url
+          }
+          images {
+            documentId
+            name
+            alternativeText
+            width
+            height
+            mime
+            url
+          }
+          specifications {
+            documentId
+            key
+            value
+          }
+          key_features {
+            documentId
+            feature
+          }
+          inventory {
+            documentId
+            melbourne
+            sydney
+            brisbane
+          }
+          shipping {
+            documentId
+            height
+            width
+            length
+            weight
+          }
+          maxQuantity
+          madeBy {
+            email
+          }
+          improvedBy {
+            email
+          }
+          createdAt
+          updatedAt
+          releasedAt
+        }
+      }
+    `),
     product: graphql(`
       query Product($documentId: ID!) {
         product(documentId: $documentId) {
@@ -94,6 +202,7 @@ const schema = {
           product_type
           model
           odoo_product_id
+          odoo_product_name
           categories {
             title
             slug
@@ -194,6 +303,7 @@ const schema = {
           product_type
           model
           odoo_product_id
+          odoo_product_name
           categories {
             title
             slug
@@ -340,6 +450,7 @@ const schema = {
           description
           handle
           odoo_product_id
+          odoo_product_name
           brand {
             name
             url
@@ -417,6 +528,7 @@ const schema = {
           description
           handle
           odoo_product_id
+          odoo_product_name
           brand {
             name
             url

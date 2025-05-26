@@ -12,6 +12,7 @@ const schema = {
             name
             model
             odoo_product_id
+            odoo_product_name
             price_lists {
               price
               comparePrice
@@ -97,6 +98,7 @@ const schema = {
           product {
             documentId
             odoo_product_id
+            odoo_product_name
             name
             model
             price_lists {
@@ -141,6 +143,7 @@ const schema = {
             name
             model
             odoo_product_id
+            odoo_product_name
             price_lists {
               price
               comparePrice

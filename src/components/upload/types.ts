@@ -1,3 +1,9 @@
+import {
+  FilesQuery,
+  UploadFileQuery,
+  UploadFilesQuery,
+} from '@/lib/gql/graphql';
+
 export type FileType = {
   __typename: string;
   id: number;
@@ -11,8 +17,8 @@ export type FileType = {
 export type FileUploadProps = {
   maxFiles?: number;
   accept?: string;
-  selectedFiles: any[];
-  data: any[];
+  selectedFiles: UploadFilesQuery['uploadFiles'];
+  data: UploadFilesQuery['uploadFiles'] | File[];
   dataModalFilters: {
     mimeTypes: string[];
   };
@@ -24,6 +30,7 @@ export type FileUploadProps = {
   onUseExistingFile?: () => void;
   onFileRemove: (id: string) => void;
   onSave: (files: any[]) => void;
+  refetch: () => void;
 };
 
 export type FileWithPreview = {
@@ -42,8 +49,9 @@ export type FileUploadZoneProps = {
 };
 
 export type FilePreviewProps = {
-  file: any;
-  onRemove: (id: string) => void;
+  isSelected?: boolean;
+  file: UploadFileQuery['uploadFile'];
+  onRemove?: (id: string) => void;
 };
 
 export interface ModalProps {
