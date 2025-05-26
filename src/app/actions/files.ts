@@ -2,7 +2,7 @@
 import { cookies } from 'next/headers';
 
 export const filesUpload = async (formData: FormData) => {
-  const cookieStore = await cookies();
+  const cookieStore = cookies();
   const token = cookieStore.get('a-token');
 
   try {
@@ -11,7 +11,7 @@ export const filesUpload = async (formData: FormData) => {
       {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token?.value}`,
         },
         body: formData,
       }

@@ -1,29 +1,20 @@
+import ProductCarousel from '@/components/custom-ui/Carousel/CustomerProduct/ProductCarousel';
 import ShopProductStockQuantities from '@/components/products/ShopProductStockQuantities';
 import ProductAddToCartButton from '@/components/products/ProductAddToCartButton';
 import ProductDescription from '@/components/products/ProductDescription';
 import RelatedProducts from '@/components/products/RelatedProducts';
 import ProductPrice from '@/components/products/ProductPrice';
-import { capsAllFirstCharWithSpace } from '@/utils/string';
 import BulkPrices from '@/components/products/BulkPrices';
-import Carousel from '@/components/custom-ui/Carousel';
 import { Breadcrumb } from '@/components/products';
-import { products } from '@/app/actions/products';
+import { storeProduct } from '@/app/actions/products';
 import { firaSans } from '@/app/font';
 import { cn } from '@/lib/utils';
 
 async function ProductPage({ params }: { params: { productSlug: string } }) {
   const productSlug = params.productSlug;
 
-  const { data } = await products({
-    filters: {
-      name: {
-        contains: capsAllFirstCharWithSpace(productSlug),
-      },
-    },
-    pagination: {},
-  });
-
-  const product = data?.products.at(0);
+  const res = await storeProduct(productSlug);
+  const product = res?.data?.getStoreProduct;
 
   if (!product) {
     return <div>Product not found</div>;
@@ -48,7 +39,7 @@ async function ProductPage({ params }: { params: { productSlug: string } }) {
 
         <div className="md:flex md:justify-between md:px-12 md:pb-5">
           <div className="ae-mobile-container max-md:w-4/5 max-md:max-w-96 md:basis-[40%] md:max-w-[40%]">
-            <Carousel.ProductCarousel product={product} />
+            <ProductCarousel product={product} />
           </div>
           <div className="md:basis-[51.75%] md:max-w-[51.75%]">
             <ProductPrice product={product} />

@@ -1,10 +1,9 @@
-import React, { FC } from 'react';
-import { CircleX, FileText } from 'lucide-react';
-import { FilePreviewProps } from './types';
-import { Button } from '@/components/ui/button';
-import { IMAGE_TYPES } from '@/constant';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import React, { FC } from 'react';
+import { FilePreviewProps } from './types';
+import { Button } from '@/components/ui/button';
+import { CircleX, FileText } from 'lucide-react';
 
 const FilePreview: FC<FilePreviewProps> = ({ file, onRemove }) => {
   return (

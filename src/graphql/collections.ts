@@ -44,9 +44,10 @@ const schema = {
             filters: $productsFilters,
             pagination: $productsPagination,
           ) {
-              documentId
+          documentId
           name
           description
+          handle
           product_type
           model
           odoo_product_id

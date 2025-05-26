@@ -1,9 +1,9 @@
 import { firaSans, muktaVaani } from '@/app/font';
-import { ProductQuery } from '@/lib/gql/graphql';
+import { GetStoreProductQuery } from '@/lib/gql/graphql';
 import { capsAllFirstCharWithDash } from '@/utils/string';
 
 interface ProductSpecificationProps {
-  productData: ProductQuery['product'];
+  productData: GetStoreProductQuery['getStoreProduct'];
 }
 
 function ProductSpecification({ productData }: ProductSpecificationProps) {

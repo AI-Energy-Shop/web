@@ -10,9 +10,9 @@ import ProductKeyFeatures from './ProductKeyFeatures';
 import ProductSpecification from './ProductSpecification';
 import ProductDownloads from './ProductDownloads';
 import { firaSans } from '@/app/font';
-import { ProductQuery } from '@/lib/gql/graphql';
+import { GetStoreProductQuery } from '@/lib/gql/graphql';
 interface ProductDescriptionProps {
-  productData: ProductQuery['product'];
+  productData: GetStoreProductQuery['getStoreProduct'];
 }
 
 function ProductDescription({ productData }: ProductDescriptionProps) {

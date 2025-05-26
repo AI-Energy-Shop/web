@@ -6,14 +6,12 @@ import LoadingAnimation from './custom-ui/LoadingAnimation';
 import Sliders from './custom-ui/Sliders';
 import DynamicSections from './DynamicSections';
 import Tables from './table';
-import Cards from './custom-ui/Cards';
-import MediaUpload from './custom-ui/Upload/FileUpload';
+import MediaUpload from './upload/admin-product-file-upload';
 import ReduxProvider from './redux-provider';
 import ReviewItems from './Checkout/ReviewItems';
 import Buttons from './buttons';
 
 const Components = {
-  Cards,
   Accordion,
   Sections,
   Sliders,

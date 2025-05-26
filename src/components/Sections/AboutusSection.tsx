@@ -1,7 +1,6 @@
-import { firaSansFont, muktaVaani } from '@/assets/fonts/fonts';
 import React from 'react';
-import Spacer from '../Spacer';
 import { ComponentSectionsAbout } from '@/lib/types';
+import { firaSansFont, muktaVaani } from '@/assets/fonts/fonts';
 
 interface AboutusSectionProps {
   data: ComponentSectionsAbout;
@@ -58,12 +57,6 @@ const AboutusSection: React.FC<AboutusSectionProps> = ({ data }) => {
             </button>
           </div>
         </div>
-        <Spacer
-          classStyle="
-            h-[5px] gradient-effect
-            lg:h-[10px]
-          "
-        />
       </div>
     </section>
   );

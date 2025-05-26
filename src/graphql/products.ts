@@ -3,6 +3,183 @@ import { gql } from '@apollo/client';
 
 const schema = {
   Query: {
+    storeProduct: graphql(`
+      query GetStoreProduct($handle: String!) {
+        getStoreProduct(handle: $handle) {
+          documentId
+          name
+          model
+          description
+          handle
+          odoo_product_id
+          brand {
+            name
+            url
+            image {
+              documentId
+              name
+              alternativeText
+              width
+              height
+              mime
+              url
+            }
+          }
+          inventory {
+            documentId
+            melbourne
+            sydney
+            brisbane
+          }
+          shipping {
+            documentId
+            width
+            height
+            weight
+            length
+          }
+          tags {
+            documentId
+            tag
+          }
+          collections {
+            documentId
+            title
+          }
+          price_lists {
+            documentId
+            price
+            comparePrice
+            min_quantity
+            max_quantity
+            user_level
+          }
+          files {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
+          images {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
+          specifications {
+            documentId
+            key
+            value
+          }
+          key_features {
+            documentId
+            feature
+          }
+          maxQuantity
+          createdAt
+          updatedAt
+          releasedAt
+        }
+      }
+    `),
+    product: graphql(`
+      query Product($documentId: ID!) {
+        product(documentId: $documentId) {
+          documentId
+          name
+          description
+          handle
+          product_type
+          model
+          odoo_product_id
+          categories {
+            title
+            slug
+            image {
+              documentId
+              name
+              alternativeText
+              width
+              height
+              mime
+              url
+            }
+          }
+          brand {
+            documentId
+            name
+            url
+            image {
+              documentId
+              name
+              alternativeText
+              width
+              height
+              mime
+              url
+            }
+          }
+          collections {
+            documentId
+            title
+          }
+          price_lists {
+            documentId
+            price
+            comparePrice
+            min_quantity
+            max_quantity
+            user_level
+          }
+          files {
+            documentId
+            name
+            alternativeText
+            width
+            height
+            mime
+            url
+          }
+          images {
+            documentId
+            name
+            alternativeText
+            width
+            height
+            mime
+            url
+          }
+          specifications {
+            documentId
+            key
+            value
+          }
+          key_features {
+            documentId
+            feature
+          }
+          inventory {
+            documentId
+            melbourne
+            sydney
+            brisbane
+          }
+          shipping {
+            documentId
+            height
+            width
+            length
+            weight
+          }
+          maxQuantity
+          createdAt
+          updatedAt
+          releasedAt
+        }
+      }
+    `),
     products: graphql(`
       query Products(
         $filters: ProductFiltersInput
@@ -13,6 +190,7 @@ const schema = {
           documentId
           name
           description
+          handle
           product_type
           model
           odoo_product_id
@@ -108,101 +286,6 @@ const schema = {
         }
       }
     `),
-    product: graphql(`
-      query Product($documentId: ID!) {
-        product(documentId: $documentId) {
-          documentId
-          name
-          description
-          product_type
-          model
-          odoo_product_id
-          categories {
-            title
-            slug
-            image {
-              documentId
-              name
-              alternativeText
-              width
-              height
-              mime
-              url
-            }
-          }
-          brand {
-            documentId
-            name
-            url
-            image {
-              documentId
-              name
-              alternativeText
-              width
-              height
-              mime
-              url
-            }
-          }
-          collections {
-            documentId
-            title
-          }
-          price_lists {
-            documentId
-            price
-            comparePrice
-            min_quantity
-            max_quantity
-            user_level
-          }
-          files {
-            documentId
-            name
-            alternativeText
-            width
-            height
-            mime
-            url
-          }
-          images {
-            documentId
-            name
-            alternativeText
-            width
-            height
-            mime
-            url
-          }
-          specifications {
-            documentId
-            key
-            value
-          }
-          key_features {
-            documentId
-            feature
-          }
-          inventory {
-            documentId
-            melbourne
-            sydney
-            brisbane
-          }
-          shipping {
-            documentId
-            height
-            width
-            length
-            weight
-          }
-          maxQuantity
-          createdAt
-          updatedAt
-          releasedAt
-        }
-      }
-    `),
     brands: gql(`
       query Brands($filters: BrandFiltersInput) {
         brands(filters: $filters) {
@@ -255,6 +338,7 @@ const schema = {
           name
           model
           description
+          handle
           odoo_product_id
           brand {
             name
@@ -331,6 +415,7 @@ const schema = {
           name
           model
           description
+          handle
           odoo_product_id
           brand {
             name

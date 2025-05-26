@@ -60,6 +60,7 @@ const shippingSchema = z
   .nullable();
 
 export const addProductSchema = z.object({
+  handle: z.string().min(1, { message: 'Required' }),
   name: z.string().min(1, { message: 'Required' }),
   description: z.string().nullable(),
   model: z.string().nullable(),

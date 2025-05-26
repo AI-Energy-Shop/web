@@ -1,9 +1,7 @@
 'use client';
 import FILES_OPERATIONS from '@/graphql/files';
 import { useQuery } from '@apollo/client';
-import { FileGrid } from './FileGrid';
 import { FC, useState } from 'react';
-import { FileUploadZone } from './FileUploadZone';
 import {
   Card,
   CardContent,
@@ -11,12 +9,10 @@ import {
   CardHeader,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ModalProps } from './types';
-import { UploadFile } from '@/hooks/useProductDetails';
 
-const Modal: FC<ModalProps> = ({ onDone, onCancel, filters, accept }) => {
+const Modal: FC<any> = ({ onDone, onCancel, filters, accept }) => {
   const [files, setFiles] = useState<any[]>([]);
-  const [selectedImageIds, setSelectedImageIds] = useState<UploadFile[]>([]);
+  const [selectedImageIds, setSelectedImageIds] = useState<any[]>([]);
 
   const { loading, refetch } = useQuery(FILES_OPERATIONS.Query.files, {
     fetchPolicy: 'no-cache',
@@ -30,7 +26,7 @@ const Modal: FC<ModalProps> = ({ onDone, onCancel, filters, accept }) => {
     },
   });
 
-  const handleOnClick = (file: UploadFile) => {
+  const handleOnClick = (file: any) => {
     setSelectedImageIds((prevArray) =>
       prevArray.some((f) => f.documentId === file.documentId)
         ? prevArray.filter((imageId) => imageId.documentId !== file.documentId)
@@ -52,19 +48,19 @@ const Modal: FC<ModalProps> = ({ onDone, onCancel, filters, accept }) => {
       <div className="w-[50%] h-[80%] rounded-md bg-white flex flex-col">
         <Card className="w-full h-full border-none shadow-none p-0 flex flex-col">
           <CardHeader className="flex-shrink-0">
-            <FileUploadZone
+            {/* <FileUploadZone
               accept={`${accept}`}
               onFiles={handleOnUploadFiles}
               maxFiles={10}
               displayUseExistingFile={false}
-            />
+            /> */}
           </CardHeader>
           <CardContent className="flex-1 overflow-auto">
-            <FileGrid
+            {/* <FileGrid
               files={files}
               selectedFiles={selectedImageIds}
               onSelect={handleOnClick}
-            />
+            /> */}
           </CardContent>
           <CardFooter className="flex-shrink-0 justify-end space-x-2">
             <Button type="button" onClick={onCancel} variant="destructive">

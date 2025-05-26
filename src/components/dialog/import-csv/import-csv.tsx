@@ -62,7 +62,8 @@ const ImportCSV = () => {
 
               return {
                 data: {
-                  name: item.Title,
+                  handle: item['URL Handle'],
+                  name: item['Title'],
                   model: item['Model'],
                   odoo_product_id: item['Odoo ID'],
                   description: item['HTML Description'],
@@ -86,7 +87,7 @@ const ImportCSV = () => {
               };
             });
 
-          console.log(filtered);
+          // console.log(filtered);
           // console.log(
           //   data.filter((row) => row.Title && String(row.Title).trim() !== '')
           // );

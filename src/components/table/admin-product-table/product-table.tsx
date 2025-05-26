@@ -33,8 +33,14 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Ellipsis } from 'lucide-react';
 import { ON_SELECT_PRODUCT_ACTIONS } from '@/constant/product';
-import { deleteProducts } from '@/app/actions/products';
+import { deleteProducts, updateProducts } from '@/app/actions/products';
 import { Toast } from '@/lib/toast';
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card';
+import { Badge } from '@/components/ui/badge';
 
 interface ProductTableProps {
   products: ProductsQuery['products'];
@@ -153,6 +159,46 @@ const ProductsTable: React.FC<ProductTableProps> = ({ products }) => {
       },
     },
     {
+      size: 40,
+      accessorKey: 'collections',
+      header: 'Collections',
+      cell: ({ row }) => {
+        const collections = row.original?.collections || [];
+        const collectionCount = collections.length;
+
+        return (
+          <div>
+            {collectionCount > 0 && (
+              <HoverCard>
+                <HoverCardTrigger asChild>
+                  <Badge variant="outline" className="cursor-pointer">
+                    {collectionCount}{' '}
+                    {collectionCount === 1 ? 'Collection' : 'Collections'}
+                  </Badge>
+                </HoverCardTrigger>
+                <HoverCardContent className="w-80">
+                  <div className="flex flex-col gap-2">
+                    <h4 className="text-sm font-semibold">Collections</h4>
+                    <div className="flex flex-wrap gap-1">
+                      {collections.map((collection, index) => (
+                        <Badge
+                          key={collection?.documentId || index}
+                          variant="secondary"
+                          className="text-xs"
+                        >
+                          {collection?.title}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
+            )}
+          </div>
+        );
+      },
+    },
+    {
       accessorKey: 'createdAt',
       header: 'Created At',
       size: 40,
@@ -191,22 +237,62 @@ const ProductsTable: React.FC<ProductTableProps> = ({ products }) => {
   };
 
   const handleBulkAction = async (actionName: string) => {
+    const tableSelectedRows = table.getFilteredSelectedRowModel().rows;
+
     switch (actionName) {
       case 'publish':
-        console.log('publish');
-        break;
-      case 'draft':
-        console.log('draft');
-        break;
-      case 'delete':
-        const tableSelectedRows = table.getFilteredSelectedRowModel().rows;
-        const documentIds = tableSelectedRows.map((row) => {
+        const productsToPublish = tableSelectedRows.map((row) => {
           return {
             documentId: row.original?.documentId,
+            data: {
+              releasedAt: new Date(),
+            },
           };
         });
-        const res = await deleteProducts(JSON.stringify(documentIds));
-        if (res.length > 0) {
+
+        const publishRes = await updateProducts(
+          JSON.stringify(productsToPublish)
+        );
+
+        if (publishRes.data) {
+          Toast('Products published successfully', 'SUCCESS');
+        }
+        break;
+      case 'draft':
+        const productsToDraft = tableSelectedRows.map((row) => {
+          return {
+            documentId: row.original?.documentId,
+            data: {
+              releasedAt: null,
+            },
+          };
+        });
+
+        const draftRes = await updateProducts(JSON.stringify(productsToDraft));
+
+        if (draftRes.data) {
+          Toast('Products drafted successfully', 'SUCCESS');
+        }
+        break;
+      case 'delete':
+        const productsData = tableSelectedRows.map((row) => {
+          return {
+            documentId: row.original?.documentId,
+            inventory: row.original?.inventory?.documentId,
+            shipping: row.original?.shipping?.documentId,
+            price_lists: row.original?.price_lists.map(
+              (price) => price?.documentId
+            ),
+            specifications: row.original?.specifications.map(
+              (spec) => spec?.documentId
+            ),
+            key_features: row.original?.key_features.map(
+              (key) => key?.documentId
+            ),
+          };
+        });
+        const deleteRes = await deleteProducts(JSON.stringify(productsData));
+        if (deleteRes.length > 0) {
           Toast('Products deleted successfully', 'SUCCESS');
         }
         break;

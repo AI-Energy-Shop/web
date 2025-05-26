@@ -7,18 +7,18 @@ import {
   createProduct,
   updateProduct,
   createPrice,
-  updatePrice,
   updateInventory,
   createInventory,
   createSpecification,
   updateSpecification,
   deleteSpecification,
-  deletePrice,
   updateKeyFeature,
   createKeyFeature,
   deleteKeyFeature,
   createShipping,
   updateShipping,
+  deletePrices,
+  updatePrices,
 } from '@/app/actions/products';
 import {
   AddProductFormData,
@@ -36,6 +36,7 @@ import COLLECTION_OPERATIONS from '@/graphql/collections';
 import { useRouter } from 'next/navigation';
 import { handleProductError } from '@/lib/utils/product-error-handler';
 import { USER_LEVELS } from '@/constant';
+import React from 'react';
 
 export type UploadFile = {
   __typename?: 'UploadFile';
@@ -64,6 +65,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     CollectionsQuery['collections']
   >([]);
   const router = useRouter();
+  const isMounted = useRef(false);
 
   useQuery(PRODUCT_OPERATIONS.Query.brands, {
     fetchPolicy: 'network-only',
@@ -144,6 +146,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
   const addProductForm = useForm<AddProductFormData>({
     resolver: addProductResolver,
     defaultValues: {
+      handle: product?.handle || '',
       name: product?.name || '',
       model: product?.model || '',
       description: product?.description || '',
@@ -172,7 +175,6 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     if (isErrors.length !== 0) {
       return;
     }
-
     const currentInventory = onValid.inventory;
     const currentPriceLists = onValid.price_lists;
     const currentSpecs = onValid.specifications;
@@ -198,6 +200,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
         const productData = JSON.stringify(
           {
             data: {
+              handle: onValid.handle,
               name: onValid.name,
               model: onValid.model,
               odoo_product_id: onValid.odoo_product_id,
@@ -245,6 +248,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
           {
             documentId: product?.documentId,
             data: {
+              handle: onValid.handle,
               name: onValid.name,
               model: onValid.model,
               odoo_product_id: onValid.odoo_product_id,
@@ -282,6 +286,12 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
         return;
       }
     }
+  };
+
+  const onError = (error: any) => {
+    console.log('error', error);
+    Toast(error.message, 'ERROR', { position: 'top-center' });
+    return;
   };
 
   const handleDiscardChanges = () => {
@@ -427,8 +437,8 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
 
       const res = await Promise.all([
         createPrice(JSON.stringify(toSave)),
-        updatePrice(JSON.stringify(toUpdate)),
-        deletePrice(JSON.stringify(toDelete)),
+        updatePrices(JSON.stringify(toUpdate)),
+        deletePrices(JSON.stringify(toDelete)),
       ]).catch((error) => {
         console.log('error', error);
         return [];
@@ -560,43 +570,33 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
   };
 
   // FILES
-  const handleFilesSelected = (files: UploadFile[]) => {
+  const handleSaveSelectedImages = (files: UploadFile[]) => {
     try {
-      const existingFiles = files?.map((file) => file?.documentId) ?? [];
-      const newFiles =
-        files?.filter?.((file) => !existingFiles?.includes(file?.documentId)) ??
-        [];
-      const combinedFiles = [...files, ...newFiles];
-      setFiles(combinedFiles);
+      setImages(files);
       addProductForm.setValue(
-        'files',
-        combinedFiles.map((file) => file.documentId),
+        'images',
+        files.map((file) => file.documentId),
         {
           shouldDirty: true,
         }
       );
     } catch (error) {
-      console.error('Failed to select images:', error);
+      console.error('Failed to save images:', error);
     }
   };
 
-  const handleImagesSelected = (files: any[]) => {
+  const handleSaveSelectedFiles = (files: UploadFile[]) => {
     try {
-      const existingFiles = images?.map((file) => file?.documentId) ?? [];
-      const newFiles =
-        files?.filter?.((file) => !existingFiles?.includes(file?.documentId)) ??
-        [];
-      const combinedImages = [...images, ...newFiles];
-      setImages(combinedImages);
+      setFiles(files);
       addProductForm.setValue(
-        'images',
-        combinedImages.map((file) => file.documentId),
+        'files',
+        files.map((file) => file.documentId),
         {
           shouldDirty: true,
         }
       );
     } catch (error) {
-      console.error('Failed to select images:', error);
+      console.error('Failed to save files:', error);
     }
   };
 
@@ -701,46 +701,96 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     }
   };
 
+  // Update productCopy when product changes
   useEffect(() => {
-    setImages(
-      product?.images?.filter((image) => {
-        if (
-          image &&
-          addProductForm.getValues('images').includes(image.documentId)
-        ) {
-          return {
-            documentId: image?.documentId,
-            name: image?.name,
-            mime: image?.mime,
-            url: image?.url,
-            alternativeText: image?.alternativeText,
-            width: image?.width,
-            height: image?.height,
-            __typename: image?.__typename,
-          };
-        }
-      }) || []
-    );
-    setFiles(
-      product?.files?.filter((file) => {
-        if (
-          file &&
-          addProductForm.getValues('files').includes(file.documentId)
-        ) {
-          return {
-            documentId: file?.documentId,
-            name: file?.name,
-            mime: file?.mime,
-            url: file?.url,
-            alternativeText: file?.alternativeText,
-            width: file?.width,
-            height: file?.height,
-            __typename: file?.__typename,
-          };
-        }
-      }) || []
-    );
+    productCopy.current = product;
   }, [product]);
+
+  // Cleanup function for images and files
+  useEffect(() => {
+    return () => {
+      setImages([]);
+      setFiles([]);
+    };
+  }, []);
+
+  // Set initial images and files only once when component mounts
+  useEffect(() => {
+    if (product) {
+      isMounted.current = true;
+      const initialImages =
+        product?.images?.filter((image) => {
+          if (
+            image &&
+            addProductForm.getValues('images').includes(image.documentId)
+          ) {
+            return {
+              documentId: image?.documentId,
+              name: image?.name,
+              mime: image?.mime,
+              url: image?.url,
+              alternativeText: image?.alternativeText,
+              width: image?.width,
+              height: image?.height,
+              __typename: image?.__typename,
+            };
+          }
+        }) || [];
+
+      const initialFiles =
+        product?.files?.filter((file) => {
+          if (
+            file &&
+            addProductForm.getValues('files').includes(file.documentId)
+          ) {
+            return {
+              documentId: file?.documentId,
+              name: file?.name,
+              mime: file?.mime,
+              url: file?.url,
+              alternativeText: file?.alternativeText,
+              width: file?.width,
+              height: file?.height,
+              __typename: file?.__typename,
+            };
+          }
+        }) || [];
+
+      setImages(initialImages);
+      setFiles(initialFiles);
+    }
+  }, [product]);
+
+  // Add this function to generate handle from name
+  const generateHandle = (name: string) => {
+    if (!name) return '';
+    return name
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric chars with hyphens
+      .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+  };
+
+  // Watch for name changes and update handle only for new products
+  React.useEffect(() => {
+    if (!isNew) return; // Don't auto-generate handle for existing products
+
+    const subscription = addProductForm.watch((value, { name }) => {
+      if (name === 'name' && value.name) {
+        const newHandle = generateHandle(value.name);
+        const currentHandle = addProductForm.getValues('handle');
+
+        // Only update if the handle would actually change
+        if (newHandle !== currentHandle) {
+          addProductForm.setValue('handle', newHandle, {
+            shouldDirty: true,
+            shouldTouch: true,
+          });
+        }
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [addProductForm, isNew]);
 
   return {
     addProductForm,
@@ -750,6 +800,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     brands,
     router,
     collections,
+    onError,
     onSubmit,
     handleDiscardChanges,
     handleAddSpecsItem,
@@ -759,8 +810,8 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     handleSaveOrSaveCurrentSpecs,
     handleSaveOrUpdatePriceList,
     onRemoveList,
-    handleFilesSelected,
-    handleImagesSelected,
+    handleSaveSelectedFiles,
+    handleSaveSelectedImages,
     handleFileRemove,
     handleImageRemove,
   };
