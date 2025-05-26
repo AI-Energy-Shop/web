@@ -10,11 +10,16 @@ export const formatCurrency = (value?: number, currency?: string) => {
   });
 };
 
-export const getCartSubtotal = (cartItems: Cart[]) => {
+export const getCartSubtotal = (cartItems: Cart[], userLevel?: string) => {
   return cartItems.reduce((acc, item) => {
     const quantity = item?.quantity ?? 0;
-    const price = item?.product?.price_lists[0]?.price ?? 0;
-    return acc + quantity * price;
+    const price = item?.product?.price_lists?.find(
+      (price) =>
+        price?.user_level === userLevel &&
+        !price?.min_quantity &&
+        !price?.max_quantity
+    );
+    return acc + quantity * (price?.sale_price ?? (price?.price || 0));
   }, 0);
 };
 
@@ -36,9 +41,10 @@ export const getCartItemSubtotal = (
 export const getCartTotals = (
   cartItems: Cart[],
   shippingFee?: number,
-  cardFee?: number
+  cardFee?: number,
+  options?: { userLevel?: string }
 ) => {
-  const cartSubtotal = getCartSubtotal(cartItems);
+  const cartSubtotal = getCartSubtotal(cartItems, options?.userLevel);
   // Calculate GST for each component separately
   const cartGst = cartSubtotal * 0.1;
   const shippingGst = shippingFee ? shippingFee * 0.1 : 0;

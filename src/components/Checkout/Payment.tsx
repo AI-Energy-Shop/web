@@ -7,25 +7,17 @@ import { Button } from '@/components/ui/button';
 import useCart from '@/hooks/useCart';
 import { useCheckout } from '@/hooks/useCheckout';
 import { PaymentMethod } from '@/store/features/checkout';
-import { creditCardPayment } from '@/app/actions/cardPayment';
-import { createOrder } from '@/app/actions/orders';
+import Link from 'next/link';
 
 interface PaymentProps {}
 
 const Payment: React.FC<PaymentProps> = ({}) => {
   const { paymentStep, isCartNeededManualQuote, carts } = useCart();
-  const { paymentMethod, setPaymentMethod, allCheckoutState, setItems } =
-    useCheckout();
+  const { paymentMethod, setPaymentMethod, setItems } = useCheckout();
 
   useEffect(() => {
     setItems(carts);
   }, [carts, setItems]);
-
-  const handleSubmitOrderAndPay = async () => {
-    // creditCardPayment();
-    const x = await createOrder({ checkoutState: allCheckoutState });
-    console.log(x);
-  };
 
   return (
     <section>
@@ -114,16 +106,17 @@ const Payment: React.FC<PaymentProps> = ({}) => {
       {paymentStep === 3 && (
         <div className="my-4">
           <div className="ae-mobile-container px-2 mt-4">
-            <Button
-              className="block mx-auto px-12 rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
-              onClick={handleSubmitOrderAndPay}
-              disabled={!paymentMethod}
-            >
-              <div className="md:flex md:gap-1">
-                <p>Submit Order</p>
-                <p className="hidden md:block">& Pay</p>
-              </div>
-            </Button>
+            <Link href="/checkout-overview">
+              <Button
+                className="block mx-auto px-12 rounded-2xl bg-blue-navy-blue hover:bg-blue-navy-blue/90"
+                disabled={!paymentMethod}
+              >
+                <div className="md:flex md:gap-1">
+                  <p>Submit Order</p>
+                  <p className="hidden md:block">& Pay</p>
+                </div>
+              </Button>
+            </Link>
           </div>
         </div>
       )}

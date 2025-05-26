@@ -31,7 +31,10 @@ const CartItems = ({
     <div className="space-y-8 pt-8 md:p-12">
       {data?.map?.((item) => {
         const price = item?.product?.price_lists?.find(
-          (price) => price?.user_level === user?.account_detail?.level
+          (price) =>
+            price?.user_level === user?.account_detail?.level &&
+            !price?.min_quantity &&
+            !price?.max_quantity
         );
 
         const productPrice = price?.sale_price || price?.price || 0;
