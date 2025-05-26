@@ -1,13 +1,15 @@
 import React from 'react';
 import Carousel from '../custom-ui/Carousel';
-import { ProductQuery } from '@/lib/gql/graphql';
+import { GetStoreProductQuery } from '@/lib/gql/graphql';
 
 interface RelatedProductsProps {
-  data?: ProductQuery['product'];
+  data?: GetStoreProductQuery['getStoreProduct'];
 }
 
 const RelatedProducts = ({ data }: RelatedProductsProps) => {
-  const relatedProduct = data?.categories.find((_, index) => index === 0)?.slug;
+  const relatedProduct = data?.collections.find(
+    (_, index) => index === 0
+  )?.title;
 
   return (
     <section className="bg-yellow-light-yellow pt-6 pb-12 ">

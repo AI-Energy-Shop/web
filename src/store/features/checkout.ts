@@ -2,8 +2,8 @@ import {
   PICK_UP_ESTIMATED_ARRIVAL_TIME,
   WAREHOUSE_LOCATIONS,
 } from '@/constant/shipping';
+import { CartsQuery } from '@/lib/gql/graphql';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Cart } from './cart';
 import { getPickUpOptionsBestTimeSlots } from '@/components/Checkout/pickUpOptionsBestTimeSlot';
 import { Enum_Order_Paymentmethod } from '@/lib/gql/graphql';
 
@@ -67,7 +67,7 @@ export type ShippingAddress = {
 };
 
 export type CheckoutState = {
-  items: Cart[];
+  items: CartsQuery['carts'];
   warehouseLocation: WarehouseLocation;
   voucherCode: string;
   orderNotes: string;
@@ -118,7 +118,7 @@ const checkoutSlice = createSlice({
     setPickUpNotes(state, action: PayloadAction<string>) {
       state.pickUpNotes = action.payload;
     },
-    setItems(state, action: PayloadAction<Cart[]>) {
+    setItems(state, action: PayloadAction<CartsQuery['carts']>) {
       state.items = action.payload;
     },
     setSelectedLocation(state, action: PayloadAction<WarehouseLocation>) {

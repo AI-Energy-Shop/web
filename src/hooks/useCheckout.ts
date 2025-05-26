@@ -1,4 +1,4 @@
-import { Cart } from '@/store/features/cart';
+import { CartsQuery } from '@/lib/gql/graphql';
 import {
   setSelectedLocation,
   setShippingType as setShippingTypeFromSlice,
@@ -76,7 +76,7 @@ export const useCheckout = () => {
   const setPaymentMethod = (paymentMethod: PaymentMethod) =>
     dispatch(setPaymentMethodFromSlice(paymentMethod));
 
-  const setItems = (cart: Cart[]) => {
+  const setItems = (cart: CartsQuery['carts']) => {
     dispatch(setItemsMethodFromSlice(cart));
   };
 

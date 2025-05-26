@@ -18,8 +18,9 @@ import {
 } from '@/components/ui/select';
 import { ChevronLeft, Loader2 } from 'lucide-react';
 import RichTextEditor from '@/components/rich-text-editor/RichTextEditor';
-import FileUpload from '../Upload/FileUpload';
-import useProductDetails from '../../../hooks/useProductDetails';
+import AdminProductFileUpload from '@/components/upload/admin-product-file-upload';
+import useProductDetails from '@/hooks/useProductDetails';
+import useFiles from '@/hooks/useFiles';
 import { ProductQuery } from '@/lib/gql/graphql';
 import ListInput from './ListInput';
 import InventoryItem from './InventoryItem';
@@ -43,25 +44,37 @@ const ProductsDetails = ({
     addProductForm,
     brands,
     collections,
+    onError,
+    onSubmit,
     handleDiscardChanges,
     handleAddPriceItem,
-    onSubmit,
     handleImageRemove,
-    handleImagesSelected,
+    handleSaveSelectedImages,
     handleFileRemove,
-    handleFilesSelected,
+    handleSaveSelectedFiles,
     handleAddSpecsItem,
     onRemoveList,
     handleAddKeyFeatureItem,
   } = useProductDetails({ id, product });
 
+  const { files: allImages } = useFiles({
+    filters: {
+      mime: {
+        contains: 'image',
+      },
+    },
+  });
+  const { files: allDocs } = useFiles({
+    filters: {
+      mime: {
+        contains: 'application/pdf',
+      },
+    },
+  });
+
   return (
     <Form {...addProductForm}>
-      <form
-        onSubmit={addProductForm.handleSubmit(onSubmit, (e) => {
-          console.log(e);
-        })}
-      >
+      <form onSubmit={addProductForm.handleSubmit(onSubmit, onError)}>
         <div className="relative flex flex-col gap-2 w-full h-full p-5">
           {/* HEADER */}
           <div className="w-full h-full flex items-center justify-between">
@@ -136,6 +149,11 @@ const ProductsDetails = ({
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-5">
+                    <Input
+                      type="hidden"
+                      defaultValue={addProductForm.watch('handle')}
+                      {...addProductForm.register('handle')}
+                    />
                     <FormField
                       control={addProductForm.control}
                       name="name"
@@ -156,7 +174,7 @@ const ProductsDetails = ({
                         <FormItem className="w-full">
                           <FormLabel>Model</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input {...field} value={field.value || ''} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -184,9 +202,9 @@ const ProductsDetails = ({
                         <FormLabel>Description</FormLabel>
                         <FormControl>
                           <RichTextEditor
-                            description={field.value || ''}
-                            setDescription={field.onChange}
                             iconSize={15}
+                            setDescription={field.onChange}
+                            description={field.value || ''}
                             className="min-h-[200px] m-2 focus:outline-none"
                           />
                         </FormControl>
@@ -199,13 +217,15 @@ const ProductsDetails = ({
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Files</CardTitle>
+                  <CardTitle>Images</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex flex-col gap-5">
-                    <FileUpload
+                  <div className="flex flex-col gap-5 ">
+                    <AdminProductFileUpload
+                      title="Images"
                       accept="image/*"
-                      data={images}
+                      data={allImages}
+                      selectedFiles={images}
                       dataModalFilters={{
                         mimeTypes: [
                           'image/jpeg',
@@ -219,11 +239,21 @@ const ProductsDetails = ({
                       uploadNewFileLabel="Upload new Image"
                       useExistingButtonLabel="Use existing Image"
                       onFileRemove={handleImageRemove}
-                      onSelectedFiles={handleImagesSelected}
+                      onSave={handleSaveSelectedImages}
                     />
-
-                    <FileUpload
-                      data={files}
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Files</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-col gap-5 ">
+                    <AdminProductFileUpload
+                      title="PDF"
+                      selectedFiles={files}
+                      data={allDocs}
                       accept="application/pdf"
                       uploadNewFileLabel="Upload new File"
                       useExistingButtonLabel="Use existing File"
@@ -231,7 +261,7 @@ const ProductsDetails = ({
                         mimeTypes: ['application/pdf'],
                       }}
                       onFileRemove={handleFileRemove}
-                      onSelectedFiles={handleFilesSelected}
+                      onSave={handleSaveSelectedFiles}
                     />
                   </div>
                 </CardContent>

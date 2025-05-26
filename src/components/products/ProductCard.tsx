@@ -92,13 +92,21 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
         <div className="flex flex-col gap-2">
           {/* IMAGE */}
           <div className="aspect-[3/4] relative bg-[#e6e6e6]">
-            {product?.images.at(0)?.url && (
+            {product?.images.at(0)?.url ? (
               <Image
                 fill
                 priority
                 src={product?.images.at(0)?.url || '/no-product-image.jpg'}
                 alt={product?.images.at(0)?.name || 'product image'}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-contain w-auto h-auto bg-transparent mix-blend-multiply"
+              />
+            ) : (
+              <Image
+                fill
+                priority
+                src="/no-product-image.jpg"
+                alt="no product image"
                 className="object-contain w-auto h-auto bg-transparent mix-blend-multiply"
               />
             )}
@@ -110,7 +118,9 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
             >
               <span>{product?.name.slice(0, 40)} . . .</span>
             </h3>
-            <p className="text-sm font-thin italic">{product?.model}</p>
+            <p className="h-[20px] text-sm font-thin italic">
+              {product?.model}
+            </p>
           </div>
 
           {renderPriceAndStock()}

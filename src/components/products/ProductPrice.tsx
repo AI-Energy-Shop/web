@@ -3,11 +3,11 @@ import { formatCurrency } from '@/utils/currency';
 import { muktaVaani } from '@/app/font';
 import useMe from '@/hooks/useMe';
 import Image from 'next/image';
-import { ProductQuery } from '@/lib/gql/graphql';
+import { GetStoreProductQuery } from '@/lib/gql/graphql';
 import { useAppSelector } from '@/store/store';
 
 interface ProductPriceProps {
-  product: ProductQuery['product'];
+  product: GetStoreProductQuery['getStoreProduct'];
 }
 
 const ProductPrice: React.FC<ProductPriceProps> = ({ product }) => {

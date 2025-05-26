@@ -1,20 +1,22 @@
 'use client';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Upload } from 'lucide-react';
-import { FileUploadZoneProps } from './types';
 import { filesUpload } from '@/app/actions/files';
-import { Button } from '@/components/ui/button';
 import { Toast } from '@/lib/toast';
 
-export function FileUploadZone({
-  onFiles,
+type FileUploadZoneProps = {
+  accept?: string;
+  maxFiles: number;
+  uploadNewFileLabel?: string;
+  onFiles: (files: any) => void;
+};
+
+const FileUploadZone: React.FC<FileUploadZoneProps> = ({
   accept,
   maxFiles,
-  displayUseExistingFile = true,
-  useExistingButtonLabel = 'Use existing file',
   uploadNewFileLabel = 'Upload new file',
-  onUseExistingFile,
-}: FileUploadZoneProps) {
+  onFiles,
+}) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -72,20 +74,19 @@ export function FileUploadZone({
       });
 
       const fileUploadRes = await filesUpload(formData);
-      if (fileUploadRes) {
-        onFiles?.(fileUploadRes);
-        Toast('Files uploaded successfully', 'SUCCESS');
+
+      if (fileUploadRes.error) {
+        Toast('Something went wrong. Please try again later.', 'ERROR');
+        return;
       }
+
+      onFiles?.(fileUploadRes);
+      Toast('Files uploaded successfully', 'SUCCESS');
     } catch (error) {
       Toast('Something went wrong. Please try again later.', 'ERROR');
     } finally {
       setIsUploading(false);
     }
-  };
-
-  const handleUseExistingFileClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    onUseExistingFile?.();
   };
 
   return (
@@ -116,20 +117,6 @@ export function FileUploadZone({
                 {uploadNewFileLabel}
               </label>
             </p>
-            {displayUseExistingFile && (
-              <p className="text-sm font-medium text-gray-700">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="text-black cursor-pointer text-xs"
-                  onClick={handleUseExistingFileClick}
-                  disabled={isUploading}
-                >
-                  {useExistingButtonLabel}
-                </Button>
-              </p>
-            )}
           </div>
           <p className="text-xs text-gray-500">
             {accept === 'image/*' ? ' PNG, JPG or GIF ' : 'Supported files'}
@@ -139,15 +126,17 @@ export function FileUploadZone({
       </div>
 
       <input
+        multiple
         type="file"
         name="files"
         id="fileInput"
         className="hidden"
         onChange={handleFileInput}
         accept={accept}
-        multiple
         disabled={isUploading}
       />
     </div>
   );
-}
+};
+
+export default FileUploadZone;

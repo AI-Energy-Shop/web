@@ -14,11 +14,11 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { CircleAlert, ChevronDown } from 'lucide-react';
-import { ProductQuery } from '@/lib/gql/graphql';
+import { GetStoreProductQuery } from '@/lib/gql/graphql';
 import useMe from '@/hooks/useMe';
 
 interface BulkPricesProps {
-  product: ProductQuery['product'];
+  product: GetStoreProductQuery['getStoreProduct'];
 }
 
 const BulkPrices = ({ product }: BulkPricesProps) => {

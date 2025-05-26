@@ -21,13 +21,9 @@ interface PaymentProps {
 }
 
 const Payment: React.FC<PaymentProps> = ({ checkoutUserData }) => {
-  const { paymentStep, isCartNeededManualQuote, carts } = useCart();
-  const { paymentMethod, setPaymentMethod, setItems } = useCheckout();
+  const { paymentStep, isCartNeededManualQuote, carts } = useCart({});
+  const { paymentMethod, setPaymentMethod } = useCheckout();
   const [creditCardDialog, setCreditCardDialog] = useState<boolean>(false);
-
-  useEffect(() => {
-    setItems(carts);
-  }, [carts, setItems]);
 
   const defaultCreditCard =
     checkoutUserData?.usersPermissionsUser?.creditCards?.find(

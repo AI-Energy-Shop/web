@@ -31,7 +31,7 @@ const CartItems = ({
       {data?.map?.((item) => {
         const price = item?.product?.price_lists?.find(
           (price) =>
-            price?.user_level === user?.account_detail?.level &&
+            price?.user_level === 'MID-SIZED' &&
             !price?.min_quantity &&
             !price?.max_quantity
         );

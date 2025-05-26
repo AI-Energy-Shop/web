@@ -1,4 +1,4 @@
-import ProductList from '@/components/products/ProductList';
+import ProductList from '@/components/products/product-list';
 import {
   EXCLUDED_SEARCH_PARAMS,
   INITIAL_PAGE,

@@ -1,6 +1,6 @@
 'use client';
 
-import { ProductQuery } from '@/lib/gql/graphql';
+import { GetStoreProductQuery } from '@/lib/gql/graphql';
 import { CheckCircle2 } from 'lucide-react';
 import React from 'react';
 import { useAppSelector } from '@/store/store';
@@ -8,7 +8,7 @@ import { RootState } from '@/store/store';
 import { cn } from '@/lib/utils';
 
 interface ShopProductStockQuantitiesProps {
-  product: ProductQuery['product'];
+  product: GetStoreProductQuery['getStoreProduct'];
 }
 const ShopProductStockQuantities = ({
   product,

@@ -22,7 +22,7 @@ async function CheckoutPage() {
 
           <ShippingDetails checkoutUserData={checkoutUserData} />
 
-          {/* <Payment checkoutUserData={checkoutUserData} /> */}
+          <Payment checkoutUserData={checkoutUserData} />
         </div>
 
         <div className="hidden lg:block md:col-span-4">

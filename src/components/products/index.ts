@@ -1,4 +1,4 @@
-import ProductList from './ProductList';
+import ProductList from './product-list';
 import Breadcrumb from './Breadcrumb';
 import Categories from './Categories';
 import Brands from './Brands';

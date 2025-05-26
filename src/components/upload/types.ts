@@ -1,5 +1,3 @@
-import { UploadFile } from '@/hooks/useProductDetails';
-
 export type FileType = {
   __typename: string;
   id: number;
@@ -13,7 +11,8 @@ export type FileType = {
 export type FileUploadProps = {
   maxFiles?: number;
   accept?: string;
-  data: UploadFile[];
+  selectedFiles: any[];
+  data: any[];
   dataModalFilters: {
     mimeTypes: string[];
   };
@@ -21,18 +20,19 @@ export type FileUploadProps = {
   displayUseExistingButton?: boolean;
   useExistingButtonLabel?: string;
   uploadNewFileLabel?: string;
+  title?: string;
   onUseExistingFile?: () => void;
-  onSelectedFiles?: (files: UploadFile[]) => void;
   onFileRemove: (id: string) => void;
+  onSave: (files: any[]) => void;
 };
 
 export type FileWithPreview = {
-  file: UploadFile;
+  file: any;
   preview: string;
 };
 
 export type FileUploadZoneProps = {
-  onFiles?: (files: UploadFile[]) => void;
+  onFiles?: (files: any[]) => void;
   onUseExistingFile?: () => void;
   accept: string;
   maxFiles: number;
@@ -42,14 +42,14 @@ export type FileUploadZoneProps = {
 };
 
 export type FilePreviewProps = {
-  file: UploadFile;
+  file: any;
   onRemove: (id: string) => void;
 };
 
 export interface ModalProps {
   accept: string;
   onCancel?: () => void;
-  onDone: (files: UploadFile[]) => void;
+  onDone: (files: any[]) => void;
   filters: {
     mimeTypes: string[];
   };
