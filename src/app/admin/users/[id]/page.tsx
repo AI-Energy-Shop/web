@@ -7,8 +7,8 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { getUserDetails, updateAccountStatus } from '@/app/actions/user';
-import AdminUserProfileForm from '@/components/Form/AdminUserProfileForm';
-import UserApprovalForm from '@/components/Form/UserApprovalForm';
+import AdminUserProfileForm from '@/components/forms/AdminUserProfileForm';
+import UserApprovalForm from '@/components/forms/UserApprovalForm';
 
 type AdminDashboardUserPageProps = {
   params: Promise<{ id: string }>;

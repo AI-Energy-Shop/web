@@ -11,10 +11,10 @@ interface CollectionLayoutProps {
 
 const CollectionLayout = ({ children }: CollectionLayoutProps) => {
   return (
-    <div className="w-full min-h-screen">
+    <div className="w-full min-h-screen px-2 lg:px-0">
       <Breadcrumb />
       <Categories acceptedCollections={COLLECTIONS} />
-      <div className="max-w-[1200px] mx-auto p-5 md:p-5 lg:p-5 flex flex-col gap-5 lg:gap-5">
+      <div className="max-w-[1200px] py-5 mx-auto flex flex-col gap-5 lg:gap-5">
         <PageTitle />
         <Brands />
 

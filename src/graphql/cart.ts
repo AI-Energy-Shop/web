@@ -4,7 +4,6 @@ import { gql } from '@apollo/client';
 const schema = {
   Query: {
     carts: gql(`
-      #graphql
       query Carts($filters: CartFiltersInput, $pagination: PaginationArg) {
         carts(filters: $filters, pagination: $pagination) {
           documentId
@@ -15,14 +14,18 @@ const schema = {
             odoo_product_id
             price_lists {
               price
+              comparePrice
               min_quantity
               max_quantity
+              user_level
             }
-            inventories {
+            inventory {
               documentId
-              name
-              location_code
-              quantity
+              melbourne
+              sydney
+              brisbane
+              createdAt
+              updatedAt
             }
             images {
               url
@@ -49,11 +52,13 @@ const schema = {
             quantity
             product {
               documentId
-              inventories {
+              inventory {
                 documentId
-                name
-                location_code
-                quantity
+                melbourne
+                sydney
+                brisbane
+                createdAt
+                updatedAt
               }
               shipping {
                 height
@@ -96,16 +101,18 @@ const schema = {
             model
             price_lists {
               price
-              sale_price
+              comparePrice
               min_quantity
               max_quantity
               user_level
             }
-            inventories {
+            inventory {
               documentId
-              name
-              location_code
-              quantity
+              melbourne
+              sydney
+              brisbane
+              createdAt
+              updatedAt
             }
             images {
               url
@@ -136,16 +143,18 @@ const schema = {
             odoo_product_id
             price_lists {
               price
-              sale_price
+              comparePrice
               min_quantity
               max_quantity
               user_level
             }
-            inventories {
+            inventory {
               documentId
-              name
-              location_code
-              quantity
+              melbourne
+              sydney
+              brisbane
+              createdAt
+              updatedAt
             }
             images {
               url

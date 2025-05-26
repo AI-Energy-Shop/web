@@ -7,17 +7,20 @@ import { UseFormReturn } from 'react-hook-form';
 import { FormField } from '../ui/form';
 interface ProductQuantityProps {
   form?: UseFormReturn<any>;
+  currentStock: number;
 }
 
-const ProductQuantity = ({ form }: ProductQuantityProps) => {
+const ProductQuantity = ({ form, currentStock }: ProductQuantityProps) => {
   const handleIncrement = () => {
     const quantity = Number(form?.getValues('quantity')) || 0; // Ensure it's a number
-    form?.setValue('quantity', quantity + 1);
+    if (quantity < currentStock) {
+      form?.setValue('quantity', quantity + 1);
+    }
   };
   const handleDecrement = () => {
     const quantity = form?.getValues('quantity');
 
-    if (quantity > 0) {
+    if (quantity > 0 && quantity <= currentStock) {
       form?.setValue('quantity', quantity - 1);
     }
   };

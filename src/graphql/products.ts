@@ -3,34 +3,16 @@ import { gql } from '@apollo/client';
 
 const schema = {
   Query: {
-    products: graphql(`
-      query Products(
-        $filters: ProductFiltersInput
-        $pagination: PaginationArg
-        $sort: [String]
-      ) {
-        products(filters: $filters, pagination: $pagination, sort: $sort) {
+    storeProduct: graphql(`
+      query GetStoreProduct($handle: String!) {
+        getStoreProduct(handle: $handle) {
           documentId
           name
-          description
-          product_type
           model
+          description
+          handle
           odoo_product_id
-          categories {
-            title
-            slug
-            image {
-              documentId
-              name
-              alternativeText
-              width
-              height
-              mime
-              url
-            }
-          }
           brand {
-            documentId
             name
             url
             image {
@@ -43,31 +25,48 @@ const schema = {
               url
             }
           }
+          inventory {
+            documentId
+            melbourne
+            sydney
+            brisbane
+          }
+          shipping {
+            documentId
+            width
+            height
+            weight
+            length
+          }
+          tags {
+            documentId
+            tag
+          }
+          collections {
+            documentId
+            title
+          }
           price_lists {
             documentId
             price
-            sale_price
+            comparePrice
             min_quantity
             max_quantity
             user_level
           }
           files {
             documentId
-            name
-            alternativeText
-            width
-            height
             mime
+            name
             url
+            alternativeText
           }
           images {
             documentId
-            name
-            alternativeText
-            width
-            height
             mime
+            name
             url
+            alternativeText
           }
           specifications {
             documentId
@@ -78,18 +77,7 @@ const schema = {
             documentId
             feature
           }
-          inventories {
-            documentId
-            name
-            location_code
-            quantity
-          }
-          shipping {
-            height
-            width
-            length
-            weight
-          }
+          maxQuantity
           createdAt
           updatedAt
           releasedAt
@@ -102,6 +90,7 @@ const schema = {
           documentId
           name
           description
+          handle
           product_type
           model
           odoo_product_id
@@ -132,10 +121,14 @@ const schema = {
               url
             }
           }
+          collections {
+            documentId
+            title
+          }
           price_lists {
             documentId
             price
-            sale_price
+            comparePrice
             min_quantity
             max_quantity
             user_level
@@ -167,17 +160,125 @@ const schema = {
             documentId
             feature
           }
-          inventories {
+          inventory {
             documentId
-            name
-            location_code
-            quantity
+            melbourne
+            sydney
+            brisbane
           }
           shipping {
+            documentId
             height
             width
             length
             weight
+          }
+          maxQuantity
+          createdAt
+          updatedAt
+          releasedAt
+        }
+      }
+    `),
+    products: graphql(`
+      query Products(
+        $filters: ProductFiltersInput
+        $pagination: PaginationArg
+        $sort: [String]
+      ) {
+        products(filters: $filters, pagination: $pagination, sort: $sort) {
+          documentId
+          name
+          description
+          handle
+          product_type
+          model
+          odoo_product_id
+          categories {
+            title
+            slug
+            image {
+              documentId
+              name
+              alternativeText
+              width
+              height
+              mime
+              url
+            }
+          }
+          brand {
+            documentId
+            name
+            url
+            image {
+              documentId
+              name
+              alternativeText
+              width
+              height
+              mime
+              url
+            }
+          }
+          collections {
+            documentId
+            title
+          }
+          price_lists {
+            documentId
+            price
+            comparePrice
+            min_quantity
+            max_quantity
+            user_level
+          }
+          files {
+            documentId
+            name
+            alternativeText
+            width
+            height
+            mime
+            url
+          }
+          images {
+            documentId
+            name
+            alternativeText
+            width
+            height
+            mime
+            url
+          }
+          specifications {
+            documentId
+            key
+            value
+          }
+          key_features {
+            documentId
+            feature
+          }
+          inventory {
+            documentId
+            melbourne
+            sydney
+            brisbane
+          }
+          shipping {
+            documentId
+            height
+            width
+            length
+            weight
+          }
+          maxQuantity
+          madeBy {
+            email
+          }
+          improvedBy {
+            email
           }
           createdAt
           updatedAt
@@ -237,6 +338,7 @@ const schema = {
           name
           model
           description
+          handle
           odoo_product_id
           brand {
             name
@@ -251,15 +353,20 @@ const schema = {
               url
             }
           }
-          inventories {
+          collections {
             documentId
-            location_code
-            quantity
+            title
+          }
+          inventory {
+            documentId
+            melbourne
+            sydney
+            brisbane
           }
           price_lists {
             documentId
             price
-            sale_price
+            comparePrice
             min_quantity
             max_quantity
             user_level
@@ -294,6 +401,7 @@ const schema = {
             weight
             length
           }
+          maxQuantity
           createdAt
           updatedAt
           releasedAt
@@ -307,6 +415,7 @@ const schema = {
           name
           model
           description
+          handle
           odoo_product_id
           brand {
             name
@@ -321,15 +430,20 @@ const schema = {
               url
             }
           }
-          inventories {
+          collections {
             documentId
-            location_code
-            quantity
+            title
+          }
+          inventory {
+            documentId
+            melbourne
+            sydney
+            brisbane
           }
           price_lists {
             documentId
             price
-            sale_price
+            comparePrice
             min_quantity
             max_quantity
             user_level
@@ -364,6 +478,7 @@ const schema = {
             weight
             length
           }
+          maxQuantity
           improvedBy {
             email
           }
@@ -376,11 +491,18 @@ const schema = {
         }
       }
     `),
+    deleteProduct: graphql(`
+      mutation DeleteProduct($documentId: ID!) {
+        deleteProduct(documentId: $documentId) {
+          documentId
+        }
+      }
+    `),
     createPrice: graphql(`
       mutation CreatePrice($data: PriceInput!) {
         createPrice(data: $data) {
           documentId
-          sale_price
+          comparePrice
           price
           min_quantity
           max_quantity
@@ -394,7 +516,7 @@ const schema = {
       mutation UpdatePrice($documentId: ID!, $data: PriceInput!) {
         updatePrice(documentId: $documentId, data: $data) {
           documentId
-          sale_price
+          comparePrice
           price
           min_quantity
           max_quantity
@@ -415,9 +537,9 @@ const schema = {
       mutation CreateInventory($data: InventoryInput!) {
         createInventory(data: $data) {
           documentId
-          name
-          location_code
-          quantity
+          melbourne
+          sydney
+          brisbane
           createdAt
           updatedAt
         }
@@ -427,9 +549,9 @@ const schema = {
       mutation UpdateInventory($documentId: ID!, $data: InventoryInput!) {
         updateInventory(documentId: $documentId, data: $data) {
           documentId
-          name
-          location_code
-          quantity
+          melbourne
+          sydney
+          brisbane
           createdAt
           updatedAt
         }

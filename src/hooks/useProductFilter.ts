@@ -84,13 +84,16 @@ const useProductFilter = () => {
     CollectionsWithProductsQuery,
     CollectionsWithProductsQueryVariables
   >(COLLECTION_OPERATION.Query.collectionsWithProducts, {
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: 'network-only',
     variables: {
       collectionsFilters: collectionFilters || { handle: { eq: 'all' } },
       productsFilters: productFilters,
       productsPagination: {},
     },
-    notifyOnNetworkStatusChange: true,
-    fetchPolicy: 'no-cache',
+    onError: (error) => {
+      console.log('error', error);
+    },
   });
 
   const extractFilters = useCallback(

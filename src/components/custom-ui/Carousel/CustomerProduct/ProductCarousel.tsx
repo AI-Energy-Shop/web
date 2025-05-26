@@ -6,11 +6,11 @@ import Carousel, { ResponsiveType } from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import ButtonGroup from './ButtonGroup';
 import RightButton from './RightButton';
-import { ProductQuery } from '@/lib/gql/graphql';
+import { GetStoreProductQuery } from '@/lib/gql/graphql';
 import CustomDot from './CustomDot';
 
 interface ImageCarouselProps {
-  product: ProductQuery['product'];
+  product: GetStoreProductQuery['getStoreProduct'];
 }
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({ product }) => {
@@ -40,6 +40,8 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ product }) => {
 
   const [selectedImage, setSelectedImage] = useState(0);
 
+  const firstImage = product?.images.at(0);
+
   return (
     <>
       {/* mobile carousel */}
@@ -55,23 +57,34 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ product }) => {
           customDot={<CustomDot />}
           dotListClass="space-x-1 top-[213px]"
         >
-          {product?.images.map((image, index) => (
-            <div key={index} className="h-52 relative">
+          {firstImage ? (
+            <div className="h-52 relative">
               <Image
                 fill
                 loading="lazy"
-                src={`${image?.url}`}
-                alt={`${image?.alternativeText}`}
+                src={`${firstImage?.url}`}
+                alt={`${firstImage?.alternativeText}`}
                 className="object-contain object-center"
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
               />
             </div>
-          ))}
+          ) : (
+            <div className="h-52 relative">
+              <Image
+                fill
+                loading="lazy"
+                src="/no-product-image.jpg"
+                alt="no product image"
+                className="object-contain object-center"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              />
+            </div>
+          )}
         </Carousel>
       </div>
 
       {/* tablet/desktop carousel */}
-      <div className=" w-full relative h-full hidden md:block">
+      {/* <div className=" w-full relative h-full hidden md:block">
         <div className="w-32 h-12 mx-auto">
           {product?.brand?.image?.url && (
             <Image
@@ -90,8 +103,8 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ product }) => {
             <Image
               priority
               fill
-              src={`${product?.images?.at(0)?.url}`}
-              alt={`${product?.images?.at(0)?.alternativeText}`}
+              src={`${firstImage?.url}`}
+              alt={`${firstImage?.alternativeText}`}
               className="object-contain object-center"
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
             />
@@ -105,7 +118,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ product }) => {
               customButtonGroup={<RightButton />}
               className="overflow-hidden"
             >
-              {product?.images?.map?.((image, i) => (
+              {product?.images.map((image, i) => (
                 <div
                   key={i}
                   className={`relative h-20 mr-2  rounded-xl ${selectedImage === i && 'border border-black'} cursor-pointer`}
@@ -124,7 +137,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ product }) => {
             </Carousel>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

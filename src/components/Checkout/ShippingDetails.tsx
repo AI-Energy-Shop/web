@@ -20,7 +20,7 @@ import { useCheckout } from '@/hooks/useCheckout';
 import { ShippingType } from '@/store/features/checkout';
 import { isButtonClickable } from './isButtonClickable';
 import useCalculateDeliveryPricing from '@/hooks/useCalculateDeliveryPricing';
-import LoadingSpinner from '../LoadingSpinner';
+import LoadingSpinner from '../loading-spinner';
 import ShippingOptionCard from './ShippingOptionCard';
 
 interface ShippingDetailsProps {

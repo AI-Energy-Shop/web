@@ -1,9 +1,9 @@
 'use client';
 import React, { useRef, useEffect } from 'react';
-import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import useSearchFilter from '@/hooks/useSearchFilter';
 import SearchResult from './SearchResult';
+import { Button } from '@/components/ui/button';
 
 const NavSearchBar = () => {
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -36,23 +36,37 @@ const NavSearchBar = () => {
   }, [handleSearchBlur]);
 
   return (
-    <div ref={searchContainerRef} className="relative flex-1 max-w-xl mx-8">
-      <div className="border border-gray-300 rounded-md">
-        <div className="items-center justify-center w-full px-4 py-1 hidden lg:flex">
-          <Search className="h-4 w-4 text-muted-foreground mr-1" />
-          <Input
-            placeholder="Search"
-            value={searchQueryInput}
-            onChange={handleInputChange}
-            onFocus={handleSearchFocus}
-            onKeyDown={handleSearchInputEnter}
-            className="border-none focus-visible:ring-0 focus-visible:ring-offset-0"
-          />
+    <div className="relative w-full">
+      <div
+        ref={searchContainerRef}
+        className="relative flex-1 border focus:outline-none overflow-hidden rounded-full z-100"
+      >
+        <div className="w-full">
+          <div className="relative flex items-center">
+            <input
+              type="text"
+              placeholder="Search Products"
+              className="text-xs w-full h-8 px-2 pr-10 text-gray-700 bg-white focus:outline-none"
+              value={searchQueryInput}
+              onChange={handleInputChange}
+              onKeyDown={handleSearchInputEnter}
+              onFocus={handleSearchFocus}
+              onBlur={handleSearchBlur}
+            />
+            <Button
+              type="submit"
+              className="absolute -right-0 flex items-center justify-center w-10 h-10 text-white bg-[#820045] rounded-full "
+              aria-label="Search"
+            >
+              <Search className="w-5 h-5" />
+            </Button>
+          </div>
         </div>
       </div>
-      {searchData?.products && isSearchFocused && searchQueryInput && (
-        <div className="absolute top-full left-1/2 -translate-x-1/2 w-[800px] mt-1 z-40">
+      {searchQueryInput.length > 0 && (
+        <div className="absolute w-full z-[100]">
           <SearchResult
+            suggestions={[]}
             isFocused={isSearchFocused}
             searchData={searchData}
             searchQueryInput={searchQueryInput}
@@ -61,6 +75,7 @@ const NavSearchBar = () => {
             handleClick={handleSearchResultClick}
             handleInputChange={handleInputChange}
             onViewAllResult={handleViewAllSearchResultsClick}
+            handleSuggestionClick={() => {}}
           />
         </div>
       )}

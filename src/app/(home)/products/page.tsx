@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 import { INITIAL_PAGE, INITIAL_PAGE_SIZE } from '@/constant';
-import ProductList from '@/components/products/ProductList';
+import ProductList from '@/components/products/product-list';
 import PageTitle from '@/components/products/PageTitle';
 import { products } from '@/app/actions/products';
 import { Suspense } from 'react';

@@ -3,34 +3,34 @@ import { formatCurrency } from '@/utils/currency';
 import { muktaVaani } from '@/app/font';
 import useMe from '@/hooks/useMe';
 import Image from 'next/image';
-import { ProductQuery } from '@/lib/gql/graphql';
+import { GetStoreProductQuery } from '@/lib/gql/graphql';
+import { useAppSelector } from '@/store/store';
 
 interface ProductPriceProps {
-  product: ProductQuery['product'];
+  product: GetStoreProductQuery['getStoreProduct'];
 }
 
 const ProductPrice: React.FC<ProductPriceProps> = ({ product }) => {
-  const { user } = useMe();
-
-  const priceList = product?.price_lists?.map((price) => ({
-    documentId: price?.documentId,
-    price: price?.price ?? undefined,
-    sale_price: price?.sale_price ?? undefined,
-    min_quantity: price?.min_quantity ?? undefined,
-    max_quantity: price?.max_quantity ?? undefined,
-    user_level: price?.user_level ?? undefined,
-  }));
-
-  const price = priceList?.find(
-    (price) => price?.user_level === user?.account_detail?.level
+  const userLEvel = useAppSelector(
+    (state) => state.me.me?.account_detail?.level
   );
 
-  const salePrice = price?.sale_price;
-  const regularPrice = price?.price;
+  const priceList =
+    product?.price_lists?.map((price) => ({
+      documentId: price?.documentId,
+      price: price?.price ?? undefined,
+      comparePrice: price?.comparePrice ?? undefined,
+      min_quantity: price?.min_quantity ?? undefined,
+      max_quantity: price?.max_quantity ?? undefined,
+      user_level: price?.user_level ?? undefined,
+    })) || [];
 
-  if (!user) {
-    return null;
-  }
+  const price =
+    priceList?.find((price) => price?.user_level === userLEvel) ||
+    priceList?.find((price) => price?.user_level === 'DEFAULT');
+
+  const salePrice = price?.comparePrice;
+  const regularPrice = price?.price;
 
   return (
     <div
@@ -38,9 +38,11 @@ const ProductPrice: React.FC<ProductPriceProps> = ({ product }) => {
     >
       <div className="flex justify-between">
         <div className="leading-6">
-          <h2 className="text-gray-500 line-through font-light md:text-[28px]">
-            {regularPrice ? formatCurrency(regularPrice, 'USD') : ''}
-          </h2>
+          {salePrice && (
+            <h2 className="text-gray-500 line-through font-light md:text-[28px]">
+              {regularPrice ? formatCurrency(regularPrice, 'USD') : ''}
+            </h2>
+          )}
           <h1 className="font-medium md:mt-1">
             <span className=" text-[40px]">
               {salePrice

@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 import { INITIAL_PAGE, INITIAL_PAGE_SIZE } from '@/constant';
-import ProductList from '@/components/products/ProductList';
+import ProductList from '@/components/products/product-list';
 import Breadcrumb from '@/components/products/Breadcrumb';
 import Categories from '@/components/products/Categories';
 import PageTitle from '@/components/products/PageTitle';

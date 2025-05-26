@@ -5,7 +5,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { ChevronDownIcon, ShoppingCart } from 'lucide-react';
-import OrderList from '@/components/Orders/OrderList';
+import OrderList from '@/components/orders/OrderList';
 import { orders } from '@/app/actions/orders';
 
 export default async function OrderPage() {

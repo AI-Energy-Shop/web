@@ -139,7 +139,7 @@ export const loginUser = async ({
     const cookieOptions = {
       path: '/',
       maxAge: remember ? 60 * 60 * 24 * 30 : undefined, // 30 days if remember is true, otherwise undefined
-      httpOnly: true,
+      // httpOnly: true,
     };
 
     cookieStore.set('a-token', token!, cookieOptions);
