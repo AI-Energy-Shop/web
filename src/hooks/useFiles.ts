@@ -1,4 +1,5 @@
 import FILES_OPERATIONS from '@/graphql/files';
+import { FilesQuery } from '@/lib/gql/graphql';
 import { useQuery } from '@apollo/client';
 import { useEffect, useState } from 'react';
 
@@ -8,21 +9,23 @@ type UseFilesProps = {
       contains: string;
     };
   };
+  sort?: string[];
 };
 
-const useFiles = ({ filters }: UseFilesProps) => {
-  const [files, setFiles] = useState<any[]>([]);
+const useFiles = ({ filters, sort }: UseFilesProps) => {
+  const [files, setFiles] = useState<FilesQuery['files']>([]);
 
-  const { data, loading } = useQuery(FILES_OPERATIONS.Query.uploadFiles, {
+  const { data, loading, refetch } = useQuery(FILES_OPERATIONS.Query.files, {
     fetchPolicy: 'network-only',
     variables: {
       filters,
+      sort,
     },
   });
 
   useEffect(() => {
     if (data) {
-      setFiles(data.uploadFiles);
+      setFiles(data.files);
     }
 
     return () => {
@@ -30,7 +33,7 @@ const useFiles = ({ filters }: UseFilesProps) => {
     };
   }, [data]);
 
-  return { files, loading };
+  return { files, loading, refetch };
 };
 
 export default useFiles;

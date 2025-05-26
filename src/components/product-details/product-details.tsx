@@ -1,4 +1,12 @@
 'use client';
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -9,13 +17,6 @@ import { FormLabel } from '@/components/ui/form';
 import { FormControl } from '@/components/ui/form';
 import { FormMessage } from '@/components/ui/form';
 import { FormItem } from '@/components/ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { ChevronLeft, Loader2 } from 'lucide-react';
 import RichTextEditor from '@/components/rich-text-editor/RichTextEditor';
 import AdminProductFileUpload from '@/components/upload/admin-product-file-upload';
@@ -57,19 +58,22 @@ const ProductsDetails = ({
     handleAddKeyFeatureItem,
   } = useProductDetails({ id, product });
 
-  const { files: allImages } = useFiles({
+  const { files: allImages, refetch: refetchImages } = useFiles({
     filters: {
       mime: {
         contains: 'image',
       },
     },
+    sort: ['createdAt:desc'],
   });
-  const { files: allDocs } = useFiles({
+
+  const { files: allDocs, refetch: refetchDocs } = useFiles({
     filters: {
       mime: {
         contains: 'application/pdf',
       },
     },
+    sort: ['createdAt:desc'],
   });
 
   return (
@@ -159,7 +163,7 @@ const ProductsDetails = ({
                       name="name"
                       render={({ field }) => (
                         <FormItem className="w-full">
-                          <FormLabel>Title</FormLabel>
+                          <FormLabel>Name</FormLabel>
                           <FormControl>
                             <Input {...field} />
                           </FormControl>
@@ -188,6 +192,23 @@ const ProductsDetails = ({
                           <FormLabel>ODOO ID</FormLabel>
                           <FormControl>
                             <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={addProductForm.control}
+                      name="odoo_product_name"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel>ODOO Name</FormLabel>
+                          <FormControl>
+                            <Input
+                              disabled
+                              {...field}
+                              value={field.value || ''}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -222,10 +243,6 @@ const ProductsDetails = ({
                 <CardContent>
                   <div className="flex flex-col gap-5 ">
                     <AdminProductFileUpload
-                      title="Images"
-                      accept="image/*"
-                      data={allImages}
-                      selectedFiles={images}
                       dataModalFilters={{
                         mimeTypes: [
                           'image/jpeg',
@@ -236,10 +253,15 @@ const ProductsDetails = ({
                           'image/svg+xml',
                         ],
                       }}
+                      title="Images"
+                      accept="image/*"
+                      data={allImages}
+                      selectedFiles={images}
                       uploadNewFileLabel="Upload new Image"
                       useExistingButtonLabel="Use existing Image"
                       onFileRemove={handleImageRemove}
                       onSave={handleSaveSelectedImages}
+                      refetch={refetchImages}
                     />
                   </div>
                 </CardContent>
@@ -262,6 +284,7 @@ const ProductsDetails = ({
                       }}
                       onFileRemove={handleFileRemove}
                       onSave={handleSaveSelectedFiles}
+                      refetch={refetchDocs}
                     />
                   </div>
                 </CardContent>

@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminSideNavigation from '@/components/navigations/AdminSideNavigation';
+import AdminSideNavigation from '@/components/navigations/admin-side-navigation';
 const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <main className="h-screen w-full grid grid-cols-12 bg-gray-100">

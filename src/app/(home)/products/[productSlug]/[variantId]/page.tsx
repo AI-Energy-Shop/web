@@ -6,14 +6,14 @@ import ProductPrice from '@/components/products/ProductPrice';
 import BulkPrices from '@/components/products/BulkPrices';
 import Breadcrumb from '@/components/products/Breadcrumb';
 import ProductAddToCartButton from '@/components/products/ProductAddToCartButton';
-import Carousel from '@/components/custom-ui/Carousel';
-import { product } from '@/app/actions/products';
+import Carousel from '@/components/carousels';
+import { storeProduct } from '@/app/actions/products';
 import { firaSans } from '@/app/font';
 import { cn } from '@/lib/utils';
 
 async function VariantPage({ params }: { params: { variantId: string } }) {
   const id = (await params).variantId;
-  const { data } = await product(id);
+  const { data } = await storeProduct(id);
 
   return (
     <main className="bg-yellow-light-yellow">
@@ -25,28 +25,28 @@ async function VariantPage({ params }: { params: { variantId: string } }) {
           )}
         >
           <h1 className="text-2xl max-sm:pt-2 md:text-4xl font-bold">
-            {data?.product?.name}
+            {data?.getStoreProduct?.name}
           </h1>
           <p className="font-medium text-lg md:text-2xl italic">
-            {data?.product?.model}
+            {data?.getStoreProduct?.model}
           </p>
         </div>
 
         <div className="md:flex md:justify-between md:px-12 md:pb-5">
           <div className="ae-mobile-container max-md:w-4/5 max-md:max-w-96 md:basis-[40%] md:max-w-[40%]">
-            <Carousel.ProductCarousel product={data?.product} />
+            <Carousel.ProductCarousel product={data?.getStoreProduct} />
           </div>
           <div className="md:basis-[51.75%] md:max-w-[51.75%]">
-            <ProductPrice product={data?.product} />
-            <BulkPrices product={data?.product} />
-            <ShopProductStockQuantities product={data?.product} />
-            <ProductAddToCartButton product={data?.product} />
+            <ProductPrice product={data?.getStoreProduct} />
+            <BulkPrices product={data?.getStoreProduct} />
+            <ShopProductStockQuantities product={data?.getStoreProduct} />
+            <ProductAddToCartButton product={data?.getStoreProduct} />
           </div>
         </div>
       </section>
 
-      <ProductDescription productData={data?.product} />
-      <RelatedProducts data={data?.product} />
+      <ProductDescription productData={data?.getStoreProduct} />
+      <RelatedProducts data={data?.getStoreProduct} />
     </main>
   );
 }

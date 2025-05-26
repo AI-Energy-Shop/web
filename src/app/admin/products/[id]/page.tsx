@@ -1,4 +1,4 @@
-import ProductErrorBoundary from '@/components/error-boundary/ProductErrorBoundary';
+import ProductErrorBoundary from '@/components/error-boundary/product-error-boudery';
 import ProductsDetails from '@/components/product-details/product-details';
 import { product } from '@/app/actions/products';
 import { redirect } from 'next/navigation';

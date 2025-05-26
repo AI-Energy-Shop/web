@@ -1,7 +1,7 @@
-import ProductCarousel from '@/components/custom-ui/Carousel/CustomerProduct/ProductCarousel';
 import ShopProductStockQuantities from '@/components/products/ShopProductStockQuantities';
 import ProductAddToCartButton from '@/components/products/ProductAddToCartButton';
 import ProductDescription from '@/components/products/ProductDescription';
+import ImageCarousel from '@/components/carousels/Home/ImageCarousel';
 import RelatedProducts from '@/components/products/RelatedProducts';
 import ProductPrice from '@/components/products/ProductPrice';
 import BulkPrices from '@/components/products/BulkPrices';
@@ -39,7 +39,7 @@ async function ProductPage({ params }: { params: { productSlug: string } }) {
 
         <div className="md:flex md:justify-between md:px-12 md:pb-5">
           <div className="ae-mobile-container max-md:w-4/5 max-md:max-w-96 md:basis-[40%] md:max-w-[40%]">
-            <ProductCarousel product={product} />
+            <ImageCarousel slides={product?.images} />
           </div>
           <div className="md:basis-[51.75%] md:max-w-[51.75%]">
             <ProductPrice product={product} />
