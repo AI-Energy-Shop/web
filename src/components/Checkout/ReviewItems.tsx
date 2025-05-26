@@ -41,7 +41,11 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
   const checkIfProductLocationQuantityIsOkToProceed = () => {
     const productWithNoStockInCurrentLocation =
       cartProductQuantity.usersPermissionsUser?.carts.find((cartItem: any) => {
-        return cartItem?.product?.inventory[`${warehouseLocation?.name}`] <= 0;
+        return (
+          (cartItem?.product?.inventory[
+            warehouseLocation?.name.toLowerCase()
+          ] || 0) < 1
+        );
       });
 
     return productWithNoStockInCurrentLocation ? true : false;
@@ -53,26 +57,25 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
   }, []);
 
   const checkIfCartQuantityIsExceeded = () => {
-    // const isThereExceededCart =
-    //   cartProductQuantity?.usersPermissionsUser?.carts?.filter((cart) => {
-    //     const cartQty = carts?.find(
-    //       (staleCart) => staleCart.documentId === cart?.documentId
-    //     )?.quantity;
+    const isThereExceededCart =
+      cartProductQuantity?.usersPermissionsUser?.carts?.filter((cart) => {
+        const cartQty = carts?.find(
+          (staleCart) => staleCart?.documentId === cart?.documentId
+        )?.quantity;
 
-    //     const productLocationInventory = cart?.product?.inventories?.find(
-    //       (loc) =>
-    //         loc?.name?.toLowerCase() === warehouseLocation?.name?.toLowerCase()
-    //     );
+        const productLocationInventory =
+          cart?.product?.inventory?.[
+            warehouseLocation?.name as keyof typeof cart.product.inventory
+          ];
 
-    //     if ((cartQty || 0) > (productLocationInventory?.quantity || 0)) {
-    //       return true;
-    //     }
+        if ((cartQty || 0) > (productLocationInventory?.quantity || 0)) {
+          return false;
+        }
 
-    //     return false;
-    //   });
+        return true;
+      });
 
-    // return (isThereExceededCart?.length || 0) > 0;
-    return false;
+    return (isThereExceededCart?.length || 0) > 0;
   };
 
   const handleEditClick = () => {
@@ -272,7 +275,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
           </div>
           <CartItems
             cartProductQuantity={cartProductQuantity}
-            data={[]}
+            data={carts}
             onChange={handleChange}
             onReduceQuant={handleReduceQuant}
             onAddQuant={handleAddQuant}

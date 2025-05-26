@@ -199,9 +199,9 @@ const useCart = (props: UseCartProps) => {
 
   useEffect(() => {
     if (cartData) {
-      console.log(cartData.carts);
       dispatch(setCarts(cartData.carts));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartData]);
 
   return {

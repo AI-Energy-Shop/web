@@ -7,7 +7,7 @@ import { CartsQuery, GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
 import { useCheckout } from '@/hooks/useCheckout';
 
 interface CartItemsProps {
-  data: CartsQuery[];
+  data: CartsQuery['carts'];
   onChange: (id: string, e: React.ChangeEvent<HTMLInputElement>) => void;
   onReduceQuant: (id: string) => void;
   onAddQuant: (id: string) => void;
@@ -36,30 +36,28 @@ const CartItems = ({
             !price?.max_quantity
         );
 
-        const productPrice = price?.sale_price || price?.price || 0;
+        const productPrice = price?.comparePrice || price?.price || 0;
 
         const currentProduct =
           cartProductQuantity.usersPermissionsUser?.carts.find(
-            (cart) => cart?.documentId === item.documentId
+            (cart) => cart?.documentId === item?.documentId
           );
 
         const currentProductQuantity =
-          currentProduct?.product?.inventories.find(
-            (location) =>
-              location?.name?.toLowerCase() ===
-              warehouseLocation.name?.toLowerCase()
-          )?.quantity;
+          currentProduct?.product?.inventory?.[
+            warehouseLocation?.name as keyof typeof currentProduct.product.inventory
+          ];
 
         return (
           <CartItemCard
-            key={item.documentId}
-            id={item.documentId}
-            image={item.product?.images[0]?.url}
-            title={item.product?.name}
-            model={item.product?.model}
+            key={item?.documentId}
+            id={item?.documentId!}
+            image={item?.product?.images[0]?.url}
+            title={item?.product?.name}
+            model={item?.product?.model}
             price={productPrice}
             gst={formatCurrency(productPrice * 0.1, 'USD')}
-            quantity={item.quantity}
+            quantity={item?.quantity}
             stock={currentProductQuantity || 0}
             onAddQuant={onAddQuant}
             onReduceQuant={onReduceQuant}

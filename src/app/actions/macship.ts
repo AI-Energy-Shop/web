@@ -1,7 +1,7 @@
 'use server';
 
 import { Routes } from '@/lib/routes.types';
-import { Cart } from '@/store/features/cart';
+import { CartsQuery } from '@/lib/gql/graphql';
 
 interface calculateDeliveryPricingProps {
   fromLocation: {
@@ -12,13 +12,13 @@ interface calculateDeliveryPricingProps {
     suburb: string;
     postcode: string;
   };
-  cart: Cart[];
+  carts: CartsQuery['carts'];
 }
 
 export const calculateDeliveryPricing = async (
   args: calculateDeliveryPricingProps
 ) => {
-  const { toLocation, cart } = args;
+  const { toLocation, carts } = args;
 
   const isAddressValid = await checkIfSuburbIsValid(
     toLocation.suburb,
@@ -29,15 +29,15 @@ export const calculateDeliveryPricing = async (
     return { data: null, error: true };
   }
 
-  const cartItems = cart.map((product) => {
+  const cartItems = carts.map((product) => {
     return {
-      name: product.product.name,
-      sku: product.product.model,
-      quantity: product.quantity,
-      weight: product.product.shipping?.weight,
-      length: product.product.shipping?.length,
-      width: product.product.shipping?.width,
-      height: product.product.shipping?.height,
+      name: product?.product?.name,
+      sku: product?.product?.model,
+      quantity: product?.quantity,
+      weight: product?.product?.shipping?.weight,
+      length: product?.product?.shipping?.length,
+      width: product?.product?.shipping?.width,
+      height: product?.product?.shipping?.height,
     };
   });
 

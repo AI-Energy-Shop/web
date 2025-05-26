@@ -33,6 +33,13 @@ const schema = {
               width
               height
             }
+            shipping {
+              weight
+              height
+              width
+              length
+              documentId
+            }
           }
           user {
             documentId
