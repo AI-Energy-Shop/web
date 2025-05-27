@@ -480,3 +480,4 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
 };
 
 export default ShippingDetails;
+

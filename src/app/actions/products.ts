@@ -99,6 +99,38 @@ export const product = async (
   }
 };
 
+export const storeProducts = async (variables?: {
+  filters: ProductFiltersInput;
+  pagination: PaginationArg;
+  sort?: string[];
+}): Promise<FetchResult<ProductsQuery>> => {
+  try {
+    const cookieStore = cookies();
+    const token = cookieStore.get('a-token');
+    const context = token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token?.value}`,
+          },
+        }
+      : undefined;
+
+    const res = await client.query({
+      query: PRODUCT_OPERATIONS.Query.storeProducts,
+      fetchPolicy: 'no-cache',
+      variables: {
+        ...variables,
+      },
+      context,
+    });
+
+    return res;
+  } catch (error: any) {
+    console.log('error in product', error);
+    throw handleGraphQLError(error);
+  }
+};
+
 export const storeProduct = async (
   handle: string
 ): Promise<FetchResult<GetStoreProductQuery>> => {

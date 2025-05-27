@@ -51,6 +51,7 @@ const schema = {
           product_type
           model
           odoo_product_id
+          odoo_product_name
           categories {
             title
             slug

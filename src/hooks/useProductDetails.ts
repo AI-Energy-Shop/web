@@ -152,6 +152,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
       description: product?.description || '',
       product_type: product?.product_type || '',
       odoo_product_id: product?.odoo_product_id || '',
+      odoo_product_name: product?.odoo_product_name || '',
       brand: product?.brand?.documentId || null,
       shipping: defaultShipping,
       collections: defaultCollections,

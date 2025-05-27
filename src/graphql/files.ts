@@ -1,11 +1,10 @@
-import { graphql } from '@/lib/gql';
 import { gql } from '@apollo/client';
 
 export const schema = {
   Query: {
-    files: gql(`
-      query Files($filters: UploadFileFiltersInput) {
-        files(filters: $filters) {
+    file: gql(`
+      query UploadFile($documentId: ID!) {
+        uploadFile(documentId: $documentId) {
           documentId
           name
           alternativeText
@@ -21,6 +20,32 @@ export const schema = {
           previewUrl
           provider
           provider_metadata
+          createdAt
+          updatedAt
+          publishedAt
+        }
+      }
+    `),
+    files: gql(`
+      query Files($filters: UploadFileFiltersInput, $sort: [String]) {
+        files(filters: $filters, sort: $sort) {
+          documentId
+          name
+          alternativeText
+          caption
+          width
+          height
+          formats
+          hash
+          ext
+          mime
+          size
+          url
+          previewUrl
+          provider
+          createdAt
+          updatedAt
+          publishedAt
         }
       }
     `),

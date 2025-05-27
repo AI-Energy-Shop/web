@@ -8,14 +8,14 @@ type FileUploadZoneProps = {
   accept?: string;
   maxFiles: number;
   uploadNewFileLabel?: string;
-  onFiles: (files: any) => void;
+  onChange?: (files: File[]) => void;
 };
 
 const FileUploadZone: React.FC<FileUploadZoneProps> = ({
   accept,
   maxFiles,
   uploadNewFileLabel = 'Upload new file',
-  onFiles,
+  onChange,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -44,12 +44,12 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({
         return;
       }
 
-      await handleFiles(droppedFiles);
+      onChange?.(droppedFiles);
     },
     [maxFiles]
   );
 
-  const handleFileInput = useCallback(
+  const handleFileInputChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       const files = Array.from(e.target.files || []);
       if (files.length > maxFiles) {
@@ -57,44 +57,18 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({
         return;
       }
 
-      await handleFiles(files);
+      onChange?.(files);
       e.target.value = '';
     },
     [maxFiles]
   );
-
-  const handleFiles = async (files: File[]) => {
-    if (files.length === 0) return;
-
-    setIsUploading(true);
-    try {
-      const formData = new FormData();
-      files.forEach((file) => {
-        formData.append('files', file);
-      });
-
-      const fileUploadRes = await filesUpload(formData);
-
-      if (fileUploadRes.error) {
-        Toast('Something went wrong. Please try again later.', 'ERROR');
-        return;
-      }
-
-      onFiles?.(fileUploadRes);
-      Toast('Files uploaded successfully', 'SUCCESS');
-    } catch (error) {
-      Toast('Something went wrong. Please try again later.', 'ERROR');
-    } finally {
-      setIsUploading(false);
-    }
-  };
 
   return (
     <div
       className={`border-2 border-dashed rounded-lg p-2 text-center transition-colors duration-200 ${
         isDragging
           ? 'border-blue-500 bg-blue-50'
-          : 'border-blue-300 hover:border-blue-400 bg-blue-50'
+          : 'border-blue-300 hover:border-3 hover:border-blue-400 bg-blue-50'
       }`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
@@ -131,7 +105,7 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({
         name="files"
         id="fileInput"
         className="hidden"
-        onChange={handleFileInput}
+        onChange={handleFileInputChange}
         accept={accept}
         disabled={isUploading}
       />

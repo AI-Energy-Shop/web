@@ -226,3 +226,4 @@ const useCart = (props: UseCartProps) => {
 };
 
 export default useCart;
+

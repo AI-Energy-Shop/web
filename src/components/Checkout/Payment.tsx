@@ -164,3 +164,4 @@ const Payment: React.FC<PaymentProps> = ({ checkoutUserData }) => {
 };
 
 export default Payment;
+
