@@ -4,7 +4,7 @@
 //     const cookie = cookies()
 //     const token = cookie.get('a-token')?.value
 //     const user = cookie.get('a-user')?.value
-  
+
 //     if(token && user){
 //       return redirect('/')
 //     }

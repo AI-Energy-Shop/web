@@ -1,10 +1,10 @@
-import ShopProductStockQuantities from '@/components/products/ShopProductStockQuantities';
-import ProductAddToCartButton from '@/components/products/ProductAddToCartButton';
-import ProductDescription from '@/components/products/ProductDescription';
+import ShopProductStockQuantities from '@/components/products/shop-product-sock-quantities';
+import ProductAddToCartButton from '@/components/products/product-add-to-cart-button';
+import ProductDescription from '@/components/products/product-description';
 import ImageCarousel from '@/components/carousels/Home/ImageCarousel';
-import RelatedProducts from '@/components/products/RelatedProducts';
-import ProductPrice from '@/components/products/ProductPrice';
-import BulkPrices from '@/components/products/BulkPrices';
+import RelatedProducts from '@/components/products/related-products';
+import ProductPrice from '@/components/products/product-price';
+import BulkPrices from '@/components/products/bulk-prices';
 import { Breadcrumb } from '@/components/products';
 import { storeProduct } from '@/app/actions/products';
 import { firaSans } from '@/app/font';

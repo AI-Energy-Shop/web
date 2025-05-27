@@ -1,11 +1,11 @@
 export const dynamic = 'force-dynamic';
-import ShopProductStockQuantities from '@/components/products/ShopProductStockQuantities';
-import ProductDescription from '@/components/products/ProductDescription';
-import RelatedProducts from '@/components/products/RelatedProducts';
-import ProductPrice from '@/components/products/ProductPrice';
-import BulkPrices from '@/components/products/BulkPrices';
-import Breadcrumb from '@/components/products/Breadcrumb';
-import ProductAddToCartButton from '@/components/products/ProductAddToCartButton';
+import ShopProductStockQuantities from '@/components/products/shop-product-sock-quantities';
+import ProductDescription from '@/components/products/product-description';
+import RelatedProducts from '@/components/products/related-products';
+import ProductPrice from '@/components/products/product-price';
+import BulkPrices from '@/components/products/bulk-prices';
+import Breadcrumb from '@/components/products/breadcrumb';
+import ProductAddToCartButton from '@/components/products/product-add-to-cart-button';
 import Carousel from '@/components/carousels';
 import { storeProduct } from '@/app/actions/products';
 import { firaSans } from '@/app/font';

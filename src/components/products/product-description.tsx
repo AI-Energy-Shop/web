@@ -5,10 +5,10 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import ProductDetailsOverview from './ProductDetailsOverview';
-import ProductKeyFeatures from './ProductKeyFeatures';
-import ProductSpecification from './ProductSpecification';
-import ProductDownloads from './ProductDownloads';
+import ProductDetailsOverview from './product-details-overview';
+import ProductKeyFeatures from './product-key-features';
+import ProductSpecification from './product-specification';
+import ProductDownloads from './product-downloads';
 import { firaSans } from '@/app/font';
 import { GetStoreProductQuery } from '@/lib/gql/graphql';
 interface ProductDescriptionProps {

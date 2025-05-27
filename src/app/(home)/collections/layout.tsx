@@ -1,6 +1,6 @@
 import React from 'react';
 import { COLLECTIONS } from '@/constant/collections';
-import Breadcrumb from '@/components/products/Breadcrumb';
+import Breadcrumb from '@/components/products/breadcrumb';
 import SidebarFilters from '@/components/products/filter/SidebarFilters';
 import { Brands, Categories, PageTitle } from '@/components/products';
 import SortOption from '@/components/products/options/SortOption';

@@ -7,7 +7,7 @@ import { useToast } from '@/hooks/useToast';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { Form, FormField } from '../ui/form';
-import ProductQuantity from './ProductQuantity';
+import ProductQuantity from './product-quantity';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useMe from '@/hooks/useMe';
 

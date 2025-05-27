@@ -8,7 +8,7 @@ import { Button } from '../ui/button';
 import useCart from '@/hooks/useCart';
 import { Form, FormField } from '../ui/form';
 import { useAppSelector } from '@/store/hooks';
-import ProductQuantity from './ProductQuantity';
+import ProductQuantity from './product-quantity';
 import { formatCurrency } from '@/utils/currency';
 import { ProductsQuery } from '@/lib/gql/graphql';
 

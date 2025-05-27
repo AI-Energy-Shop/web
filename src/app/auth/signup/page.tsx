@@ -3,12 +3,12 @@ import Image from 'next/image';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 const SignupPage = () => {
-  const cookie = cookies()
-  const token = cookie.get('a-token')?.value
-  const user = cookie.get('a-user')?.value
+  const cookie = cookies();
+  const token = cookie.get('a-token')?.value;
+  const user = cookie.get('a-user')?.value;
 
-  if(token && user){
-    return redirect('/')
+  if (token && user) {
+    return redirect('/');
   }
 
   return (

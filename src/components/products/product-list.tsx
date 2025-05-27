@@ -1,5 +1,5 @@
-import ProductListSkeleton from './ProductListSkeleton';
-import ProductPagination from './ProductPagination';
+import ProductListSkeleton from './product-list-skeleton';
+import ProductPagination from './product-pagination';
 import { ProductsQuery } from '@/lib/gql/graphql';
 import { INITIAL_PAGE_SIZE } from '@/constant';
 import React, { Suspense } from 'react';

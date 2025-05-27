@@ -23,14 +23,14 @@ import AdminProductFileUpload from '@/components/upload/admin-product-file-uploa
 import useProductDetails from '@/hooks/useProductDetails';
 import useFiles from '@/hooks/useFiles';
 import { ProductQuery } from '@/lib/gql/graphql';
-import ListInput from './ListInput';
-import InventoryItem from './InventoryItem';
-import PriceListItem from './PriceListItem';
+import ListInput from './list-input';
+import InventoryItem from './inventory-item';
+import PriceListItem from './price-list-item';
 import { Button } from '@/components/ui/button';
-import SpecificationItem from './SpecificationItem';
+import SpecificationItem from './specification-item';
 import { SPECIFICATION_KEYS } from '@/constant';
-import KeyFeatureItem from './KeyFeatureItem';
-import ComboBoxField from './ComboBoxField';
+import KeyFeatureItem from './key-feature-item';
+import ComboBoxField from './combo-box-field';
 
 const ProductsDetails = ({
   id,

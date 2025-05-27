@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import BrandItem from './BrandItem';
+import BrandItem from './brand-item';
 import { Skeleton } from '../ui/skeleton';
 import Carousel from 'react-multi-carousel';
 import { Button } from '../ui/button';
