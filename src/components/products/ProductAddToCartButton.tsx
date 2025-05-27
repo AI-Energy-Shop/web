@@ -7,13 +7,13 @@ import { firaSans } from '@/app/font';
 import useCart from '@/hooks/useCart';
 import { Button } from '../ui/button';
 import { Minus, Plus } from 'lucide-react';
-import { GetStoreProductQuery } from '@/lib/gql/graphql';
+import { ProductQuery } from '@/lib/gql/graphql';
 import { Form, FormControl, FormField, FormItem } from '../ui/form';
 import { addToCartSchema } from '@/lib/validation-schema/add-to-cart-form';
 import { useAppSelector } from '@/store/store';
 
 interface ProductAddToCartButtonProps {
-  product: GetStoreProductQuery['getStoreProduct'];
+  product: ProductQuery['product'];
 }
 
 const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {

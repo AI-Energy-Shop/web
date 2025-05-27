@@ -1,5 +1,6 @@
 import { UsersPermissionsUserQuery } from '@/lib/gql/graphql';
 import { createSlice } from '@reduxjs/toolkit';
+import { CartsQuery } from '@/lib/gql/graphql';
 
 export type CartProductType = NonNullable<
   NonNullable<
@@ -8,11 +9,6 @@ export type CartProductType = NonNullable<
     >['carts'][number]
   >['product']
 >;
-export interface Cart {
-  documentId: string;
-  quantity: number;
-  product: CartProductType;
-}
 
 export interface WarehouseLocation {
   address?: {
@@ -44,7 +40,7 @@ export interface DeliveryOption {
 }
 
 export interface InitialState {
-  carts: Cart[];
+  carts: CartsQuery['carts'];
   paymentStep: number;
   warehouseLocation?: WarehouseLocation;
   shippingAddress?: ShippingAddress;

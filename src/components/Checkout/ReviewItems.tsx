@@ -29,7 +29,13 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
   checkoutUserData: cartProductQuantity,
 }) => {
   const dispatch = useAppDispatch();
-  const { carts, paymentStep, removeItemFromCart } = useCart();
+  const {
+    carts,
+    paymentStep,
+    removeItemFromCart,
+    updateApolloClientCartData,
+    updateCartItem,
+  } = useCart({});
   const [showModal, setShowModal] = useState<boolean>(false);
   const [toRemoveItemId, setToRemoveItemId] = useState<string | undefined>(
     undefined
@@ -41,7 +47,11 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
   const checkIfProductLocationQuantityIsOkToProceed = () => {
     const productWithNoStockInCurrentLocation =
       cartProductQuantity.usersPermissionsUser?.carts.find((cartItem: any) => {
-        return cartItem?.product?.inventory[`${warehouseLocation?.name}`] <= 0;
+        return (
+          (cartItem?.product?.inventory[
+            warehouseLocation?.name.toLowerCase()
+          ] || 0) < 1
+        );
       });
 
     return productWithNoStockInCurrentLocation ? true : false;
@@ -53,26 +63,25 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
   }, []);
 
   const checkIfCartQuantityIsExceeded = () => {
-    // const isThereExceededCart =
-    //   cartProductQuantity?.usersPermissionsUser?.carts?.filter((cart) => {
-    //     const cartQty = carts?.find(
-    //       (staleCart) => staleCart.documentId === cart?.documentId
-    //     )?.quantity;
+    const isThereExceededCart =
+      cartProductQuantity?.usersPermissionsUser?.carts?.filter((cart) => {
+        const cartQty = carts?.find(
+          (staleCart) => staleCart?.documentId === cart?.documentId
+        )?.quantity;
 
-    //     const productLocationInventory = cart?.product?.inventories?.find(
-    //       (loc) =>
-    //         loc?.name?.toLowerCase() === warehouseLocation?.name?.toLowerCase()
-    //     );
+        const productLocationInventory =
+          cart?.product?.inventory?.[
+            warehouseLocation?.name as keyof typeof cart.product.inventory
+          ];
 
-    //     if ((cartQty || 0) > (productLocationInventory?.quantity || 0)) {
-    //       return true;
-    //     }
+        if ((cartQty || 0) > (productLocationInventory?.quantity || 0)) {
+          return false;
+        }
 
-    //     return false;
-    //   });
+        return true;
+      });
 
-    // return (isThereExceededCart?.length || 0) > 0;
-    return false;
+    return (isThereExceededCart?.length || 0) > 0;
   };
 
   const handleEditClick = () => {
@@ -92,86 +101,67 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
   };
 
   const handleChange = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
-    // const cart = carts.find((cart) => cart.documentId === id);
-    // if (cart) {
-    //   const value = e.target.value === '' ? 0 : parseInt(e.target.value, 10);
-    //   // debounce functionality to delay network request when the value change so fast
-    //   if (debounceTimer.current) {
-    //     clearTimeout(debounceTimer.current);
-    //   }
-    //   debounceTimer.current = setTimeout(() => {
-    //     updateCartProductQuantity(cart.documentId, value);
-    //   }, DEBOUNCE_DELAY);
-    //   dispatch(
-    //     setCarts(
-    //       carts.map((cart) => {
-    //         if (cart.documentId === id)
-    //           return {
-    //             ...cart,
-    //             quantity: value,
-    //           };
-    //         return cart;
-    //       })
-    //     )
-    //   );
-    // }
+    const cart = carts.find((cart) => cart?.documentId === id);
+    if (cart) {
+      const value = e.target.value === '' ? 0 : parseInt(e.target.value, 10);
+
+      updateApolloClientCartData(cart.documentId, value);
+
+      // debounce functionality to delay network request when the value change so fast
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+      debounceTimer.current = setTimeout(async () => {
+        await updateCartItem({
+          variables: { documentId: cart.documentId, data: { quantity: value } },
+        });
+      }, DEBOUNCE_DELAY);
+    }
   };
 
   const handleReduceQuant = (id: string) => {
-    // const cart = carts.find((cart) => cart.documentId === id);
-    // if (cart) {
-    //   if (cart.quantity <= 1) {
-    //     setShowModal(!showModal);
-    //     setToRemoveItemId(id);
-    //   } else {
-    //     // debounce functionality to delay network request when the value change so fast
-    //     if (debounceTimer.current) {
-    //       clearTimeout(debounceTimer.current);
-    //     }
-    //     debounceTimer.current = setTimeout(() => {
-    //       updateCartProductQuantity(cart.documentId, cart.quantity - 1);
-    //     }, DEBOUNCE_DELAY);
-    //     dispatch(
-    //       setCarts(
-    //         carts.map((cart) => {
-    //           if (cart.documentId === id) {
-    //             return {
-    //               ...cart,
-    //               quantity: cart.quantity - 1,
-    //             };
-    //           }
-    //           return cart;
-    //         })
-    //       )
-    //     );
-    //   }
-    // }
+    const cart = carts.find((cart) => cart?.documentId === id);
+    if (cart) {
+      if (cart.quantity <= 1) {
+        setShowModal(!showModal);
+        setToRemoveItemId(id);
+      } else {
+        updateApolloClientCartData(cart.documentId, cart.quantity - 1);
+
+        // debounce functionality to delay network request when the value change so fast
+        if (debounceTimer.current) {
+          clearTimeout(debounceTimer.current);
+        }
+        debounceTimer.current = setTimeout(async () => {
+          await updateCartItem({
+            variables: {
+              documentId: cart.documentId,
+              data: { quantity: cart.quantity - 1 },
+            },
+          });
+        }, DEBOUNCE_DELAY);
+      }
+    }
   };
 
   const handleAddQuant = (id: string) => {
-    // const cart = carts.find((cart) => cart.documentId === id);
-    // if (cart) {
-    //   // debounce functionality to delay network request when the value change so fast
-    //   if (debounceTimer.current) {
-    //     clearTimeout(debounceTimer.current);
-    //   }
-    //   debounceTimer.current = setTimeout(() => {
-    //     updateCartProductQuantity(cart.documentId, cart.quantity + 1);
-    //   }, DEBOUNCE_DELAY);
-    //   dispatch(
-    //     setCarts(
-    //       carts.map((cart) => {
-    //         if (cart.documentId === id) {
-    //           return {
-    //             ...cart,
-    //             quantity: cart.quantity + 1,
-    //           };
-    //         }
-    //         return cart;
-    //       })
-    //     )
-    //   );
-    // }
+    const cart = carts.find((cart) => cart?.documentId === id);
+    if (cart) {
+      updateApolloClientCartData(cart.documentId, cart.quantity + 1);
+
+      // debounce functionality to delay network request when the value change so fast
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+      debounceTimer.current = setTimeout(async () => {
+        await updateCartItem({
+          variables: {
+            documentId: cart.documentId,
+            data: { quantity: cart.quantity + 1 },
+          },
+        });
+      }, DEBOUNCE_DELAY);
+    }
   };
 
   const handleRemove = (id: string) => {
@@ -181,7 +171,6 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
 
   const handleConfirmRemove = () => {
     if (!toRemoveItemId) return;
-
     removeItemFromCart(toRemoveItemId);
     setShowModal(false);
   };

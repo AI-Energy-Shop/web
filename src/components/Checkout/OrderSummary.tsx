@@ -2,7 +2,6 @@
 import React from 'react';
 import { formatCurrency } from '@/utils/currency';
 import { getCartTotals } from '@/utils/cart';
-import { roundToTwoDecimals } from '@/utils/rountTwoDecimals';
 import useCart from '@/hooks/useCart';
 import useMe from '@/hooks/useMe';
 import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
@@ -15,7 +14,7 @@ interface OrderSummaryProps {
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
   const { user } = useMe();
-  const { carts } = useCart();
+  const { carts } = useCart({});
   const { subtotal, totalGst, total } = getCartTotals(carts, 0.0, 0.0, {
     userLevel: user?.account_detail?.level,
   });

@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import Image from 'next/image';
 import { Label } from '@/components/ui/label';
@@ -8,16 +8,27 @@ import useCart from '@/hooks/useCart';
 import { useCheckout } from '@/hooks/useCheckout';
 import { PaymentMethod } from '@/store/features/checkout';
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
+import {
+  Enum_Order_Paymentmethod,
+  GetCheckoutUserDataQuery,
+} from '@/lib/gql/graphql';
+import CreditCardChangeDialog from './CardPayment/CreditCardChangeDialog';
+import { CreditCard } from './CardPayment/Card';
 
-interface PaymentProps {}
+interface PaymentProps {
+  checkoutUserData: GetCheckoutUserDataQuery;
+}
 
-const Payment: React.FC<PaymentProps> = ({}) => {
-  const { paymentStep, isCartNeededManualQuote, carts } = useCart();
-  const { paymentMethod, setPaymentMethod, setItems } = useCheckout();
+const Payment: React.FC<PaymentProps> = ({ checkoutUserData }) => {
+  const { paymentStep, isCartNeededManualQuote, carts } = useCart({});
+  const { paymentMethod, setPaymentMethod } = useCheckout();
+  const [creditCardDialog, setCreditCardDialog] = useState<boolean>(false);
 
-  useEffect(() => {
-    setItems(carts);
-  }, [carts, setItems]);
+  const defaultCreditCard =
+    checkoutUserData?.usersPermissionsUser?.creditCards?.find(
+      (card) => card?.isDefault
+    );
 
   return (
     <section>
@@ -100,6 +111,34 @@ const Payment: React.FC<PaymentProps> = ({}) => {
               </div>
             </RadioGroup>
           </div>
+
+          <CreditCardChangeDialog
+            creditCardDialog={creditCardDialog}
+            setCreditCardDialog={setCreditCardDialog}
+            checkoutUserData={checkoutUserData}
+          />
+          {paymentMethod === Enum_Order_Paymentmethod.CreditCard && (
+            <div className="md:mx-12 grid grid-cols-2">
+              <div className="p-2 space-y-4 border border-blue-navy-blue rounded-xl col-span-2 sm:col-span-1">
+                <div className="flex items-center justify-between">
+                  <h1 className="font-semibold">Bill To:</h1>
+                  <p
+                    onClick={() => setCreditCardDialog(true)}
+                    className="text-xs underline flex items-center cursor-pointer"
+                  >
+                    Change Payment Method <ArrowRight size={13} />
+                  </p>
+                </div>
+                <CreditCard
+                  brand={defaultCreditCard?.brand || ''}
+                  last4Char={defaultCreditCard?.last4Char || ''}
+                  expMonth={defaultCreditCard?.expMonth || ''}
+                  expYear={defaultCreditCard?.expYear || ''}
+                  isDefault
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

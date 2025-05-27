@@ -1,14 +1,13 @@
 'use client';
 import React from 'react';
-import { Cart } from '@/store/features/cart';
 import { formatCurrency } from '@/utils/cart';
 import CartItemCard from '@/components/Checkout/CartItemCard';
 import useMe from '@/hooks/useMe';
-import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
+import { CartsQuery, GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
 import { useCheckout } from '@/hooks/useCheckout';
 
 interface CartItemsProps {
-  data: Cart[];
+  data: CartsQuery['carts'];
   onChange: (id: string, e: React.ChangeEvent<HTMLInputElement>) => void;
   onReduceQuant: (id: string) => void;
   onAddQuant: (id: string) => void;
@@ -32,35 +31,33 @@ const CartItems = ({
       {data?.map?.((item) => {
         const price = item?.product?.price_lists?.find(
           (price) =>
-            price?.user_level === user?.account_detail?.level &&
+            price?.user_level === 'MID_SIZED' &&
             !price?.min_quantity &&
             !price?.max_quantity
         );
 
-        const productPrice = price?.sale_price || price?.price || 0;
+        const productPrice = price?.comparePrice || price?.price || 0;
 
         const currentProduct =
           cartProductQuantity.usersPermissionsUser?.carts.find(
-            (cart) => cart?.documentId === item.documentId
+            (cart) => cart?.documentId === item?.documentId
           );
 
         const currentProductQuantity =
-          currentProduct?.product?.inventories.find(
-            (location) =>
-              location?.name?.toLowerCase() ===
-              warehouseLocation.name?.toLowerCase()
-          )?.quantity;
+          currentProduct?.product?.inventory?.[
+            warehouseLocation?.name as keyof typeof currentProduct.product.inventory
+          ];
 
         return (
           <CartItemCard
-            key={item.documentId}
-            id={item.documentId}
-            image={item.product?.images[0]?.url}
-            title={item.product?.name}
-            model={item.product?.model}
+            key={item?.documentId}
+            id={item?.documentId!}
+            image={item?.product?.images[0]?.url}
+            title={item?.product?.name}
+            model={item?.product?.model}
             price={productPrice}
             gst={formatCurrency(productPrice * 0.1, 'USD')}
-            quantity={item.quantity}
+            quantity={item?.quantity}
             stock={currentProductQuantity || 0}
             onAddQuant={onAddQuant}
             onReduceQuant={onReduceQuant}

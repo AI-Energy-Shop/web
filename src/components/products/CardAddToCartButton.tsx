@@ -49,7 +49,7 @@ const CardAddToCartButton = ({ id, stocks }: CardAddToCartButtonProps) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         {renderHiddenInput('id')}
-        <ProductQuantity form={form} />
+        <ProductQuantity form={form} currentStock={stocks} />
         <Button
           type="submit"
           disabled={isDisabled}

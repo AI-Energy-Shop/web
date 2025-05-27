@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { CalendarIcon, Check, FilePenLine, MoveRight } from 'lucide-react';
 import { DynamicIcon } from 'lucide-react/dynamic';
@@ -38,7 +38,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     handleEditClick,
     isCartNeededManualQuote,
     carts,
-  } = useCart();
+  } = useCart({});
 
   const {
     warehouseLocation,
@@ -52,6 +52,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     setPickUpNotes,
     setDeliveryNotes,
     setPickUpOptions,
+    setShippingAddress,
   } = useCheckout();
   const [deliveryDate, setDeliveryDate] = React.useState<Date | undefined>(
     undefined
@@ -119,6 +120,20 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
 
   const TODAY = new Date();
   TODAY.setHours(0, 0, 0, 0);
+
+  useEffect(() => {
+    setShippingAddress({
+      title: userCurrentAddress?.title || '',
+      city: userCurrentAddress?.city || '',
+      country: userCurrentAddress?.country || '',
+      odoo_address_id: userCurrentAddress?.odoo_address_id || '',
+      state: userCurrentAddress?.state || '',
+      street1: userCurrentAddress?.street1 || '',
+      street2: userCurrentAddress?.street2 || '',
+      zip_code: userCurrentAddress?.zip_code || '',
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const renderHeader = () => {
     return (
@@ -304,7 +319,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                       setShippingType('delivery');
                       setDeliveryOptions({
                         type: 'manual',
-                        date: e,
+                        date: e?.toISOString(),
                         macshipData: null,
                       });
                     }}
@@ -347,7 +362,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                   onSelect={(date) => {
                     setPickUpDate(date);
                     setPickUpOptions({
-                      date,
+                      date: date?.toISOString(),
                       estimatedArrivalTime:
                         pickUpOptions?.estimatedArrivalTime!,
                     });
@@ -379,7 +394,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                     if (!isButtonAllowedToClick) return;
 
                     setPickUpOptions({
-                      date: pickUpDate,
+                      date: pickUpDate?.toISOString(),
                       estimatedArrivalTime: time.value,
                     });
                   }}

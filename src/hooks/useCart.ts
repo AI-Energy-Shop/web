@@ -13,9 +13,10 @@ import { useState, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, FieldErrors } from 'react-hook-form';
 import CART_OPERATIONS from '@/graphql/cart';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery, useApolloClient } from '@apollo/client';
 import { ProductsQuery, CartsQuery } from '@/lib/gql/graphql';
 import { useAppDispatch, useAppSelector, RootState } from '@/store/store';
+import useMe from './useMe';
 
 interface UseCartProps {
   product?: ProductsQuery['products'][number] | null;
@@ -24,6 +25,9 @@ interface UseCartProps {
 const useCart = (props: UseCartProps) => {
   const date = new Date();
   const dispatch = useAppDispatch();
+  const { user } = useMe();
+
+  const client = useApolloClient();
 
   const { data: cartData, refetch } = useQuery<CartsQuery>(
     CART_OPERATIONS.Query.carts,
@@ -36,6 +40,40 @@ const useCart = (props: UseCartProps) => {
       pollInterval: 1000 * 60 * 10, // 10 minutes
     }
   );
+
+  const updateApolloClientCartData = (documentId: string, quantity: number) => {
+    const data = client.readQuery({
+      query: CART_OPERATIONS.Query.carts,
+    });
+
+    if (!data) return;
+
+    const updatedCarts = data.carts.map((cart) =>
+      cart?.documentId === documentId ? { ...cart, quantity } : cart
+    );
+
+    client.writeQuery({
+      query: CART_OPERATIONS.Query.carts,
+      data: { carts: updatedCarts },
+    });
+  };
+
+  const deleteApolloClientCartData = (documentId: string) => {
+    const data = client.readQuery({
+      query: CART_OPERATIONS.Query.carts,
+    });
+
+    if (!data) return;
+
+    const updatedCarts = data.carts.filter(
+      (cart) => cart?.documentId !== documentId
+    );
+
+    client.writeQuery({
+      query: CART_OPERATIONS.Query.carts,
+      data: { carts: updatedCarts },
+    });
+  };
 
   const [addCartItem, { loading: addCartItemLoading }] = useMutation(
     CART_OPERATIONS.Mutation.createCart,
@@ -59,15 +97,8 @@ const useCart = (props: UseCartProps) => {
     }
   );
 
-  const [updateCart, { loading: updateCartLoading, data }] = useMutation(
-    CART_OPERATIONS.Mutation.updateCart,
-    {
-      refetchQueries: [
-        {
-          query: CART_OPERATIONS.Query.carts,
-        },
-      ],
-    }
+  const [updateCartItem, { loading: updateCartLoading, data }] = useMutation(
+    CART_OPERATIONS.Mutation.updateCart
   );
 
   const [shippingOptions, setShippingOptions] =
@@ -95,19 +126,9 @@ const useCart = (props: UseCartProps) => {
     },
   });
 
-  const updateCartItem = async (data: {
-    cartId: string;
-    product: string;
-    quantity: number;
-  }) => {
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value as string);
-    });
-  };
-
   const removeItemFromCart = async (documentId: string) => {
-    deleteCartItem({
+    deleteApolloClientCartData(documentId);
+    await deleteCartItem({
       variables: {
         documentId,
       },
@@ -141,7 +162,7 @@ const useCart = (props: UseCartProps) => {
     );
 
     if (cartItem && cartItem?.product) {
-      updateCart({
+      updateCartItem({
         variables: {
           documentId: cartItem.documentId,
           data: {
@@ -169,6 +190,7 @@ const useCart = (props: UseCartProps) => {
         data: {
           product: onValid.id,
           quantity: onValid.quantity,
+          user: user?.id,
         },
       },
     });
@@ -199,9 +221,9 @@ const useCart = (props: UseCartProps) => {
 
   useEffect(() => {
     if (cartData) {
-      console.log(cartData.carts);
       dispatch(setCarts(cartData.carts));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartData]);
 
   return {
@@ -221,6 +243,7 @@ const useCart = (props: UseCartProps) => {
     handleShippingMethodClick,
     handleContinueClick,
     removeItemFromCart,
+    updateApolloClientCartData,
     updateCartItem,
   };
 };

@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 
 const schema = {
   Query: {
-    carts: gql(`
+    carts: graphql(`
       query Carts($filters: CartFiltersInput, $pagination: PaginationArg) {
         carts(filters: $filters, pagination: $pagination) {
           documentId
@@ -33,6 +33,13 @@ const schema = {
               alternativeText
               width
               height
+            }
+            shipping {
+              weight
+              height
+              width
+              length
+              documentId
             }
           }
           user {
@@ -85,6 +92,16 @@ const schema = {
             createdAt
             updatedAt
           }
+          creditCards {
+            brand
+            documentId
+            expMonth
+            expYear
+            isDefault
+            last4Char
+            publishedAt
+            stripePaymentMethodID
+          }
         }
       }
     `),
@@ -133,7 +150,7 @@ const schema = {
         }  
       }
     `),
-    updateCart: gql(`
+    updateCart: graphql(`
       #graphql
       mutation UpdateCart($documentId: ID!, $data: CartInput!) {
         updateCart(documentId: $documentId, data: $data) {
@@ -176,7 +193,7 @@ const schema = {
         }
       }
     `),
-    deleteCart: gql(`
+    deleteCart: graphql(`
       #graphql
       mutation DeleteCart($documentId: ID!) {
         deleteCart(documentId: $documentId) {

@@ -2,8 +2,8 @@ import {
   PICK_UP_ESTIMATED_ARRIVAL_TIME,
   WAREHOUSE_LOCATIONS,
 } from '@/constant/shipping';
+import { CartsQuery } from '@/lib/gql/graphql';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Cart } from './cart';
 import { getPickUpOptionsBestTimeSlots } from '@/components/Checkout/pickUpOptionsBestTimeSlot';
 import { Enum_Order_Paymentmethod } from '@/lib/gql/graphql';
 
@@ -34,12 +34,12 @@ export type MacshipData = {
 
 export type DeliveryOptions = {
   type: 'auto' | 'manual';
-  date: Date | undefined;
+  date: string | undefined;
   macshipData: MacshipData;
 };
 export type PickUpOptions = {
   estimatedArrivalTime: string;
-  date: Date | undefined;
+  date: string | undefined;
 };
 
 export type WarehouseLocation = {
@@ -56,7 +56,7 @@ export type WarehouseLocation = {
 };
 
 export type ShippingAddress = {
-  odoo_address_id: number;
+  odoo_address_id: string;
   title: string;
   street1: string;
   street2: string;
@@ -67,7 +67,7 @@ export type ShippingAddress = {
 };
 
 export type CheckoutState = {
-  items: Cart[];
+  items: CartsQuery['carts'];
   warehouseLocation: WarehouseLocation;
   voucherCode: string;
   orderNotes: string;
@@ -87,9 +87,9 @@ const initialState: CheckoutState = {
   warehouseLocation: WAREHOUSE_LOCATIONS[0],
   deliveryOptions: null,
   pickupOptions: {
-    date: NOW,
+    date: NOW.toISOString(),
     estimatedArrivalTime: getPickUpOptionsBestTimeSlots(
-      NOW,
+      NOW.toISOString(),
       PICK_UP_ESTIMATED_ARRIVAL_TIME
     ),
   },
@@ -118,7 +118,7 @@ const checkoutSlice = createSlice({
     setPickUpNotes(state, action: PayloadAction<string>) {
       state.pickUpNotes = action.payload;
     },
-    setItems(state, action: PayloadAction<Cart[]>) {
+    setItems(state, action: PayloadAction<CartsQuery['carts']>) {
       state.items = action.payload;
     },
     setSelectedLocation(state, action: PayloadAction<WarehouseLocation>) {
@@ -133,13 +133,16 @@ const checkoutSlice = createSlice({
     setShippingType(state, action: PayloadAction<ShippingType>) {
       state.shippingType = action.payload;
     },
+    setShippingAddress(state, action: PayloadAction<ShippingAddress>) {
+      state.shippingAddress = action.payload;
+    },
     setUserDeliveryDetails(state, action: PayloadAction<ShippingAddress>) {
       state.shippingAddress = action.payload;
     },
     setPaymentMethod(state, action: PayloadAction<PaymentMethod>) {
       state.paymentMethod = action.payload;
     },
-    resetReview(state) {
+    resetCheckout(state) {
       Object.assign(state, initialState);
     },
   },
@@ -151,9 +154,10 @@ export const {
   setVoucherCode,
   setOrderNotes,
   setShippingType,
+  setShippingAddress,
   setUserDeliveryDetails,
   setPaymentMethod,
-  resetReview,
+  resetCheckout,
   setPickUpNotes,
   setDeliveryNotes,
   setDeliveryOptions,
