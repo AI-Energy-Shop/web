@@ -108,8 +108,6 @@ export const checkIfSuburbIsValid = async (
 
     const data = await response.json();
 
-    console.log(data);
-
     if (!data.object) {
       return false;
     }

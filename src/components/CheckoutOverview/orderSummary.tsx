@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 function OrderSummary() {
-  const { carts } = useCart();
+  const { carts } = useCart({});
   const { user } = useMe();
 
   const [expanded, setExpanded] = useState<boolean>(true);
@@ -58,29 +58,29 @@ function OrderSummary() {
               );
 
               const currentPrice =
-                priceData?.sale_price || priceData?.price || 0;
+                priceData?.comparePrice || priceData?.price || 0;
 
               return (
-                <div key={cart.documentId} className="flex space-x-4">
+                <div key={cart?.documentId} className="flex space-x-4">
                   <div className="w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
                     <Image
                       width={100}
                       height={100}
-                      src={cart.product.images[0]?.url || ''}
-                      alt={cart.product.name}
+                      src={cart?.product?.images[0]?.url || ''}
+                      alt={cart?.product?.name || ''}
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div className="flex-1">
                     <h4 className="text-sm font-medium text-gray-900">
-                      {cart.product.name}
+                      {cart?.product?.name}
                     </h4>
                     <div className="flex mt-1 text-sm text-gray-500">
-                      <span>Qty: {cart.quantity}</span>
+                      <span>Qty: {cart?.quantity}</span>
                     </div>
                   </div>
                   <div className="text-sm font-medium text-gray-900">
-                    {formatCurrency(cart.quantity * currentPrice, 'AUD')}
+                    {formatCurrency(cart?.quantity! * currentPrice, 'AUD')}
                   </div>
                 </div>
               );
