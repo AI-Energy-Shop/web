@@ -3,7 +3,7 @@ import ProductPagination from './ProductPagination';
 import { ProductsQuery } from '@/lib/gql/graphql';
 import { INITIAL_PAGE_SIZE } from '@/constant';
 import React, { Suspense } from 'react';
-import ProductCard from './ProductCard';
+import ProductCard from './product-card';
 
 interface ProductListProps {
   page?: number;
