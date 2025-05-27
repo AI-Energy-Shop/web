@@ -45,8 +45,7 @@ async function ProductPage({ params }: { params: { productSlug: string } }) {
             <ProductPrice product={product} />
             <BulkPrices product={product} />
             <ShopProductStockQuantities product={product} />
-            {/* // TODO RUENT */}
-            {/* <ProductAddToCartButton product={product} /> */}
+            <ProductAddToCartButton product={product} />
           </div>
         </div>
       </section>

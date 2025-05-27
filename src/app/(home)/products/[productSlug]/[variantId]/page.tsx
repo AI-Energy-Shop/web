@@ -40,8 +40,7 @@ async function VariantPage({ params }: { params: { variantId: string } }) {
             <ProductPrice product={data?.getStoreProduct} />
             <BulkPrices product={data?.getStoreProduct} />
             <ShopProductStockQuantities product={data?.getStoreProduct} />
-            {/* //TODO RUENT */}
-            {/* <ProductAddToCartButton product={data?.getStoreProduct} /> */}
+            <ProductAddToCartButton product={data?.getStoreProduct} />
           </div>
         </div>
       </section>

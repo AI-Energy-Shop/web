@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import AddressForm from '../forms/AddressForm';
+import AddressForm from '../forms/address-form';
 import { Button } from '../ui/button';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';

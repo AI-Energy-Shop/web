@@ -14,12 +14,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, FieldErrors } from 'react-hook-form';
 import CART_OPERATIONS from '@/graphql/cart';
 import { useMutation, useQuery, useApolloClient } from '@apollo/client';
-import { ProductsQuery, CartsQuery } from '@/lib/gql/graphql';
+import { CartsQuery } from '@/lib/gql/graphql';
 import { useAppDispatch, useAppSelector, RootState } from '@/store/store';
 import useMe from './useMe';
 
 interface UseCartProps {
-  product?: ProductsQuery['products'][number] | null;
+  productId?: string;
 }
 
 const useCart = (props: UseCartProps) => {
@@ -121,7 +121,7 @@ const useCart = (props: UseCartProps) => {
   const form = useForm<AddToCartFormData>({
     resolver: zodResolver(addToCartSchema),
     defaultValues: {
-      id: props?.product?.documentId,
+      id: props.productId,
       quantity: 0,
     },
   });

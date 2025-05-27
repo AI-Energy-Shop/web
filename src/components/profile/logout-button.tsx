@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { logoutUser } from '@/app/actions/user';
+import { logoutUser } from '@/app/actions/auth';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 const LogoutButton = () => {

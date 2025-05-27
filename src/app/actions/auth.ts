@@ -135,10 +135,13 @@ export const loginUser = async ({
       carts: userRes.data.usersPermissionsUser?.carts || [],
       warehouse_location: userDetails?.warehouse_location,
     };
+    const oneMonth = 60 * 60 * 24 * 30;
+    const oneDay = 60 * 60 * 24;
+    const expiresIn = remember ? oneMonth : oneDay;
 
     const cookieOptions = {
       path: '/',
-      maxAge: remember ? 60 * 60 * 24 * 30 : undefined, // 30 days if remember is true, otherwise undefined
+      maxAge: expiresIn,
       // httpOnly: true,
     };
 

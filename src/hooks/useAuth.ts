@@ -1,6 +1,6 @@
 'use client';
 import { useForm } from 'react-hook-form';
-import { loginUser, registerUser } from '@/app/actions/user';
+import { loginUser, registerUser } from '@/app/actions/auth';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/useToast';
 import { setMe, setMeAdmin } from '@/store/features/me';

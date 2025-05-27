@@ -29,13 +29,13 @@ export default function RootLayout({
     <html lang="en" className={firaSansFont.className}>
       <body>
         <Components.ReduxProvider>
-          {/* TODO: add env variable for stripe */}
+          {/* TODO: Roi add env variable for stripe */}
           {/* <StripeWrapper> */}
-            <ApolloWrapper>
-              <NavigationWrapper>{children}</NavigationWrapper>
-            </ApolloWrapper>
-            <Toaster />
-            <ToasterUI />
+          <ApolloWrapper>
+            <NavigationWrapper>{children}</NavigationWrapper>
+          </ApolloWrapper>
+          <Toaster />
+          <ToasterUI />
           {/* </StripeWrapper> */}
         </Components.ReduxProvider>
       </body>

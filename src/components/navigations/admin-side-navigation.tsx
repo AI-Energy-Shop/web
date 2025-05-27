@@ -3,7 +3,7 @@ import Profile from './profile';
 import React from 'react';
 import { ADMIN_SIDE_NAVIGATIONS } from '@/constant';
 import useMe from '@/hooks/useMe';
-import { logoutUser } from '@/app/actions/user';
+import { logoutUser } from '@/app/actions/auth';
 import Logo from './Logo';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';

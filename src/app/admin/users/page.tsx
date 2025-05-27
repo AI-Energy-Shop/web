@@ -1,5 +1,5 @@
 import React from 'react';
-import { getUsers } from '@/app/actions/user';
+import { getUsers } from '@/app/actions/auth';
 import UsersTab from '@/components/tabs/users-tab';
 import { Ban, KeyRound, User, UserPlus, Users2 } from 'lucide-react';
 
