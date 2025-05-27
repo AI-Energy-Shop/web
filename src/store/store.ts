@@ -17,6 +17,12 @@ import cartReducer from './features/cart';
 import { combineReducers } from 'redux';
 import meReducer from './features/me';
 
+
+const ONE_DAY = 60 * 60 * 24;
+const ONE_MONTH = 60 * 60 * 24 * 30;
+
+
+
 const rootReducer = combineReducers({
   me: meReducer,
   cart: cartReducer,
@@ -24,17 +30,26 @@ const rootReducer = combineReducers({
   products: productsReducer,
 });
 
-// Check if we have existing persisted data
+
 const checkExistingPersistence = () => {
   if (typeof window === 'undefined') return false; // Server-side check
 
   try {
     const persistedString = localStorage.getItem('persist:root');
-    if (!persistedString) return false;
+    const expirationTime = localStorage.getItem('persist:root:expiration');
+    
+    if (!persistedString || !expirationTime) return false;
+
+    // Check if data has expired
+    if (Date.now() > parseInt(expirationTime, 10)) {
+      // Clear expired data
+      localStorage.removeItem('persist:root');
+      localStorage.removeItem('persist:root:expiration');
+      return false;
+    }
 
     const persistedData = JSON.parse(persistedString);
-    // Check if we have any persisted data for me or cart
-    return !!(persistedData.me || persistedData.cart);
+    return !!(persistedData.me);
   } catch (error) {
     console.error('Error checking persistence:', error);
     return false;
@@ -45,7 +60,7 @@ const checkExistingPersistence = () => {
 export const getPersistConfig = (shouldPersist: boolean) => ({
   key: 'root',
   storage,
-  whitelist: shouldPersist ? ['me'] : [],
+  whitelist: ['me'],
 });
 
 // Initial persist config (default to not persisting)
@@ -72,24 +87,29 @@ export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 // Function to update persistence based on remember me
-export const updatePersistence = async (shouldPersist: boolean) => {
+export const updatePersistence = async (rememberMe?: boolean) => {
   try {
-    // First pause the persistor
     persistor.pause();
-    // Then purge the storage
     persistor.purge();
 
-    if (shouldPersist) {
-      // If we should persist, update the config and persist
+    // Set expiration timestamp based on shouldPersist value
+    const expirationTime = rememberMe ? ONE_MONTH : ONE_DAY;
+    localStorage.setItem( 'persist:root:expiration', (Date.now() + expirationTime * 1000).toString());
+
+    if (rememberMe) {
       const newConfig = getPersistConfig(true);
-      // Recreate the persisted reducer with new config
       const newPersistedReducer = persistReducer(newConfig, rootReducer);
-      // Update the store's reducer
       store.replaceReducer(newPersistedReducer);
-      // Start persisting again
       persistor.persist();
     }
   } catch (error) {
     console.error('Error updating persistence:', error);
   }
+};
+
+export const removePersistence = () => {
+  persistor.pause();
+  persistor.purge();
+  localStorage.removeItem('persist:root');
+  localStorage.removeItem('persist:root:expiration');
 };

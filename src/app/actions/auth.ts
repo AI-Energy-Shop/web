@@ -146,7 +146,7 @@ export const loginUser = async ({
     };
 
     cookieStore.set('a-token', token!, cookieOptions);
-    cookieStore.set('a-user', JSON.stringify(user!), cookieOptions);
+    cookieStore.set('a-user', JSON.stringify({...user, role: userRes.data.usersPermissionsUser?.role}!), cookieOptions);
 
     return { data: { token, user: newUser } }; // Return success indicator
   } catch (error: any) {

@@ -28,16 +28,18 @@ export default function RootLayout({
   return (
     <html lang="en" className={firaSansFont.className}>
       <body>
-        <Components.ReduxProvider>
-          {/* TODO: Roi add env variable for stripe */}
-          {/* <StripeWrapper> */}
-          <ApolloWrapper>
-            <NavigationWrapper>{children}</NavigationWrapper>
-          </ApolloWrapper>
+        <ApolloWrapper>
+          <Components.ReduxProvider>
+            {/* TODO: Roi add env variable for stripe */}
+            {/* <StripeWrapper> */}
+              <NavigationWrapper>
+                {children}
+              </NavigationWrapper>
+            {/* </StripeWrapper> */}
+          </Components.ReduxProvider>
           <Toaster />
           <ToasterUI />
-          {/* </StripeWrapper> */}
-        </Components.ReduxProvider>
+        </ApolloWrapper>
       </body>
     </html>
   );

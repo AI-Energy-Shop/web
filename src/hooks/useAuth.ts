@@ -50,6 +50,7 @@ const useAuth = () => {
   });
 
   const handleLoginSubmit = async (loginData: LoginFormData) => {
+
     const { error, data } = await loginUser(loginData);
 
     if (error) {
@@ -71,6 +72,18 @@ const useAuth = () => {
     }
 
     switch (roleName) {
+      case 'ADMIN':
+        console.log('admin', data);
+        dispatch(
+          setMeAdmin({
+            id: data?.user?.documentId || '',
+            email: data?.user?.email || '',
+            username: data?.user?.username,
+            confirmed: data?.user?.confirmed || null,
+          })
+        );
+        break;
+        
       case 'SALES':
         dispatch(
           setMeAdmin({
@@ -81,16 +94,7 @@ const useAuth = () => {
           })
         );
         break;
-      case 'ADMIN':
-        dispatch(
-          setMeAdmin({
-            id: data?.user?.documentId || '',
-            email: data?.user?.email || '',
-            username: data?.user?.username,
-            confirmed: data?.user?.confirmed || null,
-          })
-        );
-        break;
+     
       case 'CUSTOMER':
         if (data?.user?.carts) {
           dispatch(

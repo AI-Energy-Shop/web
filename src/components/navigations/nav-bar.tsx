@@ -11,12 +11,17 @@ import NavList from './nav-list';
 import { NAV_LIST_ITEMS } from '@/constant/navigations';
 import WarehouseIconButton from './warehouse-icon';
 import UserIconButton from './user-icon';
+import { usePathname } from 'next/navigation';
 
-interface NavigationBarProps {
-  path: string;
-}
+interface NavigationBarProps {}
 
-const NavigationBar: React.FC<NavigationBarProps> = ({ path }) => {
+const NavigationBar: React.FC<NavigationBarProps> = () => {
+
+  const pathname = usePathname();
+  
+  
+  if (pathname && pathname.startsWith('/admin')) return null;
+
   const [isFixed, setIsFixed] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -64,7 +69,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ path }) => {
           <Logo />
           <div className="flex flex-col gap-2 ml-[100px]">
             <SearchBar />
-            <NavList path={path} data={NAV_LIST_ITEMS} />
+            <NavList pathname={pathname} data={NAV_LIST_ITEMS} />
           </div>
           <div className="h-full flex items-end gap-2 ml-auto">
             <WarehouseIconButton />

@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import Link from 'next/link';
 const CheckoutHeader = () => {
+  
   const stepper = useSelector((state: RootState) => state.cart.paymentStep);
   const [step, setStep] = useState(0);
 

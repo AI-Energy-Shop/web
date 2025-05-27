@@ -176,7 +176,7 @@ export const updateCartProductQuantity = async (
 };
 
 export async function getCartProductQuantity() {
-  const cookieStore = await cookies();
+  const cookieStore = cookies();
   const token = cookieStore.get('a-token')?.value;
   const aUser: Auser = JSON.parse(cookieStore.get('a-user')?.value!);
 

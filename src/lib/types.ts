@@ -208,8 +208,17 @@ export type ShippingDetailsTypes = {
   };
 };
 
+type UsersPermissionsRole = {
+  __typename: 'UsersPermissionsRole';
+  name: string;
+};
+
+
 export type Auser = {
   documentId: string;
   email: string;
+  confirmed: boolean | null;
+  blocked: boolean;
   username: string;
+  role: UsersPermissionsRole;
 };

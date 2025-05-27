@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import Icon from '../Icon';
+import { removePersistence } from '@/store/store';
 
 const AdminSideNavigation = () => {
   const user = useMe();
@@ -23,7 +24,7 @@ const AdminSideNavigation = () => {
 
   const handleLogout = async () => {
     await logoutUser();
-    localStorage.removeItem('persist:root');
+    removePersistence();
   };
   return (
     <aside className="h-full w-full border ">

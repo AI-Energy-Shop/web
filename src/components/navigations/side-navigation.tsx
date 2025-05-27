@@ -3,7 +3,6 @@ import { X, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { NAV_LIST_ITEMS } from '@/constant';
-import Icon from '../Icon';
 import { usePathname } from 'next/navigation';
 import {
   Select,

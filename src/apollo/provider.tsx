@@ -23,6 +23,8 @@ function makeClient() {
     .split('; ')
     .find((row) => row.startsWith('a-token='))
     ?.split('=')[1];
+
+  console.log(token);
   // Since we're using cookies, we just need to ensure they're included in the request
   const authLink = setContext(
     (_: unknown, { headers }: { headers?: Record<string, string> }) => {
