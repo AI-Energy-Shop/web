@@ -1,7 +1,20 @@
 import LoginForm from '@/components/forms/LoginForm';
+import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
+
+
 const LoginPage = () => {
+  const cookie = cookies()
+  const token = cookie.get('a-token')?.value
+  const user = cookie.get('a-user')?.value
+
+  if(token && user){
+    return redirect('/')
+  }
+
+  
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
       <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">

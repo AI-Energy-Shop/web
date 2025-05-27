@@ -1,6 +1,14 @@
 // import Link from 'next/link';
 
 // export default function ApprovalPage() {
+//     const cookie = cookies()
+//     const token = cookie.get('a-token')?.value
+//     const user = cookie.get('a-user')?.value
+  
+//     if(token && user){
+//       return redirect('/')
+//     }
+
 //   return (
 //     <div className="min-h-screen flex items-center justify-center p-4">
 //       <div className="bg-white rounded-lg shadow-2xl overflow-hidden max-w-md w-full">
