@@ -14,11 +14,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, FieldErrors } from 'react-hook-form';
 import CART_OPERATIONS from '@/graphql/cart';
 import { useMutation, useQuery } from '@apollo/client';
-import { GetStoreProductQuery, CartsQuery } from '@/lib/gql/graphql';
+import { ProductsQuery, CartsQuery } from '@/lib/gql/graphql';
 import { useAppDispatch, useAppSelector, RootState } from '@/store/store';
 
 interface UseCartProps {
-  product?: GetStoreProductQuery['getStoreProduct'] | null;
+  product?: ProductsQuery['products'][number] | null;
 }
 
 const useCart = (props: UseCartProps) => {

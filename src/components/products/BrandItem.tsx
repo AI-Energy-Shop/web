@@ -27,7 +27,7 @@ const BrandItem: React.FC<BrandItemProps> = ({
         <Image
           priority
           alt={alt}
-          src={logo}
+          src={logo || '/no-product-image.jpg'}
           width={100}
           height={100}
           className="w-full h-full object-contain"

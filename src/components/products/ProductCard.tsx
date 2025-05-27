@@ -92,7 +92,7 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
         <div className="flex flex-col gap-2">
           {/* IMAGE */}
           <div className="aspect-[3/4] relative bg-[#e6e6e6]">
-            {product?.images.at(0)?.url ? (
+            {/* {product?.images.at(0)?.url ? (
               <Image
                 fill
                 priority
@@ -109,7 +109,7 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
                 alt="no product image"
                 className="object-contain w-auto h-auto bg-transparent mix-blend-multiply"
               />
-            )}
+            )} */}
           </div>
           <div className="flex flex-col justify-between">
             <h3
