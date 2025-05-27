@@ -90,7 +90,7 @@ export default async function CategoryPage({
     },
   });
 
-  const collectionData = res?.collections.at(0);
+  const collectionData = res?.collections?.at?.(0);
   const products = collectionData?.products || [];
 
   if (!collectionData) {

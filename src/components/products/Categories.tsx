@@ -66,14 +66,16 @@ const Categories: React.FC<CategoriesProps> = ({
             >
               <div className="w-full h-full flex flex-col items-center gap-1">
                 <div className="w-full h-full relative">
-                  <Image
-                    fill
-                    loading="lazy"
-                    src={`${collection?.image?.url}`}
-                    alt={`${collection?.image?.alternativeText}`}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="opacity-6 absolute top-0 left-0 w-full h-full object-fit"
-                  />
+                  {collection?.image?.url && (
+                    <Image
+                      fill
+                      loading="lazy"
+                      src={collection?.image?.url || '/no-product-image.jpg'}
+                      alt={`${collection?.image?.alternativeText}`}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="opacity-6 absolute top-0 left-0 w-full h-full object-cover"
+                    />
+                  )}
                 </div>
                 <span
                   className={`text-xs ${pathname === collection?.handle && 'border-b-2 border-black'}`}
