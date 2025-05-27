@@ -4,7 +4,6 @@ import { StatsCard } from '@/components/admin/stats-card';
 import { LineChartComponent } from '@/components/admin/line-chart';
 
 const AdminPage = () => {
-
   return (
     <main className="min-h-screen w-full bg-gray-50 p-5">
       <div className="mx-auto space-y-8">

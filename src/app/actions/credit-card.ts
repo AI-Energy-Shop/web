@@ -11,7 +11,7 @@ import { deletePaymentMethodDetails, getPaymentMethodDetails } from './stripe';
 const client = getClient();
 
 export async function createNewCreditCard(paymentMethodId: string) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;
   const aUser: Auser = JSON.parse(cookieStore.get('a-user')?.value!);
 
@@ -47,7 +47,7 @@ export async function updateCreditCardDefault(
   documentId: string,
   isDefault: boolean
 ) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;
 
   try {
@@ -71,7 +71,7 @@ export async function deleteCreditCard(
   documentId: string,
   stripePaymentMethodID: string
 ) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;
 
   try {

@@ -22,7 +22,7 @@ const SelectButton = ({ options, onChange }: SelectButtonProps) => {
           <SelectValue placeholder="Actions"></SelectValue>
           <ChevronDown className="w-4 h-4 text-gray-500" />
         </SelectTrigger>
-        <SelectContent className="w-[100px] z-50 bg-white dark:bg-gray-800 shadow-md select-none">
+        <SelectContent className="w-[100px] z-50 bg-white shadow-md select-none">
           <SelectGroup className="text-xs">
             {options.map((option) => (
               <SelectItem className="p-1" value={option} key={option}>

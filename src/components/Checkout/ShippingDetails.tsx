@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { formatDate } from '@/utils/formatDate';
-import { Calendar } from '@/components/ui/calendar';
+// import { Calendar } from '@/components/ui/calendar';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { PICK_UP_ESTIMATED_ARRIVAL_TIME } from '@/constant/shipping';
@@ -311,7 +311,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
-                  <Calendar
+                  {/* <Calendar
                     mode="single"
                     selected={deliveryDate}
                     onSelect={(e) => {
@@ -325,7 +325,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                     }}
                     initialFocus
                     disabled={{ before: TODAY }}
-                  />
+                  /> */}
                 </PopoverContent>
               </Popover>
             </div>
@@ -356,7 +356,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
-                <Calendar
+                {/* <Calendar
                   mode="single"
                   selected={pickUpDate}
                   onSelect={(date) => {
@@ -370,7 +370,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                   }}
                   initialFocus
                   disabled={{ before: TODAY }}
-                />
+                /> */}
               </PopoverContent>
             </Popover>
           </div>

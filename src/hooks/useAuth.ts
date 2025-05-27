@@ -50,7 +50,6 @@ const useAuth = () => {
   });
 
   const handleLoginSubmit = async (loginData: LoginFormData) => {
-
     const { error, data } = await loginUser(loginData);
 
     if (error) {
@@ -79,22 +78,22 @@ const useAuth = () => {
             id: data?.user?.documentId || '',
             email: data?.user?.email || '',
             username: data?.user?.username,
-            confirmed: data?.user?.confirmed || null,
+            confirmed: data?.user?.confirmed || undefined,
           })
         );
         break;
-        
+
       case 'SALES':
         dispatch(
           setMeAdmin({
             id: data?.user?.documentId || '',
             email: data?.user?.email || '',
             username: data?.user?.username,
-            confirmed: data?.user?.confirmed || null,
+            confirmed: data?.user?.confirmed || undefined,
           })
         );
         break;
-     
+
       case 'CUSTOMER':
         if (data?.user?.carts) {
           dispatch(
@@ -143,7 +142,7 @@ const useAuth = () => {
             email: data?.user?.email || '',
             username: data?.user?.username || '',
             blocked: data?.user?.blocked || false,
-            confirmed: data?.user?.confirmed || null,
+            confirmed: data?.user?.confirmed || undefined,
             business_name: data?.user?.business_name || '',
             business_number: data?.user?.business_number || '',
             business_type: data?.user?.business_type || '',

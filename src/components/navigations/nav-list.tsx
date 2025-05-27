@@ -19,10 +19,14 @@ interface NavListProps {
   pathname?: string;
 }
 
-const NavList = ({ data, className, showIcon = false, pathname }: NavListProps) => {
+const NavList = ({
+  data,
+  className,
+  showIcon = false,
+  pathname,
+}: NavListProps) => {
   const router = useRouter();
 
-  
   const handleClick = (item: Data) => {
     if (item.enabled) {
       router.push(item.href);

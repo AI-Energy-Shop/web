@@ -118,9 +118,7 @@ const SearchResults = async ({ searchParams }: SearchPageProps) => {
   const filterConditions = createFilterConditions(searchParams);
 
   const { data } = await products({
-    filters: {
-      or: filterConditions,
-    },
+    filters: filterConditions.length > 0 ? { and: filterConditions } : {},
     pagination: {
       page,
       pageSize,

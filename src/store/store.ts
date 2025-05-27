@@ -17,11 +17,8 @@ import cartReducer from './features/cart';
 import { combineReducers } from 'redux';
 import meReducer from './features/me';
 
-
 const ONE_DAY = 60 * 60 * 24;
 const ONE_MONTH = 60 * 60 * 24 * 30;
-
-
 
 const rootReducer = combineReducers({
   me: meReducer,
@@ -30,14 +27,13 @@ const rootReducer = combineReducers({
   products: productsReducer,
 });
 
-
 const checkExistingPersistence = () => {
   if (typeof window === 'undefined') return false; // Server-side check
 
   try {
     const persistedString = localStorage.getItem('persist:root');
     const expirationTime = localStorage.getItem('persist:root:expiration');
-    
+
     if (!persistedString || !expirationTime) return false;
 
     // Check if data has expired
@@ -49,7 +45,7 @@ const checkExistingPersistence = () => {
     }
 
     const persistedData = JSON.parse(persistedString);
-    return !!(persistedData.me);
+    return !!persistedData.me;
   } catch (error) {
     console.error('Error checking persistence:', error);
     return false;
@@ -57,14 +53,14 @@ const checkExistingPersistence = () => {
 };
 
 // Create a function to get persist config based on remember me state
-export const getPersistConfig = (shouldPersist: boolean) => ({
+export const getPersistConfig = () => ({
   key: 'root',
   storage,
   whitelist: ['me'],
 });
 
 // Initial persist config (default to not persisting)
-const initialPersistConfig = getPersistConfig(checkExistingPersistence());
+const initialPersistConfig = getPersistConfig();
 
 const persistedReducer = persistReducer(initialPersistConfig, rootReducer);
 
@@ -94,10 +90,14 @@ export const updatePersistence = async (rememberMe?: boolean) => {
 
     // Set expiration timestamp based on shouldPersist value
     const expirationTime = rememberMe ? ONE_MONTH : ONE_DAY;
-    localStorage.setItem( 'persist:root:expiration', (Date.now() + expirationTime * 1000).toString());
+    localStorage.setItem(
+      'persist:root:expiration',
+      (Date.now() + expirationTime * 1000).toString()
+    );
 
     if (rememberMe) {
-      const newConfig = getPersistConfig(true);
+      checkExistingPersistence();
+      const newConfig = getPersistConfig();
       const newPersistedReducer = persistReducer(newConfig, rootReducer);
       store.replaceReducer(newPersistedReducer);
       persistor.persist();

@@ -27,12 +27,16 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
+  // TODO: RUENT
   const handleDragOver = useCallback((e: DragEvent) => {}, []);
 
+  // TODO: RUENT
   const handleDragLeave = useCallback((e: DragEvent) => {}, []);
 
-  const handleDrop = useCallback(async (e: DragEvent) => {}, [maxFiles]);
+  // TODO: RUENT
+  const handleDrop = useCallback(async (e: DragEvent) => {}, []);
 
+  // TODO: RUENT
   const handleUseExistingFileClick = useCallback((e: MouseEvent) => {
     e.preventDefault();
   }, []);

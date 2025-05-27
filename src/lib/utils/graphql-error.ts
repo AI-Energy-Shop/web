@@ -5,7 +5,7 @@ interface ErrorDetailItem {
   message: string;
   name?: string;
   value?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface ErrorDetails {
@@ -64,7 +64,9 @@ export const handleGraphQLError = (
   });
 };
 
-export const isGraphQLError = (error: any): error is GraphQLException => {
+export const isGraphQLError = (
+  error: Error | ApolloError | GraphQLException
+): error is GraphQLException => {
   return error instanceof GraphQLException;
 };
 

@@ -8,7 +8,6 @@ interface NavigationWrapperProps {
 }
 
 const NavigationWrapper: React.FC<NavigationWrapperProps> = ({ children }) => {
-
   return (
     <div className="w-full h-auto">
       <Navbar />

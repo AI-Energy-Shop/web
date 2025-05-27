@@ -4,14 +4,13 @@ import UsersTab from '@/components/tabs/users-tab';
 import { Ban, KeyRound, User, UserPlus, Users2 } from 'lucide-react';
 
 interface AdminUsersPageProps {
-  searchParams: {
+  searchParams: Promise<{
     [key: string]: string | string[] | undefined;
-  };
+  }>;
 }
 
-export default async function AdminUsersPage({
-  searchParams,
-}: AdminUsersPageProps) {
+export default async function AdminUsersPage(props: AdminUsersPageProps) {
+  const searchParams = await props.searchParams;
   const tab = searchParams.tab as string;
   const data = await getUsers();
 

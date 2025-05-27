@@ -29,7 +29,6 @@ const ListInput: React.FC<ListInputProps> = ({
   addButtonLabel,
   childComponent,
   stayExpanded = false,
-  isDirty = false,
   onAddList,
 }) => {
   const [isExpanded, setIsExpanded] = useState(stayExpanded);

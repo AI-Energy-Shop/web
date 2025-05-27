@@ -102,11 +102,6 @@ export interface ComponentFormInquiry extends BaseSection {
   inputs: Input[];
 }
 
-interface ErrorResponse {
-  code: string;
-  message: string;
-}
-
 export type Section =
   | ComponentSectionsWarehouseLocations
   | ComponentSectionsImageSlider
@@ -212,7 +207,6 @@ type UsersPermissionsRole = {
   __typename: 'UsersPermissionsRole';
   name: string;
 };
-
 
 export type Auser = {
   documentId: string;

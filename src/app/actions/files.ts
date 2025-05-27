@@ -2,7 +2,7 @@
 import { cookies } from 'next/headers';
 
 export const fileUpload = async (formData: FormData) => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;
 
   try {

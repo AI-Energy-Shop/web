@@ -29,19 +29,20 @@ const useCart = (props: UseCartProps) => {
 
   const client = useApolloClient();
 
-  const { data: cartData, refetch, error } = useQuery<CartsQuery>(
-    CART_OPERATIONS.Query.carts,
-    {
-      fetchPolicy: 'network-only',
-      refetchWritePolicy: 'merge',
-      onCompleted: (data) => {
-        dispatch(setCarts(data.carts));
-      },
-      pollInterval: 1000 * 60 * 10, // 10 minutes
-      skip: !user?.id  // Skip query if no user is logged in
-    }
-  );
-  
+  const {
+    data: cartData,
+    refetch,
+    error,
+  } = useQuery<CartsQuery>(CART_OPERATIONS.Query.carts, {
+    fetchPolicy: 'network-only',
+    refetchWritePolicy: 'merge',
+    onCompleted: (data) => {
+      dispatch(setCarts(data.carts));
+    },
+    pollInterval: 1000 * 60 * 10, // 10 minutes
+    skip: !user?.id, // Skip query if no user is logged in
+  });
+
   const updateApolloClientCartData = (documentId: string, quantity: number) => {
     const data = client.readQuery({
       query: CART_OPERATIONS.Query.carts,

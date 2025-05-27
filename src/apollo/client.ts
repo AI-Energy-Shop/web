@@ -17,6 +17,7 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
   // Since we're using cookies, we just need to ensure they're included in the request
   const authLink = setContext(
     (_: unknown, { headers }: { headers?: Record<string, string> }) => {
+      console.log(headers);
       return {
         headers: {
           ...headers,

@@ -88,7 +88,7 @@ export const loginUser = async ({
 
     const token = response?.data.login.jwt;
     const user = response?.data.login.user;
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
 
     const userRes = await client.query({
       query: USERS_OPERATIONS.Queries.usersPermissionsUser,
@@ -146,7 +146,13 @@ export const loginUser = async ({
     };
 
     cookieStore.set('a-token', token!, cookieOptions);
-    cookieStore.set('a-user', JSON.stringify({...user, role: userRes.data.usersPermissionsUser?.role}!), cookieOptions);
+    cookieStore.set(
+      'a-user',
+      JSON.stringify(
+        { ...user, role: userRes.data.usersPermissionsUser?.role }!
+      ),
+      cookieOptions
+    );
 
     return { data: { token, user: newUser } }; // Return success indicator
   } catch (error: any) {

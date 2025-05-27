@@ -16,11 +16,7 @@ import { usePathname } from 'next/navigation';
 interface NavigationBarProps {}
 
 const NavigationBar: React.FC<NavigationBarProps> = () => {
-
   const pathname = usePathname();
-  
-  
-  if (pathname && pathname.startsWith('/admin')) return null;
 
   const [isFixed, setIsFixed] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +28,8 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  if (pathname && pathname.startsWith('/admin')) return null;
 
   return (
     <>
@@ -61,7 +59,7 @@ const NavigationBar: React.FC<NavigationBarProps> = () => {
       <header
         className={cn(
           'hidden lg:block',
-          'z-50 w-full h-auto border-b bg-white',
+          'z-50 w-full h-auto border-b border-gray-200 bg-white',
           isFixed ? 'fixed' : 'relative'
         )}
       >

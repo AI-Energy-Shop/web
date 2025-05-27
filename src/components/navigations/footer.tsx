@@ -10,8 +10,7 @@ import { usePathname } from 'next/navigation';
 interface FooterProps {}
 
 const Footer: React.FC<FooterProps> = () => {
-  
-  const pathname = usePathname(); 
+  const pathname = usePathname();
   if (pathname && pathname.startsWith('/admin')) return null;
 
   return (
