@@ -319,7 +319,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                       setShippingType('delivery');
                       setDeliveryOptions({
                         type: 'manual',
-                        date: e,
+                        date: e?.toISOString(),
                         macshipData: null,
                       });
                     }}
@@ -362,7 +362,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                   onSelect={(date) => {
                     setPickUpDate(date);
                     setPickUpOptions({
-                      date,
+                      date: date?.toISOString(),
                       estimatedArrivalTime:
                         pickUpOptions?.estimatedArrivalTime!,
                     });
@@ -394,7 +394,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                     if (!isButtonAllowedToClick) return;
 
                     setPickUpOptions({
-                      date: pickUpDate,
+                      date: pickUpDate?.toISOString(),
                       estimatedArrivalTime: time.value,
                     });
                   }}
@@ -480,4 +480,3 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
 };
 
 export default ShippingDetails;
-

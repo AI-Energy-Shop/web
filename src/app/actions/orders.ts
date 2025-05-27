@@ -49,12 +49,12 @@ export const createOrder = async ({ checkoutState }: CreateOrderProps) => {
     const lineItems = checkoutState.items.map((item) => {
       return {
         line: {
-          quantity: item.quantity,
-          title: item.product.name,
-          odoo_product_id: item.product.odoo_product_id,
-          model: item.product.model,
-          image: item.product.images[0]?.url || '',
-          productID: item.product.documentId,
+          quantity: item?.quantity,
+          title: item?.product?.name,
+          odoo_product_id: item?.product?.odoo_product_id,
+          model: item?.product?.model,
+          image: item?.product?.images[0]?.url || '',
+          productID: item?.product?.documentId,
           price: 123,
         },
       };

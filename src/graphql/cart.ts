@@ -150,7 +150,7 @@ const schema = {
         }  
       }
     `),
-    updateCart: gql(`
+    updateCart: graphql(`
       #graphql
       mutation UpdateCart($documentId: ID!, $data: CartInput!) {
         updateCart(documentId: $documentId, data: $data) {
@@ -193,7 +193,7 @@ const schema = {
         }
       }
     `),
-    deleteCart: gql(`
+    deleteCart: graphql(`
       #graphql
       mutation DeleteCart($documentId: ID!) {
         deleteCart(documentId: $documentId) {
@@ -213,4 +213,3 @@ const schema = {
 };
 
 export default schema;
-

@@ -1,6 +1,6 @@
 export const USER_LEVEL_DATA = [
   { value: 'SMALL', label: 'SMALL' },
-  { value: 'MID-SIZED', label: 'MID SIZE' },
+  { value: 'MID_SIZED', label: 'MID SIZE' },
   { value: 'VIP', label: 'VIP' },
 ];
 

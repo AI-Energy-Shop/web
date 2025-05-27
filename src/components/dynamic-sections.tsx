@@ -52,4 +52,3 @@ const DynamicSections: React.FC<DynamicSectionsProps> = ({ data }) => {
 };
 
 export default DynamicSections;
-

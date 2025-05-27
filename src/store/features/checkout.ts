@@ -34,12 +34,12 @@ export type MacshipData = {
 
 export type DeliveryOptions = {
   type: 'auto' | 'manual';
-  date: Date | undefined;
+  date: string | undefined;
   macshipData: MacshipData;
 };
 export type PickUpOptions = {
   estimatedArrivalTime: string;
-  date: Date | undefined;
+  date: string | undefined;
 };
 
 export type WarehouseLocation = {
@@ -87,9 +87,9 @@ const initialState: CheckoutState = {
   warehouseLocation: WAREHOUSE_LOCATIONS[0],
   deliveryOptions: null,
   pickupOptions: {
-    date: NOW,
+    date: NOW.toISOString(),
     estimatedArrivalTime: getPickUpOptionsBestTimeSlots(
-      NOW,
+      NOW.toISOString(),
       PICK_UP_ESTIMATED_ARRIVAL_TIME
     ),
   },
@@ -165,4 +165,3 @@ export const {
 } = checkoutSlice.actions;
 
 export default checkoutSlice.reducer;
-

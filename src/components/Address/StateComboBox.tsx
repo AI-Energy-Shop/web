@@ -32,7 +32,7 @@ import { z } from 'zod';
 type AddressSchemaTypes = z.infer<typeof addressSchema>;
 
 interface StateComboBoxProps {
-  form: UseFormReturn<AddressSchemaTypes, any, undefined>;
+  form: UseFormReturn<AddressSchemaTypes, any, AddressSchemaTypes>;
 }
 
 export default function StateComboBox({ form }: StateComboBoxProps) {
