@@ -104,8 +104,8 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
                   <h3 className={`${muktaVaani.className} font-medium`}>
                     <span>
                       $
-                      {itemPrice?.sale_price
-                        ? itemPrice?.sale_price?.toFixed(2)
+                      {itemPrice?.comparePrice
+                        ? itemPrice?.comparePrice?.toFixed(2)
                         : itemPrice?.price?.toFixed(2)}
                     </span>
                     <span className="text-[10px]">ex.GST</span>
@@ -188,8 +188,8 @@ function ProductRecoCarousel({ relatedProductType }: ProductRecoCarouselProps) {
                   <h3 className={`${muktaVaani.className} font-medium mb-4`}>
                     <span className="text-xl">
                       $
-                      {itemPrice?.sale_price
-                        ? itemPrice?.sale_price?.toFixed(2)
+                      {itemPrice?.comparePrice
+                        ? itemPrice?.comparePrice?.toFixed(2)
                         : itemPrice?.price?.toFixed(2)}
                     </span>
                     <span className="text-xs">ex.GST</span>

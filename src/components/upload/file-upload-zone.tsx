@@ -1,7 +1,6 @@
 'use client';
 import React, { useCallback, useState } from 'react';
 import { Upload } from 'lucide-react';
-import { filesUpload } from '@/app/actions/files';
 import { Toast } from '@/lib/toast';
 
 type FileUploadZoneProps = {
@@ -46,6 +45,7 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({
 
       onChange?.(droppedFiles);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [maxFiles]
   );
 
@@ -60,6 +60,7 @@ const FileUploadZone: React.FC<FileUploadZoneProps> = ({
       onChange?.(files);
       e.target.value = '';
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [maxFiles]
   );
 
