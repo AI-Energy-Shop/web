@@ -2,14 +2,14 @@ import { calculateDeliveryPricing } from '@/app/actions/macship';
 import { Routes } from '@/lib/routes.types';
 import { useEffect, useState } from 'react';
 import { useCheckout } from './useCheckout';
-import { Cart } from '@/store/features/cart';
+import { CartsQuery } from '@/lib/gql/graphql';
 
 const DEBOUNCE_DELAY = 1000;
 
 export const useCalculateDeliveryPricing = (
   suburb: string,
   postCode: string,
-  cart: Cart[]
+  carts: CartsQuery['carts']
 ) => {
   const [data, setData] = useState<Routes[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -34,7 +34,7 @@ export const useCalculateDeliveryPricing = (
             suburb,
             postcode: postCode,
           },
-          cart,
+          carts,
         });
 
         if (error) {
@@ -55,7 +55,7 @@ export const useCalculateDeliveryPricing = (
   }, [
     suburb,
     postCode,
-    cart,
+    carts,
     warehouseLocation.address.suburb,
     warehouseLocation.address.postcode,
   ]);

@@ -1,9 +1,11 @@
-import { Cart } from '@/store/features/cart';
+import { CartsQuery } from '@/lib/gql/graphql';
 import {
   setSelectedLocation,
   setShippingType as setShippingTypeFromSlice,
   ShippingType,
   WarehouseLocation,
+  setShippingAddress as setShippingAddressFromSlice,
+  ShippingAddress,
   setDeliveryOptions as setDeliveryOptionsFromSlice,
   DeliveryOptions,
   setDeliveryNotes as setDeliveryNotesFromSlice,
@@ -15,6 +17,7 @@ import {
   setItems as setItemsMethodFromSlice,
 } from '@/store/features/checkout';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useEffect, useState } from 'react';
 
 export const useCheckout = () => {
   const dispatch = useAppDispatch();
@@ -30,12 +33,18 @@ export const useCheckout = () => {
 
   const pickUpOptions = useAppSelector((state) => state.checkout.pickupOptions);
 
-  const shippingType = useAppSelector((state) => state.checkout.shippingType);
+  const shippingTypeFromStore = useAppSelector(
+    (state) => state.checkout.shippingType
+  );
 
   const paymentMethod = useAppSelector((state) => state.checkout.paymentMethod);
 
   const deliveryOptions = useAppSelector(
     (state) => state.checkout.deliveryOptions
+  );
+
+  const shippingAddress = useAppSelector(
+    (state) => state.checkout.shippingAddress
   );
 
   const allCheckoutState = useAppSelector((state) => state.checkout);
@@ -51,6 +60,10 @@ export const useCheckout = () => {
     dispatch(setDeliveryOptionsFromSlice(deliveryOptions));
   };
 
+  const setShippingAddress = (shippingAddress: ShippingAddress) => {
+    dispatch(setShippingAddressFromSlice(shippingAddress));
+  };
+
   const setDeliveryNotes = (deliveryNotes: string) =>
     dispatch(setDeliveryNotesFromSlice(deliveryNotes));
 
@@ -63,9 +76,15 @@ export const useCheckout = () => {
   const setPaymentMethod = (paymentMethod: PaymentMethod) =>
     dispatch(setPaymentMethodFromSlice(paymentMethod));
 
-  const setItems = (cart: Cart[]) => {
+  const setItems = (cart: CartsQuery['carts']) => {
     dispatch(setItemsMethodFromSlice(cart));
   };
+
+  const [shippingType, setShippingTypes] = useState<ShippingType>(null);
+
+  useEffect(() => {
+    setShippingTypes(shippingTypeFromStore);
+  }, [shippingTypeFromStore]);
 
   return {
     warehouseLocation,
@@ -76,8 +95,10 @@ export const useCheckout = () => {
     paymentMethod,
     deliveryOptions,
     allCheckoutState,
+    shippingAddress,
     setWarehouseLocation,
     setShippingType,
+    setShippingAddress,
     setDeliveryOptions,
     setDeliveryNotes,
     setPickUpNotes,

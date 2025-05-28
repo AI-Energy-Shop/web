@@ -1,4 +1,25 @@
-export const USER_LEVELS = ['SMALL', 'MID-SIZED', 'VIP', 'Wholesale'];
+export const USER_LEVELS = [
+  {
+    name: 'DEFAULT',
+    value: 'DEFAULT',
+  },
+  {
+    name: 'SMALL',
+    value: 'SMALL',
+  },
+  {
+    name: 'MID-SIZED',
+    value: 'MID_SIZED',
+  },
+  {
+    name: 'VIP',
+    value: 'VIP',
+  },
+  {
+    name: 'WHOLE-SELLER',
+    value: 'WHOLE_SELLER',
+  },
+];
 
 export const LOCATIONS = [
   // Major City Airport Codes
@@ -48,4 +69,44 @@ export const SPECIFICATION_KEYS = [
   'Number_of_Battery_Cells',
   'Max_System_Paralleled',
   'Dimensions_WxHxD',
+];
+
+type OnSelectProductAction = {
+  actionId: string;
+  actionName: string;
+  actionVariant: 'default' | 'secondary' | 'destructive' | 'ghost';
+  actionClassName?: string;
+  actionDescription: string;
+  submitButtonText: string;
+  submitButtonVariant: 'default' | 'secondary' | 'destructive' | 'ghost';
+};
+
+export const ON_SELECT_PRODUCT_ACTIONS: OnSelectProductAction[] = [
+  {
+    actionId: 'publish',
+    actionName: 'Publish',
+    actionVariant: 'ghost',
+    actionClassName: '',
+    actionDescription: ' ',
+    submitButtonText: 'Publish',
+    submitButtonVariant: 'secondary',
+  },
+  {
+    actionId: 'draft',
+    actionName: 'Draft',
+    actionVariant: 'ghost',
+    actionClassName: '',
+    actionDescription: ' ',
+    submitButtonText: 'Draft',
+    submitButtonVariant: 'secondary',
+  },
+  {
+    actionId: 'delete',
+    actionName: 'Delete',
+    actionVariant: 'ghost',
+    actionClassName: 'text-red-400',
+    actionDescription: 'Are you sure you want to delete ',
+    submitButtonText: 'Delete',
+    submitButtonVariant: 'destructive',
+  },
 ];

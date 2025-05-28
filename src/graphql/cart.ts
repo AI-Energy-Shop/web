@@ -3,8 +3,7 @@ import { gql } from '@apollo/client';
 
 const schema = {
   Query: {
-    carts: gql(`
-      #graphql
+    carts: graphql(`
       query Carts($filters: CartFiltersInput, $pagination: PaginationArg) {
         carts(filters: $filters, pagination: $pagination) {
           documentId
@@ -13,22 +12,34 @@ const schema = {
             name
             model
             odoo_product_id
+            odoo_product_name
             price_lists {
               price
+              comparePrice
               min_quantity
               max_quantity
+              user_level
             }
-            inventories {
+            inventory {
               documentId
-              name
-              location_code
-              quantity
+              melbourne
+              sydney
+              brisbane
+              createdAt
+              updatedAt
             }
             images {
               url
               alternativeText
               width
               height
+            }
+            shipping {
+              weight
+              height
+              width
+              length
+              documentId
             }
           }
           user {
@@ -49,11 +60,13 @@ const schema = {
             quantity
             product {
               documentId
-              inventories {
+              inventory {
                 documentId
-                name
-                location_code
-                quantity
+                melbourne
+                sydney
+                brisbane
+                createdAt
+                updatedAt
               }
               shipping {
                 height
@@ -79,6 +92,16 @@ const schema = {
             createdAt
             updatedAt
           }
+          creditCards {
+            brand
+            documentId
+            expMonth
+            expYear
+            isDefault
+            last4Char
+            publishedAt
+            stripePaymentMethodID
+          }
         }
       }
     `),
@@ -92,20 +115,23 @@ const schema = {
           product {
             documentId
             odoo_product_id
+            odoo_product_name
             name
             model
             price_lists {
               price
-              sale_price
+              comparePrice
               min_quantity
               max_quantity
               user_level
             }
-            inventories {
+            inventory {
               documentId
-              name
-              location_code
-              quantity
+              melbourne
+              sydney
+              brisbane
+              createdAt
+              updatedAt
             }
             images {
               url
@@ -124,7 +150,7 @@ const schema = {
         }  
       }
     `),
-    updateCart: gql(`
+    updateCart: graphql(`
       #graphql
       mutation UpdateCart($documentId: ID!, $data: CartInput!) {
         updateCart(documentId: $documentId, data: $data) {
@@ -134,18 +160,21 @@ const schema = {
             name
             model
             odoo_product_id
+            odoo_product_name
             price_lists {
               price
-              sale_price
+              comparePrice
               min_quantity
               max_quantity
               user_level
             }
-            inventories {
+            inventory {
               documentId
-              name
-              location_code
-              quantity
+              melbourne
+              sydney
+              brisbane
+              createdAt
+              updatedAt
             }
             images {
               url
@@ -164,7 +193,7 @@ const schema = {
         }
       }
     `),
-    deleteCart: gql(`
+    deleteCart: graphql(`
       #graphql
       mutation DeleteCart($documentId: ID!) {
         deleteCart(documentId: $documentId) {

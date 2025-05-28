@@ -6,9 +6,9 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { getUserDetails, updateAccountStatus } from '@/app/actions/user';
-import AdminUserProfileForm from '@/components/Form/AdminUserProfileForm';
-import UserApprovalForm from '@/components/Form/UserApprovalForm';
+import { getUserDetails, updateAccountStatus } from '@/app/actions/auth';
+import AdminUserProfileForm from '@/components/forms/admin-user-profile-form';
+import UserApprovalForm from '@/components/forms/user-approval-form';
 
 type AdminDashboardUserPageProps = {
   params: Promise<{ id: string }>;
@@ -46,7 +46,7 @@ const AdminDashboardUserPage = async (props: AdminDashboardUserPageProps) => {
         : 'secondary';
 
   return (
-    <div className="min-h-full bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-full bg-gray-100">
       <div className="w-full mx-auto p-5">
         <Card>
           <CardHeader className="space-y-1">
@@ -61,9 +61,7 @@ const AdminDashboardUserPage = async (props: AdminDashboardUserPageProps) => {
               <div className="flex items-center space-x-4">
                 <div>
                   <h2 className="text-xl font-semibold">{user?.username}</h2>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Email: {user?.email}
-                  </p>
+                  <p className="text-sm text-gray-500">Email: {user?.email}</p>
                 </div>
               </div>
               {searchParams.type === 'request' && (

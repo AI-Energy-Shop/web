@@ -5,7 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import AddressForm from '../Form/AddressForm';
+import AddressForm from '../forms/address-form';
 import { AddressSchemaWithDocumentIdTypes } from './AddressList';
 import { AddressQuery } from '@/lib/gql/graphql';
 

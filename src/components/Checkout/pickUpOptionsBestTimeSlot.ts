@@ -5,9 +5,11 @@ type PickupSlot = {
 };
 
 export function getPickUpOptionsBestTimeSlots(
-  currentTime: Date,
+  currentTimeInString: string,
   slots: PickupSlot[]
 ): string {
+  const currentTime = new Date(currentTimeInString);
+
   const nextSlot = slots.find((slot) => currentTime <= slot.date);
   return nextSlot?.value || slots[slots.length - 1].value;
 }

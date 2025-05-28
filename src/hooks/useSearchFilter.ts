@@ -1,6 +1,6 @@
 'use client';
 import debounce from 'lodash/debounce';
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import PRODUCT_OPERATION from '@/graphql/products';
 import { ProductQuery } from '@/lib/gql/graphql';
@@ -12,7 +12,10 @@ const useSearchFilter = () => {
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
   const [searchQueryInput, setSearchQueryInput] = useState<string>('');
   const [searchProducts, { data: searchData }] = useLazyQuery(
-    PRODUCT_OPERATION.Query.products
+    PRODUCT_OPERATION.Query.products,
+    {
+      fetchPolicy: 'no-cache',
+    }
   );
 
   // Debounced search function

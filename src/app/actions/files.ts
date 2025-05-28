@@ -1,9 +1,9 @@
 'use server';
 import { cookies } from 'next/headers';
 
-export const filesUpload = async (formData: FormData) => {
+export const fileUpload = async (formData: FormData) => {
   const cookieStore = await cookies();
-  const token = cookieStore.get('a-token');
+  const token = cookieStore.get('a-token')?.value;
 
   try {
     const res = await fetch(

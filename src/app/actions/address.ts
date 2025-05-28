@@ -13,7 +13,7 @@ type AddressSchemaTypes = z.infer<typeof addressSchema>;
 const client = getClient();
 
 export async function getAddress() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;
   const aUser: Auser = JSON.parse(cookieStore.get('a-user')?.value!);
 
@@ -34,7 +34,7 @@ export async function getAddress() {
 }
 
 export async function addNewAddress(value: AddressSchemaTypes) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;
   const aUser: Auser = JSON.parse(cookieStore.get('a-user')?.value!);
 
@@ -58,7 +58,7 @@ export async function addNewAddress(value: AddressSchemaTypes) {
 }
 
 export async function deleteAddress(id: string) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;
 
   const res = await client.mutate({
@@ -84,7 +84,7 @@ export async function updateAddress(
   documentId: string,
   value: AddressSchemaTypes
 ) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;
 
   const res = await client.mutate({
@@ -108,7 +108,7 @@ export async function updateAddress(
 }
 
 export async function updateAddressIsActiveToFalse(documentId: string) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;
 
   await client.mutate({

@@ -17,6 +17,9 @@ const nextConfig = {
   },
   transpilePackages: ['lucide-react'], // add this
   reactStrictMode: true,
+  eslint: {
+    dirs: ['pages', 'src/components', 'src/hooks'], // Only run ESLint on the 'pages' and 'utils' directories during production builds (next build)
+  },
 };
 
 export default nextConfig;

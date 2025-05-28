@@ -2,23 +2,23 @@
 
 import { useRef, useState, useEffect } from 'react';
 import { Toast } from '@/lib/toast';
-import { ProductQuery } from '@/lib/gql/graphql';
+import { CollectionsQuery, ProductQuery } from '@/lib/gql/graphql';
 import {
   createProduct,
   updateProduct,
   createPrice,
-  updatePrice,
   updateInventory,
   createInventory,
   createSpecification,
   updateSpecification,
   deleteSpecification,
-  deleteInventory,
-  deletePrice,
   updateKeyFeature,
   createKeyFeature,
   deleteKeyFeature,
   createShipping,
+  updateShipping,
+  deletePrices,
+  updatePrices,
 } from '@/app/actions/products';
 import {
   AddProductFormData,
@@ -27,12 +27,17 @@ import {
   PriceListFormData,
   SpecificationFormData,
   KeyFeatureFormData,
+  ShippingFormData,
 } from '@/lib/validation-schema/products';
 import { useForm } from 'react-hook-form';
 import { useQuery } from '@apollo/client';
 import PRODUCT_OPERATIONS from '@/graphql/products';
+import COLLECTION_OPERATIONS from '@/graphql/collections';
 import { useRouter } from 'next/navigation';
 import { handleProductError } from '@/lib/utils/product-error-handler';
+import { USER_LEVELS } from '@/constant';
+import React from 'react';
+
 export type UploadFile = {
   __typename?: 'UploadFile';
   documentId: string;
@@ -56,7 +61,11 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
   const [images, setImages] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
+  const [collections, setCollections] = useState<
+    CollectionsQuery['collections']
+  >([]);
   const router = useRouter();
+  const isMounted = useRef(false);
 
   useQuery(PRODUCT_OPERATIONS.Query.brands, {
     fetchPolicy: 'network-only',
@@ -69,76 +78,93 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     },
   });
 
+  useQuery(COLLECTION_OPERATIONS.Query.collections, {
+    fetchPolicy: 'network-only',
+    onCompleted(data) {
+      setCollections(data.collections);
+    },
+  });
+
   const isNew = id === 'new';
+  const defaultFiles = product?.files?.map((file) => file?.documentId) || [];
+  const defaultImages =
+    product?.images?.map((image) => image?.documentId) || [];
+  const defaultCollections =
+    product?.collections?.map((collection) => collection?.documentId) || [];
+  const defaultPriceList =
+    product?.price_lists?.map((price) => ({
+      documentId: price?.documentId,
+      price: price?.price || 0,
+      comparePrice: price?.comparePrice,
+      min_quantity: price?.min_quantity || 1,
+      max_quantity: price?.max_quantity,
+      user_level: `${price?.user_level}`,
+    })) || [];
+  const defaultSpecs =
+    product?.specifications?.map((spec) => ({
+      documentId: spec?.documentId || '',
+      key: spec?.key || '',
+      value: spec?.value || '',
+    })) || [];
+
+  const defaultKeyFeatures =
+    product?.key_features?.map((feature) => ({
+      documentId: feature?.documentId || '',
+      feature: feature?.feature || '',
+    })) || [];
+
+  const defaultShipping = product?.shipping
+    ? {
+        documentId: product.shipping.documentId,
+        height: product.shipping.height ?? 0,
+        width: product.shipping.width ?? 0,
+        length: product.shipping.length ?? 0,
+        weight: product.shipping.weight ?? 0,
+      }
+    : {
+        documentId: null,
+        height: 0,
+        width: 0,
+        length: 0,
+        weight: 0,
+      };
+
+  const defaultInventory = product?.inventory
+    ? {
+        documentId: product.inventory.documentId,
+        melbourne: product.inventory.melbourne ?? 0,
+        sydney: product.inventory.sydney ?? 0,
+        brisbane: product.inventory.brisbane ?? 0,
+      }
+    : {
+        documentId: null,
+        melbourne: 0,
+        sydney: 0,
+        brisbane: 0,
+      };
 
   const addProductForm = useForm<AddProductFormData>({
     resolver: addProductResolver,
-    defaultValues: isNew
-      ? {
-          name: '',
-          model: '',
-          description: '',
-          product_type: '',
-          odoo_product_id: '',
-          brand: null,
-          shipping: {
-            weight: 0,
-            width: 0,
-            height: 0,
-            length: 0,
-          },
-          images: [],
-          files: [],
-          price_lists: [],
-          inventories: [],
-          specifications: [],
-          key_features: [],
-          status: 'draft',
-        }
-      : {
-          name: product?.name || '',
-          model: product?.model || '',
-          description: product?.description || '',
-          product_type: product?.product_type || '',
-          odoo_product_id: product?.odoo_product_id || '',
-          brand: product?.brand?.documentId || null,
-          shipping: {
-            weight: product?.shipping?.weight || 0,
-            width: product?.shipping?.width || 0,
-            height: product?.shipping?.height || 0,
-            length: product?.shipping?.length || 0,
-          },
-          images: product?.images?.map((image) => image?.documentId) || [],
-          files: product?.files?.map((file) => file?.documentId) || [],
-          price_lists:
-            product?.price_lists?.map((price) => ({
-              documentId: price?.documentId,
-              price: price?.price || 0,
-              sale_price: price?.sale_price || 0,
-              min_quantity: price?.min_quantity || 0,
-              max_quantity: price?.max_quantity || 0,
-              user_level: price?.user_level || '',
-            })) || [],
-          inventories:
-            product?.inventories?.map((inventory) => ({
-              documentId: inventory?.documentId || '',
-              name: inventory?.name || '',
-              location_code: inventory?.location_code || '',
-              quantity: inventory?.quantity || 0,
-            })) || [],
-          specifications:
-            product?.specifications?.map((spec) => ({
-              documentId: spec?.documentId || '',
-              key: spec?.key || '',
-              value: spec?.value || '',
-            })) || [],
-          key_features:
-            product?.key_features?.map((feature) => ({
-              documentId: feature?.documentId || '',
-              feature: feature?.feature || '',
-            })) || [],
-          status: product?.releasedAt ? 'published' : 'draft',
-        },
+    defaultValues: {
+      handle: product?.handle || '',
+      name: product?.name || '',
+      model: product?.model || '',
+      description: product?.description || '',
+      product_type: product?.product_type || '',
+      odoo_product_id: product?.odoo_product_id || '',
+      odoo_product_name: product?.odoo_product_name || '',
+      brand: product?.brand?.documentId || null,
+      shipping: defaultShipping,
+      collections: defaultCollections,
+      inventory: defaultInventory,
+      images: defaultImages,
+      files: defaultFiles,
+      price_lists: defaultPriceList,
+      specifications: defaultSpecs,
+      key_features: defaultKeyFeatures,
+      status: product?.releasedAt ? 'published' : 'draft',
+      maxQuantity: product?.maxQuantity || null,
+    },
   });
 
   const onSubmit = async (onValid: AddProductFormData) => {
@@ -146,12 +172,12 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     const releasedAt = status === 'published' ? new Date() : null;
 
     const isErrors = Object.keys(addProductForm.formState.errors);
+
     if (isErrors.length !== 0) {
       return;
     }
-
+    const currentInventory = onValid.inventory;
     const currentPriceLists = onValid.price_lists;
-    const currentInventories = onValid.inventories;
     const currentSpecs = onValid.specifications;
     const currentKeyFeatures = onValid.key_features;
     const shippingData = onValid.shipping;
@@ -160,7 +186,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
 
     const res = await Promise.all([
       handleSaveOrUpdatePriceList(currentPriceLists),
-      handleSaveOrUpdateInventoryList(currentInventories),
+      handleSaveOrUpdateInventory(currentInventory),
       handleSaveOrSaveCurrentSpecs(currentSpecs),
       handleSaveCurrentKeyFeatures(currentKeyFeatures),
       handleSaveOrUpdateShipping(shippingData),
@@ -175,17 +201,20 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
         const productData = JSON.stringify(
           {
             data: {
+              handle: onValid.handle,
               name: onValid.name,
               model: onValid.model,
               odoo_product_id: onValid.odoo_product_id,
               description: onValid.description,
               product_type: onValid.product_type,
               brand: onValid.brand,
+              collections: onValid.collections,
               price_lists: res?.at?.(0) || [],
-              inventories: res?.at?.(1) || [],
+              inventory: res?.at?.(1) || null,
               specifications: res?.at?.(2) || [],
               key_features: res?.at?.(3) || [],
               shipping: res?.at?.(4) || null,
+              maxQuantity: onValid.maxQuantity,
               images: currentImages,
               files: currentFiles,
               releasedAt: releasedAt,
@@ -220,17 +249,20 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
           {
             documentId: product?.documentId,
             data: {
+              handle: onValid.handle,
               name: onValid.name,
               model: onValid.model,
               odoo_product_id: onValid.odoo_product_id,
               description: onValid.description,
               product_type: onValid.product_type,
               brand: onValid.brand,
+              collections: onValid.collections,
               price_lists: res?.at?.(0) || [],
-              inventories: res?.at?.(1) || [],
+              inventory: res?.at?.(1) || null,
               specifications: res?.at?.(2) || [],
               key_features: res?.at?.(3) || [],
               shipping: res?.at?.(4) || null,
+              maxQuantity: onValid.maxQuantity,
               images: currentImages,
               files: currentFiles,
               releasedAt: releasedAt,
@@ -257,6 +289,12 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     }
   };
 
+  const onError = (error: any) => {
+    console.log('error', error);
+    Toast(error.message, 'ERROR', { position: 'top-center' });
+    return;
+  };
+
   const handleDiscardChanges = () => {
     if (id === 'new') {
       router.back();
@@ -273,7 +311,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
       feature: '',
     };
 
-    const currentKeyFeatures = addProductForm.getValues('key_features');
+    const currentKeyFeatures = addProductForm.getValues('key_features') || [];
     const combinedKeyFeatures = [...currentKeyFeatures, newObj];
     addProductForm.setValue('key_features', combinedKeyFeatures, {
       shouldDirty: true,
@@ -342,10 +380,10 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     const newObj = {
       documentId: null,
       price: 0,
-      sale_price: 0,
-      min_quantity: 0,
-      max_quantity: 0,
-      user_level: '',
+      comparePrice: null,
+      min_quantity: 1,
+      max_quantity: null,
+      user_level: `${USER_LEVELS.at(0)?.value}`,
     };
     const priceListFormData = addProductForm.getValues('price_lists') || [];
     const combinedPriceLists = [...priceListFormData, newObj];
@@ -367,7 +405,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
           .map((item) => {
             return {
               price: item?.price,
-              sale_price: item?.sale_price,
+              comparePrice: item?.comparePrice,
               min_quantity: item?.min_quantity,
               max_quantity: item?.max_quantity,
               user_level: item?.user_level,
@@ -383,7 +421,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
             return {
               documentId: item?.documentId,
               price: item?.price,
-              sale_price: item?.sale_price,
+              comparePrice: item?.comparePrice,
               min_quantity: item?.min_quantity,
               max_quantity: item?.max_quantity,
               user_level: item?.user_level,
@@ -400,8 +438,8 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
 
       const res = await Promise.all([
         createPrice(JSON.stringify(toSave)),
-        updatePrice(JSON.stringify(toUpdate)),
-        deletePrice(JSON.stringify(toDelete)),
+        updatePrices(JSON.stringify(toUpdate)),
+        deletePrices(JSON.stringify(toDelete)),
       ]).catch((error) => {
         console.log('error', error);
         return [];
@@ -421,74 +459,40 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     }
   };
 
-  // INVENTORY
-  const handleAddInventoryItem = () => {
-    const newObj = {
-      documentId: null,
-      location_code: '',
-      quantity: 0,
-    };
-
-    const currentInventories = addProductForm.getValues('inventories');
-    const combinedInventories = [...currentInventories, newObj];
-    addProductForm.setValue('inventories', combinedInventories, {
-      shouldDirty: true,
-    });
-  };
-
-  const handleSaveOrUpdateInventoryList = async (
+  const handleSaveOrUpdateInventory = async (
     data: InventoryFormData
-  ): Promise<string[]> => {
+  ): Promise<string | undefined> => {
     try {
-      if (!data || data.length === 0) return [];
-      const dataToSave =
-        data
-          .filter((item) => item.documentId === null)
-          .map((item) => {
-            return {
-              location_code: item?.location_code,
-              quantity: item?.quantity,
-            };
-          }) || [];
+      const isForSaving = data?.documentId === null;
+      if (isForSaving) {
+        const res = await createInventory(
+          JSON.stringify({
+            data: {
+              melbourne: Number(data.melbourne),
+              sydney: Number(data.sydney),
+              brisbane: Number(data.brisbane),
+            },
+          })
+        );
 
-      const dataToUpdate =
-        data
-          .filter((item) => item.documentId !== null)
-          .map((item) => {
-            return {
-              documentId: item?.documentId,
-              location_code: item?.location_code,
-              quantity: item?.quantity,
-            };
-          }) || [];
+        return res.data?.createInventory?.documentId;
+      } else {
+        const res = await updateInventory(
+          JSON.stringify({
+            documentId: data?.documentId,
+            data: {
+              melbourne: Number(data?.melbourne),
+              sydney: Number(data?.sydney),
+              brisbane: Number(data?.brisbane),
+            },
+          })
+        );
 
-      const toDelete =
-        product?.inventories
-          ?.filter(
-            (inv) => !data.some((item) => item?.documentId === inv?.documentId)
-          )
-          .map((inv) => ({ documentId: inv?.documentId })) || [];
-
-      const res = await Promise.all([
-        createInventory(JSON.stringify(dataToSave)),
-        updateInventory(JSON.stringify(dataToUpdate)),
-        deleteInventory(JSON.stringify(toDelete)),
-      ]).catch((error) => {
-        console.log('error', error);
-        return [];
-      });
-
-      const [saveRes, updateRes] = res;
-
-      const combinedInventoryLists = [
-        ...saveRes.map((item) => item.data?.createInventory?.documentId),
-        ...updateRes.map((item) => item.data?.updateInventory?.documentId),
-      ];
-
-      return combinedInventoryLists.filter((item) => item !== undefined);
+        return res.data?.updateInventory?.documentId;
+      }
     } catch (error) {
       console.log('error', error);
-      return [];
+      return undefined;
     }
   };
 
@@ -566,99 +570,34 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     }
   };
 
-  const onRemoveList = (index?: number, title?: string) => {
-    const idx = Number(index);
-    console.log(title);
-    switch (title) {
-      case 'price_lists':
-        const priceLists = addProductForm?.getValues('price_lists') || [];
-        const currentPriceList = priceLists?.filter(
-          (_: any, i: number) => i !== idx
-        );
-        addProductForm.setValue('price_lists', currentPriceList, {
-          shouldValidate: true,
-          shouldDirty: true,
-          shouldTouch: true,
-        });
-        break;
-      case 'inventories':
-        const inventories = addProductForm?.getValues('inventories') || [];
-        const currentInventory = inventories?.filter(
-          (_: any, i: number) => i !== idx
-        );
-        addProductForm.setValue('inventories', currentInventory, {
-          shouldValidate: true,
-          shouldDirty: true,
-          shouldTouch: true,
-        });
-        break;
-      case 'specifications':
-        const specifications =
-          addProductForm?.getValues('specifications') || [];
-        const currentSpecification = specifications?.filter(
-          (_: any, i: number) => i !== idx
-        );
-        addProductForm.setValue('specifications', currentSpecification, {
-          shouldValidate: true,
-          shouldDirty: true,
-          shouldTouch: true,
-        });
-        break;
-      case 'key_features':
-        const keyFeatures = addProductForm?.getValues('key_features') || [];
-        const currentKeyFeatures = keyFeatures?.filter(
-          (_: any, i: number) => i !== idx
-        );
-        addProductForm.setValue('key_features', currentKeyFeatures, {
-          shouldValidate: true,
-          shouldDirty: true,
-          shouldTouch: true,
-        });
-        break;
-      default:
-        console.warn(`Unhandled title: ${title}`);
-        break;
-    }
-  };
-
   // FILES
-  const handleFilesSelected = (files: UploadFile[]) => {
+  const handleSaveSelectedImages = (files: UploadFile[]) => {
     try {
-      const existingFiles = files?.map((file) => file?.documentId) ?? [];
-      const newFiles =
-        files?.filter?.((file) => !existingFiles?.includes(file?.documentId)) ??
-        [];
-      const combinedFiles = [...files, ...newFiles];
-      setFiles(combinedFiles);
-      addProductForm.setValue(
-        'files',
-        combinedFiles.map((file) => file.documentId),
-        {
-          shouldDirty: true,
-        }
-      );
-    } catch (error) {
-      console.error('Failed to select images:', error);
-    }
-  };
-
-  const handleImagesSelected = (files: any[]) => {
-    try {
-      const existingFiles = images?.map((file) => file?.documentId) ?? [];
-      const newFiles =
-        files?.filter?.((file) => !existingFiles?.includes(file?.documentId)) ??
-        [];
-      const combinedImages = [...images, ...newFiles];
-      setImages(combinedImages);
+      setImages(files);
       addProductForm.setValue(
         'images',
-        combinedImages.map((file) => file.documentId),
+        files.map((file) => file.documentId),
         {
           shouldDirty: true,
         }
       );
     } catch (error) {
-      console.error('Failed to select images:', error);
+      console.error('Failed to save images:', error);
+    }
+  };
+
+  const handleSaveSelectedFiles = (files: UploadFile[]) => {
+    try {
+      setFiles(files);
+      addProductForm.setValue(
+        'files',
+        files.map((file) => file.documentId),
+        {
+          shouldDirty: true,
+        }
+      );
+    } catch (error) {
+      console.error('Failed to save files:', error);
     }
   };
 
@@ -687,79 +626,174 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
   };
 
   // SHIPPING
-  const handleSaveOrUpdateShipping = async ({
-    height,
-    width,
-    length,
-    weight,
-  }: {
-    height: number;
-    width: number;
-    length: number;
-    weight: number;
-  }) => {
+  const handleSaveOrUpdateShipping = async (data: ShippingFormData) => {
     try {
-      const res = await createShipping(
-        JSON.stringify({
-          height,
-          width,
-          length,
-          weight,
-        })
-      );
+      const isForSaving = data?.documentId === null;
+      if (isForSaving) {
+        const res = await createShipping(
+          JSON.stringify({
+            data: {
+              height: data?.height,
+              width: data?.width,
+              length: data?.length,
+              weight: data?.weight,
+            },
+          })
+        );
+        return res.data?.createShipping?.documentId;
+      } else {
+        const res = await updateShipping(
+          JSON.stringify({
+            documentId: data?.documentId,
+            data: {
+              height: data?.height,
+              width: data?.width,
+              length: data?.length,
+              weight: data?.weight,
+            },
+          })
+        );
 
-      if (res.errors) {
-        console.error('Failed to create shipping:', res.errors);
-        return;
+        return res.data?.updateShipping?.documentId;
       }
-
-      return res.data?.createShipping?.documentId;
     } catch (error) {
       console.log('error', error);
       return undefined;
     }
   };
 
+  const onRemoveList = (index?: number, title?: string) => {
+    const idx = Number(index);
+    switch (title) {
+      case 'price_lists':
+        const priceLists = addProductForm?.getValues('price_lists') || [];
+        const currentPriceList = priceLists?.filter(
+          (_: any, i: number) => i !== idx
+        );
+        addProductForm.setValue('price_lists', currentPriceList, {
+          shouldDirty: true,
+          shouldTouch: true,
+        });
+        break;
+      case 'specifications':
+        const specifications =
+          addProductForm?.getValues('specifications') || [];
+        const currentSpecification = specifications?.filter(
+          (_: any, i: number) => i !== idx
+        );
+        addProductForm.setValue('specifications', currentSpecification, {
+          shouldDirty: true,
+          shouldTouch: true,
+        });
+        break;
+      case 'key_features':
+        const keyFeatures = addProductForm?.getValues('key_features') || [];
+        const currentKeyFeatures = keyFeatures?.filter(
+          (_: any, i: number) => i !== idx
+        );
+        addProductForm.setValue('key_features', currentKeyFeatures, {
+          shouldDirty: true,
+          shouldTouch: true,
+        });
+        break;
+      default:
+        console.warn(`Unhandled title: ${title}`);
+        break;
+    }
+  };
+
+  // Update productCopy when product changes
   useEffect(() => {
-    setImages(
-      product?.images?.filter((image) => {
-        if (
-          image &&
-          addProductForm.getValues('images').includes(image.documentId)
-        ) {
-          return {
-            documentId: image?.documentId,
-            name: image?.name,
-            mime: image?.mime,
-            url: image?.url,
-            alternativeText: image?.alternativeText,
-            width: image?.width,
-            height: image?.height,
-            __typename: image?.__typename,
-          };
-        }
-      }) || []
-    );
-    setFiles(
-      product?.files?.filter((file) => {
-        if (
-          file &&
-          addProductForm.getValues('files').includes(file.documentId)
-        ) {
-          return {
-            documentId: file?.documentId,
-            name: file?.name,
-            mime: file?.mime,
-            url: file?.url,
-            alternativeText: file?.alternativeText,
-            width: file?.width,
-            height: file?.height,
-            __typename: file?.__typename,
-          };
-        }
-      }) || []
-    );
+    productCopy.current = product;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
+
+  // Cleanup function for images and files
+  useEffect(() => {
+    return () => {
+      setImages([]);
+      setFiles([]);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Set initial images and files only once when component mounts
+  useEffect(() => {
+    if (product) {
+      isMounted.current = true;
+      const initialImages =
+        product?.images?.filter((image) => {
+          if (
+            image &&
+            addProductForm.getValues('images').includes(image.documentId)
+          ) {
+            return {
+              documentId: image?.documentId,
+              name: image?.name,
+              mime: image?.mime,
+              url: image?.url,
+              alternativeText: image?.alternativeText,
+              width: image?.width,
+              height: image?.height,
+              __typename: image?.__typename,
+            };
+          }
+        }) || [];
+
+      const initialFiles =
+        product?.files?.filter((file) => {
+          if (
+            file &&
+            addProductForm.getValues('files').includes(file.documentId)
+          ) {
+            return {
+              documentId: file?.documentId,
+              name: file?.name,
+              mime: file?.mime,
+              url: file?.url,
+              alternativeText: file?.alternativeText,
+              width: file?.width,
+              height: file?.height,
+              __typename: file?.__typename,
+            };
+          }
+        }) || [];
+
+      setImages(initialImages);
+      setFiles(initialFiles);
+    }
+  }, [product]);
+
+  // Add this function to generate handle from name
+  const generateHandle = (name: string) => {
+    if (!name) return '';
+    return name
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric chars with hyphens
+      .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+  };
+
+  // Watch for name changes and update handle only for new products
+  React.useEffect(() => {
+    if (!isNew) return; // Don't auto-generate handle for existing products
+
+    const subscription = addProductForm.watch((value, { name }) => {
+      if (name === 'name' && value.name) {
+        const newHandle = generateHandle(value.name);
+        const currentHandle = addProductForm.getValues('handle');
+
+        // Only update if the handle would actually change
+        if (newHandle !== currentHandle) {
+          addProductForm.setValue('handle', newHandle, {
+            shouldDirty: true,
+            shouldTouch: true,
+          });
+        }
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [isNew]);
 
   return {
     addProductForm,
@@ -768,19 +802,19 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     files,
     brands,
     router,
+    collections,
+    onError,
     onSubmit,
     handleDiscardChanges,
-    handleAddInventoryItem,
     handleAddSpecsItem,
     handleAddKeyFeatureItem,
     handleSaveCurrentKeyFeatures,
     handleAddPriceItem,
-    handleSaveOrUpdateInventoryList,
     handleSaveOrSaveCurrentSpecs,
     handleSaveOrUpdatePriceList,
     onRemoveList,
-    handleFilesSelected,
-    handleImagesSelected,
+    handleSaveSelectedFiles,
+    handleSaveSelectedImages,
     handleFileRemove,
     handleImageRemove,
   };

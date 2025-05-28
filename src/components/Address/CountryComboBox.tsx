@@ -31,7 +31,7 @@ import { z } from 'zod';
 type AddressSchemaTypes = z.infer<typeof addressSchema>;
 
 interface CountryComboBoxProps {
-  form: UseFormReturn<AddressSchemaTypes, any, undefined>;
+  form: UseFormReturn<AddressSchemaTypes, any, AddressSchemaTypes>;
 }
 
 export default function CountryComboBox({ form }: CountryComboBoxProps) {

@@ -1,30 +1,24 @@
-export const dynamic = 'force-dynamic';
-import { products } from '@/app/actions/products';
-import { firaSans } from '@/app/font';
-import Carousel from '@/components/custom-ui/Carousel';
+import ShopProductStockQuantities from '@/components/products/shop-product-sock-quantities';
+import ProductAddToCartButton from '@/components/products/product-add-to-cart-button';
+import ProductDescription from '@/components/products/product-description';
+import ImageCarousel from '@/components/carousels/Home/ImageCarousel';
+import RelatedProducts from '@/components/products/related-products';
+import ProductPrice from '@/components/products/product-price';
+import BulkPrices from '@/components/products/bulk-prices';
 import { Breadcrumb } from '@/components/products';
-import BulkPrices from '@/components/products/BulkPrices';
-import ProductAddToCartButton from '@/components/products/ProductAddToCartButton';
-import ProductDescription from '@/components/products/ProductDescription';
-import ProductPrice from '@/components/products/ProductPrice';
-import RelatedProducts from '@/components/products/RelatedProducts';
-import ShopProductStockQuantities from '@/components/products/ShopProductStockQuantities';
+import { storeProduct } from '@/app/actions/products';
+import { firaSans } from '@/app/font';
 import { cn } from '@/lib/utils';
-import { capsAllFirstCharWithSpace } from '@/utils/string';
 
-async function VariantPage({ params }: { params: { productSlug: string } }) {
-  const productSlug = (await params).productSlug;
+async function ProductPage({
+  params,
+}: {
+  params: Promise<{ productSlug: string }>;
+}) {
+  const { productSlug } = await params;
 
-  const { data } = await products({
-    filters: {
-      name: {
-        contains: capsAllFirstCharWithSpace(productSlug),
-      },
-    },
-    pagination: {},
-  });
-
-  const product = data?.products.at(0);
+  const res = await storeProduct(productSlug);
+  const product = res?.data?.getStoreProduct;
 
   if (!product) {
     return <div>Product not found</div>;
@@ -49,7 +43,7 @@ async function VariantPage({ params }: { params: { productSlug: string } }) {
 
         <div className="md:flex md:justify-between md:px-12 md:pb-5">
           <div className="ae-mobile-container max-md:w-4/5 max-md:max-w-96 md:basis-[40%] md:max-w-[40%]">
-            <Carousel.ProductCarousel product={product} />
+            <ImageCarousel slides={product?.images} />
           </div>
           <div className="md:basis-[51.75%] md:max-w-[51.75%]">
             <ProductPrice product={product} />
@@ -66,4 +60,5 @@ async function VariantPage({ params }: { params: { productSlug: string } }) {
   );
 }
 
-export default VariantPage;
+export default ProductPage;
+export const dynamic = 'force-dynamic';

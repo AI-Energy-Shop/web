@@ -2,7 +2,6 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
-  darkMode: ['class'],
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -58,10 +57,10 @@ const config: Config = {
         'right-90': 'polygon(0 0, 100% 0, 90% 100%, 0% 100%)',
       },
       colors: {
-        yellow: {
-          'light-yellow-50': 'rgba(247, 236, 218, 0.66)',
-          'light-yellow': '#f7ecda',
+        aes: {
           'aes-yellow': '#f9ac0a',
+          'light-yellow': '#f7ecda',
+          'light-yellow-50': 'rgba(247, 236, 218, 0.66)',
         },
         blue: {
           'dark-blue': '#0d0d19',
@@ -149,73 +148,7 @@ const config: Config = {
       tianglePointDown: {},
     },
   },
-  plugins: [
-    function ({ addUtilities }: any) {
-      addUtilities({
-        '.clip-path-left-10': {
-          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 10% 100%)',
-        },
-        '.clip-path-left-20': {
-          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 20% 100%)',
-        },
-        '.clip-path-left-30': {
-          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 30% 100%)',
-        },
-        '.clip-path-left-40': {
-          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 40% 100%)',
-        },
-        '.clip-path-left-50': {
-          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 50% 100%)',
-        },
-        '.clip-path-left-60': {
-          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 60% 100%)',
-        },
-        '.clip-path-left-70': {
-          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 70% 100%)',
-        },
-        '.clip-path-left-80': {
-          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 80% 100%)',
-        },
-        '.clip-path-left-90': {
-          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 90% 100%)',
-        },
-
-        '.clip-path-right-30': {
-          clipPath: 'polygon(0 0, 100% 0, 30% 100%, 0% 100%)',
-        },
-        '.clip-path-right-40': {
-          clipPath: 'polygon(0 0, 100% 0, 40% 100%, 0% 100%)',
-        },
-        '.clip-path-right-50': {
-          clipPath: 'polygon(0 0, 100% 0, 50% 100%, 0% 100%)',
-        },
-        '.clip-path-right-60': {
-          clipPath: 'polygon(0 0, 100% 0, 60% 100%, 0% 100%)',
-        },
-        '.clip-path-right-70': {
-          clipPath: 'polygon(0 0, 100% 0, 70% 100%, 0% 100%)',
-        },
-        '.clip-path-right-75': {
-          clipPath: 'polygon(0 0, 100% 0, 75% 100%, 0% 100%)',
-        },
-        '.clip-path-right-80': {
-          clipPath: 'polygon(0 0, 100% 0, 80% 100%, 0% 100%)',
-        },
-        '.clip-path-right-85': {
-          clipPath: 'polygon(0 0, 100% 0, 85% 100%, 0% 100%)',
-        },
-        '.clip-path-right-90': {
-          clipPath: 'polygon(0 0, 100% 0, 90% 100%, 0% 100%)',
-        },
-
-        '.triagle-point-down': {
-          tianglePointDown:
-            'width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid #fff;',
-        },
-      });
-    },
-    require('tailwindcss-animate'),
-  ],
+  plugins: [require('tailwindcss-animate')],
 };
 
 export default config;

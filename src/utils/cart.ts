@@ -1,4 +1,6 @@
-import { Cart } from '@/store/features/cart';
+import { CartsQuery } from '@/lib/gql/graphql';
+
+type Cart = CartsQuery['carts'];
 
 export const formatCurrency = (value?: number, currency?: string) => {
   if (!value) return '0.00';
@@ -10,7 +12,7 @@ export const formatCurrency = (value?: number, currency?: string) => {
   });
 };
 
-export const getCartSubtotal = (cartItems: Cart[], userLevel?: string) => {
+export const getCartSubtotal = (cartItems: Cart, userLevel?: string) => {
   return cartItems.reduce((acc, item) => {
     const quantity = item?.quantity ?? 0;
     const price = item?.product?.price_lists?.find(
@@ -19,7 +21,7 @@ export const getCartSubtotal = (cartItems: Cart[], userLevel?: string) => {
         !price?.min_quantity &&
         !price?.max_quantity
     );
-    return acc + quantity * (price?.sale_price ?? (price?.price || 0));
+    return acc + quantity * (price?.comparePrice ?? (price?.price || 0));
   }, 0);
 };
 
@@ -39,7 +41,7 @@ export const getCartItemSubtotal = (
 };
 
 export const getCartTotals = (
-  cartItems: Cart[],
+  cartItems: Cart,
   shippingFee?: number,
   cardFee?: number,
   options?: { userLevel?: string }

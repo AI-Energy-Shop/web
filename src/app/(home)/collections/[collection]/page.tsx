@@ -1,4 +1,4 @@
-import ProductList from '@/components/products/ProductList';
+import ProductList from '@/components/products/product-list';
 import {
   EXCLUDED_SEARCH_PARAMS,
   INITIAL_PAGE,
@@ -16,7 +16,7 @@ export default async function CategoryPage({
   params,
   searchParams,
 }: {
-  params: { collection: string };
+  params: Promise<{ collection: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { collection } = await params;
@@ -90,7 +90,7 @@ export default async function CategoryPage({
     },
   });
 
-  const collectionData = res?.collections.at(0);
+  const collectionData = res?.collections?.at?.(0);
   const products = collectionData?.products || [];
 
   if (!collectionData) {

@@ -25,18 +25,21 @@ const schema = {
               name
               model
               odoo_product_id
+              odoo_product_name
               price_lists {
                 price
-                sale_price
+                comparePrice
                 min_quantity
                 max_quantity
                 user_level
               }
-              inventories {
+              inventory {
                 documentId
-                name
-                location_code
-                quantity
+                melbourne
+                sydney
+                brisbane
+                createdAt
+                updatedAt
               }
               shipping {
                 height
@@ -165,6 +168,9 @@ const schema = {
             confirmed
             blocked
             username
+            role {
+              name
+            }
           }
         }
       }

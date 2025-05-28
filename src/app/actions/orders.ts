@@ -18,7 +18,7 @@ export const orders = async (variables?: {
   filters: OrderFiltersInput;
   pagination: PaginationArg;
 }) => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;
   const res = await client.query({
     query: ORDER_OPERATIONS.Query.orders,
@@ -43,18 +43,18 @@ export const createOrder = async ({ checkoutState }: CreateOrderProps) => {
   let res: ApolloQueryResult<CreateOrderMutation> | null = null;
 
   try {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get('a-token')?.value;
 
     const lineItems = checkoutState.items.map((item) => {
       return {
         line: {
-          quantity: item.quantity,
-          title: item.product.name,
-          odoo_product_id: item.product.odoo_product_id,
-          model: item.product.model,
-          image: item.product.images[0]?.url || '',
-          productID: item.product.documentId,
+          quantity: item?.quantity,
+          title: item?.product?.name,
+          odoo_product_id: item?.product?.odoo_product_id,
+          model: item?.product?.model,
+          image: item?.product?.images[0]?.url || '',
+          productID: item?.product?.documentId,
           price: 123,
         },
       };

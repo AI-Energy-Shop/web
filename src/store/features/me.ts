@@ -23,7 +23,7 @@ export interface Me {
   email: string;
   username?: string;
   blocked?: boolean;
-  confirmed?: any;
+  confirmed?: boolean;
   user_level?: string;
   business_name?: string;
   business_number?: string;
@@ -46,8 +46,48 @@ export interface InitialState {
 }
 
 const initialState: InitialState = {
-  me: undefined,
-  meAdmin: undefined,
+  me: {
+    id: '',
+    email: '',
+    username: '',
+    blocked: false,
+    confirmed: false,
+    user_level: '',
+    business_name: 'Login',
+    business_number: '',
+    business_type: '',
+    phone: '',
+    account_detail: {
+      level: '',
+      name: {
+        first_name: '',
+        middle_name: '',
+        last_name: '',
+      },
+      shipping_addresses: [],
+    },
+  },
+  meAdmin: {
+    id: '',
+    email: '',
+    username: '',
+    blocked: false,
+    confirmed: false,
+    user_level: '',
+    business_name: '',
+    business_number: '',
+    business_type: '',
+    phone: '',
+    account_detail: {
+      level: '',
+      name: {
+        first_name: '',
+        middle_name: '',
+        last_name: '',
+      },
+      shipping_addresses: [],
+    },
+  },
 };
 
 export const meSlice = createSlice({

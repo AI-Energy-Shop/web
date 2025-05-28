@@ -20,11 +20,12 @@ const SidebarFilters: React.FC<SidebarFiltersProps> = () => {
     handleFilterClick,
     setShowMobileFilters,
   } = useProductFilter();
+
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>
         {/* DESKTOP FILTERS */}
-        <div className="desktop w-64 flex-shrink-0 hidden md:block">
+        <div className="desktop w-64 flex-shrink-0">
           <FilterList
             loading={loading}
             filterOptions={filterOptions}

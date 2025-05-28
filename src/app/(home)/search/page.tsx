@@ -1,5 +1,5 @@
 import { products } from '@/app/actions/products';
-import ProductList from '@/components/products/ProductList';
+import ProductList from '@/components/products/product-list';
 import { INITIAL_PAGE_SIZE } from '@/constant';
 import { INITIAL_PAGE } from '@/constant';
 import React, { Suspense } from 'react';
@@ -108,19 +108,18 @@ const createFilterConditions = (searchParams: {
 };
 
 interface SearchPageProps {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 const SearchResults = async ({ searchParams }: SearchPageProps) => {
-  const page = Number(searchParams.page) || INITIAL_PAGE;
-  const pageSize = Number(searchParams.pageSize) || INITIAL_PAGE_SIZE;
+  const searchParamsRes = await searchParams;
+  const page = Number(searchParamsRes.page) || INITIAL_PAGE;
+  const pageSize = Number(searchParamsRes.pageSize) || INITIAL_PAGE_SIZE;
 
-  const filterConditions = createFilterConditions(searchParams);
+  const filterConditions = createFilterConditions(searchParamsRes);
 
   const { data } = await products({
-    filters: {
-      or: filterConditions,
-    },
+    filters: filterConditions.length > 0 ? { and: filterConditions } : {},
     pagination: {
       page,
       pageSize,

@@ -1,4 +1,4 @@
-import { Fira_Sans, Mukta_Vaani } from 'next/font/google';
+import { Audiowide, Fira_Sans, Mukta_Vaani } from 'next/font/google';
 
 export const firaSans = Fira_Sans({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -11,5 +11,12 @@ export const muktaVaani = Mukta_Vaani({
   weight: ['200', '300', '400', '500', '600', '700', '800'],
   subsets: ['latin'],
   variable: '--mukta-Vaani',
+  adjustFontFallback: false,
+});
+
+export const audiowide = Audiowide({
+  weight: ['400'],
+  subsets: ['latin'],
+  variable: '--audiowide',
   adjustFontFallback: false,
 });
