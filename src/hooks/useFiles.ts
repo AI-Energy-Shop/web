@@ -1,31 +1,26 @@
 import FILES_OPERATIONS from '@/graphql/files';
-import { FilesQuery } from '@/lib/gql/graphql';
+import { UploadFilesQuery, UploadFilesQueryVariables } from '@/lib/gql/graphql';
 import { useQuery } from '@apollo/client';
 import { useEffect, useState } from 'react';
 
 type UseFilesProps = {
-  filters: {
-    mime: {
-      contains: string;
-    };
-  };
-  sort?: string[];
+  variables: UploadFilesQueryVariables;
 };
 
-const useFiles = ({ filters, sort }: UseFilesProps) => {
-  const [files, setFiles] = useState<FilesQuery['files']>([]);
+const useFiles = ({ variables }: UseFilesProps) => {
+  const [files, setFiles] = useState<UploadFilesQuery['uploadFiles']>([]);
 
-  const { data, loading, refetch } = useQuery(FILES_OPERATIONS.Query.files, {
-    fetchPolicy: 'network-only',
-    variables: {
-      filters,
-      sort,
-    },
+  const { data, loading, refetch, error } = useQuery<
+    UploadFilesQuery,
+    UploadFilesQueryVariables
+  >(FILES_OPERATIONS.Query.uploadFiles, {
+    fetchPolicy: 'no-cache',
+    variables,
   });
 
   useEffect(() => {
     if (data) {
-      setFiles(data.files);
+      setFiles(data.uploadFiles);
     }
 
     return () => {
@@ -33,7 +28,7 @@ const useFiles = ({ filters, sort }: UseFilesProps) => {
     };
   }, [data]);
 
-  return { files, loading, refetch };
+  return { files, loading, error, refetch };
 };
 
 export default useFiles;

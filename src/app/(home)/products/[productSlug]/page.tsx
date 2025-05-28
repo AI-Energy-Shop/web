@@ -1,7 +1,7 @@
 import ShopProductStockQuantities from '@/components/products/shop-product-sock-quantities';
 import ProductAddToCartButton from '@/components/products/product-add-to-cart-button';
 import ProductDescription from '@/components/products/product-description';
-import ImageCarousel from '@/components/carousels/Home/ImageCarousel';
+import ImageCarousel from '@/components/carousels/image-carousel/image-carousel';
 import RelatedProducts from '@/components/products/related-products';
 import ProductPrice from '@/components/products/product-price';
 import BulkPrices from '@/components/products/bulk-prices';
@@ -43,7 +43,7 @@ async function ProductPage({
 
         <div className="md:flex md:justify-between md:px-12 md:pb-5">
           <div className="ae-mobile-container max-md:w-4/5 max-md:max-w-96 md:basis-[40%] md:max-w-[40%]">
-            <ImageCarousel slides={product?.images} />
+            <ImageCarousel images={product?.images} />
           </div>
           <div className="md:basis-[51.75%] md:max-w-[51.75%]">
             <ProductPrice product={product} />

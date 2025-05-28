@@ -50,8 +50,8 @@ export const schema = {
       }
     `),
     uploadFiles: gql(`
-      query UploadFiles($filters: UploadFileFiltersInput) {
-        uploadFiles(filters: $filters) {
+      query UploadFiles($sort: [String], $filters: UploadFileFiltersInput) {
+        uploadFiles(sort: $sort, filters: $filters) {
           documentId
           name
           alternativeText
@@ -67,6 +67,9 @@ export const schema = {
           previewUrl
           provider
           provider_metadata
+          createdAt
+          updatedAt
+          publishedAt
         }
       }
     `),

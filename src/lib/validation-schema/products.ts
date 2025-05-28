@@ -72,6 +72,7 @@ export const addProductSchema = z.object({
   files: z.array(z.string()),
   brand: z.string().nullable(),
   collections: z.array(z.string()).nullable(),
+  tags: z.array(z.string()).nullable(),
   shipping: shippingSchema,
   price_lists: z.array(priceItemSchema).nullable(),
   inventory: inventoryItemSchema.nullable(),

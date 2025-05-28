@@ -17,10 +17,6 @@ export default async function ProductPage(props: {
   try {
     const { data, errors } = await product(id);
 
-    if (errors || !data) {
-      throw new Error(errors?.toString() || 'No data found');
-    }
-
     return (
       <ProductErrorBoundary>
         <Suspense

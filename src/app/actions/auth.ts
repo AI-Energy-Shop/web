@@ -138,6 +138,10 @@ export const loginUser = async ({
     const oneMonth = 60 * 60 * 24 * 30;
     const oneDay = 60 * 60 * 24;
     const expiresIn = remember ? oneMonth : oneDay;
+    const userData = JSON.stringify({
+      ...user,
+      role: userRes.data.usersPermissionsUser?.role,
+    });
 
     const cookieOptions = {
       path: '/',
@@ -146,13 +150,7 @@ export const loginUser = async ({
     };
 
     cookieStore.set('a-token', token!, cookieOptions);
-    cookieStore.set(
-      'a-user',
-      JSON.stringify(
-        { ...user, role: userRes.data.usersPermissionsUser?.role }!
-      ),
-      cookieOptions
-    );
+    cookieStore.set('a-user', userData, cookieOptions);
 
     return { data: { token, user: newUser } }; // Return success indicator
   } catch (error: any) {

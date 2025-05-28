@@ -4,16 +4,16 @@ import Image from 'next/image';
 import { Loader2 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { ProductsQuery, ProductQuery } from '@/lib/gql/graphql';
+import { GetStoreProductsQuery, ProductQuery } from '@/lib/gql/graphql';
 
 interface SearchResultProps {
   isFocused: boolean;
   searchQueryInput: string;
-  searchData?: ProductsQuery;
+  searchData?: GetStoreProductsQuery;
   handleFocus: () => void;
   handleBlur: () => void;
   onViewAllResult: () => void;
-  handleClick: (product: ProductQuery['product']) => void;
+  handleClick: (product: any) => void;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSuggestionClick: (suggestion: string) => void;
   suggestions: string[];

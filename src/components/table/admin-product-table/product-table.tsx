@@ -43,7 +43,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 
 interface ProductTableProps {
-  products: ProductsQuery['products'];
+  products?: ProductsQuery['products'] | null;
 }
 
 const ProductsTable: React.FC<ProductTableProps> = ({ products }) => {
@@ -215,7 +215,7 @@ const ProductsTable: React.FC<ProductTableProps> = ({ products }) => {
   ];
 
   const table = useReactTable({
-    data: products,
+    data: products || [],
     columns: columns,
     defaultColumn: {
       size: 20, //starting column size
