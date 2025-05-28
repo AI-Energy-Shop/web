@@ -11,7 +11,7 @@ const useSearchFilter = () => {
   const pathname = usePathname();
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
   const [searchQueryInput, setSearchQueryInput] = useState<string>('');
-  const [searchProducts, { data: searchData, error }] = useLazyQuery(
+  const [searchProducts, { data: searchData }] = useLazyQuery(
     PRODUCT_OPERATION.Query.products,
     {
       fetchPolicy: 'no-cache',

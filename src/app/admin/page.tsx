@@ -1,9 +1,7 @@
-'use client';
-
-import { StatsCard } from '@/components/admin/stats-card';
 import { statsData } from '@/lib/mock/stats';
-import { LineChartComponent } from '@/components/admin/line-chart';
 import { Button } from '@/components/ui/button';
+import { StatsCard } from '@/components/admin/stats-card';
+import { LineChartComponent } from '@/components/admin/line-chart';
 
 const AdminPage = () => {
   return (

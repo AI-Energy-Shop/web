@@ -14,12 +14,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, FieldErrors } from 'react-hook-form';
 import CART_OPERATIONS from '@/graphql/cart';
 import { useMutation, useQuery, useApolloClient } from '@apollo/client';
-import { ProductsQuery, CartsQuery } from '@/lib/gql/graphql';
+import { CartsQuery } from '@/lib/gql/graphql';
 import { useAppDispatch, useAppSelector, RootState } from '@/store/store';
 import useMe from './useMe';
 
 interface UseCartProps {
-  product?: ProductsQuery['products'][number] | null;
+  productId?: string;
 }
 
 const useCart = (props: UseCartProps) => {
@@ -29,17 +29,19 @@ const useCart = (props: UseCartProps) => {
 
   const client = useApolloClient();
 
-  const { data: cartData, refetch } = useQuery<CartsQuery>(
-    CART_OPERATIONS.Query.carts,
-    {
-      fetchPolicy: 'network-only',
-      refetchWritePolicy: 'merge',
-      onCompleted: (data) => {
-        dispatch(setCarts(data.carts));
-      },
-      pollInterval: 1000 * 60 * 10, // 10 minutes
-    }
-  );
+  const {
+    data: cartData,
+    refetch,
+    error,
+  } = useQuery<CartsQuery>(CART_OPERATIONS.Query.carts, {
+    fetchPolicy: 'network-only',
+    refetchWritePolicy: 'merge',
+    onCompleted: (data) => {
+      dispatch(setCarts(data.carts));
+    },
+    pollInterval: 1000 * 60 * 10, // 10 minutes
+    skip: !user?.id, // Skip query if no user is logged in
+  });
 
   const updateApolloClientCartData = (documentId: string, quantity: number) => {
     const data = client.readQuery({
@@ -121,7 +123,7 @@ const useCart = (props: UseCartProps) => {
   const form = useForm<AddToCartFormData>({
     resolver: zodResolver(addToCartSchema),
     defaultValues: {
-      id: props?.product?.documentId,
+      id: props.productId,
       quantity: 0,
     },
   });

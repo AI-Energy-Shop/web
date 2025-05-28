@@ -73,7 +73,7 @@ const Categories: React.FC<CategoriesProps> = ({
                       src={collection?.image?.url || '/no-product-image.jpg'}
                       alt={`${collection?.image?.alternativeText}`}
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="opacity-6 absolute top-0 left-0 w-full h-full object-cover"
+                      className="absolute top-0 left-0 w-full h-full object-contain"
                     />
                   )}
                 </div>

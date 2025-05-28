@@ -705,6 +705,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
   // Update productCopy when product changes
   useEffect(() => {
     productCopy.current = product;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
 
   // Cleanup function for images and files
@@ -713,6 +714,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
       setImages([]);
       setFiles([]);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Set initial images and files only once when component mounts
@@ -791,7 +793,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
       }
     });
     return () => subscription.unsubscribe();
-  }, [addProductForm, isNew]);
+  }, [isNew]);
 
   return {
     addProductForm,

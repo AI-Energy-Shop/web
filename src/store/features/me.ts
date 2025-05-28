@@ -23,7 +23,7 @@ export interface Me {
   email: string;
   username?: string;
   blocked?: boolean;
-  confirmed?: any;
+  confirmed?: boolean;
   user_level?: string;
   business_name?: string;
   business_number?: string;

@@ -10,8 +10,12 @@ import { storeProduct } from '@/app/actions/products';
 import { firaSans } from '@/app/font';
 import { cn } from '@/lib/utils';
 
-async function ProductPage({ params }: { params: { productSlug: string } }) {
-  const productSlug = params.productSlug;
+async function ProductPage({
+  params,
+}: {
+  params: Promise<{ productSlug: string }>;
+}) {
+  const { productSlug } = await params;
 
   const res = await storeProduct(productSlug);
   const product = res?.data?.getStoreProduct;
@@ -45,8 +49,7 @@ async function ProductPage({ params }: { params: { productSlug: string } }) {
             <ProductPrice product={product} />
             <BulkPrices product={product} />
             <ShopProductStockQuantities product={product} />
-            {/* // TODO RUENT */}
-            {/* <ProductAddToCartButton product={product} /> */}
+            <ProductAddToCartButton product={product} />
           </div>
         </div>
       </section>

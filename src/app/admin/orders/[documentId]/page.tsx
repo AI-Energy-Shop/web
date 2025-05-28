@@ -14,9 +14,7 @@ import { Printer, MoreHorizontal, Link, Hash, Smile } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 
 interface OrderPageProps {
-  params: {
-    documentId: string;
-  };
+  params: Promise<{ documentId: string }>;
 }
 
 const OrderPage = ({ params }: OrderPageProps) => {

@@ -53,7 +53,7 @@ export const addToCartAction = async (
   error?: string;
   data?: CreateCartMutation | null;
 }> => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
   const user = JSON.parse(cookieStore.get('a-user')?.value!);
 

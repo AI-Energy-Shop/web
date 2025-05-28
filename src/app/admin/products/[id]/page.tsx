@@ -4,11 +4,10 @@ import { product } from '@/app/actions/products';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
-export default async function ProductPage({
-  params,
-}: {
-  params: { id: string };
+export default async function ProductPage(props: {
+  params: Promise<{ id: string }>;
 }) {
+  const params = await props.params;
   const { id } = params;
 
   if (!id) {
@@ -31,7 +30,7 @@ export default async function ProductPage({
             </div>
           }
         >
-          <div className="h-auto w-full bg-gray-100 dark:bg-gray-900">
+          <div className="h-auto w-full bg-gray-100">
             <ProductsDetails id={id} product={data?.product} />
           </div>
         </Suspense>

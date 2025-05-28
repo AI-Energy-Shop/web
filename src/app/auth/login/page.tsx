@@ -1,11 +1,11 @@
-import LoginForm from '@/components/forms/LoginForm';
-import { cookies } from 'next/headers';
+import LoginForm from '@/components/forms/login-form';
+import { cookies, type UnsafeUnwrappedCookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
-const LoginPage = () => {
-  const cookie = cookies();
+const LoginPage = async () => {
+  const cookie = (await cookies()) as unknown as UnsafeUnwrappedCookies;
   const token = cookie.get('a-token')?.value;
   const user = cookie.get('a-user')?.value;
 
@@ -14,8 +14,8 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
-      <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <div className="flex justify-center mb-8 h-full w-full">
           <Image
             alt="logo"
@@ -26,13 +26,13 @@ const LoginPage = () => {
             className="w-auto h-auto object-contain object-center"
           />
         </div>
-        <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
+        <h1 className="text-2xl font-bold text-center text-gray-900 mb-6">
           Login to Your Account
         </h1>
         <LoginForm />
         <div className="flex justify-center mt-5">
           <Link href="/auth/signup" className="font-xs text-center">
-            <span className="mt-6 text-center text-xs text-gray-600 dark:text-gray-400 border-b pb-1">
+            <span className="mt-6 text-center text-xs text-gray-600 border-b pb-1">
               Don&apos;t have an account? Sign up
             </span>
           </Link>

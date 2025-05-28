@@ -1,19 +1,18 @@
 'use client';
 import { z } from 'zod';
 import React from 'react';
-import useMe from '@/hooks/useMe';
 import { Input } from '../ui/input';
 import { firaSans } from '@/app/font';
 import useCart from '@/hooks/useCart';
 import { Button } from '../ui/button';
 import { Minus, Plus } from 'lucide-react';
-import { ProductQuery } from '@/lib/gql/graphql';
+import { GetStoreProductQuery } from '@/lib/gql/graphql';
 import { Form, FormControl, FormField, FormItem } from '../ui/form';
 import { addToCartSchema } from '@/lib/validation-schema/add-to-cart-form';
 import { useAppSelector } from '@/store/store';
 
 interface ProductAddToCartButtonProps {
-  product: ProductQuery['product'];
+  product: GetStoreProductQuery['getStoreProduct'];
 }
 
 const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
@@ -24,8 +23,9 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
     handleDecrement,
     form,
   } = useCart({
-    product,
+    productId: product?.documentId,
   });
+
   const warehouse = useAppSelector(
     (state) => state.checkout.warehouseLocation.name
   );

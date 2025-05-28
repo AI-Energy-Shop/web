@@ -1,14 +1,6 @@
 import { toast, ToasterProps } from 'sonner';
 type Message = string;
 type Type = 'INFO' | 'SUCCESS' | 'WARNING' | 'ERROR';
-type Position = ToasterProps['position'];
-type Theme = ToasterProps['theme'];
-
-type Config = {
-  position?: Position;
-  theme?: Theme;
-  variant?: 'default' | 'destructive';
-};
 
 export function Toast(message: Message, type: Type, config?: ToasterProps) {
   switch (type) {

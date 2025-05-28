@@ -1,13 +1,21 @@
+'use client';
 import React from 'react';
 import { FaFacebook, FaLinkedin } from 'react-icons/fa';
 import { HiOutlineMailOpen } from 'react-icons/hi';
 import Accordion from '../custom-ui/Accordion/Accordion';
 import { FOOTER_ACCORDION_DATA } from '@/constant';
 import { firaSansFont, muktaVaani } from '@/assets/fonts/fonts';
+import { usePathname } from 'next/navigation';
 
-const Footer = () => {
+interface FooterProps {}
+
+const Footer: React.FC<FooterProps> = () => {
+  const pathname = usePathname();
+
+  if (pathname && pathname.startsWith('/admin')) return null;
+
   return (
-    <footer className="w-full h-auto bg-gradient-to-b from-yellow-aes-yellow  to-[#f06039] ">
+    <footer className="w-full h-auto bg-gradient-to-b from-orange-400 to-orange-700 ">
       <div className="inner-container max-w-[1200px] mx-auto pb-10 md:pt-10">
         <div className="upper-container w-full md:flex">
           {/* ACCORDION */}

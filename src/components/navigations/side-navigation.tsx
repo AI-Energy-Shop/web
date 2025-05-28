@@ -3,7 +3,6 @@ import { X, Menu } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { NAV_LIST_ITEMS } from '@/constant';
-import Icon from '../Icon';
 import { usePathname } from 'next/navigation';
 import {
   Select,
@@ -14,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { logoutUser } from '@/app/actions/user';
+import { logoutUser } from '@/app/actions/auth';
 import { cn } from '@/lib/utils';
 import WarehouseIconButton from './warehouse-icon';
 import UserIconButton from './user-icon';

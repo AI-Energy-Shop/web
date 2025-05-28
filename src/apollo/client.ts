@@ -4,7 +4,7 @@ import {
   registerApolloClient,
   ApolloClient,
   InMemoryCache,
-} from '@apollo/experimental-nextjs-app-support';
+} from '@apollo/client-integration-nextjs';
 
 const PROTOCOL = process.env.NEXT_PUBLIC_BASE_PROTOCOL || 'http';
 const HOST = process.env.NEXT_PUBLIC_BASE_URL_HOST || 'localhost:1337';

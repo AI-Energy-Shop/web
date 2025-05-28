@@ -168,6 +168,9 @@ const schema = {
             confirmed
             blocked
             username
+            role {
+              name
+            }
           }
         }
       }

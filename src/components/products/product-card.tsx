@@ -17,7 +17,7 @@ type ProductCardproduct = {
 };
 
 const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
-  const { form, handleSubmit } = useCart({ product });
+  const { form, handleSubmit } = useCart({ productId: product?.documentId });
   const { me } = useAppSelector((state) => state.me);
   const warehouse = useAppSelector(
     (state) => state.checkout.warehouseLocation.name

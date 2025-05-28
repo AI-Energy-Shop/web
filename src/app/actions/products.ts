@@ -105,7 +105,7 @@ export const storeProducts = async (variables?: {
   sort?: string[];
 }): Promise<FetchResult<ProductsQuery>> => {
   try {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get('a-token');
     const context = token
       ? {
@@ -135,7 +135,7 @@ export const storeProduct = async (
   handle: string
 ): Promise<FetchResult<GetStoreProductQuery>> => {
   try {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get('a-token');
     const context = token
       ? {
@@ -280,7 +280,7 @@ export const updateProduct = async (
   data?: FetchResult<CustomProductUpdateMutation>;
   error?: GraphQLException | Error;
 }> => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
   const inputData = JSON.parse(data);
   try {
@@ -425,7 +425,7 @@ export const updatePrice = async (
   price: string
 ): Promise<FetchResult<UpdatePriceMutation>> => {
   const variables = JSON.parse(price);
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   try {
@@ -478,7 +478,7 @@ export const updatePrices = async (
 export const deletePrice = async (
   documentId: string
 ): Promise<FetchResult<DeletePriceMutation>> => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   if (!documentId) {
@@ -529,7 +529,7 @@ export const createInventory = async (
   data: string
 ): Promise<FetchResult<CreateInventoryMutation>> => {
   const inputData = JSON.parse(data);
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   try {
@@ -553,7 +553,7 @@ export const updateInventory = async (
   data: string
 ): Promise<FetchResult<UpdateInventoryMutation>> => {
   const inputData = JSON.parse(data);
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   try {
@@ -686,7 +686,7 @@ export const updateSpecification = async (
 export const deleteSpecification = async (
   documentId?: string
 ): Promise<FetchResult<DeleteSpecificationMutation>> => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   if (!documentId) {
@@ -805,7 +805,7 @@ export const updateKeyFeature = async (
 export const deleteKeyFeature = async (
   documentId: string
 ): Promise<FetchResult<DeleteKeyFeatureMutation>> => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   if (!documentId) {
@@ -858,7 +858,7 @@ export const createShipping = async (
   data: string
 ): Promise<FetchResult<CreateShippingMutation>> => {
   const inputData = JSON.parse(data);
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
   try {
     const res = await client.mutate({
@@ -882,7 +882,7 @@ export const updateShipping = async (
   data: string
 ): Promise<FetchResult<UpdateShippingMutation>> => {
   const inputData = JSON.parse(data);
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
   try {
