@@ -27,7 +27,7 @@ const AdminSideNavigation = () => {
     removePersistence();
   };
   return (
-    <aside className="h-full w-full border ">
+    <aside className="h-full w-full border-r border-gray-300">
       <div className="h-full w-full flex flex-col gap-4">
         <div className="w-full p-4">
           <Logo />
@@ -48,7 +48,7 @@ const AdminSideNavigation = () => {
                   'p-2',
                   'transition-all duration-100 hover:text-primary hover:bg-[#f05b3d] group',
                   item.enabled ? 'cursor-pointer' : 'cursor-not-allowed',
-                  isPath ? 'border-b-2 bg-[#f05b3d]' : 'font-normal'
+                  isPath ? 'bg-[#f05b3d] text-white' : 'font-normal'
                 )}
               >
                 <div className="flex items-center gap-2">

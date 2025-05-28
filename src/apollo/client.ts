@@ -4,7 +4,7 @@ import {
   registerApolloClient,
   ApolloClient,
   InMemoryCache,
-} from '@apollo/experimental-nextjs-app-support';
+} from '@apollo/client-integration-nextjs';
 
 const PROTOCOL = process.env.NEXT_PUBLIC_BASE_PROTOCOL || 'http';
 const HOST = process.env.NEXT_PUBLIC_BASE_URL_HOST || 'localhost:1337';
@@ -17,7 +17,6 @@ export const { getClient, query, PreloadQuery } = registerApolloClient(() => {
   // Since we're using cookies, we just need to ensure they're included in the request
   const authLink = setContext(
     (_: unknown, { headers }: { headers?: Record<string, string> }) => {
-      console.log(headers);
       return {
         headers: {
           ...headers,

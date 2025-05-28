@@ -77,7 +77,7 @@ const ProductsTable: React.FC<ProductTableProps> = ({ products }) => {
               row.toggleSelected(!!e.target.checked);
             }}
             aria-label="Select row"
-            className="w-4 h-4 accent-slate-700"
+            className="w-4 h-4 accent-slate-700 "
           />
         </div>
       ),
@@ -90,7 +90,7 @@ const ProductsTable: React.FC<ProductTableProps> = ({ products }) => {
         const firstImage = row.original?.images?.at(0);
         const defatultImage = '/no-product-image.jpg';
         return (
-          <div className="w-[40px] h-[40px] relative overflow-hidden border rounded-sm m-1">
+          <div className="w-[40px] h-[40px] relative overflow-hidden border border-gray-300 rounded-sm m-1">
             <Image
               width={50}
               height={50}
@@ -303,8 +303,8 @@ const ProductsTable: React.FC<ProductTableProps> = ({ products }) => {
 
   return (
     <Suspense fallback={<p>Loading...</p>}>
-      <div className="relative w-full h-[calc(100vh-80px)] bg-white dark:bg-gray-800 rounded-md shadow-md flex flex-col">
-        <div className="flex items-center justify-end gap-2 pt-2 px-2  dark:bg-gray-900 rounded-t-md">
+      <div className="relative w-full h-[calc(100vh-80px)] bg-white rounded-md shadow-md flex flex-col">
+        <div className="flex items-center justify-end gap-2 pt-2 px-2  rounded-t-md">
           <Dialogs.ImportCSV />
           <Link href={'/admin/products/new'}>
             <Button size="sm">Add product</Button>
@@ -314,7 +314,7 @@ const ProductsTable: React.FC<ProductTableProps> = ({ products }) => {
           <Input
             type="text"
             placeholder="Search product name"
-            className="w-1/4 h-7 text-sm placeholder:text-sm"
+            className="w-1/4 h-7 text-sm placeholder:text-sm border-gray-300"
             onChange={(e) => {
               table.setGlobalFilter(e.target.value);
             }}
@@ -352,15 +352,15 @@ const ProductsTable: React.FC<ProductTableProps> = ({ products }) => {
         </div>
         <div className="flex-1 overflow-y-auto">
           <Table className="w-full table-fixed">
-            <TableHeader className="sticky top-0 z-20 bg-gray-100 dark:bg-gray-900">
+            <TableHeader className="sticky top-0 z-20 bg-gray-100">
               {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
+                <TableRow key={headerGroup.id} className="border-gray-300">
                   {headerGroup.headers.map((header) => {
                     return (
                       <TableHead
                         key={header.id}
                         colSpan={header.column.getSize()}
-                        className="text-xs font-bold bg-gray-100 dark:bg-gray-900 sticky top-0 z-20"
+                        className="text-xs font-bold bg-gray-100 sticky top-0 z-20"
                       >
                         {header.isPlaceholder
                           ? null
@@ -381,14 +381,14 @@ const ProductsTable: React.FC<ProductTableProps> = ({ products }) => {
                       key={row.id}
                       data-state={row.getIsSelected() && 'selected'}
                       onClick={() => handleOnClick(row.original?.documentId)}
-                      className="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800"
+                      className="cursor-pointer hover:bg-gray-300 border-gray-300"
                     >
                       {row.getVisibleCells().map((cell) => {
                         return (
                           <TableCell
                             key={cell.id}
                             colSpan={cell.column.getSize()}
-                            className="py-2 px-2 text-xs border-b border-gray-100 dark:border-gray-800"
+                            className="py-2 px-2 text-xs"
                           >
                             {flexRender(
                               cell.column.columnDef.cell,
@@ -403,7 +403,7 @@ const ProductsTable: React.FC<ProductTableProps> = ({ products }) => {
             </TableBody>
           </Table>
         </div>
-        <div className="border-t bg-gray-50 dark:bg-gray-900 p-3 flex items-center justify-between rounded-b-md shadow-sm">
+        <div className="border-t border-gray-300 bg-gray-50 p-3 flex items-center justify-between rounded-b-md shadow-sm">
           <div className="flex-1 text-sm text-muted-foreground">
             {table.getFilteredSelectedRowModel().rows.length} of{' '}
             {table.getFilteredRowModel().rows.length} row(s) selected.

@@ -57,10 +57,10 @@ const config: Config = {
         'right-90': 'polygon(0 0, 100% 0, 90% 100%, 0% 100%)',
       },
       colors: {
-        yellow: {
-          'light-yellow-50': 'rgba(247, 236, 218, 0.66)',
-          'light-yellow': '#f7ecda',
+        aes: {
           'aes-yellow': '#f9ac0a',
+          'light-yellow': '#f7ecda',
+          'light-yellow-50': 'rgba(247, 236, 218, 0.66)',
         },
         blue: {
           'dark-blue': '#0d0d19',

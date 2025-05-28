@@ -2,12 +2,12 @@
 // ^ this file needs the "use client" pragma
 
 import { HttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import {
   ApolloNextAppProvider,
   ApolloClient,
   InMemoryCache,
-} from '@apollo/experimental-nextjs-app-support';
-import { setContext } from '@apollo/client/link/context';
+} from '@apollo/client-integration-nextjs';
 
 const PROTOCOL = process.env.NEXT_PUBLIC_BASE_PROTOCOL || 'http';
 const HOST = process.env.NEXT_PUBLIC_BASE_URL_HOST || 'localhost:1337';

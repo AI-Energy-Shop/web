@@ -108,14 +108,15 @@ const createFilterConditions = (searchParams: {
 };
 
 interface SearchPageProps {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 const SearchResults = async ({ searchParams }: SearchPageProps) => {
-  const page = Number(searchParams.page) || INITIAL_PAGE;
-  const pageSize = Number(searchParams.pageSize) || INITIAL_PAGE_SIZE;
+  const searchParamsRes = await searchParams;
+  const page = Number(searchParamsRes.page) || INITIAL_PAGE;
+  const pageSize = Number(searchParamsRes.pageSize) || INITIAL_PAGE_SIZE;
 
-  const filterConditions = createFilterConditions(searchParams);
+  const filterConditions = createFilterConditions(searchParamsRes);
 
   const { data } = await products({
     filters: filterConditions.length > 0 ? { and: filterConditions } : {},

@@ -10,11 +10,12 @@ import { storeProduct } from '@/app/actions/products';
 import { firaSans } from '@/app/font';
 import { cn } from '@/lib/utils';
 
-async function ProductPage(props: {
+async function ProductPage({
+  params,
+}: {
   params: Promise<{ productSlug: string }>;
 }) {
-  const params = await props.params;
-  const productSlug = params.productSlug;
+  const { productSlug } = await params;
 
   const res = await storeProduct(productSlug);
   const product = res?.data?.getStoreProduct;
