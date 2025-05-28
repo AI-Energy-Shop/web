@@ -31,12 +31,12 @@ import {
 } from '@/lib/validation-schema/products';
 import { useForm } from 'react-hook-form';
 import { useQuery } from '@apollo/client';
-import PRODUCT_OPERATIONS from '@/graphql/products';
 import COLLECTION_OPERATIONS from '@/graphql/collections';
 import { useRouter } from 'next/navigation';
 import { handleProductError } from '@/lib/utils/product-error-handler';
 import { USER_LEVELS } from '@/constant';
 import React from 'react';
+import useBrands from './useBrands';
 
 export type UploadFile = {
   __typename?: 'UploadFile';
@@ -60,23 +60,13 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
   const productCopy = useRef<ProductQuery['product']>(product);
   const [images, setImages] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
-  const [brands, setBrands] = useState<Brand[]>([]);
   const [collections, setCollections] = useState<
     CollectionsQuery['collections']
   >([]);
   const router = useRouter();
   const isMounted = useRef(false);
 
-  useQuery(PRODUCT_OPERATIONS.Query.brands, {
-    fetchPolicy: 'network-only',
-    onCompleted(data) {
-      const currentBrands = data?.brands?.map((brand: any) => ({
-        documentId: brand?.documentId,
-        name: brand?.name,
-      }));
-      setBrands(currentBrands);
-    },
-  });
+  const { brands } = useBrands();
 
   useQuery(COLLECTION_OPERATIONS.Query.collections, {
     fetchPolicy: 'network-only',
@@ -91,13 +81,14 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     product?.images?.map((image) => image?.documentId) || [];
   const defaultCollections =
     product?.collections?.map((collection) => collection?.documentId) || [];
+  const defaultTags = product?.tags?.map((tag) => tag?.documentId) || [];
   const defaultPriceList =
     product?.price_lists?.map((price) => ({
       documentId: price?.documentId,
       price: price?.price || 0,
-      comparePrice: price?.comparePrice,
+      comparePrice: price?.comparePrice || 0,
       min_quantity: price?.min_quantity || 1,
-      max_quantity: price?.max_quantity,
+      max_quantity: price?.max_quantity || 0,
       user_level: `${price?.user_level}`,
     })) || [];
   const defaultSpecs =
@@ -155,6 +146,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
       odoo_product_name: product?.odoo_product_name || '',
       brand: product?.brand?.documentId || null,
       shipping: defaultShipping,
+      tags: defaultTags,
       collections: defaultCollections,
       inventory: defaultInventory,
       images: defaultImages,
@@ -163,7 +155,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
       specifications: defaultSpecs,
       key_features: defaultKeyFeatures,
       status: product?.releasedAt ? 'published' : 'draft',
-      maxQuantity: product?.maxQuantity || null,
+      maxQuantity: product?.maxQuantity || 0,
     },
   });
 
@@ -209,6 +201,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
               product_type: onValid.product_type,
               brand: onValid.brand,
               collections: onValid.collections,
+              tags: [],
               price_lists: res?.at?.(0) || [],
               inventory: res?.at?.(1) || null,
               specifications: res?.at?.(2) || [],
@@ -256,6 +249,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
               description: onValid.description,
               product_type: onValid.product_type,
               brand: onValid.brand,
+              tags: onValid.tags,
               collections: onValid.collections,
               price_lists: res?.at?.(0) || [],
               inventory: res?.at?.(1) || null,
@@ -800,7 +794,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     productCopy,
     images,
     files,
-    brands,
+    brands: brands || [],
     router,
     collections,
     onError,

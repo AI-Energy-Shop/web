@@ -33,7 +33,7 @@ const ContactusSection: React.FC<ContactusSectionProps> = ({ data }) => {
               />
             )}
           </div>
-          <div className="absolute top-0 right-0 -z-1 w-full h-full p-5 flex flex-col justify-center gap-4 items-end">
+          <div className="absolute top-0 right-0 z-1 w-full h-full p-5 flex flex-col justify-center gap-4 items-end">
             <h2
               style={firaSansFont.style}
               className=" 
@@ -47,19 +47,16 @@ const ContactusSection: React.FC<ContactusSectionProps> = ({ data }) => {
             <p
               style={muktaVaani.style}
               className="
-                max-w-[50%] text-wrap text-white text-right ml-auto text-[14px]
+                max-w-[50%] text-wrap text-white text-center ml-auto text-[14px]
                 md:max-w-[50%] 
-                lg:max-w-[30%] lg:text-end leading-[1.25]
+                lg:max-w-[30%] lg:text-center leading-[1.25]
               "
             >
               {data.description}
             </p>
             <button
               style={firaSansFont.style}
-              className="
-                    bg-yellow-aes-yellow max-w-[120px] min-w-[120px] uppercase leading-5 text-lg p-1 h-8
-                    md:max-w-[150px] md:min-w-[140px]
-                  "
+              className=" bg-yellow-aes-yellow max-w-[120px] min-w-[120px] uppercase leading-5 text-lg p-1 h-8 md:max-w-[150px] md:min-w-[140px]"
             >
               {data.button_title}
             </button>

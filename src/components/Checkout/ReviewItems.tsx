@@ -45,16 +45,13 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
   const { warehouseLocation, setWarehouseLocation } = useCheckout();
 
   const checkIfProductLocationQuantityIsOkToProceed = () => {
-    const productWithNoStockInCurrentLocation =
-      cartProductQuantity.usersPermissionsUser?.carts.find((cartItem: any) => {
-        return (
-          (cartItem?.product?.inventory[
-            warehouseLocation?.name.toLowerCase()
-          ] || 0) < 1
-        );
-      });
+    // TODO: ROI
+    // const productWithNoStockInCurrentLocation =
+    //   cartProductQuantity.usersPermissionsUser?.carts.find((cartItem: any) => {
+    //     return ((cartItem?.product?.inventory[warehouseLocation?.name.toLowerCase()] || 0) < 1);
+    //   });
 
-    return productWithNoStockInCurrentLocation ? true : false;
+    return false;
   };
 
   useEffect(() => {

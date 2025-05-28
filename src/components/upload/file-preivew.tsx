@@ -19,13 +19,11 @@ const FilePreview: FC<FilePreviewProps> = ({ file, onRemove }) => {
         )}
       >
         {file?.mime.includes('application/pdf') && (
-          <div className="w-full h-full flex flex-col items-center justify-center p-4">
+          <div
+            title={file?.name || ''}
+            className="w-full h-full flex flex-col items-center justify-center p-4"
+          >
             <div className="relative w-full h-[70%] mb-2">
-              <iframe
-                src={file?.url || ''}
-                className="absolute inset-0 w-full h-full opacity-10"
-                title="PDF Preview"
-              />
               <div className="absolute inset-0 flex items-center justify-center">
                 <FileText className="w-12 h-12 text-primary/80" />
               </div>

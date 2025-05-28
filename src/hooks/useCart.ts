@@ -78,14 +78,7 @@ const useCart = (props: UseCartProps) => {
   };
 
   const [addCartItem, { loading: addCartItemLoading }] = useMutation(
-    CART_OPERATIONS.Mutation.createCart,
-    {
-      refetchQueries: [
-        {
-          query: CART_OPERATIONS.Query.carts,
-        },
-      ],
-    }
+    CART_OPERATIONS.Mutation.createCart
   );
 
   const [deleteCartItem, { loading: deleteCartItemLoading }] = useMutation(
@@ -164,7 +157,7 @@ const useCart = (props: UseCartProps) => {
     );
 
     if (cartItem && cartItem?.product) {
-      updateCartItem({
+      const { data, errors } = await updateCartItem({
         variables: {
           documentId: cartItem.documentId,
           data: {
@@ -187,7 +180,7 @@ const useCart = (props: UseCartProps) => {
       return;
     }
 
-    addCartItem({
+    const { data, errors } = await addCartItem({
       variables: {
         data: {
           product: onValid.id,
@@ -196,6 +189,8 @@ const useCart = (props: UseCartProps) => {
         },
       },
     });
+
+    console.log(data, errors);
 
     // Show the notification
     dispatch(setShowCartWindow(true));

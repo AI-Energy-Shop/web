@@ -9,7 +9,6 @@ import MediaUpload from './upload/admin-product-file-upload';
 import ReduxProvider from './redux-provider';
 import ReviewItems from './Checkout/ReviewItems';
 import Buttons from './buttons';
-import Carousel from './carousels';
 const Components = {
   Accordion,
   Sections,
@@ -22,7 +21,6 @@ const Components = {
   ReduxProvider,
   ReviewItems,
   Buttons,
-  Carousel,
 };
 
 export default Components;

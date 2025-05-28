@@ -13,6 +13,33 @@ const schema = {
           handle
           odoo_product_id
           odoo_product_name
+          files {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
+          images {
+            documentId
+            name
+            alternativeText
+            caption
+            width
+            height
+            formats
+            hash
+            ext
+            mime
+            size
+            url
+            previewUrl
+            provider
+            provider_metadata
+            createdAt
+            updatedAt
+            publishedAt
+          }
           brand {
             name
             url
@@ -55,20 +82,6 @@ const schema = {
             max_quantity
             user_level
           }
-          files {
-            documentId
-            mime
-            name
-            url
-            alternativeText
-          }
-          images {
-            documentId
-            mime
-            name
-            url
-            alternativeText
-          }
           specifications {
             documentId
             key
@@ -86,7 +99,7 @@ const schema = {
       }
     `),
     storeProducts: graphql(`
-      query Products(
+      query GetStoreProducts(
         $filters: ProductFiltersInput
         $pagination: PaginationArg
         $sort: [String]
@@ -210,10 +223,21 @@ const schema = {
               documentId
               name
               alternativeText
+              caption
               width
               height
+              formats
+              hash
+              ext
               mime
+              size
               url
+              previewUrl
+              provider
+              provider_metadata
+              createdAt
+              updatedAt
+              publishedAt
             }
           }
           brand {
@@ -224,116 +248,30 @@ const schema = {
               documentId
               name
               alternativeText
+              caption
               width
               height
+              formats
+              hash
+              ext
               mime
+              size
               url
+              previewUrl
+              provider
+              provider_metadata
+              createdAt
+              updatedAt
+              publishedAt
             }
           }
           collections {
             documentId
             title
           }
-          price_lists {
+          tags {
             documentId
-            price
-            comparePrice
-            min_quantity
-            max_quantity
-            user_level
-          }
-          files {
-            documentId
-            name
-            alternativeText
-            width
-            height
-            mime
-            url
-          }
-          images {
-            documentId
-            name
-            alternativeText
-            width
-            height
-            mime
-            url
-          }
-          specifications {
-            documentId
-            key
-            value
-          }
-          key_features {
-            documentId
-            feature
-          }
-          inventory {
-            documentId
-            melbourne
-            sydney
-            brisbane
-          }
-          shipping {
-            documentId
-            height
-            width
-            length
-            weight
-          }
-          maxQuantity
-          createdAt
-          updatedAt
-          releasedAt
-        }
-      }
-    `),
-    products: graphql(`
-      query Products(
-        $filters: ProductFiltersInput
-        $pagination: PaginationArg
-        $sort: [String]
-      ) {
-        products(filters: $filters, pagination: $pagination, sort: $sort) {
-          documentId
-          name
-          description
-          handle
-          product_type
-          model
-          odoo_product_id
-          odoo_product_name
-          categories {
-            title
-            slug
-            image {
-              documentId
-              name
-              alternativeText
-              width
-              height
-              mime
-              url
-            }
-          }
-          brand {
-            documentId
-            name
-            url
-            image {
-              documentId
-              name
-              alternativeText
-              width
-              height
-              mime
-              url
-            }
-          }
-          collections {
-            documentId
-            title
+            tag
           }
           price_lists {
             documentId
@@ -396,20 +334,136 @@ const schema = {
         }
       }
     `),
-    brands: gql(`
-      query Brands($filters: BrandFiltersInput) {
-        brands(filters: $filters) {
+    products: graphql(`
+      query Products(
+        $filters: ProductFiltersInput
+        $pagination: PaginationArg
+        $sort: [String]
+      ) {
+        products(filters: $filters, pagination: $pagination, sort: $sort) {
           documentId
           name
-          url
-          image {
+          description
+          handle
+          product_type
+          model
+          odoo_product_id
+          odoo_product_name
+          categories {
+            title
+            slug
+            image {
+              documentId
+              name
+              alternativeText
+              caption
+              width
+              height
+              formats
+              hash
+              ext
+              mime
+              size
+              url
+              previewUrl
+              provider
+              provider_metadata
+              createdAt
+              updatedAt
+              publishedAt
+            }
+          }
+          brand {
+            documentId
+            name
+            url
+            image {
+              documentId
+              name
+              alternativeText
+              caption
+              width
+              height
+              formats
+              hash
+              ext
+              mime
+              size
+              url
+              previewUrl
+              provider
+              provider_metadata
+              createdAt
+              updatedAt
+              publishedAt
+            }
+          }
+          collections {
+            documentId
+            title
+          }
+          tags {
+            documentId
+            tag
+          }
+          price_lists {
+            documentId
+            price
+            comparePrice
+            min_quantity
+            max_quantity
+            user_level
+          }
+          files {
+            documentId
             name
             alternativeText
-            mime
-            url
             width
             height
+            mime
+            url
           }
+          images {
+            documentId
+            name
+            alternativeText
+            width
+            height
+            mime
+            url
+          }
+          specifications {
+            documentId
+            key
+            value
+          }
+          key_features {
+            documentId
+            feature
+          }
+          inventory {
+            documentId
+            melbourne
+            sydney
+            brisbane
+          }
+          shipping {
+            documentId
+            height
+            width
+            length
+            weight
+          }
+          maxQuantity
+          madeBy {
+            email
+          }
+          improvedBy {
+            email
+          }
+          createdAt
+          updatedAt
+          releasedAt
         }
       }
     `),
@@ -436,6 +490,31 @@ const schema = {
           documentId
           key
           value
+        }
+      }
+    `),
+    brands: gql(`
+      query Brands($filters: BrandFiltersInput) {
+        brands(filters: $filters) {
+          documentId
+          name
+          url
+          image {
+            name
+            alternativeText
+            mime
+            url
+            width
+            height
+          }
+        }
+      }
+    `),
+    tags: gql(`
+      query Tags {
+        tags {
+          documentId
+          tag
         }
       }
     `),

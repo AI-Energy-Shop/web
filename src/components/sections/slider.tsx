@@ -1,5 +1,5 @@
 import React from 'react';
-import Carousel from '../carousels/Home/ImageCarousel';
+import { ImageCarousel } from '../carousels';
 import type { SliderSlide } from '@/lib/types';
 
 interface SliderSectionProps {
@@ -7,12 +7,14 @@ interface SliderSectionProps {
     id: string;
     animation_duration: number;
     display_button: any;
-    slides: SliderSlide[];
+    images: any[];
   };
 }
 const SliderSection: React.FC<SliderSectionProps> = ({ data }) => {
   return (
-    <section>{/* <Carousel.ImageCarousel slides={data.slides} /> */}</section>
+    <section>
+      <ImageCarousel images={data.images} />
+    </section>
   );
 };
 
