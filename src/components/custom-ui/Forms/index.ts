@@ -1,5 +1,5 @@
 import InquiryForm from './InquiryForm';
-import NewsLetterForm from './NewsLetterForm';
+import NewsLetterForm from './news-letter-form';
 
 const Forms = {
   NewsLetterForm,

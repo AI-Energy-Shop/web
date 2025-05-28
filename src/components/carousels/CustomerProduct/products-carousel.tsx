@@ -9,11 +9,11 @@ import RightButton from './RightButton';
 import { GetStoreProductQuery } from '@/lib/gql/graphql';
 import CustomDot from './CustomDot';
 
-interface ImageCarouselProps {
+interface ProductCarouselProps {
   product: GetStoreProductQuery['getStoreProduct'];
 }
 
-const ImageCarousel: React.FC<ImageCarouselProps> = ({ product }) => {
+const ProductCarousel: React.FC<ProductCarouselProps> = ({ product }) => {
   const responsive: ResponsiveType = {
     desktop: {
       breakpoint: {
@@ -142,4 +142,4 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ product }) => {
   );
 };
 
-export default ImageCarousel;
+export default ProductCarousel;

@@ -32,7 +32,7 @@ import {
   handleGraphQLError,
   GraphQLException,
 } from '@/lib/utils/graphql-error';
-import { revalidatePath } from 'next/cache';
+
 const client = getClient();
 
 // PRODUCTS
@@ -64,8 +64,9 @@ export const products = async (variables?: {
     });
     return res;
   } catch (error: any) {
-    console.log('error in products', error);
-    throw handleGraphQLError(error);
+    const errorMessage = handleGraphQLError(error);
+    console.log('error in products', errorMessage);
+    return error;
   }
 };
 
@@ -91,11 +92,12 @@ export const product = async (
       },
       context,
     });
-    revalidatePath(`/admin/products/${id}`);
+    // revalidatePath(`/admin/products/${id}`);
     return res;
   } catch (error: any) {
-    console.log('error in product', error);
-    throw handleGraphQLError(error);
+    const errorMessage = handleGraphQLError(error);
+    console.log('error in products', errorMessage);
+    return error;
   }
 };
 
@@ -103,7 +105,7 @@ export const storeProducts = async (variables?: {
   filters: ProductFiltersInput;
   pagination: PaginationArg;
   sort?: string[];
-}): Promise<FetchResult<ProductsQuery>> => {
+}): Promise<FetchResult<GetStoreProductQuery>> => {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get('a-token');
@@ -126,8 +128,9 @@ export const storeProducts = async (variables?: {
 
     return res;
   } catch (error: any) {
-    console.log('error in product', error);
-    throw handleGraphQLError(error);
+    const errorMessage = handleGraphQLError(error);
+    console.log('error in products', errorMessage);
+    return error;
   }
 };
 
@@ -153,11 +156,12 @@ export const storeProduct = async (
       },
       context,
     });
-    revalidatePath(`/admin/products/${handle}`);
+    // revalidatePath(`/admin/products/${handle}`);
     return res;
   } catch (error: any) {
-    console.log('error in product', error);
-    throw handleGraphQLError(error);
+    const errorMessage = handleGraphQLError(error);
+    console.log('error in products', errorMessage);
+    return error;
   }
 };
 
@@ -258,9 +262,9 @@ export const createProduct = async (
       fetchPolicy: 'network-only',
     });
 
-    revalidatePath(
-      `/admin/products/${res.data?.customProductCreate?.documentId}`
-    );
+    // revalidatePath(
+    //   `/admin/products/${res.data?.customProductCreate?.documentId}`
+    // );
     return {
       data: res,
     };
@@ -286,7 +290,7 @@ export const updateProduct = async (
   try {
     const res = await client.mutate({
       mutation: PRODUCT_OPERATIONS.Mutation.updateProduct,
-      fetchPolicy: 'no-cache',
+      fetchPolicy: 'network-only',
       variables: {
         ...inputData,
         _timestamp: Date.now(),
@@ -302,7 +306,10 @@ export const updateProduct = async (
     };
   } catch (error: any) {
     const errorMessage = handleGraphQLError(error);
-    console.log('error in update product', errorMessage);
+    console.log(
+      'error in update product',
+      error.cause.extensions.error.details
+    );
     return {
       error: { ...errorMessage },
     };
@@ -376,7 +383,7 @@ export const deleteProducts = async (
           });
       })
     )) as unknown as Promise<FetchResult<DeleteProductMutation>[]>;
-    revalidatePath('/admin/products');
+    // revalidatePath('/admin/products');
     return res;
   } catch (error: any) {
     console.log('ERROR deleting price:', error.message);

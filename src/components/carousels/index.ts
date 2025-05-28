@@ -1,11 +1,5 @@
-import ImageCarousel from './Home/ImageCarousel';
+import ImageCarousel from './image-carousel/image-carousel';
 import ProductCarousel from './CustomerProduct/products-carousel';
 import ProductRecoCarousel from './ProductRecommendation/ProductRecoCarousel';
 
-const Carousel = {
-  ImageCarousel,
-  ProductCarousel,
-  ProductRecoCarousel,
-};
-
-export default Carousel;
+export { ImageCarousel, ProductCarousel, ProductRecoCarousel };

@@ -29,7 +29,7 @@ const AboutusSection: React.FC<AboutusSectionProps> = ({ data }) => {
         >
           <div
             className="
-              max-w-[85vw] h-full flex flex-col item-center justify-center pt-5 bg-yellow-light-yellow-50 clip-path-right-75  px-5 py-4
+              max-w-[85vw] h-full flex flex-col item-center justify-center pt-5 bg-light-yellow-50 clip-path-right-70  px-5 py-4
               md:max-w-[50%]
             "
           >

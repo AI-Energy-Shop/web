@@ -1,5 +1,5 @@
 import React from 'react';
-import Carousel from '../carousels/Home/ImageCarousel';
+import Carousel from '../carousels/image-carousel/image-carousel';
 import { GetStoreProductQuery } from '@/lib/gql/graphql';
 
 interface RelatedProductsProps {

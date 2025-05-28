@@ -20,6 +20,11 @@ const nextConfig = {
   eslint: {
     dirs: ['pages', 'src/components', 'src/hooks'], // Only run ESLint on the 'pages' and 'utils' directories during production builds (next build)
   },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '20mb',
+    },
+  },
 };
 
 export default nextConfig;

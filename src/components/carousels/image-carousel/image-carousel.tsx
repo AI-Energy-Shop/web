@@ -4,23 +4,22 @@ import Image from 'next/image';
 import React from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import type { SliderSlide } from '@/lib/types';
-import { CustomDot } from './CustomDot';
-import { GetStoreProductQuery } from '@/lib/gql/graphql';
+import { CustomDot } from './custom-dot';
+import { UploadFilesQuery } from '@/lib/gql/graphql';
+
 interface ImageCarouselProps {
-  slides: NonNullable<GetStoreProductQuery['getStoreProduct']>['images'];
+  images: UploadFilesQuery['uploadFiles'];
 }
 
-const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
+const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
   const currentBreakpoint = useBreakpoint();
 
   const TABLET_BREAKPOINT = 768;
   const DESKTOP_BREAKPOINT = 1024;
 
-  const MOBILE = 'MOBILE';
+  // const MOBILE = 'MOBILE';
   const TABLET = 'TABLET';
   const DESKTOP = 'DESKTOP';
-
   return (
     <div className="h-[75vw] md:h-[44.44vw] lg:h-[33.33vw] lg:max-h-[400px] relative">
       <Carousel
@@ -71,7 +70,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
         customDot={<CustomDot />}
       >
         {/* MOBILE */}
-        {slides?.map((item) => {
+        {images?.map((item) => {
           if (currentBreakpoint < TABLET_BREAKPOINT) {
             return (
               <Image
