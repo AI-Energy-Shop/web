@@ -5,7 +5,7 @@ import Components from '@/components';
 import { ApolloWrapper } from '@/apollo/provider';
 import { firaSansFont } from '@/assets/fonts/fonts';
 import { Toaster } from '@/components/ui/sonner';
-// import StripeWrapper from '@/components/stripe-wrapper';
+import StripeWrapper from '@/components/stripe-wrapper';
 import { Toaster as ToasterUI } from '@/components/ui/toaster';
 import NavigationWrapper from '@/components/navigation-wrapper';
 
@@ -34,9 +34,9 @@ export default function RootLayout({
         <ApolloWrapper>
           <Components.ReduxProvider>
             {/* TODO: Roi add env variable for stripe */}
-            {/* <StripeWrapper> */}
-            <NavigationWrapper>{children}</NavigationWrapper>
-            {/* </StripeWrapper> */}
+            <StripeWrapper>
+              <NavigationWrapper>{children}</NavigationWrapper>
+            </StripeWrapper>
           </Components.ReduxProvider>
           <Toaster />
           <ToasterUI />
