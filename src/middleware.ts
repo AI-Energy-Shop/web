@@ -5,45 +5,38 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get('a-token')?.value;
   const user = request.cookies.get('a-user')?.value;
   const userData = JSON.parse(user || '{}');
+  const role = userData?.role?.name || 'PUBLIC';
+  const path = request.nextUrl.pathname;
 
-  if (!token && !user) {
-    return NextResponse.redirect(new URL('/auth/login', request.url));
+  const protectedPaths = [
+    '/cart',
+    '/profile',
+    '/address',
+    '/checkout-overview',
+    '/checkout',
+  ];
+
+  // 🚫 PUBLIC: block access to protected paths if not authenticated
+  if (!token || !user) {
+    if (protectedPaths.some((p) => path.startsWith(p))) {
+      return NextResponse.redirect(new URL('/auth/login', request.url));
+    }
+    return NextResponse.next(); // public route
   }
 
-  if (
-    request.nextUrl.pathname.startsWith('/admin') &&
-    userData?.role?.name !== 'ADMIN'
-  ) {
+  // 🚫 CUSTOMER: block access to /admin
+  if (role === 'CUSTOMER' && path.startsWith('/admin')) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
-  // Get the pathname from the request
-  const pathname = request.nextUrl.pathname;
+  // ✅ ADMIN and SALES can access everything, including /admin
+  // No need to check further
 
-  // Create a new response
   const response = NextResponse.next();
-
-  // Set the pathname in a custom header
-  response.headers.set('x-pathname', pathname);
-
+  response.headers.set('x-pathname', path);
   return response;
 }
 
 export const config = {
-  matcher: [
-    '/checkout',
-    '/admin/:path*',
-    '/cart/:path*',
-    '/profile',
-    '/address',
-    '/checkout-overview',
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    // '/((?!api|_next/static|_next/image|favicon.ico).*)',
-  ],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|api).*)'],
 };

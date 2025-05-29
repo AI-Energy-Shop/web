@@ -4,15 +4,15 @@ import React from 'react';
 import { logoutUser } from '@/app/actions/auth';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
-import { removePersistence } from '@/store/store';
+import { removePersistence, useAppDispatch } from '@/store/store';
+import { logout } from '@/store/features/me';
 const LogoutButton = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const handleLogout = async () => {
-    await logoutUser();
+    dispatch(logout());
     removePersistence();
-    router.refresh();
-    router.push('/auth/login');
-    window.location.reload();
+    await logoutUser();
   };
 
   return (

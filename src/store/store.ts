@@ -112,4 +112,11 @@ export const removePersistence = () => {
   persistor.purge();
   localStorage.removeItem('persist:root');
   localStorage.removeItem('persist:root:expiration');
+
+  const data = {
+    persitData: localStorage.getItem('persist:root'),
+    persitDataExpiration: localStorage.getItem('persist:root:expiration'),
+  };
+
+  return data;
 };
