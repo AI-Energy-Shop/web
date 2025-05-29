@@ -15,13 +15,13 @@ const DynamicPage = async (props: DynamicPageProps) => {
 
   const data = await getPage(slug);
 
-  if (data && !data.getPage) {
+  if (data && !data?.data?.getPage) {
     return <NotFoundPage />;
   }
 
   return (
     <main className="w-full min-h-screen">
-      <Components.DynamicSections data={data} />
+      <Components.DynamicSections data={data.data} />
     </main>
   );
 };
