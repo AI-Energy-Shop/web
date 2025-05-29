@@ -4,6 +4,7 @@ import { Button } from '../ui/button';
 import { Routes } from '@/lib/routes.types';
 import { formatDate } from './formatDate';
 import { useCheckout } from '@/hooks/useCheckout';
+import { Enum_Order_Shippingtype } from '@/lib/gql/graphql';
 
 interface ShippingOptionCardProps {
   route: Routes;
@@ -92,7 +93,7 @@ export default function ShippingOptionCard({
                 `${route.requestId}-${route.carrierService.id}`
               );
               setDeliveryDate(undefined);
-              setShippingType('delivery');
+              setShippingType(Enum_Order_Shippingtype.Delivery);
               setDeliveryOptions({
                 type: 'auto',
                 date: undefined,

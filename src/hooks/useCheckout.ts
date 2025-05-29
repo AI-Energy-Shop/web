@@ -14,7 +14,9 @@ import {
   setPickUpOptions as setPickUpOptionsFromSlice,
   PaymentMethod,
   setPaymentMethod as setPaymentMethodFromSlice,
+  setOrderNotes as setOrderNotesFromSlice,
   setCard as setCardFromSlice,
+  resetCheckout,
 } from '@/store/features/checkout';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useEffect, useState } from 'react';
@@ -32,6 +34,8 @@ export const useCheckout = () => {
   const deliveryNotes = useAppSelector((state) => state.checkout.deliveryNotes);
 
   const pickUpOptions = useAppSelector((state) => state.checkout.pickupOptions);
+
+  const orderNotes = useAppSelector((state) => state.checkout.orderNotes);
 
   const shippingTypeFromStore = useAppSelector(
     (state) => state.checkout.shippingType
@@ -82,6 +86,10 @@ export const useCheckout = () => {
     dispatch(setCardFromSlice(temporaryCard));
   };
 
+  const setOrderNotes = (orderNotes: string) => {
+    dispatch(setOrderNotesFromSlice(orderNotes));
+  };
+
   const [shippingType, setShippingTypes] = useState<ShippingType>(null);
 
   useEffect(() => {
@@ -99,6 +107,8 @@ export const useCheckout = () => {
     allCheckoutState,
     shippingAddress,
     card,
+    orderNotes,
+    resetCheckout,
     setWarehouseLocation,
     setShippingType,
     setShippingAddress,
@@ -108,5 +118,6 @@ export const useCheckout = () => {
     setPickUpOptions,
     setPaymentMethod,
     setCard,
+    setOrderNotes,
   };
 };

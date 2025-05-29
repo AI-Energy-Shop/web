@@ -37,7 +37,8 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({}) => {
   );
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
   const DEBOUNCE_DELAY = 1500;
-  const { warehouseLocation, setWarehouseLocation } = useCheckout();
+  const { warehouseLocation, setWarehouseLocation, orderNotes, setOrderNotes } =
+    useCheckout();
 
   const checkIfProductLocationQuantityIsOkToProceed = () => {
     const productWithNoStockInCurrentLocation = carts.find((cartItem: any) => {
@@ -197,7 +198,11 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({}) => {
       <div className="h-0.5 w-full bg-black lg:hidden" />
       <div className="lg:flex-1">
         <h1 className="font-bold">Order Notes</h1>
-        <Textarea className="min-h-9 h-9" />
+        <Textarea
+          className="min-h-9 h-9"
+          value={orderNotes}
+          onChange={(e) => setOrderNotes(e.target.value)}
+        />
       </div>
     </div>
   );

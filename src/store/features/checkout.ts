@@ -4,9 +4,16 @@ import {
 } from '@/constant/shipping';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getPickUpOptionsBestTimeSlots } from '@/components/Checkout/pickUpOptionsBestTimeSlot';
-import { Enum_Order_Paymentmethod } from '@/lib/gql/graphql';
+import {
+  Enum_Order_Paymentmethod,
+  Enum_Order_Shippingtype,
+} from '@/lib/gql/graphql';
 
-export type ShippingType = 'delivery' | 'pickup' | null;
+export type ShippingType =
+  | Enum_Order_Shippingtype.Pickup
+  | Enum_Order_Shippingtype.Delivery
+  | null;
+
 export type PaymentMethod =
   | Enum_Order_Paymentmethod.AccountCredit
   | Enum_Order_Paymentmethod.BankTransfer

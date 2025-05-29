@@ -15,7 +15,10 @@ import { cn } from '@/lib/utils';
 import { PICK_UP_ESTIMATED_ARRIVAL_TIME } from '@/constant/shipping';
 import Link from 'next/link';
 import useCart from '@/hooks/useCart';
-import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
+import {
+  Enum_Order_Shippingtype,
+  GetCheckoutUserDataQuery,
+} from '@/lib/gql/graphql';
 import { useCheckout } from '@/hooks/useCheckout';
 import { ShippingType } from '@/store/features/checkout';
 import { isButtonClickable } from './isButtonClickable';
@@ -342,7 +345,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                     selected={deliveryDate}
                     onSelect={(e) => {
                       setDeliveryDate(e);
-                      setShippingType('delivery');
+                      setShippingType(Enum_Order_Shippingtype.Delivery);
                       setDeliveryOptions({
                         type: 'manual',
                         date: e?.toISOString(),
@@ -392,7 +395,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                       estimatedArrivalTime:
                         pickUpOptions?.estimatedArrivalTime!,
                     });
-                    setShippingType('pickup');
+                    setShippingType(Enum_Order_Shippingtype.Pickup);
                   }}
                   initialFocus
                   disabled={{ before: TODAY }}
