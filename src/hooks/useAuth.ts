@@ -12,8 +12,15 @@ import {
   registerResolver,
 } from '@/lib/validation-schema/auth-forms';
 import { useState } from 'react';
-import { updatePersistence, useAppDispatch } from '@/store/store';
+import {
+  removePersistence,
+  updatePersistence,
+  useAppDispatch,
+} from '@/store/store';
 import { ProductQuery } from '@/lib/gql/graphql';
+
+const HAS_BACKEND_ACCESS = ['ADMIN', 'SALES'];
+
 const useAuth = () => {
   const router = useRouter();
   const { toast } = useToast();
@@ -72,13 +79,15 @@ const useAuth = () => {
 
     switch (roleName) {
       case 'ADMIN':
-        console.log('admin', data);
         dispatch(
           setMeAdmin({
             id: data?.user?.documentId || '',
             email: data?.user?.email || '',
-            username: data?.user?.username,
+            username: data?.user?.username || '',
+            blocked: data?.user?.blocked || false,
             confirmed: data?.user?.confirmed || undefined,
+            phone: data?.user?.phone || '',
+            role: roleName || '',
           })
         );
         break;
@@ -88,8 +97,11 @@ const useAuth = () => {
           setMeAdmin({
             id: data?.user?.documentId || '',
             email: data?.user?.email || '',
-            username: data?.user?.username,
+            username: data?.user?.username || '',
+            blocked: data?.user?.blocked || false,
             confirmed: data?.user?.confirmed || undefined,
+            phone: data?.user?.phone || '',
+            role: roleName || '',
           })
         );
         break;
@@ -172,7 +184,9 @@ const useAuth = () => {
     await updatePersistence(loginData.remember || false);
 
     // Handle navigation based on role
-    const route = roleName === 'SALES' ? '/admin' : '/collections/all';
+    const route = HAS_BACKEND_ACCESS.includes(roleName)
+      ? '/admin'
+      : '/collections/all';
 
     // Use replace instead of push for more reliable navigation
     router.replace(route);
@@ -221,6 +235,10 @@ const useAuth = () => {
     }
   };
 
+  const handleLogout = () => {
+    removePersistence();
+  };
+
   return {
     loginForm,
     registerForm,
@@ -228,6 +246,7 @@ const useAuth = () => {
     setShowPassword,
     handleLoginSubmit,
     handleRegisterSubmit,
+    handleLogout,
   };
 };
 
