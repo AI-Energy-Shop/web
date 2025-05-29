@@ -8,7 +8,20 @@ import { CustomDot } from './custom-dot';
 import { UploadFilesQuery } from '@/lib/gql/graphql';
 
 interface ImageCarouselProps {
-  slides: UploadFilesQuery['uploadFiles'];
+  slides: {
+    id: string;
+    description: string;
+    link: string;
+    title: string;
+    type: string;
+    __typename: string;
+    image: {
+      alternativeText: string;
+      name: string;
+      url: string;
+      __typename: string;
+    };
+  }[];
 }
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
@@ -79,10 +92,10 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
                 priority
                 width={1000}
                 height={1000}
-                key={item?.documentId}
+                key={item.id}
                 className="h-full m-auto object-contain"
-                src={item?.url || ''}
-                alt={item?.alternativeText || ''}
+                src={item.image?.url || ''}
+                alt={item.image?.alternativeText || ''}
               />
             );
           }
@@ -93,13 +106,13 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
             currentBreakpoint < DESKTOP_BREAKPOINT
           ) {
             return (
-              <div key={item?.documentId} className="h-[44.44vw] relative">
+              <div key={item.id} className="h-[44.44vw] relative">
                 <Image
                   priority
                   fill
                   className="object-cover object-center"
-                  src={item?.url || ''}
-                  alt={item?.alternativeText || ''}
+                  src={item.image?.url || ''}
+                  alt={item.image?.alternativeText || ''}
                 />
               </div>
             );
@@ -108,19 +121,16 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
           /* DESKTOP | WIDESCREEN */
           if (
             currentBreakpoint >= 1024 &&
-            (item?.mime === TABLET || item?.mime === DESKTOP)
+            (item?.type === TABLET || item?.type === DESKTOP)
           ) {
             return (
-              <div
-                key={item?.documentId}
-                className="h-[33.33vw] max-h-[400px] relative"
-              >
+              <div key={item.id} className="h-[33.33vw] max-h-[400px] relative">
                 <Image
                   priority
                   fill
                   className="object-cover object-center"
-                  src={item?.url || ''}
-                  alt={item?.alternativeText || ''}
+                  src={item.image?.url || ''}
+                  alt={item.image?.alternativeText || ''}
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
               </div>
