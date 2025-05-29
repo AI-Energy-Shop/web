@@ -1,4 +1,5 @@
 import './globals.css';
+import 'react-multi-carousel/lib/styles.css';
 import React from 'react';
 import Components from '@/components';
 import { ApolloWrapper } from '@/apollo/provider';
