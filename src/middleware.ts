@@ -10,12 +10,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/auth/login', request.url));
   }
 
-  // if (
-  //   request.nextUrl.pathname.startsWith('/admin') &&
-  //   userData?.role?.name !== 'ADMIN'
-  // ) {
-  //   return NextResponse.redirect(new URL('/', request.url));
-  // }
+  if (
+    request.nextUrl.pathname.startsWith('/admin') &&
+    userData?.role?.name !== 'ADMIN'
+  ) {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
 
   // Get the pathname from the request
   const pathname = request.nextUrl.pathname;
