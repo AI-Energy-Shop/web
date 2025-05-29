@@ -2,7 +2,6 @@ import {
   PICK_UP_ESTIMATED_ARRIVAL_TIME,
   WAREHOUSE_LOCATIONS,
 } from '@/constant/shipping';
-import { CartsQuery } from '@/lib/gql/graphql';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getPickUpOptionsBestTimeSlots } from '@/components/Checkout/pickUpOptionsBestTimeSlot';
 import { Enum_Order_Paymentmethod } from '@/lib/gql/graphql';
@@ -13,6 +12,15 @@ export type PaymentMethod =
   | Enum_Order_Paymentmethod.BankTransfer
   | Enum_Order_Paymentmethod.CreditCard
   | undefined;
+
+export type Card = {
+  brand: string;
+  expMonth: string;
+  expYear: string;
+  last4Char: string;
+  stripePaymentMethodID: string;
+  isDefault: boolean;
+};
 
 export type MacshipData = {
   companyId: number;
@@ -67,7 +75,6 @@ export type ShippingAddress = {
 };
 
 export type CheckoutState = {
-  items: CartsQuery['carts'];
   warehouseLocation: WarehouseLocation;
   voucherCode: string;
   orderNotes: string;
@@ -78,12 +85,12 @@ export type CheckoutState = {
   paymentMethod: PaymentMethod;
   deliveryOptions: DeliveryOptions | null;
   pickupOptions: PickUpOptions | null;
+  card: Card | null;
 };
 
 const NOW = new Date();
 
 const initialState: CheckoutState = {
-  items: [],
   warehouseLocation: WAREHOUSE_LOCATIONS[0],
   deliveryOptions: null,
   pickupOptions: {
@@ -100,6 +107,7 @@ const initialState: CheckoutState = {
   shippingType: null,
   shippingAddress: null,
   paymentMethod: undefined,
+  card: null,
 };
 
 const checkoutSlice = createSlice({
@@ -118,9 +126,7 @@ const checkoutSlice = createSlice({
     setPickUpNotes(state, action: PayloadAction<string>) {
       state.pickUpNotes = action.payload;
     },
-    setItems(state, action: PayloadAction<CartsQuery['carts']>) {
-      state.items = action.payload;
-    },
+
     setSelectedLocation(state, action: PayloadAction<WarehouseLocation>) {
       state.warehouseLocation = action.payload;
     },
@@ -142,6 +148,9 @@ const checkoutSlice = createSlice({
     setPaymentMethod(state, action: PayloadAction<PaymentMethod>) {
       state.paymentMethod = action.payload;
     },
+    setCard(state, action: PayloadAction<Card>) {
+      state.card = action.payload;
+    },
     resetCheckout(state) {
       Object.assign(state, initialState);
     },
@@ -149,7 +158,6 @@ const checkoutSlice = createSlice({
 });
 
 export const {
-  setItems,
   setSelectedLocation,
   setVoucherCode,
   setOrderNotes,
@@ -162,6 +170,7 @@ export const {
   setDeliveryNotes,
   setDeliveryOptions,
   setPickUpOptions,
+  setCard,
 } = checkoutSlice.actions;
 
 export default checkoutSlice.reducer;

@@ -11,20 +11,23 @@ interface ShippingOptionCardProps {
   setShippingDeliveryOptions: React.Dispatch<
     SetStateAction<string | undefined>
   >;
+  setDeliveryDate: React.Dispatch<SetStateAction<Date | undefined>>;
 }
 
 export default function ShippingOptionCard({
   route,
   shippingDeliveryOptions,
   setShippingDeliveryOptions,
+  setDeliveryDate,
 }: ShippingOptionCardProps) {
   const [open, setOpen] = useState(false);
-  const { setShippingType, setDeliveryOptions } = useCheckout();
+  const { setShippingType, setDeliveryOptions, deliveryOptions } =
+    useCheckout();
   const toggleOpen = () => setOpen((prev) => !prev);
 
   return (
     <div
-      className={`flex flex-col gap-2 p-4 border-2 rounded-xl shadow-sm hover:shadow-md transition bg-white ${shippingDeliveryOptions === `${route.requestId}-${route.carrierService.id}` && 'border-purple-purp-aes'}`}
+      className={`flex flex-col gap-2 p-4 border-2 rounded-xl shadow-sm hover:shadow-md transition bg-white ${shippingDeliveryOptions === `${route.requestId}-${route.carrierService.id}` && deliveryOptions?.macshipData && 'border-purple-purp-aes'}`}
     >
       <div className="flex justify-between items-center">
         <div className="flex flex-col">
@@ -88,6 +91,7 @@ export default function ShippingOptionCard({
               setShippingDeliveryOptions(
                 `${route.requestId}-${route.carrierService.id}`
               );
+              setDeliveryDate(undefined);
               setShippingType('delivery');
               setDeliveryOptions({
                 type: 'auto',

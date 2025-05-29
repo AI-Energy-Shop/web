@@ -1,9 +1,9 @@
-import { CartsQuery } from '@/lib/gql/graphql';
 import {
   setSelectedLocation,
   setShippingType as setShippingTypeFromSlice,
   ShippingType,
   WarehouseLocation,
+  type Card,
   setShippingAddress as setShippingAddressFromSlice,
   ShippingAddress,
   setDeliveryOptions as setDeliveryOptionsFromSlice,
@@ -14,7 +14,7 @@ import {
   setPickUpOptions as setPickUpOptionsFromSlice,
   PaymentMethod,
   setPaymentMethod as setPaymentMethodFromSlice,
-  setItems as setItemsMethodFromSlice,
+  setCard as setCardFromSlice,
 } from '@/store/features/checkout';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useEffect, useState } from 'react';
@@ -47,6 +47,8 @@ export const useCheckout = () => {
     (state) => state.checkout.shippingAddress
   );
 
+  const card = useAppSelector((state) => state.checkout.card);
+
   const allCheckoutState = useAppSelector((state) => state.checkout);
 
   //Actions
@@ -76,8 +78,8 @@ export const useCheckout = () => {
   const setPaymentMethod = (paymentMethod: PaymentMethod) =>
     dispatch(setPaymentMethodFromSlice(paymentMethod));
 
-  const setItems = (cart: CartsQuery['carts']) => {
-    dispatch(setItemsMethodFromSlice(cart));
+  const setCard = (temporaryCard: Card) => {
+    dispatch(setCardFromSlice(temporaryCard));
   };
 
   const [shippingType, setShippingTypes] = useState<ShippingType>(null);
@@ -96,6 +98,7 @@ export const useCheckout = () => {
     deliveryOptions,
     allCheckoutState,
     shippingAddress,
+    card,
     setWarehouseLocation,
     setShippingType,
     setShippingAddress,
@@ -104,6 +107,6 @@ export const useCheckout = () => {
     setPickUpNotes,
     setPickUpOptions,
     setPaymentMethod,
-    setItems,
+    setCard,
   };
 };

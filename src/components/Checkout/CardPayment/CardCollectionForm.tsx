@@ -6,17 +6,27 @@ import { StripeCardElementOptions } from '@stripe/stripe-js';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { createSetupIntent } from '@/app/actions/stripe';
+import {
+  createSetupIntent,
+  getPaymentMethodDetails,
+} from '@/app/actions/stripe';
 import { createNewCreditCard } from '@/app/actions/credit-card';
+import { useCheckout } from '@/hooks/useCheckout';
 
-function CardCollectionForm() {
+interface CardCollectionFormProps {
+  saveCardToDatabase?: boolean;
+}
+
+function CardCollectionForm({
+  saveCardToDatabase = false,
+}: CardCollectionFormProps) {
   const stripe = useStripe();
   const elements = useElements();
+  const { setCard } = useCheckout();
 
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
   const cardElementOptions: StripeCardElementOptions = {
     style: {
       base: {
@@ -34,7 +44,6 @@ function CardCollectionForm() {
       },
     },
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -73,7 +82,19 @@ function CardCollectionForm() {
         throw new Error('Something went wrong, Please try again');
       }
 
-      await createNewCreditCard(paymentMethodId);
+      if (saveCardToDatabase) {
+        await createNewCreditCard(paymentMethodId);
+      } else {
+        const { result } = await getPaymentMethodDetails(paymentMethodId);
+        setCard({
+          brand: result?.card?.brand || '',
+          expMonth: result?.card?.exp_month.toString() || '',
+          expYear: result?.card?.exp_year.toString() || '',
+          last4Char: result?.card?.last4 || '',
+          stripePaymentMethodID: result?.id || '',
+          isDefault: false,
+        });
+      }
     } catch (err: any) {
       setError(err.message || 'Something went wrong, please try again.');
     } finally {

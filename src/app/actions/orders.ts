@@ -1,6 +1,7 @@
 'use server';
 import { getClient } from '@/apollo/client';
 import {
+  CartsQuery,
   CreateOrderMutation,
   Enum_Order_Deliverystatus,
   Enum_Order_Fulfillmentstatus,
@@ -35,10 +36,14 @@ export const orders = async (variables?: {
 };
 
 interface CreateOrderProps {
+  cart: CartsQuery;
   checkoutState: CheckoutState;
 }
 
-export const createOrder = async ({ checkoutState }: CreateOrderProps) => {
+export const createOrder = async ({
+  cart,
+  checkoutState,
+}: CreateOrderProps) => {
   let isSuccess: boolean = false;
   let res: ApolloQueryResult<CreateOrderMutation> | null = null;
 
@@ -46,7 +51,7 @@ export const createOrder = async ({ checkoutState }: CreateOrderProps) => {
     const cookieStore = cookies();
     const token = cookieStore.get('a-token')?.value;
 
-    const lineItems = checkoutState.items.map((item) => {
+    const lineItems = cart.carts.map((item) => {
       return {
         line: {
           quantity: item?.quantity,

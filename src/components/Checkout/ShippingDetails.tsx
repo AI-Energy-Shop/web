@@ -53,6 +53,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     setDeliveryNotes,
     setPickUpOptions,
     setShippingAddress,
+    setCard,
   } = useCheckout();
   const [deliveryDate, setDeliveryDate] = React.useState<Date | undefined>(
     undefined
@@ -79,6 +80,30 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     userCurrentAddress?.zip_code || '',
     carts
   );
+
+  const defaultCreditCard =
+    checkoutUserData?.usersPermissionsUser?.creditCards?.find(
+      (card) => card?.isDefault
+    );
+
+  useEffect(() => {
+    setCard({
+      brand: defaultCreditCard?.brand || '',
+      expMonth: defaultCreditCard?.expMonth || '',
+      expYear: defaultCreditCard?.expYear || '',
+      last4Char: defaultCreditCard?.last4Char || '',
+      stripePaymentMethodID: defaultCreditCard?.stripePaymentMethodID || '',
+      isDefault: defaultCreditCard?.isDefault || true,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    defaultCreditCard?.brand,
+    defaultCreditCard?.expMonth,
+    defaultCreditCard?.expYear,
+    defaultCreditCard?.isDefault,
+    defaultCreditCard?.last4Char,
+    defaultCreditCard?.stripePaymentMethodID,
+  ]);
 
   const notAbleToProceedToPayment = () => {
     let isTrue = false;
@@ -270,6 +295,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
               route={route}
               shippingDeliveryOptions={shippingDeliveryOptions}
               setShippingDeliveryOptions={setShippingDeliveryOptions}
+              setDeliveryDate={setDeliveryDate}
             />
           ))}
 

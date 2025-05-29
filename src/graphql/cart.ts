@@ -55,27 +55,6 @@ const schema = {
     checkoutUserData: graphql(`
       query GetCheckoutUserData($documentId: ID!) {
         usersPermissionsUser(documentId: $documentId) {
-          carts {
-            documentId
-            quantity
-            product {
-              documentId
-              inventory {
-                documentId
-                melbourne
-                sydney
-                brisbane
-                createdAt
-                updatedAt
-              }
-              shipping {
-                height
-                length
-                weight
-                width
-              }
-            }
-          }
           addresses {
             documentId
             street1

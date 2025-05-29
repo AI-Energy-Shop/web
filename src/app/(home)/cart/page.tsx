@@ -18,7 +18,7 @@ async function CheckoutPage() {
 
       <div className="md:grid md:grid-cols-12 lg:w-[90vw] lg:mx-auto max-w-[1200px]">
         <div className="md:col-span-12 lg:col-span-8">
-          <ReviewItems checkoutUserData={checkoutUserData} />
+          <ReviewItems />
 
           <ShippingDetails checkoutUserData={checkoutUserData} />
 

@@ -17,17 +17,12 @@ import { Button } from '../ui/button';
 import CartItems from './CartItems';
 import { Input } from '../ui/input';
 import { cn } from '@/lib/utils';
-import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
 import { useCheckout } from '@/hooks/useCheckout';
 import { useAppDispatch } from '@/store/hooks';
 
-interface ReviewItemsProps {
-  checkoutUserData: GetCheckoutUserDataQuery;
-}
+interface ReviewItemsProps {}
 
-const ReviewItems: React.FC<ReviewItemsProps> = ({
-  checkoutUserData: cartProductQuantity,
-}) => {
+const ReviewItems: React.FC<ReviewItemsProps> = ({}) => {
   const dispatch = useAppDispatch();
   const {
     carts,
@@ -45,14 +40,12 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
   const { warehouseLocation, setWarehouseLocation } = useCheckout();
 
   const checkIfProductLocationQuantityIsOkToProceed = () => {
-    const productWithNoStockInCurrentLocation =
-      cartProductQuantity.usersPermissionsUser?.carts.find((cartItem: any) => {
-        return (
-          (cartItem?.product?.inventory[
-            warehouseLocation?.name.toLowerCase()
-          ] || 0) < 1
-        );
-      });
+    const productWithNoStockInCurrentLocation = carts.find((cartItem: any) => {
+      return (
+        (cartItem?.product?.inventory[warehouseLocation?.name.toLowerCase()] ||
+          0) < 1
+      );
+    });
 
     return productWithNoStockInCurrentLocation ? true : false;
   };
@@ -63,25 +56,15 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
   }, []);
 
   const checkIfCartQuantityIsExceeded = () => {
-    const isThereExceededCart =
-      cartProductQuantity?.usersPermissionsUser?.carts?.filter((cart) => {
-        const cartQty = carts?.find(
-          (staleCart) => staleCart?.documentId === cart?.documentId
-        )?.quantity;
+    const isThereExceededCart = carts?.some((cart) => {
+      const productLocationInventory =
+        cart?.product?.inventory?.[
+          warehouseLocation?.name as keyof typeof cart.product.inventory
+        ];
+      return cart?.quantity! > productLocationInventory;
+    });
 
-        const productLocationInventory =
-          cart?.product?.inventory?.[
-            warehouseLocation?.name as keyof typeof cart.product.inventory
-          ];
-
-        if ((cartQty || 0) > (productLocationInventory?.quantity || 0)) {
-          return false;
-        }
-
-        return true;
-      });
-
-    return (isThereExceededCart?.length || 0) > 0;
+    return isThereExceededCart;
   };
 
   const handleEditClick = () => {
@@ -260,7 +243,6 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
             </Select>
           </div>
           <CartItems
-            cartProductQuantity={cartProductQuantity}
             data={carts}
             onChange={handleChange}
             onReduceQuant={handleReduceQuant}

@@ -1,8 +1,10 @@
 'use client';
 
 import useCart from '@/hooks/useCart';
+import { useCheckout } from '@/hooks/useCheckout';
 import useMe from '@/hooks/useMe';
 import { formatCurrency, getCartTotals } from '@/utils/cart';
+import { Enum_Order_Paymentmethod } from '@/lib/gql/graphql';
 
 function PriceDetails() {
   const orderSummary = {
@@ -16,11 +18,22 @@ function PriceDetails() {
 
   const { user } = useMe();
   const { carts } = useCart({});
-  const { subtotal, totalGst, total } = getCartTotals(carts, 0.0, 0.0, {
+  const { deliveryOptions, shippingType, paymentMethod } = useCheckout();
+  const { subTotal, gst, total, cardSurcharge } = getCartTotals(carts, {
     userLevel: user?.account_detail?.level,
+    deliveryFee: Number(
+      deliveryOptions?.macshipData?.displayData?.totalSellBeforeTax
+    ),
+    isCheckoutPaidWithCard: Boolean(deliveryOptions?.macshipData),
   });
 
-  const subTotalDisplay = formatCurrency(subtotal, 'AUD');
+  const subTotalDisplay = formatCurrency(subTotal);
+  const gstDisplay = formatCurrency(gst);
+  const totalDisplay = formatCurrency(total);
+  const deliveryDisplay = formatCurrency(
+    Number(deliveryOptions?.macshipData?.displayData?.totalSellBeforeTax)
+  );
+  const cardSurchargeDisplay = formatCurrency(cardSurcharge);
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4">
@@ -32,30 +45,30 @@ function PriceDetails() {
           <span className="text-gray-900">{subTotalDisplay}</span>
         </div>
 
-        <div className="flex justify-between">
-          <span className="text-gray-600">Shipping</span>
-          <span className="text-gray-900">
-            ${orderSummary.shipping.toFixed(2)}
-          </span>
-        </div>
-
-        <div className="flex justify-between">
-          <span className="text-gray-600">Estimated Tax</span>
-          <span className="text-gray-900">${orderSummary.tax.toFixed(2)}</span>
-        </div>
-
-        {orderSummary.discountAmount && orderSummary.discountCode && (
-          <div className="flex justify-between text-green-600">
-            <span>Discount ({orderSummary.discountCode})</span>
-            <span>-${orderSummary.discountAmount.toFixed(2)}</span>
+        {shippingType === 'delivery' && (
+          <div className="flex justify-between">
+            <span className="text-gray-600">Delivery</span>
+            <span className="text-gray-900">
+              {deliveryOptions?.date ? 'TBC' : deliveryDisplay}
+            </span>
           </div>
         )}
 
+        {paymentMethod === Enum_Order_Paymentmethod.CreditCard && (
+          <div className="flex justify-between">
+            <span className="text-gray-600">Card Surcharge</span>
+            <span className="text-gray-900">{cardSurchargeDisplay}</span>
+          </div>
+        )}
+
+        <div className="flex justify-between">
+          <span className="text-gray-600">Gst</span>
+          <span className="text-gray-900">{gstDisplay}</span>
+        </div>
+
         <div className="pt-3 mt-3 border-t border-gray-200 flex justify-between font-medium">
           <span className="text-gray-900">Total</span>
-          <span className="text-gray-900">
-            ${orderSummary.total.toFixed(2)}
-          </span>
+          <span className="text-gray-900">{totalDisplay}</span>
         </div>
       </div>
 
