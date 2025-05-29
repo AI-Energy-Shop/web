@@ -8,10 +8,10 @@ import { CustomDot } from './custom-dot';
 import { UploadFilesQuery } from '@/lib/gql/graphql';
 
 interface ImageCarouselProps {
-  images: UploadFilesQuery['uploadFiles'];
+  slides: UploadFilesQuery['uploadFiles'];
 }
 
-const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
+const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
   const currentBreakpoint = useBreakpoint();
 
   const TABLET_BREAKPOINT = 768;
@@ -69,8 +69,10 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
         dotListClass="py-5 bottom-[5rem]"
         customDot={<CustomDot />}
       >
-        {/* MOBILE */}
-        {images?.map((item) => {
+        {slides?.map?.((item) => {
+          {
+            /* DESKTOP */
+          }
           if (currentBreakpoint < TABLET_BREAKPOINT) {
             return (
               <Image

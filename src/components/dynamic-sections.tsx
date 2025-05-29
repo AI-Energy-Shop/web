@@ -2,7 +2,7 @@ import React from 'react';
 import Sections from './sections';
 import { type GetPageQuery } from '@/lib/types';
 interface DynamicSectionsProps {
-  data: GetPageQuery;
+  data: GetPageQuery | null | undefined;
 }
 const DynamicSections: React.FC<DynamicSectionsProps> = ({ data }) => {
   const { title, sections, slug } = data?.getPage || {};
