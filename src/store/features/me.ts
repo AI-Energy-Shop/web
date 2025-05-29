@@ -29,6 +29,7 @@ export interface Me {
   business_number?: string;
   business_type?: string;
   phone?: string;
+  role?: string;
   account_detail?: {
     level?: string;
     name?: {
@@ -73,20 +74,8 @@ const initialState: InitialState = {
     username: '',
     blocked: false,
     confirmed: false,
-    user_level: '',
-    business_name: '',
-    business_number: '',
-    business_type: '',
+    role: '',
     phone: '',
-    account_detail: {
-      level: '',
-      name: {
-        first_name: '',
-        middle_name: '',
-        last_name: '',
-      },
-      shipping_addresses: [],
-    },
   },
 };
 
@@ -104,8 +93,8 @@ export const meSlice = createSlice({
     }),
     logout: (state) => ({
       ...state,
-      me: undefined,
-      meAdmin: undefined,
+      me: initialState.me,
+      meAdmin: initialState.meAdmin,
     }),
   },
 });
