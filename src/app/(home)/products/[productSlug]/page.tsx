@@ -24,6 +24,22 @@ async function ProductPage({
     return <div>Product not found</div>;
   }
 
+  const slides =
+    product?.images?.map?.((image) => ({
+      id: image?.documentId || '',
+      description: image?.alternativeText || '',
+      link: image?.url || '',
+      title: image?.name || '',
+      type: image?.mime || '',
+      __typename: image?.__typename || '',
+      image: {
+        alternativeText: image?.alternativeText || '',
+        name: image?.name || '',
+        url: image?.url || '',
+        __typename: image?.__typename || '',
+      },
+    })) || [];
+
   return (
     <main className="w-full min-h-screen">
       <Breadcrumb />
@@ -43,7 +59,7 @@ async function ProductPage({
 
         <div className="md:flex md:justify-between md:px-12 md:pb-5">
           <div className="ae-mobile-container max-md:w-4/5 max-md:max-w-96 md:basis-[40%] md:max-w-[40%]">
-            <ImageCarousel slides={product?.images} />
+            <ImageCarousel slides={slides} />
           </div>
           <div className="md:basis-[51.75%] md:max-w-[51.75%]">
             <ProductPrice product={product} />
