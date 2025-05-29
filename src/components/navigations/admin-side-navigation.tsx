@@ -9,11 +9,13 @@ import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import Icon from '../Icon';
-import { removePersistence } from '@/store/store';
+import { removePersistence, useAppDispatch } from '@/store/store';
+import { logout } from '@/store/features/me';
 
 const AdminSideNavigation = () => {
   const user = useMe();
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const pathname = usePathname();
 
   const handleClick = (item: any) => {
@@ -23,6 +25,7 @@ const AdminSideNavigation = () => {
   };
 
   const handleLogout = async () => {
+    dispatch(logout());
     await logoutUser();
     removePersistence();
   };
