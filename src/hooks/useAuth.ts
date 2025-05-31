@@ -19,6 +19,7 @@ import {
   registerResolver,
 } from '@/lib/validation-schema/auth-forms';
 import { setSelectedLocation } from '@/store/features/checkout';
+import { WAREHOUSE_LOCATIONS } from '@/constant/shipping';
 
 const HAS_BACKEND_ACCESS = ['ADMIN', 'SALES'];
 
@@ -112,10 +113,11 @@ const useAuth = () => {
         break;
 
       case 'CUSTOMER':
+        const defaultWarehouse = WAREHOUSE_LOCATIONS?.at(0);
         const shipAddresses = data?.user.account_detail?.shipping_addresses;
-        const selectedWarehouse = data.user.warehouseLocation;
-
-        console.log('selectedWarehouse', data.user);
+        const selectedWarehouse = data.user.warehouseLocation?.address
+          ? { ...data.user.warehouseLocation }
+          : { ...defaultWarehouse };
 
         dispatch(
           setMe({
