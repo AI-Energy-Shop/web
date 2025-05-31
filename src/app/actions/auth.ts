@@ -180,7 +180,7 @@ export const loginUser = async ({
     const expiresIn = remember ? oneMonth : oneDay;
     const userData = JSON.stringify({
       ...user,
-      role: userRawData?.role?.name,
+      role: userRawData?.role,
     });
 
     const cookieOptions = {
