@@ -84,7 +84,7 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ product }) => {
       </div>
 
       {/* tablet/desktop carousel */}
-      {/* <div className=" w-full relative h-full hidden md:block">
+      <div className=" w-full relative h-full hidden md:block">
         <div className="w-32 h-12 mx-auto">
           {product?.brand?.image?.url && (
             <Image
@@ -137,7 +137,7 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ product }) => {
             </Carousel>
           </div>
         </div>
-      </div> */}
+      </div>
     </>
   );
 };
