@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+type Name = {
+  first_name?: string | null;
+  middle_name?: string | null;
+  last_name?: string | null;
+} | null;
+
 export interface ShippingAddress {
   documentId: string;
   street1?: string | null;
@@ -32,11 +38,7 @@ export interface Me {
   role?: string;
   account_detail?: {
     level?: string;
-    name?: {
-      first_name?: string;
-      middle_name?: string;
-      last_name?: string;
-    };
+    name?: Name;
     shipping_addresses?: ShippingAddress[];
   };
 }

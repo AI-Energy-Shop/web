@@ -77,11 +77,7 @@ export const cartSlice = createSlice({
       state.paymentStep = action.payload;
     },
     removeCartsData: (state) => {
-      state.paymentStep = 1;
-      state.warehouseLocation = undefined;
-      state.shippingAddress = undefined;
-      state.deliveryOptions = undefined;
-      state.showCartWindow = false;
+      state = initialState;
     },
   },
 });

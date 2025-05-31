@@ -34,7 +34,6 @@ import { useQuery } from '@apollo/client';
 import COLLECTION_OPERATIONS from '@/graphql/collections';
 import { useRouter } from 'next/navigation';
 import { handleProductError } from '@/lib/utils/product-error-handler';
-import { USER_LEVELS } from '@/constant';
 import React from 'react';
 import useBrands from './useBrands';
 
@@ -75,6 +74,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     },
   });
 
+
   const isNew = id === 'new';
   const defaultFiles = product?.files?.map((file) => file?.documentId) || [];
   const defaultImages =
@@ -86,9 +86,9 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     product?.price_lists?.map((price) => ({
       documentId: price?.documentId,
       price: price?.price || 0,
-      comparePrice: price?.comparePrice || 0,
+      comparePrice: price?.comparePrice || null,
       min_quantity: price?.min_quantity || 1,
-      max_quantity: price?.max_quantity || 0,
+      max_quantity: price?.max_quantity || null,
       user_level: `${price?.user_level}`,
     })) || [];
   const defaultSpecs =
@@ -162,12 +162,6 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
   const onSubmit = async (onValid: AddProductFormData) => {
     const status = onValid.status;
     const releasedAt = status === 'published' ? new Date() : null;
-
-    const isErrors = Object.keys(addProductForm.formState.errors);
-
-    if (isErrors.length !== 0) {
-      return;
-    }
     const currentInventory = onValid.inventory;
     const currentPriceLists = onValid.price_lists;
     const currentSpecs = onValid.specifications;
@@ -175,6 +169,17 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     const shippingData = onValid.shipping;
     const currentImages = onValid.images;
     const currentFiles = onValid.files;
+
+    /*
+      If the price list is not empty, ensure that there
+      a default price list is set.
+    */
+    const defaultPriceListItem = currentPriceLists?.find((pricing) => pricing.user_level === 'default');
+    
+    if(!defaultPriceListItem) {
+      Toast('Please set a default price list.', 'ERROR', { position: 'top-center' });
+      return;
+    }
 
     const res = await Promise.all([
       handleSaveOrUpdatePriceList(currentPriceLists),
@@ -284,8 +289,17 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
   };
 
   const onError = (error: any) => {
-    console.log('error', error);
-    Toast(error.message, 'ERROR', { position: 'top-center' });
+
+    console.log(error.price_lists)
+
+    if(error.price_lists.length === 0) {
+      addProductForm.setError('price_lists', {
+        message: 'Please set a default price list.',
+        type: 'manual',
+      })
+      return;
+    }
+
     return;
   };
 
@@ -377,7 +391,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
       comparePrice: null,
       min_quantity: 1,
       max_quantity: null,
-      user_level: `${USER_LEVELS.at(0)?.value}`,
+      user_level: `default`,
     };
     const priceListFormData = addProductForm.getValues('price_lists') || [];
     const combinedPriceLists = [...priceListFormData, newObj];
@@ -664,7 +678,8 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
         const currentPriceList = priceLists?.filter(
           (_: any, i: number) => i !== idx
         );
-        addProductForm.setValue('price_lists', currentPriceList, {
+        
+        addProductForm.setValue('price_lists', currentPriceList.length > 0 ? currentPriceList : null, {
           shouldDirty: true,
           shouldTouch: true,
         });
@@ -675,7 +690,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
         const currentSpecification = specifications?.filter(
           (_: any, i: number) => i !== idx
         );
-        addProductForm.setValue('specifications', currentSpecification, {
+        addProductForm.setValue('specifications', currentSpecification.length > 0 ? currentSpecification : null, {
           shouldDirty: true,
           shouldTouch: true,
         });
@@ -685,7 +700,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
         const currentKeyFeatures = keyFeatures?.filter(
           (_: any, i: number) => i !== idx
         );
-        addProductForm.setValue('key_features', currentKeyFeatures, {
+        addProductForm.setValue('key_features', currentKeyFeatures.length > 0 ? currentKeyFeatures : null, {
           shouldDirty: true,
           shouldTouch: true,
         });

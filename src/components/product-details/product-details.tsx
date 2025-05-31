@@ -32,6 +32,7 @@ import { SPECIFICATION_KEYS } from '@/constant';
 import KeyFeatureItem from './key-feature-item';
 import ComboBoxField from './combo-box-field';
 import useTags from '@/hooks/useTags';
+import { Alert, AlertDescription } from '../ui/alert';
 
 const ProductsDetails = ({
   id,
@@ -81,7 +82,7 @@ const ProductsDetails = ({
     },
   });
 
-  const { tags, loading, error, refetch } = useTags();
+  const { tags } = useTags();
 
   return (
     <Form {...addProductForm}>
@@ -320,7 +321,7 @@ const ProductsDetails = ({
                   />
                 }
               />
-
+              
               <ListInput
                 title="Specifications"
                 formData={addProductForm.watch('specifications') || []}

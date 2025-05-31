@@ -114,17 +114,7 @@ const UserProfileForm = ({ user }: UserProfileFormProps) => {
                       <SelectValue placeholder="Select a role" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
-                    <SelectItem value={Enum_Accountdetail_Level.Small}>
-                      SMALL
-                    </SelectItem>
-                    <SelectItem value={Enum_Accountdetail_Level.MidSized}>
-                      MID-SIZED
-                    </SelectItem>
-                    <SelectItem value={Enum_Accountdetail_Level.Vip}>
-                      VIP
-                    </SelectItem>
-                  </SelectContent>
+                  <SelectContent></SelectContent>
                 </Select>
                 <FormMessage />
               </FormItem>

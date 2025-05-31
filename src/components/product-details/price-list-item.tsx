@@ -45,28 +45,6 @@ const PriceListItem: React.FC<PriceListItem> = ({
       <CardHeader></CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div className="space-y-2">
-            <FormField
-              control={control}
-              name={`price_lists.${index}.price`}
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel htmlFor={`price.${index}`}>Price</FormLabel>
-                  <FormControl>
-                    <div className="flex items-center gap-1">
-                      <span>{currency}</span>
-                      <Input
-                        {...field}
-                        type="number"
-                        onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
 
           <div className="space-y-2">
             <FormField
@@ -83,7 +61,36 @@ const PriceListItem: React.FC<PriceListItem> = ({
                       <Input
                         {...field}
                         type="number"
-                        onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                        value={field.value ?? ''}
+                        onChange={(e) =>
+                          field.onChange(e.target.value === '' ? null : Number(e.target.value))
+                        }
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <FormField
+              control={control}
+              name={`price_lists.${index}.price`}
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel htmlFor={`price.${index}`}>Standard Price</FormLabel>
+                  <FormControl>
+                    <div className="flex items-center gap-1">
+                      <span>{currency}</span>
+                      <Input
+                        {...field}
+                        type="number"
+                        value={field.value ?? ''}
+                        onChange={(e) =>
+                          field.onChange(e.target.value === '' ? null : Number(e.target.value))
+                        }
                       />
                     </div>
                   </FormControl>
@@ -106,7 +113,10 @@ const PriceListItem: React.FC<PriceListItem> = ({
                     <Input
                       {...field}
                       type="number"
-                      onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                      value={field.value ?? ''}
+                      onChange={(e) =>
+                        field.onChange(e.target.value === '' ? null : Number(e.target.value))
+                      }
                     />
                   </FormControl>
                   <FormMessage />
@@ -126,11 +136,13 @@ const PriceListItem: React.FC<PriceListItem> = ({
                   </FormLabel>
                   <FormControl>
                     <div className="flex items-center gap-1">
-                      <span>{currency}</span>
                       <Input
                         {...field}
                         type="number"
-                        onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                        value={field.value ?? ''}
+                        onChange={(e) =>
+                          field.onChange(e.target.value === '' ? null : Number(e.target.value))
+                        }
                       />
                     </div>
                   </FormControl>
@@ -152,7 +164,7 @@ const PriceListItem: React.FC<PriceListItem> = ({
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
-                      defaultValue={USER_LEVELS.at(0)?.value}
+                      {...field}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder={USER_LEVELS.at(0)?.name} />
