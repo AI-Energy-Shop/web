@@ -1,28 +1,33 @@
+type ENUM_ACCOUNTDETAIL_LEVEL =
+  | 'default'
+  | 'small'
+  | 'mid_size'
+  | 'vip'
+  | 'whole_seller';
 
-type ENUM_ACCOUNTDETAIL_LEVEL = 'default' | 'small' | 'mid_size' | 'vip' | 'whole_seller'
-
-export const USER_LEVELS: { name: string; value: ENUM_ACCOUNTDETAIL_LEVEL }[] = [
-  {
-    name: 'DEFAULT',
-    value: 'default',
-  },
-  {
-    name: 'SMALL',
-    value: 'small',
-  },
-  {
-    name: 'MID-SIZED',
-    value: 'mid_size',
-  },
-  {
-    name: 'VIP',
-    value: 'vip',
-  },
-  {
-    name: 'WHOLE-SELLER',
-    value: 'whole_seller',
-  },
-];
+export const USER_LEVELS: { name: string; value: ENUM_ACCOUNTDETAIL_LEVEL }[] =
+  [
+    {
+      name: 'DEFAULT',
+      value: 'default',
+    },
+    {
+      name: 'SMALL',
+      value: 'small',
+    },
+    {
+      name: 'MID-SIZED',
+      value: 'mid_size',
+    },
+    {
+      name: 'VIP',
+      value: 'vip',
+    },
+    {
+      name: 'WHOLE-SELLER',
+      value: 'whole_seller',
+    },
+  ];
 
 export const LOCATIONS = [
   // Major City Airport Codes

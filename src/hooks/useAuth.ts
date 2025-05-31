@@ -4,20 +4,20 @@ import { loginUser, registerUser } from '@/app/actions/auth';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/useToast';
 import { setMe, setMeAdmin } from '@/store/features/me';
-import { setCarts, setWarehouseLocation } from '@/store/features/cart';
+import { setCarts } from '@/store/features/cart';
+import { useState } from 'react';
+import { ProductQuery } from '@/lib/gql/graphql';
+import {
+  removePersistence,
+  updatePersistence,
+  useAppDispatch,
+} from '@/store/store';
 import {
   LoginFormData,
   loginResolver,
   RegisterFormData,
   registerResolver,
 } from '@/lib/validation-schema/auth-forms';
-import { useState } from 'react';
-import {
-  removePersistence,
-  updatePersistence,
-  useAppDispatch,
-} from '@/store/store';
-import { ProductQuery } from '@/lib/gql/graphql';
 
 const HAS_BACKEND_ACCESS = ['ADMIN', 'SALES'];
 
@@ -59,15 +59,19 @@ const useAuth = () => {
   const handleLoginSubmit = async (loginData: LoginFormData) => {
     const { error, data } = await loginUser(loginData);
 
+    const roleName = data?.user.role?.name;
     if (error) {
-      toast({
-        title: error.replace('identifier', 'email'),
-        variant: 'destructive',
-      });
+      const { message } = error;
+      if (message.includes('Forbidden')) {
+        loginForm.setError('root', {
+          message: 'Please wait for account approval',
+        });
+      } else {
+        loginForm.setError('root', { message: message });
+      }
+
       return;
     }
-
-    const roleName = data?.user.role?.name;
 
     if (!roleName) {
       toast({
@@ -110,7 +114,7 @@ const useAuth = () => {
         if (data?.user?.carts) {
           dispatch(
             setCarts([
-              ...data?.user?.carts?.map?.((cart) => ({
+              ...data?.user?.carts?.map?.((cart: any) => ({
                 documentId: cart?.documentId || '',
                 quantity: cart?.quantity || 0,
                 product: cart?.product as ProductQuery['product'],
@@ -119,21 +123,8 @@ const useAuth = () => {
           );
         }
 
-        dispatch(
-          setWarehouseLocation({
-            address: {
-              city: data?.user?.warehouse_location?.address?.city || '',
-              street1: data?.user?.warehouse_location?.address?.street || '',
-              state:
-                data?.user?.warehouse_location?.address?.state_territory || '',
-              zipCode: data?.user?.warehouse_location?.address?.postcode || '',
-              country: data?.user?.warehouse_location?.address?.country || '',
-            },
-          })
-        );
-
-        const shipAddresses = data?.user.account_detail.shipping_addresses.map(
-          (address) => {
+        const shipAddresses = data?.user.account_detail?.shipping_addresses.map(
+          (address: any) => {
             return {
               documentId: address.documentId,
               street1: address.street1,
@@ -161,12 +152,7 @@ const useAuth = () => {
             phone: data?.user?.phone || '',
             account_detail: {
               level: data?.user?.user_level || '',
-              name: {
-                first_name: data?.user?.account_detail?.name?.first_name || '',
-                middle_name:
-                  data?.user?.account_detail?.name?.middle_name || '',
-                last_name: data?.user?.account_detail?.name?.last_name || '',
-              },
+              name: data?.user?.account_detail?.name,
               shipping_addresses: shipAddresses,
             },
           })
@@ -174,10 +160,6 @@ const useAuth = () => {
 
         break;
       default:
-        toast({
-          title: 'Please for the sales to approve your account',
-          variant: 'destructive',
-        });
         break;
     }
 
@@ -210,28 +192,12 @@ const useAuth = () => {
       const { error } = await registerUser(formData);
 
       if (error) {
-        toast({
-          title: 'Error',
-          description: error,
-          variant: 'destructive',
-        });
         return;
       }
-
-      toast({
-        title: 'Success',
-        description: 'Please check your email for email approval',
-        variant: 'default',
-      });
 
       router.push('/auth/login');
     } catch (error) {
       console.error('Registration error:', error);
-      toast({
-        title: 'Error',
-        description: 'An unexpected error occurred. Please try again.',
-        variant: 'destructive',
-      });
     }
   };
 

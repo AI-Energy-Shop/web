@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Eye, EyeOff } from 'lucide-react';
+import { CheckCircleIcon, Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import useAuth from '@/hooks/useAuth';
 import {
@@ -13,6 +13,8 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/form';
+import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 
 const LoginForm = () => {
   const { loginForm, showPassword, setShowPassword, handleLoginSubmit } =
@@ -99,6 +101,14 @@ const LoginForm = () => {
         <Button type="submit" className="w-full">
           Sign In
         </Button>
+
+        {loginForm.formState.errors.root && (
+          <Alert variant="destructive">
+            <AlertDescription>
+              {loginForm.formState.errors.root.message}
+            </AlertDescription>
+          </Alert>
+        )}
       </form>
     </Form>
   );

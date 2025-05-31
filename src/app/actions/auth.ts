@@ -8,6 +8,8 @@ import {
   InputMaybe,
 } from '@/lib/gql/graphql';
 import { revalidatePath } from 'next/cache';
+import { handleGraphQLError } from '@/lib/utils/graphql-error';
+import { ApolloError } from '@apollo/client';
 
 const client = getClient();
 
@@ -69,7 +71,16 @@ export const loginUser = async ({
   email: string;
   password: string;
   remember?: boolean;
-}) => {
+}): Promise<{
+  error?: {
+    message: string;
+    type: string;
+  };
+  data?: {
+    token?: string | null;
+    user?: any | null;
+  };
+}> => {
   try {
     const response = await client.mutate({
       mutation: USERS_OPERATIONS.Mutations.login,
@@ -82,8 +93,13 @@ export const loginUser = async ({
       },
     });
 
-    if (response.errors || !response.data) {
-      return { error: response.errors?.[0]?.message || 'Login failed' };
+    if (!response.data) {
+      return {
+        error: {
+          message: 'No user data',
+          type: 'error',
+        },
+      };
     }
 
     const token = response?.data.login.jwt;
@@ -95,6 +111,7 @@ export const loginUser = async ({
       variables: {
         documentId: user.documentId,
       },
+      fetchPolicy: 'network-only',
       context: {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -102,45 +119,68 @@ export const loginUser = async ({
       },
     });
 
-    const userDetails = userRes?.data.usersPermissionsUser?.account_detail;
+    const userRawData = userRes?.data?.usersPermissionsUser;
+    const userDetails = userRawData?.account_detail;
 
-    const newUser = {
-      ...user,
-      role: userRes.data.usersPermissionsUser?.role,
-      user_level: userDetails?.level,
-      business_name: userRes.data.usersPermissionsUser?.business_name,
-      business_number: userRes.data.usersPermissionsUser?.business_number,
-      business_type: userRes.data.usersPermissionsUser?.business_type,
-      phone: userRes.data.usersPermissionsUser?.phone,
-      account_detail: {
-        name: userDetails?.name,
-        shipping_addresses:
-          userDetails?.shipping_addresses?.map((address: any) => ({
-            documentId: address?.documentId,
-            name: {
-              first_name: address?.name?.first_name,
-              middle_name: address?.name?.middle_name,
-              last_name: address?.name?.last_name,
-            },
-            street1: address?.street1,
-            street2: address?.street2,
-            city: address?.city,
-            state: address?.state,
-            zip_code: address?.zip_code,
-            phone: address?.phone,
-            country: address?.country,
-            isActive: address?.isActive,
-          })) || [],
-      },
-      carts: userRes.data.usersPermissionsUser?.carts || [],
-      warehouse_location: userDetails?.warehouse_location,
+    const name = {
+      first_name: userDetails?.name?.first_name,
+      middle_name: userDetails?.name?.middle_name,
+      last_name: userDetails?.name?.last_name,
     };
+
+    const warehouseLocation = {
+      odoo_warehouse_id: userDetails?.warehouseLocation?.odoo_warehouse_id,
+      name: userDetails?.warehouseLocation?.name,
+      id: userDetails?.warehouseLocation?.id,
+      address: {
+        unit: userDetails?.warehouseLocation?.address?.unit,
+        street: userDetails?.warehouseLocation?.address?.street,
+        suburb: userDetails?.warehouseLocation?.address?.suburb,
+        state: userDetails?.warehouseLocation?.address?.state,
+        postcode: userDetails?.warehouseLocation?.address?.postcode,
+      },
+    };
+
+    const shippingAddress =
+      userDetails?.shipping_addresses?.map((address: any) => ({
+        documentId: address?.documentId,
+        name: {
+          first_name: address?.name?.first_name,
+          middle_name: address?.name?.middle_name,
+          last_name: address?.name?.last_name,
+        },
+        street1: address?.street1,
+        street2: address?.street2,
+        city: address?.city,
+        state: address?.state,
+        zip_code: address?.zip_code,
+        phone: address?.phone,
+        country: address?.country,
+        isActive: address?.isActive,
+      })) || [];
+
+    const concatUsersData = {
+      ...user,
+      role: userRawData?.role,
+      user_level: userDetails?.level,
+      business_name: userRawData?.business_name,
+      business_number: userRawData?.business_number,
+      business_type: userRawData?.business_type,
+      phone: userRawData?.phone,
+      carts: userRawData?.carts || [],
+      warehouseLocation: warehouseLocation,
+      account_detail: {
+        name: name,
+        shipping_addresses: shippingAddress,
+      },
+    };
+
     const oneMonth = 60 * 60 * 24 * 30;
     const oneDay = 60 * 60 * 24;
     const expiresIn = remember ? oneMonth : oneDay;
     const userData = JSON.stringify({
       ...user,
-      role: userRes.data.usersPermissionsUser?.role,
+      role: userRawData?.role?.name,
     });
 
     const cookieOptions = {
@@ -152,26 +192,29 @@ export const loginUser = async ({
     cookieStore.set('a-token', token!, cookieOptions);
     cookieStore.set('a-user', userData, cookieOptions);
 
-    return { data: { token, user: newUser } }; // Return success indicator
-  } catch (error: any) {
-    console.error('LOGIN ERROR: ', error.message);
-    if (error && error?.cause?.response?.status === 401) {
-      return { error: 'Please wait for approval' };
+    return { data: { token, user: concatUsersData } };
+  } catch (error: unknown) {
+    if (error instanceof ApolloError) {
+      return {
+        error: {
+          message: error.message,
+          type: 'apollo_error',
+        },
+      };
     }
-    return { error: error.message };
+
+    if (error instanceof Error) {
+      return {
+        error: {
+          message: error.message,
+          type: 'error',
+        },
+      };
+    }
+
+    console.log('UNKNOWN ERROR');
+    return { error: { message: 'Unknown error', type: 'error' } };
   }
-};
-
-export const logoutUser = async () => {
-  const cookieStore = await cookies();
-
-  // Clear all auth-related cookies
-  cookieStore.delete('a-token');
-  cookieStore.delete('a-user');
-
-  // Revalidate relevant paths
-  revalidatePath('/', 'layout');
-  redirect('/auth/login');
 };
 
 export const updateAccountStatus = async (
@@ -232,6 +275,8 @@ export const getUserDetails = async (documentId: string) => {
   const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
 
+  console.log('TOKEN: ', token);
+
   try {
     const response = await client.query({
       query: USERS_OPERATIONS.Queries.usersPermissionsUser,
@@ -246,7 +291,7 @@ export const getUserDetails = async (documentId: string) => {
       },
     });
 
-    return response?.data?.usersPermissionsUser;
+    return response;
   } catch (error) {
     console.error('GraphQL Query Error:', error);
     return null;
@@ -288,4 +333,16 @@ export const approveUser = async (formData: FormData) => {
     console.error(error.message);
     return { error: error.message };
   }
+};
+
+export const logoutUser = async () => {
+  const cookieStore = await cookies();
+
+  // Clear all auth-related cookies
+  cookieStore.delete('a-token');
+  cookieStore.delete('a-user');
+
+  // Revalidate relevant paths
+  revalidatePath('/', 'layout');
+  redirect('/auth/login');
 };
