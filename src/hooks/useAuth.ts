@@ -115,6 +115,8 @@ const useAuth = () => {
         const shipAddresses = data?.user.account_detail?.shipping_addresses;
         const selectedWarehouse = data.user.warehouseLocation;
 
+        console.log('selectedWarehouse', data.user);
+
         dispatch(
           setMe({
             id: data?.user?.documentId || '',
@@ -129,13 +131,13 @@ const useAuth = () => {
             account_detail: {
               level: data?.user?.user_level || '',
               name: data?.user?.account_detail?.name,
-              shipping_addresses: shipAddresses,
-              warehouseLocation: selectedWarehouse,
+              shipping_addresses: [...shipAddresses],
+              warehouseLocation: { ...selectedWarehouse },
             },
           })
         );
 
-        dispatch(setSelectedLocation(selectedWarehouse));
+        dispatch(setSelectedLocation({ ...selectedWarehouse }));
 
         if (data?.user?.carts) {
           dispatch(
