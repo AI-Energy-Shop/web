@@ -18,6 +18,7 @@ import {
   RegisterFormData,
   registerResolver,
 } from '@/lib/validation-schema/auth-forms';
+import { setSelectedLocation } from '@/store/features/checkout';
 
 const HAS_BACKEND_ACCESS = ['ADMIN', 'SALES'];
 
@@ -111,33 +112,8 @@ const useAuth = () => {
         break;
 
       case 'CUSTOMER':
-        if (data?.user?.carts) {
-          dispatch(
-            setCarts([
-              ...data?.user?.carts?.map?.((cart: any) => ({
-                documentId: cart?.documentId || '',
-                quantity: cart?.quantity || 0,
-                product: cart?.product as ProductQuery['product'],
-              })),
-            ])
-          );
-        }
-
-        const shipAddresses = data?.user.account_detail?.shipping_addresses.map(
-          (address: any) => {
-            return {
-              documentId: address.documentId,
-              street1: address.street1,
-              street2: address.street2,
-              city: address.city,
-              state: address.state,
-              zipCode: address.zip_code,
-              country: address.country,
-              isActive: address.isActive,
-              phone: address.phone,
-            };
-          }
-        );
+        const shipAddresses = data?.user.account_detail?.shipping_addresses;
+        const selectedWarehouse = data.user.warehouseLocation;
 
         dispatch(
           setMe({
@@ -154,9 +130,24 @@ const useAuth = () => {
               level: data?.user?.user_level || '',
               name: data?.user?.account_detail?.name,
               shipping_addresses: shipAddresses,
+              warehouseLocation: selectedWarehouse,
             },
           })
         );
+
+        dispatch(setSelectedLocation(selectedWarehouse));
+
+        if (data?.user?.carts) {
+          dispatch(
+            setCarts([
+              ...data?.user?.carts?.map?.((cart: any) => ({
+                documentId: cart?.documentId || '',
+                quantity: cart?.quantity || 0,
+                product: cart?.product as ProductQuery['product'],
+              })),
+            ])
+          );
+        }
 
         break;
       default:

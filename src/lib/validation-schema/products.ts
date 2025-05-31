@@ -111,7 +111,19 @@ export const addProductSchema = z.object({
   collections: z.array(z.string()).nullable(),
   tags: z.array(z.string()).nullable(),
   shipping: shippingSchema,
-  price_lists: z.array(priceItemSchema).nullable(),
+  price_lists: z
+    .array(priceItemSchema)
+    .refine(
+      (data) => {
+        const userLevels = data.map((item) => item.user_level);
+        const uniqueUserLevels = new Set(userLevels);
+        return userLevels.length === uniqueUserLevels.size;
+      },
+      {
+        message: 'Duplicate user levels found in price list',
+      }
+    )
+    .nullable(),
   inventory: inventoryItemSchema.nullable(),
   specifications: z.array(specificationItemSchema).nullable(),
   key_features: z.array(featureItemSchema).nullable(),

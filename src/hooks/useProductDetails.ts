@@ -177,7 +177,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
       (pricing) => pricing.user_level === 'default'
     );
 
-    if (!defaultPriceListItem) {
+    if (currentPriceLists === null || !defaultPriceListItem) {
       Toast('Please set a default price list.', 'ERROR', {
         position: 'top-center',
       });
@@ -292,13 +292,19 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
   };
 
   const onError = (error: any) => {
-    console.log(error.price_lists);
+    console.log('error', error);
+    if (error?.root) {
+      Toast(error.root.message, 'ERROR', { position: 'top-center' });
+      return;
+    }
 
-    if (error.price_lists.length === 0) {
-      addProductForm.setError('price_lists', {
-        message: 'Please set a default price list.',
-        type: 'manual',
-      });
+    if (error?.price_lists) {
+      if (error?.price_lists?.root) {
+        Toast(error?.price_lists?.root?.message, 'ERROR', {
+          position: 'top-center',
+        });
+        return;
+      }
       return;
     }
 

@@ -10,10 +10,7 @@ const DEFAULTS_PROTECTED_PATHS = [
   '/checkout',
 ];
 
-const CUSTOMER_PROTECTED_PATHS = [
-  '/admin',
-];
-
+const CUSTOMER_PROTECTED_PATHS = ['/admin'];
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get('a-token')?.value;
@@ -21,18 +18,21 @@ export function middleware(request: NextRequest) {
   const userData = JSON.parse(user || '{}');
   const role = userData?.role?.name;
   const path = request.nextUrl.pathname;
-  
+
   // 🚫 PUBLIC: block access to default protected paths if not authenticated
   if (!token || !user || !role) {
     if (DEFAULTS_PROTECTED_PATHS.some((p) => path.startsWith(p))) {
-      console.log('redirecting to login')
+      console.log('redirecting to login');
       return NextResponse.redirect(new URL('/auth/login', request.url));
     }
     return NextResponse.next(); // public route
   }
 
   // 🚫 ROLE-BASED: block access based on role
-  if (role === 'CUSTOMER' && CUSTOMER_PROTECTED_PATHS.some((p) => path.startsWith(p))) {
+  if (
+    role === 'CUSTOMER' &&
+    CUSTOMER_PROTECTED_PATHS.some((p) => path.startsWith(p))
+  ) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 

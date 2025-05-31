@@ -6,6 +6,20 @@ type Name = {
   last_name?: string | null;
 } | null;
 
+export interface WarehouseLocation {
+  id?: number;
+  title?: string;
+  name?: string;
+  address?: {
+    city?: string;
+    unit?: string;
+    street?: string;
+    suburb?: string;
+    state?: string;
+    postcode?: string;
+  };
+}
+
 export interface ShippingAddress {
   documentId: string;
   street1?: string | null;
@@ -40,6 +54,7 @@ export interface Me {
     level?: string;
     name?: Name;
     shipping_addresses?: ShippingAddress[];
+    warehouseLocation?: WarehouseLocation;
   };
 }
 
@@ -68,6 +83,18 @@ const initialState: InitialState = {
         last_name: '',
       },
       shipping_addresses: [],
+      warehouseLocation: {
+        title: '',
+        name: '',
+        address: {
+          city: '',
+          unit: '',
+          street: '',
+          suburb: '',
+          state: '',
+          postcode: '',
+        },
+      },
     },
   },
   meAdmin: {

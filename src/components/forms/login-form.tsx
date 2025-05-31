@@ -99,7 +99,7 @@ const LoginForm = () => {
         </div>
 
         <Button type="submit" className="w-full">
-          Sign In
+          {loginForm.formState.isSubmitting ? 'Loading...' : 'Sign In'}
         </Button>
 
         {loginForm.formState.errors.root && (

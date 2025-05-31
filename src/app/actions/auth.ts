@@ -129,15 +129,17 @@ export const loginUser = async ({
     };
 
     const warehouseLocation = {
-      odoo_warehouse_id: userDetails?.warehouseLocation?.odoo_warehouse_id,
-      name: userDetails?.warehouseLocation?.name,
       id: userDetails?.warehouseLocation?.id,
+      name: userDetails?.warehouseLocation?.name,
+      title: userDetails?.warehouseLocation?.title,
+      odoo_warehouse_id: userDetails?.warehouseLocation?.odoo_warehouse_id,
       address: {
         unit: userDetails?.warehouseLocation?.address?.unit,
         street: userDetails?.warehouseLocation?.address?.street,
         suburb: userDetails?.warehouseLocation?.address?.suburb,
         state: userDetails?.warehouseLocation?.address?.state,
         postcode: userDetails?.warehouseLocation?.address?.postcode,
+        city: userDetails?.warehouseLocation?.address?.city,
       },
     };
 
