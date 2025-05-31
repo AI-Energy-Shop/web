@@ -5,7 +5,6 @@ import React from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { CustomDot } from './custom-dot';
-import { UploadFilesQuery } from '@/lib/gql/graphql';
 
 interface ImageCarouselProps {
   slides: {
@@ -94,7 +93,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
                 height={1000}
                 key={item.id}
                 className="h-full m-auto object-contain"
-                src={item.image?.url || ''}
+                src={item.image?.url || '/no-product-image.jpg'}
                 alt={item.image?.alternativeText || ''}
               />
             );
@@ -111,7 +110,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
                   priority
                   fill
                   className="object-cover object-center"
-                  src={item.image?.url || ''}
+                  src={item.image?.url || '/no-product-image.jpg'}
                   alt={item.image?.alternativeText || ''}
                 />
               </div>
@@ -129,7 +128,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
                   priority
                   fill
                   className="object-cover object-center"
-                  src={item.image?.url || ''}
+                  src={item.image?.url || '/no-product-image.jpg'}
                   alt={item.image?.alternativeText || ''}
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
