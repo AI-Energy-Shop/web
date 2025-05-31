@@ -321,7 +321,7 @@ const ProductsDetails = ({
                   />
                 }
               />
-              
+
               <ListInput
                 title="Specifications"
                 formData={addProductForm.watch('specifications') || []}

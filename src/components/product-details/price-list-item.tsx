@@ -45,7 +45,6 @@ const PriceListItem: React.FC<PriceListItem> = ({
       <CardHeader></CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-
           <div className="space-y-2">
             <FormField
               control={control}
@@ -63,7 +62,11 @@ const PriceListItem: React.FC<PriceListItem> = ({
                         type="number"
                         value={field.value ?? ''}
                         onChange={(e) =>
-                          field.onChange(e.target.value === '' ? null : Number(e.target.value))
+                          field.onChange(
+                            e.target.value === ''
+                              ? null
+                              : Number(e.target.value)
+                          )
                         }
                       />
                     </div>
@@ -80,7 +83,9 @@ const PriceListItem: React.FC<PriceListItem> = ({
               name={`price_lists.${index}.price`}
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel htmlFor={`price.${index}`}>Standard Price</FormLabel>
+                  <FormLabel htmlFor={`price.${index}`}>
+                    Standard Price
+                  </FormLabel>
                   <FormControl>
                     <div className="flex items-center gap-1">
                       <span>{currency}</span>
@@ -89,7 +94,11 @@ const PriceListItem: React.FC<PriceListItem> = ({
                         type="number"
                         value={field.value ?? ''}
                         onChange={(e) =>
-                          field.onChange(e.target.value === '' ? null : Number(e.target.value))
+                          field.onChange(
+                            e.target.value === ''
+                              ? null
+                              : Number(e.target.value)
+                          )
                         }
                       />
                     </div>
@@ -115,7 +124,9 @@ const PriceListItem: React.FC<PriceListItem> = ({
                       type="number"
                       value={field.value ?? ''}
                       onChange={(e) =>
-                        field.onChange(e.target.value === '' ? null : Number(e.target.value))
+                        field.onChange(
+                          e.target.value === '' ? null : Number(e.target.value)
+                        )
                       }
                     />
                   </FormControl>
@@ -141,7 +152,11 @@ const PriceListItem: React.FC<PriceListItem> = ({
                         type="number"
                         value={field.value ?? ''}
                         onChange={(e) =>
-                          field.onChange(e.target.value === '' ? null : Number(e.target.value))
+                          field.onChange(
+                            e.target.value === ''
+                              ? null
+                              : Number(e.target.value)
+                          )
                         }
                       />
                     </div>
@@ -162,10 +177,7 @@ const PriceListItem: React.FC<PriceListItem> = ({
                     User Level
                   </FormLabel>
                   <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      {...field}
-                    >
+                    <Select onValueChange={field.onChange} {...field}>
                       <SelectTrigger>
                         <SelectValue placeholder={USER_LEVELS.at(0)?.name} />
                       </SelectTrigger>
