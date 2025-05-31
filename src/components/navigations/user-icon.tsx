@@ -15,7 +15,9 @@ const UserIconButton = () => {
         className="flex flex-col items-center m-0 w-auto h-auto gap-[1px]"
       >
         <User className="h-4 w-4 lg:h-5 lg:w-5" />
-        <p className="text-xs lg:text-sm h-[15px]">{user?.business_name}</p>
+        <p className="text-xs lg:text-sm h-[15px]">
+          {user?.business_name || 'User'}
+        </p>
       </Link>
     </div>
   );

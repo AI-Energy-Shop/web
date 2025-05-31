@@ -31,6 +31,7 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
   const defaultPrice = product?.price_lists.find(
     (price) => price?.user_level === 'default'
   );
+
   const bulkPrice = product?.price_lists.find(
     (price) => price?.user_level === me?.account_detail?.level
   );
@@ -99,7 +100,7 @@ const ProductCard: React.FC<ProductCardproduct> = ({ product }) => {
   };
 
   const renderPriceAndStock = () => {
-    if (!warehouse) {
+    if (!me) {
       return (
         <div className="grid grid-cols-1 my-3">
           <span className="text-sm row-span-1 text-[#1b1b3b]">
