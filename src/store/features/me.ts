@@ -64,48 +64,8 @@ export interface InitialState {
 }
 
 const initialState: InitialState = {
-  me: {
-    id: '',
-    email: '',
-    username: '',
-    blocked: false,
-    confirmed: false,
-    user_level: '',
-    business_name: 'Login',
-    business_number: '',
-    business_type: '',
-    phone: '',
-    account_detail: {
-      level: '',
-      name: {
-        first_name: '',
-        middle_name: '',
-        last_name: '',
-      },
-      shipping_addresses: [],
-      warehouseLocation: {
-        title: '',
-        name: '',
-        address: {
-          city: '',
-          unit: '',
-          street: '',
-          suburb: '',
-          state: '',
-          postcode: '',
-        },
-      },
-    },
-  },
-  meAdmin: {
-    id: '',
-    email: '',
-    username: '',
-    blocked: false,
-    confirmed: false,
-    role: '',
-    phone: '',
-  },
+  me: undefined,
+  meAdmin: undefined,
 };
 
 export const meSlice = createSlice({
