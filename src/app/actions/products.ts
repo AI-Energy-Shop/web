@@ -1,7 +1,7 @@
 'use server';
 import PRODUCT_OPERATIONS from '@/graphql/products';
 import { getClient } from '@/apollo/client';
-import { FetchResult } from '@apollo/client';
+import { ApolloError, FetchResult } from '@apollo/client';
 import { cookies } from 'next/headers';
 import {
   CustomProductCreateMutation,
@@ -110,11 +110,7 @@ export const storeProducts = async (variables?: {
     const cookieStore = await cookies();
     const token = cookieStore.get('a-token');
     const context = token
-      ? {
-          headers: {
-            Authorization: `Bearer ${token?.value}`,
-          },
-        }
+      ? { headers: { Authorization: `Bearer ${token?.value}` } }
       : undefined;
 
     const res = await client.query({
@@ -128,8 +124,16 @@ export const storeProducts = async (variables?: {
 
     return res;
   } catch (error: any) {
-    const errorMessage = handleGraphQLError(error);
-    console.log('error in products', errorMessage);
+    // const errorMessage = handleGraphQLError(error);
+    // console.log('error in products', errorMessage);
+
+    if (error instanceof Error) {
+      console.log('error', error.message);
+    }
+
+    if (error instanceof ApolloError) {
+      console.log('error', error);
+    }
     return error;
   }
 };

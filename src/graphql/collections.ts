@@ -158,12 +158,6 @@ const schema = {
                 weight
               }
               maxQuantity
-              madeBy {
-                email
-              }
-              improvedBy {
-                email
-              }
               createdAt
               updatedAt
               releasedAt

@@ -1,5 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+type Name = {
+  first_name?: string | null;
+  middle_name?: string | null;
+  last_name?: string | null;
+} | null;
+
+export interface WarehouseLocation {
+  id?: number;
+  title?: string;
+  name?: string;
+  address?: {
+    city?: string;
+    unit?: string;
+    street?: string;
+    suburb?: string;
+    state?: string;
+    postcode?: string;
+  };
+}
+
 export interface ShippingAddress {
   documentId: string;
   street1?: string | null;
@@ -32,12 +52,9 @@ export interface Me {
   role?: string;
   account_detail?: {
     level?: string;
-    name?: {
-      first_name?: string;
-      middle_name?: string;
-      last_name?: string;
-    };
+    name?: Name;
     shipping_addresses?: ShippingAddress[];
+    warehouseLocation?: WarehouseLocation;
   };
 }
 
@@ -66,6 +83,18 @@ const initialState: InitialState = {
         last_name: '',
       },
       shipping_addresses: [],
+      warehouseLocation: {
+        title: '',
+        name: '',
+        address: {
+          city: '',
+          unit: '',
+          street: '',
+          suburb: '',
+          state: '',
+          postcode: '',
+        },
+      },
     },
   },
   meAdmin: {

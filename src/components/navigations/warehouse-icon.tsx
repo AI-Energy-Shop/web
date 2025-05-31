@@ -6,10 +6,9 @@ import { RootState, useAppSelector } from '@/store/store';
 import Link from 'next/link';
 
 const WarehouseIconButton = () => {
-  const warehouseLocation = useAppSelector(
-    (state: RootState) => state.checkout.warehouseLocation
+  const warehouse = useAppSelector(
+    (state: RootState) => state.me.me?.account_detail?.warehouseLocation?.name
   );
-
   return (
     <div className="h-[40px] flex flex-col items-center justify-between">
       <Link
@@ -18,7 +17,7 @@ const WarehouseIconButton = () => {
       >
         <Warehouse className="h-4 w-4 lg:h-5 lg:w-5" />
         <p className="text-xs lg:text-sm h-[15px] capitalize">
-          {warehouseLocation?.name || 'Warehouse'}
+          {warehouse || 'Warehouse'}
         </p>
       </Link>
     </div>

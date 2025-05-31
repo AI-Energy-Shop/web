@@ -71,25 +71,23 @@ export type AccountDetailFiltersInput = {
   not?: InputMaybe<AccountDetailFiltersInput>;
   odoo_user_id?: InputMaybe<StringFilterInput>;
   or?: InputMaybe<Array<InputMaybe<AccountDetailFiltersInput>>>;
-  payment_options?: InputMaybe<ComponentElementsPaymentOptionFiltersInput>;
   phone?: InputMaybe<StringFilterInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   shipping_addresses?: InputMaybe<AddressFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
-  warehouse_location?: InputMaybe<ComponentElementsWarehouseLocationFiltersInput>;
+  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
+  warehouseLocation?: InputMaybe<ComponentElementsWarehouseLocationFiltersInput>;
 };
 
 export type AccountDetailInput = {
   level?: InputMaybe<Enum_Accountdetail_Level>;
   name?: InputMaybe<ComponentElementsNameInput>;
   odoo_user_id?: InputMaybe<Scalars['String']['input']>;
-  payment_options?: InputMaybe<
-    Array<InputMaybe<ComponentElementsPaymentOptionInput>>
-  >;
   phone?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   shipping_addresses?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  warehouse_location?: InputMaybe<ComponentElementsWarehouseLocationInput>;
+  user?: InputMaybe<Scalars['ID']['input']>;
+  warehouseLocation?: InputMaybe<ComponentElementsWarehouseLocationInput>;
 };
 
 export type AddressFiltersInput = {
@@ -251,32 +249,6 @@ export type CollectionInput = {
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type ComponentElementsAddressFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<ComponentElementsAddressFiltersInput>>>;
-  city?: InputMaybe<StringFilterInput>;
-  country?: InputMaybe<StringFilterInput>;
-  isActive?: InputMaybe<BooleanFilterInput>;
-  not?: InputMaybe<ComponentElementsAddressFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<ComponentElementsAddressFiltersInput>>>;
-  phone?: InputMaybe<StringFilterInput>;
-  postcode?: InputMaybe<StringFilterInput>;
-  state_territory?: InputMaybe<StringFilterInput>;
-  street?: InputMaybe<StringFilterInput>;
-  suburb?: InputMaybe<StringFilterInput>;
-};
-
-export type ComponentElementsAddressInput = {
-  city?: InputMaybe<Scalars['String']['input']>;
-  country?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['ID']['input']>;
-  isActive?: InputMaybe<Scalars['Boolean']['input']>;
-  phone?: InputMaybe<Scalars['String']['input']>;
-  postcode?: InputMaybe<Scalars['String']['input']>;
-  state_territory?: InputMaybe<Scalars['String']['input']>;
-  street?: InputMaybe<Scalars['String']['input']>;
-  suburb?: InputMaybe<Scalars['String']['input']>;
-};
-
 export type ComponentElementsCartItemFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ComponentElementsCartItemFiltersInput>>>;
   image?: InputMaybe<StringFilterInput>;
@@ -435,30 +407,6 @@ export type ComponentElementsNameInput = {
   middle_name?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type ComponentElementsPaymentOptionFiltersInput = {
-  and?: InputMaybe<
-    Array<InputMaybe<ComponentElementsPaymentOptionFiltersInput>>
-  >;
-  billing_zip?: InputMaybe<StringFilterInput>;
-  card_holder_name?: InputMaybe<StringFilterInput>;
-  card_number?: InputMaybe<StringFilterInput>;
-  cvv?: InputMaybe<StringFilterInput>;
-  expiration_date?: InputMaybe<DateFilterInput>;
-  not?: InputMaybe<ComponentElementsPaymentOptionFiltersInput>;
-  or?: InputMaybe<
-    Array<InputMaybe<ComponentElementsPaymentOptionFiltersInput>>
-  >;
-};
-
-export type ComponentElementsPaymentOptionInput = {
-  billing_zip?: InputMaybe<Scalars['String']['input']>;
-  card_holder_name?: InputMaybe<Scalars['String']['input']>;
-  card_number?: InputMaybe<Scalars['String']['input']>;
-  cvv?: InputMaybe<Scalars['String']['input']>;
-  expiration_date?: InputMaybe<Scalars['Date']['input']>;
-  id?: InputMaybe<Scalars['ID']['input']>;
-};
-
 export type ComponentElementsPickupOptionFiltersInput = {
   and?: InputMaybe<
     Array<InputMaybe<ComponentElementsPickupOptionFiltersInput>>
@@ -523,11 +471,38 @@ export type ComponentElementsTotalInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
 };
 
+export type ComponentElementsWarehouseAddressFiltersInput = {
+  and?: InputMaybe<
+    Array<InputMaybe<ComponentElementsWarehouseAddressFiltersInput>>
+  >;
+  city?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ComponentElementsWarehouseAddressFiltersInput>;
+  or?: InputMaybe<
+    Array<InputMaybe<ComponentElementsWarehouseAddressFiltersInput>>
+  >;
+  postcode?: InputMaybe<StringFilterInput>;
+  state?: InputMaybe<StringFilterInput>;
+  street?: InputMaybe<StringFilterInput>;
+  suburb?: InputMaybe<StringFilterInput>;
+  unit?: InputMaybe<StringFilterInput>;
+};
+
+export type ComponentElementsWarehouseAddressInput = {
+  city?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  postcode?: InputMaybe<Scalars['String']['input']>;
+  state?: InputMaybe<Scalars['String']['input']>;
+  street?: InputMaybe<Scalars['String']['input']>;
+  suburb?: InputMaybe<Scalars['String']['input']>;
+  unit?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type ComponentElementsWarehouseLocationFiltersInput = {
-  address?: InputMaybe<ComponentElementsAddressFiltersInput>;
+  address?: InputMaybe<ComponentElementsWarehouseAddressFiltersInput>;
   and?: InputMaybe<
     Array<InputMaybe<ComponentElementsWarehouseLocationFiltersInput>>
   >;
+  name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<ComponentElementsWarehouseLocationFiltersInput>;
   odoo_warehouse_id?: InputMaybe<StringFilterInput>;
   or?: InputMaybe<
@@ -537,8 +512,9 @@ export type ComponentElementsWarehouseLocationFiltersInput = {
 };
 
 export type ComponentElementsWarehouseLocationInput = {
-  address?: InputMaybe<ComponentElementsAddressInput>;
+  address?: InputMaybe<ComponentElementsWarehouseAddressInput>;
   id?: InputMaybe<Scalars['ID']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   odoo_warehouse_id?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
@@ -645,10 +621,11 @@ export type DateTimeFilterInput = {
 };
 
 export enum Enum_Accountdetail_Level {
-  MidSized = 'MID_SIZED',
-  Small = 'SMALL',
-  Vip = 'VIP',
-  WholeSeller = 'WHOLE_SELLER',
+  Default = 'default',
+  MidSize = 'mid_size',
+  Small = 'small',
+  Vip = 'vip',
+  WholeSeller = 'whole_seller',
 }
 
 export enum Enum_Componentelementsinput_Type {
@@ -1372,7 +1349,7 @@ export type UsersPermissionsUserInput = {
   createAccountRequest?: InputMaybe<Scalars['DateTime']['input']>;
   creditCards?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   email?: InputMaybe<Scalars['String']['input']>;
-  image_logo?: InputMaybe<Scalars['ID']['input']>;
+  logo?: InputMaybe<Scalars['ID']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
   provider?: InputMaybe<Scalars['String']['input']>;
@@ -1903,11 +1880,6 @@ export type CollectionsWithProductsQuery = {
         width?: number | null;
         length?: number | null;
         weight?: number | null;
-      } | null;
-      madeBy?: { __typename?: 'UsersPermissionsUser'; email: string } | null;
-      improvedBy?: {
-        __typename?: 'UsersPermissionsUser';
-        email: string;
       } | null;
     } | null>;
   } | null>;
@@ -3259,6 +3231,20 @@ export type UsersPermissionsUserQuery = {
     business_number?: string | null;
     business_type?: string | null;
     phone?: string | null;
+    logo?: {
+      __typename?: 'UploadFile';
+      documentId: string;
+      name: string;
+      alternativeText?: string | null;
+      caption?: string | null;
+      width?: number | null;
+      height?: number | null;
+      url: string;
+      previewUrl?: string | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      publishedAt?: any | null;
+    } | null;
     role?: { __typename?: 'UsersPermissionsRole'; name: string } | null;
     carts: Array<{
       __typename?: 'Cart';
@@ -3355,17 +3341,21 @@ export type UsersPermissionsUserQuery = {
           last_name?: string | null;
         } | null;
       } | null>;
-      warehouse_location?: {
+      warehouseLocation?: {
         __typename?: 'ComponentElementsWarehouseLocation';
         title?: string | null;
+        odoo_warehouse_id?: string | null;
+        name?: string | null;
+        id: string;
         address?: {
-          __typename?: 'ComponentElementsAddress';
+          __typename?: 'ComponentElementsWarehouseAddress';
+          id: string;
           city?: string | null;
+          unit?: string | null;
           street?: string | null;
+          state?: string | null;
           suburb?: string | null;
-          state_territory?: string | null;
           postcode?: string | null;
-          country?: string | null;
         } | null;
       } | null;
     } | null;
@@ -3390,6 +3380,20 @@ export type UsersPermissionsUsersQuery = {
     business_number?: string | null;
     business_type?: string | null;
     phone?: string | null;
+    logo?: {
+      __typename?: 'UploadFile';
+      documentId: string;
+      name: string;
+      alternativeText?: string | null;
+      caption?: string | null;
+      width?: number | null;
+      height?: number | null;
+      url: string;
+      previewUrl?: string | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+      publishedAt?: any | null;
+    } | null;
     addresses: Array<{
       __typename?: 'Address';
       documentId: string;
@@ -5436,32 +5440,6 @@ export const CollectionsWithProductsDocument = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'maxQuantity' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'madeBy' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'email' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'improvedBy' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'email' },
-                            },
-                          ],
-                        },
                       },
                       {
                         kind: 'Field',
@@ -10160,6 +10138,50 @@ export const UsersPermissionsUserDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
                 {
                   kind: 'Field',
+                  name: { kind: 'Name', value: 'logo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'alternativeText' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'caption' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'width' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'height' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'previewUrl' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'publishedAt' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'role' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -10518,7 +10540,7 @@ export const UsersPermissionsUserDocument = {
                       },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'warehouse_location' },
+                        name: { kind: 'Name', value: 'warehouseLocation' },
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
@@ -10528,13 +10550,36 @@ export const UsersPermissionsUserDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'odoo_warehouse_id',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'address' },
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'city' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'unit' },
                                   },
                                   {
                                     kind: 'Field',
@@ -10542,22 +10587,15 @@ export const UsersPermissionsUserDocument = {
                                   },
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'state' },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'suburb' },
                                   },
                                   {
                                     kind: 'Field',
-                                    name: {
-                                      kind: 'Name',
-                                      value: 'state_territory',
-                                    },
-                                  },
-                                  {
-                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'postcode' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'country' },
                                   },
                                 ],
                               },
@@ -10617,6 +10655,50 @@ export const UsersPermissionsUsersDocument = {
                   name: { kind: 'Name', value: 'business_type' },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'phone' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'logo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documentId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'alternativeText' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'caption' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'width' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'height' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'previewUrl' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'publishedAt' },
+                      },
+                    ],
+                  },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'addresses' },

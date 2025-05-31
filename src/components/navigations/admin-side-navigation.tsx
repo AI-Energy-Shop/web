@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import Icon from '../Icon';
 import { removePersistence, useAppDispatch } from '@/store/store';
 import { logout } from '@/store/features/me';
+import { removeCartsData } from '@/store/features/cart';
 
 const AdminSideNavigation = () => {
   const user = useMe();
@@ -25,9 +26,10 @@ const AdminSideNavigation = () => {
   };
 
   const handleLogout = async () => {
+    dispatch(removeCartsData());
     dispatch(logout());
-    await logoutUser();
     removePersistence();
+    await logoutUser();
   };
   return (
     <aside className="h-full w-full border-r border-gray-300">
@@ -49,7 +51,7 @@ const AdminSideNavigation = () => {
                 onClick={() => handleClick(item)}
                 className={cn(
                   'p-2',
-                  'transition-all duration-100 hover:text-primary hover:bg-[#f05b3d] group',
+                  'transition-all duration-100 hover:text-white hover:bg-[#f05b3d] group',
                   item.enabled ? 'cursor-pointer' : 'cursor-not-allowed',
                   isPath ? 'bg-[#f05b3d] text-white' : 'font-normal'
                 )}

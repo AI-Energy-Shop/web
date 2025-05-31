@@ -108,7 +108,7 @@ const useCart = (props: UseCartProps) => {
   );
 
   const warehouse = useAppSelector(
-    (state: RootState) => state.checkout.warehouseLocation.name
+    (state: RootState) => state.me.me?.account_detail?.warehouseLocation?.name
   );
 
   // const isCartNeededManualQuote = props?.carts?.some((cart: any) => false);

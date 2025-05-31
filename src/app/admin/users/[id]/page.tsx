@@ -34,14 +34,16 @@ const AdminDashboardUserPage = async (props: AdminDashboardUserPageProps) => {
   const searchParams = await props.searchParams;
   const user = await getUserDetails(params.id);
 
-  if (user?.account_status == 'PENDING') {
-    await updateAccountStatus(user.documentId, 'REVIEWING');
+  const userData = user?.data?.usersPermissionsUser;
+
+  if (userData?.account_status == 'PENDING') {
+    await updateAccountStatus(userData?.documentId, 'REVIEWING');
   }
 
   const userBadgeVariant =
-    user?.account_status === 'APPROVED'
+    userData?.account_status === 'APPROVED'
       ? 'default'
-      : user?.account_status === 'DENIED'
+      : userData?.account_status === 'DENIED'
         ? 'destructive'
         : 'secondary';
 
@@ -52,7 +54,9 @@ const AdminDashboardUserPage = async (props: AdminDashboardUserPageProps) => {
           <CardHeader className="space-y-1">
             <div className="flex items-center justify-between">
               <CardTitle className="text-2xl font-bold">User Details</CardTitle>
-              <Badge variant={userBadgeVariant}>{user?.account_status}</Badge>
+              <Badge variant={userBadgeVariant}>
+                {userData?.account_status}
+              </Badge>
             </div>
             <CardDescription>View and edit user information</CardDescription>
           </CardHeader>
@@ -60,8 +64,12 @@ const AdminDashboardUserPage = async (props: AdminDashboardUserPageProps) => {
             <div className="space-y-8">
               <div className="flex items-center space-x-4">
                 <div>
-                  <h2 className="text-xl font-semibold">{user?.username}</h2>
-                  <p className="text-sm text-gray-500">Email: {user?.email}</p>
+                  <h2 className="text-xl font-semibold">
+                    {userData?.username}
+                  </h2>
+                  <p className="text-sm text-gray-500">
+                    Email: {userData?.email}
+                  </p>
                 </div>
               </div>
               {searchParams.type === 'request' && (
@@ -71,7 +79,7 @@ const AdminDashboardUserPage = async (props: AdminDashboardUserPageProps) => {
                 />
               )}
               {searchParams.type === 'approved' && (
-                <AdminUserProfileForm user={user} />
+                <AdminUserProfileForm user={userData} />
               )}
             </div>
           </CardContent>

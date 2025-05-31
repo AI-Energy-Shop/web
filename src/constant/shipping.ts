@@ -17,6 +17,19 @@ export const CARD_FEE = 39.25;
 export const WAREHOUSE_LOCATIONS = [
   {
     id: 0,
+    title: 'Warehouse',
+    name: 'warehouse',
+    address: {
+      city: '',
+      unit: '',
+      street: '',
+      suburb: '',
+      state: '',
+      postcode: '',
+    },
+  },
+  {
+    id: 1,
     title: 'Sydney(24/32-38 Belmore Rd, Punchbowl NSW)',
     name: 'sydney',
     address: {
@@ -29,7 +42,7 @@ export const WAREHOUSE_LOCATIONS = [
     },
   },
   {
-    id: 1,
+    id: 2,
     title: 'Melbourne(34/49 McArthurs Rd, Altona North VIC 3025)',
     name: 'melbourne',
     address: {
@@ -42,7 +55,7 @@ export const WAREHOUSE_LOCATIONS = [
     },
   },
   {
-    id: 2,
+    id: 3,
     title: 'Brisbane(4/22 Spine St, Sumner QLD 4074)',
     name: 'brisbane',
     address: {

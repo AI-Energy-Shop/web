@@ -12,7 +12,7 @@ const RelatedProducts = ({ data }: RelatedProductsProps) => {
   )?.title;
 
   return (
-    <section className="bg-yellow-light-yellow pt-6 pb-12 ">
+    <section className="bg-light-yellow pt-6 pb-12 ">
       <div>
         <h1 className="text-xl font-bold ae-mobile-container ae-non-mobile-container mx-auto md:px-12 mb-4">
           Related Products

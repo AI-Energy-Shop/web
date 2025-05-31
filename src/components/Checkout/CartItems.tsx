@@ -1,10 +1,10 @@
 'use client';
 import React from 'react';
-import { formatCurrency } from '@/utils/cart';
-import CartItemCard from '@/components/Checkout/CartItemCard';
 import useMe from '@/hooks/useMe';
-import { CartsQuery, GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
+import { formatCurrency } from '@/utils/cart';
 import { useCheckout } from '@/hooks/useCheckout';
+import CartItemCard from '@/components/Checkout/CartItemCard';
+import { CartsQuery, GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
 
 interface CartItemsProps {
   data: CartsQuery['carts'];
@@ -31,7 +31,7 @@ const CartItems = ({
       {data?.map?.((item) => {
         const price = item?.product?.price_lists?.find(
           (price) =>
-            price?.user_level === 'MID_SIZED' &&
+            price?.user_level === user?.account_detail?.level &&
             !price?.min_quantity &&
             !price?.max_quantity
         );

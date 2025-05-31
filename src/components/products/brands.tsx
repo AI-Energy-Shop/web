@@ -114,15 +114,15 @@ const Brands: React.FC<BrandsProps> = ({ selectedBrands }) => {
         slidesToSlide={1}
         swipeable
       >
-        {uniqueBrands?.map((brand) => {
+        {uniqueBrands?.map?.((brand) => {
           return (
             <BrandItem
               key={brand?.documentId}
               id={brand?.documentId}
               name={`${brand?.name}`}
-              logo={`${brand?.image?.url}`}
+              logo={brand?.image?.url}
               alt={`${brand?.name}`}
-              onClick={() => handleBrandClick(brand?.url || '')}
+              onClick={() => handleBrandClick(`${brand?.url}`)}
             />
           );
         })}

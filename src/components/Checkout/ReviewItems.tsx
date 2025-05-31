@@ -7,7 +7,7 @@ import {
   SelectItem,
 } from '../ui/select';
 import { WAREHOUSE_LOCATIONS } from '@/constant/shipping';
-import { setPaymentStep } from '@/store/features/cart';
+import { removeCartsData, setPaymentStep } from '@/store/features/cart';
 import { Check, FilePenLine } from 'lucide-react';
 import { Textarea } from '../ui/textarea';
 import ModalWrapper from './ModalWrapper';
@@ -56,6 +56,8 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
 
   useEffect(() => {
     dispatch(setPaymentStep(1));
+
+    return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

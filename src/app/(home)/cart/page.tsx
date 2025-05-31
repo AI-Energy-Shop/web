@@ -10,7 +10,7 @@ async function CheckoutPage() {
   const checkoutUserData = await getCartProductQuantity();
 
   return (
-    <main className="bg-yellow-light-yellow pb-12 relative">
+    <main className="bg-light-yellow pb-12 relative">
       <CheckoutHeader />
       <h1 className="text-xl font-bold ae-mobile-container ae-non-mobile-container py-4">
         Checkout

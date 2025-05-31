@@ -80,7 +80,7 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
   }
 
   return (
-    <div className="bg-yellow-light-yellow max-md:px-4 md:bg-white md:mt-6">
+    <div className="bg-light-yellow max-md:px-4 md:bg-white md:mt-6">
       <div className="mx-auto">
         {/* <PickupLocation product={product} pickLocation={pickLocation} /> */}
         <Form {...form}>
