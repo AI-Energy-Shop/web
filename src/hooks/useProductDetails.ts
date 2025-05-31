@@ -74,7 +74,6 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     },
   });
 
-
   const isNew = id === 'new';
   const defaultFiles = product?.files?.map((file) => file?.documentId) || [];
   const defaultImages =
@@ -174,10 +173,14 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
       If the price list is not empty, ensure that there
       a default price list is set.
     */
-    const defaultPriceListItem = currentPriceLists?.find((pricing) => pricing.user_level === 'default');
-    
-    if(!defaultPriceListItem) {
-      Toast('Please set a default price list.', 'ERROR', { position: 'top-center' });
+    const defaultPriceListItem = currentPriceLists?.find(
+      (pricing) => pricing.user_level === 'default'
+    );
+
+    if (!defaultPriceListItem) {
+      Toast('Please set a default price list.', 'ERROR', {
+        position: 'top-center',
+      });
       return;
     }
 
@@ -289,14 +292,13 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
   };
 
   const onError = (error: any) => {
+    console.log(error.price_lists);
 
-    console.log(error.price_lists)
-
-    if(error.price_lists.length === 0) {
+    if (error.price_lists.length === 0) {
       addProductForm.setError('price_lists', {
         message: 'Please set a default price list.',
         type: 'manual',
-      })
+      });
       return;
     }
 
@@ -678,11 +680,15 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
         const currentPriceList = priceLists?.filter(
           (_: any, i: number) => i !== idx
         );
-        
-        addProductForm.setValue('price_lists', currentPriceList.length > 0 ? currentPriceList : null, {
-          shouldDirty: true,
-          shouldTouch: true,
-        });
+
+        addProductForm.setValue(
+          'price_lists',
+          currentPriceList.length > 0 ? currentPriceList : null,
+          {
+            shouldDirty: true,
+            shouldTouch: true,
+          }
+        );
         break;
       case 'specifications':
         const specifications =
@@ -690,20 +696,28 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
         const currentSpecification = specifications?.filter(
           (_: any, i: number) => i !== idx
         );
-        addProductForm.setValue('specifications', currentSpecification.length > 0 ? currentSpecification : null, {
-          shouldDirty: true,
-          shouldTouch: true,
-        });
+        addProductForm.setValue(
+          'specifications',
+          currentSpecification.length > 0 ? currentSpecification : null,
+          {
+            shouldDirty: true,
+            shouldTouch: true,
+          }
+        );
         break;
       case 'key_features':
         const keyFeatures = addProductForm?.getValues('key_features') || [];
         const currentKeyFeatures = keyFeatures?.filter(
           (_: any, i: number) => i !== idx
         );
-        addProductForm.setValue('key_features', currentKeyFeatures.length > 0 ? currentKeyFeatures : null, {
-          shouldDirty: true,
-          shouldTouch: true,
-        });
+        addProductForm.setValue(
+          'key_features',
+          currentKeyFeatures.length > 0 ? currentKeyFeatures : null,
+          {
+            shouldDirty: true,
+            shouldTouch: true,
+          }
+        );
         break;
       default:
         console.warn(`Unhandled title: ${title}`);
