@@ -8,18 +8,25 @@ import { RootState } from '@/store/store';
 import { cn } from '@/lib/utils';
 
 interface ShopProductStockQuantitiesProps {
-  product: GetStoreProductQuery['getStoreProduct'];
+  inventory:
+    | {
+        melbourne: number;
+        sydney: number;
+        brisbane: number;
+      }
+    | null
+    | undefined;
 }
 const ShopProductStockQuantities = ({
-  product,
+  inventory,
 }: ShopProductStockQuantitiesProps) => {
   const warehouse = useAppSelector(
-    (state: RootState) => state.checkout.warehouseLocation
+    (state: RootState) => state.me.me?.account_detail?.warehouseLocation
   );
 
-  const melbourneStock = product?.inventory?.melbourne;
-  const sydneyStock = product?.inventory?.sydney;
-  const brisbaneStock = product?.inventory?.brisbane;
+  const melbourneStock = inventory?.melbourne;
+  const sydneyStock = inventory?.sydney;
+  const brisbaneStock = inventory?.brisbane;
 
   return (
     <div className="grid grid-cols-7 grid-rows-2 gap-y-4 my-5">

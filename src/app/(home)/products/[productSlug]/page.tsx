@@ -1,14 +1,11 @@
-import ShopProductStockQuantities from '@/components/products/shop-product-sock-quantities';
-import ProductAddToCartButton from '@/components/products/product-add-to-cart-button';
-import ProductDescription from '@/components/products/product-description';
-import ImageCarousel from '@/components/carousels/image-carousel/image-carousel';
-import RelatedProducts from '@/components/products/related-products';
-import ProductPrice from '@/components/products/product-price';
-import BulkPrices from '@/components/products/bulk-prices';
+import { cn } from '@/lib/utils';
+import { firaSans } from '@/app/font';
 import { Breadcrumb } from '@/components/products';
 import { storeProduct } from '@/app/actions/products';
-import { firaSans } from '@/app/font';
-import { cn } from '@/lib/utils';
+import RelatedProducts from '@/components/products/related-products';
+import ProductDescription from '@/components/products/product-description';
+import SingleProductDetails from '@/components/products/single-product-details';
+import ProductCarousel from '@/components/carousels/CustomerProduct/products-carousel';
 
 async function ProductPage({
   params,
@@ -19,26 +16,6 @@ async function ProductPage({
 
   const res = await storeProduct(productSlug);
   const product = res?.data?.getStoreProduct;
-
-  if (!product) {
-    return <div>Product not found</div>;
-  }
-
-  const slides =
-    product?.images?.map?.((image) => ({
-      id: image?.documentId || '',
-      description: image?.alternativeText || '',
-      link: image?.url || '',
-      title: image?.name || '',
-      type: image?.mime || '',
-      __typename: image?.__typename || '',
-      image: {
-        alternativeText: image?.alternativeText || '',
-        name: image?.name || '',
-        url: image?.url || '',
-        __typename: image?.__typename || '',
-      },
-    })) || [];
 
   return (
     <main className="w-full min-h-screen">
@@ -59,14 +36,9 @@ async function ProductPage({
 
         <div className="md:flex md:justify-between md:px-12 md:pb-5">
           <div className="ae-mobile-container max-md:w-4/5 max-md:max-w-96 md:basis-[40%] md:max-w-[40%]">
-            <ImageCarousel slides={slides} />
+            <ProductCarousel product={product} />
           </div>
-          <div className="md:basis-[51.75%] md:max-w-[51.75%]">
-            <ProductPrice product={product} />
-            <BulkPrices product={product} />
-            <ShopProductStockQuantities product={product} />
-            <ProductAddToCartButton product={product} />
-          </div>
+          <SingleProductDetails product={product} />
         </div>
       </section>
 

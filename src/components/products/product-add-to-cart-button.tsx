@@ -1,6 +1,6 @@
 'use client';
 import { z } from 'zod';
-import React from 'react';
+import React, { BaseSyntheticEvent } from 'react';
 import { Input } from '../ui/input';
 import { firaSans } from '@/app/font';
 import useCart from '@/hooks/useCart';
@@ -8,84 +8,71 @@ import { Button } from '../ui/button';
 import { Minus, Plus } from 'lucide-react';
 import { GetStoreProductQuery } from '@/lib/gql/graphql';
 import { Form, FormControl, FormField, FormItem } from '../ui/form';
-import { addToCartSchema } from '@/lib/validation-schema/add-to-cart-form';
+import {
+  AddToCartFormData,
+  addToCartSchema,
+} from '@/lib/validation-schema/add-to-cart-form';
 import { useAppSelector } from '@/store/store';
+import {
+  FieldValues,
+  SubmitErrorHandler,
+  SubmitHandler,
+  UseFormReturn,
+} from 'react-hook-form';
 
 interface ProductAddToCartButtonProps {
-  product: GetStoreProductQuery['getStoreProduct'];
+  form: UseFormReturn<
+    {
+      id: string;
+      quantity: number;
+    },
+    any,
+    {
+      id: string;
+      quantity: number;
+    }
+  >;
+  stocks: number;
+  productPrice: number;
+  isDecrementDisabled: boolean;
+  isIncrementDisabled: boolean;
+  handleIncrement: () => void;
+  handleDecrement: () => void;
+  handleSubmit: (
+    data: FieldValues,
+    event?: BaseSyntheticEvent<object, any, any> | undefined
+  ) => void;
+  handleOnError?: (onError: any) => void;
 }
 
-const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
-  const {
-    handleSubmit,
-    handleOnError,
-    handleIncrement,
-    handleDecrement,
-    form,
-  } = useCart({
-    productId: product?.documentId,
-  });
-
-  const warehouse = useAppSelector(
-    (state) => state.checkout.warehouseLocation.name
-  );
-  const user = useAppSelector((state) => state.me.me);
-
-  const priceList = product?.price_lists?.map((price) => ({
-    documentId: price?.documentId,
-    price: price?.price ?? undefined,
-    comparePrice: price?.comparePrice ?? undefined,
-    user_level: price?.user_level ?? undefined,
-  }));
-
-  const itemPrice = priceList?.find(
-    (price) => price?.user_level === user?.account_detail?.level
-  );
-
-  const salePrice = itemPrice?.comparePrice;
-  const regularPrice = itemPrice?.price;
-  const productPrice = salePrice ? salePrice : regularPrice || 0;
-  const stocks =
-    Number(product?.inventory?.[warehouse as keyof typeof product.inventory]) ||
-    0;
-
-  const renderHiddenInput = ({
-    name,
-  }: {
-    name: keyof z.infer<typeof addToCartSchema>;
-  }) => {
-    return (
-      <FormField
-        control={form.control}
-        name={name}
-        render={({ field }) => (
-          <FormItem>
-            <FormControl>
-              <Input type="hidden" {...field} />
-            </FormControl>
-          </FormItem>
-        )}
-      />
-    );
-  };
-
-  if (!user) {
-    return (
-      <div className="w-full h-20 flex justify-center items-center">
-        <span className="text-sm row-span-1 text-[#1b1b3b]">
-          Login to view price
-        </span>
-      </div>
-    );
-  }
-
+const ProductAddToCartButton: React.FC<ProductAddToCartButtonProps> = ({
+  form,
+  stocks,
+  productPrice,
+  isDecrementDisabled,
+  isIncrementDisabled,
+  handleSubmit,
+  handleOnError,
+  handleIncrement,
+  handleDecrement,
+}) => {
   return (
     <div className="bg-light-yellow max-md:px-4 md:bg-white md:mt-6">
       <div className="mx-auto">
         {/* <PickupLocation product={product} pickLocation={pickLocation} /> */}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit, handleOnError)}>
-            {renderHiddenInput({ name: 'id' })}
+            <FormField
+              control={form.control}
+              name="id"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input type="hidden" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
             <div className="mx-auto text-center max-md:px-2 md:mt-6 md:py-2 md:flex md:justify-between">
               <div className="flex flex-col border rounded-lg overflow-hidden">
                 <div className="flex items-center border-b gap-0">
@@ -97,7 +84,7 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
                     variant="ghost"
                     size="icon"
                     onClick={handleDecrement}
-                    disabled={stocks <= 0 || form.watch('quantity') <= 0}
+                    disabled={isDecrementDisabled}
                     className="cursor-pointer h-8 w-8 border-l rounded-none bg-gray-300"
                   >
                     <Minus className="h-3 w-3" />
@@ -115,7 +102,7 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
                             onChange={(e) =>
                               field.onChange(e.target.valueAsNumber)
                             }
-                            className="h-8 w-20 border-0 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                            className="h-8 w-20 border-none rounded-none text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none focus-visible:ring-0 focus-visible:ring-offset-0"
                           />
                         </FormControl>
                       </FormItem>
@@ -127,7 +114,7 @@ const ProductAddToCartButton = ({ product }: ProductAddToCartButtonProps) => {
                     variant="ghost"
                     size="icon"
                     onClick={handleIncrement}
-                    disabled={stocks <= 0 || form.watch('quantity') >= stocks}
+                    disabled={isIncrementDisabled}
                     className="cursor-pointer h-8 w-8 border-l rounded-none bg-gray-300"
                   >
                     <Plus className="h-3 w-3" />

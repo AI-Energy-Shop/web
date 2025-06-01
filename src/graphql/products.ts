@@ -273,13 +273,15 @@ const schema = {
             documentId
             tag
           }
-          price_lists {
+          price_lists(sort: "createdAt:desc") {
             documentId
             price
             comparePrice
             min_quantity
             max_quantity
             user_level
+            createdAt
+            updatedAt
           }
           files {
             documentId

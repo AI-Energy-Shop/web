@@ -9,9 +9,9 @@ import {
 } from '@/lib/validation-schema/add-to-cart-form';
 import { ShippingOptions } from '@/constant/shipping';
 import { SHIPPING_OPTIONS } from '@/constant/shipping';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, BaseSyntheticEvent } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, FieldErrors } from 'react-hook-form';
+import { useForm, FieldErrors, FieldValues } from 'react-hook-form';
 import CART_OPERATIONS from '@/graphql/cart';
 import { useMutation, useQuery, useApolloClient } from '@apollo/client';
 import { CartsQuery } from '@/lib/gql/graphql';
@@ -151,9 +151,12 @@ const useCart = (props: UseCartProps) => {
     console.log(errors);
   };
 
-  const handleSubmit = async (onValid: AddToCartFormData) => {
+  const handleSubmit = async (
+    onValid: FieldValues,
+    event?: BaseSyntheticEvent<object, any, any> | undefined
+  ) => {
     const cartItem = cartData?.carts.find(
-      (cart) => cart?.product?.documentId === onValid?.id
+      (cart) => cart?.product?.documentId === data?.id
     );
 
     if (cartItem && cartItem?.product) {
