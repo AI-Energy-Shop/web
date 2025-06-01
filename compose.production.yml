@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  web:
+    image: ai-energy-shop-client
+    build:
+      context: .
+      args:
+        - NODE_ENV=production
+        - BASE_PROTOCOL=${BASE_PROTOCOL:-https}
+        - BASE_URL_HOST=${BASE_URL_HOST:-localhost}
+        - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY:-}
+        - MACSHIP_API_KEY=${MACSHIP_API_KEY:-}
+        - DO_SPACES_PATH=${DO_SPACES_PATH:-/}
+        - DO_SPACES_PROTOCOL=${DO_SPACES_PROTOCOL:-https}
+        - DO_SPACES_HOST=${DO_SPACES_HOST:-}
+        - NEXT_PUBLIC_BASE_PROTOCOL=${NEXT_PUBLIC_BASE_PROTOCOL:-https}
+        - NEXT_PUBLIC_BASE_URL_HOST=${NEXT_PUBLIC_BASE_URL_HOST:-localhost}
+        - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-}
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+      - BASE_PROTOCOL=${BASE_PROTOCOL:-https}
+      - BASE_URL_HOST=${BASE_URL_HOST:-localhost}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - MACSHIP_API_KEY=${MACSHIP_API_KEY}
+      - DO_SPACES_PATH=${DO_SPACES_PATH:-/}
+      - DO_SPACES_PROTOCOL=${DO_SPACES_PROTOCOL:-https}
+      - DO_SPACES_HOST=${DO_SPACES_HOST}
+      - NEXT_PUBLIC_BASE_PROTOCOL=${NEXT_PUBLIC_BASE_PROTOCOL:-https}
+      - NEXT_PUBLIC_BASE_URL_HOST=${NEXT_PUBLIC_BASE_URL_HOST:-localhost}
+      - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000/api/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    networks:
+      - ai-energy-network
+
+networks:
+  ai-energy-network:
+    driver: bridge

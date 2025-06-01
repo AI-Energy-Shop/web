@@ -5,30 +5,36 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
+.npmrc
 
 # testing
 /coverage
+.nyc_output
 
 # next.js
 /.next/
 /out/
+.next
+next-env.d.ts
 
 # production
 /build
+/dist
 
 # misc
-.DS_Store
-*.pem
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 **/firebase-debug.log
-
-# local env files
-.env.local
-.env.*.local
+.pnpm-debug.log*
 
 # vercel
 .vercel
@@ -37,4 +43,25 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.npmrc
+# cache
+.cache/
+.eslintcache
+.npm
+.prettiercache
+
+# build artifacts
+*.log
+*.tmp
+*.temp
+
+# graphql
+graphql.schema.json
+
+# pm2
+logs/
+.pm2/
+
+# misc
+.DS_Store
+*.pem
+.turbo

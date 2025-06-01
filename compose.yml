@@ -1,0 +1,31 @@
+services:
+  web:
+    image: ai-energy-web:latest
+    build:
+      context: .
+      args:
+        - NODE_ENV=${NODE_ENV:-production}
+        - BASE_PROTOCOL=${BASE_PROTOCOL:-https}
+        - BASE_URL_HOST=${BASE_URL_HOST:-localhost}
+        - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY:-}
+        - MACSHIP_API_KEY=${MACSHIP_API_KEY:-}
+        - DO_SPACES_PATH=${DO_SPACES_PATH:-/}
+        - DO_SPACES_PROTOCOL=${DO_SPACES_PROTOCOL:-https}
+        - DO_SPACES_HOST=${DO_SPACES_HOST:-}
+        - NEXT_PUBLIC_BASE_PROTOCOL=${NEXT_PUBLIC_BASE_PROTOCOL:-https}
+        - NEXT_PUBLIC_BASE_URL_HOST=${NEXT_PUBLIC_BASE_URL_HOST:-localhost}
+        - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-}
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - BASE_PROTOCOL=${BASE_PROTOCOL:-https}
+      - BASE_URL_HOST=${BASE_URL_HOST:-localhost}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - MACSHIP_API_KEY=${MACSHIP_API_KEY}
+      - DO_SPACES_PATH=${DO_SPACES_PATH:-/}
+      - DO_SPACES_PROTOCOL=${DO_SPACES_PROTOCOL:-https}
+      - DO_SPACES_HOST=${DO_SPACES_HOST}
+      - NEXT_PUBLIC_BASE_PROTOCOL=${NEXT_PUBLIC_BASE_PROTOCOL:-https}
+      - NEXT_PUBLIC_BASE_URL_HOST=${NEXT_PUBLIC_BASE_URL_HOST:-localhost}
+      - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
