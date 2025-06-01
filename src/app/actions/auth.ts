@@ -3,13 +3,13 @@ import USERS_OPERATIONS from '@/graphql/users';
 import { cookies } from 'next/headers';
 import { getClient } from '@/apollo/client';
 import { redirect } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
-import { ApolloError } from '@apollo/client';
 import {
   Enum_Userspermissionsuser_Account_Status,
   InputMaybe,
 } from '@/lib/gql/graphql';
-import { ONE_DAY, ONE_MONTH } from '@/constant/auth';
+import { revalidatePath } from 'next/cache';
+import { handleGraphQLError } from '@/lib/utils/graphql-error';
+import { ApolloError } from '@apollo/client';
 
 const client = getClient();
 
@@ -177,7 +177,9 @@ export const loginUser = async ({
       },
     };
 
-    const expiresIn = remember ? ONE_MONTH : ONE_DAY;
+    const oneMonth = 60 * 60 * 24 * 30;
+    const oneDay = 60 * 60 * 24;
+    const expiresIn = remember ? oneMonth : oneDay;
     const userData = JSON.stringify({
       ...user,
       role: userRawData?.role,
@@ -274,6 +276,8 @@ export const getUsers = async () => {
 export const getUserDetails = async (documentId: string) => {
   const cookieStore = await cookies();
   const token = cookieStore.get('a-token');
+
+  console.log('TOKEN: ', token);
 
   try {
     const response = await client.query({
