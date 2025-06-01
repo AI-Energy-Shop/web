@@ -2511,6 +2511,8 @@ export type ProductQuery = {
       min_quantity?: number | null;
       max_quantity?: number | null;
       user_level?: string | null;
+      createdAt?: any | null;
+      updatedAt?: any | null;
     } | null>;
     files: Array<{
       __typename?: 'UploadFile';
@@ -7628,6 +7630,17 @@ export const ProductDocument = {
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'price_lists' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'sort' },
+                      value: {
+                        kind: 'StringValue',
+                        value: 'createdAt:desc',
+                        block: false,
+                      },
+                    },
+                  ],
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
@@ -7651,6 +7664,14 @@ export const ProductDocument = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'user_level' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updatedAt' },
                       },
                     ],
                   },

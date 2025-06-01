@@ -18,32 +18,21 @@ import { GetStoreProductQuery } from '@/lib/gql/graphql';
 import useMe from '@/hooks/useMe';
 
 interface BulkPricesProps {
-  product: GetStoreProductQuery['getStoreProduct'];
+  priceList: {
+    documentId: string | undefined;
+    price: number;
+    comparePrice: number;
+    min_quantity: number;
+    max_quantity: number;
+    user_level: string;
+  }[];
 }
 
-const BulkPrices = ({ product }: BulkPricesProps) => {
+const BulkPrices = ({ priceList }: BulkPricesProps) => {
   const { user } = useMe();
-
-  const priceList = product?.price_lists?.map((price) => ({
-    id: price?.documentId,
-    price: price?.price ?? undefined,
-    comparePrice: price?.comparePrice ?? undefined,
-    min_quantity: price?.min_quantity ?? undefined,
-    max_quantity: price?.max_quantity ?? undefined,
-    user_level: price?.user_level ?? undefined,
-  }));
-
-  const bulkPrices = priceList?.filter((price) => {
-    if (price.user_level === user?.account_detail?.level) {
-      if (price.min_quantity || price.max_quantity) {
-        return price;
-      }
-    }
-  });
-
-  // if (bulkPrices?.length === 0) {
-  //   return null;
-  // }
+  const bulkPrices = priceList?.filter(
+    (price) => price.user_level === user?.account_detail?.level
+  );
 
   return (
     <DropdownMenu>
@@ -71,7 +60,7 @@ const BulkPrices = ({ product }: BulkPricesProps) => {
               </TableRow>
             ) : (
               bulkPrices?.map((data: any) => (
-                <TableRow key={data?.id}>
+                <TableRow key={data?.documentId}>
                   <TableCell>{`${data?.min_quantity}-${data?.max_quantity}`}</TableCell>
                   <TableCell>
                     {data?.sale_price
