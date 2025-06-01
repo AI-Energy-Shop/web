@@ -1,10 +1,10 @@
 'use client';
 import { useForm } from 'react-hook-form';
-import { loginUser, registerUser } from '@/app/actions/auth';
+import { loginUser, logoutUser, registerUser } from '@/app/actions/auth';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/useToast';
-import { setMe, setMeAdmin } from '@/store/features/me';
-import { setCarts } from '@/store/features/cart';
+import { setMe, setMeAdmin, logout } from '@/store/features/me';
+import { removeCartsData, setCarts } from '@/store/features/cart';
 import { useState } from 'react';
 import { ProductQuery } from '@/lib/gql/graphql';
 import {
@@ -159,21 +159,6 @@ const useAuth = () => {
     }
 
     await updatePersistence(loginData.remember || false);
-
-    // Handle navigation based on role
-    const route = HAS_BACKEND_ACCESS.includes(roleName)
-      ? '/admin'
-      : '/collections/all';
-
-    // Use replace instead of push for more reliable navigation
-    router.replace(route);
-
-    // Fallback navigation if replace doesn't work
-    if (process.env.NODE_ENV === 'production') {
-      setTimeout(() => {
-        window.location.href = route;
-      }, 100);
-    }
   };
 
   const handleRegisterSubmit = async (data: RegisterFormData) => {
@@ -196,8 +181,11 @@ const useAuth = () => {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    dispatch(removeCartsData());
+    dispatch(logout());
     removePersistence();
+    await logoutUser();
   };
 
   return {
