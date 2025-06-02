@@ -69,24 +69,24 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
         <h1 className="font-bold">Selected Location:</h1>
 
         <h2 className="font-semibold italic">
-          {warehouseLocation.name[0].toUpperCase() +
+          {warehouseLocation?.name?.at(0)?.toUpperCase() +
             warehouseLocation.name.slice(1)}
         </h2>
         <p className="text-xs">
           <span className="mx-1 text-sm">
-            {warehouseLocation.address.unit}{' '}
-            {warehouseLocation.address.street + ','}
+            {warehouseLocation?.address?.unit}{' '}
+            {warehouseLocation?.address?.street + ','}
           </span>
           <span className="mx-1 text-sm">
-            {warehouseLocation.name[0].toUpperCase() +
-              warehouseLocation.name.slice(1) +
+            {warehouseLocation?.name?.at(0)?.toUpperCase() +
+              warehouseLocation?.name?.slice(1) +
               ','}
           </span>
           <span className="mx-1 text-sm">
-            {warehouseLocation.address.state + ','}
+            {warehouseLocation?.address?.state + ','}
           </span>
           <span className="mx-1 text-sm">
-            {warehouseLocation.address.postcode}
+            {warehouseLocation?.address?.postcode}
           </span>
         </p>
       </div>
