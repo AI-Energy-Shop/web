@@ -9,17 +9,17 @@ import {
 } from '@/lib/validation-schema/add-to-cart-form';
 import { ShippingOptions } from '@/constant/shipping';
 import { SHIPPING_OPTIONS } from '@/constant/shipping';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, BaseSyntheticEvent } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, FieldErrors } from 'react-hook-form';
+import { useForm, FieldErrors, FieldValues } from 'react-hook-form';
 import CART_OPERATIONS from '@/graphql/cart';
 import { useMutation, useQuery, useApolloClient } from '@apollo/client';
-import { ProductsQuery, CartsQuery } from '@/lib/gql/graphql';
+import { CartsQuery } from '@/lib/gql/graphql';
 import { useAppDispatch, useAppSelector, RootState } from '@/store/store';
 import useMe from './useMe';
 
 interface UseCartProps {
-  product?: ProductsQuery['products'][number] | null;
+  productId?: string;
 }
 
 const useCart = (props: UseCartProps) => {
@@ -29,17 +29,19 @@ const useCart = (props: UseCartProps) => {
 
   const client = useApolloClient();
 
-  const { data: cartData, refetch } = useQuery<CartsQuery>(
-    CART_OPERATIONS.Query.carts,
-    {
-      fetchPolicy: 'network-only',
-      refetchWritePolicy: 'merge',
-      onCompleted: (data) => {
-        dispatch(setCarts(data.carts));
-      },
-      pollInterval: 1000 * 60 * 10, // 10 minutes
-    }
-  );
+  const {
+    data: cartData,
+    refetch,
+    error,
+  } = useQuery<CartsQuery>(CART_OPERATIONS.Query.carts, {
+    fetchPolicy: 'network-only',
+    refetchWritePolicy: 'merge',
+    onCompleted: (data) => {
+      dispatch(setCarts(data.carts));
+    },
+    pollInterval: 1000 * 60 * 10, // 10 minutes
+    skip: !user?.id, // Skip query if no user is logged in
+  });
 
   const updateApolloClientCartData = (documentId: string, quantity: number) => {
     const data = client.readQuery({
@@ -76,14 +78,7 @@ const useCart = (props: UseCartProps) => {
   };
 
   const [addCartItem, { loading: addCartItemLoading }] = useMutation(
-    CART_OPERATIONS.Mutation.createCart,
-    {
-      refetchQueries: [
-        {
-          query: CART_OPERATIONS.Query.carts,
-        },
-      ],
-    }
+    CART_OPERATIONS.Mutation.createCart
   );
 
   const [deleteCartItem, { loading: deleteCartItemLoading }] = useMutation(
@@ -113,7 +108,7 @@ const useCart = (props: UseCartProps) => {
   );
 
   const warehouse = useAppSelector(
-    (state: RootState) => state.checkout.warehouseLocation.name
+    (state: RootState) => state.me.me?.account_detail?.warehouseLocation?.name
   );
 
   // const isCartNeededManualQuote = props?.carts?.some((cart: any) => false);
@@ -121,7 +116,7 @@ const useCart = (props: UseCartProps) => {
   const form = useForm<AddToCartFormData>({
     resolver: zodResolver(addToCartSchema),
     defaultValues: {
-      id: props?.product?.documentId,
+      id: props.productId,
       quantity: 0,
     },
   });
@@ -156,13 +151,16 @@ const useCart = (props: UseCartProps) => {
     console.log(errors);
   };
 
-  const handleSubmit = async (onValid: AddToCartFormData) => {
+  const handleSubmit = async (
+    onValid: FieldValues,
+    event?: BaseSyntheticEvent<object, any, any> | undefined
+  ) => {
     const cartItem = cartData?.carts.find(
-      (cart) => cart?.product?.documentId === onValid?.id
+      (cart) => cart?.product?.documentId === data?.id
     );
 
     if (cartItem && cartItem?.product) {
-      updateCartItem({
+      const { data, errors } = await updateCartItem({
         variables: {
           documentId: cartItem.documentId,
           data: {
@@ -185,7 +183,7 @@ const useCart = (props: UseCartProps) => {
       return;
     }
 
-    addCartItem({
+    const { data, errors } = await addCartItem({
       variables: {
         data: {
           product: onValid.id,
@@ -194,6 +192,8 @@ const useCart = (props: UseCartProps) => {
         },
       },
     });
+
+    console.log(data, errors);
 
     // Show the notification
     dispatch(setShowCartWindow(true));

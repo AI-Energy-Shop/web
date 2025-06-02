@@ -1,5 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+type Name = {
+  first_name?: string | null;
+  middle_name?: string | null;
+  last_name?: string | null;
+} | null;
+
+export interface WarehouseLocation {
+  id?: number;
+  title?: string;
+  name?: string;
+  address?: {
+    city?: string;
+    unit?: string;
+    street?: string;
+    suburb?: string;
+    state?: string;
+    postcode?: string;
+  };
+}
+
 export interface ShippingAddress {
   documentId: string;
   street1?: string | null;
@@ -23,20 +43,18 @@ export interface Me {
   email: string;
   username?: string;
   blocked?: boolean;
-  confirmed?: any;
+  confirmed?: boolean;
   user_level?: string;
   business_name?: string;
   business_number?: string;
   business_type?: string;
   phone?: string;
+  role?: string;
   account_detail?: {
     level?: string;
-    name?: {
-      first_name?: string;
-      middle_name?: string;
-      last_name?: string;
-    };
+    name?: Name;
     shipping_addresses?: ShippingAddress[];
+    warehouseLocation?: WarehouseLocation;
   };
 }
 
@@ -46,48 +64,8 @@ export interface InitialState {
 }
 
 const initialState: InitialState = {
-  me: {
-    id: '',
-    email: '',
-    username: '',
-    blocked: false,
-    confirmed: false,
-    user_level: '',
-    business_name: 'Login',
-    business_number: '',
-    business_type: '',
-    phone: '',
-    account_detail: {
-      level: '',
-      name: {
-        first_name: '',
-        middle_name: '',
-        last_name: '',
-      },
-      shipping_addresses: [],
-    },
-  },
-  meAdmin: {
-    id: '',
-    email: '',
-    username: '',
-    blocked: false,
-    confirmed: false,
-    user_level: '',
-    business_name: '',
-    business_number: '',
-    business_type: '',
-    phone: '',
-    account_detail: {
-      level: '',
-      name: {
-        first_name: '',
-        middle_name: '',
-        last_name: '',
-      },
-      shipping_addresses: [],
-    },
-  },
+  me: undefined,
+  meAdmin: undefined,
 };
 
 export const meSlice = createSlice({
@@ -104,8 +82,8 @@ export const meSlice = createSlice({
     }),
     logout: (state) => ({
       ...state,
-      me: undefined,
-      meAdmin: undefined,
+      me: initialState.me,
+      meAdmin: initialState.meAdmin,
     }),
   },
 });

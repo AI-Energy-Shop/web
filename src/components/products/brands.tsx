@@ -57,18 +57,8 @@ const Brands: React.FC<BrandsProps> = ({ selectedBrands }) => {
         autoPlay={false}
         centerMode={true}
         className="carousel-container"
-        containerClass="container-with-dots items-center justify-center"
-        customLeftArrow={
-          <Button variant="ghost" size="icon" className="absolute left-0">
-            <ChevronLeft size={50} />
-          </Button>
-        }
-        customRightArrow={
-          <Button variant="ghost" size="icon" className="absolute right-0">
-            <ChevronRight size={50} />
-          </Button>
-        }
         dotListClass=""
+        containerClass="container-with-dots items-center justify-center"
         itemClass="flex items-center justify-center cursor-pointer overflow-hidden"
         sliderClass="gap-10 items-center justify-center"
         draggable
@@ -114,15 +104,15 @@ const Brands: React.FC<BrandsProps> = ({ selectedBrands }) => {
         slidesToSlide={1}
         swipeable
       >
-        {uniqueBrands?.map((brand) => {
+        {uniqueBrands?.map?.((brand) => {
           return (
             <BrandItem
               key={brand?.documentId}
               id={brand?.documentId}
               name={`${brand?.name}`}
-              logo={`${brand?.image?.url}`}
+              logo={brand?.image?.url}
               alt={`${brand?.name}`}
-              onClick={() => handleBrandClick(brand?.url || '')}
+              onClick={() => handleBrandClick(`${brand?.url}`)}
             />
           );
         })}

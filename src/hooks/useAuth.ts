@@ -1,19 +1,28 @@
 'use client';
 import { useForm } from 'react-hook-form';
-import { loginUser, registerUser } from '@/app/actions/user';
+import { loginUser, registerUser } from '@/app/actions/auth';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/useToast';
 import { setMe, setMeAdmin } from '@/store/features/me';
-import { setCarts, setWarehouseLocation } from '@/store/features/cart';
+import { setCarts } from '@/store/features/cart';
+import { useState } from 'react';
+import { ProductQuery } from '@/lib/gql/graphql';
+import {
+  removePersistence,
+  updatePersistence,
+  useAppDispatch,
+} from '@/store/store';
 import {
   LoginFormData,
   loginResolver,
   RegisterFormData,
   registerResolver,
 } from '@/lib/validation-schema/auth-forms';
-import { useState } from 'react';
-import { updatePersistence, useAppDispatch } from '@/store/store';
-import { ProductQuery } from '@/lib/gql/graphql';
+import { setSelectedLocation } from '@/store/features/checkout';
+import { WAREHOUSE_LOCATIONS } from '@/constant/shipping';
+
+const HAS_BACKEND_ACCESS = ['ADMIN', 'SALES'];
+
 const useAuth = () => {
   const router = useRouter();
   const { toast } = useToast();
@@ -52,15 +61,19 @@ const useAuth = () => {
   const handleLoginSubmit = async (loginData: LoginFormData) => {
     const { error, data } = await loginUser(loginData);
 
+    const roleName = data?.user.role?.name;
     if (error) {
-      toast({
-        title: error.replace('identifier', 'email'),
-        variant: 'destructive',
-      });
+      const { message } = error;
+      if (message.includes('Forbidden')) {
+        loginForm.setError('root', {
+          message: 'Please wait for account approval',
+        });
+      } else {
+        loginForm.setError('root', { message: message });
+      }
+
       return;
     }
-
-    const roleName = data?.user.role?.name;
 
     if (!roleName) {
       toast({
@@ -71,31 +84,67 @@ const useAuth = () => {
     }
 
     switch (roleName) {
-      case 'SALES':
-        dispatch(
-          setMeAdmin({
-            id: data?.user?.documentId || '',
-            email: data?.user?.email || '',
-            username: data?.user?.username,
-            confirmed: data?.user?.confirmed || null,
-          })
-        );
-        break;
       case 'ADMIN':
         dispatch(
           setMeAdmin({
             id: data?.user?.documentId || '',
             email: data?.user?.email || '',
-            username: data?.user?.username,
-            confirmed: data?.user?.confirmed || null,
+            username: data?.user?.username || '',
+            blocked: data?.user?.blocked || false,
+            confirmed: data?.user?.confirmed || undefined,
+            phone: data?.user?.phone || '',
+            role: roleName || '',
           })
         );
         break;
+
+      case 'SALES':
+        dispatch(
+          setMeAdmin({
+            id: data?.user?.documentId || '',
+            email: data?.user?.email || '',
+            username: data?.user?.username || '',
+            blocked: data?.user?.blocked || false,
+            confirmed: data?.user?.confirmed || undefined,
+            phone: data?.user?.phone || '',
+            role: roleName || '',
+          })
+        );
+        break;
+
       case 'CUSTOMER':
+        const defaultWarehouse = WAREHOUSE_LOCATIONS?.at(0);
+        const shipAddresses = data?.user.account_detail?.shipping_addresses;
+        const selectedWarehouse = data.user.warehouseLocation?.address
+          ? { ...data.user.warehouseLocation }
+          : { ...defaultWarehouse };
+
+        dispatch(
+          setMe({
+            id: data?.user?.documentId || '',
+            email: data?.user?.email || '',
+            username: data?.user?.username || '',
+            blocked: data?.user?.blocked || false,
+            confirmed: data?.user?.confirmed || undefined,
+            business_name: data?.user?.business_name || '',
+            business_number: data?.user?.business_number || '',
+            business_type: data?.user?.business_type || '',
+            phone: data?.user?.phone || '',
+            account_detail: {
+              level: data?.user?.user_level || '',
+              name: data?.user?.account_detail?.name,
+              shipping_addresses: [...shipAddresses],
+              warehouseLocation: { ...selectedWarehouse },
+            },
+          })
+        );
+
+        dispatch(setSelectedLocation({ ...selectedWarehouse }));
+
         if (data?.user?.carts) {
           dispatch(
             setCarts([
-              ...data?.user?.carts?.map?.((cart) => ({
+              ...data?.user?.carts?.map?.((cart: any) => ({
                 documentId: cart?.documentId || '',
                 quantity: cart?.quantity || 0,
                 product: cart?.product as ProductQuery['product'],
@@ -104,72 +153,17 @@ const useAuth = () => {
           );
         }
 
-        dispatch(
-          setWarehouseLocation({
-            address: {
-              city: data?.user?.warehouse_location?.address?.city || '',
-              street1: data?.user?.warehouse_location?.address?.street || '',
-              state:
-                data?.user?.warehouse_location?.address?.state_territory || '',
-              zipCode: data?.user?.warehouse_location?.address?.postcode || '',
-              country: data?.user?.warehouse_location?.address?.country || '',
-            },
-          })
-        );
-
-        const shipAddresses = data?.user.account_detail.shipping_addresses.map(
-          (address) => {
-            return {
-              documentId: address.documentId,
-              street1: address.street1,
-              street2: address.street2,
-              city: address.city,
-              state: address.state,
-              zipCode: address.zip_code,
-              country: address.country,
-              isActive: address.isActive,
-              phone: address.phone,
-            };
-          }
-        );
-
-        dispatch(
-          setMe({
-            id: data?.user?.documentId || '',
-            email: data?.user?.email || '',
-            username: data?.user?.username || '',
-            blocked: data?.user?.blocked || false,
-            confirmed: data?.user?.confirmed || null,
-            business_name: data?.user?.business_name || '',
-            business_number: data?.user?.business_number || '',
-            business_type: data?.user?.business_type || '',
-            phone: data?.user?.phone || '',
-            account_detail: {
-              level: data?.user?.user_level || '',
-              name: {
-                first_name: data?.user?.account_detail?.name?.first_name || '',
-                middle_name:
-                  data?.user?.account_detail?.name?.middle_name || '',
-                last_name: data?.user?.account_detail?.name?.last_name || '',
-              },
-              shipping_addresses: shipAddresses,
-            },
-          })
-        );
-
         break;
       default:
-        toast({
-          title: 'Please for the sales to approve your account',
-          variant: 'destructive',
-        });
         break;
     }
 
     await updatePersistence(loginData.remember || false);
 
     // Handle navigation based on role
-    const route = roleName === 'SALES' ? '/admin' : '/collections/all';
+    const route = HAS_BACKEND_ACCESS.includes(roleName)
+      ? '/admin'
+      : '/collections/all';
 
     // Use replace instead of push for more reliable navigation
     router.replace(route);
@@ -193,29 +187,17 @@ const useAuth = () => {
       const { error } = await registerUser(formData);
 
       if (error) {
-        toast({
-          title: 'Error',
-          description: error,
-          variant: 'destructive',
-        });
         return;
       }
-
-      toast({
-        title: 'Success',
-        description: 'Please check your email for email approval',
-        variant: 'default',
-      });
 
       router.push('/auth/login');
     } catch (error) {
       console.error('Registration error:', error);
-      toast({
-        title: 'Error',
-        description: 'An unexpected error occurred. Please try again.',
-        variant: 'destructive',
-      });
     }
+  };
+
+  const handleLogout = () => {
+    removePersistence();
   };
 
   return {
@@ -225,6 +207,7 @@ const useAuth = () => {
     setShowPassword,
     handleLoginSubmit,
     handleRegisterSubmit,
+    handleLogout,
   };
 };
 

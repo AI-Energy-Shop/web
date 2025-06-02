@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
-import { useRouter } from 'next/navigation';
 import Icon from '../Icon';
 import { cn } from '@/lib/utils';
+import { usePathname, useRouter } from 'next/navigation';
 
 type Data = {
   id: number;
@@ -16,10 +16,15 @@ interface NavListProps {
   data: Data[];
   className?: string;
   showIcon?: boolean;
-  path: string;
+  pathname?: string;
 }
 
-const NavList = ({ data, className, showIcon = false, path }: NavListProps) => {
+const NavList = ({
+  data,
+  className,
+  showIcon = false,
+  pathname,
+}: NavListProps) => {
   const router = useRouter();
 
   const handleClick = (item: Data) => {
@@ -33,7 +38,7 @@ const NavList = ({ data, className, showIcon = false, path }: NavListProps) => {
       className={`hidden items-end h-full text-sm font-medium gap-8 lg:flex ${className}`}
     >
       {data.map((item) => {
-        const isPath = path === item.href;
+        const isPath = pathname === item.href;
         return (
           <div
             key={item.id}

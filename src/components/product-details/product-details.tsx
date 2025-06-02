@@ -31,6 +31,8 @@ import SpecificationItem from './specification-item';
 import { SPECIFICATION_KEYS } from '@/constant';
 import KeyFeatureItem from './key-feature-item';
 import ComboBoxField from './combo-box-field';
+import useTags from '@/hooks/useTags';
+import { Alert, AlertDescription } from '../ui/alert';
 
 const ProductsDetails = ({
   id,
@@ -59,22 +61,28 @@ const ProductsDetails = ({
   } = useProductDetails({ id, product });
 
   const { files: allImages, refetch: refetchImages } = useFiles({
-    filters: {
-      mime: {
-        contains: 'image',
+    variables: {
+      filters: {
+        mime: {
+          contains: 'image',
+        },
       },
+      sort: ['createdAt:desc'],
     },
-    sort: ['createdAt:desc'],
   });
 
   const { files: allDocs, refetch: refetchDocs } = useFiles({
-    filters: {
-      mime: {
-        contains: 'application/pdf',
+    variables: {
+      filters: {
+        mime: {
+          contains: 'pdf',
+        },
       },
+      sort: ['createdAt:desc'],
     },
-    sort: ['createdAt:desc'],
   });
+
+  const { tags } = useTags();
 
   return (
     <Form {...addProductForm}>
@@ -274,8 +282,8 @@ const ProductsDetails = ({
                   <div className="flex flex-col gap-5 ">
                     <AdminProductFileUpload
                       title="PDF"
-                      selectedFiles={files}
                       data={allDocs}
+                      selectedFiles={files}
                       accept="application/pdf"
                       uploadNewFileLabel="Upload new File"
                       useExistingButtonLabel="Use existing File"
@@ -495,18 +503,12 @@ const ProductsDetails = ({
                   <CardTitle>Product Organization</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <ComboBoxField
-                    fieldName="brand"
-                    label="Brand"
-                    options={brands}
-                    form={addProductForm}
-                  />
                   <FormField
                     control={addProductForm.control}
                     name="product_type"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel>Product Type</FormLabel>
+                        <FormLabel>Type</FormLabel>
                         <FormControl>
                           <Input {...field} value={field.value || ''} />
                         </FormControl>
@@ -514,12 +516,34 @@ const ProductsDetails = ({
                       </FormItem>
                     )}
                   />
+
+                  <ComboBoxField
+                    fieldName="brand"
+                    label="Brand"
+                    options={brands.map((brand) => ({
+                      documentId: brand?.documentId || '',
+                      name: brand?.name || '',
+                    }))}
+                    form={addProductForm}
+                  />
+
                   <ComboBoxField
                     fieldName="collections"
                     label="Collections"
                     options={collections.map((collection) => ({
                       documentId: collection?.documentId || '',
                       name: collection?.title || '',
+                    }))}
+                    form={addProductForm}
+                    acceptMultiple={true}
+                  />
+
+                  <ComboBoxField
+                    fieldName="tags"
+                    label="Tags"
+                    options={tags?.map((tag) => ({
+                      documentId: tag?.documentId || '',
+                      name: tag?.tag || '',
                     }))}
                     form={addProductForm}
                     acceptMultiple={true}

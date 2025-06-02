@@ -4,11 +4,23 @@ import Image from 'next/image';
 import React from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import type { SliderSlide } from '@/lib/types';
-import { CustomDot } from './CustomDot';
-import { GetStoreProductQuery } from '@/lib/gql/graphql';
+import { CustomDot } from './custom-dot';
+
 interface ImageCarouselProps {
-  slides: NonNullable<GetStoreProductQuery['getStoreProduct']>['images'];
+  slides: {
+    id: string;
+    description: string;
+    link: string;
+    title: string;
+    type: string;
+    __typename: string;
+    image: {
+      alternativeText: string;
+      name: string;
+      url: string;
+      __typename: string;
+    };
+  }[];
 }
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
@@ -17,10 +29,9 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
   const TABLET_BREAKPOINT = 768;
   const DESKTOP_BREAKPOINT = 1024;
 
-  const MOBILE = 'MOBILE';
+  // const MOBILE = 'MOBILE';
   const TABLET = 'TABLET';
   const DESKTOP = 'DESKTOP';
-
   return (
     <div className="h-[75vw] md:h-[44.44vw] lg:h-[33.33vw] lg:max-h-[400px] relative">
       <Carousel
@@ -70,18 +81,20 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
         dotListClass="py-5 bottom-[5rem]"
         customDot={<CustomDot />}
       >
-        {/* MOBILE */}
-        {slides?.map((item) => {
+        {slides?.map?.((item) => {
+          {
+            /* DESKTOP */
+          }
           if (currentBreakpoint < TABLET_BREAKPOINT) {
             return (
               <Image
                 priority
                 width={1000}
                 height={1000}
-                key={item?.documentId}
+                key={item.id}
                 className="h-full m-auto object-contain"
-                src={item?.url || ''}
-                alt={item?.alternativeText || ''}
+                src={item.image?.url || '/no-product-image.jpg'}
+                alt={item.image?.alternativeText || ''}
               />
             );
           }
@@ -92,13 +105,13 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
             currentBreakpoint < DESKTOP_BREAKPOINT
           ) {
             return (
-              <div key={item?.documentId} className="h-[44.44vw] relative">
+              <div key={item.id} className="h-[44.44vw] relative">
                 <Image
                   priority
                   fill
                   className="object-cover object-center"
-                  src={item?.url || ''}
-                  alt={item?.alternativeText || ''}
+                  src={item.image?.url || '/no-product-image.jpg'}
+                  alt={item.image?.alternativeText || ''}
                 />
               </div>
             );
@@ -107,19 +120,16 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
           /* DESKTOP | WIDESCREEN */
           if (
             currentBreakpoint >= 1024 &&
-            (item?.mime === TABLET || item?.mime === DESKTOP)
+            (item?.type === TABLET || item?.type === DESKTOP)
           ) {
             return (
-              <div
-                key={item?.documentId}
-                className="h-[33.33vw] max-h-[400px] relative"
-              >
+              <div key={item.id} className="h-[33.33vw] max-h-[400px] relative">
                 <Image
                   priority
                   fill
                   className="object-cover object-center"
-                  src={item?.url || ''}
-                  alt={item?.alternativeText || ''}
+                  src={item.image?.url || '/no-product-image.jpg'}
+                  alt={item.image?.alternativeText || ''}
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
               </div>

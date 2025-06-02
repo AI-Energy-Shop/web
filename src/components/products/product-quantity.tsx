@@ -24,9 +24,11 @@ const ProductQuantity = ({ form, currentStock }: ProductQuantityProps) => {
       form?.setValue('quantity', quantity - 1);
     }
   };
+
   return (
     <div className="flex w-full h-10">
       <Button
+        disabled={currentStock <= 0}
         type="button"
         size="icon"
         variant="ghost"
@@ -35,7 +37,6 @@ const ProductQuantity = ({ form, currentStock }: ProductQuantityProps) => {
       >
         <Minus />
       </Button>
-
       <FormField
         control={form?.control}
         name="quantity"
@@ -49,6 +50,7 @@ const ProductQuantity = ({ form, currentStock }: ProductQuantityProps) => {
         )}
       />
       <Button
+        disabled={currentStock <= 0}
         type="button"
         size="icon"
         variant="ghost"

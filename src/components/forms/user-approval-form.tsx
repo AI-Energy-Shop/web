@@ -5,7 +5,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { useForm } from 'react-hook-form';
 import { useToast } from '@/hooks/useToast';
-import { approveUser } from '@/app/actions/user';
+import { approveUser } from '@/app/actions/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Form,

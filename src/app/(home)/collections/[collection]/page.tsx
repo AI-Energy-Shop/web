@@ -16,7 +16,7 @@ export default async function CategoryPage({
   params,
   searchParams,
 }: {
-  params: { collection: string };
+  params: Promise<{ collection: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { collection } = await params;

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Eye, EyeOff } from 'lucide-react';
+import { CheckCircleIcon, Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import useAuth from '@/hooks/useAuth';
 import {
@@ -13,6 +13,8 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/form';
+import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 
 const LoginForm = () => {
   const { loginForm, showPassword, setShowPassword, handleLoginSubmit } =
@@ -56,7 +58,7 @@ const LoginForm = () => {
                     variant="ghost"
                     size="icon"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="w-2 h-2 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400"
+                    className="w-3 h-3 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400"
                   >
                     {showPassword ? (
                       <EyeOff className="h-4 w-4" />
@@ -86,7 +88,7 @@ const LoginForm = () => {
                       className="mb-[2px]"
                     />
                   </FormControl>
-                  <FormLabel>Remember me (1 day)</FormLabel>
+                  <FormLabel>Remember me</FormLabel>
                 </FormItem>
               )}
             />
@@ -97,8 +99,16 @@ const LoginForm = () => {
         </div>
 
         <Button type="submit" className="w-full">
-          Sign In
+          {loginForm.formState.isSubmitting ? 'Loading...' : 'Sign In'}
         </Button>
+
+        {loginForm.formState.errors.root && (
+          <Alert variant="destructive">
+            <AlertDescription>
+              {loginForm.formState.errors.root.message}
+            </AlertDescription>
+          </Alert>
+        )}
       </form>
     </Form>
   );

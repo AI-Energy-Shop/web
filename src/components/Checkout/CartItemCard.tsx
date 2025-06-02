@@ -86,28 +86,28 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
           </p>
           <div className="hidden md:block md:flex-1 md:border md:rounded-md ">
             <div className="text-center bg-gray-300">QTY</div>
-            <div className="flex items-end h-7">
+            <div className="flex items-end h-auto">
               <Button
                 size="icon"
                 variant="ghost"
-                className="bg-gray-200 rounded-none w-full h-full "
+                className="bg-gray-200 rounded-none "
                 onClick={() => onReduceQuant(id)}
                 disabled={!isInStock}
               >
                 <Minus />
               </Button>
               <Input
-                className="h-full rounded-none z-10 text-center"
                 type="text"
-                name="cart-item-quantity"
                 value={quantity}
-                onChange={(e) => onChange(id, e)}
                 disabled={!isInStock}
+                name="cart-item-quantity"
+                onChange={(e) => onChange(id, e)}
+                className="rounded-none z-10 text-center border-none focus:border-none focus:outline-none focus:ring-0"
               />
               <Button
                 size="icon"
                 variant="ghost"
-                className="bg-gray-200 rounded-none w-full h-full "
+                className="bg-gray-200 rounded-none"
                 onClick={() => onAddQuant(id)}
                 disabled={!isInStock}
               >

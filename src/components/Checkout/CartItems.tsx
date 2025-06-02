@@ -4,6 +4,7 @@ import { formatCurrency } from '@/utils/cart';
 import CartItemCard from '@/components/Checkout/CartItemCard';
 import { CartsQuery } from '@/lib/gql/graphql';
 import { useCheckout } from '@/hooks/useCheckout';
+import { RootState, useAppSelector } from '@/store/store';
 
 interface CartItemsProps {
   data: CartsQuery['carts'];
@@ -21,13 +22,14 @@ const CartItems = ({
   onRemove,
 }: CartItemsProps) => {
   const { warehouseLocation } = useCheckout();
+  const user = useAppSelector((state: RootState) => state.me.me);
 
   return (
     <div className="space-y-8 pt-8 md:p-12">
       {data?.map?.((item) => {
         const price = item?.product?.price_lists?.find(
           (price) =>
-            price?.user_level === 'MID_SIZED' &&
+            price?.user_level === user?.account_detail?.level &&
             !price?.min_quantity &&
             !price?.max_quantity
         );

@@ -20,7 +20,7 @@ export const orders = async (variables?: {
   filters: OrderFiltersInput;
   pagination: PaginationArg;
 }) => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get('a-token')?.value;
   const res = await client.query({
     query: ORDER_OPERATIONS.Query.orders,
@@ -61,7 +61,7 @@ export const createOrder = async ({
   let res: ApolloQueryResult<CreateOrderMutation> | null = null;
 
   try {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get('a-token')?.value;
     const aUser: Auser = JSON.parse(cookieStore.get('a-user')?.value!);
 

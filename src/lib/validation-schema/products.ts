@@ -9,10 +9,47 @@ export const addToCartFormSchema = z.object({
 const priceItemSchema = z
   .object({
     documentId: z.string().min(1, { message: 'Required' }).nullable(),
-    price: z.number().min(0, { message: 'Required' }),
-    comparePrice: z.number().nullable(),
-    min_quantity: z.number().min(1, { message: 'Required' }).default(1),
-    max_quantity: z.number().nullable(),
+    price: z.number().min(0, { message: 'Required' }).nonnegative(),
+    comparePrice: z.preprocess((val) => {
+      // Handle null, undefined, or empty string
+      if (val === '' || val === null || val === undefined) {
+        return null;
+      }
+      // If it's already a number, return it
+      if (typeof val === 'number') {
+        return val;
+      }
+      // If it's a string, try to convert to number
+      if (typeof val === 'string') {
+        const parsed = parseFloat(val.trim());
+        return isNaN(parsed) ? null : parsed;
+      }
+      // For any other type, try Number conversion
+      const converted = Number(val);
+      return isNaN(converted) ? null : converted;
+    }, z.number().nonnegative().nullable()),
+    min_quantity: z.preprocess(
+      (val) => (val === '' || val === null ? 1 : Number(val)),
+      z.number().min(1, { message: 'Required' }).nonnegative()
+    ),
+    max_quantity: z.preprocess((val) => {
+      // Handle null, undefined, or empty string
+      if (val === '' || val === null || val === undefined) {
+        return null;
+      }
+      // If it's already a number, return it
+      if (typeof val === 'number') {
+        return val;
+      }
+      // If it's a string, try to convert to number
+      if (typeof val === 'string') {
+        const parsed = parseFloat(val.trim());
+        return isNaN(parsed) ? null : parsed;
+      }
+      // For any other type, try Number conversion
+      const converted = Number(val);
+      return isNaN(converted) ? null : converted;
+    }, z.number().nonnegative().nullable()),
     user_level: z.string().min(1, { message: 'Required' }),
   })
   .refine(
@@ -72,6 +109,7 @@ export const addProductSchema = z.object({
   files: z.array(z.string()),
   brand: z.string().nullable(),
   collections: z.array(z.string()).nullable(),
+  tags: z.array(z.string()).nullable(),
   shipping: shippingSchema,
   price_lists: z.array(priceItemSchema).nullable(),
   inventory: inventoryItemSchema.nullable(),

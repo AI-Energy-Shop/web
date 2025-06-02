@@ -29,11 +29,11 @@ const shippingAddressSchema = z.object({
   country: z.string(),
 });
 const ShippingAddress = () => {
-  const shippingAddresses = useSelector(
+  const shipping_addresses = useSelector(
     (state: RootState) => state.me.me?.account_detail?.shipping_addresses
   );
 
-  const address = shippingAddresses?.find(
+  const address = shipping_addresses?.find(
     (address) => address.isActive === true
   );
 

@@ -1,17 +1,20 @@
 'use client';
 
 import React from 'react';
-import { logoutUser } from '@/app/actions/user';
+import { logoutUser } from '@/app/actions/auth';
 import { Button } from '../ui/button';
-import { useRouter } from 'next/navigation';
+import { removePersistence, useAppDispatch } from '@/store/store';
+import { logout } from '@/store/features/me';
+import { removeCartsData } from '@/store/features/cart';
+
 const LogoutButton = () => {
-  const router = useRouter();
+  const dispatch = useAppDispatch();
+
   const handleLogout = async () => {
+    dispatch(removeCartsData());
+    dispatch(logout());
+    removePersistence();
     await logoutUser();
-    router.refresh();
-    router.push('/auth/login');
-    localStorage.removeItem('persist:root');
-    window.location.reload();
   };
 
   return (

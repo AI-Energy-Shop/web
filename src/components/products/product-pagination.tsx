@@ -55,6 +55,7 @@ const ProductPagination: React.FC<ProductPaginationProps> = ({
           <PaginationUI.PaginationItem className="list-none">
             {/* Go to first page */}
             <PaginationUI.PaginationPrevious
+              size="icon"
               className="cursor-pointer select-none"
               onClick={() => handlePaginationPreviousClick(page)}
             />
@@ -76,6 +77,7 @@ const ProductPagination: React.FC<ProductPaginationProps> = ({
           <PaginationUI.PaginationItem className="list-none">
             {/* Go to last page */}
             <PaginationUI.PaginationNext
+              size="icon"
               className="cursor-pointer select-none"
               onClick={() => handlePaginationNextClick(page)}
             />

@@ -14,6 +14,19 @@ const schema = {
           business_number
           business_type
           phone
+          logo {
+            documentId
+            name
+            alternativeText
+            caption
+            width
+            height
+            url
+            previewUrl
+            createdAt
+            updatedAt
+            publishedAt
+          }
           role {
             name
           }
@@ -100,15 +113,19 @@ const schema = {
                 last_name
               }
             }
-            warehouse_location {
+            warehouseLocation {
               title
+              odoo_warehouse_id
+              name
+              id
               address {
+                id
                 city
+                unit
                 street
+                state
                 suburb
-                state_territory
                 postcode
-                country
               }
             }
           }
@@ -128,6 +145,19 @@ const schema = {
           business_number
           business_type
           phone
+          logo {
+            documentId
+            name
+            alternativeText
+            caption
+            width
+            height
+            url
+            previewUrl
+            createdAt
+            updatedAt
+            publishedAt
+          }
           addresses {
             documentId
             street1
@@ -168,6 +198,9 @@ const schema = {
             confirmed
             blocked
             username
+            role {
+              name
+            }
           }
         }
       }

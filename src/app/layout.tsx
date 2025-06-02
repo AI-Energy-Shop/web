@@ -1,12 +1,15 @@
 import './globals.css';
+import 'react-multi-carousel/lib/styles.css';
 import React from 'react';
+import Components from '@/components';
 import { ApolloWrapper } from '@/apollo/provider';
 import { firaSansFont } from '@/assets/fonts/fonts';
 import { Toaster } from '@/components/ui/sonner';
+import StripeWrapper from '@/components/stripe-wrapper';
 import { Toaster as ToasterUI } from '@/components/ui/toaster';
 import NavigationWrapper from '@/components/navigation-wrapper';
-import Components from '@/components';
-import StripeWrapper from '@/components/stripe-wrapper';
+
+// import StripeWrapper from '@/components/stripe-wrapper';
 // Assuming Metadata type needs to be defined or imported.
 // If Metadata is a custom type, it should be imported from its definition file.
 // Here, I'm defining it locally for demonstration.
@@ -27,16 +30,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={firaSansFont.className}>
-      <body>
-        <Components.ReduxProvider>
-          <StripeWrapper>
-            <ApolloWrapper>
+      <body className="w-full h-full">
+        <ApolloWrapper>
+          <Components.ReduxProvider>
+            {/* TODO: Roi add env variable for stripe */}
+            <StripeWrapper>
               <NavigationWrapper>{children}</NavigationWrapper>
-            </ApolloWrapper>
-            <Toaster />
-            <ToasterUI />
-          </StripeWrapper>
-        </Components.ReduxProvider>
+            </StripeWrapper>
+          </Components.ReduxProvider>
+          <Toaster />
+          <ToasterUI />
+        </ApolloWrapper>
       </body>
     </html>
   );

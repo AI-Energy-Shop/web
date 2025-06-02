@@ -13,6 +13,33 @@ const schema = {
           handle
           odoo_product_id
           odoo_product_name
+          files {
+            documentId
+            mime
+            name
+            url
+            alternativeText
+          }
+          images {
+            documentId
+            name
+            alternativeText
+            caption
+            width
+            height
+            formats
+            hash
+            ext
+            mime
+            size
+            url
+            previewUrl
+            provider
+            provider_metadata
+            createdAt
+            updatedAt
+            publishedAt
+          }
           brand {
             name
             url
@@ -55,20 +82,6 @@ const schema = {
             max_quantity
             user_level
           }
-          files {
-            documentId
-            mime
-            name
-            url
-            alternativeText
-          }
-          images {
-            documentId
-            mime
-            name
-            url
-            alternativeText
-          }
           specifications {
             documentId
             key
@@ -86,7 +99,7 @@ const schema = {
       }
     `),
     storeProducts: graphql(`
-      query Products(
+      query GetStoreProducts(
         $filters: ProductFiltersInput
         $pagination: PaginationArg
         $sort: [String]
@@ -210,10 +223,21 @@ const schema = {
               documentId
               name
               alternativeText
+              caption
               width
               height
+              formats
+              hash
+              ext
               mime
+              size
               url
+              previewUrl
+              provider
+              provider_metadata
+              createdAt
+              updatedAt
+              publishedAt
             }
           }
           brand {
@@ -224,23 +248,40 @@ const schema = {
               documentId
               name
               alternativeText
+              caption
               width
               height
+              formats
+              hash
+              ext
               mime
+              size
               url
+              previewUrl
+              provider
+              provider_metadata
+              createdAt
+              updatedAt
+              publishedAt
             }
           }
           collections {
             documentId
             title
           }
-          price_lists {
+          tags {
+            documentId
+            tag
+          }
+          price_lists(sort: "createdAt:desc") {
             documentId
             price
             comparePrice
             min_quantity
             max_quantity
             user_level
+            createdAt
+            updatedAt
           }
           files {
             documentId
@@ -283,6 +324,12 @@ const schema = {
             weight
           }
           maxQuantity
+          madeBy {
+            email
+          }
+          improvedBy {
+            email
+          }
           createdAt
           updatedAt
           releasedAt
@@ -311,10 +358,21 @@ const schema = {
               documentId
               name
               alternativeText
+              caption
               width
               height
+              formats
+              hash
+              ext
               mime
+              size
               url
+              previewUrl
+              provider
+              provider_metadata
+              createdAt
+              updatedAt
+              publishedAt
             }
           }
           brand {
@@ -325,15 +383,30 @@ const schema = {
               documentId
               name
               alternativeText
+              caption
               width
               height
+              formats
+              hash
+              ext
               mime
+              size
               url
+              previewUrl
+              provider
+              provider_metadata
+              createdAt
+              updatedAt
+              publishedAt
             }
           }
           collections {
             documentId
             title
+          }
+          tags {
+            documentId
+            tag
           }
           price_lists {
             documentId
@@ -396,23 +469,6 @@ const schema = {
         }
       }
     `),
-    brands: gql(`
-      query Brands($filters: BrandFiltersInput) {
-        brands(filters: $filters) {
-          documentId
-          name
-          url
-          image {
-            name
-            alternativeText
-            mime
-            url
-            width
-            height
-          }
-        }
-      }
-    `),
     categories: gql(`
       query Categories {
         categories {
@@ -436,6 +492,31 @@ const schema = {
           documentId
           key
           value
+        }
+      }
+    `),
+    brands: gql(`
+      query Brands($filters: BrandFiltersInput) {
+        brands(filters: $filters) {
+          documentId
+          name
+          url
+          image {
+            name
+            alternativeText
+            mime
+            url
+            width
+            height
+          }
+        }
+      }
+    `),
+    tags: gql(`
+      query Tags {
+        tags {
+          documentId
+          tag
         }
       }
     `),

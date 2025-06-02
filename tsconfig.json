@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -20,8 +21,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"]
-    },
-    "target": "ES2017"
+    }
   },
   "include": [
     "next-env.d.ts",
@@ -31,5 +31,5 @@
     "src/assets/fonts/fonts.ts",
     "src/components/buttons"
   ],
-  "exclude": ["node_modules", ".next"]
+  "exclude": ["node_modules"]
 }

@@ -31,12 +31,11 @@ import {
 } from '@/lib/validation-schema/products';
 import { useForm } from 'react-hook-form';
 import { useQuery } from '@apollo/client';
-import PRODUCT_OPERATIONS from '@/graphql/products';
 import COLLECTION_OPERATIONS from '@/graphql/collections';
 import { useRouter } from 'next/navigation';
 import { handleProductError } from '@/lib/utils/product-error-handler';
-import { USER_LEVELS } from '@/constant';
 import React from 'react';
+import useBrands from './useBrands';
 
 export type UploadFile = {
   __typename?: 'UploadFile';
@@ -60,23 +59,13 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
   const productCopy = useRef<ProductQuery['product']>(product);
   const [images, setImages] = useState<any[]>([]);
   const [files, setFiles] = useState<any[]>([]);
-  const [brands, setBrands] = useState<Brand[]>([]);
   const [collections, setCollections] = useState<
     CollectionsQuery['collections']
   >([]);
   const router = useRouter();
   const isMounted = useRef(false);
 
-  useQuery(PRODUCT_OPERATIONS.Query.brands, {
-    fetchPolicy: 'network-only',
-    onCompleted(data) {
-      const currentBrands = data?.brands?.map((brand: any) => ({
-        documentId: brand?.documentId,
-        name: brand?.name,
-      }));
-      setBrands(currentBrands);
-    },
-  });
+  const { brands } = useBrands();
 
   useQuery(COLLECTION_OPERATIONS.Query.collections, {
     fetchPolicy: 'network-only',
@@ -91,13 +80,14 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     product?.images?.map((image) => image?.documentId) || [];
   const defaultCollections =
     product?.collections?.map((collection) => collection?.documentId) || [];
+  const defaultTags = product?.tags?.map((tag) => tag?.documentId) || [];
   const defaultPriceList =
     product?.price_lists?.map((price) => ({
       documentId: price?.documentId,
       price: price?.price || 0,
-      comparePrice: price?.comparePrice,
+      comparePrice: price?.comparePrice || null,
       min_quantity: price?.min_quantity || 1,
-      max_quantity: price?.max_quantity,
+      max_quantity: price?.max_quantity || null,
       user_level: `${price?.user_level}`,
     })) || [];
   const defaultSpecs =
@@ -155,6 +145,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
       odoo_product_name: product?.odoo_product_name || '',
       brand: product?.brand?.documentId || null,
       shipping: defaultShipping,
+      tags: defaultTags,
       collections: defaultCollections,
       inventory: defaultInventory,
       images: defaultImages,
@@ -163,19 +154,13 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
       specifications: defaultSpecs,
       key_features: defaultKeyFeatures,
       status: product?.releasedAt ? 'published' : 'draft',
-      maxQuantity: product?.maxQuantity || null,
+      maxQuantity: product?.maxQuantity || 0,
     },
   });
 
   const onSubmit = async (onValid: AddProductFormData) => {
     const status = onValid.status;
     const releasedAt = status === 'published' ? new Date() : null;
-
-    const isErrors = Object.keys(addProductForm.formState.errors);
-
-    if (isErrors.length !== 0) {
-      return;
-    }
     const currentInventory = onValid.inventory;
     const currentPriceLists = onValid.price_lists;
     const currentSpecs = onValid.specifications;
@@ -183,6 +168,21 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
     const shippingData = onValid.shipping;
     const currentImages = onValid.images;
     const currentFiles = onValid.files;
+
+    /*
+      If the price list is not empty, ensure that there
+      a default price list is set.
+    */
+    const defaultPriceListItem = currentPriceLists?.find(
+      (pricing) => pricing.user_level === 'default'
+    );
+
+    if (currentPriceLists === null || !defaultPriceListItem) {
+      Toast('Please set a default price list.', 'ERROR', {
+        position: 'top-center',
+      });
+      return;
+    }
 
     const res = await Promise.all([
       handleSaveOrUpdatePriceList(currentPriceLists),
@@ -209,6 +209,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
               product_type: onValid.product_type,
               brand: onValid.brand,
               collections: onValid.collections,
+              tags: [],
               price_lists: res?.at?.(0) || [],
               inventory: res?.at?.(1) || null,
               specifications: res?.at?.(2) || [],
@@ -256,6 +257,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
               description: onValid.description,
               product_type: onValid.product_type,
               brand: onValid.brand,
+              tags: onValid.tags,
               collections: onValid.collections,
               price_lists: res?.at?.(0) || [],
               inventory: res?.at?.(1) || null,
@@ -291,7 +293,21 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
 
   const onError = (error: any) => {
     console.log('error', error);
-    Toast(error.message, 'ERROR', { position: 'top-center' });
+    if (error?.root) {
+      Toast(error.root.message, 'ERROR', { position: 'top-center' });
+      return;
+    }
+
+    if (error?.price_lists) {
+      if (error?.price_lists?.root) {
+        Toast(error?.price_lists?.root?.message, 'ERROR', {
+          position: 'top-center',
+        });
+        return;
+      }
+      return;
+    }
+
     return;
   };
 
@@ -383,7 +399,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
       comparePrice: null,
       min_quantity: 1,
       max_quantity: null,
-      user_level: `${USER_LEVELS.at(0)?.value}`,
+      user_level: `default`,
     };
     const priceListFormData = addProductForm.getValues('price_lists') || [];
     const combinedPriceLists = [...priceListFormData, newObj];
@@ -670,10 +686,15 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
         const currentPriceList = priceLists?.filter(
           (_: any, i: number) => i !== idx
         );
-        addProductForm.setValue('price_lists', currentPriceList, {
-          shouldDirty: true,
-          shouldTouch: true,
-        });
+
+        addProductForm.setValue(
+          'price_lists',
+          currentPriceList.length > 0 ? currentPriceList : null,
+          {
+            shouldDirty: true,
+            shouldTouch: true,
+          }
+        );
         break;
       case 'specifications':
         const specifications =
@@ -681,20 +702,28 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
         const currentSpecification = specifications?.filter(
           (_: any, i: number) => i !== idx
         );
-        addProductForm.setValue('specifications', currentSpecification, {
-          shouldDirty: true,
-          shouldTouch: true,
-        });
+        addProductForm.setValue(
+          'specifications',
+          currentSpecification.length > 0 ? currentSpecification : null,
+          {
+            shouldDirty: true,
+            shouldTouch: true,
+          }
+        );
         break;
       case 'key_features':
         const keyFeatures = addProductForm?.getValues('key_features') || [];
         const currentKeyFeatures = keyFeatures?.filter(
           (_: any, i: number) => i !== idx
         );
-        addProductForm.setValue('key_features', currentKeyFeatures, {
-          shouldDirty: true,
-          shouldTouch: true,
-        });
+        addProductForm.setValue(
+          'key_features',
+          currentKeyFeatures.length > 0 ? currentKeyFeatures : null,
+          {
+            shouldDirty: true,
+            shouldTouch: true,
+          }
+        );
         break;
       default:
         console.warn(`Unhandled title: ${title}`);
@@ -705,6 +734,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
   // Update productCopy when product changes
   useEffect(() => {
     productCopy.current = product;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
 
   // Cleanup function for images and files
@@ -713,6 +743,7 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
       setImages([]);
       setFiles([]);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Set initial images and files only once when component mounts
@@ -791,14 +822,14 @@ const useProductDetails = ({ id, product }: ProductDetailsProps) => {
       }
     });
     return () => subscription.unsubscribe();
-  }, [addProductForm, isNew]);
+  }, [isNew]);
 
   return {
     addProductForm,
     productCopy,
     images,
     files,
-    brands,
+    brands: brands || [],
     router,
     collections,
     onError,

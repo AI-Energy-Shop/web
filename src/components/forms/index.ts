@@ -1,8 +1,8 @@
-import AddressForm from './AddressForm';
-import AdminUserProfileForm from './AdminUserProfileForm';
-import LoginForm from './LoginForm';
-import SignupForm from './SignupForm';
-import UserApprovalForm from './UserApprovalForm';
+import AddressForm from './address-form';
+import AdminUserProfileForm from './admin-user-profile-form';
+import LoginForm from './login-form';
+import SignupForm from './signup-form';
+import UserApprovalForm from './user-approval-form';
 
 const Forms = {
   AddressForm,
