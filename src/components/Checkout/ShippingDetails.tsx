@@ -15,7 +15,10 @@ import { cn } from '@/lib/utils';
 import { PICK_UP_ESTIMATED_ARRIVAL_TIME } from '@/constant/shipping';
 import Link from 'next/link';
 import useCart from '@/hooks/useCart';
-import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
+import {
+  Enum_Order_Shippingtype,
+  GetCheckoutUserDataQuery,
+} from '@/lib/gql/graphql';
 import { useCheckout } from '@/hooks/useCheckout';
 import { ShippingType } from '@/store/features/checkout';
 import { isButtonClickable } from './isButtonClickable';
@@ -53,6 +56,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     setDeliveryNotes,
     setPickUpOptions,
     setShippingAddress,
+    setCard,
   } = useCheckout();
   const [deliveryDate, setDeliveryDate] = React.useState<Date | undefined>(
     undefined
@@ -79,6 +83,30 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     userCurrentAddress?.zip_code || '',
     carts
   );
+
+  const defaultCreditCard =
+    checkoutUserData?.usersPermissionsUser?.creditCards?.find(
+      (card) => card?.isDefault
+    );
+
+  useEffect(() => {
+    setCard({
+      brand: defaultCreditCard?.brand || '',
+      expMonth: defaultCreditCard?.expMonth || '',
+      expYear: defaultCreditCard?.expYear || '',
+      last4Char: defaultCreditCard?.last4Char || '',
+      stripePaymentMethodID: defaultCreditCard?.stripePaymentMethodID || '',
+      isDefault: defaultCreditCard?.isDefault || true,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    defaultCreditCard?.brand,
+    defaultCreditCard?.expMonth,
+    defaultCreditCard?.expYear,
+    defaultCreditCard?.isDefault,
+    defaultCreditCard?.last4Char,
+    defaultCreditCard?.stripePaymentMethodID,
+  ]);
 
   const notAbleToProceedToPayment = () => {
     let isTrue = false;
@@ -270,6 +298,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
               route={route}
               shippingDeliveryOptions={shippingDeliveryOptions}
               setShippingDeliveryOptions={setShippingDeliveryOptions}
+              setDeliveryDate={setDeliveryDate}
             />
           ))}
 
@@ -316,7 +345,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                     selected={deliveryDate}
                     onSelect={(e) => {
                       setDeliveryDate(e);
-                      setShippingType('delivery');
+                      setShippingType(Enum_Order_Shippingtype.Delivery);
                       setDeliveryOptions({
                         type: 'manual',
                         date: e?.toISOString(),
@@ -366,7 +395,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                       estimatedArrivalTime:
                         pickUpOptions?.estimatedArrivalTime!,
                     });
-                    setShippingType('pickup');
+                    setShippingType(Enum_Order_Shippingtype.Pickup);
                   }}
                   initialFocus
                   disabled={{ before: TODAY }}

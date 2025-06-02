@@ -1,6 +1,7 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+
 import Image from 'next/image';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -21,14 +22,9 @@ interface PaymentProps {
 }
 
 const Payment: React.FC<PaymentProps> = ({ checkoutUserData }) => {
-  const { paymentStep, isCartNeededManualQuote, carts } = useCart({});
-  const { paymentMethod, setPaymentMethod } = useCheckout();
+  const { paymentStep, isCartNeededManualQuote } = useCart({});
+  const { paymentMethod, setPaymentMethod, card } = useCheckout();
   const [creditCardDialog, setCreditCardDialog] = useState<boolean>(false);
-
-  const defaultCreditCard =
-    checkoutUserData?.usersPermissionsUser?.creditCards?.find(
-      (card) => card?.isDefault
-    );
 
   return (
     <section>
@@ -130,11 +126,11 @@ const Payment: React.FC<PaymentProps> = ({ checkoutUserData }) => {
                   </p>
                 </div>
                 <CreditCard
-                  brand={defaultCreditCard?.brand || ''}
-                  last4Char={defaultCreditCard?.last4Char || ''}
-                  expMonth={defaultCreditCard?.expMonth || ''}
-                  expYear={defaultCreditCard?.expYear || ''}
-                  isDefault
+                  brand={card?.brand}
+                  last4Char={card?.last4Char}
+                  expMonth={card?.expMonth}
+                  expYear={card?.expYear}
+                  isDefault={card?.isDefault}
                 />
               </div>
             </div>

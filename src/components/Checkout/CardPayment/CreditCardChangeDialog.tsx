@@ -51,7 +51,7 @@ const CreditCardChangeDialog = ({
               <SelectDefaultTab checkoutUserData={checkoutUserData} />
             </TabsContent>
             <TabsContent value="add">
-              <CardCollectionForm />
+              <CardCollectionForm saveCardToDatabase />
             </TabsContent>
           </Tabs>
         </div>

@@ -15,11 +15,16 @@ interface OrderSummaryProps {
 const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
   const { user } = useMe();
   const { carts } = useCart({});
-  const { subtotal, totalGst, total } = getCartTotals(carts, 0.0, 0.0, {
-    userLevel: user?.account_detail?.level,
-  });
   const { warehouseLocation, shippingType, deliveryOptions, pickUpOptions } =
     useCheckout();
+
+  const { subTotal, total, gst, cardSurcharge } = getCartTotals(carts, {
+    userLevel: user?.account_detail?.level,
+    deliveryFee: Number(
+      deliveryOptions?.macshipData?.displayData?.totalSellBeforeTax
+    ),
+    isCheckoutPaidWithCard: true,
+  });
 
   const userAddress = checkoutUserData.usersPermissionsUser?.addresses.find(
     (address) => address?.isActive === true
@@ -64,24 +69,24 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
         <h1 className="font-bold">Selected Location:</h1>
 
         <h2 className="font-semibold italic">
-          {warehouseLocation.name[0].toUpperCase() +
+          {warehouseLocation?.name?.at(0)?.toUpperCase() +
             warehouseLocation.name.slice(1)}
         </h2>
         <p className="text-xs">
           <span className="mx-1 text-sm">
-            {warehouseLocation.address.unit}{' '}
-            {warehouseLocation.address.street + ','}
+            {warehouseLocation?.address?.unit}{' '}
+            {warehouseLocation?.address?.street + ','}
           </span>
           <span className="mx-1 text-sm">
-            {warehouseLocation.name[0].toUpperCase() +
-              warehouseLocation.name.slice(1) +
+            {warehouseLocation?.name?.at(0)?.toUpperCase() +
+              warehouseLocation?.name?.slice(1) +
               ','}
           </span>
           <span className="mx-1 text-sm">
-            {warehouseLocation.address.state + ','}
+            {warehouseLocation?.address?.state + ','}
           </span>
           <span className="mx-1 text-sm">
-            {warehouseLocation.address.postcode}
+            {warehouseLocation?.address?.postcode}
           </span>
         </p>
       </div>
@@ -120,7 +125,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
     return (
       <div className="flex justify-between items-center">
         <h1>Sub-total (ex. GST)</h1>
-        <p>{formatCurrency(subtotal, 'AUD')}</p>
+        <p>{formatCurrency(subTotal)}</p>
       </div>
     );
   };
@@ -129,7 +134,15 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
     return (
       <div className="flex justify-between items-center">
         <h1>Delivery</h1>
-        <p>{formatCurrency(0, 'USD')}</p>
+        <p>
+          {shippingType !== 'delivery'
+            ? 'N/A'
+            : deliveryOptions?.macshipData
+              ? `A$${deliveryOptions?.macshipData?.displayData.totalSellBeforeTax}`
+              : deliveryOptions?.date
+                ? 'TBC'
+                : '0.00'}
+        </p>
       </div>
     );
   };
@@ -138,7 +151,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
     return (
       <div className="flex justify-between items-center">
         <h1>Card Surcharge (1.2%)</h1>
-        {/* <p>{cardSubCharge}</p> */}
+        <p>{formatCurrency(cardSurcharge)}</p>
       </div>
     );
   };
@@ -147,7 +160,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
     return (
       <div className="flex justify-between items-center">
         <h1>GST</h1>
-        <p>{formatCurrency(totalGst, 'AUD')}</p>
+        <p>{formatCurrency(gst)}</p>
       </div>
     );
   };
@@ -158,7 +171,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
         <h1 className="font-bold">
           Total <span className="font-normal text-xs">(inc. GST)</span>
         </h1>
-        <p className="font-bold">{formatCurrency(total, 'AUD')}</p>
+        <p className="font-bold">{formatCurrency(total)}</p>
       </div>
     );
   };

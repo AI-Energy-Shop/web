@@ -1,10 +1,10 @@
 'use client';
 import React from 'react';
-import useMe from '@/hooks/useMe';
 import { formatCurrency } from '@/utils/cart';
-import { useCheckout } from '@/hooks/useCheckout';
 import CartItemCard from '@/components/Checkout/CartItemCard';
-import { CartsQuery, GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
+import { CartsQuery } from '@/lib/gql/graphql';
+import { useCheckout } from '@/hooks/useCheckout';
+import { RootState, useAppSelector } from '@/store/store';
 
 interface CartItemsProps {
   data: CartsQuery['carts'];
@@ -12,7 +12,6 @@ interface CartItemsProps {
   onReduceQuant: (id: string) => void;
   onAddQuant: (id: string) => void;
   onRemove: (id: string) => void;
-  cartProductQuantity: GetCheckoutUserDataQuery;
 }
 
 const CartItems = ({
@@ -21,10 +20,9 @@ const CartItems = ({
   onAddQuant,
   onReduceQuant,
   onRemove,
-  cartProductQuantity,
 }: CartItemsProps) => {
-  const { user } = useMe();
   const { warehouseLocation } = useCheckout();
+  const user = useAppSelector((state: RootState) => state.me.me);
 
   return (
     <div className="space-y-8 pt-8 md:p-12">
@@ -36,16 +34,22 @@ const CartItems = ({
             !price?.max_quantity
         );
 
-        const productPrice = price?.comparePrice || price?.price || 0;
+        const productPriceBaseOnTable = item?.product?.price_lists.find(
+          (price) =>
+            (price?.min_quantity ?? Infinity) <= item.quantity &&
+            (price?.max_quantity ?? -Infinity) >= item.quantity
+        );
 
-        const currentProduct =
-          cartProductQuantity.usersPermissionsUser?.carts.find(
-            (cart) => cart?.documentId === item?.documentId
-          );
+        const productPrice =
+          productPriceBaseOnTable?.comparePrice ||
+          productPriceBaseOnTable?.price ||
+          price?.comparePrice ||
+          price?.price ||
+          0;
 
         const currentProductQuantity =
-          currentProduct?.product?.inventory?.[
-            warehouseLocation?.name as keyof typeof currentProduct.product.inventory
+          item?.product?.inventory?.[
+            warehouseLocation?.name as keyof typeof item.product.inventory
           ];
 
         return (

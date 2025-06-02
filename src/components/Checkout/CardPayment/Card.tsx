@@ -16,7 +16,7 @@ export function CreditCard({
   last4Char,
   expMonth,
   expYear,
-  isDefault,
+  isDefault = true,
 }: CreditCardProps) {
   const formattedExpMonth = expMonth?.toString().padStart(2, '0');
 
@@ -39,7 +39,7 @@ export function CreditCard({
               {brand?.toUpperCase()}
             </span>
           </div>
-          {isDefault && (
+          {isDefault ? (
             <Badge
               variant="outline"
               className="bg-primary/10 text-primary border-primary flex items-center gap-1"
@@ -47,6 +47,8 @@ export function CreditCard({
               <CheckCircle2 className="h-3 w-3" />
               Default
             </Badge>
+          ) : (
+            <Badge variant="destructive">Single-Use Card</Badge>
           )}
         </div>
 

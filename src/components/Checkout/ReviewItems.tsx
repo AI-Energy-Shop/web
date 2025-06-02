@@ -17,17 +17,12 @@ import { Button } from '../ui/button';
 import CartItems from './CartItems';
 import { Input } from '../ui/input';
 import { cn } from '@/lib/utils';
-import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
 import { useCheckout } from '@/hooks/useCheckout';
 import { useAppDispatch } from '@/store/hooks';
 
-interface ReviewItemsProps {
-  checkoutUserData: GetCheckoutUserDataQuery;
-}
+interface ReviewItemsProps {}
 
-const ReviewItems: React.FC<ReviewItemsProps> = ({
-  checkoutUserData: cartProductQuantity,
-}) => {
+const ReviewItems: React.FC<ReviewItemsProps> = ({}) => {
   const dispatch = useAppDispatch();
   const {
     carts,
@@ -42,14 +37,16 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
   );
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
   const DEBOUNCE_DELAY = 1500;
-  const { warehouseLocation, setWarehouseLocation } = useCheckout();
+  const { warehouseLocation, setWarehouseLocation, orderNotes, setOrderNotes } =
+    useCheckout();
 
   const checkIfProductLocationQuantityIsOkToProceed = () => {
-    // TODO: ROI
-    // const productWithNoStockInCurrentLocation =
-    //   cartProductQuantity.usersPermissionsUser?.carts.find((cartItem: any) => {
-    //     return ((cartItem?.product?.inventory[warehouseLocation?.name.toLowerCase()] || 0) < 1);
-    //   });
+    const productWithNoStockInCurrentLocation = carts.find((cartItem: any) => {
+      return (
+        (cartItem?.product?.inventory[warehouseLocation?.name.toLowerCase()] ||
+          0) < 1
+      );
+    });
 
     return false;
   };
@@ -62,25 +59,15 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
   }, []);
 
   const checkIfCartQuantityIsExceeded = () => {
-    const isThereExceededCart =
-      cartProductQuantity?.usersPermissionsUser?.carts?.filter((cart) => {
-        const cartQty = carts?.find(
-          (staleCart) => staleCart?.documentId === cart?.documentId
-        )?.quantity;
+    const isThereExceededCart = carts?.some((cart) => {
+      const productLocationInventory =
+        cart?.product?.inventory?.[
+          warehouseLocation?.name as keyof typeof cart.product.inventory
+        ];
+      return cart?.quantity! > productLocationInventory;
+    });
 
-        const productLocationInventory =
-          cart?.product?.inventory?.[
-            warehouseLocation?.name as keyof typeof cart.product.inventory
-          ];
-
-        if ((cartQty || 0) > (productLocationInventory?.quantity || 0)) {
-          return false;
-        }
-
-        return true;
-      });
-
-    return (isThereExceededCart?.length || 0) > 0;
+    return isThereExceededCart;
   };
 
   const handleEditClick = () => {
@@ -213,7 +200,11 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
       <div className="h-0.5 w-full bg-black lg:hidden" />
       <div className="lg:flex-1">
         <h1 className="font-bold">Order Notes</h1>
-        <Textarea className="min-h-9 h-9" />
+        <Textarea
+          className="min-h-9 h-9"
+          value={orderNotes}
+          onChange={(e) => setOrderNotes(e.target.value)}
+        />
       </div>
     </div>
   );
@@ -259,7 +250,6 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
             </Select>
           </div>
           <CartItems
-            cartProductQuantity={cartProductQuantity}
             data={carts}
             onChange={handleChange}
             onReduceQuant={handleReduceQuant}
