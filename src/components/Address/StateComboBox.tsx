@@ -28,14 +28,27 @@ import StateList from '@/data/state_combo_box.json';
 import { UseFormReturn } from 'react-hook-form';
 import { addressSchema } from '@/lib/validation-schema/address-form';
 import { z } from 'zod';
+import CountryList from '@/data/country_combo_box.json';
 
 type AddressSchemaTypes = z.infer<typeof addressSchema>;
 
 interface StateComboBoxProps {
   form: UseFormReturn<AddressSchemaTypes, any, AddressSchemaTypes>;
+  country: string;
 }
 
-export default function StateComboBox({ form }: StateComboBoxProps) {
+export default function StateComboBox({
+  form,
+  country: countryState,
+}: StateComboBoxProps) {
+  const countryCode = CountryList.find(
+    (country) => country.name.toLowerCase() === countryState.toLocaleLowerCase()
+  )?.acronym;
+
+  const filteredState = StateList.filter((state) =>
+    state.display_name.includes(countryCode || '')
+  );
+
   return (
     <FormField
       control={form.control}
@@ -55,7 +68,7 @@ export default function StateComboBox({ form }: StateComboBoxProps) {
                   )}
                 >
                   {field.value
-                    ? StateList.find(
+                    ? filteredState.find(
                         (state) => state.display_name === field.value
                       )?.display_name
                     : 'Select State'}
@@ -72,7 +85,7 @@ export default function StateComboBox({ form }: StateComboBoxProps) {
                 <CommandList>
                   <CommandEmpty>No State found.</CommandEmpty>
                   <CommandGroup>
-                    {StateList.map((state) => (
+                    {filteredState.map((state) => (
                       <CommandItem
                         value={state.display_name}
                         key={state.id}

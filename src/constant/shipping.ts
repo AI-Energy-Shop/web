@@ -17,7 +17,6 @@ export const CARD_FEE = 39.25;
 // dont change the id of each warehouse location because it match the same id in odoo
 export const WAREHOUSE_LOCATIONS = [
   {
-    id: 1,
     id: 0,
     title: 'Warehouse',
     name: 'warehouse',
