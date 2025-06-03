@@ -4,7 +4,7 @@ import useProductFilter from '@/hooks/useProductFilter';
 import * as PaginationUI from '@/components/ui/pagination';
 import { INITIAL_PAGE_SIZE } from '@/constant';
 import { cn } from '@/lib/utils';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';

@@ -2,7 +2,7 @@ import { SetStateAction, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react'; // shadcn icons (or lucide-react)
 import { Button } from '../ui/button';
 import { Routes } from '@/lib/routes.types';
-import { formatDate } from './formatDate';
+import { formatDate } from '../../utils/formatDate';
 import { useCheckout } from '@/hooks/useCheckout';
 import { Enum_Order_Shippingtype } from '@/lib/gql/graphql';
 

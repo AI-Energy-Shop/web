@@ -1,10 +1,10 @@
 'use client';
 import { muktaVaani } from '@/assets/fonts/fonts';
 import { Minus, Plus } from 'lucide-react';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
+import { Button } from '../../ui/button';
+import { Input } from '../../ui/input';
 import { UseFormReturn } from 'react-hook-form';
-import { FormField } from '../ui/form';
+import { FormField } from '../../ui/form';
 interface ProductQuantityProps {
   form?: UseFormReturn<any>;
   currentStock: number;

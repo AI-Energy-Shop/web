@@ -21,7 +21,7 @@ import {
 } from '@/lib/gql/graphql';
 import { useCheckout } from '@/hooks/useCheckout';
 import { ShippingType } from '@/store/features/checkout';
-import { isButtonClickable } from './isButtonClickable';
+import { isButtonClickable } from '../../utils/isButtonClickable';
 import useCalculateDeliveryPricing from '@/hooks/useCalculateDeliveryPricing';
 import LoadingSpinner from '../loading-spinner';
 import ShippingOptionCard from './ShippingOptionCard';
@@ -41,7 +41,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     handleEditClick,
     isCartNeededManualQuote,
     carts,
-  } = useCart({});
+  } = useCart();
 
   const {
     warehouseLocation,
@@ -330,7 +330,9 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                   >
                     <CalendarIcon className="h-5 w-5 text-muted-foreground" />
                     <span className="text-lg text-muted-foreground">
-                      {deliveryDate ? formatDate(deliveryDate) : 'Select date'}
+                      {deliveryDate
+                        ? formatDate(deliveryDate.toISOString())
+                        : 'Select date'}
                     </span>
                   </Button>
                 </PopoverTrigger>
@@ -358,6 +360,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
       </div>
     );
   };
+
   const renderPickUpOptions = () => {
     return (
       <div className="border border-blue-navy-blue rounded-xl space-y-2 p-2 md:mx-12">
@@ -375,7 +378,9 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                 >
                   <CalendarIcon className="h-5 w-5 text-muted-foreground" />
                   <span className="text-lg font-semibold">
-                    {pickUpDate ? formatDate(pickUpDate) : 'Select date'}
+                    {pickUpDate
+                      ? formatDate(pickUpDate.toISOString())
+                      : 'Select date'}
                   </span>
                 </Button>
               </PopoverTrigger>

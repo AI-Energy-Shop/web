@@ -2,9 +2,9 @@
 
 import React from 'react';
 import BrandItem from './brand-item';
-import { Skeleton } from '../ui/skeleton';
+import { Skeleton } from '../../ui/skeleton';
 import Carousel from 'react-multi-carousel';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import useProductFilter from '@/hooks/useProductFilter';
 interface BrandsProps {

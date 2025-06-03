@@ -1,5 +1,5 @@
 import { products } from '@/app/actions/products';
-import ProductList from '@/components/products/product-list';
+import ProductList from '@/components/products/product-list/product-list';
 import { INITIAL_PAGE_SIZE } from '@/constant';
 import { INITIAL_PAGE } from '@/constant';
 import React, { Suspense } from 'react';

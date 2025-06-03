@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { setWarehouseLocation } from './cart';
 
 type Name = {
   first_name?: string | null;
@@ -76,6 +77,17 @@ export const meSlice = createSlice({
       ...state,
       me: payload,
     }),
+    setSelectedWarehouseLocation: (
+      state,
+      { payload }: { payload: WarehouseLocation }
+    ) => {
+      if (state.me) {
+        if (!state.me.account_detail) {
+          state.me.account_detail = {};
+        }
+        state.me.account_detail.warehouseLocation = payload;
+      }
+    },
     setMeAdmin: (state, { payload }: { payload: Me }) => ({
       ...state,
       meAdmin: payload,
@@ -88,6 +100,7 @@ export const meSlice = createSlice({
   },
 });
 
-export const { setMe, setMeAdmin, logout } = meSlice.actions;
+export const { setMe, logout, setMeAdmin, setSelectedWarehouseLocation } =
+  meSlice.actions;
 
 export default meSlice.reducer;

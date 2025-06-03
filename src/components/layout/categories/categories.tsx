@@ -2,7 +2,7 @@
 import useProductFilter from '@/hooks/useProductFilter';
 import COLLECTIONS_OPERATIONS from '@/graphql/collections';
 import { usePathname } from 'next/navigation';
-import { Skeleton } from '../ui/skeleton';
+import { Skeleton } from '../../ui/skeleton';
 import { useQuery } from '@apollo/client';
 import Image from 'next/image';
 import React from 'react';

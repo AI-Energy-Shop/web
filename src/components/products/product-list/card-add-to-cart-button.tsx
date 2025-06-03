@@ -1,15 +1,11 @@
 'use client';
 import { z } from 'zod';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
+import { Input } from '../../ui/input';
+import { Button } from '../../ui/button';
 import { useForm } from 'react-hook-form';
-import { useToast } from '@/hooks/useToast';
-import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/navigation';
-import { Form, FormField } from '../ui/form';
+import { Form, FormField } from '../../ui/form';
 import ProductQuantity from './product-quantity';
 import { zodResolver } from '@hookform/resolvers/zod';
-import useMe from '@/hooks/useMe';
 
 const addToCartFormSchema = z.object({
   id: z.string(),

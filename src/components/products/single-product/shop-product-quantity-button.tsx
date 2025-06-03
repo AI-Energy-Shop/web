@@ -6,7 +6,7 @@ import { Minus, Plus } from 'lucide-react';
 import { UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { addToCartSchema } from '@/lib/validation-schema/add-to-cart-form';
-import { FormField, FormItem, FormControl } from '../ui/form';
+import { FormField, FormItem, FormControl } from '../../ui/form';
 interface ShopProductQuantityButtonsProps {
   price: number;
   defaultQuantity?: number;

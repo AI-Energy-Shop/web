@@ -1,10 +1,10 @@
 import { cn } from '@/lib/utils';
 import { firaSans } from '@/app/font';
-import { Breadcrumb } from '@/components/products';
+import Breadcrumb from '@/components/layout/breadcrumb';
 import { storeProduct } from '@/app/actions/products';
-import RelatedProducts from '@/components/products/related-products';
-import ProductDescription from '@/components/products/product-description';
-import SingleProductDetails from '@/components/products/single-product-details';
+import RelatedProducts from '@/components/products/single-product/related-products';
+import ProductDescription from '@/components/products/single-product/product-description';
+import SingleProductDetails from '@/components/products/single-product/single-product-details';
 import ProductCarousel from '@/components/carousels/CustomerProduct/products-carousel';
 
 async function ProductPage({

@@ -1,24 +1,13 @@
 'use client';
 import { z } from 'zod';
 import React, { BaseSyntheticEvent } from 'react';
-import { Input } from '../ui/input';
+import { Input } from '@/components/ui/input';
 import { firaSans } from '@/app/font';
-import useCart from '@/hooks/useCart';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 import { Minus, Plus } from 'lucide-react';
-import { GetStoreProductQuery } from '@/lib/gql/graphql';
-import { Form, FormControl, FormField, FormItem } from '../ui/form';
-import {
-  AddToCartFormData,
-  addToCartSchema,
-} from '@/lib/validation-schema/add-to-cart-form';
-import { useAppSelector } from '@/store/store';
-import {
-  FieldValues,
-  SubmitErrorHandler,
-  SubmitHandler,
-  UseFormReturn,
-} from 'react-hook-form';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import { UseFormReturn } from 'react-hook-form';
+import { AddToCartFormData } from '@/lib/validation-schema/add-to-cart-form';
 
 interface ProductAddToCartButtonProps {
   form: UseFormReturn<
@@ -33,29 +22,38 @@ interface ProductAddToCartButtonProps {
     }
   >;
   stocks: number;
+  productId?: string;
   productPrice: number;
   isDecrementDisabled: boolean;
   isIncrementDisabled: boolean;
-  handleIncrement: () => void;
-  handleDecrement: () => void;
-  handleSubmit: (
-    data: FieldValues,
-    event?: BaseSyntheticEvent<object, any, any> | undefined
-  ) => void;
+  handleSubmit: (data: AddToCartFormData) => void;
   handleOnError?: (onError: any) => void;
 }
 
 const ProductAddToCartButton: React.FC<ProductAddToCartButtonProps> = ({
   form,
   stocks,
+  productId,
   productPrice,
   isDecrementDisabled,
   isIncrementDisabled,
   handleSubmit,
   handleOnError,
-  handleIncrement,
-  handleDecrement,
 }) => {
+  const handleIncrement = () => {
+    const quantity = Number(form?.getValues('quantity')) || 0; // Ensure it's a number
+    if (quantity < stocks) {
+      form?.setValue('quantity', quantity + 1);
+    }
+  };
+  const handleDecrement = () => {
+    const quantity = form?.getValues('quantity');
+
+    if (quantity > 0 && quantity <= stocks) {
+      form?.setValue('quantity', quantity - 1);
+    }
+  };
+
   return (
     <div className="bg-light-yellow max-md:px-4 md:bg-white md:mt-6">
       <div className="mx-auto">
@@ -65,13 +63,16 @@ const ProductAddToCartButton: React.FC<ProductAddToCartButtonProps> = ({
             <FormField
               control={form.control}
               name="id"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input type="hidden" {...field} />
-                  </FormControl>
-                </FormItem>
-              )}
+              defaultValue={productId}
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormControl>
+                      <Input type="hidden" {...field} />
+                    </FormControl>
+                  </FormItem>
+                );
+              }}
             />
             <div className="mx-auto text-center max-md:px-2 md:mt-6 md:py-2 md:flex md:justify-between">
               <div className="flex flex-col border rounded-lg overflow-hidden">
