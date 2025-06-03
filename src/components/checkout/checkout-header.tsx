@@ -1,17 +1,11 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
+import React from 'react';
 import { ChevronLeft } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import Link from 'next/link';
 const CheckoutHeader = () => {
-  const stepper = useSelector((state: RootState) => state.cart.paymentStep);
-  const [step, setStep] = useState(0);
-
-  useEffect(() => {
-    setStep(stepper);
-  }, [stepper]);
+  const step = useSelector((state: RootState) => state.cart.paymentStep);
 
   return (
     <header className="bg-white">
@@ -54,6 +48,9 @@ const CheckoutHeader = () => {
           </div>
         </div>
       </section>
+      <h1 className="text-xl font-bold ae-mobile-container ae-non-mobile-container py-4">
+        Checkout
+      </h1>
     </header>
   );
 };

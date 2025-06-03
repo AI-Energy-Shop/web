@@ -1,18 +1,7 @@
-export const getProductStatus = (publishedAt: string | null | undefined) => {
-  if (!publishedAt)
-    return { status: 'Draft', color: 'bg-gray-100 text-gray-800' };
+import { GetStoreProductQuery } from '@/lib/gql/graphql';
 
-  const publishDate = new Date(publishedAt);
-  const now = new Date();
-
-  if (publishDate > now) {
-    return { status: 'Scheduled', color: 'bg-blue-100 text-blue-800' };
-  } else {
-    return { status: 'Published', color: 'bg-green-100 text-green-800' };
-  }
-};
-
-export const getProductPricing = (
+// Custom hook to handle price logic
+const useProductPricing = (
   priceList: any[],
   userLevel?: string,
   currentQuantity: number = 0
@@ -68,3 +57,5 @@ export const getProductPricing = (
     comparePrice: displayPricing?.comparePrice || 0,
   };
 };
+
+export default useProductPricing;

@@ -1,16 +1,14 @@
 'use client';
 
-import useCart from '@/hooks/useCart';
-import useMe from '@/hooks/useMe';
-import { formatCurrency } from '@/utils/cart';
-import { ChevronDown, ChevronUp, Package } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
+import useCartV2 from '@/hooks/useCartV2';
+import { formatCurrency } from '@/utils/cart';
+import { ChevronDown, ChevronUp, Package } from 'lucide-react';
+import { useAppSelector } from '@/store/store';
 
 function OrderSummary() {
-  const { carts } = useCart({});
-  const { user } = useMe();
-
+  const carts = useAppSelector((state) => state.cart.carts);  
   const [expanded, setExpanded] = useState<boolean>(true);
 
   const toggleExpand = () => {

@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-interface ModalProps {
+interface RemoveItemModalProps {
   open: boolean;
   onClose: () => void;
   onConfirm: () => void;
@@ -17,7 +17,7 @@ interface ModalProps {
   message: string;
 }
 
-const Modal: React.FC<ModalProps> = ({
+const RemoveItemModal: React.FC<RemoveItemModalProps> = ({
   open,
   onClose,
   onConfirm,
@@ -49,4 +49,4 @@ const Modal: React.FC<ModalProps> = ({
   );
 };
 
-export default Modal;
+export default RemoveItemModal;

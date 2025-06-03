@@ -4,9 +4,11 @@ import BulkPrices from './bulk-prices';
 import ProductPrice from './product-price';
 import { GetStoreProductQuery } from '@/lib/gql/graphql';
 import ProductAddToCartButton from './product-add-to-cart-button';
-import ShopProductStockQuantities from './shop-product-sock-quantities';
+import ShopProductStockQuantities from './shop-product-stock-quantities';
 import { useAppSelector } from '@/store/store';
-import useCart from '@/hooks/useCart';
+import { useForm } from 'react-hook-form';
+import { AddToCartFormData } from '@/lib/validation-schema/add-to-cart-form';
+import useCartV2 from '@/hooks/useCartV2';
 
 interface SingleProductDetailsProps {
   product: GetStoreProductQuery['getStoreProduct'];
@@ -15,17 +17,17 @@ interface SingleProductDetailsProps {
 const SingleProductDetails: React.FC<SingleProductDetailsProps> = ({
   product,
 }) => {
-  const {
-    form,
-    handleSubmit,
-    handleOnError,
-    handleIncrement,
-    handleDecrement,
-  } = useCart({ productId: product?.documentId });
+  const me = useAppSelector((state) => state.me.me);
+  const userLevel = me?.account_detail?.level;
+  const warehouse = me?.account_detail?.warehouseLocation?.name;
+  const { carts, addToCartItem, updateCartItem } = useCartV2();
 
-  const userLevel = useAppSelector(
-    (state) => state.me.me?.account_detail?.level
-  );
+  const form = useForm<AddToCartFormData>({
+    defaultValues: {
+      id: product?.documentId,
+      quantity: 0,
+    },
+  });
 
   const priceList =
     product?.price_lists
@@ -38,10 +40,6 @@ const SingleProductDetails: React.FC<SingleProductDetailsProps> = ({
         user_level: price?.user_level ?? '',
       }))
       .sort((a, b) => a.min_quantity - b.min_quantity) || [];
-
-  const warehouse = useAppSelector(
-    (state) => state.me.me?.account_detail?.warehouseLocation?.name
-  );
 
   const currentInputQuantity = form.watch('quantity') || 0;
   const stocks =
@@ -79,6 +77,35 @@ const SingleProductDetails: React.FC<SingleProductDetailsProps> = ({
     return priceData?.price || priceData?.comparePrice || 0;
   };
 
+  const handleSubmit = (onValid: AddToCartFormData) => {
+    const cartItem = carts.find(
+      (cart) => cart?.product?.documentId === onValid?.id
+    );
+
+    if (cartItem) {
+      updateCartItem({
+        variables: {
+          documentId: cartItem?.documentId,
+          data: {
+            quantity: cartItem?.quantity + onValid?.quantity,
+          },
+        },
+      });
+    } else {
+      addToCartItem({
+        variables: {
+          data: {
+            product: onValid?.id,
+            quantity: onValid?.quantity,
+            user: me?.id,
+          },
+        },
+      });
+    }
+
+    form.reset();
+  };
+
   return (
     <div className="md:basis-[51.75%] md:max-w-[51.75%]">
       <ProductPrice
@@ -86,7 +113,6 @@ const SingleProductDetails: React.FC<SingleProductDetailsProps> = ({
         price={getDisplayPrice(displayPricing)}
         comparePrice={displayPricing?.comparePrice}
       />
-
       <BulkPrices priceList={priceList} />
       <ShopProductStockQuantities inventory={product?.inventory} />
       {userLevel ? (
@@ -94,11 +120,9 @@ const SingleProductDetails: React.FC<SingleProductDetailsProps> = ({
           form={form}
           stocks={stocks}
           handleSubmit={handleSubmit}
-          handleOnError={handleOnError}
-          handleIncrement={handleIncrement}
-          handleDecrement={handleDecrement}
-          isDecrementDisabled={isDecrementDisabled}
+          productId={product?.documentId}
           isIncrementDisabled={isIncrementDisabled}
+          isDecrementDisabled={isDecrementDisabled}
           productPrice={getDisplayPrice(displayPricing) * currentInputQuantity}
         />
       ) : (

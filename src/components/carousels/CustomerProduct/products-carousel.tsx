@@ -22,13 +22,13 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ product }) => {
     UploadFileQuery['uploadFile']
   >(product?.images?.at?.(0));
 
-  const firstImage = product?.images.at(0);
+  const firstImage = product?.images?.at?.(0);
 
   React.useEffect(() => {
     if (firstImage) {
       setSelectedImage(selectedImage);
     }
-  }, [selectedImage]);
+  }, [selectedImage, firstImage]);
 
   return (
     <>

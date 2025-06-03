@@ -34,6 +34,10 @@ const BulkPrices = ({ priceList }: BulkPricesProps) => {
     (price) => price.user_level === user?.account_detail?.level
   );
 
+  if (bulkPrices?.length === 0) {
+    return null;
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="w-full md:w-80 h-12 md:h-12 text-center relative border border-black rounded-2xl font-medium select-none">

@@ -3,7 +3,7 @@ import {
   WAREHOUSE_LOCATIONS,
 } from '@/constant/shipping';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getPickUpOptionsBestTimeSlots } from '@/components/Checkout/pickUpOptionsBestTimeSlot';
+import { getPickUpOptionsBestTimeSlots } from '@/utils/pickUpOptionsBestTimeSlot';
 import {
   Enum_Order_Paymentmethod,
   Enum_Order_Shippingtype,
