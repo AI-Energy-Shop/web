@@ -1,62 +1,60 @@
 'use client';
+
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from '../ui/select';
+} from '../../ui/select';
+import React, { useEffect, useRef, useState } from 'react';
 import { WAREHOUSE_LOCATIONS } from '@/constant/shipping';
 import { setPaymentStep } from '@/store/features/cart';
 import { Check, FilePenLine } from 'lucide-react';
-import { Textarea } from '../ui/textarea';
-import ModalWrapper from './modal-wrapper';
-import React, { useEffect, useRef, useState } from 'react';
-import useCart from '@/hooks/useCart';
-import { Button } from '../ui/button';
-import CartItems from './cart-items';
-import { Input } from '../ui/input';
-import { cn } from '@/lib/utils';
-import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
 import { useCheckout } from '@/hooks/useCheckout';
 import { useAppDispatch } from '@/store/hooks';
-
-interface ReviewItemsProps {
-  checkoutUserData: GetCheckoutUserDataQuery;
-}
+import { useAppSelector } from '@/store/store';
+import { Textarea } from '../../ui/textarea';
+import ModalWrapper from '../modal-wrapper';
+import useCart from '@/hooks/useCart';
+import { Button } from '../../ui/button';
+import CartItems from './cart-items';
+import { Input } from '../../ui/input';
+import { cn } from '@/lib/utils';
+import useCartV2 from '@/hooks/useCartV2';
 
 type ToRemoveItemId = string | undefined;
 type DebounceTimer = NodeJS.Timeout | null;
 
-const ReviewItems: React.FC<ReviewItemsProps> = ({
-  checkoutUserData: cartProductQuantity,
-}) => {
+const Reviews = () => {
   const dispatch = useAppDispatch();
 
-  const {
-    carts,
-    paymentStep,
-    removeItemFromCart,
-    updateApolloClientCartData,
-    updateCartItem,
-  } = useCart();
+  const carts = useAppSelector((state) => state.cart.carts);
+  const paymentStep = useAppSelector((state) => state.cart.paymentStep);
+
+  // const {
+  //   paymentStep,
+  //   removeItemFromCart,
+  //   // updateApolloClientCartData,
+  //   // updateCartItem,
+  // } = useCart();
 
   const [toRemoveItemId, setToRemoveItemId] =
     useState<ToRemoveItemId>(undefined);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const { warehouseLocation, setWarehouseLocation } = useCheckout();
-  const debounceTimer = useRef<DebounceTimer>(null);
-  const DEBOUNCE_DELAY = 1500;
+  const { setWarehouseLocation } = useCheckout();
+  // const debounceTimer = useRef<DebounceTimer>(null);
+  // const DEBOUNCE_DELAY = 1500;
 
-  const checkIfProductLocationQuantityIsOkToProceed = () => {
-    // TODO: ROI
-    // const productWithNoStockInCurrentLocation =
-    //   cartProductQuantity.usersPermissionsUser?.carts.find((cartItem: any) => {
-    //     return ((cartItem?.product?.inventory[warehouseLocation?.name.toLowerCase()] || 0) < 1);
-    //   });
+  // const checkIfProductLocationQuantityIsOkToProceed = () => {
+  //   // TODO: ROI
+  //   // const productWithNoStockInCurrentLocation =
+  //   //   cartProductQuantity.usersPermissionsUser?.carts.find((cartItem: any) => {
+  //   //     return ((cartItem?.product?.inventory[warehouseLocation?.name.toLowerCase()] || 0) < 1);
+  //   //   });
 
-    return false;
-  };
+  //   return false;
+  // };
 
   useEffect(() => {
     dispatch(setPaymentStep(1));
@@ -65,27 +63,23 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const checkIfCartQuantityIsExceeded = () => {
-    const isThereExceededCart =
-      cartProductQuantity?.usersPermissionsUser?.carts?.filter((cart) => {
-        const cartQty = carts?.find(
-          (staleCart) => staleCart?.documentId === cart?.documentId
-        )?.quantity;
-
-        const productLocationInventory =
-          cart?.product?.inventory?.[
-            warehouseLocation?.name as keyof typeof cart.product.inventory
-          ];
-
-        if ((cartQty || 0) > (productLocationInventory?.quantity || 0)) {
-          return false;
-        }
-
-        return true;
-      });
-
-    return (isThereExceededCart?.length || 0) > 0;
-  };
+  // const checkIfCartQuantityIsExceeded = () => {
+  //   // const isThereExceededCart =
+  //   //   cartProductQuantity?.usersPermissionsUser?.carts?.filter((cart) => {
+  //   //     const cartQty = carts?.find(
+  //   //       (staleCart) => staleCart?.documentId === cart?.documentId
+  //   //     )?.quantity;
+  //   //     const productLocationInventory =
+  //   //       cart?.product?.inventory?.[
+  //   //         warehouseLocation?.name as keyof typeof cart.product.inventory
+  //   //       ];
+  //   //     if ((cartQty || 0) > (productLocationInventory?.quantity || 0)) {
+  //   //       return false;
+  //   //     }
+  //   //     return true;
+  //   //   });
+  //   // return (isThereExceededCart?.length || 0) > 0;
+  // };
 
   const handleEditClick = () => {
     dispatch(setPaymentStep(1));
@@ -99,82 +93,56 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
   };
 
   const handleContinueClick = () => {
-    if (carts.length === 0) return;
     dispatch(setPaymentStep(paymentStep + 1));
   };
 
-  const handleChange = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
-    const cart = carts.find((cart) => cart?.documentId === id);
-    if (cart) {
-      const value = e.target.value === '' ? 0 : parseInt(e.target.value, 10);
+  // const handleChange = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const cart = carts.find((cart) => cart?.documentId === id);
+  //   if (cart) {
+  //     const value = e.target.value === '' ? 0 : parseInt(e.target.value, 10);
 
-      updateApolloClientCartData(cart.documentId, value);
+  //     updateApolloClientCartData(cart.documentId, value);
 
-      // debounce functionality to delay network request when the value change so fast
-      if (debounceTimer.current) {
-        clearTimeout(debounceTimer.current);
-      }
-      debounceTimer.current = setTimeout(async () => {
-        await updateCartItem({
-          variables: { documentId: cart.documentId, data: { quantity: value } },
-        });
-      }, DEBOUNCE_DELAY);
-    }
-  };
+  //     // debounce functionality to delay network request when the value change so fast
+  //     if (debounceTimer.current) {
+  //       clearTimeout(debounceTimer.current);
+  //     }
+  //     debounceTimer.current = setTimeout(async () => {
+  //       await updateCartItem({
+  //         variables: { documentId: cart.documentId, data: { quantity: value } },
+  //       });
+  //     }, DEBOUNCE_DELAY);
+  //   }
+  // };
 
-  const handleReduceQuant = (id: string) => {
-    const cart = carts.find((cart) => cart?.documentId === id);
-    if (cart) {
-      if (cart.quantity <= 1) {
-        setShowModal(!showModal);
-        setToRemoveItemId(id);
-      } else {
-        updateApolloClientCartData(cart.documentId, cart.quantity - 1);
+  // const handleAddQuant = (id: string) => {
+  //   const cart = carts.find((cart) => cart?.documentId === id);
+  //   if (cart) {
+  //     updateApolloClientCartData(cart.documentId, cart.quantity + 1);
 
-        // debounce functionality to delay network request when the value change so fast
-        if (debounceTimer.current) {
-          clearTimeout(debounceTimer.current);
-        }
-        debounceTimer.current = setTimeout(async () => {
-          await updateCartItem({
-            variables: {
-              documentId: cart.documentId,
-              data: { quantity: cart.quantity - 1 },
-            },
-          });
-        }, DEBOUNCE_DELAY);
-      }
-    }
-  };
+  //     // debounce functionality to delay network request when the value change so fast
+  //     if (debounceTimer.current) {
+  //       clearTimeout(debounceTimer.current);
+  //     }
+  //     debounceTimer.current = setTimeout(async () => {
+  //       await updateCartItem({
+  //         variables: {
+  //           documentId: cart.documentId,
+  //           data: { quantity: cart.quantity + 1 },
+  //         },
+  //       });
+  //     }, DEBOUNCE_DELAY);
+  //   }
+  // };
 
-  const handleAddQuant = (id: string) => {
-    const cart = carts.find((cart) => cart?.documentId === id);
-    if (cart) {
-      updateApolloClientCartData(cart.documentId, cart.quantity + 1);
-
-      // debounce functionality to delay network request when the value change so fast
-      if (debounceTimer.current) {
-        clearTimeout(debounceTimer.current);
-      }
-      debounceTimer.current = setTimeout(async () => {
-        await updateCartItem({
-          variables: {
-            documentId: cart.documentId,
-            data: { quantity: cart.quantity + 1 },
-          },
-        });
-      }, DEBOUNCE_DELAY);
-    }
-  };
-
-  const handleRemove = (id: string) => {
-    setShowModal(!showModal);
-    setToRemoveItemId(id);
-  };
+  // const handleRemove = (id: string) => {
+  //   setShowModal(!showModal);
+  //   setToRemoveItemId(id);
+  // };
 
   const handleConfirmRemove = () => {
     if (!toRemoveItemId) return;
-    removeItemFromCart(toRemoveItemId);
+    // removeItemFromCart(toRemoveItemId);
     setShowModal(false);
   };
 
@@ -244,9 +212,10 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
     <div className="ae-mobile-container px-2 mt-4 lg:bg-white lg:-mt-4 py-4">
       <Button
         disabled={
-          carts.length === 0 ||
-          checkIfProductLocationQuantityIsOkToProceed() ||
-          checkIfCartQuantityIsExceeded()
+          carts.length === 0
+          // ||
+          // checkIfProductLocationQuantityIsOkToProceed() ||
+          // checkIfCartQuantityIsExceeded()
         }
         className="mx-auto px-12 block rounded-2xl bg-pink-darker-pink hover:bg-pink-darker-pink/90"
         onClick={handleContinueClick}
@@ -267,14 +236,7 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
           )}
         >
           <LocationSelector />
-          <CartItems
-            data={carts}
-            onChange={handleChange}
-            onRemove={handleRemove}
-            onAddQuant={handleAddQuant}
-            onReduceQuant={handleReduceQuant}
-            cartProductQuantity={cartProductQuantity}
-          />
+          <CartItems />
           <VoucherCode />
           <ContinueButton />
         </div>
@@ -291,4 +253,4 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({
   );
 };
 
-export default ReviewItems;
+export default Reviews;

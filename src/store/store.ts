@@ -16,9 +16,7 @@ import productsReducer from './features/products';
 import cartReducer from './features/cart';
 import { combineReducers } from 'redux';
 import meReducer from './features/me';
-
-const ONE_DAY = 60 * 60 * 24;
-const ONE_MONTH = 60 * 60 * 24 * 30;
+import { ONE_DAY, ONE_MONTH } from '@/constant/auth';
 
 const rootReducer = combineReducers({
   me: meReducer,
@@ -95,13 +93,11 @@ export const updatePersistence = async (rememberMe?: boolean) => {
       (Date.now() + expirationTime * 1000).toString()
     );
 
-    if (rememberMe) {
-      checkExistingPersistence();
-      const newConfig = getPersistConfig();
-      const newPersistedReducer = persistReducer(newConfig, rootReducer);
-      store.replaceReducer(newPersistedReducer);
-      persistor.persist();
-    }
+    checkExistingPersistence();
+    const newConfig = getPersistConfig();
+    const newPersistedReducer = persistReducer(newConfig, rootReducer);
+    store.replaceReducer(newPersistedReducer);
+    persistor.persist();
   } catch (error) {
     console.error('Error updating persistence:', error);
   }
@@ -110,13 +106,7 @@ export const updatePersistence = async (rememberMe?: boolean) => {
 export const removePersistence = () => {
   persistor.pause();
   persistor.purge();
+
   localStorage.removeItem('persist:root');
   localStorage.removeItem('persist:root:expiration');
-
-  const data = {
-    persitData: localStorage.getItem('persist:root'),
-    persitDataExpiration: localStorage.getItem('persist:root:expiration'),
-  };
-
-  return data;
 };

@@ -10,10 +10,10 @@ import {
   UpdateCartMutationVariables,
 } from '@/lib/gql/graphql';
 import { useEffect } from 'react';
+import { debounce } from 'lodash';
 
 const useCartV2 = () => {
   const dispatch = useAppDispatch();
-
   const user = useAppSelector((state: RootState) => state.me.me);
 
   const { data, refetch, loading } = useQuery<CartsQuery>(
@@ -30,8 +30,14 @@ const useCartV2 = () => {
     CreateCartMutation,
     CreateCartMutationVariables
   >(CART_OPERATIONS.Mutation.createCart, {
-    onCompleted: (data) => {
+    onCompleted: () => {
       refetch();
+      // // Show the notification
+      dispatch(setShowCartWindow(true));
+      // Hide the notification after 3 seconds
+      setTimeout(() => {
+        dispatch(setShowCartWindow(false));
+      }, 3000);
     },
     onError: (error) => {
       console.log(error);
@@ -42,15 +48,14 @@ const useCartV2 = () => {
     UpdateCartMutation,
     UpdateCartMutationVariables
   >(CART_OPERATIONS.Mutation.updateCart, {
-    onCompleted: (data) => {
+    onCompleted: () => {
       refetch();
-      // // Show the notification
-      // dispatch(setShowCartWindow(true));
-
-      // // Hide the notification after 3 seconds
-      // setTimeout(() => {
-      //   dispatch(setShowCartWindow(false));
-      // }, 3000);
+      // Show the notification
+      dispatch(setShowCartWindow(true));
+      // Hide the notification after 3 seconds
+      setTimeout(() => {
+        dispatch(setShowCartWindow(false));
+      }, 3000);
     },
     onError: (error) => {
       console.log('Error updating cart item', error);
@@ -66,23 +71,39 @@ const useCartV2 = () => {
     },
   });
 
-  useEffect(() => {
-    if (data) {
-      dispatch(setCarts(data.carts));
+  // Debounced search function
+  const debouncedUpdateCartItem = debounce(
+    ({ documentId, quantity }: { documentId: string; quantity: number }) => {
+      if (documentId) {
+        updateCartItem({
+          variables: {
+            documentId,
+            data: { quantity },
+          },
+        });
+      }
+    },
+    500
+  );
 
-      // Show the notification
-      dispatch(setShowCartWindow(true));
+  // useEffect(() => {
+  //   if (data) {
+  //     dispatch(setCarts(data.carts));
 
-      // Hide the notification after 3 seconds
-      setTimeout(() => {
-        dispatch(setShowCartWindow(false));
-      }, 3000);
-    }
-  }, [data]);
+  //     // Show the notification
+  //     dispatch(setShowCartWindow(true));
+
+  //     // Hide the notification after 3 seconds
+  //     setTimeout(() => {
+  //       dispatch(setShowCartWindow(false));
+  //     }, 3000);
+  //   }
+  // }, []);
 
   return {
     carts: data?.carts || [],
     loading,
+    debouncedUpdateCartItem,
     refetch,
     addToCartItem,
     deleteCartItem,

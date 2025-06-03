@@ -18,7 +18,7 @@ import useCart from '@/hooks/useCart';
 import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
 import { useCheckout } from '@/hooks/useCheckout';
 import { ShippingType } from '@/store/features/checkout';
-import { isButtonClickable } from './isButtonClickable';
+import { isButtonClickable } from '../../utils/isButtonClickable';
 import useCalculateDeliveryPricing from '@/hooks/useCalculateDeliveryPricing';
 import LoadingSpinner from '../loading-spinner';
 import ShippingOptionCard from './ShippingOptionCard';

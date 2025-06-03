@@ -3,7 +3,7 @@
 import { useCheckout } from '@/hooks/useCheckout';
 import { ChevronDown, ChevronUp, Truck } from 'lucide-react';
 import React, { useState } from 'react';
-import { formatDate } from '../checkout/formatDate';
+import { formatDate } from '../../utils/formatDate';
 
 function ShippingDetails() {
   const [expanded, setExpanded] = useState<boolean>(false);

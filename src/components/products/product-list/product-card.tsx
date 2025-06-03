@@ -54,9 +54,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
   );
 
   const currentQuantity = form.watch('quantity') || 0;
+  const priceList = product?.price_lists || [];
 
   const { displayPrice, comparePrice } = useProductPricing(
-    product,
+    priceList,
     userLevel,
     currentQuantity
   );

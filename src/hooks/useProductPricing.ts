@@ -2,12 +2,12 @@ import { GetStoreProductQuery } from '@/lib/gql/graphql';
 
 // Custom hook to handle price logic
 const useProductPricing = (
-  product: GetStoreProductQuery['getStoreProduct'],
+  priceList: any[],
   userLevel?: string,
   currentQuantity: number = 0
 ) => {
-  const priceList =
-    product?.price_lists
+  const sortedPriceList =
+    priceList
       ?.map((price) => ({
         documentId: price?.documentId,
         price: price?.price ?? 0,
@@ -20,7 +20,7 @@ const useProductPricing = (
 
   // Helper function to find user-specific pricing based on quantity and user level
   const findUserPricing = () => {
-    return priceList?.find((priceItem) => {
+    return sortedPriceList?.find((priceItem) => {
       const { min_quantity = 0, max_quantity = 0, user_level } = priceItem;
 
       return (
@@ -33,7 +33,9 @@ const useProductPricing = (
 
   // Helper function to find default pricing
   const findDefaultPricing = () => {
-    return priceList?.find((priceItem) => priceItem?.user_level === 'default');
+    return sortedPriceList?.find(
+      (priceItem) => priceItem?.user_level === 'default'
+    );
   };
 
   // Determine which pricing to display

@@ -1,43 +1,74 @@
 'use client';
-import React from 'react';
+
+import React, { useState } from 'react';
 import Image from 'next/image';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
+import { Input } from '../../ui/input';
+import { Button } from '../../ui/button';
 import { formatCurrency } from '@/utils/cart';
 import { Minus, Plus, Trash2 } from 'lucide-react';
+import { AddToCartFormData } from '@/lib/validation-schema/add-to-cart-form';
+import { CartsQuery } from '@/lib/gql/graphql';
+import useProductPricing from '@/hooks/useProductPricing';
 
-interface CartItemCardProps {
-  id: string;
-  image?: string;
-  title?: string;
-  model?: string;
-  price: number;
-  quantity?: number;
-  stock?: number;
-  gst?: string;
+interface CartItemProps {
+  item: CartsQuery['carts'][number];
+  userLevel?: string;
+  warehouseLocation?: string;
   onAddQuant: (id: string) => void;
   onReduceQuant: (id: string) => void;
-  onChange: (id: string, e: React.ChangeEvent<HTMLInputElement>) => void;
   onRemove: (id: string) => void;
+  onChange: (id: string, value: string) => void;
 }
 
-const CartItemCard: React.FC<CartItemCardProps> = ({
-  id,
-  image,
-  title,
-  model,
-  price,
-  quantity = 0,
-  stock = 0,
-  gst,
+type InventoryType = {
+  melbourne: number;
+  sydney: number;
+  brisbane: number;
+  documentId: string;
+  __typename: string;
+};
+
+const CartItem: React.FC<CartItemProps> = ({
+  item,
+  userLevel,
+  warehouseLocation,
+  onRemove,
   onChange,
   onAddQuant,
   onReduceQuant,
-  onRemove,
 }) => {
-  const isInStock = stock > 0;
-  const isExceedQuantity = quantity > stock;
+  const itemTitle = item?.product?.name;
+  const itemModel = item?.product?.model;
+  const currentInputQuantity = item?.quantity || 0;
+  const itemImage = item?.product?.images?.at(0)?.url;
+  const currentProductStocksQuantity = Number(
+    item?.product?.inventory?.[warehouseLocation as keyof InventoryType] || 0
+  );
+  const [localInputQuantity, setLocalInputQuantity] = useState<number | string>(
+    currentProductStocksQuantity
+  );
 
+  const priceList = item?.product?.price_lists || [];
+
+  const { displayPrice } = useProductPricing(
+    priceList,
+    userLevel,
+    currentInputQuantity
+  );
+
+  const isInStock = currentProductStocksQuantity > 0;
+  const isExceedQuantity = currentInputQuantity > currentProductStocksQuantity;
+
+  const handleChange = (id: string, e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // prevent set this value to NaN
+    if (isNaN(parseInt(value))) {
+      setLocalInputQuantity('');
+    } else {
+      setLocalInputQuantity(parseInt(value));
+    }
+    onChange(id, value);
+  };
   return (
     <div className={`space-y-4 ${!isInStock && 'border-2 border-red-500'}`}>
       <div
@@ -51,7 +82,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
           size="icon"
           variant="ghost"
           className="hidden md:block md:self-center"
-          onClick={() => onRemove(id)}
+          onClick={() => onRemove(item?.documentId || '')}
         >
           <Trash2 className="w-5 h-5 mx-auto" color="red" />
         </Button>
@@ -61,7 +92,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
             alt="picture"
             width={100}
             height={100}
-            src={image || '/no-product-image.jpg'}
+            src={itemImage || '/no-product-image.jpg'}
             className="w-[100px] h-[100px] object-contain"
           />
         </div>
@@ -69,13 +100,14 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
           <p
             className={`text-[10px] ${isInStock ? 'text-green-700' : 'text-red-500'}`}
           >
-            {isInStock ? 'In Stock' : 'Out of Stock'} ({stock})
+            {isInStock ? 'In Stock' : 'Out of Stock'} (
+            {currentProductStocksQuantity})
           </p>
-          <h1 className="text-[14px] font-bold">{title}</h1>
-          <p className="font-thin text-[14px]">{model}</p>
+          <h1 className="text-[14px] font-bold">{itemTitle}</h1>
+          <p className="font-thin text-[14px]">{itemModel}</p>
         </div>
         <div className="flex-1 self-center">
-          <h2>{formatCurrency(price, 'AUD')}</h2>
+          <h2>{formatCurrency(displayPrice, 'AUD')}</h2>
           <p className="text-[12px]">ex.GST</p>
         </div>
         <div>
@@ -90,32 +122,38 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
               <Button
                 size="icon"
                 variant="ghost"
+                type="button"
                 className="bg-gray-200 rounded-none "
-                onClick={() => onReduceQuant(id)}
+                onClick={() => onReduceQuant(item?.documentId || '')}
                 disabled={!isInStock}
               >
                 <Minus />
               </Button>
               <Input
                 type="text"
-                value={quantity}
-                disabled={!isInStock}
-                name="cart-item-quantity"
-                onChange={(e) => onChange(id, e)}
+                name="quantity"
+                value={localInputQuantity}
+                onChange={(e) => handleChange(item?.documentId || '', e)}
                 className="rounded-none z-10 text-center border-none focus:border-none focus:outline-none focus:ring-0"
               />
               <Button
                 size="icon"
                 variant="ghost"
+                type="button"
                 className="bg-gray-200 rounded-none"
-                onClick={() => onAddQuant(id)}
+                onClick={() => onAddQuant(item?.documentId || '')}
                 disabled={!isInStock}
               >
                 <Plus />
               </Button>
             </div>
             <div className="text-center">
-              <p>{formatCurrency(Number(price * quantity), 'AUD')}</p>
+              <p>
+                {formatCurrency(
+                  Number(displayPrice * currentInputQuantity),
+                  'AUD'
+                )}
+              </p>
               <p className="text-[12px]">ex.GST</p>
             </div>
           </div>
@@ -124,7 +162,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
           size="icon"
           variant="ghost"
           className="self-center md:hidden"
-          onClick={() => onRemove(id)}
+          onClick={() => onRemove(item?.documentId || '')}
         >
           <Trash2 className="w-5 h-5" color="red" />
         </Button>
@@ -138,32 +176,37 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
           <Button
             size="icon"
             variant="ghost"
-            className="bg-gray-200 rounded-none w-full h-full border-x border-x-black"
-            onClick={() => onReduceQuant(id)}
             disabled={!isInStock}
+            onClick={() => onReduceQuant(item?.documentId || '')}
+            type="button"
+            className="bg-gray-200 rounded-none w-full h-full border-x border-x-black"
           >
             <Minus />
           </Button>
         </div>
         <Input
-          className="flex-2 rounded-none text-center h-12"
-          value={quantity}
-          onChange={(e) => onChange(id, e)}
+          name="quantity"
+          value={localInputQuantity}
           disabled={!isInStock}
+          className="flex-2 rounded-none text-center h-12"
+          onChange={(e) => handleChange(item?.documentId || '', e)}
         />
         <div className="flex-1">
           <Button
             size="icon"
             variant="ghost"
-            className="bg-gray-200 rounded-none w-full h-full border-x border-x-black"
-            onClick={() => onAddQuant(id)}
             disabled={!isInStock}
+            onClick={() => onAddQuant(item?.documentId || '')}
+            type="button"
+            className="bg-gray-200 rounded-none w-full h-full border-x border-x-black"
           >
             <Plus />
           </Button>
         </div>
         <div className="flex-3 text-right pr-2">
-          <p>{formatCurrency(Number(price * quantity), 'AUD')}</p>
+          <p>
+            {formatCurrency(Number(displayPrice * currentInputQuantity), 'AUD')}
+          </p>
           <p className="text-[14px]">ex.GST</p>
         </div>
       </div>
@@ -171,4 +214,4 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
   );
 };
 
-export default CartItemCard;
+export default CartItem;

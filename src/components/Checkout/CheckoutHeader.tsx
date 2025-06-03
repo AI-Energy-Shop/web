@@ -54,6 +54,9 @@ const CheckoutHeader = () => {
           </div>
         </div>
       </section>
+      <h1 className="text-xl font-bold ae-mobile-container ae-non-mobile-container py-4">
+        Checkout
+      </h1>
     </header>
   );
 };

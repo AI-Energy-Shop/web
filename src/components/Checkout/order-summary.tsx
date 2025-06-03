@@ -6,7 +6,7 @@ import useCart from '@/hooks/useCart';
 import useMe from '@/hooks/useMe';
 import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
 import { useCheckout } from '@/hooks/useCheckout';
-import { formatDate } from './formatDate';
+import { formatDate } from '../../utils/formatDate';
 
 interface OrderSummaryProps {
   checkoutUserData: GetCheckoutUserDataQuery;
