@@ -1,9 +1,9 @@
-import { GetStoreProductQuery } from '@/lib/gql/graphql';
+import { GetStoreProductsQuery } from '@/lib/gql/graphql';
 import Image from 'next/image';
 import React from 'react';
 
 interface CardImageProps {
-  product: GetStoreProductQuery['getStoreProduct'];
+  product: GetStoreProductsQuery['products'][number];
 }
 
 const CardImage = ({ product }: CardImageProps) => {

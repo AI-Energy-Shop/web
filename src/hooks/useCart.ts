@@ -37,7 +37,7 @@ const useCart = (props?: UseCartProps) => {
     fetchPolicy: 'network-only',
     refetchWritePolicy: 'merge',
     onCompleted: (data) => {
-      dispatch(setCarts(data.carts));
+      // dispatch(setCarts(data.carts));
     },
     pollInterval: 1000 * 60 * 10, // 10 minutes
     skip: !user?.id, // Skip query if no user is logged in
@@ -162,12 +162,12 @@ const useCart = (props?: UseCartProps) => {
       });
 
       // Show the notification
-      dispatch(setShowCartWindow(true));
+      // dispatch(setShowCartWindow(true));
 
-      // Hide the notification after 3 seconds
-      setTimeout(() => {
-        dispatch(setShowCartWindow(false));
-      }, 3000);
+      // // Hide the notification after 3 seconds
+      // setTimeout(() => {
+      //   dispatch(setShowCartWindow(false));
+      // }, 3000);
 
       // Reset the form
       form.reset();
@@ -185,12 +185,12 @@ const useCart = (props?: UseCartProps) => {
     });
 
     // Show the notification
-    dispatch(setShowCartWindow(true));
+    // dispatch(setShowCartWindow(true));
 
-    // Hide the notification after 3 seconds
-    setTimeout(() => {
-      dispatch(setShowCartWindow(false));
-    }, 3000);
+    // // Hide the notification after 3 seconds
+    // setTimeout(() => {
+    //   dispatch(setShowCartWindow(false));
+    // }, 3000);
 
     // Reset the form
     form.reset();

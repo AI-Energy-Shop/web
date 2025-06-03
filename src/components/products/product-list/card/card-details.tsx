@@ -1,8 +1,8 @@
-import { GetStoreProductQuery } from '@/lib/gql/graphql';
+import { GetStoreProductsQuery } from '@/lib/gql/graphql';
 import React from 'react';
 
 interface CardDetailsProps {
-  product: GetStoreProductQuery['getStoreProduct'];
+  product: GetStoreProductsQuery['products'][number];
 }
 
 const CardDetails = ({ product }: CardDetailsProps) => {

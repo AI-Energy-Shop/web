@@ -1,12 +1,12 @@
+import { getCartProductQuantity } from '@/app/actions/cart';
+import CheckoutHeader from '@/components/checkout/checkout-header';
+import OrderSummary from '@/components/checkout/order-summary';
 import Payment from '@/components/checkout/payment';
 import Reviews from '@/components/checkout/review/reviews';
-import { getCartProductQuantity } from '@/app/actions/cart';
-import OrderSummary from '@/components/checkout/order-summary';
-import CheckoutHeader from '@/components/checkout/CheckoutHeader';
 import ShippingDetails from '@/components/checkout/shipping-details';
 
 async function CheckoutPage() {
-  // const checkoutUserData = await getCartProductQuantity();
+  const checkoutUserData = await getCartProductQuantity();
 
   return (
     <main className="bg-light-yellow pb-12 relative">
@@ -15,13 +15,13 @@ async function CheckoutPage() {
         <div className="md:col-span-12 lg:col-span-8">
           <Reviews />
 
-          {/* <ShippingDetails checkoutUserData={checkoutUserData} /> */}
+          <ShippingDetails checkoutUserData={checkoutUserData} />
 
-          {/* <Payment checkoutUserData={checkoutUserData} /> */}
+          <Payment checkoutUserData={checkoutUserData} />
         </div>
 
         <div className="hidden lg:block md:col-span-4">
-          {/* <OrderSummary checkoutUserData={checkoutUserData} /> */}
+          <OrderSummary checkoutUserData={checkoutUserData} />
         </div>
       </div>
     </main>

@@ -102,6 +102,8 @@ const SingleProductDetails: React.FC<SingleProductDetailsProps> = ({
         },
       });
     }
+
+    form.reset();
   };
 
   return (

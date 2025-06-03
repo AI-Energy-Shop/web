@@ -206,7 +206,7 @@ const ProductsTable: React.FC<ProductTableProps> = ({ products }) => {
         return (
           <div>
             <p className="text-xs">
-              {formatDate(new Date(row.original?.createdAt))}
+              {formatDate(new Date(row.original?.createdAt).toISOString())}
             </p>
           </div>
         );

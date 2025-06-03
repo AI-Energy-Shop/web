@@ -1,6 +1,6 @@
 'use client';
 import useProductPricing from '@/hooks/useProductPricing';
-import { GetStoreProductQuery } from '@/lib/gql/graphql';
+import { GetStoreProductsQuery } from '@/lib/gql/graphql';
 import { zodResolver } from '@hookform/resolvers/zod';
 import CardDetails from './card/card-details';
 import { useForm } from 'react-hook-form';
@@ -17,7 +17,7 @@ import {
 } from '@/lib/validation-schema/add-to-cart-form';
 
 type ProductCardProps = {
-  product: GetStoreProductQuery['getStoreProduct'];
+  product: GetStoreProductsQuery['products'][number];
   onSubmit: (product: AddToCartFormData) => void;
   warehouse: string;
   userLevel: string;

@@ -3,7 +3,7 @@
 import { AddToCartFormData } from '@/lib/validation-schema/add-to-cart-form';
 import ProductListSkeleton from './product-list-skeleton';
 import ProductPagination from './product-pagination';
-import { GetStoreProductQuery } from '@/lib/gql/graphql';
+import { GetStoreProductsQuery } from '@/lib/gql/graphql';
 import { INITIAL_PAGE_SIZE } from '@/constant';
 import React, { Suspense } from 'react';
 import ProductCard from './product-card';
@@ -13,7 +13,7 @@ import { useAppSelector } from '@/store/store';
 interface ProductListProps {
   page?: number;
   pageSize?: number;
-  data?: GetStoreProductQuery['getStoreProduct'][] | null;
+  data?: GetStoreProductsQuery['products'];
 }
 
 const ProductsList: React.FC<ProductListProps> = ({ data, page, pageSize }) => {

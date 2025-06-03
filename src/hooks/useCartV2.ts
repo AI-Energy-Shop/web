@@ -12,6 +12,8 @@ import {
 import { useEffect } from 'react';
 import { debounce } from 'lodash';
 
+const DEBOUNCE_TIME = 800;
+
 const useCartV2 = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state: RootState) => state.me.me);
@@ -31,8 +33,9 @@ const useCartV2 = () => {
     CreateCartMutationVariables
   >(CART_OPERATIONS.Mutation.createCart, {
     onCompleted: () => {
+      console.log('Cart item added');
       refetch();
-      // // Show the notification
+      // Show the notification
       dispatch(setShowCartWindow(true));
       // Hide the notification after 3 seconds
       setTimeout(() => {
@@ -49,6 +52,7 @@ const useCartV2 = () => {
     UpdateCartMutationVariables
   >(CART_OPERATIONS.Mutation.updateCart, {
     onCompleted: () => {
+      console.log('Cart item updated');
       refetch();
       // Show the notification
       dispatch(setShowCartWindow(true));
@@ -64,6 +68,7 @@ const useCartV2 = () => {
 
   const [deleteCartItem] = useMutation(CART_OPERATIONS.Mutation.deleteCart, {
     onCompleted: (data) => {
+      refetch();
       console.log('Cart item deleted', data);
     },
     onError: (error) => {
@@ -71,7 +76,7 @@ const useCartV2 = () => {
     },
   });
 
-  // Debounced search function
+  // Debounced update function
   const debouncedUpdateCartItem = debounce(
     ({ documentId, quantity }: { documentId: string; quantity: number }) => {
       if (documentId) {
@@ -83,27 +88,43 @@ const useCartV2 = () => {
         });
       }
     },
-    500
+    DEBOUNCE_TIME
   );
 
-  // useEffect(() => {
-  //   if (data) {
-  //     dispatch(setCarts(data.carts));
+  // Debounced remove function
+  const debouncedRemoveCartItem = debounce(
+    ({ documentId }: { documentId: string }) => {
+      if (documentId) {
+        deleteCartItem({
+          variables: {
+            documentId,
+          },
+        });
+      }
+    },
+    DEBOUNCE_TIME
+  );
 
-  //     // Show the notification
-  //     dispatch(setShowCartWindow(true));
+  useEffect(() => {
+    if (data) {
+      dispatch(setCarts(data.carts));
 
-  //     // Hide the notification after 3 seconds
-  //     setTimeout(() => {
-  //       dispatch(setShowCartWindow(false));
-  //     }, 3000);
-  //   }
-  // }, []);
+      // Show the notification
+      dispatch(setShowCartWindow(true));
+
+      // Hide the notification after 3 seconds
+      setTimeout(() => {
+        dispatch(setShowCartWindow(false));
+      }, 3000);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {
     carts: data?.carts || [],
     loading,
     debouncedUpdateCartItem,
+    debouncedRemoveCartItem,
     refetch,
     addToCartItem,
     deleteCartItem,
