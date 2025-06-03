@@ -7,7 +7,7 @@ import {
   SelectItem,
 } from '../ui/select';
 import { WAREHOUSE_LOCATIONS } from '@/constant/shipping';
-import { removeCartsData, setPaymentStep } from '@/store/features/cart';
+import { setPaymentStep } from '@/store/features/cart';
 import { Check, FilePenLine } from 'lucide-react';
 import { Textarea } from '../ui/textarea';
 import ModalWrapper from './ModalWrapper';
@@ -41,14 +41,15 @@ const ReviewItems: React.FC<ReviewItemsProps> = ({}) => {
     useCheckout();
 
   const checkIfProductLocationQuantityIsOkToProceed = () => {
-    const productWithNoStockInCurrentLocation = carts.find((cartItem: any) => {
+    const productWithNoStockInCurrentLocation = carts.find((cartItem) => {
       return (
-        (cartItem?.product?.inventory[warehouseLocation?.name.toLowerCase()] ||
-          0) < 1
+        (cartItem?.product?.inventory?.[
+          warehouseLocation?.name.toLowerCase() as keyof typeof cartItem.product.inventory
+        ] || 0) < 1
       );
     });
 
-    return false;
+    return !!productWithNoStockInCurrentLocation;
   };
 
   useEffect(() => {

@@ -55,7 +55,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     setPickUpNotes,
     setDeliveryNotes,
     setPickUpOptions,
-    setShippingAddress,
+    shippingAddress,
     setCard,
   } = useCheckout();
   const [deliveryDate, setDeliveryDate] = React.useState<Date | undefined>(
@@ -72,6 +72,14 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     checkoutUserData?.usersPermissionsUser?.addresses?.find(
       (address) => address?.isActive === true
     );
+
+  const shippingAddressDisplay = () => {
+    if (shippingAddress) {
+      return shippingAddress;
+    } else {
+      return userCurrentAddress;
+    }
+  };
 
   const isUserHasDefaultAddress =
     checkoutUserData?.usersPermissionsUser?.addresses?.some(
@@ -149,20 +157,6 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
   const TODAY = new Date();
   TODAY.setHours(0, 0, 0, 0);
 
-  useEffect(() => {
-    setShippingAddress({
-      title: userCurrentAddress?.title || '',
-      city: userCurrentAddress?.city || '',
-      country: userCurrentAddress?.country || '',
-      odoo_address_id: userCurrentAddress?.odoo_address_id || '',
-      state: userCurrentAddress?.state || '',
-      street1: userCurrentAddress?.street1 || '',
-      street2: userCurrentAddress?.street2 || '',
-      zip_code: userCurrentAddress?.zip_code || '',
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const renderHeader = () => {
     return (
       <div className="bg-pink-darker-pink py-3">
@@ -230,14 +224,15 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
         </div>
         {userCurrentAddress ? (
           <div className="text-xs">
-            <h1 className="font-bold">{userCurrentAddress?.title}</h1>
-            <h2>{userCurrentAddress?.street1}</h2>
-            <h2>{userCurrentAddress?.street2}</h2>
+            <h1 className="font-bold">{shippingAddressDisplay()?.title}</h1>
+            <h2>{shippingAddressDisplay()?.street1}</h2>
+            <h2>{shippingAddressDisplay()?.street2}</h2>
             <h2>
-              {userCurrentAddress?.city}, {userCurrentAddress?.state}{' '}
-              {userCurrentAddress?.zip_code}
+              {shippingAddressDisplay()?.city},{' '}
+              {shippingAddressDisplay()?.state}{' '}
+              {shippingAddressDisplay()?.zip_code}
             </h2>
-            <h2>{userCurrentAddress?.country}</h2>
+            <h2>{shippingAddressDisplay()?.country}</h2>
           </div>
         ) : (
           <h1 className="font-bold text-sm text-red-500">
