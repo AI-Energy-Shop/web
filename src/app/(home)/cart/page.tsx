@@ -1,11 +1,11 @@
 export const dynamic = 'force-dynamic';
 
 import { getCartProductQuantity } from '@/app/actions/cart';
-import CheckoutHeader from '@/components/Checkout/CheckoutHeader';
-import OrderSummary from '@/components/Checkout/OrderSummary';
-import Payment from '@/components/Checkout/Payment';
-import ReviewItems from '@/components/Checkout/ReviewItems';
-import ShippingDetails from '@/components/Checkout/ShippingDetails';
+import CheckoutHeader from '@/components/checkout/CheckoutHeader';
+import OrderSummary from '@/components/checkout/order-summary';
+import Payment from '@/components/checkout/payment';
+import ReviewItems from '@/components/checkout/review-items';
+import ShippingDetails from '@/components/checkout/shipping-details';
 async function CheckoutPage() {
   const checkoutUserData = await getCartProductQuantity();
 

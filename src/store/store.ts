@@ -56,7 +56,7 @@ const checkExistingPersistence = () => {
 export const getPersistConfig = () => ({
   key: 'root',
   storage,
-  whitelist: ['me'],
+  whitelist: ['me', 'cart'],
 });
 
 // Initial persist config (default to not persisting)

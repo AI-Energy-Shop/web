@@ -1,15 +1,17 @@
 'use client';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import useCart from '@/hooks/useCart';
 import { formatCurrency } from '@/utils/cart';
 import { useAppSelector } from '@/store/store';
-interface CartNotificationProps {}
+import useCartV2 from '@/hooks/useCartV2';
+import { CartsQuery } from '@/lib/gql/graphql';
 
-const CartNotification: React.FC<CartNotificationProps> = () => {
+interface CartNotificationProps {
+  carts?: CartsQuery['carts'];
+}
+const CartNotification: React.FC<CartNotificationProps> = ({ carts }) => {
   const showCartWindow = useAppSelector((state) => state.cart.showCartWindow);
   const me = useAppSelector((state) => state.me.me);
-  const { carts } = useCart({});
 
   return (
     <div
@@ -63,7 +65,7 @@ const CartNotification: React.FC<CartNotificationProps> = () => {
             </div>
           );
         })}
-        {carts.length === 0 && (
+        {carts?.length === 0 && (
           <div className="p-4 text-center text-gray-500 w-full">
             Your cart is empty
           </div>

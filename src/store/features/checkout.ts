@@ -4,7 +4,7 @@ import {
 } from '@/constant/shipping';
 import { CartsQuery } from '@/lib/gql/graphql';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getPickUpOptionsBestTimeSlots } from '@/components/Checkout/pickUpOptionsBestTimeSlot';
+import { getPickUpOptionsBestTimeSlots } from '@/components/checkout/pickUpOptionsBestTimeSlot';
 import { Enum_Order_Paymentmethod } from '@/lib/gql/graphql';
 
 export type ShippingType = 'delivery' | 'pickup' | null;

@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import Image from 'next/image';
 import { Label } from '@/components/ui/label';
@@ -9,19 +9,16 @@ import { useCheckout } from '@/hooks/useCheckout';
 import { PaymentMethod } from '@/store/features/checkout';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import {
-  Enum_Order_Paymentmethod,
-  GetCheckoutUserDataQuery,
-} from '@/lib/gql/graphql';
+import * as types from '@/lib/gql/graphql';
 import CreditCardChangeDialog from './CardPayment/CreditCardChangeDialog';
 import { CreditCard } from './CardPayment/Card';
 
 interface PaymentProps {
-  checkoutUserData: GetCheckoutUserDataQuery;
+  checkoutUserData: types.GetCheckoutUserDataQuery;
 }
 
 const Payment: React.FC<PaymentProps> = ({ checkoutUserData }) => {
-  const { paymentStep, isCartNeededManualQuote, carts } = useCart({});
+  const { paymentStep, isCartNeededManualQuote, carts } = useCart();
   const { paymentMethod, setPaymentMethod } = useCheckout();
   const [creditCardDialog, setCreditCardDialog] = useState<boolean>(false);
 
@@ -117,7 +114,7 @@ const Payment: React.FC<PaymentProps> = ({ checkoutUserData }) => {
             setCreditCardDialog={setCreditCardDialog}
             checkoutUserData={checkoutUserData}
           />
-          {paymentMethod === Enum_Order_Paymentmethod.CreditCard && (
+          {paymentMethod === types.Enum_Order_Paymentmethod.CreditCard && (
             <div className="md:mx-12 grid grid-cols-2">
               <div className="p-2 space-y-4 border border-blue-navy-blue rounded-xl col-span-2 sm:col-span-1">
                 <div className="flex items-center justify-between">

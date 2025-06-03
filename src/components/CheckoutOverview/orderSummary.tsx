@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 function OrderSummary() {
-  const { carts } = useCart({});
+  const { carts } = useCart();
   const { user } = useMe();
 
   const [expanded, setExpanded] = useState<boolean>(true);
