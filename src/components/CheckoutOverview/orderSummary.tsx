@@ -1,16 +1,14 @@
 'use client';
 
-import useCart from '@/hooks/useCart';
-import useMe from '@/hooks/useMe';
-import { formatCurrency } from '@/utils/cart';
-import { ChevronDown, ChevronUp, Package } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
+import useCartV2 from '@/hooks/useCartV2';
+import { formatCurrency } from '@/utils/cart';
+import { ChevronDown, ChevronUp, Package } from 'lucide-react';
+import { useAppSelector } from '@/store/store';
 
 function OrderSummary() {
-  const { carts } = useCart({});
-  const { user } = useMe();
-
+  const carts = useAppSelector((state) => state.cart.carts);  
   const [expanded, setExpanded] = useState<boolean>(true);
 
   const toggleExpand = () => {
@@ -52,13 +50,24 @@ function OrderSummary() {
             {carts.map((cart) => {
               const priceData = cart?.product?.price_lists?.find(
                 (price) =>
-                  price?.user_level === user?.account_detail?.level &&
+                  // TODO ROI THE MID_SIZED IS STATIC
+                  price?.user_level === 'MID_SIZED' &&
                   !price?.min_quantity &&
                   !price?.max_quantity
               );
 
+              const productPriceBaseOnTable = cart?.product?.price_lists.find(
+                (price) =>
+                  (price?.min_quantity ?? Infinity) <= cart.quantity &&
+                  (price?.max_quantity ?? -Infinity) >= cart.quantity
+              );
+
               const currentPrice =
-                priceData?.comparePrice || priceData?.price || 0;
+                productPriceBaseOnTable?.comparePrice ||
+                productPriceBaseOnTable?.price ||
+                priceData?.comparePrice ||
+                priceData?.price ||
+                0;
 
               return (
                 <div key={cart?.documentId} className="flex space-x-4">

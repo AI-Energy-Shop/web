@@ -1,10 +1,14 @@
 'use client';
 
-import useCart from '@/hooks/useCart';
-import useMe from '@/hooks/useMe';
+import useCartV2 from '@/hooks/useCartV2';
+import { useAppSelector } from '@/store/store';
 import { formatCurrency, getCartTotals } from '@/utils/cart';
 
-function PriceDetails() {
+const PriceDetails = () => {
+  const { carts } = useCartV2();
+  const user = useAppSelector((state) => state.me.me);
+  const userLevel = user?.account_detail?.level;
+
   const orderSummary = {
     subtotal: 123,
     shipping: 12,
@@ -14,13 +18,9 @@ function PriceDetails() {
     discountAmount: 123,
   };
 
-  const { user } = useMe();
-  const { carts } = useCart({});
-  const { subtotal, totalGst, total } = getCartTotals(carts, 0.0, 0.0, {
-    userLevel: user?.account_detail?.level,
-  });
+  const { subTotal, gst, total } = getCartTotals(carts);
 
-  const subTotalDisplay = formatCurrency(subtotal, 'AUD');
+  const subTotalDisplay = formatCurrency(subTotal, 'AUD');
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4">
@@ -75,6 +75,6 @@ function PriceDetails() {
       )}
     </div>
   );
-}
+};
 
 export default PriceDetails;

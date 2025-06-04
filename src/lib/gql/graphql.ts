@@ -558,6 +558,7 @@ export type CreditCardFiltersInput = {
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   stripePaymentMethodID?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
 };
 
 export type CreditCardInput = {
@@ -568,6 +569,7 @@ export type CreditCardInput = {
   last4Char?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   stripePaymentMethodID?: InputMaybe<Scalars['String']['input']>;
+  user?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type DateFilterInput = {
@@ -1518,31 +1520,6 @@ export type GetCheckoutUserDataQuery = {
   __typename?: 'Query';
   usersPermissionsUser?: {
     __typename?: 'UsersPermissionsUser';
-    carts: Array<{
-      __typename?: 'Cart';
-      documentId: string;
-      quantity: number;
-      product?: {
-        __typename?: 'Product';
-        documentId: string;
-        inventory?: {
-          __typename?: 'Inventory';
-          documentId: string;
-          melbourne: number;
-          sydney: number;
-          brisbane: number;
-          createdAt?: any | null;
-          updatedAt?: any | null;
-        } | null;
-        shipping?: {
-          __typename?: 'Shipping';
-          height?: number | null;
-          length?: number | null;
-          weight?: number | null;
-          width?: number | null;
-        } | null;
-      } | null;
-    } | null>;
     addresses: Array<{
       __typename?: 'Address';
       documentId: string;
@@ -4087,94 +4064,6 @@ export const GetCheckoutUserDataDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'carts' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'documentId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'quantity' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'product' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'documentId' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'inventory' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'documentId' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'melbourne' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'sydney' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'brisbane' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'createdAt' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'updatedAt' },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'shipping' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'height' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'length' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'weight' },
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'width' },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'addresses' },

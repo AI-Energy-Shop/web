@@ -1,21 +1,26 @@
 'use client';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import useCart from '@/hooks/useCart';
 import { formatCurrency } from '@/utils/cart';
 import { useAppSelector } from '@/store/store';
-interface CartNotificationProps {}
+import { CartsQuery } from '@/lib/gql/graphql';
+import { usePathname } from 'next/navigation';
+import { getProductPricing } from '@/utils/product';
 
-const CartNotification: React.FC<CartNotificationProps> = () => {
+interface CartNotificationProps {
+  carts?: CartsQuery['carts'];
+}
+const CartNotification = ({ carts }: CartNotificationProps) => {
   const showCartWindow = useAppSelector((state) => state.cart.showCartWindow);
-  const me = useAppSelector((state) => state.me.me);
-  const { carts } = useCart({});
+  const user = useAppSelector((state) => state.me.me);
+  const userLevel = user?.account_detail?.level;
+  const pathname = usePathname();
 
   return (
     <div
       className={cn(
         `absolute right-0 top-10 bg-white shadow-lg transition-all ease-in-out duration-300`,
-        showCartWindow
+        showCartWindow && !pathname.startsWith('/cart')
           ? 'opacity-100 block'
           : 'opacity-0 hidden group-hover:block group-hover:opacity-100'
       )}
@@ -25,12 +30,13 @@ const CartNotification: React.FC<CartNotificationProps> = () => {
       </div>
       <div className="flex flex-col items-start rounded-sm max-h-[400px] overflow-y-auto">
         {carts?.map((cart) => {
-          const price = cart?.product?.price_lists?.find(
-            (price) =>
-              price?.user_level === me?.account_detail?.level ||
-              price?.user_level === 'DEFAULT'
-          );
+          const priceList = cart?.product?.price_lists || [];
 
+          const { displayPrice } = getProductPricing(
+            priceList,
+            userLevel,
+            cart?.quantity
+          );
           return (
             <div
               key={cart?.documentId}
@@ -53,9 +59,7 @@ const CartNotification: React.FC<CartNotificationProps> = () => {
                   Qty: {cart?.quantity}
                   <br />
                   {formatCurrency(
-                    Number(
-                      Number(price?.price?.toFixed(2)) * Number(cart?.quantity)
-                    ),
+                    Number(Number(displayPrice) * Number(cart?.quantity)),
                     'USD'
                   )}
                 </div>
@@ -63,7 +67,7 @@ const CartNotification: React.FC<CartNotificationProps> = () => {
             </div>
           );
         })}
-        {carts.length === 0 && (
+        {carts?.length === 0 && (
           <div className="p-4 text-center text-gray-500 w-full">
             Your cart is empty
           </div>

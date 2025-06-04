@@ -1,9 +1,9 @@
 'use server';
 
 import { stripe } from '@/lib/stripe';
-import Stripe from 'stripe';
 
 export const createSetupIntent = async () => {
+  // ! ROI - make the customerId a parameter
   const customerId = 'cus_SKwjnSwMZCvrxN';
 
   let clientSecret: string | null;

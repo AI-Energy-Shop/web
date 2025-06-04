@@ -1,9 +1,9 @@
-import { CartsQuery } from '@/lib/gql/graphql';
 import {
   setSelectedLocation,
   setShippingType as setShippingTypeFromSlice,
   ShippingType,
   WarehouseLocation,
+  type Card,
   setShippingAddress as setShippingAddressFromSlice,
   ShippingAddress,
   setDeliveryOptions as setDeliveryOptionsFromSlice,
@@ -14,7 +14,9 @@ import {
   setPickUpOptions as setPickUpOptionsFromSlice,
   PaymentMethod,
   setPaymentMethod as setPaymentMethodFromSlice,
-  setItems as setItemsMethodFromSlice,
+  setOrderNotes as setOrderNotesFromSlice,
+  setCard as setCardFromSlice,
+  resetCheckout,
 } from '@/store/features/checkout';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useEffect, useState } from 'react';
@@ -33,6 +35,8 @@ export const useCheckout = () => {
 
   const pickUpOptions = useAppSelector((state) => state.checkout.pickupOptions);
 
+  const orderNotes = useAppSelector((state) => state.checkout.orderNotes);
+
   const shippingTypeFromStore = useAppSelector(
     (state) => state.checkout.shippingType
   );
@@ -46,6 +50,8 @@ export const useCheckout = () => {
   const shippingAddress = useAppSelector(
     (state) => state.checkout.shippingAddress
   );
+
+  const card = useAppSelector((state) => state.checkout.card);
 
   const allCheckoutState = useAppSelector((state) => state.checkout);
 
@@ -76,8 +82,12 @@ export const useCheckout = () => {
   const setPaymentMethod = (paymentMethod: PaymentMethod) =>
     dispatch(setPaymentMethodFromSlice(paymentMethod));
 
-  const setItems = (cart: CartsQuery['carts']) => {
-    dispatch(setItemsMethodFromSlice(cart));
+  const setCard = (temporaryCard: Card) => {
+    dispatch(setCardFromSlice(temporaryCard));
+  };
+
+  const setOrderNotes = (orderNotes: string) => {
+    dispatch(setOrderNotesFromSlice(orderNotes));
   };
 
   const [shippingType, setShippingTypes] = useState<ShippingType>(null);
@@ -96,6 +106,9 @@ export const useCheckout = () => {
     deliveryOptions,
     allCheckoutState,
     shippingAddress,
+    card,
+    orderNotes,
+    resetCheckout,
     setWarehouseLocation,
     setShippingType,
     setShippingAddress,
@@ -104,6 +117,7 @@ export const useCheckout = () => {
     setPickUpNotes,
     setPickUpOptions,
     setPaymentMethod,
-    setItems,
+    setCard,
+    setOrderNotes,
   };
 };

@@ -7,7 +7,6 @@ import DynamicSections from './dynamic-sections';
 import Tables from './table';
 import MediaUpload from './upload/admin-product-file-upload';
 import ReduxProvider from './redux-provider';
-import ReviewItems from './Checkout/ReviewItems';
 import Buttons from './buttons';
 const Components = {
   Accordion,
@@ -19,7 +18,6 @@ const Components = {
   Tables,
   MediaUpload,
   ReduxProvider,
-  ReviewItems,
   Buttons,
 };
 

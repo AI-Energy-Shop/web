@@ -5,7 +5,6 @@ import { getClient } from '@/apollo/client';
 import CREDIT_CARD_OPERATION from '@/graphql/creditCard';
 import { Auser } from '@/lib/types';
 import { revalidatePath } from 'next/cache';
-import Stripe from 'stripe';
 import { deletePaymentMethodDetails, getPaymentMethodDetails } from './stripe';
 
 const client = getClient();
