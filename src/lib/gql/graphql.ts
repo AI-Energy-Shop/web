@@ -509,7 +509,6 @@ export type CreditCardFiltersInput = {
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   stripePaymentMethodID?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
-  user?: InputMaybe<UsersPermissionsUserFiltersInput>;
 };
 
 export type CreditCardInput = {
@@ -520,7 +519,6 @@ export type CreditCardInput = {
   last4Char?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   stripePaymentMethodID?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type DateFilterInput = {
