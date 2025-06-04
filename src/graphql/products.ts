@@ -520,16 +520,6 @@ const schema = {
         }
       }
     `),
-    inventory: graphql(`
-      query Inventory {
-        inventory {
-          melbourne
-          sydney
-          brisbane
-          documentId
-        }
-      }
-    `),
   },
   Mutation: {
     customProductCreate: graphql(`
