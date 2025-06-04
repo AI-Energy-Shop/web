@@ -22,7 +22,7 @@ interface UseCartProps {
   productId?: string;
 }
 
-const useCart = (props: UseCartProps) => {
+const useCart = (props?: UseCartProps) => {
   const date = new Date();
   const dispatch = useAppDispatch();
   const { user } = useMe();
@@ -37,7 +37,7 @@ const useCart = (props: UseCartProps) => {
     fetchPolicy: 'network-only',
     refetchWritePolicy: 'merge',
     onCompleted: (data) => {
-      dispatch(setCarts(data.carts));
+      // dispatch(setCarts(data.carts));
     },
     pollInterval: 1000 * 60 * 10, // 10 minutes
     skip: !user?.id, // Skip query if no user is logged in
@@ -77,24 +77,21 @@ const useCart = (props: UseCartProps) => {
     });
   };
 
-  const [addCartItem, { loading: addCartItemLoading }] = useMutation(
-    CART_OPERATIONS.Mutation.createCart
-  );
+  const [addCartItem] = useMutation(CART_OPERATIONS.Mutation.createCart, {
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
-  const [deleteCartItem, { loading: deleteCartItemLoading }] = useMutation(
-    CART_OPERATIONS.Mutation.deleteCart,
-    {
-      refetchQueries: [
-        {
-          query: CART_OPERATIONS.Query.carts,
-        },
-      ],
-    }
-  );
+  const [deleteCartItem] = useMutation(CART_OPERATIONS.Mutation.deleteCart, {
+    refetchQueries: [
+      {
+        query: CART_OPERATIONS.Query.carts,
+      },
+    ],
+  });
 
-  const [updateCartItem, { loading: updateCartLoading, data }] = useMutation(
-    CART_OPERATIONS.Mutation.updateCart
-  );
+  const [updateCartItem] = useMutation(CART_OPERATIONS.Mutation.updateCart);
 
   const [shippingOptions, setShippingOptions] =
     useState<ShippingOptions>(SHIPPING_OPTIONS);
@@ -111,12 +108,10 @@ const useCart = (props: UseCartProps) => {
     (state: RootState) => state.me.me?.account_detail?.warehouseLocation?.name
   );
 
-  // const isCartNeededManualQuote = props?.carts?.some((cart: any) => false);
-
   const form = useForm<AddToCartFormData>({
     resolver: zodResolver(addToCartSchema),
     defaultValues: {
-      id: props.productId,
+      id: props?.productId || '',
       quantity: 0,
     },
   });
@@ -151,16 +146,13 @@ const useCart = (props: UseCartProps) => {
     console.log(errors);
   };
 
-  const handleSubmit = async (
-    onValid: FieldValues,
-    event?: BaseSyntheticEvent<object, any, any> | undefined
-  ) => {
+  const handleSubmit = async (onValid: FieldValues) => {
     const cartItem = cartData?.carts.find(
-      (cart) => cart?.product?.documentId === data?.id
+      (cart) => cart?.product?.documentId === onValid.id
     );
 
     if (cartItem && cartItem?.product) {
-      const { data, errors } = await updateCartItem({
+      updateCartItem({
         variables: {
           documentId: cartItem.documentId,
           data: {
@@ -170,38 +162,35 @@ const useCart = (props: UseCartProps) => {
       });
 
       // Show the notification
-      dispatch(setShowCartWindow(true));
+      // dispatch(setShowCartWindow(true));
 
-      // Hide the notification after 3 seconds
-      setTimeout(() => {
-        dispatch(setShowCartWindow(false));
-      }, 3000);
+      // // Hide the notification after 3 seconds
+      // setTimeout(() => {
+      //   dispatch(setShowCartWindow(false));
+      // }, 3000);
 
       // Reset the form
       form.reset();
-
       return;
     }
 
-    const { data, errors } = await addCartItem({
+    addCartItem({
       variables: {
         data: {
           product: onValid.id,
-          quantity: onValid.quantity,
           user: user?.id,
+          quantity: onValid.quantity,
         },
       },
     });
 
-    console.log(data, errors);
-
     // Show the notification
-    dispatch(setShowCartWindow(true));
+    // dispatch(setShowCartWindow(true));
 
-    // Hide the notification after 3 seconds
-    setTimeout(() => {
-      dispatch(setShowCartWindow(false));
-    }, 3000);
+    // // Hide the notification after 3 seconds
+    // setTimeout(() => {
+    //   dispatch(setShowCartWindow(false));
+    // }, 3000);
 
     // Reset the form
     form.reset();

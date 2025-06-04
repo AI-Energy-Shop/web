@@ -1,45 +1,8 @@
 'use client';
 
-import { Banknote, ChevronDown, ChevronUp, CreditCard } from 'lucide-react';
+import { useCheckout } from '@/hooks/useCheckout';
+import { ChevronDown, ChevronUp, CreditCard } from 'lucide-react';
 import { useState } from 'react';
-
-export const mockProducts = [
-  {
-    id: '1',
-    name: 'Premium Wireless Headphones',
-    price: 249.99,
-    quantity: 1,
-    image:
-      'https://images.pexels.com/photos/3394665/pexels-photo-3394665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  },
-  {
-    id: '2',
-    name: 'Smartphone Fast Charger',
-    price: 39.99,
-    quantity: 2,
-    image:
-      'https://images.pexels.com/photos/4526407/pexels-photo-4526407.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  },
-];
-
-export const mockAddress = {
-  firstName: 'Jane',
-  lastName: 'Smith',
-  addressLine1: '123 Main Street',
-  addressLine2: 'Apt 4B',
-  city: 'San Francisco',
-  state: 'CA',
-  postalCode: '94105',
-  country: 'United States',
-};
-
-export const mockShippingMethod = {
-  id: 'express',
-  name: 'Express Shipping',
-  description: '2-3 Business Days',
-  price: 14.99,
-  estimatedDelivery: 'May 15 - May 17, 2025',
-};
 
 export const paymentDetails = {
   type: 'credit_card',
@@ -50,46 +13,35 @@ export const paymentDetails = {
 
 function PaymentMethod() {
   const [expanded, setExpanded] = useState<boolean>(false);
-
+  const { card } = useCheckout();
   const toggleExpand = () => {
     setExpanded((prev) => !prev);
   };
 
   const renderPaymentIcon = () => {
-    switch (paymentDetails.type) {
-      case 'paypal':
-        return <Banknote />;
-      default:
-        return <CreditCard size={20} className="text-blue-600" />;
-    }
+    // You can add more logic if supporting PayPal or others later
+    return <CreditCard size={20} className="text-blue-600" />;
   };
 
-  const renderPaymentInfo = () => {
-    switch (paymentDetails.type) {
-      case 'credit_card':
-        return (
-          <div className="p-3 border border-gray-200 rounded-md bg-gray-50">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-6 bg-blue-100 rounded flex items-center justify-center text-xs font-medium text-blue-800">
-                  {paymentDetails.cardType}
-                </div>
-                <div>
-                  <p className="font-medium text-gray-900">
-                    •••• •••• •••• {paymentDetails.lastFourDigits}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Expires {paymentDetails.expiryDate}
-                  </p>
-                </div>
-              </div>
-            </div>
+  const renderPaymentInfo = () => (
+    <div className="p-3 border border-gray-200 rounded-md bg-gray-50">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-6 bg-blue-100 rounded flex items-center justify-center text-xs font-medium text-blue-800">
+            {card?.brand}
           </div>
-        );
-      default:
-        return null;
-    }
-  };
+          <div>
+            <p className="font-medium text-gray-900">
+              •••• •••• •••• {card?.last4Char}
+            </p>
+            <p className="text-sm text-gray-600">
+              Expires {card?.expMonth}/{card?.expYear}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden transition-all duration-300">
@@ -104,9 +56,7 @@ function PaymentMethod() {
           <div>
             <h3 className="font-medium text-gray-900">Payment Method</h3>
             <p className="text-sm text-gray-500">
-              {paymentDetails.type === 'credit_card'
-                ? `${paymentDetails.cardType} ending in ${paymentDetails.lastFourDigits}`
-                : 'PayPal'}
+              {card?.brand} ending in {card?.last4Char}
             </p>
           </div>
         </div>

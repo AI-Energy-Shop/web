@@ -2,19 +2,20 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ShoppingCart } from 'lucide-react';
+import { Loader2, ShoppingCart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useAppSelector } from '@/store/store';
 import CartNotification from './cart-notifications';
 import { invalidateCartPath } from '@/app/actions/cart';
+import useCartV2 from '@/hooks/useCartV2';
 
 interface CartButtonProps {
   cartStyle?: 'icon' | 'text';
 }
 
 const CartButton: React.FC<CartButtonProps> = ({ cartStyle = 'text' }) => {
-  const carts = useAppSelector((state) => state.cart.carts);
   const router = useRouter();
+
+  const { carts, loading } = useCartV2();
 
   return (
     <div className="relative group">
@@ -33,7 +34,11 @@ const CartButton: React.FC<CartButtonProps> = ({ cartStyle = 'text' }) => {
             <ShoppingCart className="h-5 w-5" />
             <p className="text-xs lg:text-sm h-[15px]">Cart</p>
             <span className="absolute -right-0 -top-3 text-[11px] h-5 w-5 rounded-full bg-red-500 font-bold text-white flex items-center justify-center">
-              {carts.length}
+              {loading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                carts?.length
+              )}
             </span>
           </Link>
         </div>
@@ -49,12 +54,12 @@ const CartButton: React.FC<CartButtonProps> = ({ cartStyle = 'text' }) => {
               router.push('/cart');
             }}
           >
-            Cart({carts.length})
+            Cart({carts?.length})
           </Link>
         </span>
       )}
 
-      {carts.length > 0 && <CartNotification />}
+      <CartNotification carts={carts} />
     </div>
   );
 };

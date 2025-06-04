@@ -1,4 +1,5 @@
 import { CartsQuery } from '@/lib/gql/graphql';
+import { getProductPricing } from './product';
 
 type Cart = CartsQuery['carts'];
 
@@ -6,64 +7,54 @@ export const formatCurrency = (value?: number, currency?: string) => {
   if (!value) return '0.00';
   return value?.toLocaleString('en-US', {
     style: 'currency',
-    currency: currency || 'USD',
+    currency: currency || 'AUD',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
 };
 
-export const getCartSubtotal = (cartItems: Cart, userLevel?: string) => {
+const getCartSubtotal = (cartItems: Cart, userLevel?: string) => {
   return cartItems.reduce((acc, item) => {
+    
     const quantity = item?.quantity ?? 0;
-    const price = item?.product?.price_lists?.find(
-      (price) =>
-        price?.user_level === userLevel &&
-        !price?.min_quantity &&
-        !price?.max_quantity
-    );
-    return acc + quantity * (price?.comparePrice ?? (price?.price || 0));
+    const product = item?.product
+    const priceList = product?.price_lists || [];
+
+    const { displayPrice } = getProductPricing(priceList, userLevel, quantity);
+
+    return acc + quantity * displayPrice;
   }, 0);
 };
 
-export const getCartItemSubtotal = (
-  originalPrice?: number,
-  quantity?: number
-): string => {
-  if (!originalPrice || !quantity) return '0.00';
-  const subtotal = originalPrice * quantity;
-
-  return subtotal.toLocaleString('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-};
+const CARD_SURCHARGE = 0.012;
+const GST = 0.1;
 
 export const getCartTotals = (
   cartItems: Cart,
-  shippingFee?: number,
-  cardFee?: number,
-  options?: { userLevel?: string }
+  options?: {
+    userLevel?: string;
+    deliveryFee?: number;
+    isCheckoutPaidWithCard?: boolean;
+  }
 ) => {
-  const cartSubtotal = getCartSubtotal(cartItems, options?.userLevel);
-  // Calculate GST for each component separately
-  const cartGst = cartSubtotal * 0.1;
-  const shippingGst = shippingFee ? shippingFee * 0.1 : 0;
-  const cardGst = cardFee ? cardFee * 0.1 : 0;
-  const subtotal = cartSubtotal;
+  const userLevel = options?.userLevel;
+  const deliveryFee = options?.deliveryFee || 0;
+  const isCheckoutPaidWithCard = options?.isCheckoutPaidWithCard;
 
-  // Total GST is the sum of all GST components
-  const totalGst = cartGst + shippingGst + cardGst;
+  const subTotal = getCartSubtotal(cartItems, userLevel);
 
-  // Calculate final total including all fees and GST
-  const total = cardFee
-    ? cartSubtotal + (shippingFee ?? 0) + cardFee + totalGst
-    : cartSubtotal + (shippingFee ?? 0) + totalGst;
+  const cardSurcharge = (deliveryFee + subTotal) * CARD_SURCHARGE;
+
+  const doesCheckoutUseCard = isCheckoutPaidWithCard ? cardSurcharge : 0;
+
+  const gst = (subTotal + doesCheckoutUseCard + deliveryFee) * GST;
+
+  const total = subTotal + deliveryFee + doesCheckoutUseCard + gst;
 
   return {
-    subtotal,
-    totalGst,
+    subTotal,
+    cardSurcharge,
+    gst,
     total,
   };
 };

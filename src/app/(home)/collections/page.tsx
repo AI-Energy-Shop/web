@@ -1,10 +1,10 @@
 export const dynamic = 'force-dynamic';
 import { INITIAL_PAGE, INITIAL_PAGE_SIZE } from '@/constant';
-import ProductList from '@/components/products/product-list';
-import Breadcrumb from '@/components/products/breadcrumb';
-import Categories from '@/components/products/categories';
-import PageTitle from '@/components/products/page-title';
-import Brands from '@/components/products/brands';
+import ProductList from '@/components/products/product-list/product-list';
+import Breadcrumb from '@/components/layout/breadcrumb';
+import Categories from '@/components/layout/categories/categories';
+import PageTitle from '@/components/layout/page-title';
+import Brands from '@/components/layout/brands/brands';
 import { products } from '@/app/actions/products';
 import { COLLECTIONS } from '@/constant/collections';
 

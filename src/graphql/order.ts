@@ -17,7 +17,6 @@ const schema = {
           }
           paymentStatus
           fulfillmentStatus
-
           paymentMethod
           shippingType
           deliveryStatus
