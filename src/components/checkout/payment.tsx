@@ -12,13 +12,14 @@ import { ArrowRight } from 'lucide-react';
 import * as types from '@/lib/gql/graphql';
 import CreditCardChangeDialog from './CardPayment/CreditCardChangeDialog';
 import { CreditCard } from './CardPayment/Card';
+import { checkShippingEligibility } from '@/utils/check-shipping-eligibility';
 
 interface PaymentProps {
   checkoutUserData: types.GetCheckoutUserDataQuery;
 }
 
 const Payment: React.FC<PaymentProps> = ({ checkoutUserData }) => {
-  const { paymentStep, isCartNeededManualQuote, carts } = useCart();
+  const { paymentStep, carts } = useCart();
   const { paymentMethod, setPaymentMethod } = useCheckout();
   const [creditCardDialog, setCreditCardDialog] = useState<boolean>(false);
 
@@ -48,22 +49,22 @@ const Payment: React.FC<PaymentProps> = ({ checkoutUserData }) => {
                   <RadioGroupItem
                     value="credit_card"
                     id="credit_card"
-                    disabled={isCartNeededManualQuote}
+                    disabled={!checkShippingEligibility(carts)}
                   />
                   <Label
                     htmlFor="credit_card"
-                    className={`flex items-center gap-2 ${isCartNeededManualQuote ? 'cursor-not-allowed ' : 'cursor-pointer'}`}
+                    className={`flex items-center gap-2 ${!checkShippingEligibility(carts) ? 'cursor-not-allowed ' : 'cursor-pointer'}`}
                   >
                     <span
                       className={
-                        isCartNeededManualQuote
+                        !checkShippingEligibility(carts)
                           ? 'line-through text-gray-500'
                           : 'text-black'
                       }
                     >
                       Credit Card
                     </span>
-                    {isCartNeededManualQuote && (
+                    {!checkShippingEligibility(carts) && (
                       <span className="text-xs text-red-500">
                         (not available base in your cart items)
                       </span>
