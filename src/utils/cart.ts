@@ -1,4 +1,5 @@
 import { CartsQuery } from '@/lib/gql/graphql';
+import { getProductPricing } from './product';
 
 type Cart = CartsQuery['carts'];
 
@@ -14,28 +15,14 @@ export const formatCurrency = (value?: number, currency?: string) => {
 
 const getCartSubtotal = (cartItems: Cart, userLevel?: string) => {
   return cartItems.reduce((acc, item) => {
+    
     const quantity = item?.quantity ?? 0;
-    const genericPrice = item?.product?.price_lists?.find(
-      (price) =>
-        price?.user_level === userLevel &&
-        !price?.min_quantity &&
-        !price?.max_quantity
-    );
+    const product = item?.product
+    const priceList = product?.price_lists || [];
 
-    const priceBaseOnTablePrice = item?.product?.price_lists?.find(
-      (price) =>
-        (price?.min_quantity || -Infinity) < quantity &&
-        (price?.max_quantity || Infinity) > quantity
-    );
+    const { displayPrice } = getProductPricing(priceList, userLevel, quantity);
 
-    const realPrice =
-      priceBaseOnTablePrice?.comparePrice ||
-      priceBaseOnTablePrice?.price ||
-      genericPrice?.comparePrice ||
-      genericPrice?.price ||
-      0;
-
-    return acc + quantity * realPrice;
+    return acc + quantity * displayPrice;
   }, 0);
 };
 

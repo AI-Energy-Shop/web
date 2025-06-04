@@ -2,18 +2,18 @@
 import React from 'react';
 import { formatCurrency } from '@/utils/currency';
 import { getCartTotals } from '@/utils/cart';
-import useCartV2 from '@/hooks/useCartV2';
 import useMe from '@/hooks/useMe';
 import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
 import { useCheckout } from '@/hooks/useCheckout';
 import { formatDate } from '../../utils/formatDate';
+import { useAppSelector } from '@/store/hooks';
 
 interface OrderSummaryProps {
   checkoutUserData: GetCheckoutUserDataQuery;
 }
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
-  const { carts } = useCartV2();
+  const carts = useAppSelector((state) => state.cart.carts);  
   const { user } = useMe();
   const { subTotal, gst, total } = getCartTotals(carts);
 
