@@ -28,6 +28,7 @@ export async function getPage(
   try {
     const res = await client.query<GetPageQuery>({
       query: PAGES_OPREATIONS.Queries.getPage,
+      fetchPolicy: 'no-cache',
       variables: {
         slug: slug,
       },

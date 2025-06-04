@@ -87,15 +87,18 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ slides }) => {
           }
           if (currentBreakpoint < TABLET_BREAKPOINT) {
             return (
-              <Image
-                priority
-                width={1000}
-                height={1000}
-                key={item.id}
-                className="h-full m-auto object-contain"
-                src={item.image?.url || '/no-product-image.jpg'}
-                alt={item.image?.alternativeText || ''}
-              />
+              <div key={item.id} className="h-auto w-full relative">
+                <Image
+                  priority
+                  fill
+                  width={1920}
+                  height={1080}
+                  alt={item.image?.alternativeText || ''}
+                  className="object-cover object-center"
+                  src={item.image?.url || '/no-product-image.jpg'}
+                  sizes="(max-width: 1920px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                />
+              </div>
             );
           }
 
