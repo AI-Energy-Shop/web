@@ -2,23 +2,34 @@
 import React from 'react';
 import { formatCurrency } from '@/utils/currency';
 import { getCartTotals } from '@/utils/cart';
-import useCartV2 from '@/hooks/useCartV2';
 import useMe from '@/hooks/useMe';
 import { GetCheckoutUserDataQuery } from '@/lib/gql/graphql';
 import { useCheckout } from '@/hooks/useCheckout';
 import { formatDate } from '../../utils/formatDate';
+import { useAppSelector } from '@/store/hooks';
 
 interface OrderSummaryProps {
   checkoutUserData: GetCheckoutUserDataQuery;
 }
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
-  const { carts } = useCartV2();
+  const carts = useAppSelector((state) => state.cart.carts);  
   const { user } = useMe();
-  const { subTotal, gst, total } = getCartTotals(carts);
 
-  const { warehouseLocation, shippingType, deliveryOptions, pickUpOptions } =
-    useCheckout();
+  const { 
+    warehouseLocation, 
+    shippingType, 
+    deliveryOptions, 
+    pickUpOptions, 
+    paymentMethod
+  } = useCheckout();
+
+  const { 
+    subTotal, 
+    gst, 
+    total, 
+    cardSurcharge
+  } = getCartTotals(carts);
 
   const userAddress = checkoutUserData.usersPermissionsUser?.addresses.find(
     (address) => address?.isActive === true
@@ -57,7 +68,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
     </>
   );
 
-  const renderSelectedWarehouseLocation = () => {
+  const WarehouseLocation: React.FC = () => {
     return (
       <div>
         <h1 className="font-bold">Selected Location:</h1>
@@ -87,7 +98,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
     );
   };
 
-  const renderShippingAddress = () => {
+  const ShippingAddress: React.FC = () => {
     return (
       <div>
         <h1 className="font-semibold">Shipping:</h1>
@@ -115,7 +126,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
     );
   };
 
-  const renderSubTotal = () => {
+  const SubTotal: React.FC = () => {
     return (
       <div className="flex justify-between items-center">
         <h1>Sub-total (ex. GST)</h1>
@@ -124,25 +135,57 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
     );
   };
 
-  const renderDeliveryPrice = () => {
-    return (
-      <div className="flex justify-between items-center">
+  const DeliveryPrice: React.FC = () => {
+
+    if(!shippingType) {
+      return (
+        <div className="flex justify-between items-center">
+          <h1>Delivery</h1>
+          <p>TBC</p>
+        </div>
+      )
+    }
+
+    if(shippingType === 'pickup') {
+      return (
+        <div className="flex justify-between items-center">
+          <h1>Delivery</h1>
+          <p>-</p>
+        </div>
+      )
+    }
+
+    if(shippingType === 'delivery') {
+      return (
+        <div className="flex justify-between items-center">
         <h1>Delivery</h1>
-        <p>{formatCurrency(0, 'USD')}</p>
+        <p>{deliveryOptions ? (
+          formatCurrency(cardSurcharge, 'USD')
+        ) : (
+          'TBC'
+        )}</p>
       </div>
-    );
+      )
+    }
+
+    return null;
   };
 
-  const renderCardSubCharge = () => {
+  const CardSubCharge: React.FC = () => {
+    if(!paymentMethod || 
+      paymentMethod && paymentMethod !== 'credit_card'
+    ) {
+      return null;
+    }
     return (
       <div className="flex justify-between items-center">
         <h1>Card Surcharge (1.2%)</h1>
-        {/* <p>{cardSubCharge}</p> */}
+        <p>{formatCurrency(cardSurcharge, 'AUD')}</p>
       </div>
     );
   };
 
-  const renderTotalGst = () => {
+  const TotalGst: React.FC = () => {
     return (
       <div className="flex justify-between items-center">
         <h1>GST</h1>
@@ -151,7 +194,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
     );
   };
 
-  const renderTotal = () => {
+  const Total: React.FC = () => {
     return (
       <div className="flex justify-between items-center">
         <h1 className="font-bold">
@@ -168,17 +211,17 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ checkoutUserData }) => {
         Order Summary
       </h1>
       <div className="px-2 space-y-2 py-4">
-        {renderSelectedWarehouseLocation()}
+        <WarehouseLocation />
         <div className="h-0.5 w-full bg-yellow-aes-yellow" />
-        {renderShippingAddress()}
+        <ShippingAddress />
         <div className="border-line h-0.5 w-full bg-pink-lighter-pink" />
-        {renderSubTotal()}
-        {renderDeliveryPrice()}
-        {renderCardSubCharge()}
+        <SubTotal />
+        <DeliveryPrice />
+        <CardSubCharge />
         <div className="border-line h-0.5 w-full bg-blue-navy-blue" />
-        {renderTotalGst()}
+        <TotalGst />
         <div className="border-line h-0.5 w-full bg-blue-navy-blue" />
-        {renderTotal()}
+        <Total />
       </div>
     </div>
   );
