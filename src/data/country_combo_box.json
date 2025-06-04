@@ -1,1002 +1,1252 @@
 [
   {
     "id": 3,
-    "name": "Afghanistan"
+    "name": "Afghanistan",
+    "acronym": "(AF)"
   },
   {
     "id": 6,
-    "name": "Albania"
+    "name": "Albania",
+    "acronym": "(AL)"
   },
   {
     "id": 62,
-    "name": "Algeria"
+    "name": "Algeria",
+    "acronym": "(DZ)"
   },
   {
     "id": 11,
-    "name": "American Samoa"
+    "name": "American Samoa",
+    "acronym": "(AS)"
   },
   {
     "id": 1,
-    "name": "Andorra"
+    "name": "Andorra",
+    "acronym": "(AD)"
   },
   {
     "id": 8,
-    "name": "Angola"
+    "name": "Angola",
+    "acronym": "(AO)"
   },
   {
     "id": 5,
-    "name": "Anguilla"
+    "name": "Anguilla",
+    "acronym": "(AI)"
   },
   {
     "id": 9,
-    "name": "Antarctica"
+    "name": "Antarctica",
+    "acronym": "(AQ)"
   },
   {
     "id": 4,
-    "name": "Antigua and Barbuda"
+    "name": "Antigua and Barbuda",
+    "acronym": "(AG)"
   },
   {
     "id": 10,
-    "name": "Argentina"
+    "name": "Argentina",
+    "acronym": "(AR)"
   },
   {
     "id": 7,
-    "name": "Armenia"
+    "name": "Armenia",
+    "acronym": "(AM)"
   },
   {
     "id": 14,
-    "name": "Aruba"
+    "name": "Aruba",
+    "acronym": "(AW)"
   },
   {
     "id": 13,
-    "name": "Australia"
+    "name": "Australia",
+    "acronym": "(AU)"
   },
   {
     "id": 12,
-    "name": "Austria"
+    "name": "Austria",
+    "acronym": "(AT)"
   },
   {
     "id": 16,
-    "name": "Azerbaijan"
+    "name": "Azerbaijan",
+    "acronym": "(AZ)"
   },
   {
     "id": 32,
-    "name": "Bahamas"
+    "name": "Bahamas",
+    "acronym": "(BS)"
   },
   {
     "id": 23,
-    "name": "Bahrain"
+    "name": "Bahrain",
+    "acronym": "(BH)"
   },
   {
     "id": 19,
-    "name": "Bangladesh"
+    "name": "Bangladesh",
+    "acronym": "(BD)"
   },
   {
     "id": 18,
-    "name": "Barbados"
+    "name": "Barbados",
+    "acronym": "(BB)"
   },
   {
     "id": 36,
-    "name": "Belarus"
+    "name": "Belarus",
+    "acronym": "(BY)"
   },
   {
     "id": 20,
-    "name": "Belgium"
+    "name": "Belgium",
+    "acronym": "(BE)"
   },
   {
     "id": 37,
-    "name": "Belize"
+    "name": "Belize",
+    "acronym": "(BZ)"
   },
   {
     "id": 25,
-    "name": "Benin"
+    "name": "Benin",
+    "acronym": "(BJ)"
   },
   {
     "id": 27,
-    "name": "Bermuda"
+    "name": "Bermuda",
+    "acronym": "(BM)"
   },
   {
     "id": 33,
-    "name": "Bhutan"
+    "name": "Bhutan",
+    "acronym": "(BT)"
   },
   {
     "id": 29,
-    "name": "Bolivia"
+    "name": "Bolivia",
+    "acronym": "(BO)"
   },
   {
     "id": 30,
-    "name": "Bonaire, Sint Eustatius and Saba"
+    "name": "Bonaire, Sint Eustatius and Saba",
+    "acronym": "(BQ)"
   },
   {
     "id": 17,
-    "name": "Bosnia and Herzegovina"
+    "name": "Bosnia and Herzegovina",
+    "acronym": "(BA)"
   },
   {
     "id": 35,
-    "name": "Botswana"
+    "name": "Botswana",
+    "acronym": "(BW)"
   },
   {
     "id": 34,
-    "name": "Bouvet Island"
+    "name": "Bouvet Island",
+    "acronym": "(BV)"
   },
   {
     "id": 31,
-    "name": "Brazil"
+    "name": "Brazil",
+    "acronym": "(BR)"
   },
   {
     "id": 105,
-    "name": "British Indian Ocean Territory"
+    "name": "British Indian Ocean Territory",
+    "acronym": "(IO)"
   },
   {
     "id": 28,
-    "name": "Brunei Darussalam"
+    "name": "Brunei Darussalam",
+    "acronym": "(BN)"
   },
   {
     "id": 22,
-    "name": "Bulgaria"
+    "name": "Bulgaria",
+    "acronym": "(BG)"
   },
   {
     "id": 21,
-    "name": "Burkina Faso"
+    "name": "Burkina Faso",
+    "acronym": "(BF)"
   },
   {
     "id": 24,
-    "name": "Burundi"
+    "name": "Burundi",
+    "acronym": "(BI)"
   },
   {
     "id": 116,
-    "name": "Cambodia"
+    "name": "Cambodia",
+    "acronym": "(KH)"
   },
   {
     "id": 47,
-    "name": "Cameroon"
+    "name": "Cameroon",
+    "acronym": "(CM)"
   },
   {
     "id": 38,
-    "name": "Canada"
+    "name": "Canada",
+    "acronym": "(CA)"
   },
   {
     "id": 52,
-    "name": "Cape Verde"
+    "name": "Cape Verde",
+    "acronym": "(CV)"
   },
   {
     "id": 123,
-    "name": "Cayman Islands"
+    "name": "Cayman Islands",
+    "acronym": "(KY)"
   },
   {
     "id": 40,
-    "name": "Central African Republic"
+    "name": "Central African Republic",
+    "acronym": "(CF)"
   },
   {
     "id": 214,
-    "name": "Chad"
+    "name": "Chad",
+    "acronym": "(TD)"
   },
   {
     "id": 46,
-    "name": "Chile"
+    "name": "Chile",
+    "acronym": "(CL)"
   },
   {
     "id": 48,
-    "name": "China"
+    "name": "China",
+    "acronym": "(CN)"
   },
   {
     "id": 54,
-    "name": "Christmas Island"
+    "name": "Christmas Island",
+    "acronym": "(CX)"
   },
   {
     "id": 39,
-    "name": "Cocos (Keeling) Islands"
+    "name": "Cocos (Keeling) Islands",
+    "acronym": "(CC)"
   },
   {
     "id": 49,
-    "name": "Colombia"
+    "name": "Colombia",
+    "acronym": "(CO)"
   },
   {
     "id": 118,
-    "name": "Comoros"
+    "name": "Comoros",
+    "acronym": "(KM)"
   },
   {
     "id": 42,
-    "name": "Congo"
+    "name": "Congo",
+    "acronym": "(CG)"
   },
   {
     "id": 45,
-    "name": "Cook Islands"
+    "name": "Cook Islands",
+    "acronym": "(CK)"
   },
   {
     "id": 50,
-    "name": "Costa Rica"
+    "name": "Costa Rica",
+    "acronym": "(CR)"
   },
   {
     "id": 97,
-    "name": "Croatia"
+    "name": "Croatia",
+    "acronym": "(HR)"
   },
   {
     "id": 51,
-    "name": "Cuba"
+    "name": "Cuba",
+    "acronym": "(CU)"
   },
   {
     "id": 53,
-    "name": "Curaçao"
+    "name": "Curaçao",
+    "acronym": "(CW)"
   },
   {
     "id": 55,
-    "name": "Cyprus"
+    "name": "Cyprus",
+    "acronym": "(CY)"
   },
   {
     "id": 56,
-    "name": "Czech Republic"
+    "name": "Czech Republic",
+    "acronym": "(CZ)"
   },
   {
     "id": 44,
-    "name": "Côte d'Ivoire"
+    "name": "Côte d'Ivoire",
+    "acronym": "(CI)"
   },
   {
     "id": 41,
-    "name": "Democratic Republic of the Congo"
+    "name": "Democratic Republic of the Congo",
+    "acronym": "(CD)"
   },
   {
     "id": 59,
-    "name": "Denmark"
+    "name": "Denmark",
+    "acronym": "(DK)"
   },
   {
     "id": 58,
-    "name": "Djibouti"
+    "name": "Djibouti",
+    "acronym": "(DJ)"
   },
   {
     "id": 60,
-    "name": "Dominica"
+    "name": "Dominica",
+    "acronym": "(DM)"
   },
   {
     "id": 61,
-    "name": "Dominican Republic"
+    "name": "Dominican Republic",
+    "acronym": "(DO)"
   },
   {
     "id": 63,
-    "name": "Ecuador"
+    "name": "Ecuador",
+    "acronym": "(EC)"
   },
   {
     "id": 65,
-    "name": "Egypt"
+    "name": "Egypt",
+    "acronym": "(EG)"
   },
   {
     "id": 209,
-    "name": "El Salvador"
+    "name": "El Salvador",
+    "acronym": "(SV)"
   },
   {
     "id": 87,
-    "name": "Equatorial Guinea"
+    "name": "Equatorial Guinea",
+    "acronym": "(GQ)"
   },
   {
     "id": 67,
-    "name": "Eritrea"
+    "name": "Eritrea",
+    "acronym": "(ER)"
   },
   {
     "id": 64,
-    "name": "Estonia"
+    "name": "Estonia",
+    "acronym": "(EE)"
   },
   {
     "id": 212,
-    "name": "Eswatini"
+    "name": "Eswatini",
+    "acronym": "(SZ)"
   },
   {
     "id": 69,
-    "name": "Ethiopia"
+    "name": "Ethiopia",
+    "acronym": "(ET)"
   },
   {
     "id": 72,
-    "name": "Falkland Islands"
+    "name": "Falkland Islands",
+    "acronym": "(FK)"
   },
   {
     "id": 74,
-    "name": "Faroe Islands"
+    "name": "Faroe Islands",
+    "acronym": "(FO)"
   },
   {
     "id": 71,
-    "name": "Fiji"
+    "name": "Fiji",
+    "acronym": "(FJ)"
   },
   {
     "id": 70,
-    "name": "Finland"
+    "name": "Finland",
+    "acronym": "(FI)"
   },
   {
     "id": 75,
-    "name": "France"
+    "name": "France",
+    "acronym": "(FR)"
   },
   {
     "id": 79,
-    "name": "French Guiana"
+    "name": "French Guiana",
+    "acronym": "(GF)"
   },
   {
     "id": 174,
-    "name": "French Polynesia"
+    "name": "French Polynesia",
+    "acronym": "(PF)"
   },
   {
     "id": 215,
-    "name": "French Southern Territories"
+    "name": "French Southern Territories",
+    "acronym": "(TF)"
   },
   {
     "id": 76,
-    "name": "Gabon"
+    "name": "Gabon",
+    "acronym": "(GA)"
   },
   {
     "id": 84,
-    "name": "Gambia"
+    "name": "Gambia",
+    "acronym": "(GM)"
   },
   {
     "id": 78,
-    "name": "Georgia"
+    "name": "Georgia",
+    "acronym": "(GE)"
   },
   {
     "id": 57,
-    "name": "Germany"
+    "name": "Germany",
+    "acronym": "(DE)"
   },
   {
     "id": 80,
-    "name": "Ghana"
+    "name": "Ghana",
+    "acronym": "(GH)"
   },
   {
     "id": 81,
-    "name": "Gibraltar"
+    "name": "Gibraltar",
+    "acronym": "(GI)"
   },
   {
     "id": 88,
-    "name": "Greece"
+    "name": "Greece",
+    "acronym": "(GR)"
   },
   {
     "id": 83,
-    "name": "Greenland"
+    "name": "Greenland",
+    "acronym": "(GL)"
   },
   {
     "id": 77,
-    "name": "Grenada"
+    "name": "Grenada",
+    "acronym": "(GD)"
   },
   {
     "id": 86,
-    "name": "Guadeloupe"
+    "name": "Guadeloupe",
+    "acronym": "(GP)"
   },
   {
     "id": 91,
-    "name": "Guam"
+    "name": "Guam",
+    "acronym": "(GU)"
   },
   {
     "id": 90,
-    "name": "Guatemala"
+    "name": "Guatemala",
+    "acronym": "(GT)"
   },
   {
     "id": 82,
-    "name": "Guernsey"
+    "name": "Guernsey",
+    "acronym": "(GG)"
   },
   {
     "id": 85,
-    "name": "Guinea"
+    "name": "Guinea",
+    "acronym": "(GN)"
   },
   {
     "id": 92,
-    "name": "Guinea-Bissau"
+    "name": "Guinea-Bissau",
+    "acronym": "(GW)"
   },
   {
     "id": 93,
-    "name": "Guyana"
+    "name": "Guyana",
+    "acronym": "(GY)"
   },
   {
     "id": 98,
-    "name": "Haiti"
+    "name": "Haiti",
+    "acronym": "(HT)"
   },
   {
     "id": 95,
-    "name": "Heard Island and McDonald Islands"
+    "name": "Heard Island and McDonald Islands",
+    "acronym": "(HM)"
   },
   {
     "id": 236,
-    "name": "Holy See (Vatican City State)"
+    "name": "Holy See (Vatican City State)",
+    "acronym": "(VA)"
   },
   {
     "id": 96,
-    "name": "Honduras"
+    "name": "Honduras",
+    "acronym": "(HN)"
   },
   {
     "id": 94,
-    "name": "Hong Kong"
+    "name": "Hong Kong",
+    "acronym": "(HK)"
   },
   {
     "id": 99,
-    "name": "Hungary"
+    "name": "Hungary",
+    "acronym": "(HU)"
   },
   {
     "id": 108,
-    "name": "Iceland"
+    "name": "Iceland",
+    "acronym": "(IS)"
   },
   {
     "id": 104,
-    "name": "India"
+    "name": "India",
+    "acronym": "(IN)"
   },
   {
     "id": 100,
-    "name": "Indonesia"
+    "name": "Indonesia",
+    "acronym": "(ID)"
   },
   {
     "id": 107,
-    "name": "Iran"
+    "name": "Iran",
+    "acronym": "(IR)"
   },
   {
     "id": 106,
-    "name": "Iraq"
+    "name": "Iraq",
+    "acronym": "(IQ)"
   },
   {
     "id": 101,
-    "name": "Ireland"
+    "name": "Ireland",
+    "acronym": "(IE)"
   },
   {
     "id": 103,
-    "name": "Isle of Man"
+    "name": "Isle of Man",
+    "acronym": "(IM)"
   },
   {
     "id": 102,
-    "name": "Israel"
+    "name": "Israel",
+    "acronym": "(IL)"
   },
   {
     "id": 109,
-    "name": "Italy"
+    "name": "Italy",
+    "acronym": "(IT)"
   },
   {
     "id": 111,
-    "name": "Jamaica"
+    "name": "Jamaica",
+    "acronym": "(JM)"
   },
   {
     "id": 113,
-    "name": "Japan"
+    "name": "Japan",
+    "acronym": "(JP)"
   },
   {
     "id": 110,
-    "name": "Jersey"
+    "name": "Jersey",
+    "acronym": "(JE)"
   },
   {
     "id": 112,
-    "name": "Jordan"
+    "name": "Jordan",
+    "acronym": "(JO)"
   },
   {
     "id": 124,
-    "name": "Kazakhstan"
+    "name": "Kazakhstan",
+    "acronym": "(KZ)"
   },
   {
     "id": 114,
-    "name": "Kenya"
+    "name": "Kenya",
+    "acronym": "(KE)"
   },
   {
     "id": 117,
-    "name": "Kiribati"
+    "name": "Kiribati",
+    "acronym": "(KI)"
   },
   {
     "id": 250,
-    "name": "Kosovo"
+    "name": "Kosovo",
+    "acronym": "(XK)"
   },
   {
     "id": 122,
-    "name": "Kuwait"
+    "name": "Kuwait",
+    "acronym": "(KW)"
   },
   {
     "id": 115,
-    "name": "Kyrgyzstan"
+    "name": "Kyrgyzstan",
+    "acronym": "(KG)"
   },
   {
     "id": 125,
-    "name": "Laos"
+    "name": "Laos",
+    "acronym": "(LA)"
   },
   {
     "id": 134,
-    "name": "Latvia"
+    "name": "Latvia",
+    "acronym": "(LV)"
   },
   {
     "id": 126,
-    "name": "Lebanon"
+    "name": "Lebanon",
+    "acronym": "(LB)"
   },
   {
     "id": 131,
-    "name": "Lesotho"
+    "name": "Lesotho",
+    "acronym": "(LS)"
   },
   {
     "id": 130,
-    "name": "Liberia"
+    "name": "Liberia",
+    "acronym": "(LR)"
   },
   {
     "id": 135,
-    "name": "Libya"
+    "name": "Libya",
+    "acronym": "(LY)"
   },
   {
     "id": 128,
-    "name": "Liechtenstein"
+    "name": "Liechtenstein",
+    "acronym": "(LI)"
   },
   {
     "id": 132,
-    "name": "Lithuania"
+    "name": "Lithuania",
+    "acronym": "(LT)"
   },
   {
     "id": 133,
-    "name": "Luxembourg"
+    "name": "Luxembourg",
+    "acronym": "(LU)"
   },
   {
     "id": 147,
-    "name": "Macau"
+    "name": "Macau",
+    "acronym": "(MO)"
   },
   {
     "id": 141,
-    "name": "Madagascar"
+    "name": "Madagascar",
+    "acronym": "(MG)"
   },
   {
     "id": 155,
-    "name": "Malawi"
+    "name": "Malawi",
+    "acronym": "(MW)"
   },
   {
     "id": 157,
-    "name": "Malaysia"
+    "name": "Malaysia",
+    "acronym": "(MY)"
   },
   {
     "id": 154,
-    "name": "Maldives"
+    "name": "Maldives",
+    "acronym": "(MV)"
   },
   {
     "id": 144,
-    "name": "Mali"
+    "name": "Mali",
+    "acronym": "(ML)"
   },
   {
     "id": 152,
-    "name": "Malta"
+    "name": "Malta",
+    "acronym": "(MT)"
   },
   {
     "id": 142,
-    "name": "Marshall Islands"
+    "name": "Marshall Islands",
+    "acronym": "(MH)"
   },
   {
     "id": 149,
-    "name": "Martinique"
+    "name": "Martinique",
+    "acronym": "(MQ)"
   },
   {
     "id": 150,
-    "name": "Mauritania"
+    "name": "Mauritania",
+    "acronym": "(MR)"
   },
   {
     "id": 153,
-    "name": "Mauritius"
+    "name": "Mauritius",
+    "acronym": "(MU)"
   },
   {
     "id": 246,
-    "name": "Mayotte"
+    "name": "Mayotte",
+    "acronym": "(YT)"
   },
   {
     "id": 156,
-    "name": "Mexico"
+    "name": "Mexico",
+    "acronym": "(MX)"
   },
   {
     "id": 73,
-    "name": "Micronesia"
+    "name": "Micronesia",
+    "acronym": "(FM)"
   },
   {
     "id": 138,
-    "name": "Moldova"
+    "name": "Moldova",
+    "acronym": "(MD)"
   },
   {
     "id": 137,
-    "name": "Monaco"
+    "name": "Monaco",
+    "acronym": "(MC)"
   },
   {
     "id": 146,
-    "name": "Mongolia"
+    "name": "Mongolia",
+    "acronym": "(MN)"
   },
   {
     "id": 139,
-    "name": "Montenegro"
+    "name": "Montenegro",
+    "acronym": "(ME)"
   },
   {
     "id": 151,
-    "name": "Montserrat"
+    "name": "Montserrat",
+    "acronym": "(MS)"
   },
   {
     "id": 136,
-    "name": "Morocco"
+    "name": "Morocco",
+    "acronym": "(MA)"
   },
   {
     "id": 158,
-    "name": "Mozambique"
+    "name": "Mozambique",
+    "acronym": "(MZ)"
   },
   {
     "id": 145,
-    "name": "Myanmar"
+    "name": "Myanmar",
+    "acronym": "(MM)"
   },
   {
     "id": 159,
-    "name": "Namibia"
+    "name": "Namibia",
+    "acronym": "(NA)"
   },
   {
     "id": 168,
-    "name": "Nauru"
+    "name": "Nauru",
+    "acronym": "(NR)"
   },
   {
     "id": 167,
-    "name": "Nepal"
+    "name": "Nepal",
+    "acronym": "(NP)"
   },
   {
     "id": 165,
-    "name": "Netherlands"
+    "name": "Netherlands",
+    "acronym": "(NL)"
   },
   {
     "id": 160,
-    "name": "New Caledonia"
+    "name": "New Caledonia",
+    "acronym": "(NC)"
   },
   {
     "id": 170,
-    "name": "New Zealand"
+    "name": "New Zealand",
+    "acronym": "(NZ)"
   },
   {
     "id": 164,
-    "name": "Nicaragua"
+    "name": "Nicaragua",
+    "acronym": "(NI)"
   },
   {
     "id": 161,
-    "name": "Niger"
+    "name": "Niger",
+    "acronym": "(NE)"
   },
   {
     "id": 163,
-    "name": "Nigeria"
+    "name": "Nigeria",
+    "acronym": "(NG)"
   },
   {
     "id": 169,
-    "name": "Niue"
+    "name": "Niue",
+    "acronym": "(NU)"
   },
   {
     "id": 162,
-    "name": "Norfolk Island"
+    "name": "Norfolk Island",
+    "acronym": "(NF)"
   },
   {
     "id": 120,
-    "name": "North Korea"
+    "name": "North Korea",
+    "acronym": "(KP)"
   },
   {
     "id": 143,
-    "name": "North Macedonia"
+    "name": "North Macedonia",
+    "acronym": "(MK)"
   },
   {
     "id": 148,
-    "name": "Northern Mariana Islands"
+    "name": "Northern Mariana Islands",
+    "acronym": "(MP)"
   },
   {
     "id": 166,
-    "name": "Norway"
+    "name": "Norway",
+    "acronym": "(NO)"
   },
   {
     "id": 171,
-    "name": "Oman"
+    "name": "Oman",
+    "acronym": "(OM)"
   },
   {
     "id": 177,
-    "name": "Pakistan"
+    "name": "Pakistan",
+    "acronym": "(PK)"
   },
   {
     "id": 184,
-    "name": "Palau"
+    "name": "Palau",
+    "acronym": "(PW)"
   },
   {
     "id": 172,
-    "name": "Panama"
+    "name": "Panama",
+    "acronym": "(PA)"
   },
   {
     "id": 175,
-    "name": "Papua New Guinea"
+    "name": "Papua New Guinea",
+    "acronym": "(PG)"
   },
   {
     "id": 185,
-    "name": "Paraguay"
+    "name": "Paraguay",
+    "acronym": "(PY)"
   },
   {
     "id": 173,
-    "name": "Peru"
+    "name": "Peru",
+    "acronym": "(PE)"
   },
   {
     "id": 176,
-    "name": "Philippines"
+    "name": "Philippines",
+    "acronym": "(PH)"
   },
   {
     "id": 180,
-    "name": "Pitcairn Islands"
+    "name": "Pitcairn Islands",
+    "acronym": "(PN)"
   },
   {
     "id": 178,
-    "name": "Poland"
+    "name": "Poland",
+    "acronym": "(PL)"
   },
   {
     "id": 183,
-    "name": "Portugal"
+    "name": "Portugal",
+    "acronym": "(PT)"
   },
   {
     "id": 181,
-    "name": "Puerto Rico"
+    "name": "Puerto Rico",
+    "acronym": "(PR)"
   },
   {
     "id": 186,
-    "name": "Qatar"
+    "name": "Qatar",
+    "acronym": "(QA)"
   },
   {
     "id": 188,
-    "name": "Romania"
+    "name": "Romania",
+    "acronym": "(RO)"
   },
   {
     "id": 190,
-    "name": "Russian Federation"
+    "name": "Russian Federation",
+    "acronym": "(RU)"
   },
   {
     "id": 191,
-    "name": "Rwanda"
+    "name": "Rwanda",
+    "acronym": "(RW)"
   },
   {
     "id": 187,
-    "name": "Réunion"
+    "name": "Réunion",
+    "acronym": "(RE)"
   },
   {
     "id": 26,
-    "name": "Saint Barthélémy"
+    "name": "Saint Barthélémy",
+    "acronym": "(BL)"
   },
   {
     "id": 198,
-    "name": "Saint Helena, Ascension and Tristan da Cunha"
+    "name": "Saint Helena, Ascension and Tristan da Cunha",
+    "acronym": "(SH)"
   },
   {
     "id": 119,
-    "name": "Saint Kitts and Nevis"
+    "name": "Saint Kitts and Nevis",
+    "acronym": "(KN)"
   },
   {
     "id": 127,
-    "name": "Saint Lucia"
+    "name": "Saint Lucia",
+    "acronym": "(LC)"
   },
   {
     "id": 140,
-    "name": "Saint Martin (French part)"
+    "name": "Saint Martin (French part)",
+    "acronym": "(MF)"
   },
   {
     "id": 179,
-    "name": "Saint Pierre and Miquelon"
+    "name": "Saint Pierre and Miquelon",
+    "acronym": "(PM)"
   },
   {
     "id": 237,
-    "name": "Saint Vincent and the Grenadines"
+    "name": "Saint Vincent and the Grenadines",
+    "acronym": "(VC)"
   },
   {
     "id": 244,
-    "name": "Samoa"
+    "name": "Samoa",
+    "acronym": "(WS)"
   },
   {
     "id": 203,
-    "name": "San Marino"
+    "name": "San Marino",
+    "acronym": "(SM)"
   },
   {
     "id": 192,
-    "name": "Saudi Arabia"
+    "name": "Saudi Arabia",
+    "acronym": "(SA)"
   },
   {
     "id": 204,
-    "name": "Senegal"
+    "name": "Senegal",
+    "acronym": "(SN)"
   },
   {
     "id": 189,
-    "name": "Serbia"
+    "name": "Serbia",
+    "acronym": "(RS)"
   },
   {
     "id": 194,
-    "name": "Seychelles"
+    "name": "Seychelles",
+    "acronym": "(SC)"
   },
   {
     "id": 202,
-    "name": "Sierra Leone"
+    "name": "Sierra Leone",
+    "acronym": "(SL)"
   },
   {
     "id": 197,
-    "name": "Singapore"
+    "name": "Singapore",
+    "acronym": "(SG)"
   },
   {
     "id": 210,
-    "name": "Sint Maarten (Dutch part)"
+    "name": "Sint Maarten (Dutch part)",
+    "acronym": "(SX)"
   },
   {
     "id": 201,
-    "name": "Slovakia"
+    "name": "Slovakia",
+    "acronym": "(SK)"
   },
   {
     "id": 199,
-    "name": "Slovenia"
+    "name": "Slovenia",
+    "acronym": "(SI)"
   },
   {
     "id": 193,
-    "name": "Solomon Islands"
+    "name": "Solomon Islands",
+    "acronym": "(SB)"
   },
   {
     "id": 205,
-    "name": "Somalia"
+    "name": "Somalia",
+    "acronym": "(SO)"
   },
   {
     "id": 247,
-    "name": "South Africa"
+    "name": "South Africa",
+    "acronym": "(ZA)"
   },
   {
     "id": 89,
-    "name": "South Georgia and the South Sandwich Islands"
+    "name": "South Georgia and the South Sandwich Islands",
+    "acronym": "(GS)"
   },
   {
     "id": 121,
-    "name": "South Korea"
+    "name": "South Korea",
+    "acronym": "(KR)"
   },
   {
     "id": 207,
-    "name": "South Sudan"
+    "name": "South Sudan",
+    "acronym": "(SS)"
   },
   {
     "id": 68,
-    "name": "Spain"
+    "name": "Spain",
+    "acronym": "(ES)"
   },
   {
     "id": 129,
-    "name": "Sri Lanka"
+    "name": "Sri Lanka",
+    "acronym": "(LK)"
   },
   {
     "id": 182,
-    "name": "State of Palestine"
+    "name": "State of Palestine",
+    "acronym": "(PS)"
   },
   {
     "id": 195,
-    "name": "Sudan"
+    "name": "Sudan",
+    "acronym": "(SD)"
   },
   {
     "id": 206,
-    "name": "Suriname"
+    "name": "Suriname",
+    "acronym": "(SR)"
   },
   {
     "id": 200,
-    "name": "Svalbard and Jan Mayen"
+    "name": "Svalbard and Jan Mayen",
+    "acronym": "(SJ)"
   },
   {
     "id": 196,
-    "name": "Sweden"
+    "name": "Sweden",
+    "acronym": "(SE)"
   },
   {
     "id": 43,
-    "name": "Switzerland"
+    "name": "Switzerland",
+    "acronym": "(CH)"
   },
   {
     "id": 211,
-    "name": "Syria"
+    "name": "Syria",
+    "acronym": "(SY)"
   },
   {
     "id": 208,
-    "name": "São Tomé and Príncipe"
+    "name": "São Tomé and Príncipe",
+    "acronym": "(ST)"
   },
   {
     "id": 227,
-    "name": "Taiwan"
+    "name": "Taiwan",
+    "acronym": "(TW)"
   },
   {
     "id": 218,
-    "name": "Tajikistan"
+    "name": "Tajikistan",
+    "acronym": "(TJ)"
   },
   {
     "id": 228,
-    "name": "Tanzania"
+    "name": "Tanzania",
+    "acronym": "(TZ)"
   },
   {
     "id": 217,
-    "name": "Thailand"
+    "name": "Thailand",
+    "acronym": "(TH)"
   },
   {
     "id": 223,
-    "name": "Timor-Leste"
+    "name": "Timor-Leste",
+    "acronym": "(TL)"
   },
   {
     "id": 216,
-    "name": "Togo"
+    "name": "Togo",
+    "acronym": "(TG)"
   },
   {
     "id": 219,
-    "name": "Tokelau"
+    "name": "Tokelau",
+    "acronym": "(TK)"
   },
   {
     "id": 222,
-    "name": "Tonga"
+    "name": "Tonga",
+    "acronym": "(TO)"
   },
   {
     "id": 225,
-    "name": "Trinidad and Tobago"
+    "name": "Trinidad and Tobago",
+    "acronym": "(TT)"
   },
   {
     "id": 221,
-    "name": "Tunisia"
+    "name": "Tunisia",
+    "acronym": "(TN)"
   },
   {
     "id": 224,
-    "name": "Turkey"
+    "name": "Turkey",
+    "acronym": "(TR)"
   },
   {
     "id": 220,
-    "name": "Turkmenistan"
+    "name": "Turkmenistan",
+    "acronym": "(TM)"
   },
   {
     "id": 213,
-    "name": "Turks and Caicos Islands"
+    "name": "Turks and Caicos Islands",
+    "acronym": "(TC)"
   },
   {
     "id": 226,
-    "name": "Tuvalu"
+    "name": "Tuvalu",
+    "acronym": "(TV)"
   },
   {
     "id": 232,
-    "name": "USA Minor Outlying Islands"
+    "name": "USA Minor Outlying Islands",
+    "acronym": "(UM)"
   },
   {
     "id": 230,
-    "name": "Uganda"
+    "name": "Uganda",
+    "acronym": "(UG)"
   },
   {
     "id": 229,
-    "name": "Ukraine"
+    "name": "Ukraine",
+    "acronym": "(UA)"
   },
   {
     "id": 2,
-    "name": "United Arab Emirates"
+    "name": "United Arab Emirates",
+    "acronym": "(AE)"
   },
   {
     "id": 231,
-    "name": "United Kingdom"
+    "name": "United Kingdom",
+    "acronym": "(GB)"
   },
   {
     "id": 233,
-    "name": "United States"
+    "name": "United States",
+    "acronym": "(US)"
   },
   {
     "id": 234,
-    "name": "Uruguay"
+    "name": "Uruguay",
+    "acronym": "(UY)"
   },
   {
     "id": 235,
-    "name": "Uzbekistan"
+    "name": "Uzbekistan",
+    "acronym": "(UZ)"
   },
   {
     "id": 242,
-    "name": "Vanuatu"
+    "name": "Vanuatu",
+    "acronym": "(VU)"
   },
   {
     "id": 238,
-    "name": "Venezuela"
+    "name": "Venezuela",
+    "acronym": "(VE)"
   },
   {
     "id": 241,
-    "name": "Vietnam"
+    "name": "Vietnam",
+    "acronym": "(VN)"
   },
   {
     "id": 239,
-    "name": "Virgin Islands (British)"
+    "name": "Virgin Islands (British)",
+    "acronym": "(VG)"
   },
   {
     "id": 240,
-    "name": "Virgin Islands (USA)"
+    "name": "Virgin Islands (USA)",
+    "acronym": "(VI)"
   },
   {
     "id": 243,
-    "name": "Wallis and Futuna"
+    "name": "Wallis and Futuna",
+    "acronym": "(WF)"
   },
   {
     "id": 66,
-    "name": "Western Sahara"
+    "name": "Western Sahara",
+    "acronym": "(EH)"
   },
   {
     "id": 245,
-    "name": "Yemen"
+    "name": "Yemen",
+    "acronym": "(YE)"
   },
   {
     "id": 248,
-    "name": "Zambia"
+    "name": "Zambia",
+    "acronym": "(ZM)"
   },
   {
     "id": 249,
-    "name": "Zimbabwe"
+    "name": "Zimbabwe",
+    "acronym": "(ZW)"
   },
   {
     "id": 15,
-    "name": "Åland Islands"
+    "name": "Åland Islands",
+    "acronym": "(AX)"
   }
 ]
