@@ -17,19 +17,6 @@ export const CARD_FEE = 39.25;
 // dont change the id of each warehouse location because it match the same id in odoo
 export const WAREHOUSE_LOCATIONS = [
   {
-    id: 0,
-    title: 'Warehouse',
-    name: 'warehouse',
-    address: {
-      city: '',
-      unit: '',
-      street: '',
-      suburb: '',
-      state: '',
-      postcode: '',
-    },
-  },
-  {
     id: 1,
     title: 'Sydney(24/32-38 Belmore Rd, Punchbowl NSW)',
     name: 'sydney',
