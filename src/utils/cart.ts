@@ -26,7 +26,7 @@ const getCartSubtotal = (cartItems: Cart, userLevel?: string) => {
   }, 0);
 };
 
-const CARD_SURCHARGE = 0.012;
+const CARD_SURCHARGE = 0.0102;
 const GST = 0.1;
 
 export const getCartTotals = (
