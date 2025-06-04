@@ -2,12 +2,12 @@ import React from 'react';
 import Image from 'next/image';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { GetStoreProductsQuery, ProductQuery } from '@/lib/gql/graphql';
+import { GetStoreProductsQuery } from '@/lib/gql/graphql';
 
 interface SearchResultsProps {
   loading: boolean;
   products?: GetStoreProductsQuery['products'];
-  onResultClick: (product: ProductQuery['product']) => void;
+  onResultClick: (product: GetStoreProductsQuery['products'][0]) => void;
   onViewAll: () => void;
 }
 

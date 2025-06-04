@@ -3,7 +3,7 @@ import debounce from 'lodash/debounce';
 import { useCallback, useEffect, useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import PRODUCT_OPERATION from '@/graphql/products';
-import { ProductQuery } from '@/lib/gql/graphql';
+import { GetStoreProductsQuery, ProductQuery } from '@/lib/gql/graphql';
 import { useRouter, usePathname } from 'next/navigation';
 import useSearchSuggestions from './useSearchSuggestion';
 
@@ -99,7 +99,9 @@ const useSearchFilter = () => {
     }
   };
 
-  const handleSearchResultClick = (product: ProductQuery['product']) => {
+  const handleSearchResultClick = (
+    product: GetStoreProductsQuery['products'][0]
+  ) => {
     setIsSearchFocused(false);
     setSearchQueryInput('');
     addRecentSearch(product?.name || '');
@@ -138,4 +140,3 @@ const useSearchFilter = () => {
 };
 
 export default useSearchFilter;
-
