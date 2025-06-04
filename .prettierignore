@@ -2,3 +2,5 @@ node_modules
 .next
 out
 build
+/src/lib/gql
+graphql.schema.json

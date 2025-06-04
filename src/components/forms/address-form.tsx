@@ -47,13 +47,15 @@ function AddressForm({
       street2: selectedAddressToUpdate?.street2 || '',
       city: selectedAddressToUpdate?.city || '',
       state: selectedAddressToUpdate?.state || '',
-      country: selectedAddressToUpdate?.country || '',
+      country: selectedAddressToUpdate?.country || 'Australia',
       zip_code: selectedAddressToUpdate?.zip_code || '',
       mobile: selectedAddressToUpdate?.mobile || '',
       phone: selectedAddressToUpdate?.phone || '',
       isActive: selectedAddressToUpdate?.isActive || false,
     },
   });
+
+  const country = form.watch('country');
 
   const allAddressWithIsActiveTrue =
     allAddress?.usersPermissionsUser?.addresses.filter(
@@ -71,7 +73,7 @@ function AddressForm({
     if (!isSuburbAndPosCodeValid) {
       form.setError('city', { message: 'Fix spelling.' });
       form.setError('zip_code', {
-        message: 'Fix zip.',
+        message: 'Fix postcode.',
       });
       return;
     }
@@ -196,7 +198,7 @@ function AddressForm({
             name="city"
             render={({ field }) => (
               <FormItem className="flex-1 sm:relative">
-                <FormLabel>City</FormLabel>
+                <FormLabel>Suburb</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -211,7 +213,7 @@ function AddressForm({
             name="zip_code"
             render={({ field }) => (
               <FormItem className="flex-1 sm:relative">
-                <FormLabel>Zip</FormLabel>
+                <FormLabel>Postcode</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -219,7 +221,7 @@ function AddressForm({
               </FormItem>
             )}
           />
-          <StateComboBox form={form} />
+          <StateComboBox form={form} country={country} />
           <CountryComboBox form={form} />
         </div>
 
