@@ -222,7 +222,6 @@ const useCart = (props?: UseCartProps) => {
     paymentStep,
     showCartWindow,
     shippingOptions,
-    isCartNeededManualQuote: false,
     form,
     handleIncrement,
     handleDecrement,

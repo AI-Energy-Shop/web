@@ -39,7 +39,6 @@ const Reviews = () => {
     (state) => state.me.me?.account_detail?.warehouseLocation?.name
   );
   const paymentStep = useAppSelector((state) => state.cart.paymentStep);
-
   const LocationSelector: React.FC = () => (
     <div className="max-sm:space-y-4 md:px-12 md:flex md:items-center md:justify-between">
       <h1 className="font-semibold">Selected Location:</h1>
@@ -132,13 +131,6 @@ const Reviews = () => {
 
   const isUnableContinue =
     carts.length === 0 || checkLocationForItemNoStock(carts);
-
-  useEffect(() => {
-    dispatch(setPaymentStep(1));
-
-    return () => {};
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const ContinueButton: React.FC = () => (
     <div className="ae-mobile-container px-2 mt-4 lg:bg-white lg:-mt-4 py-4">

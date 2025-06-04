@@ -25,6 +25,7 @@ import { isButtonClickable } from '../../utils/isButtonClickable';
 import useCalculateDeliveryPricing from '@/hooks/useCalculateDeliveryPricing';
 import LoadingSpinner from '../loading-spinner';
 import ShippingOptionCard from './ShippingOptionCard';
+import { checkShippingEligibility } from '@/utils/check-shipping-eligibility';
 
 interface ShippingDetailsProps {
   checkoutUserData: GetCheckoutUserDataQuery;
@@ -39,7 +40,6 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     handleShippingMethodClick,
     handleContinueClick,
     handleEditClick,
-    isCartNeededManualQuote,
     carts,
   } = useCart();
 
@@ -86,11 +86,11 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
       (address) => address?.isActive === true
     );
 
-  const { data, isLoading, error } = useCalculateDeliveryPricing(
-    userCurrentAddress?.city || '',
-    userCurrentAddress?.zip_code || '',
-    carts
-  );
+  const { data, isLoading, error } = useCalculateDeliveryPricing({
+    suburb: userCurrentAddress?.city || '',
+    postCode: userCurrentAddress?.zip_code || '',
+    carts,
+  });
 
   const defaultCreditCard =
     checkoutUserData?.usersPermissionsUser?.creditCards?.find(
@@ -269,14 +269,39 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     }
   };
 
+  const renderMachipApiData = () => {
+    return (
+      <>
+        {data?.map((route) => (
+          <ShippingOptionCard
+            key={`${route.requestId}-${route.carrierService.id}`}
+            route={route}
+            shippingDeliveryOptions={shippingDeliveryOptions}
+            setShippingDeliveryOptions={setShippingDeliveryOptions}
+            setDeliveryDate={setDeliveryDate}
+          />
+        ))}
+        {data.length === 0 && !isLoading && !error && (
+          <p className="text-center text-sm font-bold">
+            There is no available pricing
+          </p>
+        )}
+        {isLoading && <LoadingSpinner />}
+        {error && (
+          <p className="text-center text-sm text-red-500 font-bold">{error}</p>
+        )}
+      </>
+    );
+  };
+
   const renderDeliveryOptions = () => {
     return (
       <div className="border border-blue-navy-blue rounded-xl p-2 md:mx-12 space-y-2">
         <h1 className="font-bold">Delivery Options:</h1>
 
-        <div className="relative max-h-96 overflow-y-scroll space-y-2">
-          {isCartNeededManualQuote && (
-            <div className="absolute w-full h-full bg-pink-darker-pink flex flex-col justify-center items-center text-center text-white z-10">
+        <div className="relative max-h-96 overflow-y-auto space-y-2">
+          {!checkShippingEligibility(carts) ? (
+            <div className=" w-full h-24 bg-pink-darker-pink flex flex-col justify-center items-center text-center text-white z-10">
               <h1 className="font-bold text-xl">Soonest Available Delivery</h1>
               <p className="text-xs">
                 some of your product needed to manually quoted
@@ -285,29 +310,8 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
                 (or you can choose specific date below)
               </p>
             </div>
-          )}
-
-          {data?.map((route) => (
-            <ShippingOptionCard
-              key={`${route.requestId}-${route.carrierService.id}`}
-              route={route}
-              shippingDeliveryOptions={shippingDeliveryOptions}
-              setShippingDeliveryOptions={setShippingDeliveryOptions}
-              setDeliveryDate={setDeliveryDate}
-            />
-          ))}
-
-          {data.length === 0 && !isLoading && !error && (
-            <p className="text-center text-sm font-bold">
-              There is no available pricing
-            </p>
-          )}
-
-          {isLoading && <LoadingSpinner />}
-          {error && (
-            <p className="text-center text-sm text-red-500 font-bold">
-              {error}
-            </p>
+          ) : (
+            renderMachipApiData()
           )}
         </div>
 
