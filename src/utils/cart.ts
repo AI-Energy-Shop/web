@@ -15,9 +15,8 @@ export const formatCurrency = (value?: number, currency?: string) => {
 
 const getCartSubtotal = (cartItems: Cart, userLevel?: string) => {
   return cartItems.reduce((acc, item) => {
-    
     const quantity = item?.quantity ?? 0;
-    const product = item?.product
+    const product = item?.product;
     const priceList = product?.price_lists || [];
 
     const { displayPrice } = getProductPricing(priceList, userLevel, quantity);

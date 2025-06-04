@@ -66,7 +66,7 @@ function AddressList({ data }: AddressListProps) {
               zip_code: address?.zip_code || '',
             });
           }}
-          className={`relative border cursor-pointer ${shippingAddress?.odoo_address_id === address?.odoo_address_id && 'border-orange-orange bg-orange-orange/5'}`}
+          className={`relative border cursor-pointer ${shippingAddress?.title === address?.title && 'border-orange-orange bg-orange-orange/5'}`}
         >
           <MapPin className="absolute left-5 top-[26px]" />
           <div className="absolute right-6 top-5 space-x-4">

@@ -12,6 +12,7 @@ const schema = {
             name
             model
             odoo_product_id
+            maxQuantity
             odoo_product_name
             price_lists {
               price
@@ -46,6 +47,7 @@ const schema = {
             documentId
             username
           }
+
           quantity
           createdAt
           updatedAt

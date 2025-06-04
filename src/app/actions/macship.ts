@@ -33,11 +33,11 @@ export const calculateDeliveryPricing = async (
     return {
       name: product?.product?.name,
       sku: product?.product?.model,
-      quantity: product?.quantity,
-      weight: product?.product?.shipping?.weight,
-      length: product?.product?.shipping?.length,
-      width: product?.product?.shipping?.width,
-      height: product?.product?.shipping?.height,
+      quantity: product?.quantity || 0,
+      weight: product?.product?.shipping?.weight || 0,
+      length: product?.product?.shipping?.length || 0,
+      width: product?.product?.shipping?.width || 0,
+      height: product?.product?.shipping?.height || 0,
     };
   });
 

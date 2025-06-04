@@ -6,18 +6,24 @@ import { CartsQuery } from '@/lib/gql/graphql';
 
 const DEBOUNCE_DELAY = 1000;
 
-export const useCalculateDeliveryPricing = (
-  suburb: string,
-  postCode: string,
-  carts: CartsQuery['carts']
-) => {
+export const useCalculateDeliveryPricing = ({
+  suburb,
+  postCode,
+  carts,
+  needToFetch = false,
+}: {
+  suburb: string;
+  postCode: string;
+  carts: CartsQuery['carts'];
+  needToFetch?: boolean;
+}) => {
   const [data, setData] = useState<Routes[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const { warehouseLocation } = useCheckout();
 
   useEffect(() => {
-    if (!suburb || !postCode) return;
+    if (!suburb || !postCode || !needToFetch) return;
 
     const handler = setTimeout(async () => {
       try {
@@ -58,6 +64,7 @@ export const useCalculateDeliveryPricing = (
     carts,
     warehouseLocation.address.suburb,
     warehouseLocation.address.postcode,
+    needToFetch,
   ]);
 
   return { data, isLoading, error };
