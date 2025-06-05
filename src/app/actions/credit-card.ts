@@ -26,11 +26,11 @@ export async function createNewCreditCard(paymentMethodId: string) {
       },
       variables: {
         data: {
-          brand: result?.card?.brand,
-          expMonth: result?.card?.exp_month.toString() || '',
-          expYear: result?.card?.exp_year.toString() || '',
-          last4Char: result?.card?.last4,
-          stripePaymentMethodID: result?.id,
+          brand: result?.brand,
+          expMonth: result?.expMonth || '',
+          expYear: result?.expYear || '',
+          last4Char: result?.last4Char,
+          stripePaymentMethodID: result?.stripePaymentMethodID,
           user: aUser.documentId,
         },
       },

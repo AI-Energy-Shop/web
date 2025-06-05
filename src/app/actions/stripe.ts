@@ -3,7 +3,7 @@
 import { stripe } from '@/lib/stripe';
 
 export const createSetupIntent = async () => {
-  // ! ROI - make the customerId a parameter
+  // TODO ROI - make the customerId a parameter
   const customerId = 'cus_SKwjnSwMZCvrxN';
 
   let clientSecret: string | null;
@@ -28,7 +28,16 @@ export const createSetupIntent = async () => {
 export const getPaymentMethodDetails = async (paymentMethodId: string) => {
   try {
     const result = await stripe.paymentMethods.retrieve(paymentMethodId);
-    return { result, error: null };
+
+    const data = {
+      brand: result?.card?.brand,
+      expMonth: result?.card?.exp_month.toString(),
+      expYear: result?.card?.exp_year.toString(),
+      last4Char: result?.card?.last4,
+      stripePaymentMethodID: result?.id,
+    };
+
+    return { result: data, error: null };
   } catch (err) {
     return { result: null, error: err };
   }
