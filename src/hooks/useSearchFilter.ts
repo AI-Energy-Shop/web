@@ -1,57 +1,75 @@
 'use client';
 import debounce from 'lodash/debounce';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import PRODUCT_OPERATION from '@/graphql/products';
-import { ProductQuery } from '@/lib/gql/graphql';
+import { GetStoreProductsQuery, ProductQuery } from '@/lib/gql/graphql';
 import { useRouter, usePathname } from 'next/navigation';
+import useSearchSuggestions from './useSearchSuggestion';
 
 const useSearchFilter = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
   const [searchQueryInput, setSearchQueryInput] = useState<string>('');
-  const [searchProducts, { data: searchData }] = useLazyQuery(
+  const [searchProducts, { data: searchData, loading }] = useLazyQuery(
     PRODUCT_OPERATION.Query.products,
     {
       fetchPolicy: 'no-cache',
     }
   );
 
+  const { suggestions, getSuggestions, addRecentSearch } =
+    useSearchSuggestions();
+
   // Debounced search function
   const debouncedSearch = debounce((searchTerm) => {
     if (searchTerm) {
-      searchProducts({
-        variables: {
-          filters: {
-            or: [
-              {
-                name: { contains: searchTerm },
+      const searchWords = searchTerm
+        .trim()
+        .split(/\s+/)
+        .filter((word: string) => word.length > 0);
+
+      if (searchWords.length > 0) {
+        const wordFilters = searchWords.map((word: string) => ({
+          or: [
+            {
+              name: { contains: word },
+            },
+            {
+              model: { contains: word },
+            },
+            {
+              product_type: { in: word.split(' ') },
+            },
+            {
+              categories: {
+                or: [
+                  {
+                    title: { contains: word },
+                  },
+                  {
+                    slug: { contains: word },
+                  },
+                ],
               },
-              {
-                model: { contains: searchTerm },
-              },
-              {
-                categories: {
-                  or: [
-                    {
-                      title: { contains: searchTerm },
-                    },
-                    {
-                      slug: { contains: searchTerm },
-                    },
-                  ],
-                },
-              },
-              {
-                brand: { name: { in: [searchTerm] } },
-              },
-            ],
+            },
+            {
+              brand: { name: { contains: word } },
+            },
+          ],
+        }));
+
+        searchProducts({
+          variables: {
+            filters: {
+              or: wordFilters,
+            },
           },
-        },
-      });
+        });
+      }
     }
-  }, 500); // 500ms delay
+  }, 100); // 500ms delay
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,12 +95,16 @@ const useSearchFilter = () => {
     if (e.key === 'Enter') {
       setIsSearchFocused(false);
       router.push(`/search?search=${searchQueryInput}`);
+      addRecentSearch(searchQueryInput);
     }
   };
 
-  const handleSearchResultClick = (product: ProductQuery['product']) => {
+  const handleSearchResultClick = (
+    product: GetStoreProductsQuery['products'][0]
+  ) => {
     setIsSearchFocused(false);
     setSearchQueryInput('');
+    addRecentSearch(product?.name || '');
     router.push(`/products/${product?.name}`, { scroll: false });
   };
 
@@ -91,10 +113,23 @@ const useSearchFilter = () => {
     router.push(`/search?search=${searchQueryInput}`);
   };
 
+  const handleSuggestionClick = (suggestion: string) => {
+    handleInputChange({ target: { value: suggestion } } as any);
+    addRecentSearch(suggestion);
+  };
+
+  // Update suggestions when input changes
+  useEffect(() => {
+    getSuggestions(searchQueryInput);
+  }, [searchQueryInput]);
+
   return {
     searchQueryInput,
     isSearchFocused,
     searchData,
+    loading,
+    suggestions,
+    handleSuggestionClick,
     handleSearchBlur,
     handleInputChange,
     handleSearchFocus,

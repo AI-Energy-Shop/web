@@ -192,6 +192,10 @@ const schema = {
             length
             weight
           }
+          tags {
+            documentId
+            tag
+          }
           maxQuantity
           madeBy {
             email
@@ -322,6 +326,10 @@ const schema = {
             width
             length
             weight
+          }
+          tags {
+            documentId
+            tag
           }
           maxQuantity
           madeBy {
@@ -455,6 +463,10 @@ const schema = {
             width
             length
             weight
+          }
+          tags {
+            documentId
+            tag
           }
           maxQuantity
           madeBy {

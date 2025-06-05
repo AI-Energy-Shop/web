@@ -1,4 +1,3 @@
-export const dynamic = 'auto';
 import { getPage } from '@/app/actions/pages';
 import NotFoundPage from '@/app/not-found';
 import Components from '@/components';
