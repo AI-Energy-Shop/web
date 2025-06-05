@@ -3,15 +3,18 @@ import debounce from 'lodash/debounce';
 import { useCallback, useEffect, useState } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import PRODUCT_OPERATION from '@/graphql/products';
-import { GetStoreProductsQuery, ProductQuery } from '@/lib/gql/graphql';
-import { useRouter, usePathname } from 'next/navigation';
+import { GetStoreProductsQuery } from '@/lib/gql/graphql';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import useSearchSuggestions from './useSearchSuggestion';
 
 const useSearchFilter = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
-  const [searchQueryInput, setSearchQueryInput] = useState<string>('');
+  const [searchQueryInput, setSearchQueryInput] = useState<string>(
+    searchParams.get('search') || ''
+  );
   const [searchProducts, { data: searchData, loading }] = useLazyQuery(
     PRODUCT_OPERATION.Query.products,
     {

@@ -42,7 +42,7 @@ const NavSearchBar = () => {
     <div className="relative w-full">
       <div
         ref={searchContainerRef}
-        className="relative flex-1 border focus:outline-none overflow-hidden rounded-full z-100"
+        className="relative flex-1 border focus:outline-none overflow-hidden rounded-full"
       >
         <div className="w-full">
           <div className="relative flex items-center">
