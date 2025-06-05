@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { GetStoreProductsQuery, ProductQuery } from '@/lib/gql/graphql';
 
 interface SearchResultProps {
+  loading: boolean;
   isFocused: boolean;
   searchQueryInput: string;
   searchData?: GetStoreProductsQuery;
@@ -14,7 +15,6 @@ interface SearchResultProps {
   handleBlur: () => void;
   onViewAllResult: () => void;
   handleClick: (product: any) => void;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSuggestionClick: (suggestion: string) => void;
   suggestions: string[];
 }
@@ -22,16 +22,14 @@ interface SearchResultProps {
 const SearchResult = ({
   searchQueryInput,
   searchData,
+  loading,
   isFocused,
   handleBlur,
   handleClick,
-  handleInputChange,
   handleSuggestionClick,
   onViewAllResult,
   suggestions,
 }: SearchResultProps) => {
-  const pathname = usePathname();
-
   return (
     <div
       className="bg-white shadow-lg border border-gray-200"
@@ -72,8 +70,12 @@ const SearchResult = ({
 
           {/* Products Column */}
           <div className="w-full lg:w-2/3 flex-1 overflow-y-auto bg-white">
-            {searchData && searchData?.products?.length > 0 ? (
-              searchData?.products?.map?.((item) => (
+            {loading ? (
+              <div className="flex items-center justify-center w-full h-full">
+                <Loader2 className="w-10 h-10 animate-spin" />
+              </div>
+            ) : searchData?.products && searchData.products.length > 0 ? (
+              searchData.products.map((item) => (
                 <div
                   key={item?.documentId}
                   onClick={() => handleClick(item)}
@@ -82,7 +84,7 @@ const SearchResult = ({
                   <div className="flex items-center gap-4 p-4 border-b">
                     <div className="w-16 h-16 relative flex-shrink-0">
                       <Image
-                        src={item?.images.at(0)?.url ?? ''}
+                        src={item?.images.at(0)?.url ?? '/no-product-image.jpg'}
                         alt={item?.images.at(0)?.alternativeText ?? ''}
                         fill
                         className="object-contain"
@@ -100,8 +102,8 @@ const SearchResult = ({
                 </div>
               ))
             ) : (
-              <div className="flex items-center justify-center w-full h-full">
-                <Loader2 className="w-10 h-10 animate-spin" />
+              <div className="flex items-center justify-center w-full h-full text-gray-500">
+                No products found
               </div>
             )}
           </div>

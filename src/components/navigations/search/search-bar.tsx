@@ -8,14 +8,17 @@ import { Button } from '@/components/ui/button';
 const NavSearchBar = () => {
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const {
+    loading,
     searchData,
     isSearchFocused,
     searchQueryInput,
+    suggestions,
     handleSearchBlur,
     handleInputChange,
     handleSearchFocus,
     handleSearchResultClick,
     handleSearchInputEnter,
+    handleSuggestionClick,
     handleViewAllSearchResultsClick,
   } = useSearchFilter();
 
@@ -39,7 +42,7 @@ const NavSearchBar = () => {
     <div className="relative w-full">
       <div
         ref={searchContainerRef}
-        className="relative flex-1 border focus:outline-none overflow-hidden rounded-full z-100"
+        className="relative flex-1 border focus:outline-none overflow-hidden rounded-full"
       >
         <div className="w-full">
           <div className="relative flex items-center">
@@ -63,19 +66,19 @@ const NavSearchBar = () => {
           </div>
         </div>
       </div>
-      {searchQueryInput.length > 0 && (
+      {isSearchFocused && searchQueryInput.length > 0 && (
         <div className="absolute w-full z-[100]">
           <SearchResult
-            suggestions={[]}
+            suggestions={suggestions}
+            loading={loading}
             isFocused={isSearchFocused}
             searchData={searchData}
             searchQueryInput={searchQueryInput}
             handleBlur={handleSearchBlur}
             handleFocus={handleSearchFocus}
             handleClick={handleSearchResultClick}
-            handleInputChange={handleInputChange}
             onViewAllResult={handleViewAllSearchResultsClick}
-            handleSuggestionClick={() => {}}
+            handleSuggestionClick={handleSuggestionClick}
           />
         </div>
       )}

@@ -23,9 +23,6 @@ const CollectionLayout = ({ children }: CollectionLayoutProps) => {
         <div className="products flex gap-8">
           <SidebarFilters />
           <div className="flex-1">
-            <div className="justify-end gap-2 m-2 hidden md:flex">
-              <SortOption />
-            </div>
             <MobileButton />
             {children}
           </div>

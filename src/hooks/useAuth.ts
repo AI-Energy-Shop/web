@@ -18,7 +18,6 @@ import {
   RegisterFormData,
   registerResolver,
 } from '@/lib/validation-schema/auth-forms';
-import { setSelectedLocation } from '@/store/features/checkout';
 import { WAREHOUSE_LOCATIONS } from '@/constant/shipping';
 
 const HAS_BACKEND_ACCESS = ['ADMIN', 'SALES'];
@@ -138,8 +137,6 @@ const useAuth = () => {
             },
           })
         );
-
-        dispatch(setSelectedLocation({ ...selectedWarehouse }));
 
         if (data?.user?.carts) {
           dispatch(

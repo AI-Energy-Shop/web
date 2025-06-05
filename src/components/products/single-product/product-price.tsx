@@ -51,7 +51,7 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
           {price && <PriceDisplay price={price} comparePrice={comparePrice} />}
         </div>
 
-        {/* Brand image - mobile only */}
+        {/* Brand image - Display on mobile only */}
         <div className="w-24 h-8 md:hidden">
           {brandImage?.url && (
             <Image

@@ -9,8 +9,6 @@ const nextConfig = {
     DO_SPACES_PATH: process.env.DO_SPACES_PATH,
     DO_SPACES_PROTOCOL: process.env.DO_SPACES_PROTOCOL,
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
-    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
-      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
     MACSHIP_API_KEY: process.env.MACSHIP_API_KEY,
   },
   images: {
