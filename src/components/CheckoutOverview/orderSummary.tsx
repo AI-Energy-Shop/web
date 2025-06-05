@@ -8,7 +8,7 @@ import { ChevronDown, ChevronUp, Package } from 'lucide-react';
 import { useAppSelector } from '@/store/store';
 
 function OrderSummary() {
-  const carts = useAppSelector((state) => state.cart.carts);  
+  const carts = useAppSelector((state) => state.cart.carts);
   const [expanded, setExpanded] = useState<boolean>(true);
 
   const toggleExpand = () => {

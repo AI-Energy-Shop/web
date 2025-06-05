@@ -15,6 +15,7 @@ import { AddressQuery } from '@/lib/gql/graphql';
 import { Button } from '../ui/button';
 import { addressSchema } from '@/lib/validation-schema/address-form';
 import { z } from 'zod';
+import { useCheckout } from '@/hooks/useCheckout';
 
 type AddressListProps = {
   data: AddressQuery;
@@ -32,6 +33,8 @@ function AddressList({ data }: AddressListProps) {
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
   const [updateAddressDetails, setUpdateAddressDetails] =
     useState<AddressSchemaWithDocumentIdTypes>();
+
+  const { shippingAddress, setShippingAddress } = useCheckout();
 
   const addresses = data?.usersPermissionsUser?.addresses;
 
@@ -51,7 +54,19 @@ function AddressList({ data }: AddressListProps) {
       {addresses?.map((address) => (
         <Card
           key={address?.documentId}
-          className={`relative border ${address?.isActive && 'border-orange-orange bg-orange-orange/5'}`}
+          onClick={() => {
+            setShippingAddress({
+              city: address?.city || '',
+              country: address?.country || '',
+              odoo_address_id: address?.odoo_address_id || '',
+              state: address?.state || '',
+              street1: address?.street1 || '',
+              street2: address?.street2 || '',
+              title: address?.title || '',
+              zip_code: address?.zip_code || '',
+            });
+          }}
+          className={`relative border cursor-pointer ${shippingAddress?.title === address?.title && 'border-orange-orange bg-orange-orange/5'}`}
         >
           <MapPin className="absolute left-5 top-[26px]" />
           <div className="absolute right-6 top-5 space-x-4">
