@@ -20,13 +20,15 @@ interface PaymentProps {
 
 const Payment: React.FC<PaymentProps> = ({ checkoutUserData }) => {
   const { paymentStep, carts } = useCart();
-  const { paymentMethod, setPaymentMethod } = useCheckout();
+  const { paymentMethod, setPaymentMethod, card } = useCheckout();
   const [creditCardDialog, setCreditCardDialog] = useState<boolean>(false);
 
   const defaultCreditCard =
     checkoutUserData?.usersPermissionsUser?.creditCards?.find(
       (card) => card?.isDefault
     );
+
+  const cardDataToDisplay = card || defaultCreditCard;
 
   return (
     <section>
@@ -128,11 +130,11 @@ const Payment: React.FC<PaymentProps> = ({ checkoutUserData }) => {
                   </p>
                 </div>
                 <CreditCard
-                  brand={defaultCreditCard?.brand || ''}
-                  last4Char={defaultCreditCard?.last4Char || ''}
-                  expMonth={defaultCreditCard?.expMonth || ''}
-                  expYear={defaultCreditCard?.expYear || ''}
-                  isDefault
+                  brand={cardDataToDisplay?.brand || ''}
+                  last4Char={cardDataToDisplay?.last4Char || ''}
+                  expMonth={cardDataToDisplay?.expMonth || ''}
+                  expYear={cardDataToDisplay?.expYear || ''}
+                  isDefault={cardDataToDisplay?.isDefault || true}
                 />
               </div>
             </div>

@@ -62,6 +62,7 @@ export type WarehouseLocation = {
   title: string;
   name: string;
   address: {
+    city: string;
     unit: string;
     street: string;
     suburb: string;

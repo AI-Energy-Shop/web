@@ -7,7 +7,7 @@ import {
   SelectContent,
   SelectItem,
 } from '../../ui/select';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { WAREHOUSE_LOCATIONS } from '@/constant/shipping';
 import { setPaymentStep } from '@/store/features/cart';
 import { Check, FilePenLine } from 'lucide-react';
@@ -36,7 +36,7 @@ const Reviews = () => {
   const dispatch = useAppDispatch();
   const carts = useAppSelector((state) => state.cart.carts);
   const warehouseLocation = useAppSelector(
-    (state) => state.me.me?.account_detail?.warehouseLocation?.name
+    (state) => state.checkout.warehouseLocation.name
   );
   const paymentStep = useAppSelector((state) => state.cart.paymentStep);
   const LocationSelector: React.FC = () => (

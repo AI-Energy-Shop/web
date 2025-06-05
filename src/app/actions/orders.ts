@@ -99,7 +99,7 @@ export const createOrder = async ({
               city: checkoutState?.warehouseLocation?.address?.suburb,
               postcode: checkoutState?.warehouseLocation?.address?.postcode,
               street: `${checkoutState?.warehouseLocation?.address?.unit} ${checkoutState?.warehouseLocation?.address?.state}`,
-              state_territory: checkoutState?.warehouseLocation?.address?.state,
+              state: checkoutState?.warehouseLocation?.address?.state,
             },
             odoo_warehouse_id: checkoutState?.warehouseLocation?.id.toString(),
             title: checkoutState?.warehouseLocation?.title,
