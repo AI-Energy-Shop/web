@@ -108,11 +108,13 @@ const SingleProductDetails: React.FC<SingleProductDetailsProps> = ({
 
   return (
     <div className="md:basis-[51.75%] md:max-w-[51.75%]">
-      <ProductPrice
-        brandImage={product?.brand?.image}
-        price={getDisplayPrice(displayPricing)}
-        comparePrice={displayPricing?.comparePrice}
-      />
+      {me && (
+        <ProductPrice
+          brandImage={product?.brand?.image}
+          price={getDisplayPrice(displayPricing)}
+          comparePrice={displayPricing?.comparePrice}
+        />
+      )}
       <BulkPrices priceList={priceList} />
       <ShopProductStockQuantities inventory={product?.inventory} />
       {userLevel ? (
