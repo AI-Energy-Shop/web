@@ -73,7 +73,7 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
       (address) => address?.isActive === true
     );
 
-  const shippingAddressDisplay = () => {
+  const currentShippingAddress = () => {
     if (shippingAddress) {
       return shippingAddress;
     } else {
@@ -87,9 +87,10 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
     );
 
   const { data, isLoading, error } = useCalculateDeliveryPricing({
-    suburb: userCurrentAddress?.city || '',
-    postCode: userCurrentAddress?.zip_code || '',
+    suburb: currentShippingAddress()?.city || '',
+    postCode: currentShippingAddress()?.zip_code || '',
     carts,
+    needToFetch: checkShippingEligibility(carts),
   });
 
   const defaultCreditCard =
@@ -224,15 +225,15 @@ const ShippingDetails: React.FC<ShippingDetailsProps> = ({
         </div>
         {userCurrentAddress ? (
           <div className="text-xs">
-            <h1 className="font-bold">{shippingAddressDisplay()?.title}</h1>
-            <h2>{shippingAddressDisplay()?.street1}</h2>
-            <h2>{shippingAddressDisplay()?.street2}</h2>
+            <h1 className="font-bold">{currentShippingAddress()?.title}</h1>
+            <h2>{currentShippingAddress()?.street1}</h2>
+            <h2>{currentShippingAddress()?.street2}</h2>
             <h2>
-              {shippingAddressDisplay()?.city},{' '}
-              {shippingAddressDisplay()?.state}{' '}
-              {shippingAddressDisplay()?.zip_code}
+              {currentShippingAddress()?.city},{' '}
+              {currentShippingAddress()?.state}{' '}
+              {currentShippingAddress()?.zip_code}
             </h2>
-            <h2>{shippingAddressDisplay()?.country}</h2>
+            <h2>{currentShippingAddress()?.country}</h2>
           </div>
         ) : (
           <h1 className="font-bold text-sm text-red-500">

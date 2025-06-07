@@ -92,16 +92,18 @@ function AddressList({ data }: AddressListProps) {
             >
               <Pencil className="w-4 h-4" />
             </Button>
-            <Button
-              size="icon"
-              variant="outline"
-              onClick={() => {
-                setOpenDeleteDialog(true);
-                setDeleteAddressId(address?.documentId!);
-              }}
-            >
-              <Trash2 className="w-4 h-4" />
-            </Button>
+            {!address?.isActive && (
+              <Button
+                size="icon"
+                variant="outline"
+                onClick={() => {
+                  setOpenDeleteDialog(true);
+                  setDeleteAddressId(address?.documentId!);
+                }}
+              >
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            )}
           </div>
           <CardHeader className="pl-16 max-sm:max-w-44">
             <CardTitle className="text-lg">{address?.title}</CardTitle>
