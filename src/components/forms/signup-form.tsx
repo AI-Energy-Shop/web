@@ -5,7 +5,7 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
-import { Eye, EyeOff } from 'lucide-react';
+import { Check, ChevronsUpDown, Eye, EyeOff } from 'lucide-react';
 import {
   Form,
   FormControl,
@@ -23,11 +23,34 @@ import {
 } from '../ui/select';
 import useAuth from '@/hooks/useAuth';
 import { RegisterFormData } from '@/lib/validation-schema/auth-forms';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import CountryList from '@/data/country_combo_box.json';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '../ui/command';
+import { cn } from '@/lib/utils';
+import StateList from '@/data/state_combo_box.json';
+
 interface SignupFormProps {}
 
 const SignupForm: React.FC<SignupFormProps> = () => {
   const { showPassword, registerForm, handleRegisterSubmit, setShowPassword } =
     useAuth();
+
+  const countryCode = CountryList.find(
+    (country) =>
+      country.name.toLowerCase() ===
+      registerForm.watch('country').toLocaleLowerCase()
+  )?.acronym;
+
+  const filteredState = StateList.filter((state) =>
+    state.display_name.includes(countryCode || '')
+  );
 
   const renderBottomContent = () => {
     return (
@@ -66,6 +89,145 @@ const SignupForm: React.FC<SignupFormProps> = () => {
               <Input {...field} />
             </FormControl>
 
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    );
+  };
+
+  const renderCountryComboBox = () => {
+    return (
+      <FormField
+        control={registerForm.control}
+        name="country"
+        render={({ field }) => (
+          <FormItem className="flex flex-col flex-2">
+            <FormLabel>Country</FormLabel>
+            <Popover>
+              <PopoverTrigger asChild>
+                <FormControl>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    className={cn(
+                      'justify-between overflow-hidden',
+                      !field.value && 'text-muted-foreground'
+                    )}
+                  >
+                    {field.value
+                      ? CountryList.find(
+                          (country) => country.name === field.value
+                        )?.name
+                      : 'Select Country'}
+                    <ChevronsUpDown className="opacity-50" />
+                  </Button>
+                </FormControl>
+              </PopoverTrigger>
+              <PopoverContent
+                className="p-0"
+                onWheel={(e) => e.stopPropagation()}
+              >
+                <Command>
+                  <CommandInput
+                    placeholder="Search Country..."
+                    className="h-9"
+                  />
+                  <CommandList>
+                    <CommandEmpty>No State found.</CommandEmpty>
+                    <CommandGroup>
+                      {CountryList.map((country) => (
+                        <CommandItem
+                          value={country.name}
+                          key={country.id}
+                          onSelect={() => {
+                            registerForm.setValue('country', country.name);
+                          }}
+                        >
+                          {country.name}
+                          <Check
+                            className={cn(
+                              'ml-auto',
+                              country.name === field.value
+                                ? 'opacity-100'
+                                : 'opacity-0'
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    );
+  };
+
+  const renderStateComboBox = () => {
+    return (
+      <FormField
+        control={registerForm.control}
+        name="state"
+        render={({ field }) => (
+          <FormItem className="flex flex-col flex-2">
+            <FormLabel>State</FormLabel>
+            <Popover>
+              <PopoverTrigger asChild>
+                <FormControl>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    className={cn(
+                      'justify-between overflow-hidden',
+                      !field.value && 'text-muted-foreground'
+                    )}
+                  >
+                    {field.value
+                      ? filteredState.find(
+                          (state) => state.display_name === field.value
+                        )?.display_name
+                      : 'Select State'}
+                    <ChevronsUpDown className="opacity-50" />
+                  </Button>
+                </FormControl>
+              </PopoverTrigger>
+              <PopoverContent
+                className="p-0"
+                onWheel={(e) => e.stopPropagation()}
+              >
+                <Command>
+                  <CommandInput placeholder="Search State..." className="h-9" />
+                  <CommandList>
+                    <CommandEmpty>No State found.</CommandEmpty>
+                    <CommandGroup>
+                      {filteredState.map((state) => (
+                        <CommandItem
+                          value={state.display_name}
+                          key={state.id}
+                          onSelect={() => {
+                            registerForm.setValue('state', state.display_name);
+                          }}
+                        >
+                          {state.display_name}
+                          <Check
+                            className={cn(
+                              'ml-auto',
+                              state.display_name === field.value
+                                ? 'opacity-100'
+                                : 'opacity-0'
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
             <FormMessage />
           </FormItem>
         )}
@@ -191,13 +353,9 @@ const SignupForm: React.FC<SignupFormProps> = () => {
                 {renderTextField({ name: 'street1', label: 'Street1' })}
                 {renderTextField({ name: 'street2', label: 'Street2' })}
                 {renderTextField({ name: 'city', label: 'City' })}
-                {renderTextField({ name: 'state', label: 'State' })}
+                {renderStateComboBox()}
                 {renderTextField({ name: 'zipCode', label: 'Zip Code' })}
-                {renderTextField({
-                  name: 'country',
-                  label: 'Country',
-                  required: false,
-                })}
+                {renderCountryComboBox()}
               </div>
 
               <div className="flex items-center space-x-2">
